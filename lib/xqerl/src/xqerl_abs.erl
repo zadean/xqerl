@@ -228,7 +228,7 @@ scan_mod(#xqModule{prolog = Prolog,
             "-export([init/1])."
             ]),
    P5 = ?P(["-compile(inline_list_funcs).",
-            %"-compile(native).",
+            %"-compile({inline_size,100}).",
             "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
@@ -304,7 +304,8 @@ scan_mod(#xqModule{prolog = Prolog,
             "-export([main/1])."
            ]),
    P3 = ?P(["-compile(inline_list_funcs).",
-            %"-compile(native).",
+            %"-compile(inline).",
+            %"-compile({inline_size,150}).",
             "init() ->",
             "  _ = xqerl_lib:lnew(),",
             "  Tab = xqerl_context:init(),",
@@ -2310,8 +2311,13 @@ window_loop(Ctx, #xqWindow{type = Type,
 
    OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,
                                        EVar,EPosVar,EPrevVar,ENextVar,WinVar]),
-   E1 = expr_do(Ctx6, StartExpr),
-   StartFunAbs = ?P("fun(_@StartTup) -> _@E1 end"),
+   StartFunAbs = case StartExpr of
+                    #xqAtomicValue{value = true} -> % very common start
+                       ?Q("true");
+                    _ ->
+                       E1 = expr_do(Ctx6, StartExpr),
+                       ?P("fun(_@StartTup) -> _@E1 end")
+                 end,
 
    WinCall= if EndExpr =:= undefined ->
                   ?P("xqerl_flwor:windowclause(List,_@StartFunAbs,_@WType@)");

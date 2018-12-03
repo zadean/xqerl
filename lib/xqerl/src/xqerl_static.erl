@@ -1888,15 +1888,13 @@ handle_node(State, #xqWindow{type = WindowType,
    WinStmt = get_statement(WinState),
    SWinType = WinType#xqSeqType{occur = zero_or_many},
    OkType = check_type_match(SWinType, WType),
-   if OkType == false ->
-         ?err('XPTY0004');
-      OkType == cast ->
-        %?dbg("promote",OkType),
-         ok;
-      true ->
-        %?dbg("OkType",OkType),
-         ok
-   end,
+   WTypeOut =  if OkType == false ->
+                     ?err('XPTY0004');
+                  OkType == cast ->
+                    WType;
+                  true ->
+                    ignore
+               end,
    PosType = ?intone,
    WinVar  = {WName,SWinType,[],ErlVarName},
    % variables for start expression
@@ -1982,7 +1980,7 @@ handle_node(State, #xqWindow{type = WindowType,
    Output = #xqWindow{ type = WindowType,
                        win_variable = #xqVar{id = Id,
                                              name = WName,
-                                             type = WType,
+                                             type = WTypeOut,
                                              expr = WinStmt}, 
                        s     = S,
                        spos  = SPos,

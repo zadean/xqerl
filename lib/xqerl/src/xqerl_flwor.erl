@@ -125,7 +125,7 @@ windowclause([], _, _) -> [];
 windowclause(L, StartFun, WType) ->
    L1 = add_position(L),
    Bw = winstart([[]|L1], StartFun, []),
-   flatten_window_return(Bw, WType).
+   flatten_window_return(WType, Bw).
 
 %% takes single list from expression and the start/end functions and returns 
 %% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
@@ -134,11 +134,17 @@ windowclause([], _, _, _, _) -> [];
 windowclause(L, StartFun, EndFun, {Type, Only}, WType) ->
    L1 = add_position(L),
    Bw = winstart([[]|L1], StartFun, EndFun, Type, Only),
-   flatten_window_return(Bw, WType);
+   flatten_window_return(WType, Bw);
 windowclause(L, StartFun, EndFun, Type, WType) ->
    windowclause(L, StartFun, EndFun, {Type, false}, WType).
 
-flatten_window_return(Bw, WType) ->
+flatten_window_return(ignore, Bw) ->
+   [begin
+       L2 = element(9, B),
+       S = xqerl_seq3:from_list(L2),
+       setelement(9, B, S)
+    end || B <- Bw, B =/= []];
+flatten_window_return(WType, Bw) ->
    [begin
        L2 = element(9, B),
        S = xqerl_seq3:from_list(L2),
@@ -153,6 +159,31 @@ flatten_window_return(Bw, WType) ->
 
 % tumbling window with no end function, means window as if each 'true'
 winstart([], _, _) -> [];
+winstart([{S, SPos}], true, _) -> 
+   [{S,SPos,[],[],S,SPos,[],[],[S]}];
+winstart([[],{S, SPos}], true, []) ->
+   winstart([{S, SPos}], true, {S,SPos,[],[],S,SPos,[],[],[S]});
+winstart([[],{_, _}] = L, true, Acc) ->
+   R = lists:reverse(element(9, Acc)),
+   [setelement(9, Acc, R) | winstart(L, true, [])];
+winstart([[],{S, SPos},{SNext, _}|_] = L, true, []) ->
+   winstart(tl(L), true, {S,SPos,[],SNext,S,SPos,[],SNext,[S]});
+winstart([[],{_, _},{_, _}|_] = L, true, Acc) ->
+   R = lists:reverse(element(9, Acc)),
+   [setelement(9, Acc, R) | winstart(L, true, [])];
+% last call , returns
+winstart([{SPrev,_},{S, SPos}], true, []) ->
+   [{S,SPos,SPrev,[],S,SPos,SPrev,[],[S]}];
+% last call , returns
+winstart([{SPrev,_},{S, SPos}], true, Acc) ->
+   R = lists:reverse(element(9, Acc)),
+   [setelement(9, Acc, R),{S,SPos,SPrev,[],S,SPos,SPrev,[],S}];
+winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, true, []) ->
+   winstart(tl(L), true, {S,SPos,SPrev,SNext,S,SPos,SPrev,SNext,[S]});
+winstart([{_, _},{_, _},{_, _}|_] = L, true, Acc) ->
+   R = lists:reverse(element(9, Acc)),
+   [setelement(9, Acc, R) | winstart(L, true, [])];
+
 winstart([{S, SPos}], StartFun, _) -> 
    case bool(StartFun({S,SPos,[],[]})) of
       true ->
@@ -233,6 +264,29 @@ winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, Acc) ->
 
 winstart([], _StartFun, _EndFun, _Type, _Only) ->
    [];
+winstart([{SPrev,_}] = L, true, EndFun, _Type, Only) ->
+   {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
+   [Win];
+winstart([[],{S, SPos},{SNext, _}|_] = L, true, EndFun, Type, Only) ->
+   {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
+   if Type == tumbling ->
+         [Win | winstart(Rest, true, EndFun, Type, Only)];
+      true ->
+         [Win | winstart(tl(L), true, EndFun, Type, Only)]
+   end;
+winstart([[],{S, SPos}] = L, true, EndFun, _, Only) ->
+   {Win, _Rest} = winend([], S, SPos, [], L, EndFun, [], Only),
+   [Win];
+winstart([{SPrev,_},{S, SPos}] = L, true, EndFun, _, Only) ->
+   {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, [], Only),
+   [Win];
+winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L,true,EndFun,Type,Only) ->
+   {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
+   if Type == tumbling ->
+         [Win | winstart(Rest, true, EndFun, Type, Only)];
+      true ->
+         [Win | winstart(tl(L), true, EndFun, Type, Only)]
+   end;
 winstart([{SPrev,_}] = L, StartFun, EndFun, _Type, Only) ->
    case bool(StartFun({[],[],SPrev,[]})) of
       true ->
