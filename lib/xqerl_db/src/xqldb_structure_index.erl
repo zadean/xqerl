@@ -121,7 +121,9 @@ init([open, DBDirectory, TableName]) ->
    State = open(DBDirectory, TableName),
    {ok,State}.
 
-terminate(_Reason,_State) ->
+terminate(_Reason, #{idx  := Idx,
+                     file := File} = _State) ->
+   ok = write_file(File, Idx),  
    ok.
 
 handle_cast(_Request, State) -> {noreply,State}.
