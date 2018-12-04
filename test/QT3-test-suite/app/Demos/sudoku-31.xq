@@ -175,4 +175,5 @@ declare function fn:drawBoard($board as xs:integer+) as element()
   } 
 };
 
-fn:solveSudoku($boardEasy) => fn:drawResult()
+fn:solveSudoku($boardHard) => fn:drawResult()
+(: fn:solveSudoku($boardEasy) => fn:drawResult() :)
