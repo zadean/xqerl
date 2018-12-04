@@ -1007,9 +1007,8 @@ build_string_value([],Acc) -> Acc.
 
 add_self_to_children(#{id := {Ref,_},
                        ch := Children,
-                       ns := Namespaces,
                        bu := BU} = Obj) when is_reference(Ref) ->
-   Obj#{ch := [augment_base_uri(merge_ns(C#{pt => Obj},Namespaces),BU) || 
+   Obj#{ch := [augment_base_uri(C#{pt => Obj},BU) || 
                  C <- Children]};
 add_self_to_children(#{id := {Ref,_},
                        ch := Children,

@@ -125,13 +125,19 @@ check(List,nonnode) ->
 path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = length(List),
-   Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
-   case Mapped of
-      [#{nk := _}|_] ->
-         U = xqldb_xpath:document_order(Mapped),
-         check(U,node);
-      _ ->
-         check(Mapped,nonnode)
+   try
+      lists:flatten(do_path_map(Fun, List,1,Size))
+   of Mapped ->
+      case Mapped of
+         [#{nk := _}|_] ->
+            U = xqldb_xpath:document_order(Mapped),
+            check(U,node);
+         _ ->
+            check(Mapped,nonnode)
+      end
+   catch 
+      _:function_clause ->
+            ?err('XPTY0020')
    end;
 path_map(Fun,List) when is_function(Fun,3) ->
    path_map(Fun,[List]);
@@ -428,10 +434,6 @@ val_map(Fun,[[H]|T]) -> val_map(Fun,[H|T]);
 val_map(Fun,[#xqRange{} = H|T]) ->
    val_map(Fun,expand(H) ++ T);
 val_map(Fun,[H|T]) ->
-   %?dbg("Fun",Fun),
-   %?dbg("Fun",erlang:fun_info(Fun)),
-   %?dbg("H",H),
-   %?dbg("T",T),
    Val = try 
             Fun(H) 
          catch _:#xqError{} = E:Stack -> 
@@ -761,7 +763,12 @@ range(From, To) ->
    end.
 
 range1(Min,Max) when Min =< Max ->
-   #xqRange{min = Min, max = Max, cnt = Max - Min + 1};
+   Cnt = Max - Min + 1,
+   if Cnt > 100 ->
+         #xqRange{min = Min, max = Max, cnt = Cnt};
+      true ->
+         [?int_rec(C) || C <- lists:seq(Min, Max)]
+   end;
 range1(_Curr,_Max) ->
    [].
 
@@ -897,6 +904,9 @@ filter1(Ctx, Fun, [H|T], Pos,Size) ->
    catch 
       _:#xqError{name = #xqAtomicValue{value = 
                                          #qname{local_name = <<"XPTY0019">>}}} ->
+         % context was not a node when one was expected
+         ?err('XPTY0020');
+      _:function_clause ->
          % context was not a node when one was expected
          ?err('XPTY0020');
       _:#xqError{} = E:StackTrace ->

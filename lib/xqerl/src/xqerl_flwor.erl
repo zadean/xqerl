@@ -569,19 +569,36 @@ optimize(FL, _) -> FL.
 -spec fold_changes(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 fold_changes(#xqFlwor{} = FL, G) ->
-   {B0,F0} = maybe_split_for(FL, G),
-   {B1,F1} = maybe_lift_let(F0, G),
+   {B0,F0} = maybe_replace_for_with_let(FL),
+   {B0a,F0a} = maybe_split_for(F0, G),
+   {B1,F1} = maybe_lift_let(F0a, G),
    {B2,F2} = maybe_inline_let(F1, G),
    {B2a,F2a} = maybe_remove_redundant_let(F2, G),
    {B3,F3} = remove_unused_variables(F2a, G),
    {B4,F4} = maybe_lift_nested_for_expression(F3),
    {B5,F5} = maybe_lift_nested_let_clause(F4),
-   {B6,F6} = maybe_lift_where_clause(F5, G),
+   {B5a,F5a} = maybe_lift_nested_for_clause(F5, G),
+   
+   {B6,F6} = maybe_lift_where_clause(F5a, G),
    {B7,F7} = where_clause_as_predicate(F6, G),
    {B8,F8} = positional_where_clause_as_predicate(F7, G),
-   B = B0 orelse B1 orelse B2 orelse B2a orelse B3 orelse 
-       B4 orelse B5 orelse B6 orelse B7 orelse B8, 
+   B = B0 orelse B0a orelse B1 orelse B2 orelse B2a orelse B3 orelse 
+       B4 orelse B5 orelse B5a orelse B6 orelse B7 orelse B8, 
    {B,F8}.
+
+%% STEP 2.1 Attempts to replace singleton fors with a let 
+maybe_replace_for_with_let(#xqFlwor{loop = L} = FL) ->
+   Fun = fun({'for',
+              #xqVar{empty = false,
+                     position = undefined} = FV,
+              #xqSeqType{occur = one} = ST}, _) ->
+?dbg("Replacing for with let", ST),               
+               {{'let', FV, ST}, true};
+            (E, A) ->
+               {E, A}
+         end,
+   {NewLoop, Changed} = lists:mapfoldl(Fun, false, L),
+   {Changed, FL#xqFlwor{loop = NewLoop}}.
 
 %% STEP 2.1.a 
 %% attempts to split 'for' clauses into a let and for clause 
@@ -596,8 +613,8 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
    case Fors of
       [] ->
          {false,FL};
-      [_] ->
-         {false,FL};
+%      [_] ->
+%         {false,FL};
       _ ->
          F = fun({for,#xqVar{id = Id0,
                              expr = Ex,
@@ -605,15 +622,17 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
                   when Id0 < 10000, is_tuple(Ex), element(1, Ex) =/= pragma;
                        Id0 < 10000, not is_tuple(Ex) ->
                    D = fun(O) ->
-                             not relies_on(V, O, G)
+                             not relies_on(V, O, G) orelse length(Fors) == 1
                        end,
                    case lists:any(D, Fors) of
                       true -> % does not depend on some
                          #xqVar{id = Id,name = Nm,type = Ty} = FV,
-                         ?dbg("spliting for",Nm),
+                         ?dbg("splitting for",Nm),
                          Let = {'let',#xqVar{id = Id,name = Nm,
                                              expr = Ex,
-                                             type = maybe_many_type(Ty)},
+                                             type = % new type can any sequence 
+                                               maybe_zero_type(
+                                                 maybe_many_type(Ty))},
                                 maybe_many_type(AType)},
                          For = {'for',FV#xqVar{id = Id + 10000,
                                                expr = #xqVarRef{name = Nm}},
@@ -628,6 +647,7 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
                          
                          [Let,For];
                       false ->
+                         %?dbg("NOT splitting for",0),
                          [V]
                    end;
                 (O) ->
@@ -846,6 +866,34 @@ maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
              ?dbg("Lifting let from sub-FLWOR",N),
              Loop = [L, {Typ,V#xqVar{expr = Fl1#xqFlwor{loop = T}},AType}],
              {Loop,true};
+          (O,Changed0) ->
+             {O,Changed0}
+       end,
+   {C1,Changed} = lists:mapfoldl(F, false, Clauses),
+   if Changed ->
+         {true, FL#xqFlwor{loop = lists:flatten(C1)}};
+      true ->
+         {false,FL}
+   end.
+
+%% STEP 2.5.a
+%% move leading for clauses out of sub-flwors in let clauses, add dependency
+%% turn for into let and change let fo reference new let 
+%% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
+-spec maybe_lift_nested_for_clause(#xqFlwor{}, digraph:graph()) ->
+   {Changed :: boolean(),Result :: #xqFlwor{}}.
+maybe_lift_nested_for_clause(#xqFlwor{loop = Clauses} = FL, G) ->
+   F = fun({'let', #xqVar{name = N,
+                          expr = #xqFlwor{loop = [{'for',_,_}|T]} = Fl1} = V,
+            AType} = L1, _) ->
+             case maybe_split_for(Fl1, G) of
+                {true, NewFl} ->
+                   ?dbg("Lifting for from sub-FLWOR",N),
+                   Loop = [{'let',V#xqVar{expr = NewFl},AType}],
+                   {Loop,true};
+                {false,_} ->
+                   {L1, false}
+             end;
           (O,Changed0) ->
              {O,Changed0}
        end,
@@ -1339,9 +1387,9 @@ remove_dependancies(G, Vertex) ->
     O <- Out,
     I =/= O],
    digraph:del_vertex(G, Vertex),
-   ?dbg("Vertex",Vertex),
-   ?dbg("Ins   ",Ins),
-   ?dbg("Out   ",Out),
+   %?dbg("Vertex",Vertex),
+   %?dbg("Ins   ",Ins),
+   %?dbg("Out   ",Out),
    true.
 
 %% replace_variable_dependancies(G, OldVertex, NewVertex) ->

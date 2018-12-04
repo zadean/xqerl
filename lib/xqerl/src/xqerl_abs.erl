@@ -142,6 +142,8 @@ init_fun_abs(Ctx0, KeysToAdd) ->
 add_context_key(Map, default_calendar, _) -> Map;
 add_context_key(Map, default_place, _) -> Map;
 add_context_key(Map, default_language, _) -> Map;
+add_context_key(Map, module, #{module := M}) ->
+   Map#{module => M};
 add_context_key(Map, dynamic_known_functions, #{known_fx_sigs := K}) ->
    Map#{named_functions => K};
 add_context_key(Map, known_decimal_formats, #{known_dec_formats := K}) ->
@@ -211,14 +213,15 @@ scan_mod(#xqModule{prolog = Prolog,
    %?dbg("{Variables}",{Variables}),
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, 
                                                                Namespaces),
-   EmptyMap = Map#{namespaces => ConstNamespaces},
+   ModName = xqerl_static:string_atom(ModNs),
+   EmptyMap = Map#{module => ModName, 
+                   namespaces => ConstNamespaces},
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, xqerl_static:string_atom(N)};
                                      (_) -> false
                                   end,Prolog),
    
-   ModName = xqerl_static:string_atom(ModNs),
    StatProps = maps:get(stat_props, EmptyMap),
    
    P1 = scan_variables(EmptyMap,Variables, public), 
@@ -298,7 +301,7 @@ scan_mod(#xqModule{prolog = Prolog,
    ModName = xqerl_static:string_atom(FileName),
    MapItems = init_fun_abs(
                 EmptyMap#{module => ModName},
-                maps:get(stat_props, EmptyMap) ++ StaticProps),
+                maps:get(stat_props, EmptyMap) ++ [module|StaticProps]),
     % abstract after this point
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
@@ -543,8 +546,9 @@ export_functions(Functions) ->
    Specs = [ xqerl_static:function_hash_name(Name, Arity) 
            || #xqFunction{name = Name, 
                           arity = Arity,
-                          annotations = Annos} <- Functions,
-              not_private(Annos)],
+                          annotations = _Annos} <- Functions%,
+              %not_private(Annos)
+           ],
    export_atts(Specs).
 
 export_variables(Variables, _Ctx) ->
@@ -1002,76 +1006,27 @@ expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
              " _@@Comp",
              "end"
             ])%;
-%%       {P,[]} -> % all simple
-%%          ?P(["begin ",
-%%              " xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
-%%              "                       _@P ",
-%%              "                     ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "                     end, _@CtxSeq)",
-%%              "end"
-%%             ]);
-%%       {P,Rest} -> % simple and complex
-%%          NextVar = {var,?L,next_var_name()},
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#{nk := _} = Doc,_,_) ->",
-%%              "              _@P ",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
    end;
          
 
 expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
    Ctx = clear_context_variables(Ctx0),
-%?dbg("Steps",Steps),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxSeq = a_var(Var,CurrCtxVar),
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
       {[],_} -> % nothing simple, only complex
-         %?dbg("{P,Rest}",{[],Rest,Src}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         %?dbg("Comp",Comp),
          O = ?P(["begin",
                  " _@@Comp",
                  "end"
             ]),
-         %?dbg("O",O),
          O%;
-%%       {P,[]} ->
-%%          ?P(["xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
-%%              "                    _@P ",
-%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
-%%             ]);
-%%       {P,Rest} ->
-%%          %?dbg("{P,Rest}",{P,Rest}),
-%%          NextVar = {var,?L,next_var_name()},
-%% %         PosVar = {var,?L,next_var_name()},
-%% %         SizVar = {var,?L,next_var_name()},
-%% %         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#{nk := _} = Doc,_,_) ->",
-%%              "              _@P ",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
    end;
 
 
 
 expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
    Ctx = clear_context_variables(Ctx0),
-%?dbg("[ Base | Steps ]",[ Base | Steps ]),
    CtxSeq = case Base of
                {postfix,_,_,_} -> % use old context item
                   expr_do(Ctx0, {expr, Base});
@@ -1082,38 +1037,12 @@ expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
             end,
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
       {[],_} -> % nothing simple, only complex
-         %?dbg("{P,Rest}",{[],Rest,Src}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         %?dbg("Comp",Comp),
          O = ?P(["begin",
                  " _@@Comp",
                  "end"
             ]),
-         %?dbg("O",O),
          O%;
-%%       {P,[]} ->
-%%          ?P(["xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
-%%              "                     _@P ",
-%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
-%%             ]);
-%%       {P,Rest} ->
-%%          ?dbg("{P,Rest}",{P,Rest}),
-%%          NextVar = {var,?L,next_var_name()},
-%% %         PosVar = {var,?L,next_var_name()},
-%% %         SizVar = {var,?L,next_var_name()},
-%% %         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#{nk := _} = Doc,_,_) ->",
-%%              "              _@P ",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
    end;
 
 expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
@@ -1658,13 +1587,6 @@ expr_do(_Ctx, Expr) ->
 
 step_expr_do(_, [], SourceVar) ->
    ?P("_@SourceVar");
-%%    DocVar = {var,?L,next_var_name()},
-%%    ?P([" xqerl_seq3:path_map(",
-%%        "      fun(_@DocVar,_,_) ->",
-%%        "             _@DocVar",
-%%        "      end, _@SourceVar)"       
-%%       ]);
-
 step_expr_do(_, [atomize], SourceVar) -> 
    DocVar = {var,?L,next_var_name()},
    ?P([" xqerl_seq3:path_map(",
@@ -1689,7 +1611,25 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
             "      end, xqerl_fn:root(_@CurrCtxVar, _@SourceVar))"
            ]), 
    [O1|R1];
-step_expr_do(Ctx, [Step1|Rest], SourceVar) ->
+% empty predicates so no context item needs to be set
+step_expr_do(Ctx, [#xqAxisStep{predicates = []} = Step1|Rest], SourceVar) ->
+%?dbg("SourceVar",SourceVar),
+   NextVar = {var,?L,next_var_name()},
+   TempVar = {var,?L,next_var_name()},
+   NodeVar = {var,?L,next_var_name()},
+   ErrVar = {var,?L,next_var_name()},
+   NextCtxVar = next_ctx_var_name(),
+   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+   E1 = step_expr_do(Ctx1, Step1, NodeVar),
+   R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
+   O1 = ?P([" _@NextVar = ",
+            "case catch xqldb_xpath:document_order(lists:flatten([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)]))",
+            "of {'EXIT',function_clause} -> xqerl_error:error('XPTY0019'); ",
+            "{'EXIT',_@ErrVar} -> erlang:throw(_@ErrVar); ",
+            "_@TempVar -> _@TempVar end"
+           ]), 
+   [O1|R1];
+step_expr_do(Ctx, [Step1|Rest], SourceVar) -> % stepping on an unknown
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextVar = {var,?L,next_var_name()},
    PosVar = {var,?L,next_var_name()},
@@ -1710,43 +1650,8 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) ->
    [O1|R1];
 step_expr_do(Ctx, #xqAxisStep{} = As, SourceAbs) ->
    do_axis_step(Ctx, SourceAbs, As);
-
-%%    
-%% %   ?dbg("SourceAbs",SourceAbs),
-%%    PathAbs = do_path(Direction,SourceAbs,Axis,NodeTest),
-%%    lists:foldl(fun(P,Abs) ->
-%%                      handle_predicate({Ctx,P}, Abs)
-%%                end,PathAbs, Preds);
-   
-%% step_expr_do(Ctx, Other, {D,N}) ->
-%%    NextVar = {var,?L,next_var_name()},
-%%    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-%%    NextCtxVar = next_ctx_var_name(),
-%%    CtxVar1 = {var,?L,NextCtxVar},
-%%    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-%%    E1 = expr_do(Ctx1, Other),
-%%    Base = ?P("_@CtxVar1 = xqerl_context:set_context_item(_@CtxVar,"
-%%              "#xqNode{doc = _@D, node = _@N}),"
-%%              "_@NextVar = _@E1"),
-%%    Base;
 step_expr_do(Ctx, Other, _) ->
    expr_do(Ctx, Other).
-
-%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-%%    PosVar = {var,?L,next_var_name()},
-%%    SizVar = {var,?L,next_var_name()},
-%%    NodeVar = {var,?L,next_var_name()},
-%%    NextCtxVar = next_ctx_var_name(),
-%%    NextCtxVVar = {var,?L,NextCtxVar},
-%%    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-%%    E1 = ,
-%% %   ?dbg("R1",R1),
-%%    ?P(["xqerl_seq3:path_map(fun(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
-%%             "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
-%%             "             _@E1",
-%%             "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
-%%             "      end, _@SourceVar)"       
-%%            ]).
 
 % return clause end loop and returns {NewCtx,Internal,Global}
 flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,true) ->
@@ -2695,165 +2600,7 @@ abs_path_expr(Ctx, {path_expr, Id, _Steps}) ->
    CallingCtx = {var,?L,get_context_variable_name(Ctx)},
    CallingVarTup = get_variable_tuple(Ctx),
    _FunCall = ?P("'@FunNameAtom'(_@CallingCtx,_@CallingVarTup)"),
-   
    ok.
-
-
-
-
-
-%% expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
-%%                                                   R == {'root'} ->
-%%    CtxItem = expr_do(Ctx0, 'context-item'),
-%%    Ctx = clear_context_variables(Ctx0),
-%%    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
-%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
-%%       {[],_Rest} -> % nothing simple, only complex
-%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
-%%          ?P(["begin",
-%%              " _@@Comp",
-%%              "end"
-%%             ]);
-%%       {P,[]} -> % all simple
-%%          ?P(["begin ",
-%%              " xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "                       F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "                     ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "                     end, _@CtxSeq)",
-%%              "end"
-%%             ]);
-%%       {P,Rest} -> % simple and complex
-%%          NextVar = {var,?L,next_var_name()},
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "              F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
-%%    end;
-%% expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
-%%    Ctx = clear_context_variables(Ctx0),
-%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-%%    CtxSeq = a_var(Var,CurrCtxVar),
-%%    NextCtxVar = next_ctx_var_name(),
-%%    NextCtxVVar = {var,?L,NextCtxVar},
-%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-%%       {[],_} -> % nothing simple, only complex
-%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
-%%          O = ?P(["fun() ->",
-%%                  " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
-%%                  " _@@Comp",
-%%                  "end()"
-%%             ]),
-%%          O;
-%%       {P,[]} ->
-%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "                    F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
-%%             ]);
-%%       {P,Rest} ->
-%%          NextVar = {var,?L,next_var_name()},
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "              F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
-%%    end;
-%% expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
-%%    Ctx = clear_context_variables(Ctx0),
-%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-%%    NextCtxVar = next_ctx_var_name(),
-%%    NextCtxVVar = {var,?L,NextCtxVar},
-%%    CtxSeq = case Base of
-%%                {postfix,_,_,_} -> % use old context item
-%%                   expr_do(Ctx0, {expr, Base});
-%%                #xqAxisStep{} -> % use old context item, 
-%%                   expr_do(Ctx0, {expr, Base});
-%%                _ ->
-%%                   expr_do(Ctx, {expr, Base})
-%%             end,
-%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-%%       {[],_} -> % nothing simple, only complex
-%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
-%%          O = ?P(["fun() ->",
-%%                  " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
-%%                  " _@@Comp",
-%%                  "end()"
-%%             ]),
-%%          O;
-%%       {P,[]} ->
-%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "                    F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
-%%             ]);
-%%       {P,Rest} ->
-%%          ?dbg("{P,Rest}",{P,Rest}),
-%%          NextVar = {var,?L,next_var_name()},
-%%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          % new context need position and size
-%%          ?P(["fun() ->",
-%%              " _@NextVar = xqerl_seq3:path_map(",
-%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-%%              "              F = fun(Doc) -> _@P end,",
-%%              "         fun() -> ",
-%%              "          case xqldb_doc:run(Doc1,F) of",
-%%              "           #xqError{} = E -> erlang:throw(E);",
-%%              "           function_clause -> [];",
-%%              "           O -> O end",
-%%              "         end()",
-%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-%%              "            end, _@CtxSeq),",
-%%              " _@@E1",
-%%              "end()"
-%%             ])
-%%    end;
-%% 
-%% expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
-%%    expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
-
 
 abs_document_node(Ctx, #xqDocumentNode{identity = Id, 
                                        expr = E, 
@@ -3442,9 +3189,9 @@ ensure_type(_,_,
         Occ1 == zero_or_one, Occ2 == one;
         Occ1 == one_or_many, Occ2 == one ->
    {nil,?L};
-ensure_type(Ctx,Var,Type,AType) ->
+ensure_type(Ctx,Var,Type,_AType) ->
    _ = add_used_record_type(xqAtomicValue),
-   ?dbg("ensure_type         ",{Var,Type,AType}),
+   %?dbg("ensure_type         ",{Var,Type,AType}),
    T = expr_do(Ctx,Type),
    ?P("_ = case xqerl_types:instance_of(_@Var,_@T) of "
       "#xqAtomicValue{value = true} -> _@Var; "

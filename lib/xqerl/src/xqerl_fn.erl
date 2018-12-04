@@ -3781,7 +3781,7 @@ trim_declaration(Rest) -> Rest.
 trim_declaration_1(<<"?>",Rest/binary>>, true) -> Rest;
 trim_declaration_1(<<"?>",_/binary>>, false) -> ?err('FODC0006');
 trim_declaration_1(<<"standalone",_/binary>>, _) -> ?err('FODC0006');
-trim_declaration_1(<<"encoding=",Rest/binary>>, _) -> trim_declaration_1(Rest, true);
+trim_declaration_1(<<"encoding",Rest/binary>>, _) -> trim_declaration_1(Rest, true);
 trim_declaration_1(<<_/utf8,Rest/binary>>, V) -> trim_declaration_1(Rest, V);
 trim_declaration_1(<<>>, _) -> <<>>.
 

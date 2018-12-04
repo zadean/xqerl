@@ -4,6 +4,9 @@
 
 -module(xqldb_xpath).
 
+-compile({inline,[name_type_match/3,
+                  name_match/2]}).
+
 %% ==========================================================================
 %% API functions
 %% ==========================================================================
@@ -105,7 +108,7 @@
 ancestor_document_node(#{nk := Nk} = Node, Step) when Nk =/= document ->
    [S || #{nk := document} = D <- ancestors(Node),
          S <- self_document_node(D, Step)];
-ancestor_document_node(_, _) -> [].
+ancestor_document_node(#{nk := _}, _) -> [].
 
 -spec ancestor_element(attribute() | comment() | element() | proc_inst() | text(), step()) -> [element()].
 ancestor_element(#{nk := Nk} = Node, {NameAndType, Preds}) 
@@ -116,13 +119,13 @@ ancestor_element(#{nk := Nk} = Node, {NameAndType, Preds})
               name_type_match(NameAndType, NodeName, TypeName)],
    Fil = do_predicates(As, Preds),
    lists:reverse(Fil);
-ancestor_element(_, _) -> [].
+ancestor_element(#{nk := _}, _) -> [].
 
 -spec ancestor_node(attribute() | comment() | element() | proc_inst() | text(), step()) -> [document() | element()].
 ancestor_node(#{nk := Nk} = Node, {Preds}) when Nk =/= document ->
    Fil = do_predicates(ancestors(Node), Preds),
    lists:reverse(Fil);
-ancestor_node(_, _) -> [].
+ancestor_node(#{nk := _}, _) -> [].
 
 %% ================================
 %% ancestor_or_self - reverse
@@ -130,12 +133,12 @@ ancestor_node(_, _) -> [].
 -spec ancestor_or_self_attribute(attribute(), step()) -> [attribute()].
 ancestor_or_self_attribute(#{nk := attribute} = Node, Step) -> 
    self_attribute(Node, Step);
-ancestor_or_self_attribute(_, _) -> [].
+ancestor_or_self_attribute(#{nk := _}, _) -> [].
 
 -spec ancestor_or_self_comment(comment(), step()) -> [comment()].
 ancestor_or_self_comment(#{nk := comment} = Node, Step) -> 
    self_comment(Node, Step);
-ancestor_or_self_comment(_, _) -> [].
+ancestor_or_self_comment(#{nk := _}, _) -> [].
 
 -spec ancestor_or_self_document_node(attribute() | comment() | document() | element() | proc_inst() | text(), step()) -> [document()].
 ancestor_or_self_document_node(Node, Step) ->
@@ -151,7 +154,7 @@ ancestor_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds})
               name_type_match(NameAndType, NodeName, TypeName)],
    Fil = do_predicates(As, Preds),
    lists:reverse(Fil);
-ancestor_or_self_element(_, _) -> [].
+ancestor_or_self_element(#{nk := _}, _) -> [].
 
 -spec ancestor_or_self_node(attribute() | comment() | document() | element() | proc_inst() | text(), step()) -> [anynode()].
 ancestor_or_self_node(Node, {Preds}) -> 
@@ -162,12 +165,12 @@ ancestor_or_self_node(Node, {Preds}) ->
 -spec ancestor_or_self_processing_instruction(proc_inst(), step()) -> [proc_inst()].
 ancestor_or_self_processing_instruction(#{nk := 'processing-instruction'} = Node, Step) -> 
    self_processing_instruction(Node, Step);
-ancestor_or_self_processing_instruction(_, _) -> [].
+ancestor_or_self_processing_instruction(#{nk := _}, _) -> [].
 
 -spec ancestor_or_self_text(text(), step()) -> [text()].
 ancestor_or_self_text(#{nk := text} = Node, Step) -> 
    self_text(Node, Step);
-ancestor_or_self_text(_, _) -> [].
+ancestor_or_self_text(#{nk := _}, _) -> [].
 
 %% ================================
 %% attribute
@@ -181,14 +184,14 @@ attribute_attribute(#{nk := element,
                 tn := TypeName} = N <- At,
               name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Cn, Preds);
-attribute_attribute(_, _) -> [].
+attribute_attribute(#{nk := _}, _) -> [].
 
 -spec attribute_node(element(), step()) -> [attribute()].
 attribute_node(#{nk := element, at := []}, _) -> [];
 attribute_node(#{nk := element,
                  at := At} = P, {Preds}) ->
    do_predicates([N#{pt => P} || N <- At], Preds);
-attribute_node(_, _) -> [].
+attribute_node(#{nk := _}, _) -> [].
 
 %% ================================
 %% child - forward
@@ -200,7 +203,7 @@ child_comment(#{nk := Nk,
         Nk =:= document -> 
    Cn = [N || #{nk := comment} = N <- xqldb_mem_nodes:children(P)],
    do_predicates(Cn, Preds);
-child_comment(_, _) -> [].
+child_comment(#{nk := _}, _) -> [].
 
 -spec child_element(document() | element(), step()) -> [element()].
 child_element(#{nk := Nk,
@@ -213,14 +216,14 @@ child_element(#{nk := Nk,
              tn := TypeName} = N <- xqldb_mem_nodes:children(P),
            name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Cn, Preds);
-child_element(_, _) -> [].
+child_element(#{nk := _}, _) -> [].
 
 -spec child_node(document() | element(), step()) -> [anychild()].
 child_node(#{nk := element} = P, {Preds}) -> 
    do_predicates([N || N <- xqldb_mem_nodes:children(P)], Preds);
 child_node(#{nk := document} = P, {Preds}) -> 
    do_predicates([N || N <- xqldb_mem_nodes:children(P)], Preds);
-child_node(_, _) -> [].
+child_node(#{nk := _}, _) -> [].
 
 -spec child_processing_instruction(document() | element(), step()) -> [proc_inst()].
 child_processing_instruction(#{nk := Nk,
@@ -232,7 +235,7 @@ child_processing_instruction(#{nk := Nk,
              nn := NodeName} = N <- xqldb_mem_nodes:children(P),
            name_match(Name, NodeName)],
    do_predicates(Cn, Preds);
-child_processing_instruction(_, _) -> [].
+child_processing_instruction(#{nk := _}, _) -> [].
 
 -spec child_text(document() | element(), step()) -> [text()].
 child_text(#{nk := Nk,
@@ -241,7 +244,7 @@ child_text(#{nk := Nk,
         Nk =:= document -> 
    Cn = [N || #{nk := text} = N <- xqldb_mem_nodes:children(P)],
    do_predicates(Cn, Preds);
-child_text(_, _) -> [].
+child_text(#{nk := _}, _) -> [].
 
 %% ================================
 %% descendant - forward
@@ -252,7 +255,7 @@ descendant_comment(#{nk := Nk} = Node, {Preds})
         Nk =:= document -> 
    Ds = [N || #{nk := comment} = N <- descendants(Node)],
    do_predicates(Ds, Preds);
-descendant_comment(_, _) -> [].
+descendant_comment(#{nk := _}, _) -> [].
 
 -spec descendant_element(document() | element(), step()) -> [element()].
 descendant_element(#{nk := Nk} = Node, {NameAndType, Preds})
@@ -263,14 +266,14 @@ descendant_element(#{nk := Nk} = Node, {NameAndType, Preds})
                 tn := TypeName} = N <- descendants(Node),
               name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Ds, Preds);
-descendant_element(_, _) -> [].
+descendant_element(#{nk := _}, _) -> [].
 
 -spec descendant_node(document() | element(), step()) -> [anychild()].
 descendant_node(#{nk := Nk} = Node, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
    do_predicates(descendants(Node), Preds);
-descendant_node(_, _) -> [].
+descendant_node(#{nk := _}, _) -> [].
 
 -spec descendant_processing_instruction(document() | element(), step()) -> [proc_inst()].
 descendant_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
@@ -280,7 +283,7 @@ descendant_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
                 nn := NodeName} = N <- descendants(Node),
               name_match(Name, NodeName)],
    do_predicates(Ds, Preds);
-descendant_processing_instruction(_, _) -> [].
+descendant_processing_instruction(#{nk := _}, _) -> [].
 
 -spec descendant_text(document() | element(), step()) -> [text()].
 descendant_text(#{nk := Nk} = Node, {Preds})
@@ -288,7 +291,7 @@ descendant_text(#{nk := Nk} = Node, {Preds})
         Nk =:= document -> 
    Ds = [N || #{nk := text} = N <- descendants(Node)],
    do_predicates(Ds, Preds);
-descendant_text(_, _) -> [].
+descendant_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% descendant_or_self - forward
@@ -296,7 +299,7 @@ descendant_text(_, _) -> [].
 -spec descendant_or_self_attribute(attribute(), step()) -> [attribute()].
 descendant_or_self_attribute(#{nk := attribute} = Node, Step) ->
    self_attribute(Node, Step);
-descendant_or_self_attribute(_, _) -> [].
+descendant_or_self_attribute(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_comment(comment() | document() | element(), step()) -> [comment()].
 descendant_or_self_comment(#{nk := comment} = Node, Step) ->
@@ -306,12 +309,12 @@ descendant_or_self_comment(#{nk := Nk} = Node, {Preds})
         Nk =:= document -> 
    Ds = [N || #{nk := comment} = N <- descendants(Node)],
    do_predicates(Ds, Preds);
-descendant_or_self_comment(_, _) -> [].
+descendant_or_self_comment(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_document_node(document(), step()) -> [document()].
 descendant_or_self_document_node(#{nk := document} = Node, Step) -> 
    self_document_node(Node, Step);
-descendant_or_self_document_node(_, _) -> [].
+descendant_or_self_document_node(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_element(document() | element(), step()) -> [element()].
 descendant_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds}) 
@@ -322,7 +325,7 @@ descendant_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds})
                 tn := TypeName} = D <- [Node | descendants(Node)],
               name_type_match(NameAndType, NodeName, TypeName)], 
    do_predicates(Ds, Preds);
-descendant_or_self_element(_, _) -> [].
+descendant_or_self_element(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_node(attribute() | comment() | document() | element() | proc_inst() | text(), step()) -> [anynode()].
 descendant_or_self_node(#{nk := Nk} = Node, Step) 
@@ -334,7 +337,7 @@ descendant_or_self_node(#{nk := Nk} = Node, {Preds})
         Nk =:= document -> 
    Ds = [Node | descendants(Node)], 
    do_predicates(Ds, Preds);
-descendant_or_self_node(_, _) -> [].
+descendant_or_self_node(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_processing_instruction(document() | element() | proc_inst(), step()) -> [proc_inst()].
 descendant_or_self_processing_instruction(#{nk := 'processing-instruction'} = Node, Step) ->
@@ -346,7 +349,7 @@ descendant_or_self_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
                 nn := NodeName} = N <- descendants(Node),
               name_match(Name, NodeName)],
    do_predicates(Ds, Preds);
-descendant_or_self_processing_instruction(_, _) -> [].
+descendant_or_self_processing_instruction(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_text(document() | element() | text(), step()) -> [text()].
 descendant_or_self_text(#{nk := text} = Node, Step) -> 
@@ -356,7 +359,7 @@ descendant_or_self_text(#{nk := Nk} = Node, {Preds})
         Nk =:= document -> 
    Ds = [N || #{nk := text} = N <- descendants(Node)],
    do_predicates(Ds, Preds);
-descendant_or_self_text(_, _) -> [].
+descendant_or_self_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% following - forward
@@ -367,7 +370,7 @@ following_comment(#{nk := Nk} = Node, {Preds})
         Nk =:= comment; Nk =:= 'processing-instruction' -> 
    Fol = [P || #{nk := comment} = P <- following(Node)],
    do_predicates(Fol, Preds);
-following_comment(_, _) -> [].
+following_comment(#{nk := _}, _) -> [].
 
 -spec following_element(attribute() | comment() | element() | proc_inst() | text(), step()) -> [element()].
 following_element(#{nk := Nk} = Node, {NameAndType, Preds}) 
@@ -378,7 +381,7 @@ following_element(#{nk := Nk} = Node, {NameAndType, Preds})
                  tn := TypeName} = P <- following(Node),
                name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Fol, Preds);
-following_element(_, _) -> [].
+following_element(#{nk := _}, _) -> [].
 
 -spec following_node(attribute() | comment() | element() | proc_inst() | text(), step()) -> [anychild()].
 following_node(#{nk := Nk} = Node, {Preds}) 
@@ -386,7 +389,7 @@ following_node(#{nk := Nk} = Node, {Preds})
         Nk =:= comment; Nk =:= 'processing-instruction' -> 
    Fol = following(Node),
    do_predicates(Fol, Preds);
-following_node(_, _) -> [].
+following_node(#{nk := _}, _) -> [].
 
 -spec following_processing_instruction(attribute() | comment() | element() | proc_inst() | text(), step()) -> [proc_inst()].
 following_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) 
@@ -396,7 +399,7 @@ following_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
                  nn := NodeName} = P <- following(Node),
                name_match(Name, NodeName)],
    do_predicates(Fol, Preds);
-following_processing_instruction(_, _) -> [].
+following_processing_instruction(#{nk := _}, _) -> [].
 
 -spec following_text(attribute() | comment() | element() | proc_inst() | text(), step()) -> [text()].
 following_text(#{nk := Nk} = Node, {Preds}) 
@@ -404,7 +407,7 @@ following_text(#{nk := Nk} = Node, {Preds})
         Nk =:= comment; Nk =:= 'processing-instruction' -> 
    Fol = [P || #{nk := text} = P <- following(Node)],
    do_predicates(Fol, Preds);
-following_text(_, _) -> [].
+following_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% following_sibling - forward
@@ -418,7 +421,7 @@ following_sibling_comment(#{nk := Nk,
                   nk := comment} = S <- siblings(Node), 
                 SId > Id],
    do_predicates(Sibs, Preds);
-following_sibling_comment(_, _) -> [].
+following_sibling_comment(#{nk := _}, _) -> [].
 
 -spec following_sibling_element(comment() | element() | proc_inst() | text(), step()) -> [element()].
 following_sibling_element(#{nk := Nk,
@@ -432,7 +435,7 @@ following_sibling_element(#{nk := Nk,
                 SId > Id,
                 name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Sibs, Preds);
-following_sibling_element(_, _) -> [].
+following_sibling_element(#{nk := _}, _) -> [].
 
 -spec following_sibling_node(comment() | element() | proc_inst() | text(), step()) -> [anychild()].
 following_sibling_node(#{nk := Nk,
@@ -442,7 +445,7 @@ following_sibling_node(#{nk := Nk,
    Sibs = [S || #{id := SId} = S <- siblings(Node), 
                 SId > Id],
    do_predicates(Sibs, Preds);
-following_sibling_node(_, _) -> [].
+following_sibling_node(#{nk := _}, _) -> [].
 
 -spec following_sibling_processing_instruction(comment() | element() | proc_inst() | text(), step()) -> [proc_inst()].
 following_sibling_processing_instruction(#{nk := Nk,
@@ -455,7 +458,7 @@ following_sibling_processing_instruction(#{nk := Nk,
                 SId > Id,
                 name_match(Name, NodeName)],
    do_predicates(Sibs, Preds);
-following_sibling_processing_instruction(_, _) -> [].
+following_sibling_processing_instruction(#{nk := _}, _) -> [].
 
 -spec following_sibling_text(comment() | element() | proc_inst() | text(), step()) -> [text()].
 following_sibling_text(#{nk := Nk,
@@ -466,7 +469,7 @@ following_sibling_text(#{nk := Nk,
                   nk := text} = S <- siblings(Node), 
                 SId > Id],
    do_predicates(Sibs, Preds);
-following_sibling_text(_, _) -> [].
+following_sibling_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% parent - reverse
@@ -481,7 +484,7 @@ parent_document_node(#{nk := Nk} = Node, Step)
       Par ->
          self_document_node(Par, Step)
    end;
-parent_document_node(_, _) -> [].
+parent_document_node(#{nk := _}, _) -> [].
 
 -spec parent_element(attribute() | comment() | element() | proc_inst() | text(), step()) -> [element()].
 parent_element(#{nk := Nk} = Node, Step) 
@@ -493,7 +496,7 @@ parent_element(#{nk := Nk} = Node, Step)
       Par ->
          self_element(Par, Step)
    end;
-parent_element(_, _) -> [].
+parent_element(#{nk := _}, _) -> [].
 
 -spec parent_node(attribute() | comment() | element() | proc_inst() | text(), step()) -> [document() | element()].
 parent_node(#{nk := Nk} = Node, Step) 
@@ -505,7 +508,7 @@ parent_node(#{nk := Nk} = Node, Step)
       Par ->
          self_node(Par, Step)
    end;
-parent_node(_, _) -> [].
+parent_node(#{nk := _}, _) -> [].
 
 %% ==========================
 %% preceding - reverse
@@ -517,7 +520,7 @@ preceding_comment(#{nk := Nk} = Node, {Preds})
    Pre = [P || #{nk := comment} = P <- preceding(Node)],
    Fil = do_predicates(Pre, Preds),
    lists:reverse(Fil);
-preceding_comment(_, _) -> [].
+preceding_comment(#{nk := _}, _) -> [].
 
 -spec preceding_element(attribute() | comment() | element() | proc_inst() | text(), step()) -> [element()].
 preceding_element(#{nk := Nk} = Node, {NameAndType, Preds}) 
@@ -529,7 +532,7 @@ preceding_element(#{nk := Nk} = Node, {NameAndType, Preds})
                name_type_match(NameAndType, NodeName, TypeName)],
    Fil = do_predicates(Pre, Preds),
    lists:reverse(Fil);
-preceding_element(_, _) -> [].
+preceding_element(#{nk := _}, _) -> [].
 
 -spec preceding_node(attribute() | comment() | element() | proc_inst() | text(), step()) -> [anychild()].
 preceding_node(#{nk := Nk} = Node, {Preds}) 
@@ -538,7 +541,7 @@ preceding_node(#{nk := Nk} = Node, {Preds})
    Pre = preceding(Node),
    Fil = do_predicates(Pre, Preds),
    lists:reverse(Fil);
-preceding_node(_, _) -> [].
+preceding_node(#{nk := _}, _) -> [].
 
 -spec preceding_processing_instruction(attribute() | comment() | element() | proc_inst() | text(), step()) -> [proc_inst()].
 preceding_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) 
@@ -549,7 +552,7 @@ preceding_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
                name_match(Name, NodeName)],
    Fil = do_predicates(Pre, Preds),
    lists:reverse(Fil);
-preceding_processing_instruction(_, _) -> [].
+preceding_processing_instruction(#{nk := _}, _) -> [].
 
 -spec preceding_text(attribute() | comment() | element() | proc_inst() | text(), step()) -> [text()].
 preceding_text(#{nk := Nk} = Node, {Preds}) 
@@ -558,7 +561,7 @@ preceding_text(#{nk := Nk} = Node, {Preds})
    Pre = [P || #{nk := text} = P <- preceding(Node)],
    Fil = do_predicates(Pre, Preds),
    lists:reverse(Fil);
-preceding_text(_, _) -> [].
+preceding_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% preceding_sibling - reverse
@@ -574,7 +577,7 @@ preceding_sibling_comment(#{nk := Nk,
    Sibs2 = lists:reverse(Sibs1),
    Sibs3 = do_predicates(Sibs2, Preds),
    lists:reverse(Sibs3);
-preceding_sibling_comment(_, _) -> [].
+preceding_sibling_comment(#{nk := _}, _) -> [].
 
 -spec preceding_sibling_element(comment() | element() | proc_inst() | text(), step()) -> [element()].
 preceding_sibling_element(#{nk := Nk,
@@ -591,7 +594,7 @@ preceding_sibling_element(#{nk := Nk,
    Sibs2 = lists:reverse(Sibs1),
    Sibs3 = do_predicates(Sibs2, Preds),
    lists:reverse(Sibs3);
-preceding_sibling_element(_, _) -> [].
+preceding_sibling_element(#{nk := _}, _) -> [].
 
 -spec preceding_sibling_node(comment() | element() | proc_inst() | text(), step()) -> [anychild()].
 preceding_sibling_node(#{nk := Nk,
@@ -603,7 +606,7 @@ preceding_sibling_node(#{nk := Nk,
    Sibs2 = lists:reverse(Sibs1),
    Sibs3 = do_predicates(Sibs2, Preds),
    lists:reverse(Sibs3);
-preceding_sibling_node(_, _) -> [].
+preceding_sibling_node(#{nk := _}, _) -> [].
 
 -spec preceding_sibling_processing_instruction(comment() | element() | proc_inst() | text(), step()) -> [proc_inst()].
 preceding_sibling_processing_instruction(#{nk := Nk,
@@ -619,7 +622,7 @@ preceding_sibling_processing_instruction(#{nk := Nk,
    Sibs2 = lists:reverse(Sibs1),
    Sibs3 = do_predicates(Sibs2, Preds),
    lists:reverse(Sibs3);
-preceding_sibling_processing_instruction(_, _) -> [].
+preceding_sibling_processing_instruction(#{nk := _}, _) -> [].
 
 -spec preceding_sibling_text(comment() | element() | proc_inst() | text(), step()) -> [text()].
 preceding_sibling_text(#{nk := Nk,
@@ -632,7 +635,7 @@ preceding_sibling_text(#{nk := Nk,
    Sibs2 = lists:reverse(Sibs1),
    Sibs3 = do_predicates(Sibs2, Preds),
    lists:reverse(Sibs3);
-preceding_sibling_text(_, _) -> [].
+preceding_sibling_text(#{nk := _}, _) -> [].
 
 %% ==========================
 %% self - forward
@@ -647,12 +650,12 @@ self_attribute(#{nk := attribute,
       false ->
          []
    end;
-self_attribute(_, _) -> [].
+self_attribute(#{nk := _}, _) -> [].
 
 -spec self_comment(comment(), step()) -> [comment()].
 self_comment(#{nk := comment} = Node, {Preds}) ->
    do_predicates([Node], Preds);
-self_comment(_, _) -> [].
+self_comment(#{nk := _}, _) -> [].
 
 -spec self_document_node(document(), step()) -> [document()].
 self_document_node(#{nk := document,
@@ -672,7 +675,7 @@ self_document_node(#{nk := document,
    end;
 self_document_node(#{nk := document} = Node, {Preds}) -> 
    do_predicates([Node], Preds);
-self_document_node(_, _) -> [].
+self_document_node(#{nk := _}, _) -> [].
 
 -spec self_element(element(), step()) -> [element()].
 self_element(#{nk := element,
@@ -684,12 +687,12 @@ self_element(#{nk := element,
       false ->
          []
    end;
-self_element(_, _) -> [].
+self_element(#{nk := _}, _) -> [].
 
 -spec self_namespace(namespace(), step()) -> [namespace()].
 self_namespace(#{nk := namespace} = Node, {Preds}) ->
    do_predicates([Node], Preds);
-self_namespace(_, _) -> [].
+self_namespace(#{nk := _}, _) -> [].
 
 -spec self_node(attribute() | comment() | document() | element() | proc_inst() | text(), step()) -> [anynode()].
 self_node(Node, {Preds}) -> 
@@ -704,12 +707,12 @@ self_processing_instruction(#{nk := 'processing-instruction',
       false ->
          []
    end;
-self_processing_instruction(_, _) -> [].
+self_processing_instruction(#{nk := _}, _) -> [].
 
 -spec self_text(text(), step()) -> [text()].
 self_text(#{nk := text} = Node, {Preds}) ->
    do_predicates([Node], Preds);
-self_text(_, _) -> [].
+self_text(#{nk := _}, _) -> [].
 
 document_order(NodeList) ->
    case catch (doc_ord(NodeList)) of

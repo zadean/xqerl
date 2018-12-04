@@ -81,14 +81,14 @@ db_json_to_item(Uri, Options) ->
 string(String, Options) ->
    State = parse_options(#state{},Options),
    try 
-      xqldb_json_objs:string_to_json(String) 
+      xqldb_json_objs:string_to_json(String)
    of
       {error,invalid_json} ->
          ?err('FOJS0001');
       Term ->
-         ?dbg("Term",Term),
+         %?dbg("Term",Term),
          Map = json_to_map(State, Term),
-         ?dbg("Map",Map),
+         %?dbg("Map",Map),
          Map
    catch
       _:_ ->
@@ -108,7 +108,7 @@ string_to_xml(String, Options) ->
       {error,invalid_json} ->
          ?err('FOJS0001');
       Term ->
-         ?dbg("Term",Term),
+         %?dbg("Term",Term),
          Frag = json_to_xml(State, <<>>, Term),
          Doc = #xqDocumentNode{expr = Frag},
          Opt = #{namespaces => [],
@@ -273,7 +273,7 @@ xml_to_json(_State, _) -> % not schema conform
    ?err('FOJS0006').
 
 get_attributes(Content, AllowWs) ->
-   ?dbg("Content",Content),
+   %?dbg("Content",Content),
    try
       Key = [ xqerl_types:string_value(K) || 
               #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
@@ -444,7 +444,7 @@ json_to_map(_State, {Val, _Lex})
         Val =:= neg_infinity ->
    #xqAtomicValue{type = 'xs:double', value = Val};
 json_to_map(State, Val) ->
-   ?dbg("State#state.escape",State#state.escape),
+   %?dbg("State#state.escape",State#state.escape),
    Norm = normalize_string(State, Val),
    #xqAtomicValue{type = 'xs:string', value = Norm}.
 

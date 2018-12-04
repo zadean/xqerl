@@ -25,7 +25,7 @@
  
 -module(xqerl_options).
 
--define(NS,<<"https://www.w3.org/2010/xslt-xquery-serialization">>).
+-define(NS,<<"http://www.w3.org/2010/xslt-xquery-serialization">>).
 -define(OUTPUT(N), #qname{namespace = ?NS, prefix = <<"output">>, local_name = <<N>>}).
 
 -include("xqerl.hrl").
@@ -175,10 +175,13 @@ validate1([{#qname{} = Q,Value}|T],State) ->
    validate1(T,State).
 
 
-true_false("1") -> true;
-true_false("yes") -> true;
-true_false("true") -> true;
-true_false("0") -> false;
-true_false("no") -> false;
-true_false("false") -> false;
-true_false(_) -> ?err('SEPM0016').
+true_false(Val) -> 
+   true_false_(xqerl_lib:trim(Val)).
+
+true_false_(<<"1">>) -> true;
+true_false_(<<"yes">>) -> true;
+true_false_(<<"true">>) -> true;
+true_false_(<<"0">>) -> false;
+true_false_(<<"no">>) -> false;
+true_false_(<<"false">>) -> false;
+true_false_(_) -> ?err('SEPM0016').

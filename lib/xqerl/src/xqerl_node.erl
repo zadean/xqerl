@@ -22,7 +22,7 @@
 
 %% @doc Processing for local nodes created in XQuery. Translation from 
 %% 'doc' -> node.
-%% TODO : Complete rewrite. simplify, use mnesia for files, ets for temp
+%% TODO : Complete rewrite. simplify
 
 -module(xqerl_node).
 -compile(inline_list_funcs).
@@ -44,7 +44,7 @@
 -export([to_xml/1]).
 -export([nodes_equal/3]).
 
--export([node_to_content/1]).
+%-export([node_to_content/1]).
 
 -export([get_node_type/1]).
 
@@ -240,6 +240,12 @@ ensure_qname(QName, InScopeNamespaces) ->
 %%   prefix. If there is an in-scope default namespace, then a binding is 
 %%   created between the empty prefix and that URI.
 % return new in-scope namespaces
+augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = <<>>, 
+                                                        prefix = <<>>} = Q} = E, 
+                           InscopeNamespaces) ->
+   augment_inscope_namespaces(E#xqElementNode{
+                                    name = Q#qname{namespace = 'no-namespace'}}, 
+                           InscopeNamespaces);
 augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, 
                                                         prefix = Px}}, 
                            InscopeNamespaces) ->
@@ -348,14 +354,38 @@ ensure_content(Content) when is_list(Content) -> Content;
 ensure_content(Content) -> 
    [Content]. % leave sequences alone, they get atomized
 
-merge_inscope_namespaces(StaticInScopeNs,InScopeNs) ->
-   A = fun(#xqNamespace{namespace = NS1, prefix = PX1}) ->
-             B = fun(#xqNamespace{namespace = NS2, prefix = PX2}) ->
-                       NS1 == NS2 orelse PX1 == PX2
-                 end,
-             not lists:any(B, InScopeNs)
-       end,
-   InScopeNs ++ lists:filter(A, StaticInScopeNs).
+merge_inscope_namespaces({'no-preserve','no-inherit'},
+                         ElemNs,
+                         _InScopeNs,
+                         _DirectNamespaces) ->
+   % no-preserve, no-inherit means keep only used namespaces.
+   ElemNs;
+merge_inscope_namespaces({'no-preserve',inherit},
+                         _ElemNs,
+                         InScopeNs,
+                         DirectNamespaces) ->
+   % no-preserve, inherit means keep no namespaces actually attached and all in-scope.
+   lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
+merge_inscope_namespaces({preserve,'no-inherit'},
+                         _ElemNs,
+                         _InScopeNs,
+                         DirectNamespaces) ->
+   % preserve, no-inherit means keep only those namespaces actually attached.
+   lists:keysort(3, DirectNamespaces);
+   %lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
+merge_inscope_namespaces({preserve,inherit},
+                         ElemNs,
+                         InScopeNs,
+                         DirectNamespaces) ->
+   % preserve, inherit means keep all namespaces actually attached and all non-conflicting in-scope.
+   Keep =    lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs)),
+   F = fun(#xqNamespace{namespace = NS1, prefix = PX1}) ->
+                B = fun(#xqNamespace{namespace = NS2, prefix = PX2}) ->
+                          NS1 == NS2 orelse PX1 == PX2
+                    end,
+                not lists:any(B, Keep)
+          end,
+   lists:filter(F, ElemNs) ++ Keep.
 
 % returns {Children, Sz, Ctx3}
 -spec handle_contents(map(),_,_,_,_) -> {[integer()], integer(), map()}.
@@ -385,64 +415,73 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
 
 % returns {Id, Sz,Ctx2}
 handle_content(#{'base-uri' := BU,
-                 'copy-namespaces' := {CopyNsPreserve,_}} = Ctx, 
+                 'copy-namespaces' := CopyNsPreserveInherit} = Ctx, 
                Parent, #xqElementNode{name = QName,
                                       inscope_ns = ElemNs,
                                       attributes = Atts, 
                                       expr = Content} = N, 
                InScopeNs0, Sz) ->
-%?dbg("N",N),
-   % direct constructors have their namespaces in attributes, 
-   % constructed are in expr
-   
-   % merge static namespaces into the inscope
-   InScopeNs = merge_inscope_namespaces(ElemNs,InScopeNs0),
-   %?dbg("ElemNs,InScopeNs0",{ElemNs,InScopeNs0}),
-%?dbg("QName",QName),
+%?dbg("ElemNs    ",ElemNs),
+%?dbg("InScopeNs0",InScopeNs0),
+
    {Id,Ctx1} = next_id(Ctx),
    
+   % direct constructors have their namespaces in attributes, 
+   % constructed are in expr
    Atts1    = ensure_content(Atts),
+%?dbg("Atts ",Atts ),
+%?dbg("Atts1",Atts1),
+   DirectNamespaces = [#xqNamespace{namespace = if XNs == <<>> -> 'no-namespace';
+                                                   true -> XNs end,
+                                    prefix = XPx}
+                      || #xqNamespaceNode{name = #qname{namespace = XNs,
+                                                        prefix = XPx}} 
+                      <- Atts1],
+   ok = check_direct_namespaces(DirectNamespaces),
+
+   % merge static namespaces into the inscope
+   InScopeNs = merge_inscope_namespaces(CopyNsPreserveInherit,
+                                        ElemNs,
+                                        InScopeNs0,
+                                        DirectNamespaces),
+%?dbg("DirectNamespaces",DirectNamespaces),
+%?dbg("InScopeNs",InScopeNs),
    Content0 = ensure_content(Content),
-%?dbg("Content0",Content0),  
-   Content1 = expand_nodes(Content0,CopyNsPreserve,InScopeNs),
-%?dbg("Content1",Content1),  
-   DirectNamespaces = [X || X <- Atts1, is_record(X, xqNamespaceNode)],
+   Content1 = expand_nodes(Content0,CopyNsPreserveInherit,InScopeNs),
+
    ComputNamespaces = [X || X <- Content1, is_record(X, xqNamespaceNode)],
+
    % computed namespaces can have expressions for QNames
    ComputNamespaces1 = lists:map(fun(#xqNamespaceNode{name = Q} = NsN) ->
                                      NewQ = ensure_qname(Q, InScopeNs),
                                      NsN#xqNamespaceNode{name = NewQ}
                                end, ComputNamespaces),
-%?dbg("ComputNamespaces",ComputNamespaces),  
-%?dbg("ComputNamespaces1",ComputNamespaces1),  
-   ok = check_direct_namespaces(DirectNamespaces),
+
    ok = check_computed_namespaces(ComputNamespaces1),
    
    % all non namespace nodes
-   RestNodes = [X || X <- Atts1 ++ Content1, not is_record(X, xqNamespaceNode)],
-   % all attribute nodes
-   % all namespace nodes
-   NamespaceNodes =  DirectNamespaces ++ ComputNamespaces1,
+   RestNodes = [X || X <- Atts1 ++ Content1,
+                     not is_record(X, xqNamespaceNode),
+                     not is_record(X, xqNamespace)],
+   
    InScopeNs1 = lists:foldl(fun(NsN, Is) ->
                                   augment_inscope_namespaces(NsN, Is)
-                            end, InScopeNs, NamespaceNodes),
+                            end, InScopeNs, ComputNamespaces1),
 
-%?dbg("NamespaceNodes",NamespaceNodes),
-%?dbg("InScopeNs",InScopeNs),
+%?dbg("ComputNamespaces1",ComputNamespaces1),
 %?dbg("InScopeNs1",InScopeNs1),
    ElemQName = ensure_qname(QName, InScopeNs1),
 %?dbg("QName",QName),
 %?dbg("ElemQName",ElemQName),
-   
-   InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName}, 
-                                           InScopeNs1),
+   InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName},
+                                                 InScopeNs1),
 
 %?dbg("InScopeNs2",InScopeNs2),
    %this will copy in any nodes
    Content2 = merge_content(Ctx, RestNodes, InScopeNs2),
    
    Fld1 = fun(#xqAttributeNode{name = Q} = NsN, Is) ->
-                NewQ = ensure_qname(Q, InScopeNs1),
+                NewQ = ensure_qname(Q, InScopeNs2),
                 augment_inscope_namespaces(
                   NsN#xqAttributeNode{name = NewQ}, Is);
              (O, Is) ->
@@ -451,49 +490,10 @@ handle_content(#{'base-uri' := BU,
    {Content3,InScopeNs3} = lists:mapfoldl(Fld1, InScopeNs2, Content2),
 
 %?dbg("InScopeNs3",InScopeNs3),
+   % all attribute nodes
    AttributeNodes2 = [X || X <- Content3, is_record(X, xqAttributeNode)],
    ok = check_attribute_names(AttributeNodes2),
    
-   Fil1 = fun(#xqNamespace{namespace = Ns}) 
-                when Parent == 0, Ns =/= 'no-namespace' ->
-                not lists:any(
-                  fun(#xqNamespaceNode{name = #qname{namespace = ImNs}}) ->
-                        ImNs == Ns
-                  end, NamespaceNodes);
-             (#xqNamespace{prefix = <<>>,namespace = Ns}) ->
-                not lists:keymember(Ns, #xqNamespace.namespace, InScopeNs0);
-             (#xqNamespace{prefix = P1}) ->
-                not lists:keymember(P1, #xqNamespace.prefix, InScopeNs0)
-          end,
-   NewNss = lists:filter(Fil1, InScopeNs3),
-%?dbg("NewNss",NewNss),
-   Flm1 = fun(#xqNamespace{namespace = ImNs, prefix = ImPx}) ->
-                A1 = fun(#xqNamespaceNode{name = 
-                                            #qname{namespace = InnerNs,
-                                                   prefix = InnerPx}}) ->
-                               InnerNs =:= ImNs andalso InnerPx =:= ImPx;
-                            (_) ->
-                               false
-                         end,
-                Done = lists:any(A1, Content3 ++ NamespaceNodes),
-                if Done ->
-                      false;
-                   true ->
-                      if ImPx == undefined ->
-                            Nxt = xqerl_lib:next_comp_prefix(InScopeNs3),
-                            {true,
-                             #xqNamespaceNode{name = 
-                                                #qname{namespace = ImNs,
-                                                       prefix = Nxt}}};
-                         true ->
-                            {true,#xqNamespaceNode{name = 
-                                                     #qname{namespace = ImNs,
-                                                            prefix = ImPx}}}
-                      end
-                end
-          end,
-   ImplNamespaces = lists:filtermap(Flm1, NewNss),
-%?dbg("ImplNamespaces",ImplNamespaces),
    ok = check_computed_default_override(ElemQName, ComputNamespaces1),
    
    ok = check_element_name(ElemQName),
@@ -521,6 +521,10 @@ handle_content(#{'base-uri' := BU,
                end
          end,
 %?dbg("BU1",BU1),
+   ImplNamespaces = [#xqNamespaceNode{name = #qname{namespace = XNs,
+                                                        prefix = XPx}} 
+                      || #xqNamespace{namespace = XNs,
+                                    prefix = XPx} <- InScopeNs3],
    ElemQName1 = resolve_namespace(ElemQName, InScopeNs3),
 %?dbg("ElemQName1",ElemQName1),
    Node = N#xqElementNode{identity = Id, 
@@ -531,10 +535,9 @@ handle_content(#{'base-uri' := BU,
                           attributes = undefined, 
                           inscope_ns = InScopeNs3},
    Ctx2 = (add_node(Ctx1, Id, Node)),
-%?dbg("Content2",Content2),  
    {Children, Sz1, Ctx3} = 
      handle_contents(Ctx2#{'base-uri' := BU1}, 
-                     Id, ImplNamespaces ++ NamespaceNodes ++ Content3, 
+                     Id, ImplNamespaces ++ Content3, 
                      InScopeNs3, 0),
    Ctx4 = (set_node_children(Ctx3, Id, Children, Sz1)),
    {Id, Sz1 + Sz + 1,Ctx4};
@@ -716,19 +719,14 @@ handle_content(Ctx, Parent, #xqTextNode{expr = Content,
 
 % internal fragment to merge
 handle_content(Ctx, Parent, #{nk := _} = Node, INs, Sz) ->
-%?dbg("Line",?LINE),
-   Contents = node_to_content(Node),
-%?dbg("Line",?LINE),
-   {_,Inherit} = maps:get('copy-namespaces', Ctx),
-%?dbg("Line",?LINE),
+   {Preserve,Inherit} = maps:get('copy-namespaces', Ctx),
+   Contents = node_to_content(Node, Preserve),
    INs1 = if Inherit == 'no-inherit' ->
                 [];
              true ->
                 INs
           end,
-%?dbg("Line",Contents),
    {Children, Sz1, Ctx3} = handle_contents(Ctx, Parent, Contents, INs1, Sz),
-%?dbg("Line",?LINE),
    {Children, Sz1, Ctx3};
 
 handle_content(Ctx, Parent, Seq, INs, Sz)  ->
@@ -797,7 +795,7 @@ merge_content(_,[],_) -> [];
 %% merge_content(Ctx,F,Is) when is_function(F) ->
 %%    merge_content(Ctx,F(Ctx),Is);
 merge_content(Ctx, Content, InscopeNamespaces) when is_list(Content) ->
-   {CopyNsPreserve,_} = maps:get('copy-namespaces', Ctx),
+   CopyNsPreserve = maps:get('copy-namespaces', Ctx),
    L = expand_nodes(Content,CopyNsPreserve,InscopeNamespaces),
    %?dbg("L",L),
    merge_content(L, []).
@@ -820,7 +818,10 @@ strip_unused_namespaces([#xqElementNode{name = #qname{namespace = ENs},
    NewContent = lists:filter(FiltFun2, Content0),
    NewContent1 = strip_unused_namespaces(NewContent),
    NewEIsNs = lists:filter(FiltFun2, EIsNs),
+%?dbg("InUseNs",InUseNs),
+%?dbg("NewEIsNs",NewEIsNs),
 %?dbg("Content0   ",Content0),
+%?dbg("NewContent",NewContent),
 %?dbg("NewContent1",NewContent1),
    [E#xqElementNode{children = [], 
                     attributes = [], 
@@ -835,9 +836,9 @@ expand_nodes([[#{nk := _} = Node]|T],Preserve,Namespaces) ->
    expand_nodes([Node|T],Preserve,Namespaces);
 expand_nodes([[#{nk := _} = Node|T]],Preserve,Namespaces) ->
    expand_nodes([Node|T],Preserve,Namespaces);
-expand_nodes([#{nk := _} = Node|T],Preserve,Namespaces) ->
+expand_nodes([#{nk := _} = Node|T],{Preserve,_Inherit},Namespaces) ->
 %   ?dbg("Node",Node),
-   Content = node_to_content(Node),
+   Content = node_to_content(Node, Preserve),
 %?dbg("Preserve",Preserve),
 %?dbg("Content",Content),
    Content1 = if Preserve == 'no-preserve' ->
@@ -862,7 +863,7 @@ merge_content([H|T], Acc) when is_list(H) ->
    merge_content(NewH ++ T, Acc);
 % pre-merge nodes
 merge_content([H1,#{nk := _} = Node|T], Acc) ->
-   Content = node_to_content(Node),
+   Content = node_to_content(Node, preserve),
    merge_content([H1|Content] ++ T, Acc);
 % empty strings ignored
 merge_content([#xqAtomicValue{type = Type, value = <<>>}|T], Acc) 
@@ -905,7 +906,7 @@ merge_content([#xqTextNode{expr = S1} = H|T], Acc) ->
          merge_content(T, [H|Acc])
    end;
 merge_content([#{nk := _} = Node|T], Acc) ->
-   Content = node_to_content(Node),
+   Content = node_to_content(Node, preserve),
    merge_content(Content ++ T, Acc);
 merge_content([#xqDocumentNode{expr = E}|T], Acc) when length(Acc) > 0 ->
    merge_content([E|T], Acc);
@@ -1386,7 +1387,7 @@ check_computed_default_override(#qname{namespace = 'no-namespace'},
    end;
 check_computed_default_override(_, _) -> ok.
 
-node_to_content(#{nk := _} = Orig) ->
+node_to_content(#{nk := _} = Orig, Preserve) ->
    F = fun O([]) -> [];
            O(#{nk := document,
                ch := _} = Node) ->
@@ -1398,9 +1399,14 @@ node_to_content(#{nk := _} = Orig) ->
                ns := Nss,
                at := At,
                ch := _} = Node) ->
-              Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
+              Ns1 = if Preserve == preserve ->
+                          [#xqNamespaceNode{name = #qname{namespace = Uri, 
                                                     prefix = Prefix}} ||
-                     {Prefix, Uri} <- maps:to_list(Nss)],
+                     {Prefix, Uri} <- maps:to_list(Nss)];
+                       true ->
+                          [#xqNamespaceNode{name = #qname{namespace = Ns, 
+                                                    prefix = Px}}]
+                    end,
               At1 = [O(C) || C <- At],
               Ch1 = [O(C) || C <- xqldb_mem_nodes:children(Node)],
               #xqElementNode{name = 
@@ -1414,9 +1420,14 @@ node_to_content(#{nk := _} = Orig) ->
                nn := {Ns,Px,Ln},
                ns := Nss,
                ch := _} = Node) ->
-              Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
+              Ns1 = if Preserve == preserve ->
+                          [#xqNamespaceNode{name = #qname{namespace = Uri, 
                                                     prefix = Prefix}} ||
-                     {Prefix, Uri} <- maps:to_list(Nss)],
+                     {Prefix, Uri} <- maps:to_list(Nss)];
+                       true ->
+                          [#xqNamespaceNode{name = #qname{namespace = Ns, 
+                                                    prefix = Px}}]
+                    end,
               Ch1 = [O(C) || C <- xqldb_mem_nodes:children(Node)],
               #xqElementNode{name = 
                                #qname{namespace = maybe_ns_to_atom(Ns), 

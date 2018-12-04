@@ -499,8 +499,6 @@ get_level_1_cache(Id, Cache) ->
 -define(INDEX_RECS,  256).
 -define(INDEX_WIDTH, 28).
 
--define(LEAF_SEG_BYTES,  26624). % 52 * 512
-
 -define(LEAF_WIDTH, 96).
 
 read_header(IndexFile) ->
@@ -755,8 +753,9 @@ handle_cast(commit_logs, State) ->
 handle_cast(_Request, State) -> {noreply,State}.
 
 handle_call({insert, Value}, From, #{status  := Stat,
-                                     updates := Upds} = State) when Stat =/= waiting,
-                                                                    Upds > 100 ->
+                                     updates := Upds} = State) 
+   when Stat =/= waiting,
+        Upds > 100 -> % commit after 100+ updates
    _ = gen_server:cast(self(), commit_logs),
    handle_call({insert, Value}, From, State#{status := waiting});
 handle_call({insert, Value}, _From, State) ->

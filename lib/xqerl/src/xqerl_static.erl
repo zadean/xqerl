@@ -458,9 +458,17 @@ handle_node(State, #xqAtomicValue{type = T} = At) ->
 %% 3.1.2 Variable References
 handle_node(State, #xqVarRef{name = Name}) -> 
    St = get_variable(State, Name),
-   Val = element(4, St), % ErlVar
    Type = element(2, St),
-   set_statement_and_type(State, {variable, Val}, Type);
+   Varname = {variable, element(4, St)},
+   case get_variable_static_value(State, Varname) of
+      undefined ->
+         %?dbg("undefined", undefined),
+         set_statement_and_type(State, Varname, Type);
+      Literal ->
+         %?dbg("Literal", Literal),
+         set_statement_and_type(State, Literal, Type)
+   end;
+
 %% 3.1.3 Parenthesized Expressions
 handle_node(State, {sequence, Expr}) -> 
    S = handle_node(State, Expr),
@@ -617,6 +625,7 @@ handle_node(State,#xqVar{name = Name,
 handle_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = Type, 
+                         external = Ext,
                          expr = Expr} = Node) ->
    GlobVarName = global_variable_name(Name),
    VarState = handle_node(State, Expr),
@@ -626,8 +635,9 @@ handle_node(State,#xqVar{id = Id,
    case check_type_match(VarType, Type) of
       false ->
          ?err('XPTY0004');
-      cast when VarType#xqSeqType.type =/= item ->
-         ?dbg("cast",{Name, VarType, Type}),
+      cast  ->
+         %when VarType#xqSeqType.type =/= item ->
+         %?dbg("cast",{Name, VarType, Type}),
          ?err('XPTY0004');
       _ ->
          ok
@@ -638,7 +648,13 @@ handle_node(State,#xqVar{id = Id,
       _ ->
          ok
    end,
-   NewVar  = {Name,SVarType,[],{GlobVarName,1},false},
+   External = case is_static_literal(VarStmt) of
+                 true when not Ext ->
+                    {false, VarStmt};
+                 _ ->
+                    Ext
+              end,
+   NewVar  = {Name,SVarType,[],{GlobVarName,1},External},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = Node#xqVar{id = Id,
                              name = Name, 
@@ -902,6 +918,7 @@ handle_node(State, {partial_postfix, Id, #xqVarRef{name = Name} = Ref,
                                      type = Type}, occur = one} ,
    set_statement_and_type(State, AnonFun, ST);
 
+
 handle_node(State, {partial_postfix, Id, {'function-ref',#qname{}, Arity} = Ref, 
                     [{arguments,Args}|RestArgs]}) ->
    if Arity =/= length(Args) ->
@@ -938,6 +955,53 @@ handle_node(State, {partial_postfix, Id, {'function-ref',#qname{}, Arity} = Ref,
                                      params = AnonParamTypes,
                                      type = Type}, occur = one} ,
    set_statement_and_type(State, AnonFun, ST);
+
+handle_node(State, {partial_postfix, Id, {'function-call',#qname{}, Arity, Args} = Ref, 
+                    [{arguments,Args2}|RestArgs]}) ->
+   % this is a function-lookup call
+   if Arity =/= length(Args) ->
+         ?err('XPTY0004');
+      true ->
+         ok
+   end,
+%   ?dbg("here",ok),
+   FState = handle_node(State, Ref),
+%   ?dbg("here",ok),
+   Fx = get_statement(FState),
+%   ?dbg("here",ok),
+   {_,#xqFunction{params = _Params, type = Type}} = Fx,
+%   ?dbg("here",ok),
+   StateC = set_in_constructor(State, false),
+%   ?dbg("here",ok),
+   SimpArgs = handle_list(StateC, Args2),
+%   ?dbg("here",ok),
+   %CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
+   NewArgs = lists:map(fun(S) ->
+                           get_statement(S)
+                       end, SimpArgs),
+%   ?dbg("NewArgs",NewArgs),
+   PlaceHolders = placeholders(Args2),
+%   ?dbg("PlaceHolders",PlaceHolders),
+   AnonArity = length(PlaceHolders),
+%   ?dbg("AnonArity",AnonArity),
+   AnonParamTypes = lists:filtermap(fun({'?',_}) ->
+                                          {true,#xqSeqType{}};
+                                       (_) ->
+                                          false
+                                    end, Args2),
+   AnonFun = #xqFunction{params = PlaceHolders,
+                         arity = AnonArity,
+                         body = {postfix, Id, Fx, [{arguments,NewArgs}]},
+                         type = Type},
+   ST = #xqSeqType{type = #xqFunTest{kind = function,
+                                     params = AnonParamTypes,
+                                     type = Type}, occur = one} ,
+   case RestArgs of
+      [] ->
+         set_statement_and_type(State, AnonFun, ST);
+      _ ->
+         set_statement(State, {postfix,Id, AnonFun,RestArgs})
+   end;
 
 handle_node(State, {partial_postfix, _, #xqFunction{params = Params, 
                                                  body = Body,
@@ -1015,6 +1079,7 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
 % Steps is a list of steps to take in order
 handle_node(State, {path_expr, Id, Steps}) ->
    StateC = set_in_constructor(State, false),
+%?dbg("Type",get_statement_type(State)),
    Fold = fun(Step, LastType) ->
                State2 = set_statement_type(StateC, LastType),
                State1 = handle_node(State2, Step),
@@ -1025,7 +1090,6 @@ handle_node(State, {path_expr, Id, Steps}) ->
                         Other ->
                            Other#xqSeqType{occur = zero_or_many}
                      end,
-               %?dbg("{Val, Typ}",{Val, Typ}),
                {Val, Typ}
           end,
    {Statements, Type} = lists:mapfoldl(Fold, get_statement_type(State), Steps),
@@ -1098,6 +1162,20 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                                        name = KName,
                                                        type = KType} = Kt, 
                                predicates = Preds} = Node) ->
+   LastType = State#state.context_item_type,
+   %get_statement_type(State),
+   InPred = get_in_predicate(State),
+   case check_type_match(LastType, #xqSeqType{type = node, occur = zero_or_many}) of
+      false when InPred ->
+         io:format("~p~n",[Node]),
+         ?err('XPTY0020'); % static error step on non-node in predicate
+      false ->
+         ?dbg("LastType",LastType),
+         ?err('XPTY0019'); % static error step on non-node
+      _ ->
+         ok
+   end,
+   
    KName1 = if Kind == 'processing-instruction' ->
                   resolve_pi_name(State, KName);
                Kind == 'element' ->
@@ -1142,34 +1220,6 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                 OType)
    end;
 
-handle_node(State, #xqAxisStep{direction = Direction, 
-                               axis = Axis, 
-                               node_test = #xqNameTest{name = QName} = Nt, 
-                               predicates = Preds} = Node) -> 
-   Q1 = if Axis == attribute ->
-              resolve_attribute_name(State, QName);
-           true ->
-              resolve_element_name(State, QName)
-        end,
-   Type  = if Direction == forward andalso Axis == attribute ->
-                  #xqSeqType{type = attribute, occur = zero_or_one};
-               Direction == forward ->
-                  #xqSeqType{type = element, occur = zero_or_one};
-               true ->
-                  #xqSeqType{type = node, occur = zero_or_one}
-            end,
-   State1 = set_statement_type(State, Type),
-   case get_statement(handle_predicates(State1, Preds)) of
-      {wrap,Wrapped} ->
-        %?dbg("Predicate context wrapped",Wrapped),
-         set_statement_and_type(State, Wrapped, Type);
-      NewPreds ->
-          %?dbg("Predicate context wrapped",NewPreds),
-        set_statement_and_type(State, 
-                          Node#xqAxisStep{predicates = NewPreds,
-                                          node_test = Nt#xqNameTest{name = Q1}},
-                          Type)
-   end;
 %% 3.3.3 Predicates within Steps
 %% 3.3.4 Unabbreviated Syntax
 %% 3.3.5 Abbreviated Syntax
@@ -1749,8 +1799,15 @@ handle_node(State,{'for',#xqVar{id = Id,
       true ->
          ok
    end,
+   External = case is_static_literal(ForStmt) of
+              true ->
+                 {false, ForStmt};
+              _ ->
+                 ForStmt
+           end,
+
    ForLet = if MakeLet -> 'let'; true -> 'for' end,
-   NewVar  = {Name,SForType,[],ErlVarName},
+   NewVar  = {Name,SForType,[],ErlVarName,External},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = {ForLet,#xqVar{id = Id,
                                 name = Name, 
@@ -1758,7 +1815,8 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 empty = Empty,
                                 expr = ForStmt, 
                                 position = undefined}, SForType},
-   set_statement_and_type(State1, NewStatement,SForType);
+   set_statement(State1, NewStatement);
+   %set_statement_and_type(State1, NewStatement,OrigType);
 handle_node(State,{'for',#xqVar{id = Id,
                                 name = Name, 
                                 type = Type, 
@@ -1808,7 +1866,8 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 expr = ForStmt, 
                                 position = #xqPosVar{id = Pid, name = PName}},
                    SForType},
-   set_statement_and_type(State2, NewStatement, SForType);
+   set_statement(State2, NewStatement);
+   %set_statement_and_type(State2, NewStatement, SForType);
 
 %% 3.12.3 Let Clause
 handle_node(State, {'let',#xqVar{id = Id, 
@@ -1847,15 +1906,22 @@ handle_node(State, {'let',#xqVar{id = Id,
                     {LetType,LetStmt}
               end,
    
-   NewVar  = {Name,LetType,[],ErlVarName},
-   
+   External = case is_static_literal(LetStmt1) of
+                 true ->
+                    {false, LetStmt1};
+                 _ ->
+                    LetStmt1
+              end,
+   NewVar  = {Name,LetType,[],ErlVarName, External},
+
    State1 = add_inscope_variable(State, NewVar),
    
    NewStatement = {'let',#xqVar{id = Id, 
                                 name = Name, 
                                 type = OutType, 
                                 expr = LetStmt1}, LetType1},
-   set_statement_and_type(State1, NewStatement, LetType);
+   set_statement(State1, NewStatement);
+   %set_statement_and_type(State1, NewStatement, LetType);
 
 %% 3.12.4 Window Clause
 handle_node(State, #xqWindow{type = WindowType,
@@ -2026,7 +2092,7 @@ handle_node(State, {group_by, Id, GExprs}) ->
    S1 = handle_node(State1, GExprs),
    St = get_statement(S1),
    set_statement(State1, {group_by, Id, St});
-handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{} = Var, 
+handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{name = Name}, 
                               collation = Coll} = Gb) -> 
    Collations = State#state.known_collations, 
    DefColl    = State#state.default_collation, 
@@ -2042,7 +2108,9 @@ handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{} = Var,
       true ->
          ?err('XQST0076')
    end,
-   NewVar = get_statement(handle_node(State, Var)),
+   % here get the variable ref, do not allow inlining
+   St = get_variable(State, Name),
+   NewVar = {variable, element(4, St)},
    set_statement(State, Gb#xqGroupBy{grp_variable = NewVar, 
                                      collation = NewColl});
 %% 3.12.8 Order By Clause
@@ -2145,23 +2213,35 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
          set_static_count(
            set_statement_and_type(State, ElSt, ElTy), ElCt);
       true ->
-         %TODO static type feature here
-      %?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
-         BothType = if ThOc == zero;
-                       ElOc == zero ->
-                          maybe_zero_type(get_list_type([ThTy,ElTy]));
-                       true ->
-                          get_list_type([ThTy,ElTy])
-                    end,
-      %?dbg("BothType",BothType),
-         BothCount = if ThCt == ElCt ->
-                           ElCt;
-                        true ->
-                           undefined
-                     end,
-         set_static_count(
-           set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, 
-                                  BothType), BothCount)
+         case IfSt of
+            #xqAtomicValue{} -> % atomics can be checked now
+               EBV = xqerl_operators:eff_bool_val(IfSt),
+               if EBV == true ->
+                  set_static_count(
+                    set_statement_and_type(State, ThSt, ThTy), ThCt);
+                  true ->
+                  set_static_count(
+                    set_statement_and_type(State, ElSt, ElTy), ElCt)
+               end;
+            _ ->
+               %TODO static type feature here
+            %?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
+               BothType = if ThOc == zero;
+                             ElOc == zero ->
+                                maybe_zero_type(get_list_type([ThTy,ElTy]));
+                             true ->
+                                get_list_type([ThTy,ElTy])
+                          end,
+            %?dbg("BothType",BothType),
+               BothCount = if ThCt == ElCt ->
+                                 ElCt;
+                              true ->
+                                 undefined
+                           end,
+               set_static_count(
+                 set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, 
+                                        BothType), BothCount)
+         end
    end;
 %% 3.15 Switch Expression
 handle_node(State, #xqSwitch{id      = _SwitchId,
@@ -2201,7 +2281,7 @@ handle_node(State, {Op, Vars, Test}) when Op == some;
    State0 = set_statement(State, []),
    Fold = fun(Var, TempState) ->
                 TempSt = get_statement(TempState),
-                NewState = handle_internal_var_node(TempState, Var,false),
+                NewState = handle_internal_var_node(TempState, Var, false),
                 NewSt = get_statement(NewState),
                 %NewSty = get_statement_type(NewState),
                 set_statement(NewState, TempSt ++ [NewSt])
@@ -3313,7 +3393,7 @@ handle_internal_var_node(State,#xqVar{id = Id,
                          name = Name, 
                          type = VarType, 
                          expr = VarStmt},
-   set_statement_and_type(State1, NewStatement, VarType).
+   set_statement(State1, NewStatement).
 
 
 default_return(State, Node) ->
@@ -4551,11 +4631,18 @@ check_fun_arg_types(State, Args, ArgTypes) ->
                      Cnt = get_static_count(S1),
                      Stmnt = get_statement(S1),
                      {Stmnt, Cnt};
-                  ({Arg, ArgType}) ->
-                     S1 = check_fun_arg_type(State, Arg, ArgType),
-                     Cnt = get_static_count(S1),
-                     Stmnt = get_statement(S1),
-                     {Stmnt, Cnt}
+                  ({{postfix,_,_,_} = Stmnt, _ArgType}) ->
+                     {Stmnt, undefined};
+                  ({ArgState, ArgType}) ->
+                     case get_statement(ArgState) of
+                        {postfix,_,_,_} = Stmnt ->
+                           {Stmnt, undefined};
+                        _ ->
+                           S1 = check_fun_arg_type(State, ArgState, ArgType),
+                           Cnt = get_static_count(S1),
+                           Stmnt = get_statement(S1),
+                           {Stmnt, Cnt}
+                     end
                end,
          lists:map(Fun, Arg_ArgTypes);
       true ->
@@ -4563,7 +4650,7 @@ check_fun_arg_types(State, Args, ArgTypes) ->
   end.
 
 check_fun_arg_type(State, Arg, TargetType) ->
-   %?dbg("Arg",get_statement(Arg)),
+  %?dbg("Arg",get_statement(Arg)),
    ParamType = get_statement_type(Arg),
    Param = get_statement(Arg),
    %?dbg("Param",Param),
@@ -5128,9 +5215,13 @@ local_variable_name(Id) ->
 param_variable_name(Id) ->
    list_to_atom(lists:concat([param_prefix(), Id])).
 
+is_static_literal(#xqAtomicValue{}) -> true;
+is_static_literal(_) -> false.
+
 % {Name,Type,Annos,ErlVarName}
 add_inscope_variable(State, {A,B,C,D}) ->
    add_inscope_variable(State, {A,B,C,D,false});
+
 % {Name,Type,Annos,ErlVarName,External}
 add_inscope_variable(#state{inscope_vars = Vars} = State, 
                      {#qname{namespace = Ns, local_name = Ln},
@@ -5177,6 +5268,26 @@ get_variable(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
          %?dbg("VarAtom",VarAtom),
          %?dbg("Vars",Vars),
          ?err('XPST0008')
+   end.
+
+% return a statically known value for a variable if known, undefined otherwise.
+get_variable_static_value(#state{inscope_vars = Vars}, 
+             #qname{namespace = Ns, local_name = Ln}) ->
+   case [Value || 
+         {#qname{namespace = Ns1, local_name = Ln1},_,_,_,{false,Value}} <- Vars, 
+         {Ns1,Ln1} == {Ns,Ln}] of
+      [O] ->
+         O;
+      [] ->
+         undefined
+   end;
+get_variable_static_value(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
+   case [Value || {_,_,_,VarAtom1,{false,Value}} <- Vars, 
+                  VarAtom1 == VarAtom] of
+      [O] ->
+         O;
+      [] ->
+         undefined
    end.
 
 l(L) when is_list(L) ->
