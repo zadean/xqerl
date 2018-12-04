@@ -395,28 +395,7 @@ all() -> [
    end. 
 'fn-lower-case-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:lower-case(fn:codepoints-to-string(880 to 1023)))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-lower-case-19.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_deep_eq(Res,"
-            881, 881, 883, 883, 884, 885, 887, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 
-            897, 898, 899, 900, 901, 940, 903, 941, 942, 943, 907, 972, 909, 973, 974, 912, 945, 
-            946, 947, 948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 930, 
-            963, 964, 965, 966, 967, 968, 969, 970, 971, 940, 941, 942, 943, 944, 945, 946, 947, 
-            948, 949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 960, 961, 962, 963, 964, 
-            965, 966, 967, 968, 969, 970, 971, 972, 973, 974, 983, 976, 977, 978, 979, 980, 981, 
-            982, 983, 985, 985, 987, 987, 989, 989, 991, 991, 993, 993, 995, 995, 997, 997, 999, 
-            999, 1001, 1001, 1003, 1003, 1005, 1005, 1007, 1007, 1008, 1009, 1010, 1011, 952, 1013, 
-            1014, 1016, 1016, 1010, 1019, 1019, 1020, 891, 892, 893") of 
-      true -> {comment, "Deep equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"unicode-version"}. 
 'fn-lower-case-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-to-codepoints(fn:lower-case(fn:codepoints-to-string(459)))", 

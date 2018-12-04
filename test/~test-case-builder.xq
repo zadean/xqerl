@@ -275,6 +275,11 @@ declare function _:print-testcase($test-case) as xs:string
                    and not(exists(@satisfied)) ]) then
       "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
 
+    (: older unicode versions :) 
+    else if ($deps[@type = "unicode-version" and 
+                   @value = ("5.2", "6.0", "6.2", "7.0")]) then
+      "   {skip,""unicode-version""}"
+
     (: spec examples with dependencies :)
     else if ($test-case/../@name = "app-spec-examples" and 
                 $test-case/@name = ('fo-test-fn-serialize-002','fo-test-fn-serialize-001')
@@ -714,7 +719,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set
+      $catalog/*:catalog/*:test-set(: [@name = "prod-BaseURIDecl"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()

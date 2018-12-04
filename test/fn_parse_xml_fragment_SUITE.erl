@@ -80,9 +80,20 @@ environment('empty',__BaseDir) ->
 'parse-xml-fragment-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
-        	parse-xml-fragment(unparsed-text(\"../docs/atomic.xml\"))/*
+        	parse-xml-fragment(unparsed-text(\"http://xqerl.org/test/docs/atomic.xml\"))/*
         ", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, []}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "../docs/atomic.xml"),"http://xqerl.org/test/docs/atomic.xml"}]}, 
+{modules, []}
+]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-001.xq"), Qry1),

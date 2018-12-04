@@ -7,8 +7,14 @@
     <test-case name="parse-xml-001">
         <description>parse-xml test</description>
         <created by="ONeil Delpratt" on="2010-10-04"/>        
-        <environment name="empty"/>
-        <test><![CDATA[parse-xml(unparsed-text("../docs/atomic.xml"))]]></test>
+        <!-- <environment name="empty"/> -->
+        <environment>
+          <resource file="../docs/atomic.xml"
+                  media-type="text/plain"
+                  encoding="utf-8"
+                  uri="http://xqerl.org/test/docs/atomic.xml"/>
+        </environment>
+        <test><![CDATA[parse-xml(unparsed-text("http://xqerl.org/test/docs/atomic.xml"))]]></test>
         <result>
             <assert-type>document-node(element(*,xs:untyped))</assert-type>
         </result>
