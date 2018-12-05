@@ -44,7 +44,7 @@
 -export([to_xml/1]).
 -export([nodes_equal/3]).
 
-%-export([node_to_content/1]).
+-export([node_to_content/2]).
 
 -export([get_node_type/1]).
 
@@ -421,7 +421,7 @@ handle_content(#{'base-uri' := BU,
                                       attributes = Atts, 
                                       expr = Content} = N, 
                InScopeNs0, Sz) ->
-%?dbg("ElemNs    ",ElemNs),
+?dbg("ElemNs    ",ElemNs),
 %?dbg("InScopeNs0",InScopeNs0),
 
    {Id,Ctx1} = next_id(Ctx),
@@ -470,7 +470,8 @@ handle_content(#{'base-uri' := BU,
 
 %?dbg("ComputNamespaces1",ComputNamespaces1),
 %?dbg("InScopeNs1",InScopeNs1),
-   ElemQName = ensure_qname(QName, InScopeNs1),
+   % inscope from outside can be used here
+   ElemQName = ensure_qname(QName, InScopeNs1 ++ ElemNs),
 %?dbg("QName",QName),
 %?dbg("ElemQName",ElemQName),
    InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName},

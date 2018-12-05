@@ -635,8 +635,7 @@ handle_node(State,#xqVar{id = Id,
    case check_type_match(VarType, Type) of
       false ->
          ?err('XPTY0004');
-      cast  ->
-         %when VarType#xqSeqType.type =/= item ->
+      cast when VarType#xqSeqType.type =/= item ->
          %?dbg("cast",{Name, VarType, Type}),
          ?err('XPTY0004');
       _ ->
@@ -3214,42 +3213,24 @@ handle_node(State, Node) ->
 % TODO make this a foldr to wrap up chained calls and get correct return type
 handle_predicates(State, []) -> 
    set_statement(State,[]);
-%% handle_predicates(State, [{predicate, [{'<=',?POSITION,Whatever}]}]) ->
-%%    CtxI = get_statement(State),
-%%    Stmt = {wrap,get_statement(handle_node(State,?SUBSEQ3(CtxI,?atomic('xs:double',1.0),Whatever)))},
-%%    set_statement(State, Stmt);
-
-%% handle_predicates(State, [{predicate, [{'=',?POSITION,Whatever}]} = P]) ->
-%%    CtxI = get_statement(State),
-%%    WhateverS = handle_node(State, Whatever),
-%%    case get_static_count(WhateverS) of
-%%       undefined -> % many in list
-%%          Ps = handle_predicate(State, P),
-%%          set_statement(Ps, [get_statement(Ps)]);
-%%       _ ->
-%%          Stmt = {wrap,get_statement(handle_node(State,?SUBSEQ3(CtxI,Whatever,?atomic('xs:double',1.0))))},
-%%          set_statement(State, Stmt)
-%%    end;
-
-%% handle_predicates(State, [{predicate, [{'!=',?POSITION,?atomic(_,1)}]}]) ->
-%%    CtxI = get_statement(State),
-%%    Stmt = {wrap,get_statement(handle_node(State,?TAIL(CtxI)))},
-%%    set_statement(State, Stmt);
-
-
-
 handle_predicates(State, Predicates) ->
    %CtxI = get_statement(State),
-   %CtxT = get_statement_type(State),
+   CtxT = get_statement_type(State),
 %?dbg("Predicate context item",CtxI),
 %?dbg("Predicate context type",CtxT),
 %?dbg("Predicate context pred",Predicates),
    State0 = set_in_predicate(State, true),
-   {PredStatements,OutType} = lists:mapfoldl(fun(P,_InType) ->
-                                         State1 = handle_predicate(State0, P),
+   {PredStatements,OutType} = lists:mapfoldl(fun(P,InType) ->
+                                         State2 = set_statement_type(State0, InType),
+                                         State1 = handle_predicate(State2, P),
                                          Type = get_statement_type(State1),
                                          {get_statement(State1),Type}
-                                   end, [],Predicates),
+                                   end, CtxT,Predicates),
+%%    {PredStatements,OutType} = lists:mapfoldl(fun(P,_InType) ->
+%%                                          State1 = handle_predicate(State0, P),
+%%                                          Type = get_statement_type(State1),
+%%                                          {get_statement(State1),Type}
+%%                                    end, [],Predicates),
    set_statement_and_type(State, PredStatements,OutType).
 
    
@@ -3259,7 +3240,7 @@ handle_predicate(State, {predicate, Expr}) ->
    PostFilterType = maybe_zero_type(PreFilterType), 
    ContextType = (get_statement_type(State))#xqSeqType{occur = one},
    State1 = State0#state{context_item_type = ContextType},
-   %?dbg("ContextType",ContextType),
+?dbg("ContextType",ContextType),
    %?dbg("Expr",Expr),
    SimExpr = handle_node(State1, Expr),
    SimSt0 = get_statement(SimExpr),
@@ -3269,11 +3250,15 @@ handle_predicate(State, {predicate, Expr}) ->
               _ ->
                  SimSt0
            end,
-   %?dbg("SimSt",SimSt),
+%?dbg("SimSt",SimSt),
    #xqSeqType{type = SimTy} = Type = get_statement_type(SimExpr),
    SimCnt = get_static_count(SimExpr),
-   %?dbg("SimTy",SimTy),
-   if SimTy == item;
+   SimCtxTy = ContextType#xqSeqType.type, 
+%?dbg("SimTy",SimTy),
+   if SimCtxTy == item andalso ?node(SimTy) ->
+         % node step on mixed context
+         ?err('XPTY0020');      
+      SimTy == item;
       ?node(SimTy);
       SimTy == 'xs:boolean' ->
          set_statement_and_type(State, {predicate, SimSt}, PostFilterType);
@@ -4631,18 +4616,11 @@ check_fun_arg_types(State, Args, ArgTypes) ->
                      Cnt = get_static_count(S1),
                      Stmnt = get_statement(S1),
                      {Stmnt, Cnt};
-                  ({{postfix,_,_,_} = Stmnt, _ArgType}) ->
-                     {Stmnt, undefined};
                   ({ArgState, ArgType}) ->
-                     case get_statement(ArgState) of
-                        {postfix,_,_,_} = Stmnt ->
-                           {Stmnt, undefined};
-                        _ ->
-                           S1 = check_fun_arg_type(State, ArgState, ArgType),
-                           Cnt = get_static_count(S1),
-                           Stmnt = get_statement(S1),
-                           {Stmnt, Cnt}
-                     end
+                     S1 = check_fun_arg_type(State, ArgState, ArgType),
+                     Cnt = get_static_count(S1),
+                     Stmnt = get_statement(S1),
+                     {Stmnt, Cnt}
                end,
          lists:map(Fun, Arg_ArgTypes);
       true ->

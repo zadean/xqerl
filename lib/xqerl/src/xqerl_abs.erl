@@ -1624,7 +1624,7 @@ step_expr_do(Ctx, [#xqAxisStep{predicates = []} = Step1|Rest], SourceVar) ->
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
    O1 = ?P([" _@NextVar = ",
             "case catch xqldb_xpath:document_order(lists:flatten([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)]))",
-            "of {'EXIT',function_clause} -> xqerl_error:error('XPTY0019'); ",
+            "of {'EXIT',{function_clause,_}} -> xqerl_error:error('XPTY0019'); ",
             "{'EXIT',_@ErrVar} -> erlang:throw(_@ErrVar); ",
             "_@TempVar -> _@TempVar end"
            ]), 
