@@ -1620,8 +1620,10 @@ scan_token(Str = "in" ++ T, A) ->
                {{'in',?L,'in'}, T};
             '+' ->
                {{'in',?L,'in'}, T};
-            '?' ->
+            '?' when length(T) > 0, ?whitespace(hd(T)) ->
                {{'in',?L,'in'}, T};
+            '?' ->
+               qname_if_path("in", T, lookback(A));
             '*' ->
                {{'in',?L,'in'}, T};
             _ ->

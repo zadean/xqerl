@@ -4332,16 +4332,20 @@ string_value(At) -> xqerl_types:string_value(At).
 %% fn:serialize($arg as item()*) as xs:string
 -spec 'serialize'(xq_types:context(),
                   [] | xq_types:sequence(xq_types:xq_item())) -> 
-         xq_types:xs_error().
-         %xq_types:xs_string().
-'serialize'(_Ctx,_Arg1) -> ?err('FODC0010').
+         xq_types:xs_string().
+'serialize'(Ctx, Arg1) -> 
+   'serialize'(Ctx, Arg1, []).
+
 %% fn:serialize($arg as item()*, $params as item()?) as xs:string
 -spec 'serialize'(xq_types:context(),
                   [] | xq_types:sequence(xq_types:xq_item()),
                   [] | xq_types:xq_item()) -> 
-         xq_types:xs_error().
-         %xq_types:xs_string().
-'serialize'(_Ctx,_Arg1,_Arg2) -> ?err('FODC0010').
+         xq_types:xs_string().
+'serialize'(Ctx, Arg1, Arg2) ->
+   Nss = maps:get(namespaces, Ctx, []),
+   Opts = xqerl_options:serialization_option_map(Arg2, Nss),
+   Ser = xqerl_serialize:serialize(Arg1, Opts),
+   ?str(Ser).
 
 %% Sorts a supplied sequence, based on the value of a sort key supplied as 
 %% a function. 

@@ -27,7 +27,8 @@
 
 -import(xqerl_numeric,[double/1]).
 
--export([return_value/1]).
+-export([return_value/1,
+         return_value/2]).
 -export([value/1]).
 -export([atomize/1]).
 -export([string_value/1]).
@@ -111,12 +112,22 @@ return_value(Map) when is_map(Map) -> Map;
 return_value([Other]) ->
    return_value(Other);
 return_value(List) when is_list(List) ->
-   ?seq:flatten(
+   xqerl_seq3:flatten(
      lists:map(fun(I) ->
                      return_value(I)
                end, List));
 return_value(Other) -> 
    Other.
+
+return_value([Seq], Ctx) ->
+   return_value(Seq, Ctx);
+return_value(Seq, #{options := Opts}) ->
+   if is_map_key(method, Opts) ->
+         Seq2 = xqerl_seq3:flatten(Seq),
+         xqerl_serialize:serialize(Seq2, Opts);
+      true ->
+         return_value(Seq)
+   end.
 
 string_value([]) -> <<>>;
 string_value(Bin) when is_binary(Bin) -> Bin;

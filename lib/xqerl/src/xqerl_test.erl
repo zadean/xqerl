@@ -1,18 +1,20 @@
 -module(xqerl_test).
 %-include_lib("common_test/include/ct.hrl").
 
--export([assert/2]).
--export([assert_empty/1]).
--export([assert_type/2]).
--export([assert_xml/2]).
--export([assert_eq/2]).
--export([assert_deep_eq/2]).
--export([assert_false/1]).
--export([assert_true/1]).
--export([assert_count/2]).
--export([assert_permutation/2]).
--export([assert_string_value/2]).
--export([assert_norm_string_value/2]).
+-export([assert/2,
+         assert_empty/1,
+         assert_type/2,
+         assert_xml/2,
+         assert_eq/2,
+         assert_deep_eq/2,
+         assert_false/1,
+         assert_true/1,
+         assert_count/2,
+         assert_permutation/2,
+         assert_string_value/2,
+         assert_norm_string_value/2,
+         assert_serialization_match/3]).
+
 -export([assert_error/2]).
 
 -export([compile/3]).
@@ -103,9 +105,15 @@ assert_xml(Result, {file, FileLoc}) ->
    assert_xml(Result, FileBin);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
    assert_xml(Result, unicode:characters_to_binary(QueryString));
+assert_xml(#xqError{} = Err, QueryString) ->
+   {false, {assert_xml,Err,QueryString}};
 assert_xml(Result, QueryString0) ->
    QueryString = xqerl_lib:trim(QueryString0),
-   ResXml = xqerl_node:to_xml(Result),
+   ResXml = if is_binary(Result) ->
+                  Result;
+               true ->
+                  xqerl_node:to_xml(Result)
+            end,
    if ResXml == QueryString -> % fragments sometimes only work this way
          true;
       true ->
@@ -253,6 +261,23 @@ assert_norm_string_value(Result, String) ->
       true ->
          {false, {assert_norm_string_value,StrVal,String}}
    end.
+
+assert_serialization_match(Result, SchemaRegex, Flags) ->
+   %io:format("~p~n",[Result]),
+   Norm = if Flags == <<"q">> ->
+                {ok,Norm0} = xs_regex:normalize(SchemaRegex),
+                Norm0;
+             true ->
+                SchemaRegex
+          end,
+   {_, RE} = xs_regex:compile(Norm, Flags),
+   case catch re:run(string_value(Result), RE) of
+      {match,_} ->
+         true;
+      _ ->
+         {false, {assert_serialization_match,Result,SchemaRegex}}      
+   end.
+   
 %% assert_error
 assert_error(Result, ErrorCode) when is_list(ErrorCode) ->
    assert_error(Result, list_to_binary(ErrorCode));
@@ -289,6 +314,8 @@ string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
                        end, List),
    Seq = xqerl_seq3:from_list(NewList),
    xqerl_types:string_value(Seq);
+string_value(Seq) when is_binary(Seq) ->
+   Seq;
 string_value(Seq) ->
    xqerl_types:string_value(Seq).
 

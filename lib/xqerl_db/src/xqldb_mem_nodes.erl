@@ -11,8 +11,7 @@
 %% API functions
 %% ====================================================================
 
--export([serialize/1,
-         id/2,
+-export([id/2,
          idref/2,
          innermost/1,
          outermost/1,
@@ -291,7 +290,7 @@ children_p(#{nk := element} = E) ->
    Ch;
 children_p(#{nk := document} = D) ->
    #{ch := Ch} = add_self_to_children(D),
-   [C || C <- Ch];
+   Ch;
 children_p(_) -> [].
 
 document_uri(#{nk := document,
@@ -437,10 +436,6 @@ lang(Node) ->
       _ ->
          []
    end.
-
-serialize(Node) ->
-   serialize(Node, binary).
-
 
 %% ====================================================================
 %% Internal functions
@@ -1098,199 +1093,4 @@ normalize_namespaces(DB,Nss) ->
    maps:from_list([{Px, get_uri(UriRef, DbUri)} || 
                    {Px, UriRef} <- Nss]).
 
-
--define(STR_REST(Str,Rest), <<Str,Rest/binary>>).
--define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
-
-
-serialize(Node, binary) ->
-   serialize_to_bin(Node, #{<<>> => <<>>}).
-
-serialize_to_bin(#{nk := document} = Doc, NsInScope) ->
-   << <<(serialize_to_bin(C, NsInScope))/binary>> ||
-      C <- children(Doc)>>;   
-serialize_to_bin(#{nk := 'processing-instruction',
-                   nn := {_,_,Ln}} = Node, _) ->
-   Tgt = string_value(Node),
-   if Tgt == <<>> ->
-         <<"<?", Ln/binary, " ?>">>;
-      true ->
-         <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
-   end;
-serialize_to_bin(#{nk := comment} = Node, _) ->
-   Txt = string_value(Node),
-   <<"<!--", Txt/binary, "-->">>;
-serialize_to_bin(#{nk := text} = Node, _) ->
-   Txt = string_value(Node),
-   encode_text(Txt);
-serialize_to_bin(#{nk := attribute,
-                   nn := NodeName} = Node, _) ->
-   Txt = string_value(Node),
-   QNm = encode_qname(NodeName),
-   AttTxt = encode_att_text(Txt),
-   <<" ", QNm/binary, "=\"", AttTxt/binary, "\"">>;
-
-serialize_to_bin(#{nk := element,
-                   ch := [],
-                   at := At,
-                   ns := Ns,
-                   nn := NodeName}, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   NewNs = get_new_namespaces(Ns, InScopeNamespaces),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs>>,
-   Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
-             A <- At>>,
-   <<$<, QNm/binary, NsStr/binary, Atts/binary, "/>">>;
-serialize_to_bin(#{nk := element,
-                   ch := [],
-                   ns := Ns,
-                   nn := NodeName}, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   NewNs = get_new_namespaces(Ns, InScopeNamespaces),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs>>,
-   <<$<, QNm/binary, NsStr/binary, "/>">>;
-serialize_to_bin(#{nk := element,
-                   ch := _,
-                   at := At,
-                   ns := Ns,
-                   nn := NodeName} = Node, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   NewNs = get_new_namespaces(Ns, InScopeNamespaces),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs>>,
-   Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
-             A <- At>>,
-   Chld = << <<(serialize_to_bin(C, Ns))/binary>> ||
-             C <- children(Node)>>,
-   <<"<", QNm/binary, NsStr/binary, Atts/binary, ">", 
-     Chld/binary, "</", QNm/binary, ">">>;
-serialize_to_bin(#{nk := element,
-                   ch := _,
-                   ns := Ns,
-                   nn := NodeName} = Node, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   NewNs = get_new_namespaces(Ns, InScopeNamespaces),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs>>,
-   Chld = << <<(serialize_to_bin(C, Ns))/binary>> ||
-             C <- children(Node)>>,
-   <<$<, QNm/binary, NsStr/binary, ">", Chld/binary, "</", QNm/binary, ">">>;
-
-serialize_to_bin(#{nk := element,
-                   ch := [],
-                   at := At,
-                   nn := NodeName}, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
-             A <- At>>,
-   <<$<, QNm/binary, Atts/binary, "/>">>;
-serialize_to_bin(#{nk := element,
-                   ch := [],
-                   nn := NodeName}, _) ->
-   QNm = encode_qname(NodeName),
-   <<$<, QNm/binary, "/>">>;
-serialize_to_bin(#{nk := element,
-                   ch := _,
-                   at := At,
-                   nn := NodeName} = Node, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
-             A <- At>>,
-   Chld = << <<(serialize_to_bin(C, InScopeNamespaces))/binary>> ||
-             C <- children(Node) >>,
-   <<$<, QNm/binary, Atts/binary, ">", 
-     Chld/binary, "</", QNm/binary, ">">>;
-serialize_to_bin(#{nk := element,
-                   ch := _,
-                   nn := NodeName} = Node, InScopeNamespaces) ->
-   QNm = encode_qname(NodeName),
-   Chld = << <<(serialize_to_bin(C, InScopeNamespaces))/binary>> ||
-             C <- children(Node) >>,
-   <<$<, QNm/binary, ">", Chld/binary, "</", QNm/binary, ">">>.
-
-encode_namespace(<<"xml">>, _) -> <<>>;
-encode_namespace(<<>>, Ns) ->
-   Ns1 = encode_ns_text(Ns),
-   <<" ", "xmlns=\"", Ns1/binary, "\"">>;
-encode_namespace(Px, Ns) ->
-   Ns1 = encode_ns_text(Ns),
-   <<" ", "xmlns:", Px/binary, "=\"", Ns1/binary, "\"">>.
-           
-
-get_new_namespaces(Current, Old) ->
-   [{K,V} || {K,V} <- maps:to_list(Current),
-             maps:find(K, Old) =/= {ok,V}].
-
-encode_text(Bin) -> encode_text(Bin,<<>>).
-
-encode_text(<<>>,Acc) -> Acc;
-encode_text(?STR_REST("<",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&lt;">>);
-encode_text(?STR_REST(">",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary, "&gt;">>);
-encode_text(?STR_REST("&", Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&amp;">>);
-encode_text(?CP_REST(H, Tail),Acc) when H == 13 ->
-   encode_text(Tail,<<Acc/binary,"&#xD;">>);
-encode_text(?CP_REST(H, Tail),Acc) when H >= 255 ->
-   encode_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_text(?CP_REST(H, Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,H/utf8>>).
-
-encode_att_text(Bin) -> encode_att_text(Bin,<<>>).
-
-encode_att_text(<<>>,Acc) -> Acc;
-encode_att_text(?CP_REST(H, Tail),Acc) 
-  when H >= 255;
-       H == 9;
-       H == 10;
-       H == 13 ->
-   encode_att_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_att_text(?STR_REST("\"", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&quot;">>);
-encode_att_text(?STR_REST("<", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&lt;">>);
-encode_att_text(?STR_REST(">", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&gt;">>);
-encode_att_text(?STR_REST("&", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&amp;">>);
-encode_att_text(?STR_REST("{{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("}}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?STR_REST("}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?CP_REST(H, Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,H/utf8>>).
-
-encode_ns_text(Bin) -> encode_ns_text(Bin,<<>>).
-
-encode_ns_text(<<>>,Acc) -> Acc;
-encode_ns_text(?CP_REST(H, Tail),Acc) 
-  when H >= 255;
-       H == 9;
-       H == 10;
-       H == 13 ->
-   encode_ns_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_ns_text(?STR_REST("\"", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&quot;">>);
-encode_ns_text(?STR_REST("<", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&lt;">>);
-encode_ns_text(?STR_REST(">", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&gt;">>);
-encode_ns_text(?STR_REST("&", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&amp;">>);
-encode_ns_text(?CP_REST(H, Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,H/utf8>>).
-
-
-encode_qname({_, Px, Ln}) when is_atom(Px);
-                               Px == <<>> ->
-   Ln;
-encode_qname({_, Px, Ln}) ->
-   <<Px/binary, ":", Ln/binary>>.
 

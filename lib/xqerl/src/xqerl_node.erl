@@ -1304,7 +1304,7 @@ to_xml(N) when is_list(N) ->
    << <<(to_xml(M1))/binary>> ||
       M1 <- M >>;
 to_xml(#{nk := _} = Node) ->
-   xqldb_mem_nodes:serialize(Node);
+   xqerl_serialize:serialize(Node, #{method => xml});
 to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
 
 

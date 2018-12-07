@@ -95,7 +95,7 @@
          static_count,
          can_inline   = false,  
          in_constructor = false, % currently in an XML constructor 
-         in_predicate = false % currently in an XML constructor 
+         in_predicate = false % currently in a predicate 
         }).
 
 -record(state, 
@@ -271,7 +271,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                        },
    State1 = scan_namespaces(State0, ConstNamespaces),
    State2 = scan_setters(State1, Setters),
-   _OptionAbs = scan_options(Options), % TODO use later
+   OptionMap = scan_options(Options),
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
    VariableSigs = scan_variables(State2,VariablesSorted),
@@ -323,6 +323,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 var_tuple => [],
                 iter => [],
                 iter_loop => [],
+                options => OptionMap,
                 ctx_var => 'Ctx0',
                 parameters => [],
                 known_fx_sigs => FinalState#state.known_fx_sigs,
@@ -3830,8 +3831,7 @@ scan_namespaces(State, Namespaces) ->
    State1#state{known_ns = NsList}.
 
 scan_options(Options) ->
-   _ = xqerl_options:validate(Options),
-   Options.
+   xqerl_options:serialization_option_map(Options).
 
 scan_dec_formats(Formats,State) ->
    RecF = fun({F,V}, R) ->

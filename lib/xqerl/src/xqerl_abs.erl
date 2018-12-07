@@ -301,7 +301,7 @@ scan_mod(#xqModule{prolog = Prolog,
    ModName = xqerl_static:string_atom(FileName),
    MapItems = init_fun_abs(
                 EmptyMap#{module => ModName},
-                maps:get(stat_props, EmptyMap) ++ [module|StaticProps]),
+                maps:get(stat_props, EmptyMap) ++ [options|[module|StaticProps]]),
     % abstract after this point
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
@@ -841,7 +841,7 @@ expr_do(Ctx, #xqQuery{query = Qry}) ->
    XQ = alist(expr_do(Ctx, Qry)),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    ?P(["XQuery = begin _@XQ end,",
-       "ReturnVal = xqerl_types:return_value(XQuery),",
+       "ReturnVal = xqerl_types:return_value(XQuery,_@CtxVar),",
        "xqerl_context:destroy(_@CtxVar),",
        "ReturnVal"
       ]);
