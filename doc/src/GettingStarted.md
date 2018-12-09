@@ -114,6 +114,7 @@ This returns the name of the compiled module. Don't write it down! ;-) Save it f
 (xqerl_node@some_machine)7> S = xqerl_module:compile("doc/src/sudoku2.xq").
 ```
 
+<s>
 Now run the XQuery with an empty context map:
 
 ```erlang
@@ -144,7 +145,7 @@ and delete it again
 ##### Just-for-fun load an entire directory with lots of XML files:
 
 `xqldb_parse:read_dir("./test/QT3-test-suite").`
-
+</s>
 
 
 
