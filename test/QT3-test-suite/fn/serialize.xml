@@ -961,7 +961,8 @@
         ]]>
         </test>
         <result>
-            <assert-false/>
+            <!-- <assert-false/> -->
+            <error code="XQST0109"/>
         </result>
     </test-case>
     
@@ -1720,7 +1721,11 @@
         <test>let $r := serialize('&#x1D11E;', map{'method':'json', 'encoding':'ISO-8859-1'}) return
             translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
         <result>
+          <any-of>
             <assert-string-value>"\uD834\uDD1E"</assert-string-value>
+            <!-- unsupported encoding -->
+            <error code="SESU0007"/>
+          </any-of>
         </result>
     </test-case>
 

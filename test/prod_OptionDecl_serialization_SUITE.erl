@@ -100,8 +100,10 @@ all() -> [
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:cdata-section-elements \"\";
-         declare option output:doctype-public \"none\";
-         declare option output:doctype-system \"none\";
+         declare option output:doctype-public \"\";
+         declare option output:doctype-system \"\";
+         (:declare option output:doctype-public \"none\";
+         declare option output:doctype-system \"none\";:)
          declare option output:indent \"no\";
          declare option output:method \"xml\";
          declare option output:suppress-indentation \"\";
@@ -159,10 +161,41 @@ all() -> [
    end. 
 'Serialization-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:indent \"yes\";
+         declare option output:indent \"yes\";
+         <result>ok</result>
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-004.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0110") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:doesnotexist \"yes\";
+         <result>ok</result>
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-005.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQST0109") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -200,9 +233,17 @@ all() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0119") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -678,31 +719,184 @@ all() -> [
    end. 
 'Serialization-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:standalone \"yes\";
+		 (<a/>,<b/>)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-026.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<\\?xml[^t]+\\?><a/><b/>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"SEPM0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-026a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}. 
 'Serialization-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:standalone \"yes\";
+		 \"banana\"
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"banana"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"SEPM0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-027a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}. 
 'Serialization-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:doctype-system \"http://www.example.com/\";
+		 (<a/>,<b/>)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<\\?xml.*\\?><a/><b/>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"SEPM0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-029'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:doctype-system \"http://www.example.com/\";
+		 \"potato\"
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-029.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"potato"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"SEPM0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:standalone \"omit\";
+		 \"banana\"
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-030.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_serialization_match(Res,<<"banana"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:standalone \"yes\";
+         declare option output:omit-xml-declaration \"yes\";
+		 <a/>
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-031.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"SEPM0009") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   Qry = "
+         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+         declare option output:method \"xml\";
+         declare option output:standalone \"no\";
+         declare option output:omit-xml-declaration \"yes\";
+		 <a/>
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-032.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"SEPM0009") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -757,18 +951,44 @@ all() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case (catch ct:fail(["CDATA\\[ta\\]", Res])) of _ -> false end, 
-   case (catch ct:fail(["CDATA\\[tb\\]", Res])) of _ -> false end, 
-   case (catch ct:fail(["CDATA\\[tc\\]", Res])) of _ -> false end, 
-   case (catch ct:fail(["CDATA\\[td\\]", Res])) of _ -> false end, 
-   case (   case (catch ct:fail(["CDATA\\[te\\]", Res])) of _ -> false end) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[ta\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tb\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tc\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[td\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case (   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[te\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
    end, 
-   case (   case (catch ct:fail(["CDATA\\[tt\\]", Res])) of _ -> false end) of 
+   case (   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tt\\]"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
    end   ]) of 
       true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0119") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
       _ -> false 
    end, 
    case Out of

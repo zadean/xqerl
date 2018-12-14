@@ -10937,10 +10937,64 @@ Himmlische, dein Heiligtum.</p>}
    {skip,"schemaAware"}. 
 'fo-test-fn-serialize-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization feature"}. 
+   Qry = "
+          let $params := 
+          
+<output:serialization-parameters 
+        xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
+  <output:omit-xml-declaration value=\"yes\"/>
+</output:serialization-parameters>
+         
+           return 
+
+        
+          let $data := 
+          
+<a b=\"3\"/>
+         
+           return 
+
+        
+        fn:serialize($data, $params)
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-serialize-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"'<a b=\"3\"/>'") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'fo-test-fn-serialize-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization feature"}. 
+   Qry = "
+          let $data := 
+          
+<a b=\"3\"/>
+         
+           return 
+
+        
+        fn:serialize($data, map{\"method\":\"xml\", \"omit-xml-declaration\":true()})
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-serialize-002.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"'<a b=\"3\"/>'") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'fo-test-fn-last-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -187,6 +187,19 @@ declare function _:assert-xml($result) as xs:string
   "   end"
 };
 
+(: Runs regex match on results :)
+declare function _:assert-serialization-matches($result) as xs:string
+{
+  let $ec := _:mask-string(fn:string($result))
+  let $fl := _:mask-string($result/@flags)
+  return
+  "   case xqerl_test:assert_serialization_match(Res,<<"||$ec||"/utf8>>,<<"||$fl||">>) of " ||$_:n|| 
+  "      true -> {comment, ""Correct serialization""};" ||$_:n|| 
+  "      {false, F} -> F " ||$_:n|| 
+  "   end"
+};
+
+
 (: Catch-all :)
 declare function _:assert-unknown($result) as xs:string
 {
@@ -215,6 +228,7 @@ declare function _:print-result($result) as xs:string
     if ($name = "assert-permutation") then _:assert-permutation#1 else
     if ($name = "assert-deep-eq") then _:assert-deep-eq#1 else
     if ($name = "assert-xml") then _:assert-xml#1 else
+    if ($name = "serialization-matches") then _:assert-serialization-matches#1 else
     _:assert-unknown#1
   return
   $f($result)
@@ -231,7 +245,7 @@ declare function _:print-testcase($test-case) as xs:string
     , $name := $test-case/@name
     , $deps := $test-case//*:dependency  | 
                $test-case/parent::*/*:dependency 
-    , $env  := $test-case/*:environment/(@ref|@name)/string()
+    , $env  := $test-case/*:environment/@ref/string()
     , $f    := function(){ _:print-testcase2($test-case, $name, $env) }
   return
   "'"||$name||"'(Config) ->"||$_:n||
@@ -244,10 +258,10 @@ declare function _:print-testcase($test-case) as xs:string
     "   {skip,""Validation Environment""}"
     
     (: serialization feature :)
-    else if (starts-with($test-case/../@name,"method-")) then 
+    (: else if (starts-with($test-case/../@name,"method-")) then 
     "   {skip,""serialization feature""}"
     else if ($test-case/../@name = "fn-serialize") then 
-    "   {skip,""serialization feature""}"
+    "   {skip,""serialization feature""}" :)
 
     (: default-language :)
     else if ($deps[@type = "default-language" and @value != "en"]) then 
@@ -281,10 +295,10 @@ declare function _:print-testcase($test-case) as xs:string
       "   {skip,""unicode-version""}"
 
     (: spec examples with dependencies :)
-    else if ($test-case/../@name = "app-spec-examples" and 
+    (: else if ($test-case/../@name = "app-spec-examples" and 
                 $test-case/@name = ('fo-test-fn-serialize-002','fo-test-fn-serialize-001')
             ) then
-    "   {skip,""serialization feature""}"
+    "   {skip,""serialization feature""}" :)
     else if ($test-case/../@name = "app-spec-examples" and 
                 $test-case/@name = ('fo-test-fn-id-001','fo-test-fn-id-002',
                                     'fo-test-fn-element-with-id-001','fo-test-fn-element-with-id-002',
@@ -331,7 +345,7 @@ declare function _:print-testcase($test-case) as xs:string
                   "schemaImport",
                   "schemaAware",
                   "xpath-1.0-compatibility",
-                  "serialization",
+                  (: "serialization", :)
                   "namespace-axis",
                   "directory-as-collection-uri",
                   "typedData",
@@ -345,6 +359,9 @@ declare function _:print-testcase($test-case) as xs:string
               $v = ("fn-load-xquery-module",
                     "fn-transform-XSLT",
                     "fn-transform-XSLT30")) then
+            "   {skip,"""||$v[1]||"""}"
+          else if ($s = "false" and 
+              $v = ("serialization")) then
             "   {skip,"""||$v[1]||"""}"
           else
             $f()
@@ -362,7 +379,7 @@ declare function _:print-testcase($test-case) as xs:string
                 "schemaImport",
                 "schemaAware",
                 "xpath-1.0-compatibility",
-                "serialization",
+                (: "serialization", :)
                 "namespace-axis",
                 "directory-as-collection-uri",
                 "typedData",
@@ -376,6 +393,9 @@ declare function _:print-testcase($test-case) as xs:string
             $v = ("fn-load-xquery-module",
                   "fn-transform-XSLT",
                   "fn-transform-XSLT30")) then
+          "   {skip,"""||$v[1]||"""}"
+        else if ($s = "false" and 
+            $v = ("serialization")) then
           "   {skip,"""||$v[1]||"""}"
         else
           $f()
@@ -429,7 +449,7 @@ declare function _:print-testcase2($test-case, $name, $env)
   ) ||
   (: handle any environment :)
   (
-    if ($test-case/*:environment[@name or @ref]) then
+    if ($test-case/*:environment[@ref]) then
       "   {Env,Opts} = xqerl_test:handle_environment(environment('"||$env||"',__BaseDir)),"||$_:n||
       "   Qry1 = lists:flatten(Env ++ Qry),"||$_:n
     else if ($test-case/*:environment) then

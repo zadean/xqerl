@@ -1131,10 +1131,11 @@ deep-equal(json-doc("product.json"), map {
    <test-case name="d1e42362" covers="map-constructor">
       <description>24-39</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <!-- do not need serialization here... would be string -->
       <environment ref="all"/>
       <test><![CDATA[
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization"; 
-declare option output:method "json";
+(:declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization"; 
+declare option output:method "json";:)
 map {
    "number": 557,
    "properties": <props>

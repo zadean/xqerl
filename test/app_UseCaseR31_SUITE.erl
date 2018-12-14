@@ -136,7 +136,8 @@ environment('sales-json',__BaseDir) ->
 ].
 'UseCaseR31-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $e in /employees/employee,
+   Qry = "
+        for $e in /employees/employee,
     $d in $e/department
 group by $d
 return
@@ -145,7 +146,8 @@ return
        let $max := max($e/salary)
        return $e[salary=$max]
      }
-   </department>", 
+   </department>
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('employees',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -173,7 +175,8 @@ return
    end. 
 'UseCaseR31-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $e in /employees/employee,
+   Qry = "
+        for $e in /employees/employee,
     $d in $e/department
 group by $d
 return
@@ -205,7 +208,7 @@ return
    end. 
 'UseCaseR31-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "<out>  {
+   Qry = "   <out>  {
 for $employee in /employees/employee
 let $salary := $employee/salary
 group by $department := $employee/department
@@ -220,7 +223,8 @@ group by $job-type := $employee/employeeType
 let $totals := count($employee)
 return
     <total-by-job-type type=\"{$job-type}\">{ $totals }</total-by-job-type>
-    }</out>", 
+    }</out>
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('employees',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -260,7 +264,8 @@ return
    end. 
 'UseCaseR31-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+   Qry = "
+        declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 
         for $employee in /employees/employee
 let $salary := $employee/salary
@@ -280,7 +285,8 @@ let $totals := count($employee)
 return map {
       $job-type : $totals
    }
-   )}", 
+   )}
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('employees',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +322,8 @@ return map {
    end. 
 'UseCaseR31-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+   Qry = "
+      declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
       declare variable $book:= (<book>
 <isbn>0470192747</isbn>
 <publisher>Wiley</publisher>
@@ -337,7 +344,8 @@ declare variable $author := (<author>
     <td>{ $a/name/string() }</td>
     <td>{ string-join($a/isbn ! $index(.)/title/string(), \", \") }</td>
   </tr>
-}</table>", 
+}</table>
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,7 +389,8 @@ local:play(76, 86, map {
   \"You won!\" : \"Du hast gewonnen!\",
   \"The secret number is greater.\" : \"Die geheime Zahl ist groesser.\",
   \"The secret number is lower.\" :  \"Die geheime Zahl ist kleiner.\" }
-)", 
+)
+       ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('employees',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -397,7 +406,8 @@ local:play(76, 86, map {
    end. 
 'UseCaseR31-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -408,7 +418,9 @@ local:play(76, 86, map {
   for $w in $s?*
   return <w pos=\"{ $w(2) }\">{ $w(1) }</w>
  }
-</s>", 
+</s>
+
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('employees',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -424,7 +436,8 @@ local:play(76, 86, map {
    end. 
 'UseCaseR31-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -453,7 +466,8 @@ declare variable $index := map { \"pos\" : 2, \"lemma\" : 1 };
    end. 
 'UseCaseR31-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -489,7 +503,8 @@ return
    end. 
 'UseCaseR31-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -547,7 +562,8 @@ return
    end. 
 'UseCaseR31-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -586,7 +602,8 @@ return
    end. 
 'UseCaseR31-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+   Qry = "
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
  ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
  ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
@@ -637,7 +654,8 @@ return
    end. 
 'UseCaseR31-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $span := <root><span class=\"ocr_word\" title=\"bbox 1388 430 1461 474\">the</span>
+   Qry = "
+              declare variable $span := <root><span class=\"ocr_word\" title=\"bbox 1388 430 1461 474\">the</span>
 <span class=\"ocr_word\" title=\"bbox 1514 433 1635 476\">other</span>
 <span class=\"ocr_word\" title=\"bbox 133 498 317 554\">pcssible</span>
 <span class=\"ocr_word\" title=\"bbox 354 498 590 541\">derivation</span>
@@ -683,7 +701,8 @@ declare function local:extract-text($spans)
    end. 
 'UseCaseR31-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace map = \"http://www.w3.org/2005/xpath-functions/map\";
+   Qry = "
+declare namespace map = \"http://www.w3.org/2005/xpath-functions/map\";
 declare namespace array = \"http://www.w3.org/2005/xpath-functions/array\";
 
 let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
@@ -780,11 +799,13 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
    end. 
 'UseCaseR31-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $sarah in collection($users-collection-uri),
+   Qry = "
+      for $sarah in collection($users-collection-uri),
           $friend in collection($users-collection-uri)
       where $sarah('name') = \"Sarah\"
        and $friend('name') = $sarah('friends')?*
-      return $friend('name')", 
+      return $friend('name')
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('users-json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -800,7 +821,8 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
    end. 
 'UseCaseR31-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "Q{http://www.w3.org/2005/xpath-functions/map}merge(
+   Qry = "
+Q{http://www.w3.org/2005/xpath-functions/map}merge(
   for $sales in collection($sales-collection-uri)
   let $pname := $sales('product')
   group by $pname
@@ -826,7 +848,8 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
    end. 
 'UseCaseR31-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+   Qry = "
+      declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
       declare variable $storesVar := array { unparsed-text-lines(\"UseCaseR31/stores.json\") ! parse-json(.) };
       declare variable $productsVar := array { unparsed-text-lines(\"UseCaseR31/products.json\") ! parse-json(.) };
       declare variable $salesVar := array { unparsed-text-lines(\"UseCaseR31/sales.json\") ! parse-json(.) };
@@ -953,7 +976,8 @@ return map {
    end. 
 'UseCaseR31-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "<html><body><table>
+   Qry = "
+  <html><body><table>
     <tr> (: Column headings :)
          {
             <th> </th>,
@@ -975,7 +999,8 @@ return map {
     </table>
 
   </body>
-</html>", 
+</html>
+   ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1011,7 +1036,8 @@ return map {
    end. 
 'UseCaseR31-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "<table>{
+   Qry = "
+  <table>{
   for tumbling window $w in json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/colors-json\")?colors?*
    start at $x when fn:true()
     end at $y when $y - $x = 2
@@ -1021,7 +1047,8 @@ return map {
       return
         <td>{ $i }</td>
     }</tr>
-}</table>", 
+}</table>
+   ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1037,9 +1064,11 @@ return map {
    end. 
 'UseCaseR31-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
+   Qry = "
+        declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
   let $dbj := json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/users2-json\")[ .(\"name\") = \"Deadbeat Jim\" ]
-return map:put($dbj, \"status\", \"credit card declined\")", 
+return map:put($dbj, \"status\", \"credit card declined\")
+   ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1060,7 +1089,8 @@ return map:put($dbj, \"status\", \"credit card declined\")",
    end. 
 'UseCaseR31-034-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "let $mf := function($k as node(), $v) {
+   Qry = "
+  let $mf := function($k as node(), $v) {
                 map{$k('book') : $v}
 
              }
