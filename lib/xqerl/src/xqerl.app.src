@@ -5,7 +5,9 @@
       kernel,
       stdlib,
       mnesia,
-      xqerl_db
+      xqerl_db,
+      hackney,
+      cowboy
    ]},
    {mod, { xqerl_app, []}},
    {env, [

@@ -429,7 +429,7 @@ adj_to_zero(Str,[Zero],[Decimal]) when is_list(Str) ->
    Bin2 = adj_to_zero(Bin1,[Zero],[Decimal]),
    unicode:characters_to_list(Bin2);
 adj_to_zero(Str,[Zero],[Decimal]) ->
-   ?dbg("{Str,[Zero],[Decimal]}",{Str,Zero,Decimal}),
+   %?dbg("{Str,[Zero],[Decimal]}",{Str,Zero,Decimal}),
    NewZero = zero_base_by_family(Zero),
    Adj = NewZero - $0,
    << <<(if C == $. -> Decimal;

@@ -34,6 +34,7 @@
 -define(A(T),<<T>>).
 -define(FN,?A("http://www.w3.org/2005/xpath-functions")).
 -define(XS,?A("http://www.w3.org/2001/XMLSchema")).
+-define(REST, <<"http://exquery.org/ns/restxq">>).
 
 -include("xqerl.hrl").
 -include("xqerl_parser.hrl").
@@ -201,6 +202,8 @@ scan_mod(#xqModule{prolog = Prolog,
                    declaration = {_,{ModNs,_Prefix}}, 
                    type = library,
                    body = _}, Map) ->
+   Dis = cowboy_router:compile([{'_', []}]),
+   _ = cowboy:start_clear(xqerl_listener, [{port, 8082}], #{env => #{dispatch => Dis}}),
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
@@ -237,13 +240,19 @@ scan_mod(#xqModule{prolog = Prolog,
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
    P8 = function_functions(EmptyMap, Functions),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Variables, Functions, Prolog),
    P9 = get_global_funs(),
    P4 = lists:flatten([
          ?P(export_variables(Variables, EmptyMap)),
          ?P(export_functions(Functions)),
+         RestExports,
          ?P(records())
         ]),
    P10 = P3 ++ P4 ++ P5 ++ P6 ++ P7 ++ P8 ++ P9,
+   RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
+   Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
+ ?dbg("Dispatch",Dispatch),
+   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
    {ModNs,
     library,
     ImportedMods,
@@ -306,8 +315,8 @@ scan_mod(#xqModule{prolog = Prolog,
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
            ]),
-   P3 = ?P(["-compile(inline_list_funcs).",
-            %"-compile(inline).",
+   P3 = ?P([%"-compile(inline_list_funcs).",
+            "-compile(inline).",
             %"-compile({inline_size,150}).",
             "init() ->",
             "  _ = xqerl_lib:lnew(),",
@@ -318,8 +327,10 @@ scan_mod(#xqModule{prolog = Prolog,
    P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Variables, Functions, Prolog),
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
+                       RestExports,
                        ?P(records())]),
    {FileName,
     main,
@@ -362,6 +373,251 @@ init_function(Variables,Prolog) ->
    Imps = ?P("_@@ImportedVars"),
    Body = lists:flatten([Imps, VarSetAbs, [LastCtx]]),
    [{function,?L,init,1,[{clause,?L,[{var,?L,'Ctx'}],[],Body}]}].
+
+% RESTXQ functions:
+% needs to init like a main module, and like a library
+% Context setup in REST wrapper
+% new context, plus all global variables set, pulls in all options set 
+% at the module level and overloads them with annotations.
+% all path templates as string cast to parameter type,
+% all other templates as string cast to parameter type or empty sequence 
+% body can be any of the accepted types, xml, json, text, binary; 
+% parsed to parameter type
+% if return method has body, the function can return sequence where first 
+% is an xml element with all header values set. 
+% external variable are not set by rest
+% if rest: init/2   -> {cowboy_rest, Req, Opts}
+% if get/head content_types_provided/2 -> {List, Req, State} 
+% if put/post content_types_accepted/2 -> {List, Req, State}
+% if delete   delete_resource/2 -> {true, Req, State}
+rest_functions(Ctx, Variables, Functions, Prolog) ->
+   % internal function name to call from REST wrapper
+   FxNameFun = 
+     fun(#xqFunction{name = FxName, arity = FxArity}) ->
+           {FName, _} = xqerl_static:function_hash_name(FxName, FxArity),
+           FName
+     end,
+   RestFuns = [{F#xqFunction.id,
+                FxNameFun(F),
+                F#xqFunction.params,
+                xqerl_restxq:parse_annos(F#xqFunction.annotations)} || 
+               #xqFunction{annotations = Annos} = F <-  Functions,
+               #annotation{name = #qname{namespace = ?REST, 
+                                  local_name = <<"path">>}} <- Annos],
+   if RestFuns == [] ->
+         ok;
+      true ->
+         init_ctx_function(Ctx)
+   end,
+   ?dbg("RestFuns",RestFuns),
+   UsedMethods = lists:usort([M || {_,_,_,#{method := Ms}} <- RestFuns, M <- Ms]),
+   % allowed_methods callback
+   MethodBinFun = fun(Atom) -> string:uppercase(atom_to_binary(Atom, latin1)) end,
+   Ms = [MethodBinFun(M) || M <- UsedMethods],
+   G0 = ?P(["allowed_methods(Req, State) -> {_@Ms@, Req, State}."]),
+   _ = add_global_funs([G0]),
+   E0 = ?P("-export([allowed_methods/2])."),
+   ?dbg("UsedMethods",UsedMethods),
+   IsProv = UsedMethods =/= [],%[1 || M <- UsedMethods, M == get orelse M == head orelse M == put orelse M == post] =/= [],
+   IsAccp = UsedMethods =/= [],%[1 || M <- UsedMethods, M == put orelse M == post] =/= [],
+   IsDele = lists:member(delete, UsedMethods),
+   
+   E1 = if IsProv ->
+              Cls_1 = 
+                 [begin
+                     Mb = MethodBinFun(M),
+                     ?P(["content_types_provided(#{method := _@Mb@} = Req, ",
+                        "#{_@M@ := #{output_media_types := M}} = State) ->",
+                        " {M,Req,State}."])
+                  end
+                 || 
+                  M <- UsedMethods],
+             G1 = join_functions(Cls_1),
+             _ = add_global_funs([G1]),
+             ?P("-export([content_types_provided/2]).");
+          true -> []
+       end,
+   E2 = if IsAccp ->
+              Cls_2 = 
+                 [begin
+                     Mb = MethodBinFun(M),
+                     ?P(["content_types_accepted(#{method := _@Mb@} = Req, ",
+                        "#{_@M@ := #{input_media_types := M}} = State) ->",
+                        " {M,Req,State}."])
+                  end
+                 || 
+                  M <- UsedMethods],
+             G2 = join_functions(Cls_2),
+             _ = add_global_funs([G2]),
+             ?P("-export([content_types_accepted/2]).");
+          true -> []
+       end,
+   E3 = if IsDele ->
+             G3 = ?P(["delete_resource(Req, State) ->",
+                     " {true, Req, State}."]),
+             _ = add_global_funs([G3]),
+             ?P("-export([delete_resource/2]).");
+          true -> []
+       end,
+   E4 = lists:flatten([E0,E1,E2,E3]),
+   Exports1 = if E4 == [] ->
+                    [];
+                 true ->
+                    G4 = ?P("init(Req, Opts) -> {cowboy_rest, Req, Opts}."),
+                    _ = add_global_funs([G4]),
+                    [?P("-export([init/2]).")|E4]
+              end,
+   % cowboy callbacks are done, now on to the wrapper functions
+   ParamMapFun = 
+     fun(#xqVar{id = Id,
+                name = #qname{prefix = Px, local_name = Ln}, 
+                type = Ty}, VarMap) ->
+           Nm = if Px == <<>> -> Ln;
+                   true -> <<Px/binary,":", Ln/binary>>
+                end,
+           VarMap#{Nm => {Id,Ty}}
+     end,
+   FunMap = 
+     fun({FId, FName, FParams, #{fields := Fields,
+                                 output := Serial0,
+                                 param_cookie := PCookies,
+                                 param_form := PForm,
+                                 param_header := PHead,
+                                 param_query := PQry} = FRestMap}) ->
+           Serial = if is_map_key('omit-xml-declaration', Serial0) ->
+                          Serial0;
+                       true ->
+                          Serial0#{'omit-xml-declaration' => false}
+                    end,
+           ParamMap = lists:foldl(ParamMapFun, #{}, FParams),
+           FieldPart = param_fields(Fields, ParamMap),
+           CookiePart = param_cookies(PCookies, ParamMap),
+           HeaderPart = param_headers(PHead, ParamMap),
+           FormPart = param_forms(PForm, ParamMap),
+           QryPart = param_queries(PQry, ParamMap),
+           Parts = lists:flatten([FieldPart,CookiePart,HeaderPart,FormPart,QryPart]),
+           LocalParams = [{var,?L,list_to_atom("Var_" ++ integer_to_list(Id))} 
+                         || #xqVar{id = Id} <- FParams],
+           ?dbg("Parts",Parts),
+           FunName = rest_fun_name(FId),
+           G5 = ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
+                    "_@Parts,",
+                    "Ctx = init_ctx(),"
+                    "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+                    "ReturnVal = xqerl_types:rest_return_value(XQuery,#{options => _@Serial@}),",
+                    "xqerl_context:destroy(Ctx),",
+                    "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
+                    " {true, cowboy_req:set_resp_body(ReturnVal, Req), State};",
+                    "true -> {ReturnVal, Req, State}"
+                    "end."]),
+           add_global_funs([G5]),
+           
+           {FunName, FRestMap}
+     end,
+   Wrappers = lists:map(FunMap, RestFuns),
+   Exports2 = lists:foldl(fun({Fx,_}, Acc) ->
+                                [?P("-export(['@Fx@'/2]).")|Acc]
+                          end, Exports1, Wrappers),
+   {Exports2, Wrappers}.
+
+rest_fun_name(Id) ->
+   list_to_atom("rest_wrap__" ++ integer_to_list(Id)).
+
+% each function has been created by ?P("afun(_@A,_@B) -> _@X."
+join_functions([]) -> [];
+join_functions(Funs) ->
+   [{function,L,N,A,_}|_] = Funs,
+   {function,L,N,A,[C || {_,_,_,_,Cs} <- Funs, C <- Cs]}.
+
+
+init_ctx_function(Ctx) ->
+   MapItems = init_fun_abs(Ctx, maps:get(stat_props, Ctx) ++ [options,module]),
+   G = ?P(["init_ctx() ->",
+           "  _ = xqerl_lib:lnew(),",
+           "  Tab = xqerl_context:init(),",
+           "  Map = maps:put(tab,Tab,_@MapItems),",
+           "  xqerl_context:set_named_functions(Tab,maps:get(named_functions,Map,[])),",
+           "  maps:remove(named_functions,Map)."]),
+   add_global_funs([G]).
+
+param_fields([],_) -> [];
+param_fields([{body, VarName}|T],Map) ->
+   {VarId, _VarType} = maps:get(VarName, Map),
+   VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+   TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+   [?P(["{ok, _@TmpAtom, _} = cowboy_req:read_body(Req),",
+        "ContentType = cowboy_req:header(<<\"content-type\">>, Req),",
+        "_@VarAtom = xqerl_http_client:parse_body(ContentType, _@TmpAtom)"
+       ])|param_fields(T,Map)];
+param_fields([{Atom, VarName}|T],Map) ->
+   {VarId, VarType} = maps:get(VarName, Map),
+   VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+   TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+   [?P(["_@TmpAtom = cowboy_req:binding(_@Atom@, Req),",
+        "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+       ])|param_fields(T,Map)].
+
+param_headers([],_) -> [];
+param_headers(Params,Map) ->
+   [begin
+       {VarId, VarType} = maps:get(VarName, Map),
+       VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+       TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+       ?P(["_@TmpAtom = cowboy_req:header(_@ParamName@, Req, _@Default0@),",
+           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           ])
+    end || {ParamName, VarName, Default0} <- Params].
+
+param_cookies([],_) -> [];
+param_cookies(Params,Map) ->
+   [?P("Cookies = cowboy_req:parse_cookies(Req)")|
+   [begin
+       {VarId, VarType} = maps:get(VarName, Map),
+       VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+       TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+       ?P(["_@TmpAtom = proplists:get_value(_@CookieName@, Cookies, _@Default0@),",
+           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           ])
+    end || {CookieName, VarName, Default0} <- Params]
+   ].
+
+param_forms([],_) -> [];
+param_forms(Params,Map) ->
+   [?P("{ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req)")|
+   [begin
+       {VarId, VarType} = maps:get(VarName, Map),
+       VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+       TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+       ?P(["_@TmpAtom = proplists:get_value(_@ParamName@, FormKeyVals, _@Default0@),",
+           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           ])
+    end || {ParamName, VarName, Default0} <- Params]].
+
+param_queries([],_) -> [];
+param_queries(Params,Map) ->
+   [?P("QueryKeyVals = cowboy_req:parse_qs(Req)")|
+   [begin
+       {VarId, VarType} = maps:get(VarName, Map),
+       VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
+       TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
+       ?P(["_@TmpAtom = proplists:get_value(_@ParamName@, QueryKeyVals, _@Default0@),",
+           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           ])
+    end || {ParamName, VarName, Default0} <- Params]].
+
+                    
+                    
+%%             VF = fun(#xqVar{id = VId,
+%%                             name = Name,
+%%                             type = Type,
+%%                             annotations = Annos}, Map) ->
+%%                        VarName = list_to_atom(
+%%                                    lists:concat([param_prefix(), VId])),
+%%                        %% {name,type,annos,Name}
+%%                        NewMap = add_param({Name,Type,Annos,VarName}, Map),
+%%                        {{var,?L,VarName}, NewMap}
+%%                  end,
+%%             {List,Map2} =  lists:mapfoldl(VF, ContextMap, Params),
 
 get_imported_variables(Module) ->
    {_,Variables,_} = xqerl_context:get_module_exports(Module),

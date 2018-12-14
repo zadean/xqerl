@@ -421,7 +421,7 @@ handle_content(#{'base-uri' := BU,
                                       attributes = Atts, 
                                       expr = Content} = N, 
                InScopeNs0, Sz) ->
-?dbg("ElemNs    ",ElemNs),
+%?dbg("ElemNs    ",ElemNs),
 %?dbg("InScopeNs0",InScopeNs0),
 
    {Id,Ctx1} = next_id(Ctx),

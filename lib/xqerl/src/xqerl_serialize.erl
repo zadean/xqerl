@@ -534,9 +534,9 @@ do_serialize_html(#{nk := element,
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
+   NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
               {P,N} <- NewNs>>,
-   Atts = << <<(do_serialize_html(A, Opts, InScopeNamespaces1))/binary>> ||
+   Atts = << <<" ", (do_serialize_html(A, Opts, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
    Node1 = if Ln == <<"head">> ->
@@ -628,9 +628,9 @@ do_serialize_xhtml(#{nk := element,
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
+   NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
               {P,N} <- NewNs>>,
-   Atts = << <<(do_serialize_xhtml(A, Opts, InScopeNamespaces1))/binary>> ||
+   Atts = << <<" ", (do_serialize_xhtml(A, Opts, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
    Node1 = if Ln == <<"head">> ->
@@ -708,7 +708,7 @@ do_serialize_xml(#{nk := attribute,
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = encode_att_text(Txt),
-   <<" ", QNm/binary, "=\"", AttTxt/binary, "\"">>;
+   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 
 do_serialize_xml(#{nk := element,
                    ch := _,
@@ -718,9 +718,9 @@ do_serialize_xml(#{nk := element,
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
-   NsStr = << <<(encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs>>,
-   Atts = << <<(do_serialize_xml(A, Opts, InScopeNamespaces1))/binary>> ||
+   NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
+              {P,N} <- NewNs, P =/= <<"xml">>>>,
+   Atts = << <<" ", (do_serialize_xml(A, Opts, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
    ChNds = xqldb_mem_nodes:children(Node),
@@ -752,10 +752,10 @@ do_serialize_xml(_, _, _) ->
 encode_namespace(<<"xml">>, _) -> <<>>;
 encode_namespace(<<>>, Ns) ->
    Ns1 = encode_ns_text(Ns),
-   <<" ", "xmlns=\"", Ns1/binary, "\"">>;
+   <<"xmlns=\"", Ns1/binary, "\"">>;
 encode_namespace(Px, Ns) ->
    Ns1 = encode_ns_text(Ns),
-   <<" ", "xmlns:", Px/binary, "=\"", Ns1/binary, "\"">>.
+   <<"xmlns:", Px/binary, "=\"", Ns1/binary, "\"">>.
            
 
 get_new_namespaces(Current, Old) ->

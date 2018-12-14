@@ -3753,8 +3753,9 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
                   end,
             xqldb_mem_nodes:parse_binary(Bin, {Cwd, BaseUri1})
          catch 
-            _:E ->
+            _:E:S ->
                ?dbg("E",E),
+               ?dbg("S",S),
                ?err('FODC0006')
          end
    end.

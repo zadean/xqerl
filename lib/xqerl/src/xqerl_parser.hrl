@@ -25,11 +25,6 @@
          id = -1 :: integer(),
          name = undefined :: #'qname'{}
         }).
--record(annotation,
-        {
-         name     :: #'qname'{},
-         values   :: []         
-        }).
 
 -record(xqQuery, {query :: list()}).
 

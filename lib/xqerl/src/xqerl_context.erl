@@ -754,16 +754,19 @@ set_default_uri_collection(Tab, Value) ->
 
 static_namespaces() ->
    [ {<<>>,     'no-namespace'},
-     {<<"local">>,<<"http://www.w3.org/2005/xquery-local-functions">>},
-     {<<"fn">>,   <<"http://www.w3.org/2005/xpath-functions">>},
-     {<<"xsi">>,  <<"http://www.w3.org/2001/XMLSchema-instance">>},
-     {<<"xml">>,  <<"http://www.w3.org/XML/1998/namespace">>},
-     {<<"xs">>,   <<"http://www.w3.org/2001/XMLSchema">>},
-     {<<"math">>, <<"http://www.w3.org/2005/xpath-functions/math">>},
-     {<<"map">>,  <<"http://www.w3.org/2005/xpath-functions/map">>},
-     {<<"array">>,<<"http://www.w3.org/2005/xpath-functions/array">>},
-     {<<"file">>, <<"http://expath.org/ns/file">>},
-     {<<"err">>,  <<"http://www.w3.org/2005/xqt-errors">>}].
+     {<<"local">>, <<"http://www.w3.org/2005/xquery-local-functions">>},
+     {<<"fn">>,    <<"http://www.w3.org/2005/xpath-functions">>},
+     {<<"xsi">>,   <<"http://www.w3.org/2001/XMLSchema-instance">>},
+     {<<"xml">>,   <<"http://www.w3.org/XML/1998/namespace">>},
+     {<<"xs">>,    <<"http://www.w3.org/2001/XMLSchema">>},
+     {<<"math">>,  <<"http://www.w3.org/2005/xpath-functions/math">>},
+     {<<"map">>,   <<"http://www.w3.org/2005/xpath-functions/map">>},
+     {<<"array">>, <<"http://www.w3.org/2005/xpath-functions/array">>},
+     {<<"output">>,<<"http://www.w3.org/2010/xslt-xquery-serialization">>},
+     {<<"file">>,  <<"http://expath.org/ns/file">>},
+     {<<"http">>,  <<"http://expath.org/ns/http-client">>},
+     {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
+     {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].
 
 static_collations() ->
    [<<"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">>, % testing

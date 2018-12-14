@@ -218,6 +218,7 @@ get_static_signatures() ->
            xqerl_array,
            xqerl_xs,
            xqerl_expath_file,
+           xqerl_http_client,
            xqerl_error],
    Query = fun(Mod,{PFunsAcc,PVarsAcc,_}) ->
                  Atts = Mod:module_info(attributes),

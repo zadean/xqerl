@@ -336,10 +336,16 @@
    type
 }).
 
+-record(annotation,
+        {
+         name     :: #qname{},
+         values   :: []         
+        }).
+
 -record(xqFunction, {
    id                = -1 :: integer(),
-   annotations       = [] :: [ tuple() ],
-   %annotations       = [] :: [ #annotation{} ],
+   %annotations       = [] :: [ tuple() ],
+   annotations       = [] :: [ #annotation{} ],
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
    params            = [] :: [#xqSeqType{}] | [term()] | {any(), any()},
@@ -352,8 +358,8 @@
 
 -record(xqFunTest, {
    kind   = function :: function | map | array,
-   annotations = [] :: [ tuple() ],
-   %annotations = [] :: [ #annotation{} ],
+   %annotations = [] :: [ tuple() ],
+   annotations = [] :: [ #annotation{} ],
    name   :: undefined | #qname{},
    params = any :: [#xqSeqType{}] | any,
    type   = any :: #xqSeqType{} | #xqKindTest{} | any

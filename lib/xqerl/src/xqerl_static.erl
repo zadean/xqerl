@@ -637,7 +637,13 @@ handle_node(State,#xqVar{id = Id,
       false ->
          ?err('XPTY0004');
       cast when VarType#xqSeqType.type =/= item ->
-         %?dbg("cast",{Name, VarType, Type}),
+         ?err('XPTY0004');
+      cast when Type#xqSeqType.type =/= item,
+                VarType#xqSeqType.type == item ->
+         ok;
+      cast when Type#xqSeqType.type =/= item ->
+         ?dbg("cast", {Type, VarType}),
+         % declared type needs to be cast to match and was set
          ?err('XPTY0004');
       _ ->
          ok
@@ -3241,7 +3247,7 @@ handle_predicate(State, {predicate, Expr}) ->
    PostFilterType = maybe_zero_type(PreFilterType), 
    ContextType = (get_statement_type(State))#xqSeqType{occur = one},
    State1 = State0#state{context_item_type = ContextType},
-?dbg("ContextType",ContextType),
+%?dbg("ContextType",ContextType),
    %?dbg("Expr",Expr),
    SimExpr = handle_node(State1, Expr),
    SimSt0 = get_statement(SimExpr),
@@ -3254,11 +3260,11 @@ handle_predicate(State, {predicate, Expr}) ->
 %?dbg("SimSt",SimSt),
    #xqSeqType{type = SimTy} = Type = get_statement_type(SimExpr),
    SimCnt = get_static_count(SimExpr),
-   SimCtxTy = ContextType#xqSeqType.type, 
+   %SimCtxTy = ContextType#xqSeqType.type, 
 %?dbg("SimTy",SimTy),
-   if SimCtxTy == item andalso ?node(SimTy) ->
-         % node step on mixed context
-         ?err('XPTY0020');      
+   if %SimCtxTy == item andalso ?node(SimTy) ->
+      %   % node step on mixed context
+      %   ?err('XPTY0020');      
       SimTy == item;
       ?node(SimTy);
       SimTy == 'xs:boolean' ->
@@ -4653,7 +4659,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
    % now check the types
    %?dbg("NoCast",{StatCnt,ParamType1,TargetType}),
    NoCast = check_type_match(ParamType1, TargetType),
-   %?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
+%?dbg("NoCast",{NoCast,StatCnt,ParamType1,TargetType}),
    #xqSeqType{type = TT} = TargetType,
    if NoCast ->
          set_statement(Arg, type_ensure(ParamType1,TargetType,Param));
@@ -4679,7 +4685,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
               (TT == 'xs:QName' orelse TT == 'xs:NOTATION') ->
                ?err('XPTY0117');
             true ->
-               %oops
+               %?dbg("oops", {ParamType1,TargetType}),
                ?err('XPTY0004')
          end
    end.
@@ -4833,6 +4839,10 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = array,
    check_type_match(ParamTypeA,
                     ParamTypeB);
 check_type_match(#xqSeqType{type = node}, 
+                 #xqSeqType{type = #xqKindTest{kind = TargetType}}) 
+   when ?node(TargetType) -> 
+   true;
+check_type_match(#xqSeqType{type = #xqKindTest{kind = node}}, 
                  #xqSeqType{type = #xqKindTest{kind = TargetType}}) 
    when ?node(TargetType) -> 
    true;

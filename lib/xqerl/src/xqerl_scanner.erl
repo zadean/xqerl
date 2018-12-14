@@ -277,7 +277,7 @@ scan_dir_attr([H|T]) when ?whitespace(H) ->
    T1 = strip_ws(T),
    case scan_name(T1) of
       {invalid_name, _} ->
-         ?dbg("invalid_name Line",{?LINE,T1}),
+ %?dbg("invalid_name Line",{?LINE,T1}),
  %io:format("invname: ~p~n", [T1]),
          {[S], T1};
       {QName, T2} ->
