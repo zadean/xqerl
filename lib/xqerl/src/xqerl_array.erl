@@ -281,7 +281,7 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
             (_,_,_) ->
                ?err('FORG0006')            
          end,
-   Data = ?seq:foldl(Ctx,Fun,[],Arrays),
+   Data = xqerl_seq3:foldl(Ctx,Fun,[],Arrays),
    #array{data = Data}.
 
 %% Returns an array containing all the members of a supplied array, 
@@ -302,7 +302,7 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
 %% except for the members at specified positions. 
 'remove'(_Ctx,#array{data = List},Positions) -> 
    Arr = array:from_list(List),
-   IntList = [V || #xqAtomicValue{value = V} <- ?seq:to_list(Positions)],
+   IntList = [V || #xqAtomicValue{value = V} <- xqerl_seq3:to_list(Positions)],
    SortPos = ordsets:from_list(IntList),
    RevPos = lists:reverse(ordsets:to_list(SortPos)),
    Fx = fun(P,A) ->

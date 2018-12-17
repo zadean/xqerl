@@ -21,7 +21,6 @@
 
 -define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
--define(seq, xqerl_seq3).
 -define(err(Code),xqerl_error:error(Code)).
 
 -define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
@@ -100,88 +99,13 @@
         I=='xs:duration' orelse I=='xs:yearMonthDuration' orelse I=='xs:dayTimeDuration')
         ).
 
-
-
 -record(xqError, {
       name,
       description = [],
       value = [],
-      location = {[],[],[]} % {Module, Line, Column}
-   }).
-
-
-
-%% -define(STATIC_NS, [
-%%     #xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/XML/1998/namespace', prefix = "xml"}}
-%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2001/XMLSchema', prefix = "xs"}}
-%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2001/XMLSchema-instance', prefix = "xsi"}}
-%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xpath-functions', prefix = "fn"}}
-%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xquery-local-functions', prefix = "local"}}
-%%    % non-standard
-%%    ,#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xqt-errors', prefix = "err"}}
-%% ]).
-
--define(STATIC_SCHEMA_TYPES, 
-[
- % XML Schema standard
- % -------------------
- % Primitive datatypes
-    'xs:string'
-   ,'xs:boolean'
-   ,'xs:decimal'
-   ,'xs:float'
-   ,'xs:double'
-   ,'xs:duration'
-   ,'xs:dateTime'
-   ,'xs:time'
-   ,'xs:date'
-   ,'xs:gYearMonth'
-   ,'xs:gYear'
-   ,'xs:gMonthDay'
-   ,'xs:gDay'
-   ,'xs:gMonth'
-   ,'xs:hexBinary'
-   ,'xs:base64Binary'
-   ,'xs:anyURI'
-   ,'xs:qname'
-   ,'xs:NOTATION'
- % Derived datatypes - Derived from
-   ,'xs:normalizedString'  % 'xs:string'
-   ,'xs:token'             % 'xs:normalizedString'
-   ,'xs:language'          % 'xs:token'
-   ,'xs:NMTOKEN'           % 'xs:token'
-   ,'xs:NMTOKENS'          % 'xs:NMTOKEN'
-   ,'xs:Name'              % 'xs:token'
-   ,'xs:NCName'            % 'xs:Name'
-   ,'xs:ID'                % 'xs:NCName'
-   ,'xs:IDREF'             % 'xs:NCName'
-   ,'xs:IDREFS'            % 'xs:IDREF'
-   ,'xs:ENTITY'            % 'xs:NCName'
-   ,'xs:ENTITIES'          % 'xs:ENTITY'
-   ,'xs:integer'           % 'xs:decimal'
-   ,'xs:nonPositiveInteger'% 'xs:integer'
-   ,'xs:negativeInteger'   % 'xs:nonPositiveInteger'
-   ,'xs:long'              % 'xs:integer'
-   ,'xs:int'               % 'xs:long'
-   ,'xs:short'             % 'xs:int'
-   ,'xs:byte'              % 'xs:short'
-   ,'xs:nonNegativeInteger'% 'xs:integer'
-   ,'xs:unsignedLong'      % 'xs:nonNegativeInteger'
-   ,'xs:unsignedInt'       % 'xs:unsignedLong'
-   ,'xs:unsignedShort'     % 'xs:unsignedInt'
-   ,'xs:unsignedByte'      % 'xs:unsignedShort'
-   ,'xs:positiveInteger'   % 'xs:nonNegativeInteger'
- % XQuery specific
- % -------------------
-   ,'xs:untyped'                              
-   ,'xs:untypedAtomic'                              
-   ,'xs:dayTimeDuration'                              
-   ,'xs:yearMonthDuration'                              
-   ,'xs:anyAtomicType'
-   ,'xs:error'
-   ,'xs:dateTimeStamp'
-   ,'xs:numeric'          % union of xs:double, xs:float and xs:decimal
-]).
+      location = {[],[],[]}, % {Module, Line, Column}
+      additional = []
+    }).
 
 -record(off_set, {sign = '+',
                   hour = 0, 
@@ -214,10 +138,6 @@
          type  = undefined :: atom(),
          value = undefined :: term() | []
         }).
-%% -record(xqNode, {
-%%       doc   :: pid(),
-%%       node  :: [integer()] | integer()
-%%    }).
 
 -record(qname, 
         {
@@ -339,12 +259,11 @@
 -record(annotation,
         {
          name     :: #qname{},
-         values   :: []         
+         values   :: [#xqAtomicValue{}]         
         }).
 
 -record(xqFunction, {
    id                = -1 :: integer(),
-   %annotations       = [] :: [ tuple() ],
    annotations       = [] :: [ #annotation{} ],
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
@@ -352,81 +271,21 @@
    type              = undefined :: undefined | any | #xqSeqType{},
    body              = undefined :: undefined | tuple() | fun(),
    external          = false :: boolean()
-   %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
 }).
 
 
 -record(xqFunTest, {
    kind   = function :: function | map | array,
-   %annotations = [] :: [ tuple() ],
    annotations = [] :: [ #annotation{} ],
    name   :: undefined | #qname{},
    params = any :: [#xqSeqType{}] | any,
    type   = any :: #xqSeqType{} | #xqKindTest{} | any
 }).
 
-% {xqFunTest,function,[],undefined,any,any}
-
 %% range statement 
 -record(xqRange, {min :: integer(),
                   max :: integer(),
                   cnt :: non_neg_integer()
 }).
-
-%% Expression Context - The expression context for a given expression consists of all the information that can affect the result of the expression.
-
-%% Static Context - 
-%%  [Definition: The static context of an expression is the information that is available during 
-%%  static analysis of the expression, prior to its evaluation.] This information can be used to decide 
-%%  whether the expression contains a static error. If analysis of an expression relies on some component 
-%%  of the static context that has not been assigned a value, a static error is raised [err:XPST0001].
-
-%% In-scope schema definitions - 
-%%  This is a generic term for all the element declarations, attribute declarations, and schema type definitions 
-%%  that are in scope during processing of an expression.
-%% -record(inscope_schema_def, {
-%%    schema_types      = ?STATIC_SCHEMA_TYPES, % static plus all declared
-%%    element_decls     :: [#'qname'{}],
-%%    attribute_decls   :: [#'qname'{}]
-%% }).
-
-
-%% -record(context, {
-%%    %% static context items
-%%    xpath1compat               = false,
-%%    known_namespaces           = ?STATIC_NS, % static plus all declared
-%%    default_element_namespace  :: term(), %#xqNode{type = namespace, name = #'qname'{namespace = 'none', prefix = ""}}, % type too
-%%    default_function_namespace :: term(), %#xqNode{type = namespace, name = #'qname'{namespace = 'http://www.w3.org/2005/xpath-functions', prefix = "fn"}},
-%%    inscope_schema_defs        = [] :: #inscope_schema_def{},
-%%    inscope_variables          = [] :: [#xqVar{}], 
-%%    context_item_type          = undefined :: atom(), % type of the context item
-%%    function_signatures        = [] ,
-%%    known_collations           = [{uca, "http://www.w3.org/2005/xpath-functions/collation/codepoint"}],
-%%    default_collation          = {uca, "http://www.w3.org/2005/xpath-functions/collation/codepoint"},
-%%    construction_mode          = preserve :: preserve | strip,    % keep typing or remove it
-%%    ordering_mode              = ordered :: ordered | unordered,
-%%    empty_seq_order            = least :: greatest | least,
-%%    boundry_whitespace         = strip :: preserve | strip,
-%%    namespace_copy             :: {'preserve', 'inherit'}    | {'preserve', 'no-inherit'} | 
-%%                                  {'no-preserve', 'inherit'} | {'no-preserve', 'no-inherit'},
-%%    base_uri                   :: string(),   % absolute URI
-%%    known_documents            = [] :: [ #typed_uri{} ],
-%%    known_collections          = [] :: [ #typed_uri{} ],
-%%    known_def_coll_type        = {node, zero_or_more},
-%%    %
-%%    modules                    = [] :: list(),
-%%    functions                  = [] :: list(),
-%%    %% dynamic context items 
-%%    context_item            :: term(),
-%%    context_position        :: pos_integer(),
-%%    context_size            :: pos_integer(),
-%%    variable_values         = [] ,
-%%    named_functions         = [] ,
-%%    current_datetime        :: string(),
-%%    implicit_timezone       = "Z",
-%%    available_documents     = [] :: [ term() ],
-%%    available_collections   = [] :: [ #xqCollection{} ],
-%%    default_collection      :: #xqCollection{} 
-%% }).
 
 -endif. % -ifdef(xqerl_hrl).

@@ -1337,16 +1337,15 @@ handle_node(State, {'add', Expr1, Expr2}) ->
    Atomic = both_atomics(St1, St2),
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
-   %?dbg("T1",T1),
-   %?dbg("T2",T2),
+   BothOne = both_non_empty(T1, T2),
    T3 = static_operator_type('add',T1,T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:add(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'add', St1, St2}, 
+                                #xqSeqType{type = T3, occur = zero_or_one});
       true ->
-         T1 = get_statement_type(S1),
-         T2 = get_statement_type(S2),
-         T3 = static_operator_type('add',T1,T2),
          set_statement_and_type(State, {'add', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
    end; 
@@ -1359,9 +1358,13 @@ handle_node(State, {'subtract', Expr1, Expr2}) ->
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
    T3 = static_operator_type('subtract',T1,T2),
+   BothOne = both_non_empty(T1, T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:subtract(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'subtract', St1, St2}, 
+                                #xqSeqType{type = T3, occur = one});
       true ->
          set_statement_and_type(State, {'subtract', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
@@ -1375,9 +1378,13 @@ handle_node(State, {'multiply', Expr1, Expr2}) ->
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
    T3 = static_operator_type('multiply',T1,T2),
+   BothOne = both_non_empty(T1, T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:multiply(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'multiply', St1, St2}, 
+                                #xqSeqType{type = T3, occur = one});
       true ->
          set_statement_and_type(State, {'multiply', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
@@ -1391,9 +1398,13 @@ handle_node(State, {'divide', Expr1, Expr2}) ->
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
    T3 = static_operator_type('divide',T1,T2),
+   BothOne = both_non_empty(T1, T2),
    if Atomic andalso element(3, St2) =/= 0 ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:divide(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'divide', St1, St2}, 
+                                #xqSeqType{type = T3, occur = one});
       true ->
          set_statement_and_type(State, {'divide', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
@@ -1407,9 +1418,13 @@ handle_node(State, {'integer-divide', Expr1, Expr2}) ->
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
    T3 = static_operator_type('idivide',T1,T2),
+   BothOne = both_non_empty(T1, T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:idivide(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'integer-divide', St1, St2}, 
+                                #xqSeqType{type = T3, occur = one});
       true ->
          set_statement_and_type(State, {'integer-divide', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
@@ -1423,9 +1438,13 @@ handle_node(State, {'modulo', Expr1, Expr2}) ->
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
    T3 = static_operator_type('modulo',T1,T2),
+   BothOne = both_non_empty(T1, T2),
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:modulo(St1, St2),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      BothOne ->
+         set_statement_and_type(State, {'modulo', St1, St2}, 
+                                #xqSeqType{type = T3, occur = one});
       true ->
          set_statement_and_type(State, {'modulo', St1, St2}, 
                                 #xqSeqType{type = T3, occur = zero_or_one})
@@ -1443,9 +1462,14 @@ handle_node(State, {'unary', '+', Expr1} = _Node) ->
          ok
    end,
    Atomic = all_atomics(St1),
+   IsOne = Sty#xqSeqType.occur == one,
    if Atomic ->
          #xqAtomicValue{type = T} = Eq = xqerl_operators:unary_plus(St1),
          set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+      IsOne ->
+         set_statement_and_type(State, {'unary', '+', St1}, 
+                                #xqSeqType{type = Sty#xqSeqType.type, 
+                                           occur = one});
       true ->
          set_statement_and_type(State, {'unary', '+', St1}, 
                                 #xqSeqType{type = Sty#xqSeqType.type, 
@@ -2235,6 +2259,9 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
                BothType = if ThOc == zero;
                              ElOc == zero ->
                                 maybe_zero_type(get_list_type([ThTy,ElTy]));
+                             ThOc == one, ElOc == one ->
+                                OT = (get_list_type([ThTy,ElTy])),
+                                OT#xqSeqType{occur = one};
                              true ->
                                 get_list_type([ThTy,ElTy])
                           end,
@@ -2308,6 +2335,7 @@ handle_node(State, #xqTryCatch{id = Id,
    ModuVar = list_to_atom("__ModuVar" ++ integer_to_list(Id)),
    LineVar = list_to_atom("__LineVar" ++ integer_to_list(Id)),
    ColnVar = list_to_atom("__ColnVar" ++ integer_to_list(Id)),
+   AddlVar = list_to_atom("__AddlVar" ++ integer_to_list(Id)),
 
    TryState = (catch handle_node(State, Expr)),
    TrySt = get_statement(TryState),
@@ -2344,7 +2372,12 @@ handle_node(State, #xqTryCatch{id = Id,
                      {?ERR_VAR(?A("column-number")),
                       #xqSeqType{type = 'xs:integer', occur = zero_or_one},
                       [],ColnVar}),
-           CatchState = handle_node(Stat6, DoExpr),
+           Stat7 = add_inscope_variable(
+                     Stat6, 
+                     {?ERR_VAR(?A("additional")),
+                      #xqSeqType{type = item, occur = zero_or_many},
+                      [],AddlVar}),
+           CatchState = handle_node(Stat7, DoExpr),
            CatchSt = get_statement(CatchState),
            CatchTy = get_statement_type(CatchState),
            CombType = get_list_type([InType,CatchTy]),
@@ -3217,6 +3250,9 @@ handle_node(State, Node) ->
    ?dbg("UNKNOWN NODE", State#state.context),
    State.
 
+both_non_empty(#xqSeqType{occur = one}, #xqSeqType{occur = one}) -> true;
+both_non_empty(_, _) -> false.   
+   
 % TODO make this a foldr to wrap up chained calls and get correct return type
 handle_predicates(State, []) -> 
    set_statement(State,[]);
@@ -3933,23 +3969,26 @@ scan_dec_formats(Formats,State) ->
 %attribute(Name,Val) -> erlang:list_to_tuple([attribute,?LINE,Name,Val]).
 
 variable_hash_name(#qname{namespace = 'no-namespace',local_name = L}) ->
-   string_atom(<<"___Q_", L/binary>>);
+   string_atom(<<"__Q{}", L/binary>>);
+variable_hash_name(#qname{namespace = <<>>,local_name = L}) ->
+   string_atom(<<"__Q{}", L/binary>>);
 variable_hash_name(#qname{namespace = N,local_name = L}) ->
-   string_atom(<<"___Q_", N/binary, "_", L/binary>>).
+   string_atom(<<"__Q{", N/binary, "}", L/binary>>).
 
 function_hash_name(undefined, Arity) ->
    {undefined, Arity + 1};
+function_hash_name(#qname{namespace = <<"Q{",_/binary>> = N,local_name = L}, Arity) ->
+   Bin = <<"_", N/binary, L/binary>>,
+   {string_atom(Bin), Arity + 1};
 function_hash_name(#qname{namespace = N,local_name = L}, Arity) ->
-   Bin = <<"__Q_", N/binary, "_", L/binary>>,
+   Bin = <<"_Q{", N/binary, "}", L/binary>>,
    {string_atom(Bin), Arity + 1}.
 
 string_atom(Term) ->
    Bin = binary:replace(
            unicode:characters_to_binary(Term),
-           [<<"<">>,<<">">>,<<"@">>,<<":">>,
-            <<"?">>,<<"=">>,<<"/">>,<<".">>,
-            <<"{">>,<<"}">>,<<"-">>,<<"#">>,
-            <<"[">>,<<"]">>],<<"_">>,
+           [<<"/">>,<<"\\">>,<<"?">>,<<"%">>,<<"*">>,<<":">>,<<"|">>,
+            <<"\"">>,<<"<">>,<<">">>],<<"_">>,
            [global]),
    binary_to_atom(Bin, latin1).
 
@@ -4693,6 +4732,7 @@ check_fun_arg_type(State, Arg, TargetType) ->
 type_ensure(_,#xqSeqType{type = item, occur = zero_or_many},Statement) ->
    Statement;
 type_ensure(ActType,TargType,Statement) ->
+  %?dbg("ActType,TargType",{ActType,TargType,Statement}),
    if ActType#xqSeqType.occur =/= TargType#xqSeqType.occur ->
          {ensure, Statement, TargType};
       true ->
@@ -5259,16 +5299,16 @@ get_variable(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
    end.
 
 % return a statically known value for a variable if known, undefined otherwise.
-get_variable_static_value(#state{inscope_vars = Vars}, 
-             #qname{namespace = Ns, local_name = Ln}) ->
-   case [Value || 
-         {#qname{namespace = Ns1, local_name = Ln1},_,_,_,{false,Value}} <- Vars, 
-         {Ns1,Ln1} == {Ns,Ln}] of
-      [O] ->
-         O;
-      [] ->
-         undefined
-   end;
+%% get_variable_static_value(#state{inscope_vars = Vars}, 
+%%              #qname{namespace = Ns, local_name = Ln}) ->
+%%    case [Value || 
+%%          {#qname{namespace = Ns1, local_name = Ln1},_,_,_,{false,Value}} <- Vars, 
+%%          {Ns1,Ln1} == {Ns,Ln}] of
+%%       [O] ->
+%%          O;
+%%       [] ->
+%%          undefined
+%%    end;
 get_variable_static_value(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
    case [Value || {_,_,_,VarAtom1,{false,Value}} <- Vars, 
                   VarAtom1 == VarAtom] of

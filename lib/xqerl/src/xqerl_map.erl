@@ -28,7 +28,7 @@
 -include("xqerl.hrl").
 -compile(inline_list_funcs).
 
--define(val(V), ?seq:singleton_value(V)).
+-define(val(V), xqerl_seq3:singleton_value(V)).
 -define(NS,<<"http://www.w3.org/2005/xpath-functions/map">>).
 -define(PX,<<"map">>).
 

@@ -100,7 +100,7 @@ atomize(O) ->
    ?err('XPTY0004').
 
 
-return_value([]) -> ?seq:empty();
+return_value([]) -> xqerl_seq3:empty();
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
 return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
@@ -301,7 +301,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type, occur = Occ} = SType)
              end, Seq);
 cast_as_seq([], #xqSeqType{occur = zero_or_one}) -> [];
 cast_as_seq(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
-   SeqType = ?seq:get_seq_type(Seq),
+   SeqType = xqerl_seq3:get_seq_type(Seq),
    case seq_type_val_match(TargetSeqType, SeqType) of
       nocast ->
          Seq;
@@ -833,7 +833,7 @@ castable(#{nk := _} = Seq, TargetSeqType) ->
 castable(#xqAtomicValue{} = Seq, TargetSeqType) ->
    castable([Seq], TargetSeqType);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
-   #xqSeqType{occur = O} = SeqType = ?seq:get_seq_type(Seq),
+   #xqSeqType{occur = O} = SeqType = xqerl_seq3:get_seq_type(Seq),
    if O == one_or_many ->
          ?false;
       true ->
@@ -847,7 +847,7 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
          end
    end;
 castable( Av, Type ) -> 
-   #xqSeqType{occur = O} = ?seq:get_seq_type(Av),
+   #xqSeqType{occur = O} = xqerl_seq3:get_seq_type(Av),
    if O == one_or_many ->
          ?false;
       true ->
@@ -855,11 +855,11 @@ castable( Av, Type ) ->
    end.
 
 %% castable([], TargetSeqType, Namespaces) ->
-%%    castable(?seq:empty(), TargetSeqType, Namespaces);
+%%    castable(xqerl_seq3:empty(), TargetSeqType, Namespaces);
 castable(#xqAtomicValue{} = Seq, TargetSeqType, Namespaces) ->
-   castable(?seq:singleton(Seq), TargetSeqType, Namespaces);
+   castable(xqerl_seq3:singleton(Seq), TargetSeqType, Namespaces);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
-   #xqSeqType{occur = O} = SeqType = ?seq:get_seq_type(Seq),
+   #xqSeqType{occur = O} = SeqType = xqerl_seq3:get_seq_type(Seq),
    if O == one_or_many ->
          ?false;
       true ->
@@ -873,7 +873,7 @@ castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
          end
    end;
 castable( Av, Type, Namespaces) -> 
-   #xqSeqType{occur = O} = ?seq:get_seq_type(Av),
+   #xqSeqType{occur = O} = xqerl_seq3:get_seq_type(Av),
    if O == one_or_many;
       O == zero ->
          ?false;

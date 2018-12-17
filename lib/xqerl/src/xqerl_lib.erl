@@ -64,6 +64,7 @@
          bin_to_utf8/1,
          bin_to_utf8/2]).
 
+-export([format_stacktrace/1]).
 
 -export([next_comp_prefix/1]).
 -export([pmap/3]).
@@ -549,6 +550,27 @@ is_valid_tokens(Token) ->
     ] == [].
 
    
+format_stacktrace(L) ->
+   [#xqAtomicValue{type = 'xs:string', value = V} ||
+    V <- format_stacktrace_(L)].
+
+format_stacktrace_([]) -> [];
+format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) ->
+   ModB = atom_to_binary(Mod, utf8),
+   FunB = atom_to_binary(Fun, utf8),
+   AryB = integer_to_binary(Ary),
+   FileB = list_to_binary(File),
+   LnB = integer_to_binary(Ln),
+   Out = <<FileB/binary, "(",
+           LnB/binary, ") ",
+           ModB/binary, ":",
+           FunB/binary, "/",
+           AryB/binary
+           >>,
+   [Out|format_stacktrace_(T)].
+
+   
+
 
 %% shrink_spaces([H|T]) ->
 %%    [H|shrink_spaces(T)].

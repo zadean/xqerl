@@ -407,7 +407,7 @@ do_serialize_adaptive(#xqAtomicValue{type = Type, value = Val}, _Opts)
 do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts)
    when Type == 'xs:double' ->
    Pic = #xqAtomicValue{type = 'xs:string',
-                        value = "0.0##########################e0"},
+                        value = <<"0.0##########################e0">>},
    Str = xqerl_fn:'format-number'(#{},Val,Pic,
                                   #dec_format{infinity = "INF"}),
    Str#xqAtomicValue.value;

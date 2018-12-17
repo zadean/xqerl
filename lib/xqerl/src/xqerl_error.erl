@@ -39,6 +39,7 @@
 -define(PX, <<"err">>).
 
 -dialyzer({[no_return], [error/1, error/2, error/3]}).
+-file("http://www.w3.org/2005/xqt-errors", ?LINE).
 
 %% -record(xqError, {
 %%       name,

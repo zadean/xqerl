@@ -50,7 +50,7 @@
 records() ->
    %% TODO add default values
    Recs = 
-   [{xqError,                     "-record(xqError,{name,description,value,location})."},
+   [{xqError,                     "-record(xqError,{name,description,value,location,additional})."},
     {xqAtomicValue,               "-record(xqAtomicValue,{type,value})."},
     {qname,                       "-record(qname,{namespace,prefix,local_name})."},
     {xqFunction,                  "-record(xqFunction,{id,annotations,name,arity,params,type,body,external})."},
@@ -202,8 +202,10 @@ scan_mod(#xqModule{prolog = Prolog,
                    declaration = {_,{ModNs,_Prefix}}, 
                    type = library,
                    body = _}, Map) ->
+   
    Dis = cowboy_router:compile([{'_', []}]),
    _ = cowboy:start_clear(xqerl_listener, [{port, 8082}], #{env => #{dispatch => Dis}}),
+   
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
@@ -227,20 +229,21 @@ scan_mod(#xqModule{prolog = Prolog,
    
    StatProps = maps:get(stat_props, EmptyMap),
    
+   P1a = {attribute,1,file,{binary_to_list(ModNs),2}},
    P1 = scan_variables(EmptyMap,Variables, public), 
    P2 = scan_functions(EmptyMap,Functions,ModName, public),
    P3 = ?P(["-module('@ModName@').",
             "-export([static_props/0]).",
             "-export([init/1])."
             ]),
-   P5 = ?P(["-compile(inline_list_funcs).",
-            %"-compile({inline_size,100}).",
+   P5 = ?P([%"-compile(inline_list_funcs).",
+            "-compile(inline).",
             "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
    P8 = function_functions(EmptyMap, Functions),
-   {RestExports, RestWrappers} = rest_functions(EmptyMap, Variables, Functions, Prolog),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
    P4 = lists:flatten([
          ?P(export_variables(Variables, EmptyMap)),
@@ -248,7 +251,7 @@ scan_mod(#xqModule{prolog = Prolog,
          RestExports,
          ?P(records())
         ]),
-   P10 = P3 ++ P4 ++ P5 ++ P6 ++ P7 ++ P8 ++ P9,
+   P10 = P3 ++ [P1a|P4] ++ P5 ++ P6 ++ P7 ++ P8 ++ P9,
    RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
    Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
  ?dbg("Dispatch",Dispatch),
@@ -312,9 +315,11 @@ scan_mod(#xqModule{prolog = Prolog,
                 EmptyMap#{module => ModName},
                 maps:get(stat_props, EmptyMap) ++ [options|[module|StaticProps]]),
     % abstract after this point
+   FileName1 = binary_to_list(FileName),
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
            ]),
+   P1a = {attribute,1,file,{FileName1,2}},
    P3 = ?P([%"-compile(inline_list_funcs).",
             "-compile(inline).",
             %"-compile({inline_size,150}).",
@@ -327,7 +332,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
-   {RestExports, RestWrappers} = rest_functions(EmptyMap, Variables, Functions, Prolog),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
                        RestExports,
@@ -337,7 +342,7 @@ scan_mod(#xqModule{prolog = Prolog,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    P1 ++ P2 ++ P3 ++ P4 ++ P5 ++ P6 ++ P7
+    P1 ++ [P1a|P2] ++ P3 ++ P4 ++ P5 ++ P6 ++ P7
    }.
 
 %% used in library modules instead of main init 
@@ -390,7 +395,7 @@ init_function(Variables,Prolog) ->
 % if get/head content_types_provided/2 -> {List, Req, State} 
 % if put/post content_types_accepted/2 -> {List, Req, State}
 % if delete   delete_resource/2 -> {true, Req, State}
-rest_functions(Ctx, Variables, Functions, Prolog) ->
+rest_functions(Ctx, Functions) ->
    % internal function name to call from REST wrapper
    FxNameFun = 
      fun(#xqFunction{name = FxName, arity = FxArity}) ->
@@ -409,15 +414,18 @@ rest_functions(Ctx, Variables, Functions, Prolog) ->
       true ->
          init_ctx_function(Ctx)
    end,
-   ?dbg("RestFuns",RestFuns),
+   %?dbg("RestFuns",RestFuns),
    UsedMethods = lists:usort([M || {_,_,_,#{method := Ms}} <- RestFuns, M <- Ms]),
    % allowed_methods callback
    MethodBinFun = fun(Atom) -> string:uppercase(atom_to_binary(Atom, latin1)) end,
    Ms = [MethodBinFun(M) || M <- UsedMethods],
-   G0 = ?P(["allowed_methods(Req, State) -> {_@Ms@, Req, State}."]),
-   _ = add_global_funs([G0]),
-   E0 = ?P("-export([allowed_methods/2])."),
-   ?dbg("UsedMethods",UsedMethods),
+   E0 = if UsedMethods == [] -> [];
+           true ->
+              G0 = ?P(["allowed_methods(Req, State) -> {_@Ms@, Req, State}."]),
+              _ = add_global_funs([G0]),
+              ?Q("-export([allowed_methods/2]).")
+        end,
+   %?dbg("UsedMethods",UsedMethods),
    IsProv = UsedMethods =/= [],%[1 || M <- UsedMethods, M == get orelse M == head orelse M == put orelse M == post] =/= [],
    IsAccp = UsedMethods =/= [],%[1 || M <- UsedMethods, M == put orelse M == post] =/= [],
    IsDele = lists:member(delete, UsedMethods),
@@ -434,7 +442,7 @@ rest_functions(Ctx, Variables, Functions, Prolog) ->
                   M <- UsedMethods],
              G1 = join_functions(Cls_1),
              _ = add_global_funs([G1]),
-             ?P("-export([content_types_provided/2]).");
+             ?Q("-export([content_types_provided/2]).");
           true -> []
        end,
    E2 = if IsAccp ->
@@ -449,14 +457,14 @@ rest_functions(Ctx, Variables, Functions, Prolog) ->
                   M <- UsedMethods],
              G2 = join_functions(Cls_2),
              _ = add_global_funs([G2]),
-             ?P("-export([content_types_accepted/2]).");
+             ?Q("-export([content_types_accepted/2]).");
           true -> []
        end,
    E3 = if IsDele ->
              G3 = ?P(["delete_resource(Req, State) ->",
                      " {true, Req, State}."]),
              _ = add_global_funs([G3]),
-             ?P("-export([delete_resource/2]).");
+             ?Q("-export([delete_resource/2]).");
           true -> []
        end,
    E4 = lists:flatten([E0,E1,E2,E3]),
@@ -465,7 +473,7 @@ rest_functions(Ctx, Variables, Functions, Prolog) ->
                  true ->
                     G4 = ?P("init(Req, Opts) -> {cowboy_rest, Req, Opts}."),
                     _ = add_global_funs([G4]),
-                    [?P("-export([init/2]).")|E4]
+                    [?Q("-export([init/2]).")|E4]
               end,
    % cowboy callbacks are done, now on to the wrapper functions
    ParamMapFun = 
@@ -524,6 +532,7 @@ rest_fun_name(Id) ->
    list_to_atom("rest_wrap__" ++ integer_to_list(Id)).
 
 % each function has been created by ?P("afun(_@A,_@B) -> _@X."
+% join their clauses to one function.
 join_functions([]) -> [];
 join_functions(Funs) ->
    [{function,L,N,A,_}|_] = Funs,
@@ -570,7 +579,7 @@ param_headers(Params,Map) ->
 
 param_cookies([],_) -> [];
 param_cookies(Params,Map) ->
-   [?P("Cookies = cowboy_req:parse_cookies(Req)")|
+   [?Q("Cookies = cowboy_req:parse_cookies(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
@@ -583,7 +592,7 @@ param_cookies(Params,Map) ->
 
 param_forms([],_) -> [];
 param_forms(Params,Map) ->
-   [?P("{ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req)")|
+   [?Q("{ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
@@ -595,7 +604,7 @@ param_forms(Params,Map) ->
 
 param_queries([],_) -> [];
 param_queries(Params,Map) ->
-   [?P("QueryKeyVals = cowboy_req:parse_qs(Req)")|
+   [?Q("QueryKeyVals = cowboy_req:parse_qs(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
@@ -604,20 +613,6 @@ param_queries(Params,Map) ->
            "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
            ])
     end || {ParamName, VarName, Default0} <- Params]].
-
-                    
-                    
-%%             VF = fun(#xqVar{id = VId,
-%%                             name = Name,
-%%                             type = Type,
-%%                             annotations = Annos}, Map) ->
-%%                        VarName = list_to_atom(
-%%                                    lists:concat([param_prefix(), VId])),
-%%                        %% {name,type,annos,Name}
-%%                        NewMap = add_param({Name,Type,Annos,VarName}, Map),
-%%                        {{var,?L,VarName}, NewMap}
-%%                  end,
-%%             {List,Map2} =  lists:mapfoldl(VF, ContextMap, Params),
 
 get_imported_variables(Module) ->
    {_,Variables,_} = xqerl_context:get_module_exports(Module),
@@ -679,7 +674,7 @@ body_function(ContextMap, Body,Prolog) ->
    
    VarSetFun = 
       fun({_N,_T,_A,{V,1},_Ext}, CtxVar) ->
-            AV = {var,?L,V},
+            AV = {var,?L,next_var_name()},
             NC = next_ctx_var_name(),
             NV = {var,?L,NC},
             P = ?P(["_@AV = '@V@'(_@CtxVar),",
@@ -761,7 +756,7 @@ function_functions(ContextMap, Functions) ->
    F =fun(#xqFunction{id = _,
                       name = FxName,
                       arity = Arity,
-                      type = RType,
+                      %type = RType,
                       params = Params,
                       body = Expr}) ->
             erlang:put(ctx, 1),
@@ -786,7 +781,8 @@ function_functions(ContextMap, Functions) ->
             % do not allow functions to access the current context item
             Out = ?P(["'@FName@'(_@C1,_@@List) ->",
                 "   _@C2 = xqerl_context:set_empty_context_item(_@C1),",
-                "   xqerl_types:promote(_@E1, _@RType@)."]),
+                "   _@E1."]),
+                %"   xqerl_types:promote(_@E1, _@RType@)."]),
             Out
      end,
    [ F(V)
@@ -865,6 +861,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    ModuVar = list_to_atom("__ModuVar" ++ integer_to_list(Id)),
    LineVar = list_to_atom("__LineVar" ++ integer_to_list(Id)),
    ColnVar = list_to_atom("__ColnVar" ++ integer_to_list(Id)),
+   AddlVar = list_to_atom("__AddlVar" ++ integer_to_list(Id)),
    
    ErrNs = ?A("http://www.w3.org/2005/xqt-errors"),
    
@@ -892,6 +889,10 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                         local_name = ?A("column-number")},
                  #xqSeqType{type = 'xs:integer', 
                             occur = zero_or_one},[],ColnVar},
+   NewAddlVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("additional")},
+                 #xqSeqType{type = item, 
+                            occur = zero_or_many},[],AddlVar},
    
    Ctx0 = add_variable(NewCodeVar, Ctx),
    Ctx1 = add_variable(NewDescVar, Ctx0),
@@ -899,6 +900,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    Ctx3 = add_variable(NewModuVar, Ctx2),
    Ctx4 = add_variable(NewLineVar, Ctx3),
    Ctx5 = add_variable(NewColnVar, Ctx4),
+   Ctx6 = add_variable(NewAddlVar, Ctx5),
 
    CodeVar1 = {var,?L,CodeVar},
    DescVar1 = {var,?L,DescVar},
@@ -906,16 +908,17 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    ModuVar1 = {var,?L,ModuVar},
    LineVar1 = {var,?L,LineVar},
    ColnVar1 = {var,?L,ColnVar},
+   AddlVar1 = {var,?L,AddlVar},
    
    ClsFun = 
      fun({Errors,DoExpr}) ->
-           DoExprAbs = expr_do(Ctx5, DoExpr),
+           DoExprAbs = expr_do(Ctx6, DoExpr),
            lists:map(
              fun(#xqNameTest{name = #qname{namespace = ?A("*"),local_name = ?A("*")}}) ->
                    C = ?Q("{_,#xqError{name = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = ?A("*"),local_name = Ln}}) ->
@@ -923,7 +926,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = ?A("*")}}) ->
@@ -931,7 +934,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
@@ -940,7 +943,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                                                      local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]}
                end, Errors)
@@ -1557,7 +1560,13 @@ expr_do(Ctx, {variable, {Name,1}}) when is_atom(Name) ->
 expr_do(Ctx, {variable, {Mod,Name}}) when is_atom(Mod),is_atom(Name) ->
    a_var({Mod,Name},{var,?L,get_context_variable_name(Ctx)});
 expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
-   {var,?L,Name};
+   V = {var,?L,Name},
+   case atom_to_list(Name) of
+      "__AddlVar" ++ _ ->
+         ?P("xqerl_lib:format_stacktrace(_@V)");
+      _ ->
+         V
+   end;
 
 expr_do(Ctx, {postfix,_Id, {'function-ref',Q,V}, [{arguments,Args}]}) ->
    PhF = fun('?') ->

@@ -50,7 +50,7 @@
                      is_record(N, xqNamespaceNode)).
 
 -include("xqerl.hrl").
-
+-file("http://www.w3.org/2005/xpath-functions", 1).
 -'module-namespace'({?NS, ?PX}).
 -variables([]).
 -functions([
@@ -2201,7 +2201,7 @@ is_valid_calendar({_,_}) ->
 -spec 'format-number'(xq_types:context(),
                       [] | xq_types:xs_numeric(),
                       xq_types:xs_string(),
-                      [] | xq_types:xs_string()) -> 
+                      [] | xq_types:xs_string() | #dec_format{}) -> 
          xq_types:xs_string().
 'format-number'(_Ctx,Number,PicString,#dec_format{} = DF) ->
    Num = xqerl_types:value(Number),

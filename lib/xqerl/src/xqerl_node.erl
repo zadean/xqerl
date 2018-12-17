@@ -211,7 +211,7 @@ ensure_qname(#xqAtomicValue{} = V, InScopeNamespaces) ->
 ensure_qname([H], InScopeNamespaces) ->
    ensure_qname(H, InScopeNamespaces);
 ensure_qname(QName, InScopeNamespaces) ->
-   case ?seq:from_list(QName) of
+   case xqerl_seq3:from_list(QName) of
       [H] ->
          ensure_qname(H, InScopeNamespaces);
       _ ->
@@ -505,7 +505,7 @@ handle_content(#{'base-uri' := BU,
                                         ?SSTR("http://www.w3.org/XML/1998/namespace"),
                                       local_name = ?SSTR("base")}, 
                              expr = Uri} <- Content3],
-   NewBase = ?seq:flatten(Base1),
+   NewBase = xqerl_seq3:flatten(Base1),
    BU1 = if NewBase == [] ->
                BU;
             true ->
@@ -626,7 +626,7 @@ handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName,
    case string:find(TExpr, "?>") of
       nomatch ->
          QName0 = if is_list(QName) ->
-                        ?seq:singleton_value(QName);
+                        xqerl_seq3:singleton_value(QName);
                      true ->
                         QName
                   end,
@@ -731,7 +731,7 @@ handle_content(Ctx, Parent, #{nk := _} = Node, INs, Sz) ->
    {Children, Sz1, Ctx3};
 
 handle_content(Ctx, Parent, Seq, INs, Sz)  ->
-   Ci = ?seq:to_list(Seq),
+   Ci = xqerl_seq3:to_list(Seq),
    handle_contents(Ctx, Parent, Ci, INs, Sz).
 
 % returns {Id,Ctx}
@@ -920,7 +920,7 @@ merge_content([H|T], Acc) ->
    merge_content(T, [H|Acc]).
 
 maybe_merge_seq(Seq) ->
-   List = ?seq:to_list(Seq),
+   List = xqerl_seq3:to_list(Seq),
    maybe_merge_seq(List,[]).
 
 maybe_merge_seq([],Acc) ->
@@ -1353,7 +1353,7 @@ check_computed_namespaces(NameSpaceNodes) ->
    
 check_direct_namespaces(NameSpaceNodes) ->
    Namespaces = [{P,xqerl_types:value(N)} || 
-                 #xqNamespaceNode{name=#qname{namespace = N, prefix = P}} 
+                 #xqNamespace{namespace = N, prefix = P} 
                 <- NameSpaceNodes],
    Unique = lists:usort(Namespaces),
    Prefixes = lists:usort([P || {P,_} <- Unique]),

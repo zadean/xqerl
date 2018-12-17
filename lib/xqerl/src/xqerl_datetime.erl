@@ -260,7 +260,7 @@ ymd_is_valid(Y,M,D) ->
 align_to_timezone(Arg1,[]) ->
    #xqAtomicValue{type = Type, 
                   value = #xsDateTime{} = Val
-                 } = ?seq:singleton_value(Arg1),
+                 } = xqerl_seq3:singleton_value(Arg1),
    NewDtTmWOs = Val#xsDateTime{offset = []},
    Str = to_string(NewDtTmWOs, Type),
    #xqAtomicValue{type = Type, 
@@ -268,12 +268,12 @@ align_to_timezone(Arg1,[]) ->
 align_to_timezone(Arg1,Arg2) ->
    #xqAtomicValue{type = Type, 
                   value = #xsDateTime{offset = Os} = Val
-                 } = ?seq:singleton_value(Arg1),
+                 } = xqerl_seq3:singleton_value(Arg1),
    ArgDurStr  = case Os of
                    [] -> <<>>;
                    _ -> to_string(Os,'xs:dayTimeDuration')
                 end,
-   AdjDurStr = case ?seq:singleton_value(Arg2) of
+   AdjDurStr = case xqerl_seq3:singleton_value(Arg2) of
                   #xqAtomicValue{type = 'xs:dayTimeDuration', 
                                  value = #xsDateTime{second = Sec,
                                                      string_value = DStr}} ->

@@ -162,7 +162,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'LibraryModule'          -> 'ModuleDecl'          : {'$1', [], undefined}.
 
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
-                           : if '$5' == [] -> ?err('XQST0088');
+                           : if '$5' == <<>> -> ?err('XQST0088');
                                 true ->
                                  Ns = list_to_binary(["Q{", '$5',"}"]),
                                  xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 

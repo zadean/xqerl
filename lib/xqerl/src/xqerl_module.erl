@@ -52,7 +52,7 @@
 %% binary               - last successful BEAM binary
 %% erl_code             - Erlang code from debug_info 
 -record(xq_module, 
-        {target_namespace           :: string() | '_',
+        {target_namespace           :: binary() | '_',
          type              = main   :: main | library | '_',
          status            = waiting:: loaded | unloaded | compiled | 
                                        error | waiting | '_',
@@ -61,7 +61,7 @@
          error                      :: term() | '_',
          last_compile_time          :: term() | '_',
          first_compile_time         :: term() | '_',
-         imported_modules  = []     :: [string()] | '_' | '$2',
+         imported_modules  = []     :: [atom()] | '_' | '$2',
          binary            = <<>>   :: binary() | '_',
          erl_code                   :: string() | atom() | '_'
         }).
@@ -504,6 +504,8 @@ build_var_recs(ModName,VarSigs) ->
    {Ret,_} = lists:mapfoldl(Fx, 1, Fil),
    Ret.
 
+serial_qname(<<"Q{",_/binary>> = Namespace, LocalName) ->
+   <<Namespace/binary, LocalName/binary>>;
 serial_qname(Namespace, LocalName) ->
    <<"Q{", Namespace/binary, "}", LocalName/binary>>.
 
