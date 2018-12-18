@@ -28,9 +28,8 @@
 %% main API
 -export([tokens/1]).
 -export([scan_name/1]).
--export([remove_all_comments/1]).
 
--define(L, ?LINE).
+-define(L, get_line()).
 
 -define(space, 32).
 -define(cr,    13).
@@ -39,12 +38,18 @@
 %% whitespace consists of 'space', 'carriage return', 'line feed' or 'tab'
 -define(whitespace(H), (H==?space orelse H==?cr orelse H==?lf orelse H==?tab)).
 -define(notws(H), (H=/=?space andalso H=/=?cr andalso H=/=?lf andalso H=/=?tab)).
+-define(INC(H), _ = if H == ?lf -> incr_line(); true -> ok end).
+
+
 
 -include("xqerl.hrl").
 
 tokens(Str) ->
-   %?dbg("tokens(Str)", Str),
-    tokens(strip_ws(Str), []).
+   init_scan(),
+   Norm = normalize_lines(Str),
+   Toks = tokens(strip_ws(Norm), []),
+   destr_scan(),
+   Toks.
 
 tokens_encl([], Acc) ->
     lists:reverse(Acc);
@@ -184,7 +189,7 @@ scan_dc_token("</" ++ [H|T], _A, Depth) when ?notws(H) ->
                  end,
    A1 = {'</', ?L, '</'},
    A2 = [A1, QName],
-   {A2, strip_ws(T1), Depth -1};
+   {A2, strip_ws_c(T1), Depth -1};
 scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) -> 
    {QName, T1} = if H == $Q ->
                        {Tok1,T2} = scan_QName([H|T]),
@@ -199,7 +204,7 @@ scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) ->
                  end,
    
    {Atts, T4} = scan_dir_attr_list(T1, []),
-   {[{'<', ?L, '<'},QName, Atts  ], strip_ws(T4), Depth +1};
+   {[{'<', ?L, '<'},QName, Atts  ], strip_ws_c(T4), Depth +1};
 
 scan_dc_token(Str = "/>" ++ _, _A, 1) -> {computed, Str};
 scan_dc_token("/>" ++ T, _A, Depth) ->
@@ -228,15 +233,18 @@ scan_dc_token("{" ++ T, _A, Depth) ->
    %currently in a direct constructor, 
    %enclosed expressions can happen here, 
    %read ahead to get the entire expression
-   {Expr, T1} = scan_enclosed_expr(strip_ws(T), [], 1, 0, 0),
+   {Expr, T1} = scan_enclosed_expr(strip_ws_c(T), [], 1, 0, 0),
    %io:format("Expr: ~p T: ~p~n", [Expr, T1]),
-   Encl = tokens_encl(strip_ws(Expr), [{'{', 99, '{'}]),
+   Encl = tokens_encl(strip_ws_c(Expr), [{'{', 99, '{'}]),
    %io:format("Encl: ~p~n", [Encl]),
    {Encl, T1, Depth};
 
 scan_dc_token("}" ++ T, _A, Depth) -> {{'}', ?L, '}'}, T, Depth};
  
-scan_dc_token([H|T], _Acc, Depth) -> %when not ?whitespace(H) ->
+scan_dc_token([?lf|T], _Acc, Depth) ->
+   incr_line(),
+   {{'S', ?L, ?lf}, T, Depth};
+scan_dc_token([H|T], _Acc, Depth) ->
    case is_content_char(H) of
       true when ?whitespace(H) ->
          {{'S', ?L, H}, T, Depth};
@@ -274,22 +282,18 @@ reorder_dir_attr_list([{'S',_,_}|T],N,A) ->
 
 scan_dir_attr([H|T]) when ?whitespace(H) ->
    S = {'S',1,'S'},
-   T1 = strip_ws(T),
+   T1 = strip_ws_c(T),
+   ?INC(H),
    case scan_name(T1) of
       {invalid_name, _} ->
- %?dbg("invalid_name Line",{?LINE,T1}),
- %io:format("invname: ~p~n", [T1]),
          {[S], T1};
       {QName, T2} ->
- %io:format("name: ~p~n", [QName]),
-         "=" ++ T3 = strip_ws(T2),
+         "=" ++ T3 = strip_ws_c(T2),
          Q = QName,
          E = {'=', ?L, '='},
          % now in the attribute value
-         [Delim|T4] = strip_ws(T3),
- %io:format("delim: ~p~n", [[Delim]]),
+         [Delim|T4] = strip_ws_c(T3),
          {V, T5} = scan_dir_attr_value(Delim, T4),
- %io:format("V: ~p~n", [V]),
          {[S,Q,E,V], T5}
    end;
 scan_dir_attr(T) -> {[],T}.
@@ -345,8 +349,8 @@ scan_dir_attr_apos_value([H|T], Acc) ->
                %% in an attribute and got an expression
                % scan ahead to the end of the enclosed statement
                {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
-               SExpr = remove_all_comments(Expr),
-               Encl = tokens_encl(SExpr, [{'{', 98, '{'}]),
+               %SExpr = remove_all_comments(Expr),
+               Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
                scan_dir_attr_apos_value(T1, [Encl | Acc])
          end
    end.
@@ -396,8 +400,8 @@ scan_dir_attr_quot_value([H|T], Acc) ->
                % scan ahead to the end of the enclosed statement
                {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
                %?dbg("scan_dir_attr_quot_value Expr",Expr),
-               SExpr = remove_all_comments(Expr),
-               Encl = tokens_encl(SExpr, [{'{', ?L, '{'}]),
+               %SExpr = remove_all_comments(Expr),
+               Encl = tokens_encl(Expr, [{'{', ?L, '{'}]),
                %?dbg("scan_dir_attr_quot_value Encl",Encl),
                %?dbg("scan_dir_attr_quot_value T1",T1),
                scan_dir_attr_quot_value(T1, [Encl | Acc])
@@ -420,17 +424,12 @@ is_content_char($&) -> false;
 is_content_char(C) -> 
    xqerl_lib:is_xschar(C).
 
-
+% Comments
+scan_token("(:" ++ T, A) ->
+   scan_token(trim_comment(T), A);
 % NumberLiteral
 scan_token([H | T], _A) when H >= $0, H =< $9 ->  
    case scan_number([H | T]) of
-%%       {{integer, L, 0}, T1} ->
-%%          case lookback(A) of
-%%             '-' ->
-%%                {{'DoubleLiteral', L, 0.0}, T1};
-%%             _ ->
-%%                {{'IntegerLiteral', L, 0}, T1}
-%%          end;
       {{integer, L, Num}, T1} ->
          {{'IntegerLiteral', L, Num}, T1};
       {{decimal, L, Num}, T1} ->
@@ -438,12 +437,9 @@ scan_token([H | T], _A) when H >= $0, H =< $9 ->
       {{double, L, Num}, T1} ->
          {{'DoubleLiteral', L, Num}, T1}
    end;
-
 % StringLiteral
 scan_token([H|T], _A) when H == $" ; H == $' ->
-   %?dbg("StringLiteral",H),
    {Literal, T1} = scan_literal(T, H, []),
-   %?dbg("StringLiteral",Literal),
    {{'StringLiteral', ?L, Literal}, T1};
 
 % types
@@ -452,7 +448,6 @@ scan_token(Str = "xs:" ++ _T, _A) ->
 
 scan_token("Q{}" ++ T, _A) -> {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'}', ?L, '}'}], T};
 scan_token(Str = "Q{" ++ _, _A) ->
-   %?dbg("Q",Str),
    scan_QName(Str);
 scan_token("decimal-format" ++ T = Str, A) ->  
    case lookback(A) of
@@ -1397,7 +1392,9 @@ scan_token(Str = "item" ++ T, A) ->  % done
    end;
 
 scan_token(Str = [S,$i,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
-                                               (?whitespace(S)) -> 
+                                               (?whitespace(S)) ->
+   ?INC(H),
+   ?INC(S),
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));
@@ -1418,6 +1415,8 @@ scan_token("idiv" ++ T = Str, A) ->
 
 scan_token(Str = [S,$m,$o,$d,H|T], A)  when (?whitespace(H)) andalso
                                             (?whitespace(S)) -> 
+   ?INC(H),
+   ?INC(S),
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));
@@ -1438,6 +1437,8 @@ scan_token("mod" ++ T = Str, A) ->
 
 scan_token(Str = [S,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
                                             (?whitespace(S)) -> 
+   ?INC(H),
+   ?INC(S),
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));
@@ -1498,6 +1499,7 @@ scan_token(Str = "for" ++ T, _A) ->
 scan_token("and" ++ [$$|T], _A) -> 
    {{'and',?L,'and'}, [$$|T]};
 scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1509,6 +1511,7 @@ scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) ->
          {{'and',?L,'and'}, T}
    end;
 scan_token(Str = "to" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1520,6 +1523,7 @@ scan_token(Str = "to" ++ [H|T], A) when ?whitespace(H) ->
          {{'to',1,'to'}, T}
    end;
 scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '?' ->
          scan_name(Str);
@@ -1534,6 +1538,7 @@ scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) ->
    end;
 scan_token("of" ++ T, A) -> qname_if_path("of", T, lookback(A));
 scan_token(Str = "ne" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1545,6 +1550,7 @@ scan_token(Str = "ne" ++ [H|T], A) when ?whitespace(H) ->
          {{'ne',1,'ne'}, T}
    end;
 scan_token(Str = "lt" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case length(A) =/= 0 of
       true ->
          case lookback(A) of
@@ -1561,6 +1567,7 @@ scan_token(Str = "lt" ++ [H|T], A) when ?whitespace(H) ->
          scan_name(Str)
    end;
 scan_token(Str = "le" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case length(A) =/= 0 of
       true ->
          case lookback(A) of
@@ -1640,6 +1647,7 @@ scan_token(Str = "if" ++ T, _A) ->
          scan_name(Str)
    end;
 scan_token(Str = "gt" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1651,6 +1659,7 @@ scan_token(Str = "gt" ++ [H|T], A) when ?whitespace(H) ->
          {{'gt',1,'gt'}, T}
    end;
 scan_token(Str = "ge" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1662,6 +1671,7 @@ scan_token(Str = "ge" ++ [H|T], A) when ?whitespace(H) ->
          {{'ge',1,'ge'}, T}
    end;
 scan_token(Str = "eq" ++ [H|T], A) when ?whitespace(H) -> 
+   ?INC(H),
    case lookback(A) of
       '/' ->
          scan_name(Str);
@@ -1708,8 +1718,10 @@ scan_token(Str = "as" ++ T, A) ->
                {{'as',?L,'as'}, T};
             ')' ->
                {{'as',?L,'as'}, T};
+            'cast' ->
+               {{'as',?L,'as'}, T};
             _LB ->
-               %?dbg("LB",LB),
+               ?dbg("LB",_LB),
                case lookforward_is_paren(T) of
                   true ->
                      scan_name(Str);
@@ -1747,7 +1759,6 @@ scan_token("(/)" ++ T, A) ->
 scan_token("!=" ++ T, _A) ->  {{'!=', ?L, '!='}, T};
 scan_token(".." ++ T, _A) ->  {{'..', ?L, '..'}, T};
 scan_token("//" ++ T, _A) ->  {{'//', ?L, '//'}, T};
-%scan_token("/>" ++ T, _A) ->  {{'/>', ?L, '/>'}, T};
 scan_token("::" ++ T, _A) ->  {{'::', ?L, '::'}, T};
 scan_token(":=" ++ T, _A) ->  {{':=', ?L, ':='}, T};
 scan_token(Str = ":*" ++ _T, _A) ->  
@@ -1758,24 +1769,8 @@ scan_token("*:=" ++ T, _A) ->
    ;
 scan_token("*:*" ++ T, _A) -> % let the parser figure it out
    {[{'*', ?L, '*'},{':', ?L, ':'},{'*', ?L, '*'}], T};
-%%    case lookback(A) of
-%%       '{' ->
-%%          {[{'*', ?L, '*'},{':', ?L, ':'},{'*', ?L, '*'}], T};
-%%       ',' ->
-%%          {[{'*', ?L, '*'},{':', ?L, ':'},{'*', ?L, '*'}], T};
-%%       _ ->
-%%          {[{'*', ?L, '*'},{':*', ?L, ':*'}], T}
-%%    end;
 scan_token(Str = "*:" ++ _T, _A) ->
    scan_name(Str);
-%%    case lookforward_is_ws(T) of
-%%       true ->
-%%          ?dbg(?LINE,'XPST0003'),
-%%          xqerl_error:error('XPST0003');
-%%       _ ->
-%%          {{'*:', ?L, '*:'}, T}
-%%    end;
-%scan_token("</" ++ T, _A) ->  {{'</', ?L, '</'}, T};
 scan_token("<<" ++ T, _A) ->  {{'<<', ?L, '<<'}, T};
 scan_token("<=" ++ T, _A) ->  {{'<=', ?L, '<='}, T};
 scan_token(">=" ++ T, _A) ->  {{'>=', ?L, '>='}, T};
@@ -1787,25 +1782,6 @@ scan_token("$" ++ T, _A) ->
 scan_token("(" ++ T, _A) ->  {{'(', ?L, '('}, T};
 scan_token(")" ++ T, _A) ->  {{')', ?L, ')'}, T};
 scan_token("*" ++ T, _A) ->  {{'*', ?L, '*'}, T};
-%%    case lookback(A) of
-%%       [] ->
-%%          {{'*', ?L, '*'}, T};
-%%       'IntegerLiteral' ->
-%%          {{'*', ?L, '*'}, T};
-%%       X ->
-%%          case special_token(X) of
-%%             false ->
-%%                {{'*', ?L, '*'}, T};
-%%              true ->
-%%                 % maybe in path, look for QName
-%%                 case scan_name("*" ++ T) of
-%%                    {invalid_name, _} ->
-%%                       {{'*', ?L, '*'}, T};
-%%                    {QName, T2} ->
-%%                       {QName, T2}
-%%                 end                     
-%%          end
-%%    end;
 scan_token("," ++ T, _A) ->  {{',', ?L, ','}, T};
 scan_token("." ++ T, A) ->  
    case lookforward_is_number(T) of
@@ -1865,10 +1841,13 @@ scan_token(":)" ++ _T, A) -> % unbalanced comment
    ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
+   ?INC(H),
    {{':=', ?L, ':='}, T};
 scan_token([H,$:|T], _A) when ?whitespace(H) ->
+   ?INC(H),
    {{' :', ?L, ' :'}, T};
 scan_token([$:,H|T], _A) when ?whitespace(H) -> 
+   ?INC(H),
    {{': ', ?L, ': '}, T};
 scan_token(":" ++ T, _A) ->  {{':', ?L, ':'}, T};
 scan_token(";" ++ T, _A) ->  {{';', ?L, ';'}, T};
@@ -1881,42 +1860,58 @@ scan_token("|" ++ T, _A) ->  {{'|', ?L, '|'}, T};
 scan_token("}" ++ T, _A) ->  {{'}', ?L, '}'}, T}; 
 scan_token("+" ++ T, _A) ->  {{'+', ?L, '+'}, T};
 scan_token("!" ++ T, _A) ->  {{'!', ?L, '!'}, T};
+scan_token("<" ++ [H|T], A) when ?whitespace(H) ->
+   ?INC(H),
+   case lookback(A) of
+      {'$',_,_} ->
+         {{'<', ?L, '<'}, T};
+      _ ->
+   ?dbg("lookback(A)",lookback(A)),
+         {[{'<', ?L, '<'},{'S', ?L, 'S'}], T}
+   end;
 % could be a direct constructor
 scan_token(Str = "<" ++ T, A) ->
    case lookback(A) of
       'lone-slash' ->
          %?dbg("lone-slash",A),
          {{'<', ?L, '<'}, T};
-      _ ->
-         case scan_name(string:trim(T)) of
+      LB ->
+         case scan_name(T) of
+            {invalid_name, _} when LB == [] ->
+               ?err('XPST0003');
             {invalid_name, _} ->
-               %?dbg("T",T),
                {{'<', ?L, '<'}, T};
             _ -> 
-               case scan_name(T) of
-                  {invalid_name, _} ->
-                     %?dbg("T",T),
-                     {{'<', ?L, '<'}, T};
-                  _ -> 
-                     {direct, Str, 0}
-               end
+               {direct, Str, 0}
          end
    end;
 scan_token("=" ++ T, _A) ->  {{'=', ?L, '='}, T};
 scan_token(">" ++ T, _A) ->  {{'>', ?L, '>'}, T};
 % QName as the fall-through, for function names
 scan_token([H|T], _A) when ?whitespace(H) ->  
-   %?dbg("H",H),
+   ?INC(H),
    {rescan, T};
 scan_token(T, _A) ->
    %?dbg("fallthrough",T),
    scan_name(T).
 
 
+strip_ws([?lf|T]) ->
+   incr_line(),
+   strip_ws(T);
 strip_ws([H|T]) when ?whitespace(H) ->
-    strip_ws(T);
+   strip_ws(T);
+strip_ws("(:" ++ T) ->
+   strip_ws(trim_comment(T));
 strip_ws(T) ->
-    T.
+   T.
+
+strip_ws_c([?lf|T]) ->
+   incr_line(),
+   strip_ws_c(T);
+strip_ws_c([H|T]) when ?whitespace(H) ->
+   strip_ws_c(T);
+strip_ws_c(T) -> T.
 
 scan_integer([], Acc) ->
    {{integer, ?L, list_to_integer(lists:reverse(Acc))}, []};
@@ -1962,41 +1957,39 @@ scan_decimal(T, Acc) ->
     }, T}.
 
 scan_double([], Acc) ->
-    case catch list_to_float(lists:reverse(Acc)) of
-       {'EXIT',_} ->
-          {{double, ?L, infinity}, []};
-       Dbl ->
-          {{double, ?L, Dbl}, []}
-    end;
+   case catch list_to_float(lists:reverse(Acc)) of
+      {'EXIT',_} ->
+         {{double, ?L, infinity}, []};
+      Dbl ->
+         {{double, ?L, Dbl}, []}
+   end;
 scan_double([H|T], Acc) when H >= $0, H =< $9 ->
-    {Number, T1} = scan_digits([H|T], Acc),
-    case catch list_to_float(Number) of
-       {'EXIT',_} ->
-          {{double, ?L, infinity}, T1};
-       Dbl ->
-          {{double, ?L, Dbl}, T1}
-    end.
+   {Number, T1} = scan_digits([H|T], Acc),
+   case catch list_to_float(Number) of
+      {'EXIT',_} ->
+         {{double, ?L, infinity}, T1};
+      Dbl ->
+         {{double, ?L, Dbl}, T1}
+   end.
 
 %% scan_number will catch a leading dot
 
 scan_number(T) ->
     scan_number(T, []).
 
-%% scan_number([], Acc) ->
-%%     {{integer, ?L, list_to_integer(lists:reverse(Acc))}, []};
 scan_number("." ++ T, []) ->
-    scan_decimal(T, ".0");
+   scan_decimal(T, ".0");
 scan_number([H|T], Acc) when H >= $0, H =< $9 ->
-    scan_integer(T, [H|Acc]);
+   scan_integer(T, [H|Acc]);
 scan_number(T, Acc) ->
-    {{integer, ?L, list_to_integer(lists:reverse(Acc))}, T}.
+   {{integer, ?L, list_to_integer(lists:reverse(Acc))}, T}.
 
 scan_digits([], Acc) ->
-    {lists:reverse(Acc), []};
+   {lists:reverse(Acc), []};
 scan_digits([H|T], Acc) when H >= $0, H =< $9 ->
-    scan_digits(T, [H|Acc]);
+   scan_digits(T, [H|Acc]);
 scan_digits(T, Acc) ->
-    {lists:reverse(Acc), T}.
+   {lists:reverse(Acc), T}.
 
 scan_literal([H, H | T], H, Acc) -> % double delim
    scan_literal(T, H, [H|Acc]);
@@ -2017,34 +2010,27 @@ scan_literal("&#x" ++ T, Delim, Acc) ->
    scan_literal(T1, Delim, [CP|Acc]);
 scan_literal("&#" ++ T, Delim, Acc) ->
    {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
-   %?dbg("CP",CP),
    scan_literal(T1, Delim, [CP|Acc]);
 scan_literal("&" ++ _T, _Delim, _Acc) -> % not allowed in literal
    xqerl_error:error('XPST0003');
 scan_literal([H|T], Delim, Acc) ->
-    scan_literal(T, Delim, [H|Acc]).
-
-%% scan_dc_token("&#x" ++ T, _A, Depth) ->  
-%%    {S, T1} = scan_hex_char_ref(T, []),
-%%    {S, T1, Depth};
+   scan_literal(T, Delim, [H|Acc]).
 
 scan_QName("Q{" ++ T) ->
    {Uri, T1} = scan_braced_uri(T,[]),
-   %?dbg("scan_token",{?L, Uri}),
    {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'StringLiteral', ?L, Uri},{'}', ?L, '}'}], T1};
 scan_QName(Str) ->
    scan_name(Str).
 
-%scan_name([H1, H2 | T]) when H1 == $: ; H1 == $_ ->
 scan_name([H1, H2 | T]) when H1 == $: ->
-    if ?whitespace(H2) ->
-          ?dbg("Line",?LINE),
-          {invalid_name, [H1,H2|T]};
-       true ->
-          scan_prefix([H2|T], [H1])
-    end;
+   if ?whitespace(H2) ->
+         ?dbg("Line",?LINE),
+         {invalid_name, [H1,H2|T]};
+      true ->
+         scan_prefix([H2|T], [H1])
+   end;
 scan_name([H|T]) when H == $* ->
-    scan_prefix([H|T], []);
+   scan_prefix([H|T], []);
 scan_name([$_|T]) ->
    scan_prefix(T, [$_]);
 scan_name([H|T]) ->
@@ -2055,7 +2041,6 @@ scan_name([H|T]) ->
       true ->
           scan_prefix(T, [H]);
       false ->
-         %?dbg("Line",[H]),
           {invalid_name, [H|T]}
    end;
 scan_name(Str) ->
@@ -2063,52 +2048,48 @@ scan_name(Str) ->
    {invalid_name, Str}.
 
 scan_prefix([], Acc) ->
-    {{'NCName',?L, lists:reverse(Acc)}, []};
+   {{'NCName',?L, lists:reverse(Acc)}, []};
 scan_prefix(Str = [H|_], Acc) when ?whitespace(H) ->
-    {{'NCName',?L, lists:reverse(Acc)}, Str};
+   {{'NCName',?L, lists:reverse(Acc)}, Str};
 scan_prefix(T = "::" ++ _, Acc) ->
-    %% This is the next token
-    {{'NCName',?L, lists:reverse(Acc)}, T};
+   %% This is the next token
+   {{'NCName',?L, lists:reverse(Acc)}, T};
 scan_prefix(":" ++ T, Acc) ->
-    {LocalPart, T1} = scan_local_part(T, []),
-    case LocalPart of
-       {'*',_, _} ->
-          Prefix = {'NCName',?L, lists:reverse(Acc)},
-          {[Prefix,{':*',?L, ':*'}], T1};
-       {'NCName',_, []} ->
-          {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
-       {'NCName',_, [H2|_] = L1} ->
-          case xmerl_lib:is_letter(H2) 
-             orelse H2 =:= $_ 
-             orelse H2 == 895
-             orelse H2 == 383 of
-             true ->
-                %?dbg("LocalPart",LocalPart),
-                Prefix = {'NCName',?L, lists:reverse(Acc)},
-                {[Prefix, {':',?L, ':'}, LocalPart], T1};
-             _ ->
-                {{'NCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
-          end%;
-%%        _ ->
-%%           %?dbg("LocalPart",LocalPart),
-%%           Prefix = {'NCName',?L, lists:reverse(Acc)},
-%%           {[Prefix, {':',?L, ':'}, LocalPart], T1}
-    end;
+   {LocalPart, T1} = scan_local_part(T, []),
+   case LocalPart of
+      {'*',_, _} ->
+         Prefix = {'NCName',?L, lists:reverse(Acc)},
+         {[Prefix,{':*',?L, ':*'}], T1};
+      {'NCName',_, []} ->
+         {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
+      {'NCName',_, [H2|_] = L1} ->
+         case xmerl_lib:is_letter(H2)
+            orelse H2 =:= $_
+            orelse H2 == 895
+            orelse H2 == 383 of
+            true ->
+               %?dbg("LocalPart",LocalPart),
+               Prefix = {'NCName',?L, lists:reverse(Acc)},
+               {[Prefix, {':',?L, ':'}, LocalPart], T1};
+            _ ->
+               {{'NCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
+         end
+   end;
 scan_prefix("*:" ++ T, _Acc) when T =/= [] ->
-    {LocalPart, T1} = scan_local_part(T, []),
-    Prefix = {'*:',?L, '*:'},
-    {[Prefix, LocalPart], T1};
+   {LocalPart, T1} = scan_local_part(T, []),
+   Prefix = {'*:',?L, '*:'},
+   {[Prefix, LocalPart], T1};
 scan_prefix("*" ++ T, []) ->
-    {{'*',?L, '*'}, T};
+   {{'*',?L, '*'}, T};
 scan_prefix(Str = [H|T], Acc) ->
-    case xmerl_lib:is_namechar(H)
-       orelse H == 895
-       orelse H == 383 of
-   true ->
-       scan_prefix(T, [H|Acc]);
-   false ->
-       {{'NCName',?L, lists:reverse(Acc)}, Str}
-    end.
+   case xmerl_lib:is_namechar(H)
+      orelse H == 895
+      orelse H == 383 of
+      true ->
+         scan_prefix(T, [H|Acc]);
+      false ->
+         {{'NCName',?L, lists:reverse(Acc)}, Str}
+   end.
 
 scan_local_part([], Acc) ->
    {{'NCName',?L, lists:reverse(Acc)}, []};
@@ -2125,7 +2106,6 @@ scan_local_part(Str = [H|T], Acc) ->
       true ->
          scan_local_part(T, [H|Acc]);
       false ->
-         %?dbg("Acc",Acc),
          {{'NCName',?L, lists:reverse(Acc)}, Str}
    end.
 
@@ -2140,13 +2120,11 @@ special_token('[') -> true;
 special_token('/') -> true;
 special_token('//') -> true;
 special_token('|') -> true;
-%special_token('+') -> true;
 special_token('-') -> true;
 special_token('=') -> true;
 special_token('!=') -> true;
 special_token('<') -> true;
 special_token('<=') -> true;
-%special_token('>') -> true;
 special_token('>=') -> true;
 special_token('and') -> true;
 special_token('or') -> true;
@@ -2157,21 +2135,13 @@ special_token(':=') -> true;
 special_token('where') -> true;
 special_token(_) -> false.
 
-lookback(A) ->
-   %?dbg("A",A),
-   case A of
-      [[X,_]|_] ->
-         X;
-      [{X,_,_}|_] ->
-         X;
-      [[{'NCName',_,_},_,_]|_] -> % function call w/ prefix
-         'NCName';
-      [[{'``[',_,_}|_]|_] -> % string constructor
-         '``[';
-      _O ->
-         %?dbg("lookback",O),
-         []
-   end.
+lookback([[X,_]|_]) -> X;
+lookback([{X,_,_}|_]) -> X;
+% function call w/ prefix
+lookback([[{'NCName',_,_},_,_]|_]) -> 'NCName';
+% string constructor
+lookback([[{'``[',_,_}|_]|_]) -> '``[';
+lookback(_) -> [].
 
 lookforward_greatest_least(T) ->
    case lookforward_is_ws(T) of
@@ -2247,9 +2217,6 @@ lookforward_is_ws(_) ->
 lookforward_is_axis(T) ->
    case strip_ws(T) of
       "::" ++ _ -> true;
-%%       "(" ++ _ -> true;
-%%       % or constructor
-%%       "{" ++ _ -> true;
       _ -> false
    end.
 
@@ -2268,9 +2235,6 @@ lookforward_is_number([H|_]) ->
       true ->
          false
    end.
-
-%% lookforward_is_nameletter([H|_]) ->
-%%    xqerl_lib:is_xschar(H).
 
 lookforward_is_end(T) ->
    case strip_ws(T) of
@@ -2424,25 +2388,24 @@ reserved_function_name("text") -> true;
 reserved_function_name("typeswitch") -> true;
 reserved_function_name(_) -> false.
 
-             
-
 scan_direct_comment_text([], _A) ->  
    ?dbg("unbalanced comment",'XPST0003'),
    xqerl_error:error('XPST0003');
-%%    {{'comment-text', ?L, lists:reverse(A)}, []};
 scan_direct_comment_text("-->" ++ T, A) ->  
    {{'comment-text', ?L, lists:reverse(A)}, T};
 scan_direct_comment_text("--" ++ _T, _A) ->  
    ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
-scan_direct_comment_text([H|T], A) ->  
+scan_direct_comment_text([H|T], A) ->
+   ?INC(H),
    scan_direct_comment_text(T, [H|A] ).
 
 scan_cdata_contents([], A) ->  
    {{'cdata-contents', ?L, lists:reverse(A)}, []};
 scan_cdata_contents("]]>" ++ T, A) ->
    {{'cdata-contents', ?L, lists:reverse(A)}, T};
-scan_cdata_contents([H|T], A) ->  
+scan_cdata_contents([H|T], A) ->
+   ?INC(H),
    scan_cdata_contents(T, [H|A] ).
 
 % {Target, Contents, Tail}
@@ -2455,11 +2418,11 @@ scan_direct_pi_constructor([H1, H2, H3, H4 | _]) when H1 == $X orelse H1 == $x ,
    xqerl_error:error('XPST0003');
 scan_direct_pi_constructor([H|_]) when ?whitespace(H) -> xqerl_error:error('XPST0003');
 scan_direct_pi_constructor(Str) ->  
-   %T1 = strip_ws(T),
    {{_,_,Target}, T1} = scan_name(Str),
    % significant ws
    case T1 of
       [H|T2] when ?whitespace(H) ->
+         ?INC(H),
          T3 = strip_ws(T2),
          case scan_direct_pi_contents(T3, []) of
             {Contents, T4} ->
@@ -2480,6 +2443,7 @@ scan_direct_pi_contents("?>" ++ T, []) ->
 scan_direct_pi_contents("?>" ++ T, Acc) ->
    {lists:reverse(Acc), "?>" ++ T};
 scan_direct_pi_contents([H|T], Acc) ->
+   ?INC(H),
    scan_direct_pi_contents(T, [H|Acc]).
 
 
@@ -2511,23 +2475,13 @@ scan_hex_char_ref([H|T], Acc) when H == $; ->
    end.
 
 scan_entity_ref([H|T], Acc) when H == $; ->
-  {{'EntityRef', ?L, lists:reverse([H|Acc])}, T};
+   {{'EntityRef', ?L, lists:reverse([H|Acc])}, T};
 scan_entity_ref([H|T], Acc) ->
-  scan_entity_ref(T, [H|Acc]).
-
-
-remove_inline_comment("(:" ++ T, D) ->
-   remove_inline_comment(T, D + 1);
-remove_inline_comment(":)" ++ T,1) ->
-   T;
-remove_inline_comment(":)" ++ T, D) ->
-   remove_inline_comment(T, D - 1);
-remove_inline_comment([_|T], D) ->
-   remove_inline_comment(T, D).
-
+   ?INC(H),
+   scan_entity_ref(T, [H|Acc]).
 
 scan_enclosed_expr("(:" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   T1 = remove_inline_comment(T,1),   
+   T1 = trim_comment(T),   
    scan_enclosed_expr(T1, Acc, CurlyDepth, AposDepth, QuotDepth);
 scan_enclosed_expr("''" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ->
    scan_enclosed_expr(T, "''"++Acc, CurlyDepth, AposDepth, QuotDepth);
@@ -2548,10 +2502,8 @@ scan_enclosed_expr("{" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
    scan_enclosed_expr(T, "{"++Acc, CurlyDepth +1, AposDepth, QuotDepth);
 
 scan_enclosed_expr("}" ++ T, Acc, 1, _AposDepth, _QuotDepth) ->
-   %?dbg("done",Acc),
    { lists:flatten(lists:reverse([$}|Acc])), T};
 scan_enclosed_expr("}" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   %?dbg("not done",CurlyDepth),
    scan_enclosed_expr(T, "}"++Acc, CurlyDepth -1, AposDepth, QuotDepth);
 
 scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth) ->
@@ -2561,56 +2513,31 @@ scan_enclosed_expr(Str, Acc, CurlyDepth, AposDepth, QuotDepth) ->
    ?dbg("scan_enclosed_expr", {Str, Acc, CurlyDepth, AposDepth, QuotDepth}),
    xqerl_error:error('XPST0003').
 
+% normalize end-of-line characters 
+normalize_lines([13,10|T]) ->
+   [10|normalize_lines(T)];
+normalize_lines([13|T]) ->
+   [10|normalize_lines(T)];
+normalize_lines([H|T]) ->
+   [H|normalize_lines(T)];
+normalize_lines([]) -> [].
+
 % remove all xquery comments, they can be nested
-% also normalize end-of-line characters 
-remove_all_comments(Bin) ->
-   scan_comments(Bin, 0, none).
+trim_comment(Str) ->
+   scan_comments(Str, 1).
 
-scan_comments([13,10|T], Depth, Type) ->
-   [10|scan_comments(T, Depth, Type)];
-scan_comments([13|T], Depth, Type) ->
-   [10|scan_comments(T, Depth, Type)];
-%% scan_comments("{" ++ T, 0, none) -> % start encl expr
-%%    ?dbg("H",0),
-%%    "{" ++ scan_comments(T, 0, "{");
-%% scan_comments("}" ++ T, 0, "{") -> % end encl expr
-%%    ?dbg("H",0),
-%%    "}" ++ scan_comments(T, 0, none);
-scan_comments("(#" ++ T, 0, none) -> % start pragma
-   "(#" ++ scan_comments(T, 0, "(#");
-scan_comments("#)" ++ T, 0, "(#") -> % end pragma
-   "#)" ++ scan_comments(T, 0, none);
-scan_comments("'" ++ T, 0, none) -> % start text
-   [$'|scan_comments(T, 0, "'")];
-scan_comments("'" ++ T, 0, "'") -> % end text
-   [$'|scan_comments(T, 0, none)];
-scan_comments("\"" ++ T, 0, none) -> % start text
-   [$"|scan_comments(T, 0, "\"")];
-scan_comments("\"" ++ T, 0, "\"") -> % end text
-   [$"|scan_comments(T, 0, none)];
+scan_comments("(:" ++ T, Depth) -> % start comment
+   scan_comments(T, Depth + 1);
+scan_comments(":)" ++ T, Depth) when Depth > 1 -> % end comment
+   scan_comments(T, Depth - 1);
+scan_comments(":)" ++ T, 1) -> % end comment
+   " " ++ T;
+scan_comments([], _) -> % in comment with no more text
+   ?err('XPST0003');
+scan_comments([_|T], Depth) -> % in comment
+   scan_comments(T, Depth).
 
-%% scan_comments("(:" ++ T, Depth, "{") -> % start comment
-%%    ?dbg("H",Depth),
-%%    scan_comments(T, Depth + 1, "{");
-%% scan_comments(":)" ++ T, Depth, "{") when Depth > 1 -> % end comment
-%%    ?dbg("H",Depth),
-%%    scan_comments(T, Depth - 1, "{");
 
-scan_comments("(:" ++ T, Depth, none) -> % start comment
-   scan_comments(T, Depth + 1, none);
-scan_comments(":)" ++ T, Depth, none) when Depth > 1 -> % end comment
-   scan_comments(T, Depth - 1, none);
-scan_comments(":)" ++ T, 1, none) -> % end comment
-   " "++scan_comments(T, 0, none);
-scan_comments([H|T], 0, Q) -> % not in comment
-   [H|scan_comments(T, 0, Q)];
-scan_comments([], Depth, none) when Depth > 0 -> % in comment with no more text
-   ?dbg(?LINE,'XPST0003'),
-   xqerl_error:error('XPST0003');
-scan_comments([_|T], Depth, Q) -> % in comment
-   scan_comments(T, Depth, Q);
-scan_comments([], _,_) ->
-   [].
 
 scan_str_const([], _A, _L) ->
    ?dbg(?LINE,'XPST0003'),
@@ -2682,12 +2609,6 @@ scan_pragma("#)"++T, [], L) ->
    end;
 scan_pragma("#)"++T, A, L) ->
    {lists:reverse([{'#)', ?L, '#)'}, {'PragmaContents',2,lists:reverse(A)} | L]),  T};
-%%    case  hd(L) of
-%%       {'S',_,_} ->
-%%          {lists:reverse([{'#)', ?L, '#)'}, {'PragmaContents',2,lists:reverse(A)} | tl(L)]),  T};
-%%       _ ->
-%%          {lists:reverse([{'#)', ?L, '#)'}, {'PragmaContents',2,lists:reverse(A)} | L]),  T}
-%%    end;
 scan_pragma([H|T], A, L) ->
    scan_pragma(T, [H|A], L).
 %PragmaContents
@@ -2727,4 +2648,16 @@ in_flwor([{'window',_,'window'}|_]) -> true;
 in_flwor([{'return',_,'return'}|_]) -> false;
 in_flwor([_|T]) -> in_flwor(T).
 
-  
+incr_line() ->
+   Val = erlang:get('$_xqerl_current_line'),
+   erlang:put('$_xqerl_current_line', Val + 1).
+
+get_line() ->
+   erlang:get('$_xqerl_current_line').
+
+init_scan() ->
+   erlang:put('$_xqerl_current_line', 1).
+
+destr_scan() ->
+   erlang:erase('$_xqerl_current_line').
+

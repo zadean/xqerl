@@ -336,7 +336,8 @@ x(G, Map, Parent, {'function-ref', Nm0, Ar}) ->
                add_edge(G, {-1,Nm,Ar}, Parent),
                add_edge(G, {Id,Nm,Ar}, Parent);
             true ->
-               add_edge(G, {Id,Nm,Ar}, Parent)
+               add_edge(G, {Id,Nm,Ar}, Parent) % allow local function refs...
+               %add_edge(G, {-1,Nm,Ar}, Parent) % allow local function refs...
          end;
       _ -> % non local function
          add_properties(G, Nm0, Ar),

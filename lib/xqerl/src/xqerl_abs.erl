@@ -47,9 +47,18 @@
 -compile(inline_list_funcs).
 
 
-records() ->
+used_records() ->
+   Recs = static_records(),
+   Used = get_used_record_types(),
+   lists:map(fun(A) ->
+                   proplists:get_value(A, Recs)
+             end, Used).
+   
+all_records() ->
+   [P || {_,P} <- static_records()].
+
+static_records() ->
    %% TODO add default values
-   Recs = 
    [{xqError,                     "-record(xqError,{name,description,value,location,additional})."},
     {xqAtomicValue,               "-record(xqAtomicValue,{type,value})."},
     {qname,                       "-record(qname,{namespace,prefix,local_name})."},
@@ -66,12 +75,8 @@ records() ->
     {xqSeqType,                   "-record(xqSeqType,{type,occur})."},
     {xqKindTest,                  "-record(xqKindTest,{kind,name,type})."},
     {xqRange,                     "-record(xqRange,{min,max,cnt})."}
-   ],
-   Used = get_used_record_types(),
-   lists:map(fun(A) ->
-                   proplists:get_value(A, Recs)
-             end, Used).
-   
+   ].
+
 revert(L) when is_list(L) ->
    [erl_syntax:revert(I) || I <- L];
 revert(I) ->
@@ -203,8 +208,8 @@ scan_mod(#xqModule{prolog = Prolog,
                    type = library,
                    body = _}, Map) ->
    
-   Dis = cowboy_router:compile([{'_', []}]),
-   _ = cowboy:start_clear(xqerl_listener, [{port, 8082}], #{env => #{dispatch => Dis}}),
+% Dis = cowboy_router:compile([{'_', []}]),
+% _ = cowboy:start_clear(xqerl_listener, [{port, 8082}], #{env => #{dispatch => Dis}}),
    
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
@@ -249,13 +254,13 @@ scan_mod(#xqModule{prolog = Prolog,
          ?P(export_variables(Variables, EmptyMap)),
          ?P(export_functions(Functions)),
          RestExports,
-         ?P(records())
+         ?P(used_records())
         ]),
-   P10 = P3 ++ [P1a|P4] ++ P5 ++ P6 ++ P7 ++ P8 ++ P9,
-   RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
-   Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
- ?dbg("Dispatch",Dispatch),
-   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+   P10 = lists:flatten([P3, [P1a|P4], P5, P6, P7, P8, P9]),
+% RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
+% Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
+% ?dbg("Dispatch",Dispatch),
+% _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
    {ModNs,
     library,
     ImportedMods,
@@ -320,9 +325,7 @@ scan_mod(#xqModule{prolog = Prolog,
             "-export([main/1])."
            ]),
    P1a = {attribute,1,file,{FileName1,2}},
-   P3 = ?P([%"-compile(inline_list_funcs).",
-            "-compile(inline).",
-            %"-compile({inline_size,150}).",
+   P3 = ?P([%"-compile(inline).", % later ...
             "init() ->",
             "  _ = xqerl_lib:lnew(),",
             "  Tab = xqerl_context:init(),",
@@ -336,13 +339,76 @@ scan_mod(#xqModule{prolog = Prolog,
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
                        RestExports,
-                       ?P(records())]),
+                       ?P(used_records())]),
    {FileName,
     main,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    P1 ++ [P1a|P2] ++ P3 ++ P4 ++ P5 ++ P6 ++ P7
+    lists:flatten([P1,[P1a|P2],P3,P4,P5,P6,P7])
+   };
+
+scan_mod(#xqModule{prolog = Prolog, 
+                   type = expression, % simple commands  
+                   body = Body}, #{tab := Tab} =  Map) ->
+   xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
+   _ = init_mod_scan(),
+   ok = set_globals(Prolog, Map),
+   _ = add_used_record_type(xqAtomicValue),
+   _ = add_used_record_type(xqSeqType),
+   % the prolog is sorted in reverse order
+   Imports     = xqerl_static:pro_mod_imports(Prolog),
+   
+   VarFun = fun(#xqVar{} = V) ->
+                  {true,V};
+               ({'context-item',{_,_,_} = V}) ->
+                  {true,{'context-item',V}};
+               (_) ->
+                  false
+            end,
+   Variables   = lists:filtermap(VarFun, Prolog),
+   {Functions1, Variables1, StaticProps} = 
+     xqerl_context:get_module_exports(Imports),
+   
+   ok = xqerl_context:import_variables(Variables1,Tab),
+   ok = xqerl_context:import_functions(Functions1,Tab),
+   
+   VarFun1 = fun(#xqVar{annotations = Annos,
+                        external = External,
+                        name = Name,
+                        type = Type}) ->
+                   Name2 = xqerl_static:variable_hash_name(Name),
+                   {Name, Type, Annos, {Name2,1},External };
+                (X) ->
+                   X
+             end,
+   
+   EmptyMap = Map#{%namespaces => ConstNamespaces,
+                   variables => lists:map(VarFun1, Variables)
+                  }, 
+   
+   MapItems = init_fun_abs(
+                EmptyMap#{module => undefined},
+                maps:get(stat_props, EmptyMap) ++ [options|[module|StaticProps]]),
+   % abstract after this point
+   P1 = ?Q(["-module(dummy)."]),
+   P2 = ?P(all_records()),
+   P3 = ?Q(["fun() ->",
+            "  _ = xqerl_lib:lnew(),",
+            "  Tab = xqerl_context:init(),",
+            "  Map = maps:put(tab,Tab,_@MapItems),",
+            "  xqerl_context:set_named_functions(Tab,maps:get(named_functions,Map,[])),",
+            "  maps:remove(named_functions,Map) end()"]),
+   P4 = expression_body(EmptyMap, Body, Prolog, Variables, P3), % this will also setup the global variable match
+   PAll = lists:flatten([[P1],[P2],[P4]]),
+   Exp = erl_expand_records:module(revert(PAll), []),
+   [{clause,_,_,_,Block}] = [Cla || {function,_,dummy,_, [Cla]} <- Exp],
+   {undefined,
+    expression,
+    [],
+    scan_variables(EmptyMap,Variables, public),
+    [],
+    Block
    }.
 
 %% used in library modules instead of main init 
@@ -716,7 +782,75 @@ body_function(ContextMap, Body,Prolog) ->
            "."]),
 %%    ?dbg("M",M),
    [M].
+
+expression_body(ContextMap, Body, Prolog, Variables, Init) ->
+      Stats = [N || {_,N} <- xqerl_context:static_namespaces()],
+   ImportedMods = [E || 
+                   {'module-import',{N,P} = E} <- Prolog,
+                   not lists:member(N, Stats),
+                   P =/= <<>>],
+   _ = erlang:put(ctx, 1),
+%?dbg("ImportedMods",ImportedMods),
+   ImpSetFun = fun({I,_} = _M, CtxVar) ->
+                     NC0 = next_ctx_var_name(),
+                     NV0 = {var,?L,NC0},
+                     At = xqerl_static:string_atom(I),
+                     O = ?P("_@NV0 = '@At@':init(_@CtxVar)"),
+                     {O,NV0}
+               end,
+   {ImportedVars,FCtx} = lists:mapfoldl(ImpSetFun, {var,?L,'Ctx0'}, ImportedMods),
    
+   VarSetFun = 
+      fun({N,_T,_A,{V,1},_Ext}, CtxVar) ->
+            AV = {var,?L,next_var_name()},
+            NC = next_ctx_var_name(),
+            NV = {var,?L,NC},
+            [ExtVar] = [TheVar || 
+                        #xqVar{name = Nm} = TheVar <- Variables, 
+                        Nm == N], 
+            VarFun = internal_variable_function(ContextMap, ExtVar),
+            P = ?Q(["_@AV = _@VarFun,",
+                    "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
+            %P = ?P("xqerl_lib:lput('@V@','@V@'(_@CV))"),
+            {P, NV};
+         ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
+            NC = next_ctx_var_name(),
+            NV = {var,?L,NC},
+            NextVar = {var,?L,next_var_name()},
+            Occ = if External =:= external -> zero_or_one;
+                     Expr =/= []           -> one;
+                     true                  -> zero_or_one
+                  end,
+            NewC = set_context_variable_name(ContextMap, C),
+            E1 = expr_do(NewC, #xqSeqType{type = CType, occur = Occ}),
+            E2 = expr_do(NewC, Expr),
+            P = ?Q(["_@NV = begin ",
+                    " CI = maps:get('context-item', Options, _@E2),"
+                    " _@NextVar = xqerl_types:promote(CI,_@E1),",
+                    " xqerl_context:set_context_item(_@CtxVar1,_@NextVar,1,",
+                    "   #xqAtomicValue{type = 'xs:integer', value = ",
+                    "      xqerl_seq3:size(_@NextVar)})"
+                    "end"]),
+            {P, NV}
+      end,                 
+   % reverse list that the dependencies are correct   
+   {VarSetAbs0,{_,_,LastCtx}} = 
+     lists:mapfoldl(VarSetFun, FCtx,
+                    lists:reverse(maps:get(variables, ContextMap))),
+   VarSetAbs = lists:flatten(VarSetAbs0),
+   BodyAbs = expr_do(maps:put(ctx_var, LastCtx,ContextMap), Body),
+   V1 = ?Q("_@@VarSetAbs"),
+   M = ?Q(["dummy() ->",
+           "begin ",
+           " Ctx0 = xqerl_context:merge(_@Init, Options),",
+           " _@@ImportedVars,",
+           " _@@V1,",
+           "_@BodyAbs",
+           "end. "]),
+%%    ?dbg("M",M),
+   [M].
+
+
 variable_functions(ContextMap, Variables) ->
    LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
    F = fun(#xqVar{id = _, name = QName, expr = Expr, external = Ext, type = Type0}) ->
@@ -750,6 +884,36 @@ variable_functions(ContextMap, Variables) ->
              end
      end,
    [F(V) || #xqVar{} = V <- Variables].
+
+internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr, 
+                                          external = Ext, type = Type0}) ->
+   CtxVar = {var, ?L, get_context_variable_name(LocCtx)},
+   Type = if Type0 == undefined ->
+                 #xqSeqType{type = item, occur = zero_or_many};
+              true ->
+                 Type0
+           end,
+    #qname{namespace = Ns1, prefix = P1, local_name = L1} = QName,
+    QNameStr = if P1 == <<>> ->
+                     L1;
+                  P1 == undefined ->
+                     <<"Q{", Ns1/binary, "}", L1/binary>>;
+                  true ->
+                     <<P1/binary, ":", L1/binary>>
+               end,
+    Expr1 = expr_do(LocCtx, Expr),
+    % when external, check for set value first, then default, 
+    % or then XPDY0002 when not set.
+    if Ext == true ->
+         ?P(["fun() ->",
+             "   Tmp = begin _@Expr1 end,",
+             "   case maps:get(_@QNameStr@,_@CtxVar,Tmp) of",
+             "      undefined -> xqerl_error:error('XPDY0002');",
+             "      X -> xqerl_types:promote(X, _@Type@) end end()"]);
+       true ->
+         ?P(["fun() ->",
+             "   _@Expr1 end()"])
+    end.
 
 function_functions(ContextMap, Functions) ->
    CtxName = get_context_variable_name(ContextMap),

@@ -633,27 +633,28 @@ handle_node(State,#xqVar{id = Id,
    VarType = get_statement_type(VarState),
    VarStmt = get_statement(VarState),
    SVarType = VarType,
-   case check_type_match(VarType, Type) of
-      false ->
-         ?err('XPTY0004');
-      cast when VarType#xqSeqType.type =/= item ->
-         ?err('XPTY0004');
-      cast when Type#xqSeqType.type =/= item,
-                VarType#xqSeqType.type == item ->
-         ok;
-      cast when Type#xqSeqType.type =/= item ->
-         ?dbg("cast", {Type, VarType}),
-         % declared type needs to be cast to match and was set
-         ?err('XPTY0004');
-      _ ->
-         ok
-   end,
-   case check_type_match(VarType, SVarType) of
-      false ->
-         ?err('XPTY0004');
-      _ ->
-         ok
-   end,
+   VarStmt1 = 
+      case check_type_match(VarType, Type) of
+         false ->
+            ?err('XPTY0004');
+         cast when VarType#xqSeqType.type =/= item ->
+            ?err('XPTY0004');
+         cast when Type#xqSeqType.type =/= item,
+                   VarType#xqSeqType.type == item ->
+            {promote_to, VarStmt, Type};
+         cast when Type#xqSeqType.type =/= item ->
+            ?dbg("cast", {Type, VarType}),
+            % declared type needs to be cast to match and was set
+            ?err('XPTY0004');
+         _ ->
+            VarStmt
+      end,
+   %case check_type_match(VarType, SVarType) of
+   %   false ->
+   %      ?err('XPTY0004');
+   %   _ ->
+   %      ok
+   %end,
    External = case is_static_literal(VarStmt) of
                  true when not Ext ->
                     {false, VarStmt};
@@ -665,7 +666,7 @@ handle_node(State,#xqVar{id = Id,
    NewStatement = Node#xqVar{id = Id,
                              name = Name, 
                              type = SVarType, 
-                             expr = VarStmt},
+                             expr = VarStmt1},
    set_statement_and_type(State1, NewStatement, VarType);
 
 handle_node(State, #xqFunction{name = FName, type = FType0, 
@@ -708,7 +709,16 @@ handle_node(State, #xqFunction{name = FName, type = FType0,
                                          params = ParamTypes,
                                          type = FType}, occur = one},
    NoCast = check_type_match(ST, FType1),
-   St2 = if NoCast == true ->
+   SimType = FType#xqSeqType.type,
+   %?dbg("FUN", {FType#xqSeqType.type, NoCast, ST, FType1}),
+   St2 = if NoCast == true, is_record(SimType, xqFunTest) ->
+               case SimType#xqFunTest.type of
+                  any ->
+                     type_ensure(Sty, FType,St1);
+                  _ ->
+                     {promote_to, St1, FType}
+               end; % function coercion
+            NoCast == true ->
                type_ensure(Sty, FType,St1);
             NoCast == cast ->
                % the function return type promotes the output
@@ -1637,12 +1647,12 @@ handle_node(State, {direct_cons, Cons}) ->
    S1 = handle_direct_constructor(State1, Cons),
    St = get_statement(S1),
    Typ = case St of
-            #xqElementNode{} ->
-               element;
+            #xqElementNode{name = Name} ->
+               #xqKindTest{kind = element, name = Name};
             #xqCommentNode{} ->
                comment;
-            #xqProcessingInstructionNode{} ->
-               'processing-instruction';
+            #xqProcessingInstructionNode{name = Name} ->
+               #xqKindTest{kind = 'processing-instruction', name = Name};
             _ ->
                node
          end,
@@ -1666,18 +1676,18 @@ handle_node(State, {comp_cons, Cons} = _Node) ->
    Typ = case St of
             #xqDocumentNode{} ->
                'document-node';
-            #xqElementNode{} ->
-               element;
-            #xqAttributeNode{} ->
-               attribute;
+            #xqElementNode{name = Name} ->
+               #xqKindTest{kind = element, name = Name};
+            #xqAttributeNode{name = Name} ->
+               #xqKindTest{kind = attribute, name = Name};
             #xqNamespaceNode{} ->
                namespace;
             #xqCommentNode{} ->
                comment;
             #xqTextNode{} ->
                text;
-            #xqProcessingInstructionNode{} ->
-               'processing-instruction';
+            #xqProcessingInstructionNode{name = Name} ->
+               #xqKindTest{kind = 'processing-instruction', name = Name};
             'empty-sequence' ->
                'empty-sequence';
             _ ->
@@ -1916,12 +1926,15 @@ handle_node(State, {'let',#xqVar{id = Id,
    %?dbg("LetType",LetType),
    %?dbg("Type",Type),
    LetStmt = get_statement(LetState),
+   %?dbg("LetType",{LetType, Type}),
    OkType = check_type_match(LetType, Type),
    if OkType == false ->
+         %?dbg("LetType",{LetType, Type}),
          ?err('XPTY0004');
       OkType == cast , element(2, LetType) == item ->
          ok;
       OkType == cast , element(2, Type) =/= item ->
+         %?dbg("LetType",{LetType, Type}),
          ?err('XPTY0004');
       true ->
          ok
@@ -4750,6 +4763,51 @@ all_atomics(List) when is_list(List) ->
 all_atomics(_) ->
   false.
 
+get_list_type([_,any]) -> any;
+get_list_type([any,_]) -> any;
+get_list_type([#xqSeqType{type = 
+                            #xqFunTest{type = TypeA,
+                                       kind = KindA,
+                                       params = ParamsA}},
+               #xqSeqType{type = 
+                            #xqFunTest{type = TypeB,
+                                       kind = KindB,
+                                       params = ParamsB}}]) ->
+   OccFun = fun(A,A) -> A;
+               (_,_) -> zero_or_many
+            end,
+   KindC = if KindA == function;
+              KindB == function ->
+                 function;
+              KindA == KindB ->
+                 KindA;
+              true ->
+                 function
+           end,
+   OccC = if is_record(TypeA,xqSeqType),is_record(TypeB,xqSeqType) ->
+                OccFun(TypeA#xqSeqType.occur, TypeB#xqSeqType.occur);
+             true ->
+                zero_or_many
+          end,
+   TypeC = case get_list_type([TypeA,TypeB]) of
+              any ->
+                 any;
+              #xqSeqType{} = SeqT ->
+                 SeqT#xqSeqType{occur = OccC}
+           end,
+   ParamsC = if length(ParamsA) =/= length(ParamsB) ->
+                   any;
+                ParamsA == any;
+                ParamsB == any ->
+                   any;
+                true ->
+                   Comb = fun(A,B) ->
+                                OccI = OccFun(A#xqSeqType.occur, B#xqSeqType.occur),
+                                (get_list_type([A,B]))#xqSeqType{occur = OccI}
+                          end,
+                   lists:zipwith(Comb, ParamsA, ParamsB)
+             end,
+   #xqSeqType{type = #xqFunTest{type = TypeC, kind = KindC, params = ParamsC}};
 get_list_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
 get_list_type([#xqSeqType{} = S]) -> S;
 get_list_type(Types) when is_list(Types) ->
@@ -4953,7 +5011,9 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = function,
                  #xqSeqType{type = #xqFunTest{kind = function, 
                                               params = Params2, 
                                               type = Type2}}) ->
-   if length(Params1) == length(Params2) ->
+   if length(Params1) =:= length(Params2);
+      Params1 =:= any;
+      Params2 =:= any ->
          check_type_match(Type1,Type2);
       true ->
          false
@@ -4988,9 +5048,25 @@ check_type_match(A, #xqSeqType{type = #qname{namespace = ?XS,
    Atom = list_to_atom("xs:" ++ binary_to_list(Ln)),
    check_type_match(A,B#xqSeqType{type = Atom});
 
+check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType, 
+                                               name = #qname{namespace = PNs,
+                                                             local_name = PLn}}}, 
+                 #xqSeqType{type = #xqKindTest{kind = TargetType, 
+                                               name = #qname{namespace = TNs,
+                                                             local_name = TLn}}}) -> 
+   if TNs == PNs, TLn == PLn;
+      TNs == <<"*">>, TLn == PLn;
+      TNs == PNs, TLn == <<"*">>;
+      TNs == <<"*">>, TLn == <<"*">> ->
+         BP = xqerl_btypes:get_type(ParamType),
+         BT = xqerl_btypes:get_type(TargetType),
+         check_type_cast(BP, BT);
+      true ->
+         ?err('XPTY0004')
+   end;
+
 check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, 
                  #xqSeqType{type = #xqKindTest{kind = TargetType}}) -> 
-   % needs name checking
    BP = xqerl_btypes:get_type(ParamType),
    BT = xqerl_btypes:get_type(TargetType),
    check_type_cast(BP, BT);   

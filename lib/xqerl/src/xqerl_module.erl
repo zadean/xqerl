@@ -259,8 +259,7 @@ compile(FileName, [], Hints) ->
    
 compile(FileName, Str, Hints) ->
    try
-      Str2 = xqerl_scanner:remove_all_comments(Str),
-      Toks = scan_tokens(Str2),
+      Toks = scan_tokens(Str),
       erlang:erase(),
       % init the parse
       erlang:put(xquery_id, xqerl_context:init(parser)),
@@ -357,9 +356,8 @@ save_module(ModuleRecord,Functions,Variables,ModuleName) ->
 
 test_compile(FileName, Str) ->
    try
-      Str2 = xqerl_scanner:remove_all_comments(Str),
       ?dbg("Step","1"),
-      Toks = scan_tokens(Str2),
+      Toks = scan_tokens(Str),
       ?dbg("Step","2"),
       erlang:erase(),
       ?dbg("Step","3"),
@@ -516,8 +514,9 @@ scan_tokens(Str) ->
       _:#xqError{} = E ->
          ?dbg("scan_tokens e",E),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("scan_tokens",E),
+         ?dbg("scan_tokens",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 

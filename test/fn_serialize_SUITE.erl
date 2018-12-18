@@ -301,16 +301,14 @@ environment('atomic-xq',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'serialize-xml-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-          let $params := 
+   Qry = "let $params := 
               <output:serialization-parameters
                    xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
                 <output:method value=\"xml\"/>   
                 <output:indent value=\"yes\"/>
                 <output:suppress-indentation value=\"p\"/>
               </output:serialization-parameters>
-          return serialize(., $params)
-        ", 
+          return serialize(., $params)", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "serialize/serialize-008-src.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -430,16 +428,14 @@ environment('atomic-xq',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'serialize-xml-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            let $params := 
+   Qry = "let $params := 
               <output:serialization-parameters
                    xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
                 <output:use-character-maps>
                   <output:character-map character=\"$\" map-string=\"£\" />
                 </output:use-character-maps>
               </output:serialization-parameters>
-          return serialize(., $params)
-        ", 
+          return serialize(., $params)", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "serialize/serialize-032-src.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -466,15 +462,13 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            let $params := 
+   Qry = "let $params := 
               <output:serialization-parameters
                    xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
                 <output:method value=\"xml\"/>
                 <output:item-separator value=\"|\"/>
               </output:serialization-parameters>
-          return serialize(1 to 10, $params)
-        ", 
+          return serialize(1 to 10, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-033.xq"), Qry1),
@@ -489,16 +483,14 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-034'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            let $params := 
+   Qry = "let $params := 
               <output:serialization-parameters
                    xmlns:output=\"http://www.w3.org/2010/xslt-xquery-serialization\">
                 <output:method value=\"xml\"/>
                 <output:omit-xml-declaration value=\"yes\"/>
                 <output:item-separator value=\"==\"/>
               </output:serialization-parameters>
-          return serialize((1 to 4)!text{.}, $params)
-        ", 
+          return serialize((1 to 4)!text{.}, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-034.xq"), Qry1),
@@ -551,8 +543,7 @@ environment('atomic-xq',__BaseDir) ->
             \"indent\" : true(),
             \"suppress-indentation\" : QName(\"\",\"p\") 
             }
-            return serialize(., $params)
-        ", 
+            return serialize(., $params)", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "serialize/serialize-008-src.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -600,8 +591,7 @@ environment('atomic-xq',__BaseDir) ->
             (QName(\"\", \"b\"), QName(\"http://www.example.org/ns/p\", \"b\")),
             \"suppress-indentation\" : QName(\"\", \"para\")
             }
-            return serialize(., $params)
-        ", 
+            return serialize(., $params)", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "serialize/serialize-110-src.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -648,9 +638,7 @@ environment('atomic-xq',__BaseDir) ->
 'serialize-xml-120'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $params := map { QName(\"\",\"indent\") : true() }
-            return contains(serialize(<e><f/></e>, $params), \" \")
-        
-        ", 
+            return contains(serialize(<e><f/></e>, $params), \" \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-120.xq"), Qry1),
@@ -698,8 +686,7 @@ environment('atomic-xq',__BaseDir) ->
    Qry = "let $params := map {
             \"use-character-maps\" : map { \"$\":\"£\" } 
             }
-            return serialize(., $params)
-        ", 
+            return serialize(., $params)", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "serialize/serialize-032-src.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -730,8 +717,7 @@ environment('atomic-xq',__BaseDir) ->
             \"method\" : \"xml\",
             \"item-separator\" : \"|\" 
             }
-            return serialize(1 to 10, $params)
-        ", 
+            return serialize(1 to 10, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-133.xq"), Qry1),
@@ -751,8 +737,7 @@ environment('atomic-xq',__BaseDir) ->
             \"omit-xml-declaration\" : true(),
             \"item-separator\" : \"==\" 
             }
-            return serialize((1 to 4)!text{.}, $params)
-        ", 
+            return serialize((1 to 4)!text{.}, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-134.xq"), Qry1),
@@ -773,9 +758,7 @@ environment('atomic-xq',__BaseDir) ->
    {skip,"XML version 1.1"}. 
 'serialize-xml-137'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            serialize(<e/>, ())
-        ", 
+   Qry = "serialize(<e/>, ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-137.xq"), Qry1),
@@ -790,8 +773,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-138'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            let $json := '
+   Qry = "let $json := '
                 {
                   \"method\" : \"xml\",
                   \"indent\" : true, 
@@ -803,8 +785,7 @@ environment('atomic-xq',__BaseDir) ->
                 }
             '      
             return       
-               serialize(<e>xml</e>, parse-json($json))
-        ", 
+               serialize(<e>xml</e>, parse-json($json))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-138.xq"), Qry1),
@@ -819,9 +800,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-139'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "   
-               serialize(<e>xml</e>, map { 'use-character-maps' : map { QName(\"http://example.org\",\"xyz\") : \"abc\" } })
-        ", 
+   Qry = "serialize(<e>xml</e>, map { 'use-character-maps' : map { QName(\"http://example.org\",\"xyz\") : \"abc\" } })", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-139.xq"), Qry1),
@@ -836,8 +815,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-140'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "  
-               let $options := map {
+   Qry = "let $options := map {
                   'use-character-maps' : map {
                      'x' : xs:untypedAtomic('j'),
                      'm' : <e>so</e>,
@@ -845,8 +823,7 @@ environment('atomic-xq',__BaseDir) ->
                   }
                }
                return     
-                  serialize(<e>[xml]</e>, $options)
-        ", 
+                  serialize(<e>[xml]</e>, $options)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-140.xq"), Qry1),
@@ -861,8 +838,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-141'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "  
-               let $options := map {
+   Qry = "let $options := map {
                   'use-character-maps' : map {
                      'x' : xs:untypedAtomic('j'),
                      'm' : <e>so</e>,
@@ -870,8 +846,7 @@ environment('atomic-xq',__BaseDir) ->
                   }
                }
                return     
-                  serialize(<e>[xml]</e>, $options)
-        ", 
+                  serialize(<e>[xml]</e>, $options)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-141.xq"), Qry1),
@@ -886,15 +861,13 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-142'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "  
-               let $options := map {
+   Qry = "let $options := map {
                     'method' : 'xml',
                     'indent' : xs:untypedAtomic('false'),
                     'item-separator' : xs:untypedAtomic('  ')     
                }
                return     
-                  serialize((<e/>,<f/>), $options)
-        ", 
+                  serialize((<e/>,<f/>), $options)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-xml-142.xq"), Qry1),
@@ -912,8 +885,7 @@ environment('atomic-xq',__BaseDir) ->
    Qry = "let $params := map {
             \"method\" : \"json\"
             }       
-            return serialize([ ], $params)
-        ", 
+            return serialize([ ], $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-001.xq"), Qry1),
@@ -940,8 +912,7 @@ environment('atomic-xq',__BaseDir) ->
             \"method\" : \"json\"
             },
             $arg := array { 1, 2 , (3,4,5), 6 }
-            return serialize($arg, $params)
-        ", 
+            return serialize($arg, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-002.xq"), Qry1),
@@ -968,8 +939,7 @@ environment('atomic-xq',__BaseDir) ->
             \"method\" : \"json\"
             },   
             $arg := [1, 2 , [3,4,5], 6]        
-            return serialize($arg, $params)
-        ", 
+            return serialize($arg, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-003.xq"), Qry1),
@@ -996,8 +966,7 @@ environment('atomic-xq',__BaseDir) ->
             \"method\" : \"json\",
             \"indent\" : true() 
             }          
-            return serialize($params, $params)
-        ", 
+            return serialize($params, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-004.xq"), Qry1),
@@ -1029,8 +998,7 @@ environment('atomic-xq',__BaseDir) ->
             \"indent\" : true() 
             },         
             $arg := parse-json('{\"abc\":true}')
-            return serialize($arg, $params)
-        ", 
+            return serialize($arg, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-005.xq"), Qry1),
@@ -1056,8 +1024,7 @@ environment('atomic-xq',__BaseDir) ->
    Qry = "let $params := map {
             \"method\" : \"json\"
             }       
-            return serialize((), $params)
-        ", 
+            return serialize((), $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-006.xq"), Qry1),
@@ -1084,8 +1051,7 @@ environment('atomic-xq',__BaseDir) ->
             \"method\" : \"json\",
             \"item-separator\" : \"|\" 
             }
-            return serialize(1 to 10, $params)
-        ", 
+            return serialize(1 to 10, $params)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-007.xq"), Qry1),
@@ -1105,8 +1071,7 @@ environment('atomic-xq',__BaseDir) ->
             \"json-node-output-method\" : \"xml\"
             },
             $s := serialize(comment {\" hello world \"}, $params)
-            return matches($s, '\"<!-- hello world -->\"')
-        ", 
+            return matches($s, '\"<!-- hello world -->\"')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-008.xq"), Qry1),
@@ -1132,8 +1097,7 @@ environment('atomic-xq',__BaseDir) ->
             element {\"a\"} {\"b\"},
             document { element {\"a\"}{\"b\"} }
             }, $params)
-            return matches($s, '\\[\"a\",\"<\\?a b\\?>\",\"<!--a-->\",\"<a>b<\\\\/a>\",\"<a>b<\\\\/a>\"\\]')
-        ", 
+            return matches($s, '\\[\"a\",\"<\\?a b\\?>\",\"<!--a-->\",\"<a>b<\\\\/a>\",\"<a>b<\\\\/a>\"\\]')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-009.xq"), Qry1),
@@ -1148,9 +1112,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-json-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-            serialize(map { xs:QName(\"foo\") : 1, \"foo\" : 2 }, map { 'method' : 'json' }) 
-        ", 
+   Qry = "serialize(map { xs:QName(\"foo\") : 1, \"foo\" : 2 }, map { 'method' : 'json' })", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-010.xq"), Qry1),
@@ -1165,8 +1127,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-json-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-          serialize(
+   Qry = "serialize(
             map { 
               QName(\"\", \"foo\") : 1, 
               \"foo\" : 2 
@@ -1175,18 +1136,13 @@ environment('atomic-xq',__BaseDir) ->
               'method' : 'json', 
               'allow-duplicate-names' : true()
             }
-          )
-        ", 
+          )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "serialize-json-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"
-                let $xml := json-to-xml($result, map { 'duplicates' : 'retain' })
-                return
-                   count($xml/fn:map/fn:number) eq 2
-            ") of 
+   case xqerl_test:assert(Res,"count((json-to-xml($result, map { 'duplicates' : 'retain' }))/fn:map/fn:number) eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 

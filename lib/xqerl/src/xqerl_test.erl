@@ -130,7 +130,8 @@ assert_xml(Result, QueryString0) ->
                                             value = <<"<x>",QueryString/binary,"</x>">>})
                  of
                  {'EXIT',#xqError{}} ->
-                    R = xqerl:run(unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
+                    Mod = xqerl_module:compile("xqerl_main", unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
+                    R = Mod:main(#{}),
                     ?dbg("fallback to run",R),
                     R;
                  Other ->
@@ -985,10 +986,13 @@ handle_environment(List) ->
                            ";"
                    end, DecFormats),
    
+   % these can be complex queries, so compile/run instead of just exec
    Params1 = lists:foldl(fun({Name,"",Value},Map) ->
-                               Map#{?LB(Name) => xqerl:run(Value)};
+                               Mod = xqerl_module:compile("param", Value),
+                               Map#{?LB(Name) => Mod:main(#{})};
                           ({Name,As,Value},Map) ->
-                             Map#{?LB(Name) => xqerl:run(Value++" cast as "++As)}                             
+                             Mod = xqerl_module:compile("param", Value++" cast as "++As),
+                             Map#{?LB(Name) => Mod:main(#{})}                             
                        end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
                                    Ns = maps:get(namespaces, Map, []),

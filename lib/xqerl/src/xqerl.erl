@@ -8,12 +8,22 @@
 %-define(PRINT,true).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
 -export([run/1]). 
--export([run/2]). 
+-export([run/2,
+         test/1]). 
+
+
+test(Expression) ->
+    {ok, Tokens, _} = erl_scan:string(Expression),    % scan the code into tokens
+    {ok, Parsed} = erl_parse:parse_exprs(Tokens),     % parse the tokens into an abstract form
+    {value, Result, _} = erl_eval:exprs(Parsed, []),  % evaluate the expression, return the value
+    Result.
+
 
 run(Mod) -> run(Mod, #{}).
 
@@ -32,32 +42,27 @@ run(Mod, Options) when is_atom(Mod) ->
    end;
 run(#xqError{} = E, _Options) -> E;
 run(Str, Options) ->
-   catch code:purge(xqerl_main),
-   catch code:delete(xqerl_main),
+   %catch code:purge(xqerl_main),
+   %catch code:delete(xqerl_main),
    try
-      Str2 = xqerl_scanner:remove_all_comments(Str),
-%      ?dbg("Str2",Str2),
-      Tokens = scan_tokens(Str2),
-%      ?dbg("Tokens",Tokens),
+      Tokens = scan_tokens(Str),
+%io:format("~p~n",[Tokens]),
       % init the parse
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Tokens),
-%      ?dbg("Tree",Tree),
       Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
-%      ?dbg("Static",maps:get(body, Static)),
-      {ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
-%      ?dbg("Ret",Ret),
-
+      #{body := #xqModule{} = X} = Static,
+      {_,_,_,_,_,Ret} = scan_tree(Static#{body := X#xqModule{type = expression}}),
 %io:format("~p~n",[Tree]),
 %io:format("~p~n",["***************************************************"]),
 %io:format("~p~n",[maps:get(body, Static)]),
-      
       xqerl_context:destroy(Static),
-      B = compile_abstract(Ret),
-      print_erl(B),
-
-      Res = (xqerl_static:string_atom(ModNs)):main(Options),
-      erlang:erase(),
+%io:format("~p~n",[Ret]),
+      {value, Res, _} = erl_eval:exprs(Ret, 
+                                       [{'Options',Options}],
+                                       {value, fun handle_local_function/2}),
+%      erlang:erase(),
+%io:format("~p~n",[Res]),
       Res
    catch
       _:#xqError{} = E:StackTrace ->
@@ -70,6 +75,8 @@ run(Str, Options) ->
          {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
          E1
          %E
+   after
+      erlang:erase() % TODO only erase stuff added by the execution
    end.
 
 % returns Tokens
@@ -136,8 +143,8 @@ scan_tree_static(Tree,FileName) ->
 
 % ok | error
 compile_abstract(Abstract) ->
-   %try merl:compile(Abstract, 
-   try compile:forms(Abstract, 
+   try 
+      compile:forms(Abstract, 
                       [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
       {ok,M,B} ->
          code:load_binary(M, M, B),
@@ -166,3 +173,6 @@ compile_abstract(Abstract) ->
 -elif(true).
    print_erl(_) -> ok.
 -endif.
+
+handle_local_function(FunctionName, Arguments) ->
+    io:format("Local call to ~p with ~p~n", [FunctionName, Arguments]).
