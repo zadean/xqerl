@@ -1,6 +1,6 @@
 -record(xqModule, {
    version = {<<"3.1">>,<<"UTF-8">>},
-   type    :: library | main,
+   type    :: library | main | expression,
    declaration = [] :: term(),
    prolog = [] :: term(),
    body   = [] :: term()                 
@@ -42,7 +42,7 @@
          default = undefined :: term(),
          position = undefined :: undefined | #xqPosVar{},
          empty = false :: boolean(),
-         anno    :: integer()
+         anno    :: undefined | integer()
         }).
 
 -record(xqVarRef, 
@@ -55,7 +55,7 @@
          id = -1 :: integer(),
          loop = undefined :: term(),
          return = undefined :: term(),
-         anno    :: integer() % location of return
+         anno    :: undefined | integer() % location of return
         }).
 
 -record(xqWindow, {
@@ -84,33 +84,33 @@
    operand :: any(),
    clauses :: [any()],
    default :: any(),
-   anno    :: integer()
+   anno    :: undefined | integer()
 }).
 
 -record(xqSwitchClause, {
    operands :: [any()],
    expr     :: any(),
-   anno     :: integer()
+   anno     :: undefined | integer()
 }).
 
 -record(xqOrderModifier,{
    direction = ascending :: ascending | descending,
    empty     = default   :: default | least | greatest,
    collation = default   :: default | binary(),
-   anno                  :: integer()
+   anno                  :: undefined | integer()
 }).
 
 -record(xqOrderSpec, {
    expr     :: any(),
    modifier :: #xqOrderModifier{},
-   anno     :: integer()
+   anno     :: undefined | integer()
 }).
 
 -record(xqTypeswitchCase, {
    types    = default :: [any()] | default,
    variable = undefined :: #xqVar{} | undefined,
    expr     :: any(),
-   anno     :: integer()
+   anno     :: undefined | integer()
 }).
 
 -record(xqTypeswitch, {
@@ -118,12 +118,12 @@
    input   :: any(),
    cases   :: [#xqTypeswitchCase{}],
    default :: #xqTypeswitchCase{},
-   anno    :: integer()
+   anno    :: undefined | integer()
 }).
 
 -record(xqTryCatch, {
    id      :: integer(),
    expr    :: any(),
    catches :: [any()],
-   anno    :: integer()
+   anno    :: undefined | integer()
 }).

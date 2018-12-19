@@ -292,7 +292,7 @@ scan_mod(#xqModule{prolog = Prolog,
     P1,
     P2,
     % abstract after this point
-    erl_syntax:revert(P10)
+    P10
    };
 
 scan_mod(#xqModule{prolog = Prolog, 
