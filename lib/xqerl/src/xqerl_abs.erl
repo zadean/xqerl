@@ -3306,6 +3306,8 @@ abs_seq_type(_Ctx,#xqSeqType{type = T, occur = O}) ->
 
 abs_qname(_Ctx, undefined) ->
    atom_or_string(undefined);
+abs_qname(_Ctx, {variable,_}) ->
+   atom_or_string(undefined);
 abs_qname(_Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
    _ = add_used_record_type(qname),
    if is_atom(N) ->
