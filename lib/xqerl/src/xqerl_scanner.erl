@@ -675,7 +675,7 @@ scan_token("catch" ++ T = Str, A) ->
          qname_if_path("catch", T, lookback(A))
    end;   
 scan_token(Str = "try" ++ T, _A) ->  
-   case lookforward_is_curly(strip_ws(T)) of
+   case lookforward_is_curly(trim_ws(T)) of
       true ->
          {{'try', ?L, 'try'}, T};
       _ ->
@@ -1157,7 +1157,7 @@ scan_token(Str = "ordered" ++ T, A) ->
 scan_token(Str = "element" ++ T, A) -> 
    Curly = lookforward_is_paren_or_curly(T),
    case lookforward_is_paren_or_curly(T) orelse 
-          (T =/=[] andalso not xmerl_lib:is_namechar(hd(T)) andalso xmerl_lib:is_namechar(hd(strip_ws(T)))) of
+          (T =/=[] andalso not xmerl_lib:is_namechar(hd(T)) andalso xmerl_lib:is_namechar(hd(trim_ws(T)))) of
       true ->
          case lookback(A) of
             '/' when Curly == false ->
@@ -1670,17 +1670,22 @@ scan_token(Str = "ge" ++ [H|T], A) when ?whitespace(H) ->
       _ ->
          {{'ge',1,'ge'}, T}
    end;
-scan_token(Str = "eq" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
+scan_token(Str = "eq" ++ T, A) -> 
+   case lookforward_is_ws(T) of
+      true ->
+         ?INC(hd(T)),
+         case lookback(A) of
+            '/' ->
+               scan_name(Str);
+            '(' ->
+               scan_name(Str);
+            'function' ->
+               scan_name(Str);
+            _ ->
+               {{'eq',1,'eq'}, T}
+         end;
       _ ->
-         {{'eq',1,'eq'}, T}
+         scan_name(Str)
    end;
 scan_token(Str = "by" ++ T, A) -> 
    case lookback(A) of
@@ -1860,15 +1865,6 @@ scan_token("|" ++ T, _A) ->  {{'|', ?L, '|'}, T};
 scan_token("}" ++ T, _A) ->  {{'}', ?L, '}'}, T}; 
 scan_token("+" ++ T, _A) ->  {{'+', ?L, '+'}, T};
 scan_token("!" ++ T, _A) ->  {{'!', ?L, '!'}, T};
-scan_token("<" ++ [H|T], A) when ?whitespace(H) ->
-   ?INC(H),
-   case lookback(A) of
-      {'$',_,_} ->
-         {{'<', ?L, '<'}, T};
-      _ ->
-   ?dbg("lookback(A)",lookback(A)),
-         {[{'<', ?L, '<'},{'S', ?L, 'S'}], T}
-   end;
 % could be a direct constructor
 scan_token(Str = "<" ++ T, A) ->
    case lookback(A) of
@@ -1887,6 +1883,8 @@ scan_token(Str = "<" ++ T, A) ->
    end;
 scan_token("=" ++ T, _A) ->  {{'=', ?L, '='}, T};
 scan_token(">" ++ T, _A) ->  {{'>', ?L, '>'}, T};
+scan_token("/>" ++ _, _A) -> ?err('XPST0003');
+
 % QName as the fall-through, for function names
 scan_token([H|T], _A) when ?whitespace(H) ->  
    ?INC(H),
@@ -1895,6 +1893,13 @@ scan_token(T, _A) ->
    %?dbg("fallthrough",T),
    scan_name(T).
 
+
+trim_ws([H|T]) when ?whitespace(H) ->
+   trim_ws(T);
+trim_ws("(:" ++ T) ->
+   trim_ws(trim_comment_no_incr(T));
+trim_ws(T) ->
+   T.
 
 strip_ws([?lf|T]) ->
    incr_line(),
@@ -2163,7 +2168,7 @@ lookforward_greatest_least(T) ->
    end.
 
 lookforward_external(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       ":="++_ ->
          true;
       ";"++_ ->
@@ -2175,7 +2180,7 @@ lookforward_external(T) ->
 lookforward_validate(T) ->
    case lookforward_is_ws(T) of
       true ->
-         case strip_ws(T) of
+         case trim_ws(T) of
             [${|_] ->
                true;
             [$l,$a,$x|_] ->
@@ -2188,7 +2193,7 @@ lookforward_validate(T) ->
                false
          end;
       _ ->
-         case strip_ws(T) of
+         case trim_ws(T) of
             [${|_] ->
                true;
             _ ->
@@ -2199,7 +2204,7 @@ lookforward_validate(T) ->
 lookforward_is_by(T) ->
    case lookforward_is_ws(T) of
       true ->
-         case strip_ws(T) of
+         case trim_ws(T) of
             [$b,$y,S|_] when ?whitespace(S) ->
                true;
             _ ->
@@ -2211,17 +2216,19 @@ lookforward_is_by(T) ->
 
 lookforward_is_ws([H|_]) when ?whitespace(H) ->
    true;
+lookforward_is_ws("(:" ++ _) ->
+   true;
 lookforward_is_ws(_) ->
    false.
 
 lookforward_is_axis(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "::" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_return(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "return" ++ _ -> true;
       _ -> false
    end.
@@ -2237,64 +2244,72 @@ lookforward_is_number([H|_]) ->
    end.
 
 lookforward_is_end(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "end" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_equal(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "=" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_empty(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "empty" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_var(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "$" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_version(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "version" ++ _ -> true;
       "encoding" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_namespace(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "namespace" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_window(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "sliding" ++ _ -> true;
       "tumbling" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_paren(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "(" ++ _ -> true;
       _ -> false
    end.
 
 lookforward_is_paren_or_curly(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "(" ++ _ -> true;
       "{" ++ _ -> true;
       _ -> false
    end.
 
-is_keyword_declare([H|T]) when ?whitespace(H) ->
-   case strip_ws(T) of
+is_keyword_declare(Str) ->
+   Trim = case Str of
+             [H|T] when ?whitespace(H) ->
+                trim_ws(T);
+             "(:" ++ _ ->
+                trim_ws(Str);
+             _ ->
+                false
+          end,
+   case Trim of
       "base-uri" ++ _ -> true;
       "boundary-space" ++ _ -> true;
       "construction" ++ _ -> true;
@@ -2309,19 +2324,25 @@ is_keyword_declare([H|T]) when ?whitespace(H) ->
       "option" ++ _ -> true;
       "%" ++ _ -> true;
       _ -> false
-   end;
-is_keyword_declare(_) -> false.
+   end.
 
-is_keyword_import([H|T]) when ?whitespace(H) ->
-   case strip_ws(T) of
+is_keyword_import(Str) ->
+   Trim = case Str of
+             [H|T] when ?whitespace(H) ->
+                trim_ws(T);
+             "(:" ++ _ ->
+                trim_ws(Str);
+             _ ->
+                false
+          end,
+   case Trim of
       "schema" ++ _ -> true;
       "module" ++ _ -> true;
       _ -> false
-   end;
-is_keyword_import(_) -> false.
+   end.
 
 lookforward_is_curly(T) ->
-   case strip_ws(T) of
+   case trim_ws(T) of
       "{" ++ _ -> true;
       _ -> false
    end.
@@ -2523,19 +2544,25 @@ normalize_lines([H|T]) ->
 normalize_lines([]) -> [].
 
 % remove all xquery comments, they can be nested
-trim_comment(Str) ->
-   scan_comments(Str, 1).
+trim_comment_no_incr(Str) ->
+   scan_comments(Str, 1, false).
 
-scan_comments("(:" ++ T, Depth) -> % start comment
-   scan_comments(T, Depth + 1);
-scan_comments(":)" ++ T, Depth) when Depth > 1 -> % end comment
-   scan_comments(T, Depth - 1);
-scan_comments(":)" ++ T, 1) -> % end comment
+trim_comment(Str) ->
+   scan_comments(Str, 1, true).
+
+scan_comments("(:" ++ T, Depth, Incr) -> % start comment
+   scan_comments(T, Depth + 1, Incr);
+scan_comments(":)" ++ T, Depth, Incr) when Depth > 1 -> % end comment
+   scan_comments(T, Depth - 1, Incr);
+scan_comments(":)" ++ T, 1, _) -> % end comment
    " " ++ T;
-scan_comments([], _) -> % in comment with no more text
+scan_comments([], _, _) -> % in comment with no more text
    ?err('XPST0003');
-scan_comments([_|T], Depth) -> % in comment
-   scan_comments(T, Depth).
+scan_comments([H|T], Depth, true) -> % in comment
+   ?INC(H),
+   scan_comments(T, Depth, true);
+scan_comments([_|T], Depth, Incr) -> % in comment
+   scan_comments(T, Depth,Incr).
 
 
 
@@ -2577,19 +2604,19 @@ scan_str_const_interp([H|T], A) ->
 
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
 scan_pragma("(#" ++ T, _A, _L) ->
-   T1 = strip_ws(T), % optional ws
+   T1 = strip_ws_c(T), % optional ws
    case T1 of
       [$Q|_] ->
          {L1,T2} = scan_QName(T1),
          {N1,T3} = scan_name(T2),
          L2 = lists:flatten([{'S', ?L, 'S'}, N1,lists:reverse(L1), {'(#', ?L, '(#'}]),
          ?dbg("L2", L2),
-         scan_pragma(strip_ws(T3), [], L2);
+         scan_pragma(strip_ws_c(T3), [], L2);
       _ ->
          {Name, [H2|T2]} =  scan_name(T1),
          L1 = [{'S', ?L, 'S'}, Name, {'(#', ?L, '(#'}],
          if ?whitespace(H2) ->
-               scan_pragma(strip_ws(T2), [], L1);
+               scan_pragma(strip_ws_c(T2), [], L1);
             true ->
                case T2 of
                   ")"++_ when H2 == $# ->

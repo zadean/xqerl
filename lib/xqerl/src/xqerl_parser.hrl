@@ -1,9 +1,9 @@
 -record(xqModule, {
-   version = {"3.1", 'utf-8'},
+   version = {<<"3.1">>,<<"UTF-8">>},
    type    :: library | main,
-   declaration :: term(),
-   prolog :: term(),
-   body   :: term()                 
+   declaration = [] :: term(),
+   prolog = [] :: term(),
+   body   = [] :: term()                 
 }).
 
 -record(xqAxisStep, {
@@ -13,11 +13,13 @@
                  'descendant-or-self' | 'following-sibling' | following | namespace | 
                  parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
    node_test  = #xqKindTest{},
-   predicates = []
+   predicates = [],
+   anno    :: integer()
 }).
 
 -record(xqPostfixStep, {
-   predicates = []
+   predicates = [],
+   anno    :: integer()
 }).
 
 -record(xqPosVar,
@@ -34,13 +36,13 @@
          annotations = []  :: [ #annotation{} ], 
          name :: #'qname'{},
          type = undefined :: undefined | #xqSeqType{},
-         %type = #xqSeqType{},
          value = undefined :: term(),
          expr  = undefined :: term(),
          external = false :: boolean(),
          default = undefined :: term(),
          position = undefined :: undefined | #xqPosVar{},
-         empty = false :: boolean()
+         empty = false :: boolean(),
+         anno    :: integer()
         }).
 
 -record(xqVarRef, 
@@ -52,7 +54,8 @@
         {
          id = -1 :: integer(),
          loop = undefined :: term(),
-         return = undefined :: term()
+         return = undefined :: term(),
+         anno    :: integer() % location of return
         }).
 
 -record(xqWindow, {
@@ -80,40 +83,47 @@
    id      :: integer(),
    operand :: any(),
    clauses :: [any()],
-   default :: any()
+   default :: any(),
+   anno    :: integer()
 }).
 
 -record(xqSwitchClause, {
    operands :: [any()],
-   expr     :: any()
+   expr     :: any(),
+   anno     :: integer()
 }).
 
 -record(xqOrderModifier,{
    direction = ascending :: ascending | descending,
    empty     = default   :: default | least | greatest,
-   collation = default   :: default | binary()
+   collation = default   :: default | binary(),
+   anno                  :: integer()
 }).
 
 -record(xqOrderSpec, {
    expr     :: any(),
-   modifier :: #xqOrderModifier{}
+   modifier :: #xqOrderModifier{},
+   anno     :: integer()
 }).
 
 -record(xqTypeswitchCase, {
    types    = default :: [any()] | default,
    variable = undefined :: #xqVar{} | undefined,
-   expr     :: any()
+   expr     :: any(),
+   anno     :: integer()
 }).
 
 -record(xqTypeswitch, {
    id      :: integer(),
    input   :: any(),
    cases   :: [#xqTypeswitchCase{}],
-   default :: #xqTypeswitchCase{}
+   default :: #xqTypeswitchCase{},
+   anno    :: integer()
 }).
 
 -record(xqTryCatch, {
    id      :: integer(),
    expr    :: any(),
-   catches :: [any()]
+   catches :: [any()],
+   anno    :: integer()
 }).

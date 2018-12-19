@@ -166,7 +166,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                                 true ->
                                  Ns = list_to_binary(["Q{", '$5',"}"]),
                                  xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
-                                        {'module-namespace', {Ns, bin_value_of('$3')}}
+                                        {Ns, bin_value_of('$3')}
                              end.
 
 'Separator'              -> ';'.
@@ -305,9 +305,9 @@ end.
                            : xqerl_context:set_default_function_namespace(parser,'$5'), 
                              {'function-namespace', '$5'}.
 
-'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2'}.
+'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2', anno = line('$1')}.
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'FunctionDecl' : ('$3')#xqFunction{annotations = '$2'}.
-'AnnotatedDecl'          -> 'declare' 'VarDecl'                       : '$2'.
+'AnnotatedDecl'          -> 'declare' 'VarDecl'                       : ('$2')#xqVar{anno = line('$1')}.
 'AnnotatedDecl'          -> 'declare' 'FunctionDecl'                  : '$2'.
  
 'AnnotationList'         -> 'Annotation' 'AnnotationList' : ['$1' | '$2'].
@@ -349,8 +349,8 @@ end.
 'ParamList'              -> 'Param' ',' 'ParamList' : ['$1' | '$3'].
 'ParamList'              -> 'Param' : ['$1'].
 
-'Param'                  -> '$' 'EQName' 'TypeDeclaration' : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = '$3'}.
-'Param'                  -> '$' 'EQName'                   : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = #xqSeqType{}}.
+'Param'                  -> '$' 'EQName' 'TypeDeclaration' : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = '$3', anno = line('$1')}.
+'Param'                  -> '$' 'EQName'                   : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = #xqSeqType{}, anno = line('$1')}.
 
 'FunctionBody'           -> 'EnclosedExpr' : '$1'.
 
@@ -372,8 +372,8 @@ end.
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}.
-'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = '$2'}.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = element(2, '$3'), anno = element(1, '$3')}.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = element(2, '$2'), anno = element(1, '$2')}.
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -393,14 +393,14 @@ end.
 'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{for,'$1',undefined} | '$3'] .
 'ForBindingList'         -> 'ForBinding' : [{for,'$1',undefined}].
 
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7'}.
-'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6'}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                 position = '$4', expr = '$6'}.
-'ForBinding'             -> '$' 'VarName'                                   'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                position = '$3', expr = '$5'}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true,                  expr = '$6'}.
-'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true,                  expr = '$5'}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                                  expr = '$5'}.
-'ForBinding'             -> '$' 'VarName'                                                   'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                                 expr = '$4'}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                 position = '$4', expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                                   'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                position = '$3', expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true,                  expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true,                  expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                                  expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                                                   'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                                 expr = '$4', anno = line('$1')}.
 % [46]
 'AllowingEmpty'          -> 'allowing' 'empty' : true.
 % [47]
@@ -411,8 +411,8 @@ end.
 'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1',undefined}|'$3'].
 'LetBindingList'         -> 'LetBinding' : [{'let', '$1',undefined}] .
 
-'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
-'LetBinding'             -> '$' 'VarName'                   ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'expr' = '$4'}.
+'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5', anno = line('$1')}.
+'LetBinding'             -> '$' 'VarName'                   ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'expr' = '$4', anno = line('$1')}.
 
 % [50]
 'WindowClause'           -> 'for' 'TumblingWindowClause' : ['$2'].
@@ -420,7 +420,7 @@ end.
 % [51]
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -435,7 +435,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -450,7 +450,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition'                      : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -459,7 +459,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition'                      : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -469,7 +469,7 @@ end.
 % [52]
 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = sliding, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -484,7 +484,7 @@ end.
                                     }.
 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = sliding, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6'},
+                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -528,7 +528,7 @@ end.
 % [58]
 'NextItem'               -> 'EQName' : #xqVar{id = next_id(), 'name' = qname(var, '$1')}.
 % [59]
-'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3'), type = #xqSeqType{type = 'xs:integer', occur = one}}}].
+'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3'), type = #xqSeqType{type = 'xs:integer', occur = one}, anno = line('$2')}}].
 % [60]
 'WhereClause'            -> 'where' 'ExprSingle' : split_where_statement('$2').
 % [61]
@@ -538,13 +538,13 @@ end.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
 % [63]
 %% Grouping makes a new variable to group on by injecting a let statement
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$6'}] .
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$5'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
 'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$3'}].
 'GroupingSpec'           ->  'GroupingVariable'                                                              : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}].
@@ -578,13 +578,13 @@ end.
 'OrderModifier'          -> 'ascending'                                              : #xqOrderModifier{}.
 'OrderModifier'          -> 'descending'                                             : #xqOrderModifier{direction = descending}.
 % [69]
-'ReturnClause'           -> 'return' 'ExprSingle' : '$2'.
+'ReturnClause'           -> 'return' 'ExprSingle' : {line('$1'), '$2'}.
 % [70]
 'QuantifiedExpr'         -> 'some'  'InStatements' 'satisfies' 'ExprSingle' : {'some' , '$2', '$4'}.
 'QuantifiedExpr'         -> 'every' 'InStatements' 'satisfies' 'ExprSingle' : {'every', '$2', '$4'}.
 
-'InStatement'            -> '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
-'InStatement'            -> '$' 'VarName' 'in' 'ExprSingle'                   : #xqVar{id = next_id(), 'name' = '$2',                'expr' = '$4'}.
+'InStatement'            -> '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' : #xqVar{anno = line('$1'), id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
+'InStatement'            -> '$' 'VarName' 'in' 'ExprSingle'                   : #xqVar{anno = line('$1'), id = next_id(), 'name' = '$2',                'expr' = '$4'}.
 
 'InStatements'           -> 'InStatement' ',' 'InStatements': ['$1' | '$3'].
 'InStatements'           -> 'InStatement' : ['$1'].
@@ -612,7 +612,7 @@ end.
                            : #xqTypeswitch{id = next_id(),
                                            input = '$3', 
                                            cases = '$5', 
-                                           default = #xqTypeswitchCase{variable = #xqVar{id = next_id(), 'name' = '$8',expr = '$10'}}}.  
+                                           default = #xqTypeswitchCase{variable = #xqVar{anno = line('$7'), id = next_id(), 'name' = '$8',expr = '$10'}}}.  
 'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default'               'return' 'ExprSingle' 
                            : #xqTypeswitch{id = next_id(),
                                            input = '$3', 
@@ -620,7 +620,7 @@ end.
                                            default = #xqTypeswitchCase{expr = '$8'}}.  
 % [75]
 'CaseClause'             -> 'case' '$' 'VarName' 'as' 'SequenceTypeUnion' 'return' 'ExprSingle' 
-                           : #xqTypeswitchCase{types = '$5', variable = #xqVar{id = next_id(), 'name' = '$3',expr = '$7'}}.
+                           : #xqTypeswitchCase{types = '$5', variable = #xqVar{anno = line('$2'), id = next_id(), 'name' = '$3',expr = '$7'}}.
 'CaseClause'             -> 'case'                    'SequenceTypeUnion' 'return' 'ExprSingle' 
                            : #xqTypeswitchCase{types = '$2', expr = '$4'}.
 
@@ -776,96 +776,46 @@ end.
 'SimpleMapExpr'          -> 'PathExpr' : '$1'.
 
 % [108]    PathExpr    ::=      ("/" RelativePathExpr?)| ("//" RelativePathExpr)| RelativePathExpr   /* xgc: leading-lone-slash */
-%% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : ?dbg("1017",'$2'),{step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
-%% 'PathExpr'               -> 'lone-slash'           : {step, {'root'}}.              %/* xgs: leading-lone-slash */
-%'PathExpr'               -> '/'                    : {step, {'root'}}.              %/* xgs: leading-lone-slash */
 'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, next_id(), ['root' | '$2']}.            %/* xgs: leading-lone-slash */
-%% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : {step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
-'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'}|'$2']}.
-%% 'PathExpr'               -> '//' 'RelativePathExpr' : {step, {'any-root', 
-%%                                                              {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},
-%%                                                                     '$2'}}}.
+'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{id = next_id(),axis = 'descendant-or-self', anno = line('$1')}|'$2']}.
 'PathExpr'               -> 'RelativePathExpr'     : case '$1' of [V] -> V; V -> {path_expr, next_id(), V} end.
-%% 
-%% 'PathExpr'               -> 'lone-slash' '/'  'RelativePathExpr' : ?dbg("1021",{step, {'root', '$3'}}),{step, {'root', '$3'}}.            %/* xgs: leading-lone-slash */
-%% 'PathExpr'               -> 'lone-slash' '//' 'RelativePathExpr' : ?dbg("1022",'$3'),{step, {'root', 
-%%                                                              {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},
-%%                                                                     '$3'}}}.
-%% 
-%% 'PathExpr'               -> 'RelativePathExpr' '/'  'lone-slash'  : {step, {'root'}}.
-%% 'PathExpr'               -> 'RelativePathExpr' '//' 'lone-slash'  : {step, {'root'}}.
-% [109]    RelativePathExpr     ::=      StepExpr (("/" | "//") StepExpr)*   
-%% 'RelativePathExpr'      -> '/'  'RelativePathExpr' : {step, '$2'}.
-%% 'RelativePathExpr'      -> 'lone-slash'  'RelativePathExpr' : {step, '$2'}.
-%% 'RelativePathExpr'      -> '//' 'RelativePathExpr' : {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},'$2'}.
-%% 'RelativePathExpr'       -> 'StepExpr' 'RelativePathExpr' : {step, '$1', '$2'}.
 'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
 'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : case '$1' of #xqAxisStep{} ->
                                                                   case '$3' of 
-                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} , '$3'];
-                                                                    _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} | '$3'] end;
-                                                                   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} | '$3'] end.
+                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self', anno = line('$2')} , '$3'];
+                                                                    _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] end;
+                                                                   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] end.
 'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
-%% case '$1' of 
-%%                                              #xqAxisStep{} ->
-%%                                                 {step, 'context-item', '$1'};
-%%                                              #xqPostfixStep{} ->
-%%                                                 {step, '$1'};
-%%                                              _ ->
-%%                                                 '$1'
-%%                                           end.
 
 % [110]    StepExpr    ::=      PostfixExpr | AxisStep  
 'StepExpr'               -> 'PostfixExpr' : '$1'.
 'StepExpr'               -> 'AxisStep'   : '$1'.
 'StepExpr'               -> 'lone-slash'   : ['root'].
-%% -record(xqPostfixStep, {
-%%    predicates :: []
-%% }).
-%% -record(xqNameTest, {
-%%    name = #qname{prefix = "*", local_name = "*"} :: #qname{}
-%% }).
-%% -record(xqKindTest, {
-%%    kind = node :: node | text | comment | 'namespace-node' | element | attribute | 'document-node' | 'processing-instruction',
-%%    name = #qname{prefix = "*", local_name = "*"} :: #qname{},
-%%    type
-%% }).
-%% -record(xqAxisStep, {
-%%    direction  = forward :: forward | reverse,
-%%    axis       = child :: child | descendant | attribute | self | 
-%%                  'descendant-or-self' | 'following-sibling' | following | namespace | 
-%%                  parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
-%%    node_test  = #xqKindTest{} :: #xqKindTest{},
-%%    predicates :: [],
-%%    next       :: #xqAxisStep{}
-%% }).
+
 % [111]    AxisStep    ::=      (ReverseStep | ForwardStep) PredicateList 
-'AxisStep'               -> 'ReverseStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
-'AxisStep'               -> 'ReverseStep'                 : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
-'AxisStep'               -> 'ForwardStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
-'AxisStep'               -> 'ForwardStep'                 : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
-%%                                                             case element(1,'$1') of
-%%                                                                forward ->
-%%                                                                   #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
-%%                                                                reverse ->
-%%                                                                   #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
-%%                                                                _ ->
-%%                                                                   '$1'
-%%                                                             end.
+'AxisStep'               -> 'ReverseStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2', anno = element(3,'$1')}.
+'AxisStep'               -> 'ReverseStep'                 : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = [], anno = element(3,'$1')}.
+'AxisStep'               -> 'ForwardStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2', anno = element(3,'$1')}.
+'AxisStep'               -> 'ForwardStep'                 : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = [], anno = element(3,'$1')}.
+
 % [112]    ForwardStep    ::=      (ForwardAxis NodeTest) | AbbrevForwardStep   
-'ForwardStep'            -> 'ForwardAxis' 'NodeTest' : name_to_kind_test({'$1', '$2'}).
-'ForwardStep'            -> 'AbbrevForwardStep'      : name_to_kind_test('$1').
+'ForwardStep'            -> 'ForwardAxis' 'NodeTest' : 
+   erlang:append_element(
+      name_to_kind_test({element(1, '$1'), '$2'}), 
+      element(2, '$1')).
+'ForwardStep'            -> 'AbbrevForwardStep'      : 
+   erlang:append_element(name_to_kind_test('$1'), -1).
 % [113]    ForwardAxis    ::=      ("child" "::")| ("descendant" "::")| ("attribute" "::")| ("self" "::")| 
 %                                  ("descendant-or-self" "::")| ("following-sibling" "::")| ("following" "::") 
-'ForwardAxis'            -> 'child' '::'              : 'child'.
-'ForwardAxis'            -> 'descendant' '::'         : 'descendant'.
-'ForwardAxis'            -> 'attribute' '::'          : 'attribute'.
-'ForwardAxis'            -> 'self' '::'               : 'self'.
-'ForwardAxis'            -> 'descendant-or-self' '::' : 'descendant-or-self'.
-'ForwardAxis'            -> 'following-sibling' '::'  : 'following-sibling'.
-'ForwardAxis'            -> 'following' '::'          : 'following'.
+'ForwardAxis'            -> 'child' '::'              : {'child', line('$1')}.
+'ForwardAxis'            -> 'descendant' '::'         : {'descendant', line('$1')}.
+'ForwardAxis'            -> 'attribute' '::'          : {'attribute', line('$1')}.
+'ForwardAxis'            -> 'self' '::'               : {'self', line('$1')}.
+'ForwardAxis'            -> 'descendant-or-self' '::' : {'descendant-or-self', line('$1')}.
+'ForwardAxis'            -> 'following-sibling' '::'  : {'following-sibling', line('$1')}.
+'ForwardAxis'            -> 'following' '::'          : {'following', line('$1')}.
 % [114]    AbbrevForwardStep    ::=      "@"? NodeTest  
-'AbbrevForwardStep'      -> '@' 'NodeTest' : {'attribute', '$2'}.
+'AbbrevForwardStep'      -> '@' 'NodeTest' : {'attribute', '$2', line('$1')}.
 'AbbrevForwardStep'      -> 'NodeTest'     : case ('$1') of
                                                 #xqKindTest{kind = 'attribute'} ->
                                                   {'attribute', '$1'};
@@ -875,16 +825,20 @@ end.
                                                   {'child', '$1'}
                                              end.
 % [115]    ReverseStep    ::=      (ReverseAxis NodeTest) | AbbrevReverseStep   
-'ReverseStep'            -> 'ReverseAxis' 'NodeTest' : name_to_kind_test({'$1', '$2'}).
-'ReverseStep'            -> 'AbbrevReverseStep'      : {'$1', #xqKindTest{kind = 'node'}}.
+'ReverseStep' -> 'ReverseAxis' 'NodeTest' : 
+   erlang:append_element(
+      name_to_kind_test({element(1, '$1'), '$2'}), 
+      element(2, '$1')).
+'ReverseStep' -> 'AbbrevReverseStep'      : 
+   {element(1, '$1'), #xqKindTest{kind = 'node'}, element(2, '$1')}.
 % [116]    ReverseAxis    ::=      ("parent" "::") | ("ancestor" "::")| ("preceding-sibling" "::")| ("preceding" "::")| ("ancestor-or-self" "::")   
-'ReverseAxis'            -> 'parent' '::'            : 'parent'.
-'ReverseAxis'            -> 'ancestor' '::'          : 'ancestor'.
-'ReverseAxis'            -> 'preceding-sibling' '::' : 'preceding-sibling'.
-'ReverseAxis'            -> 'preceding' '::'         : 'preceding'.
-'ReverseAxis'            -> 'ancestor-or-self' '::'  : 'ancestor-or-self'.
+'ReverseAxis' -> 'parent' '::'            : {'parent', line('$1')}.
+'ReverseAxis' -> 'ancestor' '::'          : {'ancestor', line('$1')}.
+'ReverseAxis' -> 'preceding-sibling' '::' : {'preceding-sibling', line('$1')}.
+'ReverseAxis' -> 'preceding' '::'         : {'preceding', line('$1')}.
+'ReverseAxis' -> 'ancestor-or-self' '::'  : {'ancestor-or-self', line('$1')}.
 % [117]    AbbrevReverseStep    ::=      ".."
-'AbbrevReverseStep'      -> '..' : 'parent'.
+'AbbrevReverseStep'      -> '..' : {'parent', line('$1')}.
 % [118]    NodeTest    ::=      KindTest | NameTest  
 'NodeTest'               -> 'KindTest' : '$1'.
 'NodeTest'               -> 'NameTest' : '$1'.
@@ -1423,14 +1377,16 @@ end.
 
 -include("xqerl.hrl").
 -include("xqerl_parser.hrl").
--define(L,1).
 
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
 -dialyzer(no_return).
 
 value_of(Token) ->
-    element(3, Token).
+   element(3, Token).
+
+line(Token) ->
+   element(2, Token).
 
 bin_value_of(Token) ->
    Str = element(3, Token),
@@ -1441,7 +1397,6 @@ bin_value_of(Token) ->
       true ->
          Str
    end.
-
 
 next_id() ->
    case erlang:get(var_id) of
@@ -1792,8 +1747,14 @@ check_uri_hints(Hints) ->
 
 name_to_kind_test({attribute, #xqNameTest{name = Nm}}) ->
    {attribute, #xqKindTest{kind = attribute, name = Nm}};
+name_to_kind_test({attribute, #xqNameTest{name = Nm}, Ln}) ->
+   {attribute, #xqKindTest{kind = attribute, name = Nm}, Ln};
 name_to_kind_test({Axis, #xqNameTest{name = Nm}}) ->
    {Axis, #xqKindTest{kind = element, name = Nm}};
+name_to_kind_test({Axis, #xqNameTest{name = Nm}, Ln}) ->
+   {Axis, #xqKindTest{kind = element, name = Nm}, Ln};
 name_to_kind_test({Axis, Test}) ->
-   {Axis, Test}.
+   {Axis, Test};
+name_to_kind_test({Axis, Test, Ln}) ->
+   {Axis, Test, Ln}.
   

@@ -27,7 +27,7 @@
 -export([scan_mod/1,
          handle_predicate/2]).
 
--define(L,?LINE).
+-define(L,get_line()).
 -define(s(E,T), {call,?L,{remote,?L,{atom,?L,xqerl_types},
                           {atom,?L,cast_as_seq}},[E,abs_seq_type(Ctx,T)]}).
 -define(e, erl_syntax).
@@ -78,12 +78,33 @@ static_records() ->
    ].
 
 revert(L) when is_list(L) ->
-   [erl_syntax:revert(I) || I <- L];
+   [revert(I) || I <- L];
 revert(I) ->
-   erl_syntax:revert(I).
+   try
+      A = erl_anno:new(0),
+      B = erl_anno:set_file("dummy.file", A),
+      C = erl_anno:set_line(get_line(), B),
+      Set = erl_syntax:set_pos(I, C),
+      erl_syntax:revert(Set)
+   catch
+      _:E:S ->
+         ?dbg("{E,S}", {E,S}),
+         erl_syntax:revert(I)
+   end.
+%% revert(I) ->
+%%    erl_syntax:revert(
+%%       erl_syntax:set_pos(I, erl_anno:new(get_line()))).
 
+get_line() ->
+   erlang:get(line_number).
+
+set_line(undefined) ->
+   ok;
+set_line(L) ->
+   erlang:put(line_number, L).
 
 init_mod_scan() ->
+   erlang:put(line_number, 1),
    erlang:put(imp_mod, 1),
    erlang:put(ctx, 1),
    erlang:put(var_tuple, 1),
@@ -204,7 +225,7 @@ scan_mod(#{body := B} = Map) ->
    X.
    
 scan_mod(#xqModule{prolog = Prolog, 
-                   declaration = {_,{ModNs,_Prefix}}, 
+                   declaration = {ModNs,_Prefix}, 
                    type = library,
                    body = _}, Map) ->
    
@@ -224,7 +245,7 @@ scan_mod(#xqModule{prolog = Prolog,
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, 
                                                                Namespaces),
    ModName = xqerl_static:string_atom(ModNs),
-   EmptyMap = Map#{module => ModName, 
+   EmptyMap = Map#{module => ModName,
                    namespaces => ConstNamespaces},
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
@@ -267,7 +288,7 @@ scan_mod(#xqModule{prolog = Prolog,
     P1,
     P2,
     % abstract after this point
-    P10
+    erl_syntax:revert(P10)
    };
 
 scan_mod(#xqModule{prolog = Prolog, 
@@ -311,8 +332,13 @@ scan_mod(#xqModule{prolog = Prolog,
                    X
              end,
    
-   EmptyMap = Map#{%namespaces => ConstNamespaces,
-                   variables => lists:map(VarFun1, Variables)
+   FileName1 = binary_to_list(FileName),
+   LineFun = fun(Line) when is_integer(Line) ->
+                   {attribute,1,file,{FileName1,Line}};
+                (undefined) ->
+                   []
+             end,
+   EmptyMap = Map#{variables => lists:map(VarFun1, Variables)
                   }, 
    
    ModName = xqerl_static:string_atom(FileName),
@@ -320,11 +346,10 @@ scan_mod(#xqModule{prolog = Prolog,
                 EmptyMap#{module => ModName},
                 maps:get(stat_props, EmptyMap) ++ [options|[module|StaticProps]]),
     % abstract after this point
-   FileName1 = binary_to_list(FileName),
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
            ]),
-   P1a = {attribute,1,file,{FileName1,2}},
+   P1a = LineFun(1),
    P3 = ?P([%"-compile(inline).", % later ...
             "init() ->",
             "  _ = xqerl_lib:lnew(),",
@@ -335,7 +360,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
-   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
+   {RestExports, _RestWrappers} = rest_functions(EmptyMap, Functions),
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
                        RestExports,
@@ -722,6 +747,7 @@ global_variable_map_set(Modules,Locals) ->
 
 
 body_function(ContextMap, Body,Prolog) ->
+   _ = set_line(1),
    Stats = [N || {_,N} <- xqerl_context:static_namespaces()],
    ImportedMods = [E || 
                    {'module-import',{N,P} = E} <- Prolog,
@@ -743,9 +769,11 @@ body_function(ContextMap, Body,Prolog) ->
             AV = {var,?L,next_var_name()},
             NC = next_ctx_var_name(),
             NV = {var,?L,NC},
-            P = ?P(["_@AV = '@V@'(_@CtxVar),",
-                    "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
-            %P = ?P("xqerl_lib:lput('@V@','@V@'(_@CV))"),
+            P = [{match,?L,AV, {call,?L,{atom,?L,V},[CtxVar]}},
+                 {match,?L,NV, {map,?L,CtxVar,
+                                [{map_field_assoc,?L,{atom,?L,V},AV}]}}],
+%%             P = ?P(["_@AV = '@V@'(_@CtxVar),",
+%%                     "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             {P, NV};
          ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
             NC = next_ctx_var_name(),
@@ -853,7 +881,8 @@ expression_body(ContextMap, Body, Prolog, Variables, Init) ->
 
 variable_functions(ContextMap, Variables) ->
    LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
-   F = fun(#xqVar{id = _, name = QName, expr = Expr, external = Ext, type = Type0}) ->
+   F = fun(#xqVar{id = _, name = QName, expr = Expr, 
+                  external = Ext, type = Type0}) ->
              Type = if Type0 == undefined ->
                           #xqSeqType{type = item, occur = zero_or_many};
                        true ->
@@ -883,7 +912,8 @@ variable_functions(ContextMap, Variables) ->
                       "   _@Expr1."])
              end
      end,
-   [F(V) || #xqVar{} = V <- Variables].
+   [begin _ = set_line(Line), F(V) end || 
+    #xqVar{anno = Line} = V <- Variables].
 
 internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr, 
                                           external = Ext, type = Type0}) ->
@@ -2359,7 +2389,9 @@ order_part(Ctx,{'order_by',Id, Exprs}) ->
    {Ctx,[R]}.
 
 count_part(Ctx,{'count',#xqVar{id = Id,
-                               name = Name}} = Part,NextFunAtom) ->
+                               name = Name,
+                               anno = Line}} = Part,NextFunAtom) ->
+   _ = set_line(Line),
    VarName = local_variable_name(Id),
    VarName1 = {var,?L,VarName},
    NewVar  = {Name,#xqSeqType{type = 'xs:integer', occur = 'one'},[],VarName},
@@ -2473,8 +2505,10 @@ group_part(#{grp_variables := GrpVars,
 let_part(Ctx,{'let',#xqVar{id = Id,
                            name = Name,
                            type = Type,
-                           expr = Expr},
+                           expr = Expr,
+                           anno = Line},
               AType} = Part,NextFunAtom,IsList) ->
+   _ = set_line(Line),
    VarName = local_variable_name(Id),
    NewVar  = {Name,Type,[],VarName},
    FunctionName = glob_fun_name(Part),
@@ -2522,7 +2556,6 @@ let_part(Ctx,{'let',#xqVar{id = Id,
             "   '@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
            ])
         end,
-   %?dbg("LetFun",LetFun),
    %{NewCtx,[InLine, LetFun]}.
    {NewCtx,[LetFun]}.
 
@@ -2530,7 +2563,8 @@ window_loop(Ctx, #xqWindow{type = Type,
                            win_variable = #xqVar{id = WId,
                                                  name = WName,
                                                  type = WType,
-                                                 expr = Expr}, 
+                                                 expr = Expr,
+                                                 anno = Line}, 
                            s     = S,
                            spos  = SPos,
                            sprev = SPrev,
@@ -2542,6 +2576,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                            only  = Only,
                            start_expr = StartExpr,
                            end_expr = EndExpr}, NextFunAtom, IsInitial) ->
+   _ = set_line(Line),
    OldCtxname = get_context_variable_name(Ctx),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    {SVar,Ctx0} =  case S of
@@ -2703,8 +2738,10 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            type = Type, 
                            empty = Empty,
                            expr = Expr, 
-                           position = undefined},
+                           position = undefined,
+                           anno = Line},
               AType} = Part, NextFunAtom, IsList) ->
+   _ = set_line(Line),
 %?dbg("list?",{Id,IsList}),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
@@ -2798,8 +2835,10 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            empty = Empty,
                            expr = Expr, 
                            position = #xqPosVar{id = PId, 
-                                                name = PName}},
+                                                name = PName},
+                           anno = Line},
               AType} = Part, NextFunAtom, IsList) ->
+   _ = set_line(Line),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
    PosVarName = local_variable_name(PId),

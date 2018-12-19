@@ -406,6 +406,7 @@ handle_node(State, #qname{namespace = NsExpr,
                #xqSeqType{type = PTy} = get_statement_type(PS1),
                if ?xs_string(PTy);
                   ?node(PTy);
+                  is_record(PTy, xqKindTest), ?node(PTy#xqKindTest.kind);
                   PTy == 'xs:untypedAtomic' ->
                      get_statement(PS1);
                   true ->
@@ -1810,7 +1811,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 type = Type, 
                                 empty = Empty,
                                 expr = Expr, 
-                                position = undefined},_}) ->
+                                position = undefined} = Node,_}) ->
 %?dbg("Expr",Expr),
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
@@ -1849,7 +1850,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    ForLet = if MakeLet -> 'let'; true -> 'for' end,
    NewVar  = {Name,SForType,[],ErlVarName,External},
    State1 = add_inscope_variable(State, NewVar),
-   NewStatement = {ForLet,#xqVar{id = Id,
+   NewStatement = {ForLet,Node#xqVar{id = Id,
                                 name = Name, 
                                 type = OutType, 
                                 empty = Empty,
@@ -1863,7 +1864,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 empty = Empty,
                                 expr = Expr, 
                                 position = #xqPosVar{id = Pid, 
-                                                     name = PName}},_}) ->
+                                                     name = PName}} = Node,_}) ->
    _ = if PName == Name ->
              ?err('XQST0089');
           true ->
@@ -1899,7 +1900,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    State1 = add_inscope_variable(State, NewVar),
    State2 = add_inscope_variable(State1, NewPos),
 
-   NewStatement = {'for',#xqVar{id = Id,
+   NewStatement = {'for',Node#xqVar{id = Id,
                                 name = Name, 
                                 type = OutType, 
                                 empty = Empty,
@@ -1913,7 +1914,7 @@ handle_node(State,{'for',#xqVar{id = Id,
 handle_node(State, {'let',#xqVar{id = Id, 
                                  name = Name, 
                                  type = Type, 
-                                 expr = Expr},_}) ->
+                                 expr = Expr} = Node,_}) ->
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    LetState = handle_node(StateC, Expr),
@@ -1959,7 +1960,7 @@ handle_node(State, {'let',#xqVar{id = Id,
 
    State1 = add_inscope_variable(State, NewVar),
    
-   NewStatement = {'let',#xqVar{id = Id, 
+   NewStatement = {'let',Node#xqVar{id = Id, 
                                 name = Name, 
                                 type = OutType, 
                                 expr = LetStmt1}, LetType1},
@@ -1971,7 +1972,7 @@ handle_node(State, #xqWindow{type = WindowType,
                              win_variable = #xqVar{id = Id,
                                                    name = WName,
                                                    type = WType0,
-                                                   expr = Expr}, 
+                                                   expr = Expr} = Node, 
                              s     = S,
                              spos  = SPos,
                              sprev = SPrev,
@@ -2087,7 +2088,7 @@ handle_node(State, #xqWindow{type = WindowType,
    State1 = add_inscope_variable(EndState,  WinVar),
 
    Output = #xqWindow{ type = WindowType,
-                       win_variable = #xqVar{id = Id,
+                       win_variable = Node#xqVar{id = Id,
                                              name = WName,
                                              type = WTypeOut,
                                              expr = WinStmt}, 
@@ -2116,13 +2117,13 @@ handle_node(State, {where, Id, Expr}) ->
 %% 3.12.6 Count Clause
 handle_node(State, {count,#xqVar{id = Id, 
                                  name = Name, 
-                                 type = Type}}) ->
+                                 type = Type} = Node}) ->
    ErlVarName = local_variable_name(Id),
    CntType = ?intone,
    _ = check_type_match(CntType, Type),
    NewVar  = {Name,CntType,[],ErlVarName},
    State1 = add_inscope_variable(State, NewVar),
-   NewStatement = {count,#xqVar{id = Id, 
+   NewStatement = {count,Node#xqVar{id = Id, 
                                 name = Name, 
                                 type = CntType, 
                                 expr = []}},
@@ -3583,7 +3584,7 @@ pro_setters(Prolog) ->
 
 pro_module_ns([]) ->
    [];
-pro_module_ns({'module-namespace',{<<"Q{",Rest/binary>>,Px}}) ->
+pro_module_ns({<<"Q{",Rest/binary>>,Px}) ->
    Sz = size(Rest) - 1,
    <<Ns:Sz/bytes,_:1/bytes>> = Rest,
    {Ns,Px}.
