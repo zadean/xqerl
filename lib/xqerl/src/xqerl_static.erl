@@ -205,7 +205,6 @@ handle_tree(#xqModule{version = {Version,Encoding},
      ImpU == ImpE
      ],
    
-   
    OrderedGraph = 
      case digraph_utils:topsort(DiGraph) of
         false ->
@@ -315,6 +314,12 @@ handle_tree(#xqModule{version = {Version,Encoding},
                    is_record(X, xqFunction) orelse 
                    element(1, X) == 'context-item')],
    S3_1 = strip_unused_imports(S3,UnusedImports),
+   
+%%    ImpContextTypes = [CtT || {context_type, CtT} <- StaticProps],
+%%    _ = [?err('XPTY0004')
+%%         || Targ <- ImpContextTypes,
+%%            check_type_match(CtxItemType, Targ) =/= true],
+   
    %%% for now, return a map with everything in it for the abstract part. 
    %% just until it has no idea of static context
    EmptyMap = #{file_name => BaseUri,
@@ -326,6 +331,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 options => OptionMap,
                 ctx_var => 'Ctx0',
                 parameters => [],
+                context_item_type => CtxItemType,
                 known_fx_sigs => FinalState#state.known_fx_sigs,
                 tab => Tab,
                 stat_props => StatProps,
@@ -3555,17 +3561,11 @@ pro_def_func_ns(Prolog) ->
    end.
 
 pro_context_item(Prolog, library) ->
-   D = lists:filter(fun({'context-item', {_,external,_}}) ->
-                          false;
-                       ({'context-item', _}) ->
-                          true;
-                       (_) ->
-                          false
-                    end, Prolog),
-   if length(D) > 0 ->
-         ?err('XQST0113');
-      true ->
-         D
+   _ = [?err('XQST0113') || {'context-item', {_,U,V}} <- Prolog, 
+                            V =/= undefined orelse U =/= external],
+   Cs = [C || {'context-item', {_,_,_}} = C <- Prolog],
+   if length(Cs) > 1 -> ?err('XQST0099');
+      true -> Cs
    end;
 pro_context_item(Prolog, main) ->
    D = lists:filter(fun({'context-item', _}) ->

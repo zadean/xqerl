@@ -602,10 +602,18 @@ set_empty_context_item(Ctx) ->
 % returns new Ctx map
 set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
+
 set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) 
    when is_integer(Size) ->
    Ctx#{'context-item' := {CI, Pos},
         'context-item-count' := #xqAtomicValue{type = 'xs:integer',
+                                               value = Size}};
+set_context_item(Ctx, #{nk := _} = CI, Pos, Size) 
+   when is_integer(Size) ->
+   BU = xqldb_mem_nodes:base_uri(CI),
+   Ctx#{'context-item' => {CI, Pos},
+        'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = BU},
+        'context-item-count' => #xqAtomicValue{type = 'xs:integer',
                                                value = Size}};
 set_context_item(Ctx, CI, Pos, Size) 
    when is_integer(Size) ->

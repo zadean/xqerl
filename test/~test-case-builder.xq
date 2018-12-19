@@ -306,6 +306,12 @@ declare function _:print-testcase($test-case) as xs:string
             ) then
     "   {skip,""schemaAware""}"
 
+    (: test case using environment instead of declare :)
+    else if ($test-case/../@name eq "fn-static-base-uri" and 
+                $test-case/@name eq 'fn-static-base-15'
+            ) then
+    "   {skip,""static-base-uri environment""}"
+
     (: XML version :) 
     else if ($deps[@type = "xml-version" and @value = "1.1"]) then
       "   {skip,""XML version 1.1""}"
@@ -739,7 +745,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set(: [@name = "prod-BaseURIDecl"] :)
+      $catalog/*:catalog/*:test-set[@name = "fn-static-base-uri"]
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()

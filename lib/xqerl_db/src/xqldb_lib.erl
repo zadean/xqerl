@@ -138,8 +138,25 @@ normalize_uri(Uri) ->
 %% uri_string:parse doesn`t like high codepoints or the space character
 %% check for existence . of course this lets crap come through...
 has_for_high_codepoint_or_space(Bin) ->
-   [C || <<C/utf8>> <= Bin, C == $  orelse C > 128] =/= [].
+   [C || <<C/utf8>> <= Bin, is_legacy(C)] =/= [].
 
+% list of legacy characters excepted in XQuery
+is_legacy(16#20) -> true;
+is_legacy(16#3c) -> true;
+is_legacy(16#3e) -> true;
+is_legacy(16#22) -> true;
+is_legacy(16#5c) -> true;
+is_legacy(16#5e) -> true;
+is_legacy(16#60) -> true;
+is_legacy(16#7b) -> true;
+is_legacy(16#7c) -> true;
+is_legacy(C) when C >= 16#00, C =< 16#1f -> true;
+is_legacy(C) when C >= 16#7f, C =< 16#d7ff -> true;
+%is_legacy(16#200e) -> true;
+%is_legacy(16#200f) -> true;
+%is_legacy(C) when C >= 16#202a, C =< 16#202e -> true;
+is_legacy(C) when C >= 16#fff0, C =< 16#fffd -> true;
+is_legacy(_) -> false.   
 
 %recompose({Scheme, UserInfo, Host, Port, "/", Query, Fragment}) ->
 %   recompose({Scheme, UserInfo, Host, Port, [], Query, Fragment});
@@ -336,7 +353,7 @@ build_map({SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment}) ->
    M5 = add_to_map_if_not(M4, path, Path, 99999999999),
    M6 = add_to_map_if_not(M5, query, Query, <<>>),
    M7 = add_to_map_if_not(M6, fragment, Fragment, <<>>),
-   ?dbg("M7",M7),
+   %?dbg("M7",M7),
    M7.
 
    
@@ -488,5 +505,34 @@ pmap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
            end),
    pmap(From,T,Fun,Limit,Left - 1,Pids ++ [Pid], Acc).
 
+recompose(#{path := P} = URIMap) ->
+   case has_for_high_codepoint_or_space(P) of
+      false ->
+         uri_string:recompose(URIMap);
+      true ->
+         legacy_recompose(URIMap)
+   end;
 recompose(URIMap) ->
    uri_string:recompose(URIMap).
+
+legacy_recompose(UriMap) ->
+   Sep = [path, fragment, query],
+   Head = uri_string:recompose((maps:without(Sep, UriMap))#{path => <<>>}),
+   Tail = maps:with(Sep, UriMap),
+   U1 = update_path(Tail, Head),
+   U2 = update_query(Tail, U1),
+   update_fragment(Tail, U2).
+
+% from uri_string, kind of
+update_path(#{path := Path}, URI) ->
+   <<URI/bits, Path/bits>>;
+update_path(_, URI) -> URI.
+
+update_query(#{query := Query}, URI) ->
+   <<URI/binary, "?", Query/binary>>;
+update_query(_, URI) -> URI.
+
+update_fragment(#{fragment := Fragment}, URI) ->
+   <<URI/binary, "#", Fragment/binary>>;
+update_fragment(_, URI) -> URI.
+   

@@ -160,8 +160,9 @@ exp_local_funs(#{module        := Mod,
 
 init_fun_abs(Ctx0, KeysToAdd) ->
    Ctx = exp_local_funs(Ctx0),
-   Fun = fun(Name, M) ->
-               add_context_key(M,Name,Ctx)
+   Fun = fun({context_item_type, _}, M) -> M;
+            (Name, M) ->
+               add_context_key(M,Name,Ctx)            
          end,
    Map3 = lists:foldl(Fun, #{}, KeysToAdd),
    a_term(Map3).
@@ -235,6 +236,7 @@ scan_mod(#xqModule{prolog = Prolog,
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
+   _ = add_used_record_type(xqSeqType),
    DefElNs     = xqerl_static:pro_def_elem_ns(Prolog),
    %ContextItem = xqerl_static:pro_context_item(Prolog,main),
    Namespaces  = xqerl_static:pro_namespaces(Prolog,[],DefElNs),
@@ -253,7 +255,9 @@ scan_mod(#xqModule{prolog = Prolog,
                                      (_) -> false
                                   end,Prolog),
    
-   StatProps = maps:get(stat_props, EmptyMap),
+   StatProps0 = maps:get(stat_props, EmptyMap),
+   CtxItemType = maps:get(context_item_type, EmptyMap),
+   StatProps = [{context_item_type, CtxItemType}|StatProps0],
    
    P1a = {attribute,1,file,{binary_to_list(ModNs),2}},
    P1 = scan_variables(EmptyMap,Variables, public), 
@@ -269,7 +273,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
    P8 = function_functions(EmptyMap, Functions),
-   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
+   {RestExports, _RestWrappers} = rest_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
    P4 = lists:flatten([
          ?P(export_variables(Variables, EmptyMap)),
@@ -1420,8 +1424,9 @@ expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
                                 Cons =:= comp_cons ->
    C = {var,?L,get_context_variable_name(Ctx)},
    E = expr_do(Ctx, Expr),
+   B = maps:get('base-uri', Ctx),
    %?P("_@E");
-   ?P("xqerl_node:new_fragment(_@C,_@E)");
+   ?P("xqerl_node:new_fragment((_@C)#{'base-uri' => _@B@},_@E)");
 
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
    expr_do(Ctx, Expr1#xqFunction{body = {atomize, Body}});

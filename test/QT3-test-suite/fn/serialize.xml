@@ -1545,9 +1545,7 @@
         <result>
           <all-of>
             <assert>
-                let $xml := json-to-xml($result, map { 'duplicates' : 'retain' })
-                return
-                   count($xml/fn:map/fn:number) eq 2
+            count((json-to-xml($result, map { 'duplicates' : 'retain' }))/fn:map/fn:number) eq 2
             </assert>
             <assert>map:size(parse-json($result)) eq 1</assert>
           </all-of>

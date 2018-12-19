@@ -266,31 +266,7 @@ all() -> [
    end. 
 'fn-static-base-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "static-base-uri()", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', [{"http://www.example.com"}]}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-static-base-15.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"static-base-uri environment"}. 
 'K-StaticBaseURIFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "static-base-uri(.)", 
