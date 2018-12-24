@@ -436,14 +436,20 @@ val_map(Fun,[#xqRange{} = H|T]) ->
 val_map(Fun,[H|T]) ->
    Val = try 
             Fun(H) 
-         catch _:#xqError{} = E:Stack -> 
-                  ?dbg("H  ",H),
-                  ?dbg("Err",Stack),
-                  throw(E);
-               _:Err:Stack ->
-                  ?dbg("Err",Err),
-                  ?dbg("Err",Stack),
-                  ?err('XPTY0004') end,
+         catch 
+            _:#xqError{} = E:Stack ->
+               ?dbg("H  ",H),
+               ?dbg("Err",Stack),
+               throw(E);
+            _:{badkey,_} -> % This happens when a variable is not yet 
+                            % initialized, so there must have been a cycle
+                            % missed at static time.
+               ?err('XQDY0054');
+            _:Err:Stack ->
+               ?dbg("Err",Err),
+               ?dbg("Err",Stack),
+               ?err('XPTY0004') 
+         end,
    if T == [] ->
          Val;
       true ->

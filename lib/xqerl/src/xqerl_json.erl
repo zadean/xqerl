@@ -47,6 +47,7 @@
 
 -define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
 -define(CP2_REST(Cp1,Cp2,Rest), <<Cp1/utf8,Cp2/utf8,Rest/binary>>).
+-define(ACC_CP3(Cp1,Cp2,Cp3,Acc), <<Acc/binary,Cp1/utf8,Cp2/utf8,Cp3/utf8>>).
 -define(ACC_CP2(Cp1,Cp2,Acc), <<Acc/binary,Cp1/utf8,Cp2/utf8>>).
 -define(ACC_CP(Cp,Acc), <<Acc/binary,Cp/utf8>>).
 
@@ -504,6 +505,8 @@ escape(?CP2_REST(H1,H2,T), Acc) when H1 >= 16#D800, H1 =< 16#DFFF,
 %%    ?err('FOJS0007'); % bad escape sequence
 escape(?CP2_REST($\\,$u,T), Acc) ->
    escape(T, ?ACC_CP2($\\,$u,Acc));
+escape(?CP2_REST($\\,$/,T), Acc) ->
+   escape(T, ?ACC_CP3($\\,$\\,$/,Acc));
 escape(?CP_REST($\\,T), Acc) ->
    escape(T, ?ACC_CP2($\\,$\\,Acc));
 escape(?CP_REST(H,T), Acc) ->

@@ -1,3 +1,4 @@
+%-file("http://www.w3.org/2005/xpath-functions", 1).
 %%
 %% xqerl - XQuery processor
 %%
@@ -50,7 +51,6 @@
                      is_record(N, xqNamespaceNode)).
 
 -include("xqerl.hrl").
--file("http://www.w3.org/2005/xpath-functions", 1).
 -'module-namespace'({?NS, ?PX}).
 -variables([]).
 -functions([
@@ -1664,16 +1664,17 @@ distinct_vals(Vals,Fun) ->
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-%?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       {error,E} when E =/= relative -> % relative is a kludge to get correct error
-         ?dbg("E",E),
          ?err('FODC0005');
+      {error,_} ->
+         ?err('FODC0002');
       ResVal ->
-%?dbg("ResVal",ResVal),
-         case xqldb_dml:select_doc(ResVal) of
+         case catch xqldb_dml:select_doc(ResVal) of
             {error,not_exists} -> % not in db
                ?err('FODC0002');
+            {'EXIT',_} ->
+               ?err('FODC0005');
             D ->
                D
          end
