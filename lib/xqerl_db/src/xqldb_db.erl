@@ -109,6 +109,8 @@ get_pid(Uri) ->
    case xqldb_db_server:info(Uri) of
       {error,_} ->
          error;
+      {opening,_,none} ->
+         get_pid(Uri);
       {_,_,Pid} ->
          Pid
    end.
