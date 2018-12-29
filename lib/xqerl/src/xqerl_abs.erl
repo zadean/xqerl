@@ -337,11 +337,7 @@ scan_mod(#xqModule{prolog = Prolog,
              end,
    
    FileName1 = binary_to_list(FileName),
-   LineFun = fun(Line) when is_integer(Line) ->
-                   {attribute,1,file,{FileName1,Line}};
-                (undefined) ->
-                   []
-             end,
+
    EmptyMap = Map#{variables => lists:map(VarFun1, Variables)
                   }, 
    
@@ -353,7 +349,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P1 = ?P(["-module('@ModName@').",
             "-export([main/1])."
            ]),
-   P1a = LineFun(1),
+   P1a = {attribute,1,file,{FileName1,1}},
    P3 = ?P([%"-compile(inline).", % later ...
             "init() ->",
             "  _ = xqerl_lib:lnew(),",
