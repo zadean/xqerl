@@ -11,20 +11,14 @@
          assert_true/1,
          assert_count/2,
          assert_permutation/2,
+         assert_error/2,
          assert_string_value/2,
          assert_norm_string_value/2,
          assert_serialization_match/3]).
 
--export([assert_error/2]).
+-export([run/1,
+         run_suite/1]).
 
--export([compile/3]).
-%% -export([parallel_compile/1]).
-
--export([size/1]).
--export([string_value/1]).
--export([run/1]).
--export([run/2]).
--export([run_suite/1]).
 -export([handle_environment/1]).
 -export([load_qt3_xml/0]).
 
@@ -305,9 +299,6 @@ assert_error(Result, ErrorCode) ->
          %StrVal = string_value(Result),
          {false, {assert_error,Result,ErrorCode}}
    end.
-
-size(A) ->
-   xqerl_seq3:size(A).
 
 string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
    NewList = lists:map(fun(I) ->
@@ -796,38 +787,6 @@ run(Str) ->
    io:format("~p~n",[Str]),
    xqerl:run(Str).
 
-run(Str, Options) ->
-   io:format("~p~n",[Str]),
-   xqerl:run(Str, Options).
-
-%% parallel_compile(ArgL) ->
-%%     Keys = map_keys(ArgL),
-%%     [rpc:yield(K) || K <- Keys].
-%% 
-%% map_keys([]) -> [];
-%% map_keys([Args|Tail]) ->
-%%     [rpc:async_call(node(),?MODULE,compile,tuple_to_list(Args)) | 
-%%      map_keys(Tail)].
-
-compile(Name, Env, Qry) ->
-   {EnvStr,Opts} = xqerl_test:handle_environment(Env),
-   Qry1 = lists:flatten(EnvStr ++ Qry),
-   case xqerl_module:test_compile(Name, Qry1) of
-      {ok,M,B} ->
-         case file:write_file("../../../test/ebin/"++
-                                atom_to_list(M)++".beam", B) of
-            ok ->
-               ?dbg("M",M),
-               {Name,M,Opts};
-            {error,Er} ->
-               ?dbg("Er",Er),
-               {Name,Er}
-         end;
-      {error,E} ->
-         ?dbg("E",E),
-         {Name,E}
-   end.
-
 get_value(Key, List) ->
    proplists:get_value(Key, List).
 get_value(Key, List, Default) ->
@@ -836,7 +795,11 @@ get_value(Key, List, Default) ->
 
 handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
-   _ = file:set_cwd([filename:join(code:lib_dir(xqerl),"test")]),
+   TestDir = application:get_env(
+               xqerl, 
+               test_dir, 
+               filename:join(code:lib_dir(xqerl),"test")),
+   _ = file:set_cwd([TestDir]),
    Sources     = get_value(sources, List) ,
    _Schemas    = get_value(schemas, List) ,
    Collections = get_value(collections, List) ,
@@ -850,8 +813,8 @@ handle_environment(List) ->
    DecFormats  = get_value('decimal-formats', List, []) ,
    DeCollation = get_value('default-collation', List, undefined) ,
    
-   Uniq = integer_to_binary(erlang:system_time(microsecond)),
-   DefaultCollection = <<"http://example.org/default/",Uniq/binary>>,
+   Uniq = integer_to_binary(erlang:unique_integer()),
+   DefaultCollection = <<"http://example.org/default",Uniq/binary>>,
    
    Map00 = #{default_collection => 
                     #xqAtomicValue{type = 'xs:string',

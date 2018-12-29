@@ -242,9 +242,9 @@ get_next_id(Name) ->
 %% ====================================================================
 
 init([]) ->
-   DataDir = application:get_env(xqerl_db, data_dir, "data"),
+   DataDir = application:get_env(xqerl_db, data_dir, "./data"),
    AbsDir = filename:absname(DataDir),
-   ok = filelib:ensure_dir(DataDir),
+   ok = filelib:ensure_dir(AbsDir),
    TabFile = filename:join(AbsDir, "xqerl_db.meta"),
    {ok, TabName} = dets:open_file(TabFile, []),
    Next = get_next_id(TabName),
@@ -269,8 +269,9 @@ handle_call({new, Path}, _From, #{tab := TabName,
          {reply, DbDir, State#{nxt := Next + 1,
                                map := Map1}};
       [{_, Id}] ->
+         Map1 = insert_new(Path, Map, Next, opening),
          DbDir = filename:join([DataDir, int_to_path(Id)]),
-         {reply, DbDir, State}
+         {reply, DbDir, State#{map := Map1}}
    end;
 % Sets Uri to status open or {error, not_exists} if the DB does not exist.
 handle_call({open, Path, SupPid}, _From, #{map := Map} = State) ->

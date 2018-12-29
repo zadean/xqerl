@@ -209,7 +209,6 @@ handle_call({lookup, Id}, _From, #{tab  := Table} = State) ->
       [{Id,Value}] ->
          {reply,Value,State};
       [] ->
-         io:format("Unknown name:~p~n",[Id]),
          {reply,error,State}
    end;
 handle_call({match, LocalName}, _From, #{tab  := Table} = State) ->

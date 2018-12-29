@@ -531,7 +531,7 @@ pmap(FCT,List,Limit) ->
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
-   after 20000 -> error
+   after 60000 -> error
    end.
 
 pmap(From,[],FCT,Limit,Left,Ps,Acc) when Left < Limit ->
@@ -541,7 +541,7 @@ pmap(From,[],FCT,Limit,Left,Ps,Acc) when Left < Limit ->
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
          pmap(From,[],FCT,Limit,Left + 1,NewPs, [X|Acc])
-   after 10000 -> error
+   after 60000 -> error
    end;
 pmap(From,[],_FCT,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
@@ -550,7 +550,7 @@ pmap(From,List,FCT,Limit,0,Ps,Acc) ->
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
          pmap(From,List,FCT,Limit,1,NewPs,[X|Acc])
-   after 10000 -> error
+   after 60000 -> error
    end;
 pmap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),

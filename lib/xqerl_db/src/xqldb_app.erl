@@ -40,6 +40,7 @@
 	| {error, Reason :: term()}.
 
 start(normal, []) ->
+   xqerl_config:normalize(xqerl_db),
    xqldb_sup:start_link().
 
 -spec stop(State :: term()) ->  Any :: term().
