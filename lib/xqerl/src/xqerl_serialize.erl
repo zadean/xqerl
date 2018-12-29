@@ -523,7 +523,7 @@ do_serialize_html(#{nk := attribute,
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = encode_att_text(Txt),
-   <<" ", QNm/binary, "=\"", AttTxt/binary, "\"">>;
+   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 
 do_serialize_html(#{nk := element,
                    ch := _,
@@ -617,7 +617,7 @@ do_serialize_xhtml(#{nk := attribute,
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = encode_att_text(Txt),
-   <<" ", QNm/binary, "=\"", AttTxt/binary, "\"">>;
+   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 
 do_serialize_xhtml(#{nk := element,
                    ch := _,
