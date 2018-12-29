@@ -268,8 +268,13 @@ handle_call({new, Path}, _From, #{tab := TabName,
          DbDir = filename:join([DataDir, int_to_path(Next)]),
          {reply, DbDir, State#{nxt := Next + 1,
                                map := Map1}};
+      [{_, {Id, missing}}] ->
+         Map1 = insert_new(Path, Map, Id, opening),
+         dets:insert(TabName, {Path, Id}),
+         DbDir = filename:join([DataDir, int_to_path(Id)]),
+         {reply, DbDir, State#{map := Map1}};
       [{_, Id}] ->
-         Map1 = insert_new(Path, Map, Next, opening),
+         Map1 = insert_new(Path, Map, Id, opening),
          DbDir = filename:join([DataDir, int_to_path(Id)]),
          {reply, DbDir, State#{map := Map1}}
    end;
