@@ -103,9 +103,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -215,7 +214,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -230,7 +229,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -245,7 +244,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -260,7 +259,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -275,7 +274,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -290,7 +289,7 @@ all() -> [
    Qry = "fn:compare(\"\",\"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -305,7 +304,7 @@ all() -> [
    Qry = "fn:compare(\"\",\"A Character String\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -320,7 +319,7 @@ all() -> [
    Qry = "fn:compare(\"A Character String\",\"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -335,7 +334,7 @@ all() -> [
    Qry = "fn:count(fn:compare((),\"\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -350,7 +349,7 @@ all() -> [
    Qry = "fn:count(fn:compare(\"\",()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -365,7 +364,7 @@ all() -> [
    Qry = "fn:count(fn:compare(\"A Character String\",()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -380,7 +379,7 @@ all() -> [
    Qry = "fn:count(fn:compare((),\"A Character String\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -395,7 +394,7 @@ all() -> [
    Qry = "fn:compare(\"AAAAABBBBBCCCCC\",\"BBBBB\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -410,7 +409,7 @@ all() -> [
    Qry = "fn:compare(\"AAAAABBBBB\",\" \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -425,7 +424,7 @@ all() -> [
    Qry = "fn:compare(\" \",\"AAAAABBBBB\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -440,7 +439,7 @@ all() -> [
    Qry = "fn:not(fn:compare(\"A\",\"A\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -455,7 +454,7 @@ all() -> [
    Qry = "fn:not(fn:compare(\"A\",\"B\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -470,7 +469,7 @@ all() -> [
    Qry = "fn:compare(xs:string(\"A\"),\"A\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -485,7 +484,7 @@ all() -> [
    Qry = "fn:compare(\"A\",xs:string(\"A\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -500,7 +499,7 @@ all() -> [
    Qry = "fn:compare(\"A\",\"a\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -515,7 +514,7 @@ all() -> [
    Qry = "fn:compare(\"a\",\"A\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -530,7 +529,7 @@ all() -> [
    Qry = "fn:compare(\"compare\",\"compare\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -545,7 +544,7 @@ all() -> [
    Qry = "fn:compare(\"comparecompare\",\"compare\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -560,7 +559,7 @@ all() -> [
    Qry = "fn:compare(\"****\",\"***\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -575,7 +574,7 @@ all() -> [
    Qry = "fn:compare(\"12345\",\"1234\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -590,7 +589,7 @@ all() -> [
    Qry = "fn:compare(\"compare\",\"erapmoc\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -605,7 +604,7 @@ all() -> [
    Qry = "fn:compare(\"a\",\"a\",\"CollationA\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-compare-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-compare-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
@@ -620,7 +619,7 @@ all() -> [
    Qry = "codepoint-equal()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -635,7 +634,7 @@ all() -> [
    Qry = "codepoint-equal(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -650,7 +649,7 @@ all() -> [
    Qry = "codepoint-equal((), (), ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -665,7 +664,7 @@ all() -> [
    Qry = "empty(codepoint-equal((), \"a string\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -680,7 +679,7 @@ all() -> [
    Qry = "empty(codepoint-equal(\"a string\", ()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -695,7 +694,7 @@ all() -> [
    Qry = "codepoint-equal(\"a string\", \"a string\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -710,7 +709,7 @@ all() -> [
    Qry = "not(codepoint-equal(\"cow\", \"a string\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -725,7 +724,7 @@ all() -> [
    Qry = "compare()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -740,7 +739,7 @@ all() -> [
    Qry = "compare(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -755,7 +754,7 @@ all() -> [
    Qry = "compare((), (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", \"wrong param\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -770,7 +769,7 @@ all() -> [
    Qry = "empty(compare((), \"a string\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -785,7 +784,7 @@ all() -> [
    Qry = "empty(compare(\"a string\", ()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -800,7 +799,7 @@ all() -> [
    Qry = "empty(compare(\"a string\", (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -815,7 +814,7 @@ all() -> [
    Qry = "compare(\"str\", \"str\") instance of xs:integer", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -830,7 +829,7 @@ all() -> [
    Qry = "empty(compare(\"a string\", \"a string\", \"http://www.example.com/COLLATION/NOT/SUPPORTED\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-compareFunc-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-compareFunc-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
@@ -853,7 +852,7 @@ all() -> [
    Qry = "compare(\"a\", \"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-1") of 
@@ -876,7 +875,7 @@ all() -> [
    Qry = "compare(\"b\", \"a\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -891,7 +890,7 @@ all() -> [
    Qry = "compare(\"b\", \"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -906,7 +905,7 @@ all() -> [
    Qry = "compare(\"b\", ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -921,7 +920,7 @@ all() -> [
    Qry = "compare((), \"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -936,7 +935,7 @@ all() -> [
    Qry = "compare((), ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -951,7 +950,7 @@ all() -> [
    Qry = "compare(\"𐀁\", \"𐀂\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -966,7 +965,7 @@ all() -> [
    Qry = "compare(\"𐀁\", \"￰\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -981,7 +980,7 @@ all() -> [
    Qry = "compare(\"𐀁\", \"￰\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1008,7 +1007,7 @@ all() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1023,7 +1022,7 @@ all() -> [
    Qry = "compare(123, 456)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1038,7 +1037,7 @@ all() -> [
    Qry = "compare(xs:anyURI('http://www.example.com/'), 'http://www.example.com/')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1053,7 +1052,7 @@ all() -> [
    Qry = "compare(xs:untypedAtomic('http://www.example.com/'), 'http://www.example.com/')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1080,7 +1079,7 @@ all() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1107,7 +1106,7 @@ all() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1134,7 +1133,7 @@ all() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1149,7 +1148,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1164,7 +1163,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1179,7 +1178,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1194,7 +1193,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"Databases\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-020.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1209,7 +1208,7 @@ all() -> [
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1224,7 +1223,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1239,7 +1238,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\") != 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1254,7 +1253,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1269,7 +1268,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"Databases\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-025.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1284,7 +1283,7 @@ all() -> [
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-026.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1299,7 +1298,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"dâtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\") = 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-027.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1314,7 +1313,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"DATABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\") = 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1329,7 +1328,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1344,7 +1343,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1362,7 +1361,7 @@ all() -> [
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1377,7 +1376,7 @@ all() -> [
    Qry = "fn:compare(\"dâtabases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1398,7 +1397,7 @@ all() -> [
    Qry = "fn:compare(\"DATABASE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-036.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1416,7 +1415,7 @@ all() -> [
    Qry = "fn:compare(\"DATABÃSE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-038.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-038.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1440,7 +1439,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical\") = 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-042.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1458,7 +1457,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary\") = 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-044.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1473,7 +1472,7 @@ all() -> [
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=identical\") = 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "compare-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "compare-045.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1488,7 +1487,7 @@ all() -> [
    Qry = "compare(\"a\", \"a\", (\"http://www.w3.org/2005/xpath-functions/collation/codepoint\", ()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1503,7 +1502,7 @@ all() -> [
    Qry = "compare(\"a\", \"a\", ((), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1518,7 +1517,7 @@ all() -> [
    Qry = "compare(\"a\", \"a\", ((), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", ()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1535,7 +1534,7 @@ all() -> [
         return compare(lower-case($vA), lower-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1552,7 +1551,7 @@ all() -> [
         return compare(upper-case($vA), upper-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1569,7 +1568,7 @@ all() -> [
         return compare(lower-case($vA), lower-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1586,7 +1585,7 @@ all() -> [
         return compare(upper-case($vA), upper-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1603,7 +1602,7 @@ all() -> [
         return compare(upper-case($vA), lower-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1620,7 +1619,7 @@ all() -> [
         return compare(lower-case($vA), upper-case($vB))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-CompareFunc-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-CompareFunc-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};

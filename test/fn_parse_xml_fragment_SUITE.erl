@@ -31,9 +31,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -96,7 +95,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"element(*,xs:untyped)") of 
       true -> {comment, "Correct type"};
@@ -123,7 +122,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -150,7 +149,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -177,7 +176,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -204,7 +203,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -231,7 +230,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "vanessa") of 
       true -> {comment, "String correct"};
@@ -258,7 +257,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/*[1][self::a][not(child::node())]") of 
@@ -301,7 +300,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "  ") of 
       true -> {comment, "String correct"};
@@ -328,7 +327,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/node()[1][self::a][. = ' ']") of 
@@ -371,7 +370,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/node()[1][self::a][. = '']") of 
@@ -418,7 +417,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "<") of 
       true -> {comment, "String correct"};
@@ -445,7 +444,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "&") of 
       true -> {comment, "String correct"};
@@ -472,7 +471,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
@@ -499,7 +498,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -526,7 +525,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -553,7 +552,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -580,7 +579,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -607,7 +606,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -634,7 +633,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -663,7 +662,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
@@ -690,7 +689,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "97 10 98") of 
       true -> {comment, "String correct"};
@@ -723,7 +722,7 @@ environment('empty',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parse-xml-fragment-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

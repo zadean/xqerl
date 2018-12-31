@@ -50,9 +50,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -120,7 +119,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(200)/ancestor::*", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
@@ -136,7 +135,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -152,7 +151,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -168,7 +167,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -184,7 +183,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -200,7 +199,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -216,7 +215,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -232,7 +231,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -248,7 +247,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -264,7 +263,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -280,7 +279,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<overtime>
      <day>Monday</day>
@@ -299,7 +298,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<overtime>
      <day>Monday</day>
@@ -318,7 +317,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"John Doe 12\" gender=\"male\">
    <empnum>E4</empnum>
@@ -342,7 +341,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -358,7 +357,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Tuesday") of 
       true -> {comment, "String correct"};
@@ -374,7 +373,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -390,7 +389,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -406,7 +405,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -422,7 +421,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -438,7 +437,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -453,7 +452,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "let $var := <anElement>Some Content</anElement> return fn:count($var/ancestor::*)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "ancestor-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ancestor-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -469,7 +468,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "unabbreviatedSyntax-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -488,7 +487,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(<?target data?>/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -511,7 +510,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(<!-- content -->/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -534,7 +533,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(<anElement/>/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -557,7 +556,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(attribute name {\"content\"}/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -580,7 +579,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(document {()}/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -603,7 +602,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(document {<e><f/><f/>text</e>}/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -626,7 +625,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/ancestor::*", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b c=\"\"><c/></b><d/></a><b c=\"\"><c/></b>") of 
       true -> {comment, "XML Deep equal"};
@@ -641,7 +640,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/ancestor::*[1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b c=\"\"><c/></b>") of 
       true -> {comment, "XML Deep equal"};
@@ -656,7 +655,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/(ancestor::*)[1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b c=\"\"><c/></b><d/></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -671,7 +670,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(<element/>/ancestor::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -686,7 +685,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/ancestor::*[fn:last()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b c=\"\"><c/></b><d/></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -701,7 +700,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/(ancestor::*)[last()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b c=\"\"><c/></b>") of 
       true -> {comment, "XML Deep equal"};
@@ -716,7 +715,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "1, <element/>/ancestor::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -731,7 +730,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "1, <?target data?>/ancestor::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -746,7 +745,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "1, attribute name {\"content\"}/ancestor::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -761,7 +760,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "1, <!-- content -->/ancestor::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -776,7 +775,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "document {()}/ancestor::node(), count(document {()}/ancestor::node()), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "0 1") of 
@@ -799,7 +798,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "1, text {\"\"}/ancestor::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -814,7 +813,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/(ancestor::*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
@@ -829,7 +828,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>//count(ancestor::*)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0 1 2 1") of 
       true -> {comment, "String correct"};
@@ -844,7 +843,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "<r> <a> <b> <c/> </b> </a> </r>/a/b/c/(ancestor::*[1], ancestor::*[2], ancestor::*[last()], ancestor::*[10])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ancestorAxis-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ancestorAxis-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r><a><b><c/></b></a></r><a><b><c/></b></a><b><c/></b>") of 
       true -> {comment, "XML Deep equal"};

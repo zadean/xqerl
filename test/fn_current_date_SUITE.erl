@@ -33,9 +33,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -75,7 +74,7 @@ all() -> [
    Qry = "fn:current-date()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -90,7 +89,7 @@ all() -> [
    Qry = "fn:year-from-date(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -105,7 +104,7 @@ all() -> [
    Qry = "fn:month-from-date(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -120,7 +119,7 @@ all() -> [
    Qry = "fn:day-from-date(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
@@ -135,7 +134,7 @@ all() -> [
    Qry = "fn:current-date() - fn:current-date()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -150,7 +149,7 @@ all() -> [
    Qry = "fn:current-date() + xs:dayTimeDuration(\"P3DT1H15M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -165,7 +164,7 @@ all() -> [
    Qry = "fn:current-date() - xs:dayTimeDuration(\"P3DT1H15M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -180,7 +179,7 @@ all() -> [
    Qry = "fn:current-date(\"Argument 1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -195,7 +194,7 @@ all() -> [
    Qry = "fn:current-date() - fn:current-date()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -210,7 +209,7 @@ all() -> [
    Qry = "xs:string(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -225,7 +224,7 @@ all() -> [
    Qry = "fn:timezone-from-date(current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dayTimeDuration") of 
       true -> {comment, "Correct type"};
@@ -240,7 +239,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) eq fn:string(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -255,7 +254,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) ne fn:string(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -270,7 +269,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) le fn:string(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -285,7 +284,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) ge fn:string(fn:current-date())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -300,7 +299,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) and fn:true()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -315,7 +314,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) and fn:false()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -330,7 +329,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) or fn:true()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -345,7 +344,7 @@ all() -> [
    Qry = "fn:string(fn:current-date()) or fn:false()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -360,7 +359,7 @@ all() -> [
    Qry = "fn:not(fn:string(fn:current-date()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -375,7 +374,7 @@ all() -> [
    Qry = "fn:current-date() - xs:yearMonthDuration(\"P1Y2M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -390,7 +389,7 @@ all() -> [
    Qry = "fn:current-date() gt xs:date('2010-01-01')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -405,7 +404,7 @@ all() -> [
    Qry = "exists(timezone-from-date(current-date()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-date-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-date-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -420,7 +419,7 @@ all() -> [
    Qry = "current-date() = xs:date(current-dateTime())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-current-time-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-current-time-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -435,7 +434,7 @@ all() -> [
    Qry = "current-date(\"WRONG PARAM\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ContextCurrentDateFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ContextCurrentDateFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -450,7 +449,7 @@ all() -> [
    Qry = "current-date() eq current-date()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ContextCurrentDateFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ContextCurrentDateFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

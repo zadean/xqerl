@@ -16,9 +16,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -41,7 +40,7 @@ all() -> [
    Qry = "-3 + 5 * 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -56,7 +55,7 @@ all() -> [
    Qry = "3 - 5 * 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-12") of 
       true -> {comment, "Equal"};
@@ -71,7 +70,7 @@ all() -> [
    Qry = "3 + 10 div 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
@@ -86,7 +85,7 @@ all() -> [
    Qry = "5 - 10 div 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -101,7 +100,7 @@ all() -> [
    Qry = "5 + 10 idiv 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
@@ -116,7 +115,7 @@ all() -> [
    Qry = "5 - 10 idiv 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -131,7 +130,7 @@ all() -> [
    Qry = "5 + 10 mod 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
@@ -146,7 +145,7 @@ all() -> [
    Qry = "5 - 10 mod 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -161,7 +160,7 @@ all() -> [
    Qry = "-+7", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "appendix-A4-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "appendix-A4-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-7") of 
       true -> {comment, "Equal"};

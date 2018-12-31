@@ -246,9 +246,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -512,7 +511,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-2147483648\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
@@ -527,7 +526,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-1873914410\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1873914410") of 
       true -> {comment, "Equal"};
@@ -542,7 +541,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"2147483647\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2147483647") of 
       true -> {comment, "Equal"};
@@ -557,7 +556,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -572,7 +571,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"830993497117024304\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"830993497117024304") of 
       true -> {comment, "Equal"};
@@ -587,7 +586,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -602,7 +601,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -617,7 +616,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"617375191608514839\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"617375191608514839") of 
       true -> {comment, "Equal"};
@@ -632,7 +631,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -647,7 +646,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"-1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -662,7 +661,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -677,7 +676,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -692,7 +691,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"-3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float('-3.4028235E38')") of 
       true -> {comment, "Equal"};
@@ -707,7 +706,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -722,7 +721,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(\"3.4028235E38\")") of 
       true -> {comment, "Equal"};
@@ -737,7 +736,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
@@ -752,7 +751,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-47175562203048468\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-47175562203048468") of 
       true -> {comment, "Equal"};
@@ -767,7 +766,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -782,7 +781,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -797,7 +796,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"44633\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
@@ -812,7 +811,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"65535\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
@@ -827,7 +826,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -842,7 +841,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-297014075999096793\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-297014075999096793") of 
       true -> {comment, "Equal"};
@@ -857,7 +856,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -872,7 +871,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -887,7 +886,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"52704602390610033\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
@@ -902,7 +901,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -917,7 +916,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -932,7 +931,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"130747108607674654\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
@@ -947,7 +946,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"184467440737095516\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
@@ -962,7 +961,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -977,7 +976,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-475688437271870490\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-475688437271870490") of 
       true -> {comment, "Equal"};
@@ -992,7 +991,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1007,7 +1006,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1022,7 +1021,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"303884545991464527\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
@@ -1037,7 +1036,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1052,7 +1051,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-32768\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
@@ -1067,7 +1066,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-5324\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5324") of 
       true -> {comment, "Equal"};
@@ -1082,7 +1081,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"32767\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32767") of 
       true -> {comment, "Equal"};
@@ -1097,7 +1096,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-2147483648\"),xs:int(\"-2147483648\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
@@ -1112,7 +1111,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-1873914410\"),xs:int(\"-2147483648\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2010699029") of 
       true -> {comment, "Equal"};
@@ -1127,7 +1126,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"2147483647\"),xs:int(\"-2147483648\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0.5") of 
       true -> {comment, "Equal"};
@@ -1142,7 +1141,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-2147483648\"),xs:int(\"-1873914410\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2010699029") of 
       true -> {comment, "Equal"};
@@ -1157,7 +1156,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:int(\"-2147483648\"),xs:int(\"2147483647\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgint2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgint2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0.5") of 
       true -> {comment, "Equal"};
@@ -1172,7 +1171,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"-999999999999999999\"),xs:integer(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1187,7 +1186,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"830993497117024304\"),xs:integer(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-84503251441487847.5") of 
       true -> {comment, "Equal"};
@@ -1202,7 +1201,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"999999999999999999\"),xs:integer(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1217,7 +1216,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"-999999999999999999\"),xs:integer(\"830993497117024304\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-84503251441487847.5") of 
       true -> {comment, "Equal"};
@@ -1232,7 +1231,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:integer(\"-999999999999999999\"),xs:integer(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgintg2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgintg2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1247,7 +1246,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"-999999999999999999\"),xs:decimal(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1262,7 +1261,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"617375191608514839\"),xs:decimal(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-191312404195742580") of 
       true -> {comment, "Equal"};
@@ -1277,7 +1276,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"999999999999999999\"),xs:decimal(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1292,7 +1291,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"-999999999999999999\"),xs:decimal(\"617375191608514839\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-191312404195742580") of 
       true -> {comment, "Equal"};
@@ -1307,7 +1306,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:decimal(\"-999999999999999999\"),xs:decimal(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdec2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdec2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1322,7 +1321,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"-1.7976931348623157E150\"),xs:double(\"-1.7976931348623157E150\"))) eq -1.7976931348623157E150", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1337,7 +1336,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"0\"),xs:double(\"-1.7976931348623157E308\"))) eq -8.9884656743115785E307", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1352,7 +1351,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1367,7 +1366,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"-1.7976931348623157E308\"),xs:double(\"0\"))) eq -8.9884656743115785E307", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1382,7 +1381,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:double(\"-1.7976931348623157E308\"),xs:double(\"1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgdbl2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgdbl2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1397,7 +1396,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"-3.4028235E38\"),xs:float(\"-3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "-INF") of 
@@ -1424,7 +1423,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"0\"),xs:float(\"-3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float('-1.7014117E38')") of 
       true -> {comment, "Equal"};
@@ -1439,7 +1438,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"3.4028235E38\"),xs:float(\"-3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1454,7 +1453,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"-3.4028235E38\"),xs:float(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float('-1.7014117E38')") of 
       true -> {comment, "Equal"};
@@ -1469,7 +1468,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:float(\"-3.4028235E38\"),xs:float(\"3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgflt2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgflt2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1484,7 +1483,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-92233720368547758\"),xs:long(\"-92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
@@ -1499,7 +1498,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-47175562203048468\"),xs:long(\"-92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-69704641285798113") of 
       true -> {comment, "Equal"};
@@ -1514,7 +1513,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"92233720368547758\"),xs:long(\"-92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1529,7 +1528,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-92233720368547758\"),xs:long(\"-47175562203048468\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-69704641285798113") of 
       true -> {comment, "Equal"};
@@ -1544,7 +1543,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:long(\"-92233720368547758\"),xs:long(\"92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avglng2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avglng2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1559,7 +1558,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1574,7 +1573,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"44633\"),xs:unsignedShort(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22316.5") of 
       true -> {comment, "Equal"};
@@ -1589,7 +1588,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"65535\"),xs:unsignedShort(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32767.5") of 
       true -> {comment, "Equal"};
@@ -1604,7 +1603,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"0\"),xs:unsignedShort(\"44633\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22316.5") of 
       true -> {comment, "Equal"};
@@ -1619,7 +1618,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedShort(\"0\"),xs:unsignedShort(\"65535\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgusht2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgusht2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32767.5") of 
       true -> {comment, "Equal"};
@@ -1634,7 +1633,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-999999999999999999\"),xs:negativeInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1649,7 +1648,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-297014075999096793\"),xs:negativeInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-648507037999548396") of 
       true -> {comment, "Equal"};
@@ -1664,7 +1663,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-1\"),xs:negativeInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-500000000000000000") of 
       true -> {comment, "Equal"};
@@ -1679,7 +1678,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-999999999999999999\"),xs:negativeInteger(\"-297014075999096793\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-648507037999548396") of 
       true -> {comment, "Equal"};
@@ -1694,7 +1693,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:negativeInteger(\"-999999999999999999\"),xs:negativeInteger(\"-1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnint2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnint2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-500000000000000000") of 
       true -> {comment, "Equal"};
@@ -1709,7 +1708,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1724,7 +1723,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"52704602390610033\"),xs:positiveInteger(\"1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"26352301195305017") of 
       true -> {comment, "Equal"};
@@ -1739,7 +1738,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"999999999999999999\"),xs:positiveInteger(\"1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"500000000000000000") of 
       true -> {comment, "Equal"};
@@ -1754,7 +1753,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"1\"),xs:positiveInteger(\"52704602390610033\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"26352301195305017") of 
       true -> {comment, "Equal"};
@@ -1769,7 +1768,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:positiveInteger(\"1\"),xs:positiveInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgpint2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgpint2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"500000000000000000") of 
       true -> {comment, "Equal"};
@@ -1784,7 +1783,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1799,7 +1798,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"130747108607674654\"),xs:unsignedLong(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65373554303837327") of 
       true -> {comment, "Equal"};
@@ -1814,7 +1813,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"184467440737095516\"),xs:unsignedLong(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -1829,7 +1828,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"0\"),xs:unsignedLong(\"130747108607674654\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65373554303837327") of 
       true -> {comment, "Equal"};
@@ -1844,7 +1843,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:unsignedLong(\"0\"),xs:unsignedLong(\"184467440737095516\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgulng2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgulng2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -1859,7 +1858,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1874,7 +1873,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-475688437271870490\"),xs:nonPositiveInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-737844218635935244.5") of 
       true -> {comment, "Equal"};
@@ -1889,7 +1888,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-499999999999999999.5") of 
       true -> {comment, "Equal"};
@@ -1904,7 +1903,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"-475688437271870490\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-737844218635935244.5") of 
       true -> {comment, "Equal"};
@@ -1919,7 +1918,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnpi2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnpi2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-499999999999999999.5") of 
       true -> {comment, "Equal"};
@@ -1934,7 +1933,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1949,7 +1948,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"303884545991464527\"),xs:nonNegativeInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"151942272995732263.5") of 
       true -> {comment, "Equal"};
@@ -1964,7 +1963,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"999999999999999999\"),xs:nonNegativeInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"499999999999999999.5") of 
       true -> {comment, "Equal"};
@@ -1979,7 +1978,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"303884545991464527\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"151942272995732263.5") of 
       true -> {comment, "Equal"};
@@ -1994,7 +1993,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgnni2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgnni2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"499999999999999999.5") of 
       true -> {comment, "Equal"};
@@ -2009,7 +2008,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-32768\"),xs:short(\"-32768\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
@@ -2024,7 +2023,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-5324\"),xs:short(\"-32768\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-19046") of 
       true -> {comment, "Equal"};
@@ -2039,7 +2038,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"32767\"),xs:short(\"-32768\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0.5") of 
       true -> {comment, "Equal"};
@@ -2054,7 +2053,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-32768\"),xs:short(\"-5324\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-19046") of 
       true -> {comment, "Equal"};
@@ -2069,7 +2068,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:short(\"-32768\"),xs:short(\"32767\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avgsht2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avgsht2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0.5") of 
       true -> {comment, "Equal"};
@@ -2084,7 +2083,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg( (3, 4, 5) )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -2099,7 +2098,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( xs:yearMonthDuration(\"P20Y\") , xs:yearMonthDuration(\"P10M\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P10Y5M") of 
       true -> {comment, "String correct"};
@@ -2114,7 +2113,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -2129,7 +2128,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( xs:float('INF'), xs:float('-INF')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -2144,7 +2143,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (3, 4, 5), xs:float('NaN') ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -2159,7 +2158,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( fn:string-length(\"Hello\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -2174,7 +2173,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( fn:count(\"Hello\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2189,7 +2188,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg( ( ( xs:integer(\"100\"), xs:integer(\"-100\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -2204,7 +2203,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg( ( ( xs:decimal(\"-1.000000000001\"), xs:integer(\"-100\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"-50.5000000000005") of 
@@ -2227,7 +2226,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:decimal(\"1.01\"), xs:integer(\"12\") )))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"6.505") of 
       true -> {comment, "Equal"};
@@ -2242,7 +2241,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"NaN\"), 100, (), 2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -2257,7 +2256,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-3.4028235E38\"), xs:decimal(\"-999999999999999999\") )))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(\"-1.7014117E38\")") of 
       true -> {comment, "Equal"};
@@ -2272,7 +2271,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"0\"), xs:decimal(\"-999999999999999999\") ))) eq xs:float(\"-4.9999999999999999E17\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2287,7 +2286,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"3.4028235E38\"), xs:decimal(\"-999999999999999999\") )))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(\"1.7014117E38\")") of 
       true -> {comment, "Equal"};
@@ -2302,7 +2301,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-0\"), xs:decimal(\"-999999999999999999\") ))) eq xs:float(\"-4.9999999999999999E17\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2317,7 +2316,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"NaN\"), xs:decimal(\"-999999999999999999\") )))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -2332,7 +2331,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"INF\"), xs:decimal(\"-999999999999999999\") )))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -2347,7 +2346,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"1.01\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1.01") of 
       true -> {comment, "Equal"};
@@ -2362,7 +2361,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-INF\"), xs:decimal(\"2.34\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
@@ -2377,7 +2376,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-1.7976931348623157E308\"), xs:integer(\"-999999999999999999\") ) )) eq xs:double(\"-8.988465674311579E307\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-020.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2392,7 +2391,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"0\"), xs:integer(\"-999999999999999999\") ) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5.0E17") of 
       true -> {comment, "Equal"};
@@ -2407,7 +2406,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"1.7976931348623157E308\"), xs:integer(\"-999999999999999999\") ) )) eq xs:double(\"8.988465674311579E307\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2422,7 +2421,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-0\"), xs:integer(\"-999999999999999999\") ) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5.0E17") of 
       true -> {comment, "Equal"};
@@ -2437,7 +2436,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-INF\"), xs:integer(\"-999999999999999999\") ) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
@@ -2452,7 +2451,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"NaN\"), xs:integer(\"-999999999999999999\") ) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-025.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -2467,7 +2466,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"1.34\"), xs:float(\"INF\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-026.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -2482,7 +2481,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"INF\"), 2, 3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-027.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
@@ -2497,7 +2496,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:yearMonthDuration(\"P20Y\") , (3, 4, 5)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2512,7 +2511,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( fn:empty(\"Hello\")) or fn:boolean(fn:count(\"Hello\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2527,7 +2526,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( concat('hi',' all') ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2542,7 +2541,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( fn:empty(\"Hello\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2557,7 +2556,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (\"a\", \"b\", \"c\", true()) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2572,7 +2571,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:string(\"xyz\"), (), (), \"a\" , \"b\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2587,7 +2586,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:anyURI(\"www.example.com\"), \"a\", (\"\"), \"b\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-034.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2602,7 +2601,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:integer(\"100\"), xs:string(\"abc\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2617,7 +2616,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-036.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2632,7 +2631,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:integer(\"830993497117024304\"), \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-037.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-037.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2647,7 +2646,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:integer(\"999999999999999999\"), \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-038.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-038.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2662,7 +2661,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-039.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-039.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2677,7 +2676,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:decimal(\"617375191608514839\"), \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-040.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-040.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2692,7 +2691,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:decimal(\"999999999999999999\"), \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2707,7 +2706,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:decimal(\"1.01\"), xs:integer(\"12\"), xs:anyURI(\"www.example.com\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-042.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2722,7 +2721,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-3.4028235E38\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-043.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2737,7 +2736,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"0\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-044.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2752,7 +2751,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"3.4028235E38\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-045.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2767,7 +2766,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-0\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-046.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-046.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2782,7 +2781,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"NaN\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-047.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-047.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
@@ -2805,7 +2804,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"INF\"), xs:decimal(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-048.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2820,7 +2819,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"1.01\"), xs:string(\"a\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-049.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-049.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2835,7 +2834,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:float(\"-INF\"), xs:decimal(\"2.34\"), \"abc\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-050.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-050.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2850,7 +2849,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-1.7976931348623157E308\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-051.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-051.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2865,7 +2864,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"0\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-052.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-052.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2880,7 +2879,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"1.7976931348623157E308\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-053.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-053.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2895,7 +2894,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-0\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-054.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-054.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2910,7 +2909,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"-INF\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-055.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-055.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2925,7 +2924,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"NaN\"), xs:integer(\"-999999999999999999\") , \"a\", (), \"3\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-056.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-056.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "NaN") of 
@@ -2948,7 +2947,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:double(\"1.34\"), xs:float(\"INF\"), true())))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-057.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-057.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2963,7 +2962,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:boolean(\"false\"), xs:string(\"xyz\"), (), (), \"a\" , \"b\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-058.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-058.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2978,7 +2977,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (true(), xs:string(\"xyz\"), (), (), \"a\" , \"b\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-059.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-059.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -2993,7 +2992,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (false(), xs:string(\"xyz\"), (), (), \"a\" , \"b\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-060.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-060.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3008,7 +3007,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:boolean(\"1\"), xs:double(\"-INF\"), \"s\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-061.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-061.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3023,7 +3022,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:boolean(\"true\"), xs:date(\"1993-03-31\"), 4, \"a\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-062.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-062.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3038,7 +3037,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:date(\"1993-03-31\"), xs:string(\"xyz\"), (), (), \"a\" , \"b\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-063.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-063.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3053,7 +3052,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:dateTime(\"1972-12-31T00:00:00\"), xs:boolean(\"false\"), (), (\" \")) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-064.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-064.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3068,7 +3067,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(( (xs:time(\"12:30:00\"), xs:decimal(\"2.000003\"), 2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-065.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-065.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3084,7 +3083,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-mix-args-066.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-mix-args-066.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -3099,7 +3098,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -3114,7 +3113,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(1, \"wrong param\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -3129,7 +3128,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(avg(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3144,7 +3143,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((3, 3, 3)) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3159,7 +3158,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((-3, -3, -3)) eq -3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3174,7 +3173,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(3), xs:float(3))) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3189,7 +3188,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(3), xs:decimal(3))) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3204,7 +3203,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(3), xs:double(3))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3219,7 +3218,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:integer(1), xs:integer(3), xs:decimal(3))) instance of xs:decimal", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3234,7 +3233,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(0), xs:float(5))) eq 2.0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3249,7 +3248,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(0), xs:untypedAtomic(-4))) eq -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3264,7 +3263,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), xs:integer(0), xs:untypedAtomic(3))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3279,7 +3278,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:untypedAtomic(3), xs:integer(0), xs:decimal(1))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3294,7 +3293,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((3, 3, xs:double(\"NaN\")))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3309,7 +3308,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((3, xs:double(\"NaN\"), 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3324,7 +3323,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((xs:double(\"NaN\"), 3, 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3339,7 +3338,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(avg(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3354,7 +3353,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(avg(((), ())))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3369,7 +3368,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((-5, -0, -3, -6)) eq -3.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3384,7 +3383,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((1, 2, 3, xs:float(\"NaN\")))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3399,7 +3398,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((1, 2, 3, xs:double(\"NaN\")))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3414,7 +3413,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((xs:double(\"NaN\"), 1, 2, 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3429,7 +3428,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((xs:float(\"NaN\"), 1, 2, 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3444,7 +3443,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((1, 2, xs:double(\"NaN\"), 1, 2, 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3459,7 +3458,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((1, 2, xs:float(\"NaN\"), 1, 2, 3))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3474,7 +3473,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(xs:untypedAtomic(\"3\")) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3489,7 +3488,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((1, 2, xs:untypedAtomic(\"3\"))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3504,7 +3503,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((1, 2, xs:untypedAtomic(\"3\"))) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3519,7 +3518,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), 2, xs:untypedAtomic(\"3\"))) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3534,7 +3533,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(1), 2, xs:untypedAtomic(\"3\"))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3549,7 +3548,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(\"a string\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3564,7 +3563,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(xs:anyURI(\"a string\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3579,7 +3578,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((1, 2, 3, xs:anyURI(\"a string\"), xs:double(\"NaN\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-33.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3594,7 +3593,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(\"a string\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-34.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3609,7 +3608,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:untypedAtomic(3), xs:integer(3), xs:string(1)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-35.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3624,7 +3623,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:string(1), xs:integer(3), xs:untypedAtomic(3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-36.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3639,7 +3638,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(2), xs:integer(3), \"a string\", xs:double(2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-37.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3654,7 +3653,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:yearMonthDuration(\"P20Y\"), (3, 4, 5)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-38.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3669,7 +3668,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:yearMonthDuration(\"P20Y\"), xs:yearMonthDuration(\"P10M\"))) eq xs:yearMonthDuration(\"P125M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-39.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3684,7 +3683,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(avg( () ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-40.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3699,7 +3698,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg((xs:float('INF'), xs:float('-INF')))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-41.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3714,7 +3713,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "string(avg(((3, 4, 5), xs:float('NaN')))) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-42.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3729,7 +3728,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((3, 4, 5)) eq 4.0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqAVGFunc-43.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqAVGFunc-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3744,7 +3743,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float('NaN'), 2, 3, 4, xs:double('NaN'))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3759,7 +3758,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float('NaN'), 2, 3.3, 4, xs:double('NaN'))) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3774,7 +3773,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((1, 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqAVGFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -3789,7 +3788,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((\"a\",\"b\",\"c\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -3804,7 +3803,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -3819,7 +3818,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:dayTimeDuration(\"P1D\"), xs:dayTimeDuration(\"PT2H\"))) instance of xs:dayTimeDuration", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3834,7 +3833,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(for $x in 1 to 10 return xs:dayTimeDuration(concat(\"PT\",$x,\"H\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT5H30M") of 
       true -> {comment, "String correct"};
@@ -3849,7 +3848,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:yearMonthDuration(\"P1Y\"), xs:yearMonthDuration(\"P1M\"))) instance of xs:yearMonthDuration", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3864,7 +3863,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(for $x in 1 to 9 return xs:yearMonthDuration(concat(\"P\",$x,\"M\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P5M") of 
       true -> {comment, "String correct"};
@@ -3879,7 +3878,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:yearMonthDuration(\"P1Y\"), xs:dayTimeDuration(\"P1D\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -3902,7 +3901,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(xs:duration(\"P1Y1M1D\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -3925,7 +3924,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg(xs:duration(\"P1Y1M1D\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -3948,7 +3947,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg([1,2,3,4,5])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-avg-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-avg-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -3966,7 +3965,7 @@ environment('works-mod',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -3989,7 +3988,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:dayTimeDuration(\"P9223372036854775807D\"), xs:dayTimeDuration(\"P1D\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
@@ -4004,7 +4003,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:yearMonthDuration(\"P768614336404564650Y\"), xs:yearMonthDuration(\"P1Y\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
@@ -4019,7 +4018,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:dayTimeDuration(\"P1DT2H\"), xs:dayTimeDuration(\"PT22H\"), xs:dayTimeDuration(\"P1D\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1D") of 
       true -> {comment, "String correct"};
@@ -4034,7 +4033,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:dayTimeDuration(\"P1DT2H\"), xs:dayTimeDuration(\"PT22H\"), xs:yearMonthDuration(\"P1M\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -4049,7 +4048,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:yearMonthDuration(\"P1Y1M\"), xs:yearMonthDuration(\"P11M\"), xs:yearMonthDuration(\"P1Y\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y") of 
       true -> {comment, "String correct"};
@@ -4064,7 +4063,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:avg((xs:yearMonthDuration(\"P1Y1M\"), xs:yearMonthDuration(\"P11M\"), xs:dayTimeDuration(\"P1D\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
@@ -4079,7 +4078,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "typeswitch (fn:avg((xs:float(1), xs:double(2), xs:float(3)))) case $x as xs:double return $x default return \"FAIL\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
@@ -4094,7 +4093,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "boolean(avg(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
@@ -4117,7 +4116,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:double(\"NaN\"), current-date() - xs:date(\"1997-01-01\") ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -4140,7 +4139,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:double(\"NaN\"), day-from-date(current-date())))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -4155,7 +4154,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "avg((xs:float(\"NaN\"), day-from-date(current-date())))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -4170,7 +4169,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "empty(avg(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-avg-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-avg-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 

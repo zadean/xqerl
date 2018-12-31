@@ -78,9 +78,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -226,7 +225,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "TCP/IP Illustrated") of 
       true -> {comment, "String correct"};
@@ -242,7 +241,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "TCP/IP Illustrated") of 
       true -> {comment, "String correct"};
@@ -258,7 +257,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -274,7 +273,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data on the Web") of 
       true -> {comment, "String correct"};
@@ -290,7 +289,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PI1 PI2") of 
       true -> {comment, "String correct"};
@@ -306,7 +305,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PI1") of 
       true -> {comment, "String correct"};
@@ -322,7 +321,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " this file is a copy of bib.xml; just adds a few comments and PI nodes for testing | Comment 1 | Comment 2 ") of 
       true -> {comment, "String correct"};
@@ -338,7 +337,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data on the Web") of 
       true -> {comment, "String correct"};
@@ -354,7 +353,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -370,7 +369,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -386,7 +385,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1994 1992 2000 1999") of 
       true -> {comment, "String correct"};
@@ -402,7 +401,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -418,7 +417,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -433,7 +432,7 @@ environment('bib2',__BaseDir) ->
    Qry = "() intersect ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
@@ -481,7 +480,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-intersect-node-args-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-intersect-node-args-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -496,7 +495,7 @@ environment('bib2',__BaseDir) ->
    Qry = "(1, 2, 3) intersect (1, 2, 3)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -511,7 +510,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect text))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -526,7 +525,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect node))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -541,7 +540,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect element))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -556,7 +555,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect attribute))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -571,7 +570,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect document-node))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -586,7 +585,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect comment))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -601,7 +600,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect processing-instruction))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -616,7 +615,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect item))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -631,7 +630,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect document))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -646,7 +645,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect if))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -661,7 +660,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect then))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -676,7 +675,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect mod))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -691,7 +690,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect div))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -706,7 +705,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect empty-sequence))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -721,7 +720,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect schema-attribute))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -736,7 +735,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(author intersect schema-element))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -751,7 +750,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect attribute {\"name\"} {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -766,7 +765,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect attribute name {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -781,7 +780,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect element {\"name\"} {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -804,7 +803,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect element name {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -827,7 +826,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect processing-instruction {\"name\"} {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -842,7 +841,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect processing-instruction name {}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -857,7 +856,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect comment {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -872,7 +871,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect text {()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -887,7 +886,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect descendant))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -902,7 +901,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect attribute))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -917,7 +916,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect self))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -932,7 +931,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect descendant-or-self))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -947,7 +946,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect following-sibling))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -962,7 +961,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect following))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -977,7 +976,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect preceding-sibling))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -992,7 +991,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect preceding))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-33.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1007,7 +1006,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect parent))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-34.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1022,7 +1021,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect ancestor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-35.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1037,7 +1036,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect ancestor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-36.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1052,7 +1051,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect ancestor-or-self))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-37.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1067,7 +1066,7 @@ environment('bib2',__BaseDir) ->
    Qry = "empty(<e/>/(a intersect declare))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-38.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1083,7 +1082,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-39.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-39.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1099,7 +1098,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-40.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-40.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1114,7 +1113,7 @@ environment('bib2',__BaseDir) ->
    Qry = "<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i intersect ($i, $i)), (($t, $t) intersect $t)) } </r>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-41.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r><a/><b/></r>") of 
       true -> {comment, "XML Deep equal"};
@@ -1132,7 +1131,7 @@ environment('bib2',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-42.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1147,7 +1146,7 @@ environment('bib2',__BaseDir) ->
    Qry = "1 intersect 2 intersect 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-43.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1162,7 +1161,7 @@ environment('bib2',__BaseDir) ->
    Qry = "1 except 2 except 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqIntersect-44.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1177,7 +1176,7 @@ environment('bib2',__BaseDir) ->
    Qry = "count((<a>0</a>,<a>1</a>) intersect (<a>3</a>,<a>4</a>))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1192,7 +1191,7 @@ environment('bib2',__BaseDir) ->
    Qry = "count(() intersect ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -1216,7 +1215,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};
@@ -1232,7 +1231,7 @@ environment('bib2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combiningnodeseqintersecthc4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>") of 
       true -> {comment, "XML Deep equal"};

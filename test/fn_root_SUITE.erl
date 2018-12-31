@@ -43,9 +43,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -119,7 +118,7 @@ environment('lang',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -134,7 +133,7 @@ environment('lang',__BaseDir) ->
    Qry = "(1 to 100)[fn:root()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -149,7 +148,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:count(fn:root(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -172,7 +171,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := <!-- A Comment Node --> return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- A Comment Node -->") of 
       true -> {comment, "XML Deep equal"};
@@ -187,7 +186,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<!-- A Comment Node -->)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- A Comment Node -->") of 
       true -> {comment, "XML Deep equal"};
@@ -202,7 +201,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := <anElement>An Element Content</anElement> return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement>An Element Content</anElement>") of 
       true -> {comment, "XML Deep equal"};
@@ -217,7 +216,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<anElement>An Element Content</anElement>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement>An Element Content</anElement>") of 
       true -> {comment, "XML Deep equal"};
@@ -232,7 +231,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := <?format role=\"output\" ?> return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?format role=\"output\" ?>") of 
       true -> {comment, "XML Deep equal"};
@@ -247,7 +246,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<?format role=\"output\" ?>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?format role=\"output\" ?>") of 
       true -> {comment, "XML Deep equal"};
@@ -262,7 +261,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := element anElement {attribute anAttribute {\"Attribute Value\"}} return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement anAttribute=\"Attribute Value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -277,7 +276,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(element anElement {attribute anAttribute {\"Attribute Value\"}})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement anAttribute=\"Attribute Value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -292,7 +291,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := document {<anElement><anInternalElement>element content</anInternalElement></anElement>} return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement><anInternalElement>element content</anInternalElement></anElement>") of 
       true -> {comment, "XML Deep equal"};
@@ -307,7 +306,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(document {<anElement><anInternalElement>element content</anInternalElement></anElement>})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<anElement><anInternalElement>element content</anInternalElement></anElement>") of 
       true -> {comment, "XML Deep equal"};
@@ -323,7 +322,7 @@ environment('lang',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<langs>
  <para xml:lang=\"en\"/>
@@ -345,7 +344,7 @@ environment('lang',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<langs>
  <para xml:lang=\"en\"/>
@@ -366,7 +365,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(text {\"A text Node\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A text Node") of 
       true -> {comment, "String correct"};
@@ -381,7 +380,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := text {\"a text Node\"} return fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a text Node") of 
       true -> {comment, "String correct"};
@@ -396,7 +395,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -411,7 +410,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -426,7 +425,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := element anElement {\"Element Content\"} return fn:count(fn:namespace-uri(fn:root($var)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -441,7 +440,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := <!-- An Element Node --> return fn:count(fn:namespace-uri(fn:root($var)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -456,7 +455,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := <?format role=\"output\" ?> return fn:count(fn:namespace-uri(fn:root($var)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -471,7 +470,7 @@ environment('lang',__BaseDir) ->
    Qry = "let $var := text {\"A text node\"} return fn:count(fn:namespace-uri(fn:root($var)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -487,7 +486,7 @@ environment('lang',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-root-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-root-24.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -502,7 +501,7 @@ environment('lang',__BaseDir) ->
    Qry = "Root(2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeRootFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-NodeRootFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -517,7 +516,7 @@ environment('lang',__BaseDir) ->
    Qry = "(1, 2, 3)[root()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeRootFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-NodeRootFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -532,7 +531,7 @@ environment('lang',__BaseDir) ->
    Qry = "root(2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeRootFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-NodeRootFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -547,7 +546,7 @@ environment('lang',__BaseDir) ->
    Qry = "empty(root(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeRootFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-NodeRootFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
@@ -570,7 +569,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<e/>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
@@ -585,7 +584,7 @@ environment('lang',__BaseDir) ->
    Qry = "empty(fn:root(<e/>/..))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -600,7 +599,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<!-- comment -->)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<!-- comment -->") of 
       true -> {comment, "XML Deep equal"};
@@ -615,7 +614,7 @@ environment('lang',__BaseDir) ->
    Qry = "<e>{fn:root(attribute name {\"value\"})}</e>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e name=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -630,7 +629,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(<?target data?>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?target data?>") of 
       true -> {comment, "XML Deep equal"};
@@ -645,7 +644,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(text{\"text node\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "text node") of 
       true -> {comment, "String correct"};
@@ -660,7 +659,7 @@ environment('lang',__BaseDir) ->
    Qry = "fn:root(text{\"text node\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "text node") of 
       true -> {comment, "String correct"};
@@ -675,7 +674,7 @@ environment('lang',__BaseDir) ->
    Qry = "root(document {()}) instance of document-node()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeRootFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-NodeRootFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

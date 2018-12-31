@@ -28,9 +28,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -67,7 +66,7 @@ all() -> [
         attribute name {<anElement/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
@@ -84,7 +83,7 @@ all() -> [
         <e/>, attribute name {<anElement/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
@@ -101,7 +100,7 @@ all() -> [
         attribute name {<anElement/>}, <e/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
@@ -118,7 +117,7 @@ all() -> [
         <e/>, attribute name {<anElement/>}, <e/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
@@ -135,7 +134,7 @@ all() -> [
         <a>&#xD;&#x85;&#x2028;</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<" "/utf8>>,<<"">>) of 
@@ -156,7 +155,7 @@ all() -> [
         <a attr=\"&#xD;&#xA;&#x9;&#x85;&#x2028;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"^$"/utf8>>,<<"">>) of 
@@ -180,7 +179,7 @@ all() -> [
         <a>{codepoints-to-string(1 to 31)}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-7a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-7a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCH0001") of 
@@ -204,7 +203,7 @@ all() -> [
         <a attr=\"{codepoints-to-string(1 to 31)}\"></a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-8a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-8a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
@@ -221,7 +220,7 @@ all() -> [
         <a attr=\"{codepoints-to-string(127 to 159)}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"^$"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -238,7 +237,7 @@ all() -> [
         <a>{codepoints-to-string(127 to 159)}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<""/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -255,7 +254,7 @@ all() -> [
         \"a&#xD;aa&#xD;&#xA;a&#xD;&#xA;\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"^a\\raa\\r\\na\\r\\n$"/utf8>>,<<"">>) of 
@@ -287,7 +286,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1\\|2\\|3\\|4\\|5\\|6\\|7\\|8\\|9\\|10"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -307,7 +306,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1 2 3\\|4 5 6"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -327,7 +326,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1 2 3 4 5"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -347,7 +346,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1==2==3==4"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -366,7 +365,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"^<&>$"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -385,7 +384,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"^The fox down$"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -406,7 +405,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1 2 3 4 5"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -427,7 +426,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-text-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};

@@ -20,9 +20,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -171,7 +170,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('mildred.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "07356 740756") of 
       true -> {comment, "String correct"};
@@ -203,7 +202,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('employees.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>") of 
@@ -239,7 +238,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('bookinfo.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {\"book\" : map {\"title\" : \"Data on the Web\", \"year\" : 2000, \"author\" : [map {\"last\" : \"Abiteboul\", \"first\" : \"John\"}, map {\"last\" : \"Buneman\", \"first\" : \"John\"}, map {\"last\" : \"Suciu\", \"first\" : \"John\"}], \"publisher\" : \"Morgan Kaufmann Publishers\", \"price\" : 39.95}}") of 
       true -> {comment, "Deep equal"};
@@ -260,7 +259,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jim") of 
       true -> {comment, "String correct"};
@@ -285,7 +284,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sales.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map { \"broiler\" : 20, \"toaster\" : 200, \"blender\" : 250, \"socks\" : 510, \"shirt\" : 10 }") of 
       true -> {comment, "Deep equal"};
@@ -329,7 +328,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sales.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map { \"CA\" : [ map { \"clothes\" : map { \"socks\" : 510 }}, map { \"kitchen\" : map { \"broiler\" : 20, \"toaster\" : 150 }} ] }, map { \"MA\" : [ map { \"clothes\" : map { \"shirt\" : 10 }}, map { \"kitchen\" : map { \"toaster\" : 50, \"blender\" : 250 }}]}]") of 
       true -> {comment, "Deep equal"};
@@ -348,7 +347,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('satellites.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"map { \"visible\" : [ \"AJISAI (EGS)\", \"AKARI (ASTRO-F)\" ], \"invisible\" : [ \"AAU CUBESAT\" ] }") of 
@@ -382,7 +381,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('Wikipedia-Origami.xml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map {\"title\" : \"Kawasaki's theorem\", \"id\" : \"14511776\", \"last updated\" : \"2011-06-21T20:08:56Z\", \"authors\" : [\"Some jerk on the Internet\"]}, map {\"title\" : \"Origami techniques\", \"id\" : \"193590\", \"last updated\" : \"2011-08-31T17:21:49Z\", \"authors\" : [\"Dmcq\"]}, map {\"title\" : \"Mathematics of paper folding\", \"id\" : \"232840\", \"last updated\" : \"2011-07-23T09:10:42Z\", \"authors\" : [\"Tabletop\"]}]") of 
       true -> {comment, "Deep equal"};
@@ -408,7 +407,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
 		  ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<svg><polygon stroke=\"blue\" points=\"10 10 20 10 20 20 10 20\"/></svg>") of 
       true -> {comment, "XML Deep equal"};
@@ -449,7 +448,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('table.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<html><body><table><tr><th/><th>singular</th><th>plural</th></tr><tr><th>1p 2p 3p</th><td>spinne</td><td>spinnen</td></tr><tr><th/><td>spinnst</td><td>spinnt</td></tr><tr><th/><td>spinnt</td><td>spinnen</td></tr></table></body></html>") of 
       true -> {comment, "XML Deep equal"};
@@ -473,7 +472,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('colors.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>") of 
       true -> {comment, "XML Deep equal"};
@@ -505,7 +504,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
 		  ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map {\"userid\" : \"M0535\", \"first\" : \"Mick\", \"last\" : \"Goulish\", \"holdings\" : [map {\"ticker\" : \"AIG\", \"share\" : 23412}, map {\"ticker\" : \"DIS\", \"share\" : 10}]}, map {\"userid\" : \"W0342\", \"first\" : \"Walter\", \"last\" : \"Denisovich\", \"holdings\" : [map {\"ticker\" : \"DIS\", \"share\" : 153212312}]}]") of 
       true -> {comment, "Deep equal"};
@@ -528,7 +527,7 @@ environment('Wikipedia-Origami.xml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('incoming.json',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseJSON-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseJSON-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map {\"author\" : [map {\"name\" : map {\"$t\" : \"YouTube\"}, \"uri\" : map {\"$t\" : \"http://www.youtube.com/\"}}], \"category\" : [map {\"scheme\" : \"http://schemas.google.com/g/2005#kind\", \"term\" : \"http://gdata.youtube.com/schemas/2007#video\"}]}") of 
       true -> {comment, "Deep equal"};

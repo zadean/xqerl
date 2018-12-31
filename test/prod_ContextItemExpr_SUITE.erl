@@ -52,9 +52,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -139,7 +138,7 @@ environment('works-mod',__BaseDir) ->
         eg:noContextFunction()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -155,7 +154,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "E1") of 
       true -> {comment, "String correct"};
@@ -171,7 +170,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"40") of 
       true -> {comment, "Equal"};
@@ -187,7 +186,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"40") of 
       true -> {comment, "Equal"};
@@ -203,7 +202,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"40") of 
       true -> {comment, "Equal"};
@@ -219,7 +218,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"40") of 
       true -> {comment, "Equal"};
@@ -235,7 +234,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -251,7 +250,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -267,7 +266,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"80") of 
       true -> {comment, "Equal"};
@@ -283,7 +282,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"80") of 
       true -> {comment, "Equal"};
@@ -299,7 +298,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -315,7 +314,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1600") of 
       true -> {comment, "Equal"};
@@ -331,7 +330,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -347,7 +346,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -363,7 +362,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -379,7 +378,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -395,7 +394,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -411,7 +410,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -427,7 +426,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"40") of 
       true -> {comment, "Equal"};
@@ -443,7 +442,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"22") of 
       true -> {comment, "Equal"};
@@ -459,7 +458,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"41") of 
       true -> {comment, "Equal"};
@@ -475,7 +474,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-22.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -495,7 +494,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-23.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPDY0002") of 
@@ -519,7 +518,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "externalcontextitem-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "externalcontextitem-24.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -538,7 +537,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:noContextFunction() { . }; eg:noContextFunction()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -553,7 +552,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(\"A\",\"B\",\"C\")[xs:string(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A B C") of 
       true -> {comment, "String correct"};
@@ -568,7 +567,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[xs:integer(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -583,7 +582,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[xs:decimal(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -598,7 +597,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[xs:float(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -613,7 +612,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[xs:double(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -628,7 +627,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(fn:true(),fn:false(),fn:true())[xs:boolean(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
@@ -643,7 +642,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(fn:false(),fn:true(),fn:false())[fn:not(xs:boolean(.))]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false") of 
       true -> {comment, "String correct"};
@@ -658,7 +657,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count(((),(),())[xs:string(.)])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -681,7 +680,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[(. + .) gt 1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -696,7 +695,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(3,4,5)[(xs:integer(5) - xs:integer(.)) gt 1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -711,7 +710,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(3,4,5)[(xs:integer(.) * xs:integer(.)) gt 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 4 5") of 
       true -> {comment, "String correct"};
@@ -726,7 +725,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(6,10,14)[(xs:integer(.) mod xs:integer(3)) gt 1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
@@ -741,7 +740,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(6,10,14)[(xs:integer(.) div xs:integer(3)) gt 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 14") of 
       true -> {comment, "String correct"};
@@ -756,7 +755,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(6,10,14)[(xs:integer(.) idiv xs:integer(3)) gt 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 14") of 
       true -> {comment, "String correct"};
@@ -771,7 +770,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(fn:true(),fn:false(),fn:true())[xs:boolean(.) and xs:boolean(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
@@ -786,7 +785,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(fn:true(),fn:false(),fn:true())[xs:boolean(.) or xs:boolean(.)]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
@@ -801,7 +800,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(\"ABC\", \"DEF\",\"A\")[fn:string-length(.) gt 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABC DEF") of 
       true -> {comment, "String correct"};
@@ -816,7 +815,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[fn:avg((.,2,3)) gt 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3") of 
       true -> {comment, "String correct"};
@@ -831,7 +830,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[fn:min((.,2)) eq 2]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3") of 
       true -> {comment, "String correct"};
@@ -846,7 +845,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1,2,3)[fn:min((.,3)) eq 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "internalcontextitem-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "internalcontextitem-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};

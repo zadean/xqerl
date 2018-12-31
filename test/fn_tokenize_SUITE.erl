@@ -74,9 +74,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -157,7 +156,7 @@ all() -> [
    Qry = "fn:tokenize(\"abba\", \".?\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -172,7 +171,7 @@ all() -> [
    Qry = "fn:tokenize(\"The cat sat on the mat\", \"\\s+\", \"t\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -187,7 +186,7 @@ all() -> [
    Qry = "fn:tokenize(\"The cat sat on the mat\", \"\\s+\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "The cat sat on the mat") of 
       true -> {comment, "String correct"};
@@ -202,7 +201,7 @@ all() -> [
    Qry = "fn:tokenize(\"1, 15, 24, 50\", \",\\s*\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 15 24 50") of 
       true -> {comment, "String correct"};
@@ -217,7 +216,7 @@ all() -> [
    Qry = "fn:tokenize(\"Some unparsed <br> HTML <BR> text\", \"\\s*<br>\\s*\", \"i\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Some unparsed\", \"HTML\", \"text\"") of 
       true -> {comment, "Deep equal"};
@@ -232,7 +231,7 @@ all() -> [
    Qry = "fn:tokenize(\"Some unparsed <br> HTML <BR> text\", \"\\s*<br>\\s*\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Some unparsed\", \"HTML <BR> text\"") of 
       true -> {comment, "Deep equal"};
@@ -247,7 +246,7 @@ all() -> [
    Qry = "fn:count(fn:tokenize((), \"\\s+\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -262,7 +261,7 @@ all() -> [
    Qry = "fn:count(fn:tokenize(\"\", \"\\s+\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -277,7 +276,7 @@ all() -> [
    Qry = "string-join(fn:tokenize(\"abracadabra\", \"(ab)|(a)\"), '#')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "#r#c#d#r#") of 
       true -> {comment, "String correct"};
@@ -292,7 +291,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra\", \"ww\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabra") of 
       true -> {comment, "String correct"};
@@ -307,7 +306,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra\", \"^a\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\", \"bracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -322,7 +321,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra^abracadabra\", \"\\^\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -337,7 +336,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra?abracadabra\", \"\\?\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -352,7 +351,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra*abracadabra\", \"\\*\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -367,7 +366,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra+abracadabra\", \"\\+\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -382,7 +381,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra{abracadabra\", \"\\{\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -397,7 +396,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra}abracadabra\", \"\\}\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -412,7 +411,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra(abracadabra\", \"\\(\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -427,7 +426,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra)abracadabra\", \"\\)\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -442,7 +441,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra[abracadabra\", \"\\[\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -457,7 +456,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra]abracadabra\", \"\\]\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -472,7 +471,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra-abracadabra\", \"\\-\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -487,7 +486,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra.abracadabra\", \"\\.\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -502,7 +501,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra|abracadabra\", \"\\|\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -517,7 +516,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra\\abracadabra\", \"\\\\\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -532,7 +531,7 @@ all() -> [
    Qry = "fn:tokenize(\"abracadabra	abracadabra\", \"\\t\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -548,7 +547,7 @@ all() -> [
 abracadabra\", \"\\n\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabra\", \"abracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -563,7 +562,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"abracadabraabracadabra\", \"aa{1}\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabr\", \"bracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -578,7 +577,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"abracadabraabracadabraabracadabra\", \"aa{1,}\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabr\", \"bracadabr\", \"bracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -593,7 +592,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"abracadabraabracadabraabracadabra\", \"aa{1,2}\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abracadabr\", \"bracadabr\", \"bracadabra\"") of 
       true -> {comment, "Deep equal"};
@@ -608,7 +607,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"abc.def.gh.ijk\", \".\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\", \"def\", \"gh\", \"ijk\"") of 
       true -> {comment, "Deep equal"};
@@ -623,7 +622,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"A.BRA.CADA.BRA\", \"a.\", \"qi\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\", \"BR\", \"CAD\", \"BRA\"") of 
       true -> {comment, "Deep equal"};
@@ -638,7 +637,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(\"ABRACADABRA\", \"A(?:B)\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-33.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\", \"RACAD\", \"RA\"") of 
       true -> {comment, "Deep equal"};
@@ -653,7 +652,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-34.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"concat('Mary', codepoints-to-string(13), 'Jones')") of 
       true -> {comment, "Equal"};
@@ -668,7 +667,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-35.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Mar\", \"ones\"") of 
       true -> {comment, "Deep equal"};
@@ -683,7 +682,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^', 'm')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-36.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -698,7 +697,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '$', 'm')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-37.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -713,7 +712,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^[\\s]*$', 'm')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-38.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -728,7 +727,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-39.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -743,7 +742,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-40.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -758,7 +757,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"   \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-41.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -773,7 +772,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(codepoints-to-string((9, 10, 13, 32, 13, 10, 9)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-42.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -788,7 +787,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"abc\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-43.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"abc\"") of 
       true -> {comment, "Equal"};
@@ -803,7 +802,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\" abc \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-44.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"abc\"") of 
       true -> {comment, "Equal"};
@@ -818,7 +817,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(codepoints-to-string((9, 10, 97, 98, 99, 13, 32)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-45.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-45.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"abc\"") of 
       true -> {comment, "Equal"};
@@ -833,7 +832,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"abc def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-46.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\", \"def\"") of 
       true -> {comment, "Deep equal"};
@@ -848,7 +847,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(codepoints-to-string((97, 98, 99, 13, 32, 10, 100, 101, 102)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-47.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-47.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\", \"def\"") of 
       true -> {comment, "Deep equal"};
@@ -863,7 +862,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(codepoints-to-string((9, 9, 97, 98, 99, 13, 32, 10, 100, 101, 102, 10, 10)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-48.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-48.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\", \"def\"") of 
       true -> {comment, "Deep equal"};
@@ -878,7 +877,7 @@ abracadabra\", \"\\n\")",
    Qry = "string-join(tokenize(\" the quick brown fox jumped over the lazy dog \"), '|')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-49.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-49.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"the|quick|brown|fox|jumped|over|the|lazy|dog\"") of 
       true -> {comment, "Equal"};
@@ -896,7 +895,7 @@ abracadabra\", \"\\n\")",
    Qry = "count(fn:tokenize(codepoints-to-string((97, 98, 99, 160, 100, 101, 102))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-51.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-51.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -911,7 +910,7 @@ abracadabra\", \"\\n\")",
    Qry = "(tokenize#1, upper-case#1, lower-case#1)[1](\"abc def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-tokenize-52.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-tokenize-52.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\", \"def\"") of 
       true -> {comment, "Deep equal"};
@@ -929,7 +928,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"input\", ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-TokenizeFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-TokenizeFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -944,7 +943,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"input\", \"pattern\", \" \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-TokenizeFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-TokenizeFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -959,7 +958,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"input\", \"pattern\", \"X\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-TokenizeFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-TokenizeFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -974,7 +973,7 @@ abracadabra\", \"\\n\")",
    Qry = "tokenize(\"input\", \"pattern\", \"\", ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-TokenizeFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-TokenizeFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -989,7 +988,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize((\"abracadabra\", current-time())[1] treat as xs:string, \"(ab)|(a)\")[last()] eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1004,7 +1003,7 @@ abracadabra\", \"\\n\")",
    Qry = "empty(fn:tokenize((\"abracadabra\", current-time())[1] treat as xs:string, \"(ab)|(a)\")[last() + 1])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1019,7 +1018,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize((\"abracadabra\", current-time())[1] treat as xs:string, \"(ab)|(a)\")[last() - 1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "r") of 
       true -> {comment, "String correct"};
@@ -1034,7 +1033,7 @@ abracadabra\", \"\\n\")",
    Qry = "fn:tokenize((\"abracadabra\", current-time())[1] treat as xs:string, \"(ab)|(a)\")[last() - 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "c") of 
       true -> {comment, "String correct"};
@@ -1049,7 +1048,7 @@ abracadabra\", \"\\n\")",
    Qry = "deep-equal(fn:tokenize(\"The cat sat on the mat\", \"\\s+\"), (\"The\", \"cat\", \"sat\", \"on\", \"the\", \"mat\")), count(fn:tokenize(\"The cat sat on the mat\", \"\\s+\")), count(fn:tokenize(\" The cat sat on the mat \", \"\\s+\")), fn:tokenize(\"The cat sat on the mat\", \"\\s+\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true 6 8 The cat sat on the mat") of 
       true -> {comment, "String correct"};
@@ -1064,7 +1063,7 @@ abracadabra\", \"\\n\")",
    Qry = "replace('APXterms6', '\\w{3}\\d*([^TKR0-9]+).*$', '$1')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "terms") of 
       true -> {comment, "String correct"};
@@ -1079,7 +1078,7 @@ abracadabra\", \"\\n\")",
    Qry = "count(tokenize(\"a b\", \" \")), count(tokenize(\"a b\", \"\\s\")), string-join(tokenize(\"a b\", \" \"), '|'), string-join(tokenize(\"a b\", \"\\s\"), '|'), tokenize(\"a b\", \" \"), tokenize(\"a b\", \"\\s\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-TokenizeFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-TokenizeFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 2 a|b a|b a b a b") of 
       true -> {comment, "String correct"};
@@ -1096,7 +1095,7 @@ abracadabra\", \"\\n\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -1113,7 +1112,7 @@ abracadabra\", \"\\n\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1130,7 +1129,7 @@ abracadabra\", \"\\n\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-tokenize-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};

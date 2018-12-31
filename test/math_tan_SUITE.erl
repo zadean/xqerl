@@ -18,9 +18,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -57,7 +56,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -73,7 +72,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
@@ -89,7 +88,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-0.0e0") of 
       true -> {comment, "Equal"};
@@ -105,7 +104,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.0e0) lt 0.0000001") of 
       true -> {comment, "Correct results"};
@@ -121,7 +120,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.0e0) lt 0.0000001") of 
       true -> {comment, "Correct results"};
@@ -137,7 +136,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result) le 1e-12") of 
       true -> {comment, "Correct results"};
@@ -153,7 +152,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result) le 1e-12") of 
       true -> {comment, "Correct results"};
@@ -169,7 +168,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result) < 1e-12") of 
       true -> {comment, "Correct results"};
@@ -185,7 +184,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -201,7 +200,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
@@ -217,7 +216,7 @@ environment('math',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('math',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "math-tan-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "math-tan-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};

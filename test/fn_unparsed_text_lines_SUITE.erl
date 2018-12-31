@@ -62,9 +62,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -185,7 +184,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -200,7 +199,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines#0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -215,7 +214,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:exists(fn:unparsed-text-lines#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -230,7 +229,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:exists(fn:unparsed-text-lines#2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -245,7 +244,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(static-base-uri(), \"utf-8\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -260,7 +259,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines#3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -285,7 +284,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
                 else \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\") )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -312,7 +311,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
                 else \"utf-8\") )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -339,7 +338,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
               else \"utf-8\") )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -354,7 +353,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"http://www.example.org/#fragment\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -369,7 +368,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"http://www.example.org/#fragment\", \"utf-8\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -384,7 +383,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"http://www.example.org/%gg\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -399,7 +398,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"http://www.example.org/%gg\", \"utf-8\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -414,7 +413,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\":/\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -429,7 +428,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\":/\", \"utf-8\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -444,7 +443,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines( \"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -459,7 +458,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines( \"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\", \"utf-8\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-020.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -474,7 +473,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"surely-nobody-supports-this:/path.txt\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -489,7 +488,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    Qry = "fn:unparsed-text-lines(\"surely-nobody-supports-this:/path.txt\", \"utf-8\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -516,7 +515,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -543,7 +542,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -570,7 +569,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -597,7 +596,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -613,7 +612,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -629,7 +628,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-028.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -645,7 +644,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -661,7 +660,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -677,7 +676,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -693,7 +692,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines-with-base-uri-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -720,7 +719,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-033.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -747,7 +746,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -763,7 +762,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-035.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1") of 
@@ -787,7 +786,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-036.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
@@ -803,7 +802,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-037.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-037.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOUT1200") of 
@@ -827,7 +826,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-038.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-038.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
@@ -843,7 +842,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-039.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-039.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
@@ -859,7 +858,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-040.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-040.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"'<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world'") of 
@@ -883,7 +882,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-041.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -899,7 +898,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-042.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -915,7 +914,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-043.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -931,7 +930,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-044.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
@@ -947,7 +946,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-045.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "hello world") of 
@@ -971,7 +970,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-046.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-046.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"utf-8\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
@@ -987,7 +986,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-047.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-047.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>") of 
@@ -1011,7 +1010,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-048.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>") of 
@@ -1035,7 +1034,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-049.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-049.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
@@ -1051,7 +1050,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-050.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-050.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
@@ -1067,7 +1066,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-051.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-051.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
@@ -1091,7 +1090,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-052.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-052.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
@@ -1115,7 +1114,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-053.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-053.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(50, 0, 0, 50, 0, 0)") of 
       true -> {comment, "Deep equal"};
@@ -1131,7 +1130,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-lines',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-054.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-054.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(46, 0, 20)") of 
       true -> {comment, "Deep equal"};
@@ -1158,7 +1157,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-055.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-055.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};

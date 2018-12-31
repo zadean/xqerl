@@ -55,9 +55,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -127,7 +126,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -150,7 +149,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html><body><area><base><br><col><embed><hr><img><input><keygen><link><meta><param><source><track><wbr></body></html>"/utf8>>,<<"">>) of 
@@ -181,7 +180,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html xmlns=\"http://www.w3.org/1999/xhtml\"><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>"/utf8>>,<<"">>) of 
@@ -213,7 +212,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html xmlns=\"http://www.w3.org/1999/xhtml\"><body><area><base><br><col><embed><hr><img><input><link><meta><param></body></html>"/utf8>>,<<"">>) of 
@@ -236,7 +235,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -251,7 +250,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -266,7 +265,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -281,7 +280,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -296,7 +295,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -311,7 +310,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -326,7 +325,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -341,7 +340,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -356,7 +355,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -371,7 +370,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -386,7 +385,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -401,7 +400,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -416,7 +415,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -439,7 +438,7 @@ declare option output:cdata-section-elements  \"p em ex:isle1\";
 <html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['\"])http://www.example.org\\1><!\\[CDATA\\[Some CDATA\\]\\]><ex:isle2>No CDATA</ex:isle2><!\\[CDATA\\[More CDATA\\]\\]></ex:isle1></p></body></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -462,7 +461,7 @@ declare option output:cdata-section-elements  \"p em ex:isle1\";
 <html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-19a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-19a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['\"])http://www.example.org\\1><!\\[CDATA\\[Some CDATA\\]\\]><ex:isle2>No CDATA</ex:isle2><!\\[CDATA\\[More CDATA\\]\\]></ex:isle1></p></body></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -485,7 +484,7 @@ declare option output:cdata-section-elements  \"b html:em\";
 <html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>Some CDATA</html:em></p></body></html>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-19b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-19b.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b *xmlns:html=(['\"])http://www.w3.org/1999/xhtml\\1>No CDATA</html:b><html:em *xmlns:html=(['\"])http://www.w3.org/1999/xhtml\\2><!\\[CDATA\\[Some CDATA\\]\\]></html:em></p></body></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -508,7 +507,7 @@ declare option output:cdata-section-elements  \"b html:em\";
 <html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>No CDATA</html:em></p></body></html>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-19c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-19c.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html><body><p><b>No CDATA</b>"/utf8>>,<<"">>) of 
@@ -546,7 +545,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html/>"/utf8>>,<<"">>) of 
@@ -576,7 +575,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html/>"/utf8>>,<<"">>) of 
@@ -606,7 +605,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
@@ -644,7 +643,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<foo></foo>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -666,7 +665,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<foo></foo>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -689,7 +688,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE\\s+html\\s+PUBLIC\\s+(['\"])-//W3C//DTD HTML 4.0//EN\\1\\s*>\\s*<html"/utf8>>,<<"i">>) of 
@@ -720,7 +719,7 @@ declare option output:doctype-system  \"http://www.w3.org/TR/REC-html40/strict.d
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE\\s+html\\s+SYSTEM\\s+(['\"])http://www.w3.org/TR/REC-html40/strict.dtd\\1\\s*>\\s*<html"/utf8>>,<<"i">>) of 
@@ -751,7 +750,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE\\s+html\\s+PUBLIC\\s+(['\"])-//W3C//DTD HTML 4.0//EN\\1\\s*>\\s*<html"/utf8>>,<<"i">>) of 
@@ -782,7 +781,7 @@ declare option output:doctype-system  \"about:legacy-compat\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!.......\\s+html\\s+......\\s+(['\"])about:legacy-compat\\1\\s*>\\s*<html"/utf8>>,<<"">>) of 
@@ -814,7 +813,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!.......\\s+html\\s+......\\s+(['\"])\\-//W3C//DTD HTML 4.0//EN\\1\\s*(['\"])http://www.w3.org/TR/REC\\-html40/strict.dtd\\2\\s*>\\s*<html"/utf8>>,<<"">>) of 
@@ -846,7 +845,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!.......\\s+html\\s+......\\s+(['\"])\\-//W3C//DTD HTML 4.0//EN\\1\\s*(['\"])http://www.w3.org/TR/REC\\-html40/strict.dtd\\2\\s*>\\s*<html"/utf8>>,<<"">>) of 
@@ -869,7 +868,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -884,7 +883,7 @@ declare option output:doctype-public  \"-//W3C//DTD HTML 4.0//EN\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -909,7 +908,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-33.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html><head><meta +(?:(?:http-equiv=(['\"])content-type\\1 +content=(['\"])text/html; *charset=UTF-8\\2)|(?:content=(['\"])text/html; *charset=UTF-8\\3 +http-equiv=(['\"])content-type\\4)) *></head></html>"/utf8>>,<<"i">>) of 
@@ -942,7 +941,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-34.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html><head><meta +(?:(?:http-equiv=(['\"])content-type\\1 +content=(['\"])text/html; *charset=UTF-8\\2)|(?:content=(['\"])text/html; *charset=UTF-8\\3 +http-equiv=(['\"])content-type\\4)) *></head></html>"/utf8>>,<<"i">>) of 
@@ -975,7 +974,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-35.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<html></html>"/utf8>>,<<"">>) of 
@@ -1004,7 +1003,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-36.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE\\s+html\\s*>\\s*<html><head><meta +(?:(?:http-equiv=(['\"])content-type\\1 +content=(['\"])text/html; *charset=UTF-8\\2)|(?:content=(['\"])text/html; *charset=UTF-8\\3 +http-equiv=(['\"])content-type\\4)) *></head></html>"/utf8>>,<<"i">>) of 
@@ -1037,7 +1036,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-37.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE +html *>\\s*<html><head><meta +(?:(?:http-equiv=(['\"])content-type\\1 +content=(['\"])text/html; *charset=UTF-8\\2)|(?:content=(['\"])text/html; *charset=UTF-8\\3 +http-equiv=(['\"])content-type\\4)) *></head></html>"/utf8>>,<<"i">>) of 
@@ -1070,7 +1069,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-38.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!DOCTYPE +html *>\\s*<html></html>"/utf8>>,<<"i">>) of 
@@ -1103,7 +1102,7 @@ declare option output:version  \"4.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-39.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><head></head></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1128,7 +1127,7 @@ declare option output:version  \"5.0\";
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-40.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"<!....... +(html|HTML) *>\\s*<html><head></head></html>"/utf8>>,<<"">>) of 
@@ -1151,7 +1150,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-41.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1166,7 +1165,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-42.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1181,7 +1180,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-43.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1196,7 +1195,7 @@ declare option output:version  \"5.0\";
    Qry = " () ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-44.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1220,7 +1219,7 @@ return [ $html ]
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-45.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-45.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<html><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1241,7 +1240,7 @@ return [ $html ]
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-html-46.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};

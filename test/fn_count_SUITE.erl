@@ -323,9 +323,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -666,7 +665,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:int(\"-2147483648\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -681,7 +680,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:int(\"-1873914410\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -696,7 +695,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:int(\"2147483647\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -711,7 +710,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:integer(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countintg1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countintg1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -726,7 +725,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:integer(\"830993497117024304\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countintg1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countintg1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -741,7 +740,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:integer(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countintg1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countintg1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -756,7 +755,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:decimal(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdec1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdec1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -771,7 +770,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:decimal(\"617375191608514839\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdec1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdec1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -786,7 +785,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:decimal(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdec1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdec1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -801,7 +800,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:double(\"-1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdbl1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdbl1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -816,7 +815,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:double(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdbl1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdbl1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -831,7 +830,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:double(\"1.7976931348623157E308\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countdbl1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countdbl1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -846,7 +845,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:float(\"-3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countflt1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countflt1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -861,7 +860,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:float(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countflt1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countflt1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -876,7 +875,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:float(\"3.4028235E38\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countflt1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countflt1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -891,7 +890,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:long(\"-92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countlng1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countlng1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -906,7 +905,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:long(\"-47175562203048468\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countlng1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countlng1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -921,7 +920,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:long(\"92233720368547758\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countlng1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countlng1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -936,7 +935,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedShort(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countusht1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countusht1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -951,7 +950,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedShort(\"44633\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countusht1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countusht1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -966,7 +965,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedShort(\"65535\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countusht1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countusht1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -981,7 +980,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:negativeInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -996,7 +995,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:negativeInteger(\"-297014075999096793\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1011,7 +1010,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:negativeInteger(\"-1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1026,7 +1025,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:positiveInteger(\"1\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countpint1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countpint1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1041,7 +1040,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:positiveInteger(\"52704602390610033\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countpint1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countpint1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1056,7 +1055,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:positiveInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countpint1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countpint1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1071,7 +1070,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedLong(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countulng1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countulng1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1086,7 +1085,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedLong(\"130747108607674654\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countulng1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countulng1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1101,7 +1100,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:unsignedLong(\"184467440737095516\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countulng1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countulng1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1116,7 +1115,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonPositiveInteger(\"-999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnpi1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnpi1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1131,7 +1130,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonPositiveInteger(\"-475688437271870490\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnpi1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnpi1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1146,7 +1145,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonPositiveInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnpi1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnpi1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1161,7 +1160,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonNegativeInteger(\"0\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnni1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnni1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1176,7 +1175,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonNegativeInteger(\"303884545991464527\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnni1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnni1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1191,7 +1190,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:nonNegativeInteger(\"999999999999999999\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countnni1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countnni1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1206,7 +1205,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:short(\"-32768\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countsht1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countsht1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1221,7 +1220,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:short(\"-5324\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countsht1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countsht1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1236,7 +1235,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count((xs:short(\"32767\")))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-countsht1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-countsht1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1251,7 +1250,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -1266,7 +1265,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(1, ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -1281,7 +1280,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( () ) eq 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1296,7 +1295,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( (1, 2, 3) ) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1311,7 +1310,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( (1, 2, ()) ) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1326,7 +1325,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(()) eq 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1341,7 +1340,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(((((()))))) eq 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1356,7 +1355,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( (((), (), ()), (), (), (), ()) ) eq 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1371,7 +1370,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( (1, 2, 3) ) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1386,7 +1385,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( ((), \"one\", 2, \"three\")) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1401,7 +1400,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count( (\"one\", (2, \"three\")) ) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1416,7 +1415,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count((1, 2)) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1431,7 +1430,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count((1, 2, 3, \"four\")) eq 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1446,7 +1445,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count((1, 2, 3, \"four\")) eq 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1461,7 +1460,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(1 to 3) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1476,7 +1475,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(reverse((1, 2, 3))) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1491,7 +1490,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(reverse((1, 2, 3))) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1506,7 +1505,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "not(count((1, 2, current-time(), 4))) eq false()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SeqCountFunc-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SeqCountFunc-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1521,7 +1520,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "(1 to 10)/count()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqCountFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqCountFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -1537,7 +1536,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1553,7 +1552,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1569,7 +1568,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1585,7 +1584,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1601,7 +1600,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1617,7 +1616,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1633,7 +1632,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1649,7 +1648,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1665,7 +1664,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1681,7 +1680,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1697,7 +1696,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1713,7 +1712,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1729,7 +1728,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1745,7 +1744,7 @@ environment('works-mod',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1760,7 +1759,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count(for $s in (\"red\", \"blue\", \"green\") return string-to-codepoints($s))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Count015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Count015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -1775,7 +1774,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "fn:count(1 to 10000000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000000") of 
       true -> {comment, "String correct"};
@@ -1790,7 +1789,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg }; fn:count( ( (), local:generate( () ), local:generate( 0 ), (1 to 10000000), local:generate( () ), local:generate(1)) )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000004") of 
       true -> {comment, "String correct"};
@@ -1805,7 +1804,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "let $x := year-from-date(current-date()) return count( 1 to $x ) = $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1820,7 +1819,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1835,7 +1834,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1850,7 +1849,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1865,7 +1864,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1880,7 +1879,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1895,7 +1894,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne 25", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1910,7 +1909,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1925,7 +1924,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1940,7 +1939,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1955,7 +1954,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1970,7 +1969,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1985,7 +1984,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne 25)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2000,7 +1999,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 lt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2015,7 +2014,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 le count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2030,7 +2029,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 eq count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2045,7 +2044,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 ge count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-020.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2060,7 +2059,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 gt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2075,7 +2074,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 25 ne count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2090,7 +2089,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 lt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2105,7 +2104,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 le count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2120,7 +2119,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 eq count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-025.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2135,7 +2134,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 ge count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-026.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2150,7 +2149,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 gt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-027.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2165,7 +2164,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(25 ne count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2180,7 +2179,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) lt local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2195,7 +2194,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) le local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2210,7 +2209,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) eq local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2225,7 +2224,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ge local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2240,7 +2239,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) gt local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2255,7 +2254,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ne local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-034.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2270,7 +2269,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) lt count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2285,7 +2284,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) le count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-036.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2300,7 +2299,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) eq count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-037.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-037.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2315,7 +2314,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) ge count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-038.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-038.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2330,7 +2329,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) gt count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-039.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-039.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2345,7 +2344,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(2, 100)) ne count(local:primes(100, 200))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-040.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-040.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2360,7 +2359,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2375,7 +2374,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-042.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2390,7 +2389,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-043.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2405,7 +2404,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-044.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2420,7 +2419,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-045.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2435,7 +2434,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-046.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-046.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2450,7 +2449,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) lt -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-047.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-047.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2465,7 +2464,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) le -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-048.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2480,7 +2479,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) eq -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-049.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-049.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2495,7 +2494,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ge -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-050.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-050.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2510,7 +2509,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) gt -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-051.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-051.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2525,7 +2524,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:integer) { $n * $n }; count(local:primes(100)) ne -local:square(5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-052.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-052.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2540,7 +2539,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) lt count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-053.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-053.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2555,7 +2554,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) le count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-054.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-054.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2570,7 +2569,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) eq count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-055.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-055.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2585,7 +2584,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) ge count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-056.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-056.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2600,7 +2599,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) gt count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-057.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-057.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2615,7 +2614,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($s as xs:integer, $n as xs:integer) { let $start := if ($s lt 2) then 2 else $s return for $i in $s to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(2, 100)) ne count(local:primes(100, 200)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-058.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-058.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2630,7 +2629,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-059.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-059.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2645,7 +2644,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-060.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-060.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2660,7 +2659,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-061.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-061.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2675,7 +2674,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-062.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-062.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2690,7 +2689,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-063.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-063.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2705,7 +2704,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne 25.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-064.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-064.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2720,7 +2719,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-065.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-065.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2735,7 +2734,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-066.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-066.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2750,7 +2749,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-067.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-067.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2765,7 +2764,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-068.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-068.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2780,7 +2779,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-069.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-069.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2795,7 +2794,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne 25.5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-070.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-070.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2810,7 +2809,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 lt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-071.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-071.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2825,7 +2824,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 le count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-072.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-072.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2840,7 +2839,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 eq count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-073.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-073.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2855,7 +2854,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 ge count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-074.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-074.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2870,7 +2869,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 gt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-075.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-075.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2885,7 +2884,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; 24.5 ne count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-076.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-076.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2900,7 +2899,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 lt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-077.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-077.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2915,7 +2914,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 le count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-078.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-078.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2930,7 +2929,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 eq count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-079.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-079.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2945,7 +2944,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 ge count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-080.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-080.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2960,7 +2959,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 gt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-081.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-081.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2975,7 +2974,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(24.5 ne count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-082.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-082.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2990,7 +2989,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) lt local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-083.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-083.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3005,7 +3004,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) le local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-084.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-084.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3020,7 +3019,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) eq local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-085.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-085.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3035,7 +3034,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-086.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-086.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3050,7 +3049,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) gt local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-087.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-087.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3065,7 +3064,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ne local:square(5.1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-088.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-088.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3080,7 +3079,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-089.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-089.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3095,7 +3094,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-090.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-090.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3110,7 +3109,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-091.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-091.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3125,7 +3124,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-092.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-092.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3140,7 +3139,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-093.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-093.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3155,7 +3154,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1.5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-094.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-094.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3170,7 +3169,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-095.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-095.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3185,7 +3184,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) le -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-096.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-096.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3200,7 +3199,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-097.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-097.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3215,7 +3214,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-098.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-098.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3230,7 +3229,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-099.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-099.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3245,7 +3244,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-100.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-100.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3260,7 +3259,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:decimal) { $n * $n }; count(local:primes(100)) ge 1.0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-101.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-101.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3275,7 +3274,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-102.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-102.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3290,7 +3289,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-103.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-103.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3305,7 +3304,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-104.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-104.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3320,7 +3319,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-105.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-105.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3335,7 +3334,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-106.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-106.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3350,7 +3349,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-107.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-107.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3365,7 +3364,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-108.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-108.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3380,7 +3379,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-109.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-109.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3395,7 +3394,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-110.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-110.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3410,7 +3409,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-111.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-111.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3425,7 +3424,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-112.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-112.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3440,7 +3439,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne xs:float(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-113.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-113.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3455,7 +3454,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") lt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-114.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-114.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3470,7 +3469,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") le count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-115.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-115.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3485,7 +3484,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") eq count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-116.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-116.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3500,7 +3499,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") ge count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-117.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-117.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3515,7 +3514,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") gt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-118.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-118.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3530,7 +3529,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:float(\"24.5\") ne count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-119.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-119.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3545,7 +3544,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") lt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-120.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-120.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3560,7 +3559,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") le count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-121.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-121.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3575,7 +3574,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") eq count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-122.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-122.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3590,7 +3589,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") ge count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-123.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-123.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3605,7 +3604,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") gt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-124.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-124.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3620,7 +3619,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:float(\"24.5\") ne count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-125.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-125.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3635,7 +3634,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) lt local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-126.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-126.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3650,7 +3649,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) le local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-127.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-127.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3665,7 +3664,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) eq local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-128.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-128.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3680,7 +3679,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ge local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-129.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-129.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3695,7 +3694,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) gt local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-130.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-130.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3710,7 +3709,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ne local:square(xs:float(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-131.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-131.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3725,7 +3724,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-132.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-132.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3740,7 +3739,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-133.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-133.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3755,7 +3754,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-134.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-134.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3770,7 +3769,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-135.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-135.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3785,7 +3784,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-136.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-136.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3800,7 +3799,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-137.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-137.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3815,7 +3814,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-138.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-138.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3830,7 +3829,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) le -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-139.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-139.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3845,7 +3844,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-140.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-140.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3860,7 +3859,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-141.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-141.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3875,7 +3874,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-142.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-142.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3890,7 +3889,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:float) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-143.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-143.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3905,7 +3904,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float(\"1.0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-144.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-144.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3920,7 +3919,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-145.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-145.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3935,7 +3934,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-146.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-146.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3950,7 +3949,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-147.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-147.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3965,7 +3964,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-148.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-148.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3980,7 +3979,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-149.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-149.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3995,7 +3994,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double(\"25.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-150.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-150.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4010,7 +4009,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) lt xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-151.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-151.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4025,7 +4024,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) le xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-152.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-152.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4040,7 +4039,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) eq xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-153.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-153.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4055,7 +4054,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ge xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-154.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-154.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4070,7 +4069,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) gt xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-155.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-155.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4085,7 +4084,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(count(local:primes(100)) ne xs:double(\"25.5\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-156.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-156.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4100,7 +4099,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") lt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-157.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-157.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4115,7 +4114,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") le count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-158.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-158.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4130,7 +4129,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") eq count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-159.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-159.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4145,7 +4144,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") ge count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-160.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-160.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4160,7 +4159,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") gt count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-161.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-161.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4175,7 +4174,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; xs:double(\"24.5\") ne count(local:primes(100))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-162.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-162.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4190,7 +4189,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") lt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-163.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-163.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4205,7 +4204,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") le count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-164.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-164.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4220,7 +4219,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") eq count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-165.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-165.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4235,7 +4234,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") ge count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-166.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-166.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4250,7 +4249,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") gt count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-167.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-167.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4265,7 +4264,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; not(xs:double(\"24.5\") ne count(local:primes(100)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-168.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-168.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4280,7 +4279,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) lt local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-169.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-169.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4295,7 +4294,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) le local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-170.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-170.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4310,7 +4309,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) eq local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-171.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-171.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4325,7 +4324,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ge local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-172.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-172.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4340,7 +4339,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) gt local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-173.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-173.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4355,7 +4354,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ne local:square(xs:double(\"4.9\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-174.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-174.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4370,7 +4369,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-175.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-175.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4385,7 +4384,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-176.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-176.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4400,7 +4399,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-177.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-177.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4415,7 +4414,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-178.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-178.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4430,7 +4429,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-179.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-179.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4445,7 +4444,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double(\"-1.5\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-180.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-180.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4460,7 +4459,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) lt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-181.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-181.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4475,7 +4474,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) le -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-182.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-182.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4490,7 +4489,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) eq -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-183.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-183.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4505,7 +4504,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ge -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-184.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-184.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4520,7 +4519,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) gt -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-185.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-185.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4535,7 +4534,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:square($n as xs:double) { $n * $n }; count(local:primes(100)) ne -local:square(5.0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-186.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-186.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4550,7 +4549,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double(\"1.0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-187.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-187.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4565,7 +4564,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-188.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-188.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4580,7 +4579,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-189.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-189.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4595,7 +4594,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-190.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-190.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4610,7 +4609,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-191.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-191.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4625,7 +4624,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-192.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-192.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4640,7 +4639,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-193.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-193.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4655,7 +4654,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-194.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-194.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4670,7 +4669,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-195.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-195.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4685,7 +4684,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-196.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-196.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4700,7 +4699,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-197.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-197.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4715,7 +4714,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-198.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-198.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4730,7 +4729,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-199.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-199.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4745,7 +4744,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:double(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-200.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-200.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4760,7 +4759,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-201.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-201.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4775,7 +4774,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-202.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-202.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4790,7 +4789,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-203.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-203.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4805,7 +4804,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-204.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-204.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4820,7 +4819,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-205.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-205.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4835,7 +4834,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float(\"NaN\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-206.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-206.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4850,7 +4849,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-207.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-207.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4865,7 +4864,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-208.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-208.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4880,7 +4879,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-209.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-209.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4895,7 +4894,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-210.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-210.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4910,7 +4909,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-211.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-211.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4925,7 +4924,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne xs:float(\"INF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-212.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-212.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4940,7 +4939,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) lt local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-213.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-213.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4955,7 +4954,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) le local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-214.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-214.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4970,7 +4969,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) eq local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-215.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-215.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4985,7 +4984,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ge local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-216.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-216.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5000,7 +4999,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) gt local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-217.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-217.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5015,7 +5014,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ne local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-218.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-218.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5030,7 +5029,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) lt local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-219.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-219.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5045,7 +5044,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) le local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-220.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-220.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5060,7 +5059,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) eq local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-221.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-221.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5075,7 +5074,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ge local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-222.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-222.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5090,7 +5089,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) gt local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-223.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-223.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5105,7 +5104,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:double { if ($n) then xs:double('NaN') else xs:double('INF') }; count(local:primes(100)) ne local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-224.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-224.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5120,7 +5119,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) lt local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-225.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-225.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5135,7 +5134,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) le local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-226.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-226.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5150,7 +5149,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) eq local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-227.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-227.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5165,7 +5164,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ge local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-228.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-228.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5180,7 +5179,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) gt local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-229.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-229.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5195,7 +5194,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ne local:strange(true())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-230.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-230.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5210,7 +5209,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) lt local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-231.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-231.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5225,7 +5224,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) le local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-232.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-232.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5240,7 +5239,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) eq local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-233.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-233.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5255,7 +5254,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ge local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-234.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-234.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5270,7 +5269,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) gt local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-235.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-235.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5285,7 +5284,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; declare function local:strange($n as xs:boolean) as xs:float { if ($n) then xs:float('NaN') else xs:float('INF') }; count(local:primes(100)) ne local:strange(false())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-236.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-236.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5300,7 +5299,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "count((for $x in 1 to 10 return $x * $x)[position() < 3])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-237.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-237.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2") of 
       true -> {comment, "String correct"};
@@ -5315,7 +5314,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-238.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-238.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5330,7 +5329,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) le -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-239.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-239.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5345,7 +5344,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) eq -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-240.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-240.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5360,7 +5359,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-241.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-241.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5375,7 +5374,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) gt -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-242.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-242.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5390,7 +5389,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ne -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-243.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-243.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5405,7 +5404,7 @@ environment('works-mod',__BaseDir) ->
    Qry = "declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) ge 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-count-244.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-count-244.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

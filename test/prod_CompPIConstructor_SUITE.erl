@@ -64,9 +64,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -160,7 +159,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-name-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-name-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -175,7 +174,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "<elem xmlns:foo=\"http://www.example.com\">{processing-instruction foo:pi {'text'}}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-name-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-name-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -190,7 +189,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {()} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -205,7 +204,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'one', 'two'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -220,7 +219,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -236,7 +235,7 @@ environment('DupNode',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -251,7 +250,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {1,2} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -266,7 +265,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {123} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -281,7 +280,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {xs:dateTime(\"1999-05-31T13:20:00\")} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -302,7 +301,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'pi'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -317,7 +316,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'pi', ()} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -332,7 +331,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {(), 'pi'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -347,7 +346,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{processing-instruction {'foo:attr'} {}}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
@@ -362,7 +361,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {xs:untypedAtomic('pi')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -377,7 +376,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{processing-instruction {xs:untypedAtomic('foo:pi')} {'text'}}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
@@ -392,7 +391,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'p i'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
@@ -407,7 +406,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {xs:untypedAtomic('p i')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
@@ -422,7 +421,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {('pi'[current-date() lt xs:date('1900-01-01')], xs:anyURI('pi'))} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -437,7 +436,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {('pi'[current-date() lt xs:date('1900-01-01')], xs:duration('P1D'))} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -452,7 +451,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'pi'[current-date() lt xs:date('1900-01-01')]} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-compname-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-compname-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -468,7 +467,7 @@ environment('DupNode',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-doc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-doc-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi texttext texttext?>") of 
       true -> {comment, "XML Deep equal"};
@@ -483,7 +482,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "count((processing-instruction pi {()})/..)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-parent-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-parent-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -498,7 +497,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "fn:string(processing-instruction pi {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a  b") of 
       true -> {comment, "String correct"};
@@ -513,7 +512,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "fn:data(processing-instruction pi {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-data-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-data-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a  b") of 
       true -> {comment, "String correct"};
@@ -528,7 +527,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi 1 string 3.14 0.012345 2002-04-02T12:00:00-01:00?>") of 
       true -> {comment, "XML Deep equal"};
@@ -543,7 +542,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi 123 456 789?>") of 
       true -> {comment, "XML Deep equal"};
@@ -558,7 +557,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {1,'',2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi 1  2?>") of 
       true -> {comment, "XML Deep equal"};
@@ -573,7 +572,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {1,<a/>,2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi 1  2?>") of 
       true -> {comment, "XML Deep equal"};
@@ -589,7 +588,7 @@ environment('DupNode',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-enclexpr-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi texttext?>") of 
       true -> {comment, "XML Deep equal"};
@@ -604,7 +603,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction xml {'pi'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-namexml-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-namexml-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -619,7 +618,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction XmL {'pi'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-namexml-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-namexml-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -634,7 +633,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'xml'} {'pi'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-namexml-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-namexml-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -649,7 +648,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {'XmL'} {'pi'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-namexml-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-namexml-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -664,7 +663,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {'?>'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-invalid-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-invalid-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
@@ -679,7 +678,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {'?>text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-invalid-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-invalid-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
@@ -694,7 +693,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {'text?>text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-invalid-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-invalid-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
@@ -709,7 +708,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {' text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-space-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-space-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -724,7 +723,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {'&#x20;&#x0A;&#x0D;&#x09;text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-space-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-space-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi text?>") of 
       true -> {comment, "XML Deep equal"};
@@ -739,7 +738,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "string-to-codepoints(processing-instruction pi {' text'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-space-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-space-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "116 101 120 116") of 
       true -> {comment, "String correct"};
@@ -754,7 +753,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "string-to-codepoints(processing-instruction pi {'&#x20;&#x0A;&#x0D;&#x09;text'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-space-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-space-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "116 101 120 116") of 
       true -> {comment, "String correct"};
@@ -769,7 +768,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {()}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-empty-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-empty-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi ?>") of 
       true -> {comment, "XML Deep equal"};
@@ -784,7 +783,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction pi {''}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-comppi-empty-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-comppi-empty-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<?pi ?>") of 
       true -> {comment, "XML Deep equal"};
@@ -799,7 +798,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction \"name\" {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -814,7 +813,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {\"xml\"} {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -829,7 +828,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {\" xmL \"} {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0064") of 
       true -> {comment, "Correct error"};
@@ -844,7 +843,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "local-name(processing-instruction {\" name \"} {\"content\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "name") of 
       true -> {comment, "String correct"};
@@ -859,7 +858,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "local-name(processing-instruction {\" XmLnaMe \"} {\"content\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "XmLnaMe") of 
       true -> {comment, "String correct"};
@@ -874,7 +873,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {\"1.das \"} {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0041") of 
       true -> {comment, "Correct error"};
@@ -889,7 +888,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction {\"thename\"} {\"asdas?>\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
@@ -904,7 +903,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "string(processing-instruction {\"thename\"} {\"asdas? >\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "asdas? >") of 
       true -> {comment, "String correct"};
@@ -919,7 +918,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "string(processing-instruction {\"thename\"} {\"content {1+ } {\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "content {1+ } {") of 
       true -> {comment, "String correct"};
@@ -934,7 +933,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "processing-instruction name {\" \"} eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -949,7 +948,7 @@ environment('DupNode',__BaseDir) ->
    Qry = "data(processing-instruction name {\"content\"}) instance of xs:string", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConPI-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConPI-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -966,7 +965,7 @@ environment('DupNode',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-constr-comppi-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-constr-comppi-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};
@@ -984,7 +983,7 @@ environment('DupNode',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-constr-comppi-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-constr-comppi-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0026") of 
       true -> {comment, "Correct error"};

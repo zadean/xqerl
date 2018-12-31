@@ -229,9 +229,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -481,7 +480,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e11215.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e11215.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number
          >443</number><number
@@ -502,7 +501,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e13012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e13012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ABC\"") of 
       true -> {comment, "Deep equal"};
@@ -519,7 +518,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e13030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e13030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ab\"") of 
       true -> {comment, "Deep equal"};
@@ -536,7 +535,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e13048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e13048.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"bb\",\"bb\",\"cc\")") of 
       true -> {comment, "Deep equal"};
@@ -553,7 +552,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e20420.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e20420.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"inserted for testing prolog only examples\"") of 
       true -> {comment, "Deep equal"};
@@ -578,7 +577,7 @@ environment('all',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e40951.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e40951.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -615,7 +614,7 @@ deep-equal( map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e40984.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e40984.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -638,7 +637,7 @@ map {\"557\":\"Fleece Pullover\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -670,7 +669,7 @@ declare variable $deptinfo := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41041.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"inserted for testing prolog only examples\"") of 
       true -> {comment, "Deep equal"};
@@ -692,7 +691,7 @@ declare variable $deptinfo := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41054.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41054.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
@@ -714,7 +713,7 @@ declare variable $deptinfo := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41054b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41054b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
@@ -738,7 +737,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41094.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41094.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\"/><product num=\"563\"
@@ -773,7 +772,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41148.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41148.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\" dept-code=\"310\"/><product num=\"563\"
@@ -799,7 +798,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41173.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41173.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
@@ -821,7 +820,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41180.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41180.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
@@ -843,7 +842,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41190.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41190.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
@@ -865,7 +864,7 @@ declare variable $deptnames := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41194.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41194.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Women's\",\"Accessories\",\"Accessories\",\"Men's\")") of 
       true -> {comment, "Deep equal"};
@@ -887,7 +886,7 @@ declare variable $deptnames := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41194b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41194b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"Accessories\",\"Women's\",\"Men's\")") of 
       true -> {comment, "Correct permutation"};
@@ -904,7 +903,7 @@ declare variable $deptnames := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41213.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41213.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"b\"") of 
       true -> {comment, "Deep equal"};
@@ -926,7 +925,7 @@ declare variable $deptnames := map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41225.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41225.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Accessories\"") of 
       true -> {comment, "Deep equal"};
@@ -957,7 +956,7 @@ return <product num=\"{$prod/number}\"
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41255.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41255.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product num=\"557\"
          dept-name=\"Women's\" dept-code=\"310\"/><product num=\"563\"
@@ -992,7 +991,7 @@ map { \"deptname\": \"Accessories\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41271.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41271.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1020,7 +1019,7 @@ map { \"deptname\": \"Accessories\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"300") of 
       true -> {comment, "Deep equal"};
@@ -1042,7 +1041,7 @@ map { \"deptname\": \"Accessories\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301a.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -1064,7 +1063,7 @@ map { \"deptname\": \"Accessories\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1086,7 +1085,7 @@ map { \"deptname\": \"Accessories\",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301c.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"ACC\",\"MEN\",\"WMN\")") of 
       true -> {comment, "Correct permutation"};
@@ -1115,7 +1114,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301d.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1143,7 +1142,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301e.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301e.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1170,7 +1169,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41301f.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41301f.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1194,7 +1193,7 @@ return map:for-each($deptnames,$f)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41517.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41517.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"Key: ACC, value: Accessories\",
 \"Key: WMN, value: Women's\",
@@ -1224,7 +1223,7 @@ $deptinfo instance of map(xs:string,map(xs:string,xs:anyAtomicType)) ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41255b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41255b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1252,7 +1251,7 @@ $deptinfo instance of function(*) ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41255c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41255c.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1280,7 +1279,7 @@ $deptinfo instance of function(xs:anyAtomicType) as item()* ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41255d.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41255d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1308,7 +1307,7 @@ $deptinfo instance of item() ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41255e.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41255e.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1329,7 +1328,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41590.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41590.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"55,60") of 
       true -> {comment, "Correct permutation"};
@@ -1346,7 +1345,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41624.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41624.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ \"a\", \"b\", \"c\" ]") of 
       true -> {comment, "Deep equal"};
@@ -1363,7 +1362,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41628.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41628.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ \"a\", \"b\", \"c\" ]") of 
       true -> {comment, "Deep equal"};
@@ -1380,7 +1379,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41635.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41635.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 3") of 
       true -> {comment, "Correct results"};
@@ -1397,7 +1396,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41648.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41648.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 8") of 
       true -> {comment, "Correct results"};
@@ -1416,7 +1415,7 @@ declare variable $myitems := 3;
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41655.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41655.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"array:size($result) eq 5") of 
       true -> {comment, "Correct results"};
@@ -1433,7 +1432,7 @@ declare variable $myitems := 3;
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41659.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41659.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"a\", \"b\", \"c\"], \"d\" ]") of 
       true -> {comment, "Deep equal"};
@@ -1450,7 +1449,7 @@ declare variable $myitems := 3;
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41663.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41663.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"a\", \"b\", \"c\"], \"d\" ]") of 
       true -> {comment, "Deep equal"};
@@ -1467,7 +1466,7 @@ declare variable $myitems := 3;
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41678.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41678.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ (\"a\", \"b\", \"c\"), \"d\" ]") of 
       true -> {comment, "Deep equal"};
@@ -1484,7 +1483,7 @@ declare variable $myitems := 3;
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41686.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41686.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\"], \"d\"") of 
       true -> {comment, "Deep equal"};
@@ -1503,7 +1502,7 @@ array:get($array-of-ints, 2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -1522,7 +1521,7 @@ $array-of-ints?2",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -1541,7 +1540,7 @@ let $pos := 2 return $array-of-ints?($pos)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709c.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -1560,7 +1559,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709d.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"d\"") of 
       true -> {comment, "Deep equal"};
@@ -1578,7 +1577,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41791.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41791.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -1596,7 +1595,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41795.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41795.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
@@ -1614,7 +1613,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41799.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41799.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
@@ -1632,7 +1631,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41803.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41803.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10,20") of 
       true -> {comment, "Deep equal"};
@@ -1650,7 +1649,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41803b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41803b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -1668,7 +1667,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41803c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41803c.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10,20,30") of 
       true -> {comment, "Deep equal"};
@@ -1687,7 +1686,7 @@ $array-of-arrays?2?1",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709e.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709e.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"d\"") of 
       true -> {comment, "Deep equal"};
@@ -1706,7 +1705,7 @@ $array-of-arrays?*",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709f.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709f.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"]") of 
       true -> {comment, "Deep equal"};
@@ -1725,7 +1724,7 @@ $array-of-arrays?*[?2 = \"b\"]",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709g.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709g.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\",\"b\",\"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -1744,7 +1743,7 @@ array:size($array-of-ints)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709h.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709h.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -1763,7 +1762,7 @@ array:head($array-of-ints)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709i.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709i.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10") of 
       true -> {comment, "Deep equal"};
@@ -1782,7 +1781,7 @@ array:tail($array-of-ints)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709j.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709j.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
@@ -1801,7 +1800,7 @@ array:append($array-of-ints,40)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709k.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709k.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20,30,40]") of 
       true -> {comment, "Deep equal"};
@@ -1820,7 +1819,7 @@ declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] 
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709l.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709l.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,40,20,30]") of 
       true -> {comment, "Deep equal"};
@@ -1839,7 +1838,7 @@ array:remove($array-of-ints,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709m.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709m.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,30]") of 
       true -> {comment, "Deep equal"};
@@ -1858,7 +1857,7 @@ array:subarray($array-of-ints,2,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709n.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709n.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
@@ -1877,7 +1876,7 @@ array:filter($array-of-ints,function($n) {$n > 15})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709o.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709o.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[20,30]") of 
       true -> {comment, "Deep equal"};
@@ -1896,7 +1895,7 @@ array:flatten($array-of-arrays)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709p.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709p.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\",\"b\",\"c\",\"d\",\"e\",\"f\"") of 
       true -> {comment, "Deep equal"};
@@ -1915,7 +1914,7 @@ array:join(($array-of-ints,[\"a\",\"b\",\"c\"]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709q.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709q.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20,30,\"a\",\"b\",\"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -1934,7 +1933,7 @@ array:sort([6,2,-4],(),abs#1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709r.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709r.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,-4,6]") of 
       true -> {comment, "Deep equal"};
@@ -1953,7 +1952,7 @@ array:reverse($array-of-ints)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709s.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709s.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[30,20,10]") of 
       true -> {comment, "Deep equal"};
@@ -1972,7 +1971,7 @@ $array-of-ints instance of array(xs:integer)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709t.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709t.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1991,7 +1990,7 @@ $array-of-arrays instance of array(array(xs:string))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709u.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709u.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2010,7 +2009,7 @@ $array-of-arrays instance of function(*) ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709v.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709v.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2029,7 +2028,7 @@ $array-of-arrays instance of function(xs:integer) as item()* ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709w.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709w.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2048,7 +2047,7 @@ $array-of-arrays instance of item() ",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e41709x.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e41709x.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2069,7 +2068,7 @@ local:larger-values([10,20,30])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e42207.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e42207.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20,30") of 
       true -> {comment, "Deep equal"};
@@ -2092,7 +2091,7 @@ deep-equal(json-doc(\"product.json\"), map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e42340.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e42340.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2117,7 +2116,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e42362.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e42362.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
@@ -2134,7 +2133,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48503.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48503.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
@@ -2151,7 +2150,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48514.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48514.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",(\"jkl\",\"mno\")]") of 
       true -> {comment, "Deep equal"};
@@ -2168,7 +2167,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48525.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48525.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\",\"mno\"]") of 
       true -> {comment, "Deep equal"};
@@ -2185,7 +2184,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48536.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48536.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",[\"jkl\",\"mno\"]]") of 
       true -> {comment, "Deep equal"};
@@ -2202,7 +2201,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48547.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48547.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",()]") of 
       true -> {comment, "Deep equal"};
@@ -2220,7 +2219,7 @@ return apply($f,[\"a\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48617.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48617.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"A\"") of 
       true -> {comment, "Deep equal"};
@@ -2237,7 +2236,7 @@ return apply($f,[\"a\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48676.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48676.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"omet\"") of 
       true -> {comment, "Deep equal"};
@@ -2254,7 +2253,7 @@ return apply($f,[\"a\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48687.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48687.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -2271,7 +2270,7 @@ return apply($f,[\"a\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48698.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48698.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -2288,7 +2287,7 @@ return apply($f,[\"a\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e48709.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e48709.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAP0001") of 
       true -> {comment, "Correct error"};
@@ -2306,7 +2305,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51544.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51544.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2324,7 +2323,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51555.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51555.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2342,7 +2341,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51565.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51565.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2360,7 +2359,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51576.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51576.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2378,7 +2377,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51592.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51592.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2395,7 +2394,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51729.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51729.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2412,7 +2411,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51740.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51740.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2429,7 +2428,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51751.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51751.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2446,7 +2445,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51762.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51762.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2463,7 +2462,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e51773.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e51773.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2482,7 +2481,7 @@ map {1:\"first\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e55090.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e55090.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2501,7 +2500,7 @@ deep-equal(  map:merge( ($map1, map:entry(3, \"third\")) ),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e55101.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e55101.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2521,7 +2520,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e55112.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e55112.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2542,7 +2541,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e55123.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e55123.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2559,7 +2558,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56387.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56387.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ab\",\"aa\"]") of 
       true -> {comment, "Deep equal"};
@@ -2576,7 +2575,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56398.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56398.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[5,6]") of 
       true -> {comment, "Deep equal"};
@@ -2593,7 +2592,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56409.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56409.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
@@ -2610,7 +2609,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56502.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56502.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -2627,7 +2626,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56513.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56513.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\", \"d\")") of 
       true -> {comment, "Deep equal"};
@@ -2644,7 +2643,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56524.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56524.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\", \"d\", \"e\")") of 
       true -> {comment, "Deep equal"};
@@ -2661,7 +2660,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56535.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56535.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -2678,7 +2677,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e56999.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e56999.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6") of 
       true -> {comment, "Deep equal"};
@@ -2695,7 +2694,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57060.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57060.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
@@ -2712,7 +2711,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57070.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57070.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -2729,7 +2728,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57081.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57081.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"cba\"") of 
       true -> {comment, "Deep equal"};
@@ -2746,7 +2745,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57092.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57092.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"x,a,b,c\"") of 
       true -> {comment, "Deep equal"};
@@ -2763,7 +2762,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57103.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57103.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -2780,7 +2779,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57114.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57114.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -2797,7 +2796,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57411.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57411.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6") of 
       true -> {comment, "Deep equal"};
@@ -2814,7 +2813,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57472.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57472.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
@@ -2831,7 +2830,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57482.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57482.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -2848,7 +2847,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57493.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57493.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"cba\"") of 
       true -> {comment, "Deep equal"};
@@ -2865,7 +2864,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57504.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57504.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a,b,c,x\"") of 
       true -> {comment, "Deep equal"};
@@ -2882,7 +2881,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57515.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57515.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -2899,7 +2898,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57526.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57526.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -2916,7 +2915,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57796.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57796.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\",\"bx\",\"cx\"]") of 
       true -> {comment, "Deep equal"};
@@ -2933,7 +2932,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57807.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57807.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"x\"),(\"b\",\"x\"),(\"c\",\"x\")]") of 
       true -> {comment, "Deep equal"};
@@ -2950,7 +2949,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57818.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57818.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[97, 98, 99]") of 
       true -> {comment, "Deep equal"};
@@ -2967,7 +2966,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57961.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57961.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"1first\",\"2second\")") of 
       true -> {comment, "Correct permutation"};
@@ -2987,7 +2986,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e57972.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e57972.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3004,7 +3003,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e58316.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e58316.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\", \"by\", \"cz\"]") of 
       true -> {comment, "Deep equal"};
@@ -3021,7 +3020,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e58327.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e58327.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"x\"), (\"b\",\"y\"), (\"c\",\"z\")]") of 
       true -> {comment, "Deep equal"};
@@ -3038,7 +3037,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e58338.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e58338.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,4,9,16,25]") of 
       true -> {comment, "Deep equal"};
@@ -3055,7 +3054,7 @@ return map:entry(string($p/number), string($p/name))),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e58349.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e58349.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ax\", \"by\", \"cz\"]") of 
       true -> {comment, "Deep equal"};
@@ -3073,7 +3072,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60780.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60780.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"def\"") of 
       true -> {comment, "Deep equal"};
@@ -3091,7 +3090,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60791.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60791.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[10,20]") of 
       true -> {comment, "Deep equal"};
@@ -3109,7 +3108,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60802.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60802.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -3126,7 +3125,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60955.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60955.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"first\"") of 
       true -> {comment, "Deep equal"};
@@ -3143,7 +3142,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60966.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60966.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -3160,7 +3159,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60976.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60976.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -3177,7 +3176,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e60986.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e60986.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -3194,7 +3193,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e61366.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e61366.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -3211,7 +3210,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e61377.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e61377.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -3228,7 +3227,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e61388.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e61388.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -3245,7 +3244,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63192.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63192.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
@@ -3262,7 +3261,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63203.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63203.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"ghi\",\"jkl\",\"mno\"]") of 
       true -> {comment, "Deep equal"};
@@ -3279,7 +3278,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63214.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63214.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -3296,7 +3295,7 @@ declare variable $array2 := [\"abc\", [10,20]];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63227.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63227.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -3314,7 +3313,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63488.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63488.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\",1,2,3]") of 
       true -> {comment, "Deep equal"};
@@ -3332,7 +3331,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63499.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63499.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3,\"abc\",\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
@@ -3350,7 +3349,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63510.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63510.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3,\"abc\",\"def\",\"ghi\",4,5]") of 
       true -> {comment, "Deep equal"};
@@ -3368,7 +3367,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63521.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63521.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
@@ -3386,7 +3385,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63532.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63532.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -3404,7 +3403,7 @@ declare variable $array2 := [1,2,3];
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63543.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63543.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -3423,7 +3422,7 @@ declare variable $map3 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63783.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63783.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1, 2)") of 
       true -> {comment, "Correct permutation"};
@@ -3442,7 +3441,7 @@ declare variable $map3 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63796.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63796.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -3461,7 +3460,7 @@ declare variable $map3 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e63807.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e63807.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -3483,7 +3482,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3505,7 +3504,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3527,7 +3526,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66037.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66037.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3549,7 +3548,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66048.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -3571,7 +3570,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66059.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66059.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3593,7 +3592,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66070.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66070.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3615,7 +3614,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66081.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66081.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3637,7 +3636,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66092.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66092.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3659,7 +3658,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e66103.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e66103.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3676,7 +3675,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69523.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69523.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15Z\")") of 
       true -> {comment, "Equal"};
@@ -3693,7 +3692,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69534.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69534.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"1994-07-05T07:29:00Z\")") of 
       true -> {comment, "Equal"};
@@ -3710,7 +3709,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69545.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69545.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15-05:00\")") of 
       true -> {comment, "Equal"};
@@ -3727,7 +3726,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69556.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69556.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"1994-11-05T08:25:15Z\")") of 
       true -> {comment, "Equal"};
@@ -3744,7 +3743,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69567.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69567.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:dateTime(\"2015-07-05T13:25:15+05:00\")") of 
       true -> {comment, "Equal"};
@@ -3772,7 +3771,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e69767.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e69767.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3792,7 +3791,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e70867.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e70867.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3812,7 +3811,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e70878.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e70878.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3832,7 +3831,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e70889.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e70889.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -3849,7 +3848,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71246.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71246.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double") of 
@@ -3874,7 +3873,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71254.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71254.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:integer+") of 
@@ -3899,7 +3898,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71262.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71262.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
@@ -3928,7 +3927,7 @@ map {
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71270.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71270.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
@@ -3959,7 +3958,7 @@ local:random-sequence(5, random-number-generator())",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71288.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71288.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:double+") of 
@@ -3988,7 +3987,7 @@ local:random-sequence(5, random-number-generator())",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71531.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71531.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
@@ -4005,7 +4004,7 @@ local:random-sequence(5, random-number-generator())",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71542.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71542.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -4022,7 +4021,7 @@ local:random-sequence(5, random-number-generator())",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71553.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71553.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -4042,7 +4041,7 @@ deep-equal(
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71660.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71660.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4062,7 +4061,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71671.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71671.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4081,7 +4080,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e71682.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e71682.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4098,7 +4097,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e72747.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e72747.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"ghi\",\"def\",\"abc\"]") of 
       true -> {comment, "Deep equal"};
@@ -4115,7 +4114,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e72758.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e72758.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"abc\"]") of 
       true -> {comment, "Deep equal"};
@@ -4132,7 +4131,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e72769.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e72769.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"b\",\"c\")]") of 
       true -> {comment, "Deep equal"};
@@ -4149,7 +4148,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e72779.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e72779.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -4166,7 +4165,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74262.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74262.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -4183,7 +4182,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74273.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74273.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -4200,7 +4199,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74283.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74283.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -4217,7 +4216,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74294.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74294.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -4234,7 +4233,7 @@ map {1:\"first\", 2:\"second\"}
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74304.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74304.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -4252,7 +4251,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74388.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74388.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -4270,7 +4269,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74399.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74399.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -4287,7 +4286,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74563.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74563.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2,4,6)") of 
       true -> {comment, "Deep equal"};
@@ -4304,7 +4303,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74585.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74585.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(xs:double(443),xs:double(557),xs:double(563),xs:double(784))") of 
       true -> {comment, "Deep equal"};
@@ -4321,7 +4320,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74596.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74596.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product dept=\"ACC\">
   <number>443</number>
@@ -4353,7 +4352,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74610.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74610.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<product dept=\"MEN\">
   <number>784</number>
@@ -4386,7 +4385,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74627.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74627.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(-2,4,-6)") of 
       true -> {comment, "Deep equal"};
@@ -4403,7 +4402,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74798.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74798.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,4,6]") of 
       true -> {comment, "Deep equal"};
@@ -4420,7 +4419,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74809.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74809.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"a\",\"b\",\"f\"), (\"a\",\"c\",\"b\")]") of 
       true -> {comment, "Deep equal"};
@@ -4437,7 +4436,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e74820.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e74820.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[2,-4,6]") of 
       true -> {comment, "Deep equal"};
@@ -4454,7 +4453,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\",\"jkl\"]") of 
       true -> {comment, "Deep equal"};
@@ -4471,7 +4470,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76045.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
@@ -4488,7 +4487,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76056.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76056.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\"]") of 
       true -> {comment, "Deep equal"};
@@ -4505,7 +4504,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76067.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76067.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -4522,7 +4521,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76078.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76078.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -4539,7 +4538,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76091.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76091.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -4556,7 +4555,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e76104.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e76104.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0002") of 
       true -> {comment, "Correct error"};
@@ -4573,7 +4572,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e77397.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e77397.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"def\",\"ghi\"]") of 
       true -> {comment, "Deep equal"};
@@ -4590,7 +4589,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e77408.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e77408.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -4607,7 +4606,7 @@ declare variable $map2 := map {};
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e77419.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e77419.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -4632,7 +4631,7 @@ declare variable $map2 := map {};
 }')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807c.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807c.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
             xmlns=\"http://www.w3.org/2005/xpath-functions\"><number 
@@ -4668,7 +4667,7 @@ map {
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807d.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807d.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
             xmlns=\"http://www.w3.org/2005/xpath-functions\"><number 
@@ -4708,7 +4707,7 @@ map {   \"number\": 557,
 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807e.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807e.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4739,7 +4738,7 @@ map {
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807f.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807f.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4776,7 +4775,7 @@ map {
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807g.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807g.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4814,7 +4813,7 @@ parse-json('{
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "d1e78807h.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807h.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

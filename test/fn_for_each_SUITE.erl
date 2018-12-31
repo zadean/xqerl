@@ -22,9 +22,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -64,7 +63,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", \"ee\"), upper-case#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"AA\", \"BB\", \"CC\", \"DD\", \"EE\"") of 
       true -> {comment, "Deep equal"};
@@ -79,7 +78,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"john\", \"jane\"), string-to-codepoints#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"106, 111, 104, 110, 106, 97, 110, 101") of 
       true -> {comment, "Deep equal"};
@@ -94,7 +93,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"), function($x){$x[contains(., 'e')]})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"jane\", \"anne\", \"peter\"") of 
       true -> {comment, "Deep equal"};
@@ -109,7 +108,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"), function($x){upper-case($x)})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"JOHN\", \"MARY\", \"JANE\", \"ANNE\", \"PETER\", \"IAN\"") of 
       true -> {comment, "Deep equal"};
@@ -127,7 +126,7 @@ environment('names',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('names',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"") of 
       true -> {comment, "Deep equal"};
@@ -168,7 +167,7 @@ environment('names',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b bid=\"b\"><b1/></b><b1/><c cid=\"c\"><c1/></c><c1/>") of 
       true -> {comment, "XML Deep equal"};
@@ -183,7 +182,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((), round#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -198,7 +197,7 @@ environment('names',__BaseDir) ->
    Qry = "let $f := function($x as xs:double*){for-each($x,round#1)} return $f((1.2345, 6.789))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 7") of 
       true -> {comment, "Deep equal"};
@@ -213,7 +212,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((1,4,9,16,25), Q{http://www.w3.org/2005/xpath-functions/math}sqrt#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1,2,3,4,5") of 
       true -> {comment, "Deep equal"};
@@ -228,7 +227,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each(namespace-uri-from-QName(function-name(xs:int#1)), upper-case#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'HTTP://WWW.W3.ORG/2001/XMLSCHEMA'") of 
       true -> {comment, "Equal"};
@@ -245,7 +244,7 @@ environment('names',__BaseDir) ->
           for-each((upper-case#1, lower-case#1, normalize-space#1, concat(?, '!')), $f(?, ' Say NO! '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"' SAY NO! ', ' say no! ', 'Say NO!', ' Say NO! !!'") of 
       true -> {comment, "Deep equal"};
@@ -263,7 +262,7 @@ environment('names',__BaseDir) ->
         ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1,2,2") of 
       true -> {comment, "Deep equal"};
@@ -278,7 +277,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", \"ee\"), starts-with#2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-901.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-901.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -293,7 +292,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", 12), upper-case#1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-902.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-902.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -308,7 +307,7 @@ environment('names',__BaseDir) ->
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", 12), ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "for-each-903.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "for-each-903.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};

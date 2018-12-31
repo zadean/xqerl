@@ -74,9 +74,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -261,7 +260,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{}") of 
       true -> {comment, "Deep equal"};
@@ -277,7 +276,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
@@ -293,7 +292,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
@@ -309,7 +308,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\"]") of 
       true -> {comment, "Deep equal"};
@@ -325,7 +324,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[true()]") of 
       true -> {comment, "Deep equal"};
@@ -341,7 +340,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[false()]") of 
       true -> {comment, "Deep equal"};
@@ -357,7 +356,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[()]") of 
       true -> {comment, "Deep equal"};
@@ -373,7 +372,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -409,7 +408,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -453,7 +452,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
@@ -469,7 +468,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
@@ -485,7 +484,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Data with \" within it") of 
       true -> {comment, "String correct"};
@@ -503,7 +502,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
@@ -521,7 +520,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\\\":3, \"b\\\\\":4}") of 
       true -> {comment, "Deep equal"};
@@ -539,7 +538,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\\\":3, \"b\\\":4}") of 
       true -> {comment, "Deep equal"};
@@ -557,7 +556,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\f\", \"\\u0007\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -575,7 +574,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -593,7 +592,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"�\", \"�\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -611,7 +610,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -630,7 +629,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\", \"??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -649,7 +648,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":\"??\\uDA00??\", \"??\\uDD00??\":\"bell\"}") of 
       true -> {comment, "Deep equal"};
@@ -668,7 +667,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
@@ -686,7 +685,7 @@ environment('json-doc-error',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -704,7 +703,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
@@ -722,7 +721,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"23E0") of 
@@ -748,7 +747,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0.23e+02") of 
@@ -774,7 +773,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"0") of 
@@ -800,7 +799,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-number',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-033.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"-0") of 
@@ -826,7 +825,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"\":\"\", \"0\":\"0\"}") of 
       true -> {comment, "Deep equal"};
@@ -841,7 +840,7 @@ environment('json-doc-error',__BaseDir) ->
    Qry = "fn:json-doc(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -859,7 +858,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-036.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":3, \"b\":4}") of 
       true -> {comment, "Deep equal"};
@@ -877,7 +876,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-039.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-039.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "oh dear DEAD") of 
       true -> {comment, "String correct"};
@@ -895,7 +894,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-042.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -913,7 +912,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-string',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-043.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\") of 
       true -> {comment, "String correct"};
@@ -929,7 +928,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-044.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1]") of 
       true -> {comment, "Deep equal"};
@@ -944,7 +943,7 @@ environment('json-doc-error',__BaseDir) ->
    Qry = "fn:json-doc('')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOJS0001") of 
@@ -968,7 +967,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -984,7 +983,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1000,7 +999,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1016,7 +1015,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1032,7 +1031,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1048,7 +1047,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1064,7 +1063,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1080,7 +1079,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1096,7 +1095,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1112,7 +1111,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1128,7 +1127,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1144,7 +1143,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1160,7 +1159,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1176,7 +1175,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1192,7 +1191,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1208,7 +1207,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1224,7 +1223,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1240,7 +1239,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1256,7 +1255,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1274,7 +1273,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -1292,7 +1291,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
@@ -1310,7 +1309,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1328,7 +1327,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1346,7 +1345,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1364,7 +1363,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1382,7 +1381,7 @@ environment('json-doc-error',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -1397,7 +1396,7 @@ environment('json-doc-error',__BaseDir) ->
    Qry = "fn:json-doc(\"http://www.example.org/#fragment\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -1412,7 +1411,7 @@ environment('json-doc-error',__BaseDir) ->
    Qry = "fn:json-doc(\"http://www.example.org/%gg\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -1427,7 +1426,7 @@ environment('json-doc-error',__BaseDir) ->
    Qry = "fn:json-doc(\"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -1454,7 +1453,7 @@ environment('json-doc-error',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
@@ -1481,7 +1480,7 @@ environment('json-doc-error',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-doc-error-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-doc-error-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};

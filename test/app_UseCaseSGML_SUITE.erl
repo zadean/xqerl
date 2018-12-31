@@ -18,9 +18,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -57,7 +56,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><para>With the ever-changing and growing global market, companies and
  large organizations are searching for ways to become more viable and
@@ -116,7 +115,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><para>With the ever-changing and growing global market, companies and
  large organizations are searching for ways to become more viable and
@@ -157,7 +156,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><para>The Graphic Communications Association has been
  instrumental in the development of SGML. GCA provides conferences,
@@ -178,7 +177,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><para>At the heart of an SGML application is a file called the DTD, or
  Document Type Definition. The DTD sets up the structure of a document,
@@ -197,7 +196,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><para security=\"c\">Exiled members of the former Soviet Union's secret
  police, the KGB, have infiltrated the upper ranks of the GCA and are
@@ -215,7 +214,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><stitle shorttitle=\"What is markup?\"/><stitle shorttitle=\"What is SGML?\"/><stitle shorttitle=\"How does SGML work?\"/></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -231,7 +230,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><first_letter>W</first_letter><first_letter>W</first_letter><first_letter>M</first_letter><first_letter>S</first_letter><first_letter>Y</first_letter><first_letter>T</first_letter></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -247,7 +246,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q8a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q8a.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><section shorttitle=\"What is SGML?\">
  <title>What <emph>is</emph> SGML in the grand scheme of the universe, anyway?</title>
@@ -296,7 +295,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q8b.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q8b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<result><section shorttitle=\"How does SGML work?\">
@@ -345,7 +344,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><topic topicid=\"top4\">
  <title>Structure</title>
@@ -369,7 +368,7 @@ environment('sgml',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sgml-queries-results-q10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sgml-queries-results-q10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><title>Content</title></result>") of 
       true -> {comment, "XML Deep equal"};

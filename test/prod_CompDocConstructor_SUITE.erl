@@ -65,9 +65,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -174,7 +173,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count((document {1, 'string', 1,2e3})/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -190,7 +189,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -205,7 +204,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count((document {1, 2, <a/>, 3, 4, <b/>, 5, 6})/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-adjtext-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -220,7 +219,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {1, document {2, document {document {()}, document {3}}, 4}}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nested-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nested-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1234") of 
       true -> {comment, "String correct"};
@@ -236,7 +235,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nested-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nested-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root>") of 
       true -> {comment, "XML Deep equal"};
@@ -251,7 +250,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(document {1, document{2}, document { document {()}, document {3}}, 4}/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nested-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nested-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -266,7 +265,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(document {\"\", document{\"\"}, document { document {()}, document {\"\"}}, \"\"}/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nested-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nested-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -281,7 +280,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {()}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -296,7 +295,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {1,'a',3.5,4e2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 a 3.5 400") of 
       true -> {comment, "String correct"};
@@ -312,7 +311,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8") of 
       true -> {comment, "XML Deep equal"};
@@ -327,7 +326,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {1, '', 2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-enclexpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1  2") of 
       true -> {comment, "String correct"};
@@ -342,7 +341,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "for $x in <a/>, $y in document {$x} return exactly-one($y/a) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -357,7 +356,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "for $x in <!--comment-->, $y in document {$x} return exactly-one($y/comment()) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -372,7 +371,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "for $x in <?pi content?>, $y in document {$x} return exactly-one($y/processing-instruction()) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -387,7 +386,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "for $x in <a>text</a>, $y in document {$x/text()} return exactly-one($y/text()) is exactly-one($x/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-nodeid-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -415,7 +414,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-doc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-doc-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root>") of 
@@ -438,7 +437,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count((document {()})/..)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-parent-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-parent-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -461,7 +460,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "fn:string(document {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab") of 
       true -> {comment, "String correct"};
@@ -476,7 +475,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "fn:data(document {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-data-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-data-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab") of 
       true -> {comment, "String correct"};
@@ -492,7 +491,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-attr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-attr-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -508,7 +507,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-attr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-attr-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -524,7 +523,7 @@ environment('TreeEmpty',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-docnode-attr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-docnode-attr-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -539,7 +538,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document-node{\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -554,7 +553,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{\"content\"};", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -569,7 +568,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{\"some text\", <e/>, attribute name {\"content\"}}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -584,7 +583,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{<e/>, attribute name {\"content\"}, \"some text\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -599,7 +598,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{attribute name {\"content\"}, <e/>, \"some text\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -614,7 +613,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{\"some text\", <e/>, attribute name {\"content\"}})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -629,7 +628,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{<e/>, attribute name {\"content\"}, \"some text\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -644,7 +643,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{attribute name {\"content\"}, <e/>, \"some text\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -659,7 +658,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{<a/>, <b/>, <c/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/><b/><c/>") of 
       true -> {comment, "XML Deep equal"};
@@ -674,7 +673,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{<a/>, <b/>, <c/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/><b/><c/>") of 
       true -> {comment, "XML Deep equal"};
@@ -689,7 +688,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<a>{data(document{<a/>, <b/>, <c/>})}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
@@ -704,7 +703,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<a>{string(document{<a/>, <b/>, <c/>})}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
@@ -719,7 +718,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<a>{string(document{<a/>, <b/>, <c/>})}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a/>") of 
       true -> {comment, "XML Deep equal"};
@@ -734,7 +733,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{\"abc\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -749,7 +748,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "data(document {\"content\"}) instance of xs:untypedAtomic", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -764,7 +763,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {\"content\"} is document{\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -779,7 +778,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{\"string\", <e>more<a>even more</a><b attr=\"thisIsIgnored\"/><![CDATA[ButNotThis]]><?target butThisIs?> content</e>})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "stringmoreeven moreButNotThis content") of 
       true -> {comment, "String correct"};
@@ -794,7 +793,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{ text {\"data\"}, processing-instruction name {\"data\"}, processing-instruction name {\"data\"}, text {\"data\"}, processing-instruction name {\"data\"}, processing-instruction name1 {\"data\"}, comment {\"content\"}, comment {\"content\"}, text {\"data\"}, processing-instruction name2 {\"data\"}, comment {\"content\"}, text {\"data\"} })", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "datadatadatadata") of 
       true -> {comment, "String correct"};
@@ -809,7 +808,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(document{document{document{document{()}}}}/child::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -824,7 +823,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "1, document{document{document{document{()}}}}/child::node(), 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -839,7 +838,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{document{document{document{<e/>}}}}/child::node()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
@@ -854,7 +853,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document{document{document{document{<e/>, document{()}, <e>{document{()}}</e>}}}}//child::node()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/><e/>") of 
       true -> {comment, "XML Deep equal"};
@@ -869,7 +868,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document{ text {\"data\"}, text {\"data\"}, text {\"data\"}, text {\"data\"} })", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "datadatadatadata") of 
       true -> {comment, "String correct"};
@@ -884,7 +883,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(document{ text {\"data\"}, text {\"data\"}, <e/>, text {\"data\"}, text {\"data\"} }/child::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -899,7 +898,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(document{ text {\"data\"}, text {\"data\"}, text {\"data\"}, text {\"data\"} }/child::node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -914,7 +913,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<doo> { document { attribute name {\"content\"} } } </doo>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -929,7 +928,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<doo> { document { <e/>, attribute name {\"content\"} } } </doo>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -944,7 +943,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<doo> { document { <e> <b/> <b/> <b/> <c> <d/> </c> </e>, attribute name {\"content\"} } } </doo>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -959,7 +958,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "<doo> { document { <e> { <?target data?>, attribute name {\"content\"} } </e> } } </doo>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
@@ -974,7 +973,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "count(<a>{document {text{'a'}}}b</a>/node())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -989,7 +988,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "string(document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123456") of 
       true -> {comment, "String correct"};
@@ -1004,7 +1003,7 @@ environment('TreeEmpty',__BaseDir) ->
    Qry = "document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ConDocNode-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "123456") of 
       true -> {comment, "String correct"};

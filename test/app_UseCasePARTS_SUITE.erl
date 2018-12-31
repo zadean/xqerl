@@ -8,9 +8,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -46,7 +45,7 @@ environment('partlist',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "parts-queries-results-q1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parts-queries-results-q1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<parttree><part partid=\"0\" name=\"car\"><part partid=\"1\" name=\"engine\"><part partid=\"3\" name=\"piston\"/></part><part partid=\"2\" name=\"door\"><part partid=\"4\" name=\"window\"/><part partid=\"5\" name=\"lock\"/></part></part><part partid=\"10\" name=\"skateboard\"><part partid=\"11\" name=\"board\"/><part partid=\"12\" name=\"wheel\"/></part><part partid=\"20\" name=\"canoe\"/></parttree>") of 

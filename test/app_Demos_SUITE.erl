@@ -11,9 +11,8 @@
 suite() -> [{timetrap,{seconds, 60}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -97,7 +96,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "sudoku.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "sudoku.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "Demos/sudoku-result.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -248,7 +247,7 @@ declare function local:label-observation($ob as map(*), $label as xs:string) as 
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "currencysvg.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "currencysvg.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "Demos/currencysvg-result.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -281,12 +280,12 @@ declare function local:label-observation($ob as map(*), $label as xs:string) as 
         	string-join( for $channel in raytracer:plot-pixel($scene, $x-recentered, $y-recentered) 
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ", 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/math.xq")) catch _:_ -> ok end, 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/materials.xq")) catch _:_ -> ok end, 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/vector.xq")) catch _:_ -> ok end, 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/shapes.xq")) catch _:_ -> ok end, 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/scene.xq")) catch _:_ -> ok end, 
-   try xqerl_module:compile(filename:join(__BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/math.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/materials.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/vector.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/shapes.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/scene.xq")) catch _:_ -> ok end, 
+   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end, 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "Demos/scene.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -306,7 +305,7 @@ declare function local:label-observation($ob as map(*), $label as xs:string) as 
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "raytracer.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "raytracer.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"starts-with(normalize-space(string-join($result, ' ')), 'P3 64 64 255 0 0 0')") of 

@@ -481,13 +481,15 @@
       <description>test format-time(): effect of width specifiers </description>
       <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
       <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
+      <modified by="Zachary Dean" on="2018-12-20" change="result is '00' not '0'"/>
+      
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.006')"/>
       </environment>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t, '[f,*-2]')</test>
       <result>
-         <assert-string-value>0</assert-string-value>
+         <assert-string-value>00</assert-string-value>
       </result>
    </test-case>
    

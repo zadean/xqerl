@@ -648,9 +648,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -1323,7 +1322,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"23\"") of 
       true -> {comment, "Deep equal"};
@@ -1341,7 +1340,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"false\"") of 
       true -> {comment, "Deep equal"};
@@ -1359,7 +1358,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Paris\"") of 
       true -> {comment, "Deep equal"};
@@ -1377,7 +1376,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1395,7 +1394,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0014") of 
       true -> {comment, "Correct error"};
@@ -1413,7 +1412,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0014") of 
       true -> {comment, "Correct error"};
@@ -1438,7 +1437,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"In a hole in the ground there lived a hobbit.\"") of 
       true -> {comment, "Deep equal"};
@@ -1456,7 +1455,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"123") of 
       true -> {comment, "Deep equal"};
@@ -1474,7 +1473,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"123, 456") of 
       true -> {comment, "Deep equal"};
@@ -1492,7 +1491,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1, 2, 3, 4") of 
       true -> {comment, "Deep equal"};
@@ -1517,7 +1516,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:untypedAtomic(\"In a hole in the ground there lived a hobbit.\")") of 
       true -> {comment, "Deep equal"};
@@ -1542,7 +1541,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:untypedAtomic(\"Tolkien\")") of 
       true -> {comment, "Deep equal"};
@@ -1560,7 +1559,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-data-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-data-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
@@ -1578,7 +1577,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-error-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-error-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -1597,7 +1596,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-error-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-error-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
@@ -1615,7 +1614,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-abs-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-abs-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10.5") of 
       true -> {comment, "Deep equal"};
@@ -1633,7 +1632,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-abs-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-abs-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10.5") of 
       true -> {comment, "Deep equal"};
@@ -1651,7 +1650,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ceiling-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ceiling-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"11") of 
       true -> {comment, "Deep equal"};
@@ -1669,7 +1668,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ceiling-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ceiling-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-10") of 
       true -> {comment, "Deep equal"};
@@ -1687,7 +1686,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-floor-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-floor-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10") of 
       true -> {comment, "Deep equal"};
@@ -1705,7 +1704,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-floor-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-floor-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-11") of 
       true -> {comment, "Deep equal"};
@@ -1723,7 +1722,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.0") of 
       true -> {comment, "Deep equal"};
@@ -1741,7 +1740,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2.0") of 
       true -> {comment, "Deep equal"};
@@ -1759,7 +1758,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-2.0") of 
       true -> {comment, "Deep equal"};
@@ -1777,7 +1776,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.13") of 
       true -> {comment, "Deep equal"};
@@ -1795,7 +1794,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"8500") of 
       true -> {comment, "Deep equal"};
@@ -1813,7 +1812,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.14e0") of 
       true -> {comment, "Deep equal"};
@@ -1831,7 +1830,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0") of 
       true -> {comment, "Deep equal"};
@@ -1849,7 +1848,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2.0") of 
       true -> {comment, "Deep equal"};
@@ -1867,7 +1866,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2.0") of 
       true -> {comment, "Deep equal"};
@@ -1885,7 +1884,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3567.81e0") of 
       true -> {comment, "Deep equal"};
@@ -1903,7 +1902,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -1921,7 +1920,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-round-half-to-even-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"35600") of 
       true -> {comment, "Deep equal"};
@@ -1939,7 +1938,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"0123\"") of 
       true -> {comment, "Deep equal"};
@@ -1957,7 +1956,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"21st\"") of 
       true -> {comment, "Deep equal"};
@@ -1975,7 +1974,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"g\"") of 
       true -> {comment, "Deep equal"};
@@ -1993,7 +1992,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"LVII\"") of 
       true -> {comment, "Deep equal"};
@@ -2011,7 +2010,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-integer-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1;234\"") of 
       true -> {comment, "Deep equal"};
@@ -2029,7 +2028,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"12,345.60\"") of 
       true -> {comment, "Deep equal"};
@@ -2047,7 +2046,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"12,345,678.90\"") of 
       true -> {comment, "Deep equal"};
@@ -2065,7 +2064,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"0124\"") of 
       true -> {comment, "Deep equal"};
@@ -2083,7 +2082,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"14%\"") of 
       true -> {comment, "Deep equal"};
@@ -2101,7 +2100,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"-006\"") of 
       true -> {comment, "Deep equal"};
@@ -2120,7 +2119,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1ʹ234·57\"") of 
       true -> {comment, "Deep equal"};
@@ -2138,7 +2137,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"12.346E2\"") of 
       true -> {comment, "Deep equal"};
@@ -2156,7 +2155,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"2.3E-1\"") of 
       true -> {comment, "Deep equal"};
@@ -2174,7 +2173,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"0.23E0\"") of 
       true -> {comment, "Deep equal"};
@@ -2192,7 +2191,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-format-number-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-format-number-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\".23E0\"") of 
       true -> {comment, "Deep equal"};
@@ -2210,7 +2209,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pi-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pi-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6.283185307179586e0") of 
       true -> {comment, "Deep equal"};
@@ -2228,7 +2227,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -2246,7 +2245,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2264,7 +2263,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 2.7182818284590455e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -2282,7 +2281,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"7.38905609893065e0") of 
       true -> {comment, "Deep equal"};
@@ -2300,7 +2299,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.36787944117144233e0") of 
       true -> {comment, "Deep equal"};
@@ -2318,7 +2317,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"23.140692632779267e0") of 
       true -> {comment, "Deep equal"};
@@ -2336,7 +2335,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2354,7 +2353,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -2372,7 +2371,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2390,7 +2389,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -2408,7 +2407,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2426,7 +2425,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e1") of 
       true -> {comment, "Deep equal"};
@@ -2444,7 +2443,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.1622776601683795e0") of 
       true -> {comment, "Deep equal"};
@@ -2462,7 +2461,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e-1") of 
       true -> {comment, "Deep equal"};
@@ -2480,7 +2479,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2498,7 +2497,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -2516,7 +2515,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-exp10-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-exp10-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2534,7 +2533,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -2552,7 +2551,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('-INF')") of 
       true -> {comment, "Deep equal"};
@@ -2570,7 +2569,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2588,7 +2587,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-6.907755278982137e0") of 
       true -> {comment, "Deep equal"};
@@ -2606,7 +2605,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.6931471805599453e0") of 
       true -> {comment, "Deep equal"};
@@ -2624,7 +2623,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2642,7 +2641,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2660,7 +2659,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -2678,7 +2677,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2696,7 +2695,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -2714,7 +2713,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('-INF')") of 
       true -> {comment, "Deep equal"};
@@ -2732,7 +2731,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2750,7 +2749,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-3.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2768,7 +2767,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.3010299956639812e0") of 
       true -> {comment, "Deep equal"};
@@ -2786,7 +2785,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2804,7 +2803,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2822,7 +2821,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -2840,7 +2839,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-log10-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-log10-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2858,7 +2857,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -2876,7 +2875,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2894,7 +2893,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -2912,7 +2911,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e3") of 
       true -> {comment, "Deep equal"};
@@ -2930,7 +2929,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.4142135623730951e0") of 
       true -> {comment, "Deep equal"};
@@ -2948,7 +2947,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2966,7 +2965,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -2984,7 +2983,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3002,7 +3001,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sqrt-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sqrt-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3020,7 +3019,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -3038,7 +3037,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"8.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3056,7 +3055,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-8.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3074,7 +3073,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.125e0") of 
       true -> {comment, "Deep equal"};
@@ -3092,7 +3091,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.125e0") of 
       true -> {comment, "Deep equal"};
@@ -3110,7 +3109,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3128,7 +3127,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3146,7 +3145,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3164,7 +3163,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3182,7 +3181,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3200,7 +3199,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3218,7 +3217,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3236,7 +3235,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3254,7 +3253,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3272,7 +3271,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3290,7 +3289,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3308,7 +3307,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('-INF')") of 
       true -> {comment, "Deep equal"};
@@ -3326,7 +3325,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3344,7 +3343,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"4.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3362,7 +3361,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-020.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3380,7 +3379,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3398,7 +3397,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('-INF')") of 
       true -> {comment, "Deep equal"};
@@ -3416,7 +3415,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3434,7 +3433,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('INF')") of 
       true -> {comment, "Deep equal"};
@@ -3452,7 +3451,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3470,7 +3469,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3488,7 +3487,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3506,7 +3505,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-028.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3524,7 +3523,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3542,7 +3541,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3560,7 +3559,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3578,7 +3577,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3596,7 +3595,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-033.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3614,7 +3613,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6.25e0") of 
       true -> {comment, "Deep equal"};
@@ -3632,7 +3631,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-pow-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-pow-035.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3650,7 +3649,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -3668,7 +3667,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3686,7 +3685,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3704,7 +3703,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3722,7 +3721,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3740,7 +3739,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3758,7 +3757,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3776,7 +3775,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3794,7 +3793,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-sin-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-sin-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3812,7 +3811,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -3830,7 +3829,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3848,7 +3847,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.0e0") of 
       true -> {comment, "Deep equal"};
@@ -3866,7 +3865,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3884,7 +3883,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3902,7 +3901,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -3920,7 +3919,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3938,7 +3937,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3956,7 +3955,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-cos-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-cos-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -3974,7 +3973,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -3992,7 +3991,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4010,7 +4009,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4028,7 +4027,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4046,7 +4045,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4064,7 +4063,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4082,7 +4081,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4100,7 +4099,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.0e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4118,7 +4117,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4136,7 +4135,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4154,7 +4153,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-tan-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-tan-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4172,7 +4171,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -4190,7 +4189,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4208,7 +4207,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4226,7 +4225,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4244,7 +4243,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4262,7 +4261,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4280,7 +4279,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4298,7 +4297,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4316,7 +4315,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-asin-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-asin-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4334,7 +4333,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -4352,7 +4351,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4370,7 +4369,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4388,7 +4387,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4406,7 +4405,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 3.141592653589793e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4424,7 +4423,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4442,7 +4441,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4460,7 +4459,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4478,7 +4477,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-acos-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-acos-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4496,7 +4495,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -4514,7 +4513,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4532,7 +4531,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4550,7 +4549,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 0.7853981633974483e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4568,7 +4567,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -0.7853981633974483e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4586,7 +4585,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -4604,7 +4603,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - 1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4622,7 +4621,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"abs($result - -1.5707963267948966e0) lt 1e-5") of 
       true -> {comment, "Correct results"};
@@ -4640,7 +4639,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4658,7 +4657,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4676,7 +4675,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.141592653589793e0") of 
       true -> {comment, "Deep equal"};
@@ -4694,7 +4693,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-3.141592653589793e0") of 
       true -> {comment, "Deep equal"};
@@ -4712,7 +4711,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-1.5707963267948966e0") of 
       true -> {comment, "Deep equal"};
@@ -4730,7 +4729,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1.5707963267948966e0") of 
       true -> {comment, "Deep equal"};
@@ -4748,7 +4747,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-3.141592653589793e0") of 
       true -> {comment, "Deep equal"};
@@ -4766,7 +4765,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3.141592653589793e0") of 
       true -> {comment, "Deep equal"};
@@ -4784,7 +4783,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4802,7 +4801,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-math-atan2-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-math-atan2-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"+0.0e0") of 
       true -> {comment, "Deep equal"};
@@ -4820,7 +4819,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"BACH\"") of 
       true -> {comment, "Deep equal"};
@@ -4838,7 +4837,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"अशॊक\"") of 
       true -> {comment, "Deep equal"};
@@ -4856,7 +4855,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -4874,7 +4873,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoints-to-string-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
@@ -4892,7 +4891,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-to-codepoints-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-to-codepoints-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(84, 104, 233, 114, 232, 115, 101)") of 
       true -> {comment, "Deep equal"};
@@ -4910,7 +4909,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-compare-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-compare-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -4942,7 +4941,7 @@ environment('global',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-compare-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-compare-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -4961,7 +4960,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-compare-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-compare-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -4993,7 +4992,7 @@ environment('global',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-compare-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-compare-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -5011,7 +5010,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5029,7 +5028,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5047,7 +5046,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5065,7 +5064,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -5083,7 +5082,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-codepoint-equal-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -5101,7 +5100,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ungrateful\"") of 
       true -> {comment, "Deep equal"};
@@ -5120,7 +5119,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Thy old groans ring yet in my ancient ears.\"") of 
       true -> {comment, "Deep equal"};
@@ -5138,7 +5137,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Ciao!\"") of 
       true -> {comment, "Deep equal"};
@@ -5156,7 +5155,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Ingratitude, thou marble-hearted fiend!\"") of 
       true -> {comment, "Deep equal"};
@@ -5174,7 +5173,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1234true\"") of 
       true -> {comment, "Deep equal"};
@@ -5192,7 +5191,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-concat-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-concat-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"10/6\"") of 
       true -> {comment, "Deep equal"};
@@ -5210,7 +5209,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"123456789\"") of 
       true -> {comment, "Deep equal"};
@@ -5229,7 +5228,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Now is the time ...\"") of 
       true -> {comment, "Deep equal"};
@@ -5248,7 +5247,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Blow, blow, thou winter wind!\"") of 
       true -> {comment, "Deep equal"};
@@ -5266,7 +5265,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5284,7 +5283,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1, 2, 3, 4, 5\"") of 
       true -> {comment, "Deep equal"};
@@ -5311,7 +5310,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'xml:id=\"xyz\"'") of 
       true -> {comment, "Deep equal"};
@@ -5338,7 +5337,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-join-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-join-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"doc/chap/section\"") of 
       true -> {comment, "Deep equal"};
@@ -5356,7 +5355,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\" car\"") of 
       true -> {comment, "Deep equal"};
@@ -5374,7 +5373,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ada\"") of 
       true -> {comment, "Deep equal"};
@@ -5392,7 +5391,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"234\"") of 
       true -> {comment, "Deep equal"};
@@ -5410,7 +5409,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"12\"") of 
       true -> {comment, "Deep equal"};
@@ -5428,7 +5427,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5446,7 +5445,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1\"") of 
       true -> {comment, "Deep equal"};
@@ -5464,7 +5463,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5482,7 +5481,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5500,7 +5499,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5518,7 +5517,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"12345\"") of 
       true -> {comment, "Deep equal"};
@@ -5536,7 +5535,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5554,7 +5553,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-length-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-length-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"45") of 
       true -> {comment, "Deep equal"};
@@ -5572,7 +5571,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-string-length-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-string-length-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -5591,7 +5590,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-normalize-space-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-normalize-space-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"The wealthy curled darlings of our nation.\"") of 
       true -> {comment, "Deep equal"};
@@ -5609,7 +5608,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-normalize-space-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-normalize-space-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -5627,7 +5626,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-upper-case-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-upper-case-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ABCD0\"") of 
       true -> {comment, "Deep equal"};
@@ -5645,7 +5644,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-lower-case-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-lower-case-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc!d\"") of 
       true -> {comment, "Deep equal"};
@@ -5663,7 +5662,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-translate-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-translate-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"BAr\"") of 
       true -> {comment, "Deep equal"};
@@ -5681,7 +5680,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-translate-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-translate-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"AAA\"") of 
       true -> {comment, "Deep equal"};
@@ -5699,7 +5698,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-translate-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-translate-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"ABdAB\"") of 
       true -> {comment, "Deep equal"};
@@ -5717,7 +5716,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http%3A%2F%2Fwww.example.com%2F00%2FWeather%2FCA%2FLos%2520Angeles%23ocean\"") of 
       true -> {comment, "Deep equal"};
@@ -5736,7 +5735,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com/~b%C3%A9b%C3%A9\"") of 
       true -> {comment, "Deep equal"};
@@ -5754,7 +5753,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-encode-for-uri-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com/100%25%20organic\"") of 
       true -> {comment, "Deep equal"};
@@ -5773,7 +5772,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-iri-to-uri-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-iri-to-uri-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com/00/Weather/CA/Los%20Angeles#ocean\"") of 
       true -> {comment, "Deep equal"};
@@ -5791,7 +5790,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-iri-to-uri-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-iri-to-uri-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com/~b%C3%A9b%C3%A9\"") of 
       true -> {comment, "Deep equal"};
@@ -5809,7 +5808,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-escape-html-uri-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-escape-html-uri-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.example.com/00/Weather/CA/Los Angeles#ocean\"") of 
       true -> {comment, "Deep equal"};
@@ -5827,7 +5826,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-escape-html-uri-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-escape-html-uri-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b%C3%A9b%C3%A9');\"") of 
       true -> {comment, "Deep equal"};
@@ -5845,7 +5844,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5863,7 +5862,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5881,7 +5880,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5900,7 +5899,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5919,7 +5918,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5938,7 +5937,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5957,7 +5956,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5975,7 +5974,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5993,7 +5992,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6011,7 +6010,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6030,7 +6029,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6049,7 +6048,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6068,7 +6067,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6087,7 +6086,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6106,7 +6105,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-starts-with-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6124,7 +6123,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6142,7 +6141,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6160,7 +6159,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6179,7 +6178,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6198,7 +6197,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6217,7 +6216,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6236,7 +6235,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6255,7 +6254,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-ends-with-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6273,7 +6272,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"t\"") of 
       true -> {comment, "Deep equal"};
@@ -6291,7 +6290,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -6309,7 +6308,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -6328,7 +6327,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -6347,7 +6346,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc--\"") of 
       true -> {comment, "Deep equal"};
@@ -6366,7 +6365,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a*b*\"") of 
       true -> {comment, "Deep equal"};
@@ -6385,7 +6384,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-before-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -6403,7 +6402,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"too\"") of 
       true -> {comment, "Deep equal"};
@@ -6421,7 +6420,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -6439,7 +6438,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"\"") of 
       true -> {comment, "Deep equal"};
@@ -6458,7 +6457,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"fghi\"") of 
       true -> {comment, "Deep equal"};
@@ -6477,7 +6476,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"-fghi\"") of 
       true -> {comment, "Deep equal"};
@@ -6496,7 +6495,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"*f*g*h*i*\"") of 
       true -> {comment, "Deep equal"};
@@ -6515,7 +6514,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-substring-after-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Eureka!\"") of 
       true -> {comment, "Deep equal"};
@@ -6533,7 +6532,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6551,7 +6550,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6569,7 +6568,7 @@ environment('global',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6598,7 +6597,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6627,7 +6626,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6656,7 +6655,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6685,7 +6684,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6714,7 +6713,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-matches-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-matches-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6732,7 +6731,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a*cada*\"") of 
       true -> {comment, "Deep equal"};
@@ -6750,7 +6749,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"*\"") of 
       true -> {comment, "Deep equal"};
@@ -6768,7 +6767,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"*c*bra\"") of 
       true -> {comment, "Deep equal"};
@@ -6786,7 +6785,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"brcdbr\"") of 
       true -> {comment, "Deep equal"};
@@ -6804,7 +6803,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abbraccaddabbra\"") of 
       true -> {comment, "Deep equal"};
@@ -6822,7 +6821,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"b\"") of 
       true -> {comment, "Deep equal"};
@@ -6840,7 +6839,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"bbbb\"") of 
       true -> {comment, "Deep equal"};
@@ -6858,7 +6857,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-replace-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-replace-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"carted\"") of 
       true -> {comment, "Deep equal"};
@@ -6876,7 +6875,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"red\", \"green\", \"blue\")") of 
       true -> {comment, "Deep equal"};
@@ -6894,7 +6893,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"The\", \"cat\", \"sat\", \"on\", \"the\", \"mat\")") of 
       true -> {comment, "Deep equal"};
@@ -6912,7 +6911,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"\", \"red\", \"green\", \"blue\", \"\")") of 
       true -> {comment, "Deep equal"};
@@ -6930,7 +6929,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"1\", \"15\", \"24\", \"50\")") of 
       true -> {comment, "Deep equal"};
@@ -6948,7 +6947,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"1\", \"15\", \"\", \"24\", \"50\", \"\")") of 
       true -> {comment, "Deep equal"};
@@ -6967,7 +6966,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tokenize-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"Some unparsed\", \"HTML\", \"text\")") of 
       true -> {comment, "Deep equal"};
@@ -6985,7 +6984,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<analyze-string-result xmlns=\"http://www.w3.org/2005/xpath-functions\"><match>The</match><non-match> </non-match><match>cat</match><non-match> </non-match><match>sat</match><non-match> </non-match><match>on</match><non-match> </non-match><match>the</match><non-match> </non-match><match>mat</match><non-match>.</non-match></analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
@@ -7004,7 +7003,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<analyze-string-result xmlns=\"http://www.w3.org/2005/xpath-functions\"><match><group nr=\"1\">2008</group>-<group nr=\"2\">12</group>-<group nr=\"3\">03</group></match></analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
@@ -7023,7 +7022,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-analyze-string-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<analyze-string-result xmlns=\"http://www.w3.org/2005/xpath-functions\"><match><group nr=\"1\">A</group><group nr=\"2\">1</group></match><non-match>,</non-match><match><group nr=\"1\">C</group><group nr=\"2\">15</group></match><non-match>,,</non-match><match><group nr=\"1\">D</group><group nr=\"2\">24</group></match><non-match>, </non-match><match><group nr=\"1\">X</group><group nr=\"2\">50</group></match><non-match>,</non-match></analyze-string-result>") of 
       true -> {comment, "XML Deep equal"};
@@ -7041,7 +7040,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7059,7 +7058,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7077,7 +7076,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7095,7 +7094,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-contains-token-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7113,7 +7112,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-true-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-true-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:boolean(1)") of 
       true -> {comment, "Deep equal"};
@@ -7131,7 +7130,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-false-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-false-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:boolean(0)") of 
       true -> {comment, "Deep equal"};
@@ -7154,7 +7153,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-boolean-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-boolean-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7177,7 +7176,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-boolean-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-boolean-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7200,7 +7199,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-boolean-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-boolean-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7218,7 +7217,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-not-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-not-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7236,7 +7235,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-not-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-not-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7254,7 +7253,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-not-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-not-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7272,7 +7271,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
@@ -7290,7 +7289,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-1") of 
       true -> {comment, "Deep equal"};
@@ -7308,7 +7307,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-years-from-duration-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7326,7 +7325,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -7344,7 +7343,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-6") of 
       true -> {comment, "Deep equal"};
@@ -7362,7 +7361,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-months-from-duration-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7380,7 +7379,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -7398,7 +7397,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -7416,7 +7415,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-days-from-duration-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7434,7 +7433,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10") of 
       true -> {comment, "Deep equal"};
@@ -7452,7 +7451,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"12") of 
       true -> {comment, "Deep equal"};
@@ -7470,7 +7469,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -7488,7 +7487,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-duration-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-10") of 
       true -> {comment, "Deep equal"};
@@ -7506,7 +7505,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7524,7 +7523,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-30") of 
       true -> {comment, "Deep equal"};
@@ -7542,7 +7541,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-duration-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"12.5") of 
       true -> {comment, "Deep equal"};
@@ -7560,7 +7559,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-duration-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-duration-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-16.0") of 
       true -> {comment, "Deep equal"};
@@ -7579,7 +7578,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1999-12-31T12:00:00\")") of 
       true -> {comment, "Deep equal"};
@@ -7598,7 +7597,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1999-12-31T00:00:00\")") of 
       true -> {comment, "Deep equal"};
@@ -7616,7 +7615,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1999") of 
       true -> {comment, "Deep equal"};
@@ -7634,7 +7633,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1999") of 
       true -> {comment, "Deep equal"};
@@ -7652,7 +7651,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1999") of 
       true -> {comment, "Deep equal"};
@@ -7670,7 +7669,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2000") of 
       true -> {comment, "Deep equal"};
@@ -7688,7 +7687,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-dateTime-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-2") of 
       true -> {comment, "Deep equal"};
@@ -7706,7 +7705,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -7724,7 +7723,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"12") of 
       true -> {comment, "Deep equal"};
@@ -7743,7 +7742,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-month-from-dateTime-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -7761,7 +7760,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"31") of 
       true -> {comment, "Deep equal"};
@@ -7779,7 +7778,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"31") of 
       true -> {comment, "Deep equal"};
@@ -7798,7 +7797,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-day-from-dateTime-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -7816,7 +7815,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"8") of 
       true -> {comment, "Deep equal"};
@@ -7834,7 +7833,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
@@ -7853,7 +7852,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -7871,7 +7870,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"12") of 
       true -> {comment, "Deep equal"};
@@ -7889,7 +7888,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-dateTime-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7907,7 +7906,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -7925,7 +7924,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"30") of 
       true -> {comment, "Deep equal"};
@@ -7943,7 +7942,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -7961,7 +7960,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dayTimeDuration(\"-PT5H\")") of 
       true -> {comment, "Deep equal"};
@@ -7979,7 +7978,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dayTimeDuration(\"PT0S\")") of 
       true -> {comment, "Deep equal"};
@@ -7997,7 +7996,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-dateTime-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -8015,7 +8014,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1999") of 
       true -> {comment, "Deep equal"};
@@ -8033,7 +8032,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2000") of 
       true -> {comment, "Deep equal"};
@@ -8051,7 +8050,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-year-from-date-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"-2") of 
       true -> {comment, "Deep equal"};
@@ -8069,7 +8068,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-month-from-date-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-month-from-date-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -8087,7 +8086,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-month-from-date-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-month-from-date-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -8105,7 +8104,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-day-from-date-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-day-from-date-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"31") of 
       true -> {comment, "Deep equal"};
@@ -8123,7 +8122,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-day-from-date-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-day-from-date-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -8141,7 +8140,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-date-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-date-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dayTimeDuration(\"-PT5H\")") of 
       true -> {comment, "Deep equal"};
@@ -8159,7 +8158,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-date-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-date-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dayTimeDuration(\"PT0S\")") of 
       true -> {comment, "Deep equal"};
@@ -8177,7 +8176,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"11") of 
       true -> {comment, "Deep equal"};
@@ -8195,7 +8194,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"21") of 
       true -> {comment, "Deep equal"};
@@ -8213,7 +8212,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -8232,7 +8231,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"20") of 
       true -> {comment, "Deep equal"};
@@ -8250,7 +8249,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-hours-from-time-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -8268,7 +8267,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-time-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-minutes-from-time-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -8286,7 +8285,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-time-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-seconds-from-time-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10.5") of 
       true -> {comment, "Deep equal"};
@@ -8304,7 +8303,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-time-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-time-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dayTimeDuration(\"-PT5H\")") of 
       true -> {comment, "Deep equal"};
@@ -8322,7 +8321,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-time-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-timezone-from-time-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -8345,7 +8344,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-07T12:00:00-05:00')") of 
       true -> {comment, "Deep equal"};
@@ -8369,7 +8368,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-07T10:00:00-10:00')") of 
       true -> {comment, "Deep equal"};
@@ -8393,7 +8392,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-07T07:00:00-10:00')") of 
       true -> {comment, "Deep equal"};
@@ -8412,7 +8411,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-08T03:00:00+10:00')") of 
       true -> {comment, "Deep equal"};
@@ -8431,7 +8430,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-06T15:00:00-08:00')") of 
       true -> {comment, "Deep equal"};
@@ -8450,7 +8449,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-07T10:00:00')") of 
       true -> {comment, "Deep equal"};
@@ -8469,7 +8468,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-dateTime-to-timezone-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime('2002-03-07T10:00:00')") of 
       true -> {comment, "Deep equal"};
@@ -8493,7 +8492,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"2002-03-07-10:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8517,7 +8516,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"2002-03-06-10:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8536,7 +8535,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"2002-03-07\")") of 
       true -> {comment, "Deep equal"};
@@ -8555,7 +8554,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-date-to-timezone-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"2002-03-07\")") of 
       true -> {comment, "Deep equal"};
@@ -8573,7 +8572,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"12:00:00-05:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8597,7 +8596,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"10:00:00-10:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8621,7 +8620,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"07:00:00-10:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8639,7 +8638,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"10:00:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8658,7 +8657,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"10:00:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8677,7 +8676,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-adjust-time-to-timezone-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:time(\"03:00:00+10:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8695,7 +8694,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1994-06-06T07:29:35Z\")") of 
       true -> {comment, "Deep equal"};
@@ -8713,7 +8712,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1994-06-06T07:29:35Z\")") of 
       true -> {comment, "Deep equal"};
@@ -8731,7 +8730,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"2013-06-06T11:54:45-05:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8749,7 +8748,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1994-11-06T08:49:37Z\")") of 
       true -> {comment, "Deep equal"};
@@ -8767,7 +8766,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-ietf-date-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:dateTime(\"1994-06-06T07:29:35+05:00\")") of 
       true -> {comment, "Deep equal"};
@@ -8786,7 +8785,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-local-name-from-QName-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-local-name-from-QName-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"person\"") of 
       true -> {comment, "Deep equal"};
@@ -8805,7 +8804,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-from-QName-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-from-QName-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:anyURI(\"http://www.example.com/example\")") of 
       true -> {comment, "Deep equal"};
@@ -8831,7 +8830,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://example.org/two\"") of 
       true -> {comment, "Deep equal"};
@@ -8857,7 +8856,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://example.org/one\"") of 
       true -> {comment, "Deep equal"};
@@ -8883,7 +8882,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://example.org/one\"") of 
       true -> {comment, "Deep equal"};
@@ -8909,7 +8908,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.w3.org/XML/1998/namespace\"") of 
       true -> {comment, "Deep equal"};
@@ -8935,7 +8934,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-namespace-uri-for-prefix-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"http://www.w3.org/XML/1998/namespace\"") of 
       true -> {comment, "Deep equal"};
@@ -8970,7 +8969,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-number-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-number-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5.0e0") of 
       true -> {comment, "Deep equal"};
@@ -9005,7 +9004,7 @@ Tak, tak, tak! - da kommen sie.
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-number-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-number-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -9035,7 +9034,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/'") of 
       true -> {comment, "Deep equal"};
@@ -9065,7 +9064,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/Q{http://example.com/one}p[1]'") of 
       true -> {comment, "Deep equal"};
@@ -9095,7 +9094,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/Q{http://example.com/one}p[1]/@Q{http://www.w3.org/XML/1998/namespace}lang'") of 
       true -> {comment, "Deep equal"};
@@ -9125,7 +9124,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/Q{http://example.com/one}p[1]/@author'") of 
       true -> {comment, "Deep equal"};
@@ -9155,7 +9154,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/Q{http://example.com/one}p[1]/Q{http://example.com/one}br[2]'") of 
       true -> {comment, "Deep equal"};
@@ -9186,7 +9185,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'/Q{http://example.com/one}p[1]/text()[2]'") of 
       true -> {comment, "Deep equal"};
@@ -9215,7 +9214,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'Q{http://www.w3.org/2005/xpath-functions}root()'") of 
       true -> {comment, "Deep equal"};
@@ -9244,7 +9243,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'Q{http://www.w3.org/2005/xpath-functions}root()/@Q{http://www.w3.org/XML/1998/namespace}id'") of 
       true -> {comment, "Deep equal"};
@@ -9273,7 +9272,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-path-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-path-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'Q{http://www.w3.org/2005/xpath-functions}root()/Q{}empnr[1]'") of 
       true -> {comment, "Deep equal"};
@@ -9291,7 +9290,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-index-of-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-index-of-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9309,7 +9308,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-index-of-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-index-of-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2, 5)") of 
       true -> {comment, "Deep equal"};
@@ -9328,7 +9327,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-index-of-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-index-of-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 4)") of 
       true -> {comment, "Deep equal"};
@@ -9346,7 +9345,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-index-of-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-index-of-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9364,7 +9363,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-index-of-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-index-of-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(3, 4)") of 
       true -> {comment, "Deep equal"};
@@ -9382,7 +9381,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-empty-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-empty-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9400,7 +9399,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-empty-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-empty-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9418,7 +9417,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-empty-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-empty-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9436,7 +9435,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-empty-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-empty-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9454,7 +9453,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-empty-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-empty-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9472,7 +9471,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-exists-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-exists-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9490,7 +9489,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-exists-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-exists-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9508,7 +9507,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-exists-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-exists-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9526,7 +9525,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-exists-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-exists-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9544,7 +9543,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-exists-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-exists-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9562,7 +9561,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-distinct-values-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-distinct-values-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1, 3, 2.0)") of 
       true -> {comment, "Correct permutation"};
@@ -9581,7 +9580,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-distinct-values-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-distinct-values-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(xs:untypedAtomic(\"cherry\"),
                   xs:untypedAtomic(\"plum\"))") of 
@@ -9605,7 +9604,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"z\", \"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9628,7 +9627,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"z\", \"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9651,7 +9650,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"z\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9674,7 +9673,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"z\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9697,7 +9696,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-insert-before-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\", \"z\")") of 
       true -> {comment, "Deep equal"};
@@ -9720,7 +9719,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-remove-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-remove-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9743,7 +9742,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-remove-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-remove-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9766,7 +9765,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-remove-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-remove-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9789,7 +9788,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-remove-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-remove-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9807,7 +9806,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-head-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-head-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -9825,7 +9824,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-head-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-head-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\"") of 
       true -> {comment, "Deep equal"};
@@ -9843,7 +9842,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-head-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-head-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9861,7 +9860,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-head-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-head-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3]") of 
       true -> {comment, "Deep equal"};
@@ -9879,7 +9878,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tail-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tail-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2, 3, 4, 5)") of 
       true -> {comment, "Deep equal"};
@@ -9897,7 +9896,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tail-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tail-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
@@ -9915,7 +9914,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tail-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tail-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9933,7 +9932,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tail-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tail-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9951,7 +9950,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-tail-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-tail-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -9974,7 +9973,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-reverse-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-reverse-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"c\", \"b\", \"a\")") of 
       true -> {comment, "Deep equal"};
@@ -9992,7 +9991,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-reverse-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-reverse-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"hello\")") of 
       true -> {comment, "Deep equal"};
@@ -10010,7 +10009,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-reverse-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-reverse-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -10028,7 +10027,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-reverse-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-reverse-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1,2,3]") of 
       true -> {comment, "Deep equal"};
@@ -10046,7 +10045,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-reverse-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-reverse-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"([4,5,6],[1,2,3])") of 
       true -> {comment, "Deep equal"};
@@ -10069,7 +10068,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-subsequence-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-subsequence-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"item4\", \"item5\")") of 
       true -> {comment, "Deep equal"};
@@ -10092,7 +10091,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-subsequence-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-subsequence-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"item3\", \"item4\")") of 
       true -> {comment, "Deep equal"};
@@ -10110,7 +10109,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-unordered-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-unordered-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1, 2, 3, 4, 5)") of 
       true -> {comment, "Correct permutation"};
@@ -10135,7 +10134,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10160,7 +10159,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10185,7 +10184,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10210,7 +10209,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10228,7 +10227,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10246,7 +10245,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10264,7 +10263,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-deep-equal-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10309,7 +10308,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -10332,7 +10331,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -10355,7 +10354,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -10378,7 +10377,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -10396,7 +10395,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -10414,7 +10413,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-count-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-count-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -10437,7 +10436,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-avg-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-avg-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"4.0") of 
       true -> {comment, "Deep equal"};
@@ -10465,7 +10464,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-avg-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-avg-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:yearMonthDuration(\"P10Y5M\")") of 
       true -> {comment, "Deep equal"};
@@ -10483,7 +10482,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-avg-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-avg-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -10501,7 +10500,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-avg-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-avg-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:float('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -10524,7 +10523,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-avg-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-avg-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:float('NaN')") of 
       true -> {comment, "Deep equal"};
@@ -10542,7 +10541,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-max-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-max-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -10560,7 +10559,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-max-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-max-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -10578,7 +10577,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-max-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-max-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double(5.0e0)") of 
       true -> {comment, "Deep equal"};
@@ -10596,7 +10595,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-max-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-max-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"2100-01-01\")") of 
       true -> {comment, "Deep equal"};
@@ -10614,7 +10613,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-max-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-max-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"c\"") of 
       true -> {comment, "Deep equal"};
@@ -10632,7 +10631,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-min-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-min-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -10650,7 +10649,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-min-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-min-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -10668,7 +10667,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-min-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-min-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:double(5.0e0)") of 
       true -> {comment, "Deep equal"};
@@ -10686,7 +10685,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-min-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-min-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:date(\"1900-01-01\")") of 
       true -> {comment, "Deep equal"};
@@ -10704,7 +10703,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-min-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-min-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\"") of 
       true -> {comment, "Deep equal"};
@@ -10732,7 +10731,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:yearMonthDuration(\"P20Y10M\")") of 
       true -> {comment, "Deep equal"};
@@ -10766,7 +10765,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:yearMonthDuration(\"P0M\")") of 
       true -> {comment, "Deep equal"};
@@ -10789,7 +10788,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"12") of 
       true -> {comment, "Deep equal"};
@@ -10807,7 +10806,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -10825,7 +10824,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -10843,7 +10842,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -10871,7 +10870,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"xs:yearMonthDuration(\"P20Y10M\")") of 
       true -> {comment, "Deep equal"};
@@ -10889,7 +10888,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"6") of 
       true -> {comment, "Deep equal"};
@@ -10907,7 +10906,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sum-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sum-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"10") of 
       true -> {comment, "Deep equal"};
@@ -10960,7 +10959,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-serialize-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-serialize-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'<a b=\"3\"/>'") of 
       true -> {comment, "Deep equal"};
@@ -10985,7 +10984,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-serialize-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-serialize-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'<a b=\"3\"/>'") of 
       true -> {comment, "Deep equal"};
@@ -11003,7 +11002,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-last-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-last-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"19") of 
       true -> {comment, "Deep equal"};
@@ -11022,7 +11021,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-lookup-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-lookup-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'bcd'") of 
       true -> {comment, "Deep equal"};
@@ -11040,7 +11039,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-name-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-name-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"fn:QName(\"http://www.w3.org/2005/xpath-functions\",
                   \"fn:substring\")") of 
@@ -11059,7 +11058,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-name-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-name-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -11077,7 +11076,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -11095,7 +11094,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -11114,7 +11113,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-function-arity-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -11132,7 +11131,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 4, 9, 16, 25)") of 
       true -> {comment, "Deep equal"};
@@ -11151,7 +11150,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(106, 111, 104, 110, 106, 97, 110, 101)") of 
       true -> {comment, "Deep equal"};
@@ -11169,7 +11168,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(23, 29)") of 
       true -> {comment, "Deep equal"};
@@ -11187,7 +11186,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-filter-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-filter-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2, 4, 6, 8, 10)") of 
       true -> {comment, "Deep equal"};
@@ -11205,7 +11204,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-filter-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-filter-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -11224,7 +11223,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"15") of 
       true -> {comment, "Deep equal"};
@@ -11243,7 +11242,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"210") of 
       true -> {comment, "Deep equal"};
@@ -11262,7 +11261,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -11281,7 +11280,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -11300,7 +11299,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(5,4,3,2,1)") of 
       true -> {comment, "Deep equal"};
@@ -11318,7 +11317,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\".1.2.3.4.5\"") of 
       true -> {comment, "Deep equal"};
@@ -11336,7 +11335,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"$f($f($f($f($f($zero, 1), 2), 3), 4), 5)\"") of 
       true -> {comment, "Deep equal"};
@@ -11354,7 +11353,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-left-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{1:2, 2:4, 3:6, 4:8, 5:10}") of 
       true -> {comment, "Deep equal"};
@@ -11373,7 +11372,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"15") of 
       true -> {comment, "Deep equal"};
@@ -11391,7 +11390,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"1.2.3.4.5.\"") of 
       true -> {comment, "Deep equal"};
@@ -11410,7 +11409,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-fold-right-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"$f(1, $f(2, $f(3, $f(4, $f(5, $zero)))))\"") of 
       true -> {comment, "Deep equal"};
@@ -11429,7 +11428,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"ax\", \"by\", \"cz\")") of 
       true -> {comment, "Deep equal"};
@@ -11447,7 +11446,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(11, 22, 33, 44, 55)") of 
       true -> {comment, "Deep equal"};
@@ -11465,7 +11464,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-for-each-pair-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(2, 6, 12, 20, 30, 42, 56)") of 
       true -> {comment, "Deep equal"};
@@ -11483,7 +11482,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sort-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sort-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 3, 4, 5, 6)") of 
       true -> {comment, "Deep equal"};
@@ -11501,7 +11500,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-sort-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-sort-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, -2, 5, 8, 10, -10, 10)") of 
       true -> {comment, "Deep equal"};
@@ -11519,7 +11518,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-apply-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-apply-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abc\"") of 
       true -> {comment, "Deep equal"};
@@ -11537,7 +11536,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{}") of 
       true -> {comment, "Deep equal"};
@@ -11555,7 +11554,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"no\", 1:\"yes\"}") of 
       true -> {comment, "Deep equal"};
@@ -11579,7 +11578,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Samstag\", 7:\"Unbekannt\"}") of 
@@ -11604,7 +11603,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Sonnabend\"}") of 
@@ -11629,7 +11628,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Samstag\"}") of 
@@ -11654,7 +11653,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-merge-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-merge-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:(\"Samstag\", \"Sonnabend\")}") of 
@@ -11673,7 +11672,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-keys-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-keys-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1,2)") of 
       true -> {comment, "Correct permutation"};
@@ -11697,7 +11696,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-contains-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-contains-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -11721,7 +11720,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-contains-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-contains-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -11739,7 +11738,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-contains-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-contains-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -11757,7 +11756,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-contains-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-contains-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -11775,7 +11774,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-contains-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-contains-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -11799,7 +11798,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-get-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-get-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"Donnerstag\"") of 
       true -> {comment, "Deep equal"};
@@ -11823,7 +11822,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-get-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-get-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -11841,7 +11840,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-get-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-get-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"()") of 
       true -> {comment, "Deep equal"};
@@ -11865,7 +11864,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-find-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-find-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['no', 'non', 'nein']") of 
       true -> {comment, "Deep equal"};
@@ -11889,7 +11888,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-find-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-find-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['yes', 'oui', ('ja', 'doch')]") of 
       true -> {comment, "Deep equal"};
@@ -11913,7 +11912,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-find-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-find-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
@@ -11937,7 +11936,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-find-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-find-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[map{\"name\":\"engine\", \"id\":\"YW678\", \"parts\":[]}], []]") of 
       true -> {comment, "Deep equal"};
@@ -11961,7 +11960,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-put-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-put-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Sonnabend\"}") of 
@@ -11986,7 +11985,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-put-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-put-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Samstag\", -1:\"Unbekannt\"}") of 
@@ -12005,7 +12004,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-entry-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-entry-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"M\":\"Monday\"}") of 
       true -> {comment, "Deep equal"};
@@ -12029,7 +12028,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-remove-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-remove-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 5:\"Freitag\",
                   6:\"Samstag\"}") of 
@@ -12054,7 +12053,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-remove-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-remove-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\",
                   5:\"Freitag\", 6:\"Samstag\"}") of 
@@ -12079,7 +12078,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-remove-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-remove-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\"}") of 
       true -> {comment, "Deep equal"};
@@ -12103,7 +12102,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-remove-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-remove-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\", 3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\",
                   6:\"Samstag\"}") of 
@@ -12123,7 +12122,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-for-each-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-for-each-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(1,2)") of 
       true -> {comment, "Correct permutation"};
@@ -12142,7 +12141,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-for-each-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-for-each-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_permutation(Res,"(\"yes\", \"no\")") of 
       true -> {comment, "Correct permutation"};
@@ -12161,7 +12160,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-for-each-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-for-each-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"a\":2, \"b\":3}") of 
       true -> {comment, "Deep equal"};
@@ -12179,7 +12178,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-size-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-size-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -12197,7 +12196,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-map-size-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-map-size-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -12221,7 +12220,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-collation-key-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-collation-key-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -12245,7 +12244,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-collation-key-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-collation-key-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -12263,7 +12262,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"x\">1</number><array key=\"y\"><number>3</number><number>4</number><number>5</number></array></map>") of 
       true -> {comment, "XML Deep equal"};
@@ -12281,7 +12280,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\">abcd</string>") of 
       true -> {comment, "XML Deep equal"};
@@ -12299,7 +12298,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><string key=\"x\">\\</string><string key=\"y\">%</string></map>") of 
       true -> {comment, "XML Deep equal"};
@@ -12318,7 +12317,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-json-to-xml-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><string escaped=\"true\" key=\"x\">\\\\</string><string key=\"y\">%</string></map>") of 
       true -> {comment, "XML Deep equal"};
@@ -12336,7 +12335,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":1e0,\"y\":[3e0,4e0,5e0]}") of 
       true -> {comment, "Deep equal"};
@@ -12354,7 +12353,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"abcd\"") of 
       true -> {comment, "Deep equal"};
@@ -12372,7 +12371,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":\"\\\",\"y\":\"%\"}") of 
       true -> {comment, "Deep equal"};
@@ -12390,7 +12389,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":\"\\\\\",\"y\":\"%\"}") of 
       true -> {comment, "Deep equal"};
@@ -12408,7 +12407,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":\"\\\",\"y\":codepoints-to-string(65533)}") of 
       true -> {comment, "Deep equal"};
@@ -12426,7 +12425,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":\"\\\\\",\"y\":\"\\u0000\"}") of 
       true -> {comment, "Deep equal"};
@@ -12444,7 +12443,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-fn-parse-json-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"x\":\"\\\",\"y\":\"[\\u0000]\"}") of 
       true -> {comment, "Deep equal"};
@@ -12462,7 +12461,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-size-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-size-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"3") of 
       true -> {comment, "Deep equal"};
@@ -12480,7 +12479,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-size-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-size-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2") of 
       true -> {comment, "Deep equal"};
@@ -12498,7 +12497,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-size-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-size-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"0") of 
       true -> {comment, "Deep equal"};
@@ -12516,7 +12515,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-size-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-size-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1") of 
       true -> {comment, "Deep equal"};
@@ -12534,7 +12533,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-get-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-get-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"b\"") of 
       true -> {comment, "Deep equal"};
@@ -12552,7 +12551,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-get-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-get-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -12570,7 +12569,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-put-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-put-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"d\", \"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -12588,7 +12587,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-put-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-put-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", (\"d\", \"e\"), \"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -12606,7 +12605,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-put-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-put-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"d\", \"e\"]]") of 
       true -> {comment, "Deep equal"};
@@ -12624,7 +12623,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-append-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-append-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12642,7 +12641,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-append-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-append-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", (\"d\", \"e\")]") of 
       true -> {comment, "Deep equal"};
@@ -12660,7 +12659,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-append-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-append-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", [\"d\", \"e\"]]") of 
       true -> {comment, "Deep equal"};
@@ -12678,7 +12677,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-join-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-join-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12696,7 +12695,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-join-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-join-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1, 2, 3]") of 
       true -> {comment, "Deep equal"};
@@ -12714,7 +12713,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-join-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-join-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12732,7 +12731,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-join-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-join-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12750,7 +12749,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-join-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-join-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\", [\"e\", \"f\"]]") of 
       true -> {comment, "Deep equal"};
@@ -12768,7 +12767,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12786,7 +12785,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12804,7 +12803,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12822,7 +12821,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"b\"]") of 
       true -> {comment, "Deep equal"};
@@ -12840,7 +12839,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\"]") of 
       true -> {comment, "Deep equal"};
@@ -12858,7 +12857,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12876,7 +12875,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-subarray-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-subarray-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12894,7 +12893,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-remove-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-remove-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12912,7 +12911,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-remove-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-remove-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"c\", \"d\" ]") of 
       true -> {comment, "Deep equal"};
@@ -12930,7 +12929,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-remove-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-remove-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -12948,7 +12947,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-remove-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-remove-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12966,7 +12965,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-remove-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-remove-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -12984,7 +12983,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-insert-before-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-insert-before-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", (\"x\", \"y\"), \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -13002,7 +13001,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-insert-before-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-insert-before-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", \"c\", \"d\", (\"x\", \"y\")]") of 
       true -> {comment, "Deep equal"};
@@ -13020,7 +13019,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-insert-before-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-insert-before-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\", [\"x\", \"y\"], \"c\", \"d\"]") of 
       true -> {comment, "Deep equal"};
@@ -13038,7 +13037,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-head-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-head-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"5") of 
       true -> {comment, "Deep equal"};
@@ -13056,7 +13055,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-head-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-head-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"a\", \"b\"]") of 
       true -> {comment, "Deep equal"};
@@ -13074,7 +13073,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-head-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-head-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"a\", \"b\"") of 
       true -> {comment, "Deep equal"};
@@ -13092,7 +13091,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-tail-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-tail-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[6, 7, 8]") of 
       true -> {comment, "Deep equal"};
@@ -13110,7 +13109,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-tail-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-tail-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[ ]") of 
       true -> {comment, "Deep equal"};
@@ -13128,7 +13127,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-reverse-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-reverse-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"d\", \"c\", \"b\", \"a\"]") of 
       true -> {comment, "Deep equal"};
@@ -13146,7 +13145,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-reverse-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-reverse-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"c\", \"d\"), (\"a\", \"b\")]") of 
       true -> {comment, "Deep equal"};
@@ -13164,7 +13163,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-reverse-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-reverse-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(1, 2, 3, 4, 5)]") of 
       true -> {comment, "Deep equal"};
@@ -13182,7 +13181,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-reverse-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-reverse-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[]") of 
       true -> {comment, "Deep equal"};
@@ -13200,7 +13199,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-for-each-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-for-each-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[false(), false(), true(), true()]") of 
       true -> {comment, "Deep equal"};
@@ -13218,7 +13217,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-for-each-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-for-each-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(\"the\", \"cat\"), \"sat\", (\"on\", \"the\", \"mat\")]") of 
       true -> {comment, "Deep equal"};
@@ -13236,7 +13235,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-filter-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-filter-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1, 2]") of 
       true -> {comment, "Deep equal"};
@@ -13254,7 +13253,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-filter-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-filter-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"the cat\", \"on the mat\"]") of 
       true -> {comment, "Deep equal"};
@@ -13272,7 +13271,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-filter-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-filter-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"A\", \"B\", 1]") of 
       true -> {comment, "Deep equal"};
@@ -13290,7 +13289,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-left-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-left-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -13308,7 +13307,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-left-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-left-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -13326,7 +13325,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-left-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-left-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[[[], 1], 2], 3]") of 
       true -> {comment, "Deep equal"};
@@ -13344,7 +13343,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-right-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-right-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -13362,7 +13361,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-right-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-right-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -13380,7 +13379,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-fold-right-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-fold-right-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1, [2, [3, []]]]") of 
       true -> {comment, "Deep equal"};
@@ -13398,7 +13397,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-for-each-pair-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-for-each-pair-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[\"A\", 1], [\"B\", 2], [\"C\", 3]]") of 
       true -> {comment, "Deep equal"};
@@ -13416,7 +13415,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-for-each-pair-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-for-each-pair-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[\"AB\", \"BC\", \"CD\"]") of 
       true -> {comment, "Deep equal"};
@@ -13434,7 +13433,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-sort-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-sort-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1, 3, 4, 5, 6]") of 
       true -> {comment, "Deep equal"};
@@ -13452,7 +13451,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-sort-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-sort-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[1, -2, 5, 8, 10, -10, 10]") of 
       true -> {comment, "Deep equal"};
@@ -13470,7 +13469,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-sort-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-sort-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[(0,0), (0,1), (1,0), (1,1)]") of 
       true -> {comment, "Deep equal"};
@@ -13488,7 +13487,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-flatten-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-flatten-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 4, 6, 5, 3)") of 
       true -> {comment, "Deep equal"};
@@ -13506,7 +13505,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-flatten-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-flatten-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 2, 5, 10, 11, 12, 13)") of 
       true -> {comment, "Deep equal"};
@@ -13524,7 +13523,7 @@ Himmlische, dein Heiligtum.</p>}
    {Env,Opts} = xqerl_test:handle_environment(environment('global',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fo-test-array-flatten-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fo-test-array-flatten-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(1, 0, 1, 1, 0, 1, 0, 0)") of 
       true -> {comment, "Deep equal"};

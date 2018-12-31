@@ -12,9 +12,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -45,7 +44,7 @@ environment('report1',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "seq-queries-results-q1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "seq-queries-results-q1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<instrument>electrocautery</instrument>") of 
       true -> {comment, "XML Deep equal"};
@@ -61,7 +60,7 @@ environment('report1',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "seq-queries-results-q2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "seq-queries-results-q2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>") of 
       true -> {comment, "XML Deep equal"};
@@ -77,7 +76,7 @@ environment('report1',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "seq-queries-results-q3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "seq-queries-results-q3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<instrument>Hasson trocar</instrument><instrument>trocar</instrument>") of 
       true -> {comment, "XML Deep equal"};
@@ -93,7 +92,7 @@ environment('report1',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "seq-queries-results-q4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "seq-queries-results-q4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -109,7 +108,7 @@ environment('report1',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "seq-queries-results-q5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "seq-queries-results-q5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<critical_sequence>
       The fascia was identified and

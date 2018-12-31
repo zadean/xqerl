@@ -39,9 +39,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -87,7 +86,7 @@ all() -> [
    Qry = "string-length(\"abc&#x1D156;def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates01.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates01.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
@@ -102,7 +101,7 @@ all() -> [
    Qry = "substring(\"abc&#x1D156;def\", 5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates02.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates02.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -117,7 +116,7 @@ all() -> [
    Qry = "substring(\"abc&#x1D156;def\", 4)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates03.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates03.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "𝅖def") of 
       true -> {comment, "String correct"};
@@ -132,7 +131,7 @@ all() -> [
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;\", \"#\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates04.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates04.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc#def") of 
       true -> {comment, "String correct"};
@@ -147,7 +146,7 @@ all() -> [
    Qry = "translate(\"abc&#x1D156;def\", \"&#x1D156;de\", \"#DE\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates05.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates05.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc#DEf") of 
       true -> {comment, "String correct"};
@@ -162,7 +161,7 @@ all() -> [
    Qry = "translate(\"abc&#x1D156;def\", \"def\", \"&#x1D156;EF\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates06.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates06.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖𝅖EF") of 
       true -> {comment, "String correct"};
@@ -177,7 +176,7 @@ all() -> [
    Qry = "string-to-codepoints(\"abc&#x1D156;def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates07.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates07.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "97 98 99 119126 100 101 102") of 
       true -> {comment, "String correct"};
@@ -192,7 +191,7 @@ all() -> [
    Qry = "codepoints-to-string((97, 98, 99, 119126, 100, 101, 102))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates08.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates08.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖def") of 
       true -> {comment, "String correct"};
@@ -207,7 +206,7 @@ all() -> [
    Qry = "substring-before(\"abc&#x1D156;def\", \"&#x1D156;\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates09.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates09.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -222,7 +221,7 @@ all() -> [
    Qry = "substring-before(\"abc&#x1D156;def\", \"f\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖de") of 
       true -> {comment, "String correct"};
@@ -237,7 +236,7 @@ all() -> [
    Qry = "substring-after(\"abc&#x1D156;def\", \"&#x1D156;\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -252,7 +251,7 @@ all() -> [
    Qry = "matches(\"abc&#x1D157;def\", \"abc[&#x1D156;-&#x1D158;]def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -267,7 +266,7 @@ all() -> [
    Qry = "matches(\"abc&#x1D157;def\", \"abc.def\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -282,7 +281,7 @@ all() -> [
    Qry = "replace(\"abc&#119130;def\", \"[&#119120;-&#119135;]\", \"&#119135;\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅘𝅥def") of 
       true -> {comment, "String correct"};
@@ -297,7 +296,7 @@ all() -> [
    Qry = "replace(\"abc&#x1D157;def\", \"[^a-f]\", \"###\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc###def") of 
       true -> {comment, "String correct"};
@@ -312,7 +311,7 @@ all() -> [
    Qry = "string-to-codepoints(substring(\"&#x10FC00;A\", 2, 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65") of 
       true -> {comment, "Equal"};
@@ -348,7 +347,7 @@ all() -> [
    Qry = "codepoints-to-string((97, 98, 99, 119126, 100, 101, 102))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "surrogates08a.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "surrogates08a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc𝅖def") of 
       true -> {comment, "String correct"};

@@ -41,9 +41,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -91,7 +90,7 @@ all() -> [
    Qry = "(['a', 'b'], ['c', 'd'])[?1 eq 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['c', 'd']") of 
       true -> {comment, "Deep equal"};
@@ -106,7 +105,7 @@ all() -> [
    Qry = "let $i := 1 return (['a', 'b'], ['c', 'd'])[?($i) eq 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['c', 'd']") of 
       true -> {comment, "Deep equal"};
@@ -121,7 +120,7 @@ all() -> [
    Qry = "(['a', 'b'], ['c', 'd'])[ ? 001 eq 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['c', 'd']") of 
       true -> {comment, "Deep equal"};
@@ -136,7 +135,7 @@ all() -> [
    Qry = "(['a', 'b'], ['c', 'd'])[ ? -1 eq 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -151,7 +150,7 @@ all() -> [
    Qry = "(['a', 'b'], ['c', 'd'])[ ?0 eq 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -166,7 +165,7 @@ all() -> [
    Qry = "(['a', 'b'], ['c', 'd'], ['e'])[ ?2 eq 'b']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
@@ -181,7 +180,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?(1 to 2) = 'b']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['a', 'b', 'c'], ['b', 'c', 'd']") of 
       true -> {comment, "Deep equal"};
@@ -196,7 +195,7 @@ all() -> [
    Qry = "let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?($i) = 'b']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['b', 'c', 'd'], ['e', 'f', 'b']") of 
       true -> {comment, "Deep equal"};
@@ -211,7 +210,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?first = 'b']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -226,7 +225,7 @@ all() -> [
    Qry = "let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?($d) = 'b']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -241,7 +240,7 @@ all() -> [
    Qry = "let $d := function($x) {$x + ?2} return $d(12)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -256,7 +255,7 @@ all() -> [
    Qry = "(1 to 10)[?1 = 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -271,7 +270,7 @@ all() -> [
    Qry = "(floor#1, ceiling#1, round#1, abs#1)[?1 = 1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -286,7 +285,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ ?* = 'c']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['a', 'b', 'c'], ['b', 'c', 'd']") of 
       true -> {comment, "Deep equal"};
@@ -301,7 +300,7 @@ all() -> [
    Qry = "([1, [2], [3]], [[2], 2, [4]])[ ?1 = ?2 ]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[[2], 2, [4]]") of 
       true -> {comment, "Deep equal"};
@@ -316,7 +315,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(?1, ?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['a', 'b', 'c']") of 
       true -> {comment, "Deep equal"};
@@ -331,7 +330,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(?1, ?)('a')]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['a', 'b', 'c']") of 
       true -> {comment, "Deep equal"};
@@ -346,7 +345,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?1.0 = 'a']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -361,7 +360,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[?(1.0) = 'a']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-019.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -382,7 +381,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(['a', 'b', 'c'], ['b', 'c', 'd'])") of 
       true -> {comment, "Deep equal"};
@@ -397,7 +396,7 @@ all() -> [
    Qry = "[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*[?1 = 'a']", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"['a', 'b', 'c']") of 
       true -> {comment, "Deep equal"};
@@ -412,7 +411,7 @@ all() -> [
    Qry = "[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]!?*!?1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'a', 'b', 'e'") of 
       true -> {comment, "Deep equal"};
@@ -429,7 +428,7 @@ all() -> [
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -444,7 +443,7 @@ all() -> [
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[exists(?())]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-025.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -459,7 +458,7 @@ all() -> [
    Qry = "(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})[?b eq 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-040.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-040.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{'a':2, 'b':3, 'c':4}") of 
       true -> {comment, "Deep equal"};
@@ -474,7 +473,7 @@ all() -> [
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?2 eq 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{1:2, 2:3, 3:4}") of 
       true -> {comment, "Deep equal"};
@@ -489,7 +488,7 @@ all() -> [
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?(1 to 2) = 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-042.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{1:2, 2:3, 3:4}") of 
       true -> {comment, "Deep equal"};
@@ -504,7 +503,7 @@ all() -> [
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[?b-1 eq 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-043.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{'a-1':2, 'b-1':3, 'c-1':4}") of 
       true -> {comment, "Deep equal"};
@@ -519,7 +518,7 @@ all() -> [
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[? (:confusing?:) b-1 eq 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-044.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{'a-1':2, 'b-1':3, 'c-1':4}") of 
       true -> {comment, "Deep equal"};
@@ -534,7 +533,7 @@ all() -> [
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?* = 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-045.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4}") of 
       true -> {comment, "Deep equal"};
@@ -549,7 +548,7 @@ all() -> [
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[exists(?())]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-046.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-046.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -564,7 +563,7 @@ all() -> [
    Qry = "(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})[?2.2 = 3]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-047.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-047.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -579,7 +578,7 @@ all() -> [
    Qry = "(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})[?(2.2) = 3]?(3.3)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UnaryLookup-048.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UnaryLookup-048.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};

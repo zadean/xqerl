@@ -34,9 +34,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -77,7 +76,7 @@ all() -> [
    Qry = "fn:implicit-timezone(\"Argument 1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -92,7 +91,7 @@ all() -> [
    Qry = "fn:implicit-timezone()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dayTimeDuration") of 
       true -> {comment, "Correct type"};
@@ -107,7 +106,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() + fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -122,7 +121,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() - fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -137,7 +136,7 @@ all() -> [
    Qry = "fn:implicit-timezone() * xs:double(2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dayTimeDuration") of 
       true -> {comment, "Correct type"};
@@ -152,7 +151,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() * (0 div 0E0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
@@ -167,7 +166,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() * 0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -182,7 +181,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() * -0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -197,7 +196,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() div xs:double(2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -212,7 +211,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() div ( 0 div 0E0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCA0005") of 
       true -> {comment, "Correct error"};
@@ -227,7 +226,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() div 0 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
@@ -242,7 +241,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() div -0 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
@@ -257,7 +256,7 @@ all() -> [
    Qry = "(implicit-timezone() + xs:dayTimeDuration('PT1S')) div (implicit-timezone() + xs:dayTimeDuration('PT1S'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -272,7 +271,7 @@ all() -> [
    Qry = "fn:string(fn:implicit-timezone() div xs:dayTimeDuration(\"P0DT60M00S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
@@ -287,7 +286,7 @@ all() -> [
    Qry = "xs:time(\"05:00:00\") + fn:implicit-timezone()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:time") of 
       true -> {comment, "Correct type"};
@@ -302,7 +301,7 @@ all() -> [
    Qry = "xs:time(\"05:00:00\") - fn:implicit-timezone()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:time") of 
       true -> {comment, "Correct type"};
@@ -317,7 +316,7 @@ all() -> [
    Qry = "(xs:date(\"2000-10-30\") - fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -332,7 +331,7 @@ all() -> [
    Qry = "(xs:date(\"2000-10-30\") + fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -347,7 +346,7 @@ all() -> [
    Qry = "(xs:dateTime(\"2000-10-30T11:12:00\") - fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -362,7 +361,7 @@ all() -> [
    Qry = "(xs:dateTime(\"2000-10-30T11:12:00\") + fn:implicit-timezone())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -377,7 +376,7 @@ all() -> [
    Qry = "(fn:adjust-date-to-timezone(xs:date(\"2000-10-30\"),fn:implicit-timezone()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:date") of 
       true -> {comment, "Correct type"};
@@ -392,7 +391,7 @@ all() -> [
    Qry = "(fn:adjust-time-to-timezone(xs:time(\"10:00:00\"),fn:implicit-timezone()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:time") of 
       true -> {comment, "Correct type"};
@@ -407,7 +406,7 @@ all() -> [
    Qry = "(fn:adjust-dateTime-to-timezone(xs:dateTime(\"2002-03-07T10:00:00\"),fn:implicit-timezone()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:dateTime") of 
       true -> {comment, "Correct type"};
@@ -422,7 +421,7 @@ all() -> [
    Qry = "implicit-timezone() ge xs:dayTimeDuration('-PT14H') and implicit-timezone() le xs:dayTimeDuration('PT14H')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-implicit-timezone-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-implicit-timezone-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -437,7 +436,7 @@ all() -> [
    Qry = "implicit-timezone(\"WRONG PARAM\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -452,7 +451,7 @@ all() -> [
    Qry = "seconds-from-duration(implicit-timezone()) le 0 or seconds-from-duration(implicit-timezone()) gt 0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -467,7 +466,7 @@ all() -> [
    Qry = "exists(seconds-from-duration(implicit-timezone()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ContextImplicitTimezoneFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

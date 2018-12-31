@@ -148,9 +148,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -328,7 +327,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"null\"") of 
       true -> {comment, "Equal"};
@@ -343,7 +342,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"null\"") of 
       true -> {comment, "Equal"};
@@ -358,7 +357,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"null\"") of 
       true -> {comment, "Equal"};
@@ -373,7 +372,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('true'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"true\"") of 
       true -> {comment, "Equal"};
@@ -388,7 +387,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('false'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"false\"") of 
       true -> {comment, "Equal"};
@@ -403,7 +402,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('93.7'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"93.7\"") of 
       true -> {comment, "Equal"};
@@ -420,7 +419,7 @@ environment('xml-to-json-D',__BaseDir) ->
           xml-to-json(json-to-xml($in))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"London\"'") of 
       true -> {comment, "Equal"};
@@ -437,7 +436,7 @@ environment('xml-to-json-D',__BaseDir) ->
           xml-to-json(json-to-xml($in))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\"'") of 
       true -> {comment, "Equal"};
@@ -452,7 +451,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('[]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
@@ -467,7 +466,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('[34]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[34]'") of 
       true -> {comment, "Equal"};
@@ -482,7 +481,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('[true, false]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[true,false]'") of 
       true -> {comment, "Equal"};
@@ -497,7 +496,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('[\"A\", \"B\", \"C\", \"D\", \"E\"]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"A\",\"B\",\"C\",\"D\",\"E\"]'") of 
       true -> {comment, "Equal"};
@@ -512,7 +511,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('{}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{}'") of 
       true -> {comment, "Equal"};
@@ -527,7 +526,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('{\"A\":true}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"A\":true}'") of 
       true -> {comment, "Equal"};
@@ -542,7 +541,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('{\"A\":1, \"B\":2, \"C\":3, \"D\":4, \"E\":5}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"A\":1,\"B\":2,\"C\":3,\"D\":4,\"E\":5}'") of 
       true -> {comment, "Equal"};
@@ -557,7 +556,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('{\"A\":[1,2], \"B\":[true,false], \"C\":[\"Paris\",\"London\",\"Berlin\"], \"D\":[1, true, \"on\"], \"E\":[null, null]}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"A\":[1,2],\"B\":[true,false],\"C\":[\"Paris\",\"London\",\"Berlin\"],\"D\":[1,true,\"on\"],\"E\":[null,null]}'") of 
       true -> {comment, "Equal"};
@@ -572,7 +571,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(json-to-xml('\"\\\\\\/\\\"\\r\\t\\n\\u0020\"'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\/\\\"\\r\\t\\n \"'") of 
       true -> {comment, "Equal"};
@@ -589,7 +588,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-021.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"null\"") of 
       true -> {comment, "Equal"};
@@ -606,7 +605,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-022.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-022.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"true\"") of 
       true -> {comment, "Equal"};
@@ -623,7 +622,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-023.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"23\"") of 
       true -> {comment, "Equal"};
@@ -640,7 +639,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-024.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"banana\"'") of 
       true -> {comment, "Equal"};
@@ -657,7 +656,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-025.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-025.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"false\"") of 
       true -> {comment, "Equal"};
@@ -674,7 +673,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-026.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-026.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"5\"") of 
       true -> {comment, "Equal"};
@@ -692,7 +691,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-027.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-027.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"   \"'") of 
       true -> {comment, "Equal"};
@@ -710,7 +709,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-028.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"[null,null]\"") of 
       true -> {comment, "Equal"};
@@ -728,7 +727,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-029.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"a\":null,\"b\":null}'") of 
       true -> {comment, "Equal"};
@@ -746,7 +745,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-030.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"[null,null]\"") of 
       true -> {comment, "Equal"};
@@ -764,7 +763,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-031.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"[null,null]\"") of 
       true -> {comment, "Equal"};
@@ -782,7 +781,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-032.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -800,7 +799,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-033.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -818,7 +817,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-034.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-034.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -835,7 +834,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-035.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -852,7 +851,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-036.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-036.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -869,7 +868,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-037.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-037.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"banana\"'") of 
       true -> {comment, "Equal"};
@@ -886,7 +885,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-038.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-038.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'27'") of 
       true -> {comment, "Equal"};
@@ -904,7 +903,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-039.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-039.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'true'") of 
       true -> {comment, "Equal"};
@@ -922,7 +921,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-040.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-040.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -940,7 +939,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-041.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -958,7 +957,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-042.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-042.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -975,7 +974,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-043.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-043.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -992,7 +991,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-044.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-044.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1011,7 +1010,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-045.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-045.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"231\"") of 
       true -> {comment, "Equal"};
@@ -1037,7 +1036,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-049.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-049.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"abc\\ndef\"'") of 
       true -> {comment, "Equal"};
@@ -1057,7 +1056,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-051.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-051.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1075,7 +1074,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-052.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-052.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1093,7 +1092,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-053.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-053.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\\t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1115,7 +1114,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-054.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-054.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"t1\":\"\\t\",\"t2\":\"\\\\t\",\"t3\":\"\\t\",\"t4\":\"\\t\"}'") of 
       true -> {comment, "Equal"};
@@ -1133,7 +1132,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-055.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-055.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"tab\":\"\\\\t\"}'") of 
       true -> {comment, "Equal"};
@@ -1152,7 +1151,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-056.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-056.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"a\":1,\"b\":2}'") of 
       true -> {comment, "Equal"};
@@ -1171,7 +1170,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-057.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-057.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1190,7 +1189,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-058.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-058.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1209,7 +1208,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-059.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-059.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1228,7 +1227,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-060.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-060.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1249,7 +1248,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-062.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-062.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1267,7 +1266,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-063.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-063.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1285,7 +1284,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-064.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-064.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\\t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1303,7 +1302,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-065.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-065.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\\t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1318,7 +1317,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-066.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-066.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1333,7 +1332,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json((), map{})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-067.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-067.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1351,7 +1350,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-068.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-068.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"t\":\"tab\"}'") of 
       true -> {comment, "Equal"};
@@ -1369,7 +1368,7 @@ environment('xml-to-json-D',__BaseDir) ->
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-069.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-069.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1387,7 +1386,7 @@ environment('xml-to-json-D',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-070.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-070.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"Michael\",\"Howard\"]'") of 
       true -> {comment, "Equal"};
@@ -1402,7 +1401,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\b\\f\\n\\r\\t\\/\\\\\\u00a0\\u00A0\\ud83d\\udc4A\\\\</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-071.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-071.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\b\\f\\n\\r\\t\\/\\\\\\u00a0\\u00A0\\ud83d\\udc4A\\\\\"'") of 
       true -> {comment, "Equal"};
@@ -1423,7 +1422,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\x22</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-074.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-074.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1438,7 +1437,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\(\\)</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-075.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-075.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1453,7 +1452,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\'</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-076.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-076.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1468,7 +1467,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\uABC</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-077.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-077.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1483,7 +1482,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\u\\n</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-078.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-078.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1498,7 +1497,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\\"\\\\</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-079.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-079.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\"\\\\\"'") of 
       true -> {comment, "Equal"};
@@ -1513,7 +1512,7 @@ environment('xml-to-json-D',__BaseDir) ->
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\/\\\\</fn:string>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-080.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-080.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\/\\\\\"'") of 
       true -> {comment, "Equal"};
@@ -1529,7 +1528,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1545,7 +1544,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1561,7 +1560,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1577,7 +1576,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1593,7 +1592,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1609,7 +1608,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1625,7 +1624,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1641,7 +1640,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1657,7 +1656,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1673,7 +1672,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1689,7 +1688,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1705,7 +1704,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1721,7 +1720,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1737,7 +1736,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1753,7 +1752,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-015.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -1769,7 +1768,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"xxxx\"") of 
       true -> {comment, "String correct"};
@@ -1785,7 +1784,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-017.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1801,7 +1800,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-C-018.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-C-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
       true -> {comment, "Correct error"};
@@ -1817,7 +1816,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"a\"'") of 
       true -> {comment, "Equal"};
@@ -1833,7 +1832,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"a\"'") of 
       true -> {comment, "Equal"};
@@ -1849,7 +1848,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\"\"'") of 
       true -> {comment, "Equal"};
@@ -1865,7 +1864,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\"'") of 
       true -> {comment, "Equal"};
@@ -1881,7 +1880,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\uD834\\uDD1E\"'") of 
       true -> {comment, "Equal"};
@@ -1897,7 +1896,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-006.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\"\"'") of 
       true -> {comment, "Equal"};
@@ -1913,7 +1912,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-007.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\\\"'") of 
       true -> {comment, "Equal"};
@@ -1929,7 +1928,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-008.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"\\\\uD834\\\\uDD1E\"'") of 
       true -> {comment, "Equal"};
@@ -1945,7 +1944,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-009.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"  \"'") of 
       true -> {comment, "Equal"};
@@ -1961,7 +1960,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-010.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\\"-\"'") of 
       true -> {comment, "Equal"};
@@ -1977,7 +1976,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-011.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\n-\"'") of 
       true -> {comment, "Equal"};
@@ -1993,7 +1992,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-012.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\r-\"'") of 
       true -> {comment, "Equal"};
@@ -2009,7 +2008,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-013.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\t-\"'") of 
       true -> {comment, "Equal"};
@@ -2025,7 +2024,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-014.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\u007F-\"'") of 
       true -> {comment, "Equal"};
@@ -2041,7 +2040,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-016.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'\"-\\u007F-\"'") of 
       true -> {comment, "Equal"};
@@ -2057,7 +2056,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-101.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-101.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'false'") of 
       true -> {comment, "Equal"};
@@ -2073,7 +2072,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-102.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-102.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'true'") of 
       true -> {comment, "Equal"};
@@ -2089,7 +2088,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-103.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-103.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'false'") of 
       true -> {comment, "Equal"};
@@ -2105,7 +2104,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-104.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-104.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'true'") of 
       true -> {comment, "Equal"};
@@ -2121,7 +2120,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-201.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-201.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'7'") of 
       true -> {comment, "Equal"};
@@ -2137,7 +2136,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-202.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-202.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'-0'") of 
       true -> {comment, "Equal"};
@@ -2153,7 +2152,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-203.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-203.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'1.0E6'") of 
       true -> {comment, "Equal"};
@@ -2169,7 +2168,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-204.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-204.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'-0.000001'") of 
       true -> {comment, "Equal"};
@@ -2185,7 +2184,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-205.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-205.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'0.001'") of 
       true -> {comment, "Equal"};
@@ -2201,7 +2200,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-206.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-206.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'23'") of 
       true -> {comment, "Equal"};
@@ -2217,7 +2216,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-301.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-301.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
@@ -2233,7 +2232,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-302.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-302.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
@@ -2249,7 +2248,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-303.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-303.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'null'") of 
       true -> {comment, "Equal"};
@@ -2265,7 +2264,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-401.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-401.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
@@ -2281,7 +2280,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-402.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-402.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
@@ -2297,7 +2296,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-403.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-403.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[]'") of 
       true -> {comment, "Equal"};
@@ -2313,7 +2312,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-404.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-404.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[null]'") of 
       true -> {comment, "Equal"};
@@ -2329,7 +2328,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-405.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-405.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"(\",null,null,\")\"]'") of 
       true -> {comment, "Equal"};
@@ -2345,7 +2344,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-406.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-406.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"(\",null,null,\")\"]'") of 
       true -> {comment, "Equal"};
@@ -2361,7 +2360,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-407.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-407.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[null]'") of 
       true -> {comment, "Equal"};
@@ -2377,7 +2376,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-501.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-501.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -2393,7 +2392,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-502.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-502.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -2409,7 +2408,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-503.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-503.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0006") of 
       true -> {comment, "Correct error"};
@@ -2425,7 +2424,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-504.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-504.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\"\":\"1\"}'") of 
       true -> {comment, "Equal"};
@@ -2441,7 +2440,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-505.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-505.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\\\":\"1\"}'") of 
       true -> {comment, "Equal"};
@@ -2457,7 +2456,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-506.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-506.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\uD834\\uDD1E\":\"1\"}'") of 
       true -> {comment, "Equal"};
@@ -2473,7 +2472,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-507.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-507.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"\\\"\":\"1\",\"\\\\\\\"\":\"0\"}'") of 
       true -> {comment, "Equal"};
@@ -2489,7 +2488,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-508.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-508.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"A\":\"1\",\"B\":\"  \"}'") of 
       true -> {comment, "Equal"};
@@ -2505,7 +2504,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-509.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-509.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\n-\":\"1\"}'") of 
       true -> {comment, "Equal"};
@@ -2521,7 +2520,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-510.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-510.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\r-\":\"1\"}'") of 
       true -> {comment, "Equal"};
@@ -2537,7 +2536,7 @@ environment('xml-to-json-D',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xml-to-json-D-511.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xml-to-json-D-511.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'{\"-\\t-\":\"1\"}'") of 
       true -> {comment, "Equal"};

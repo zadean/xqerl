@@ -634,9 +634,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -1305,7 +1304,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1337,7 +1336,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\" att2=\"2\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1369,7 +1368,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b att2=\"2\" att1=\"x\">x</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -1394,7 +1393,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1420,7 +1419,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1457,7 +1456,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-attributes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-attributes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\">x</a><a att1=\"1\" att2=\"2\">x</a><b att2=\"2\" att1=\"x\">x</b><a xmlns:new=\"http://new\" new:att1=\"1\">x</a><a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1479,7 +1478,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:add-months(xs:date('2004-01-23'),1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-months-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-months-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-02-23") of 
       true -> {comment, "String correct"};
@@ -1501,7 +1500,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:add-months( xs:dateTime('2005-12-31T12:00:13'),2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-months-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-months-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-02-28") of 
       true -> {comment, "String correct"};
@@ -1523,7 +1522,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:add-months('2005-12-31',-3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-months-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-months-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2005-09-30") of 
       true -> {comment, "String correct"};
@@ -1545,7 +1544,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:add-months(xs:date('2004-01-23'),1), functx:add-months( xs:dateTime('2005-12-31T12:00:13'),2), functx:add-months('2005-12-31',-3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-months-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-months-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-02-23 2006-02-28 2005-09-30") of 
       true -> {comment, "String correct"};
@@ -1564,7 +1563,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('att1'), 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1583,7 +1582,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\" att2=\"2\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1602,7 +1601,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b att1=\"1\" att2=\"2\">x</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -1621,7 +1620,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('new:att1'), 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1640,7 +1639,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, QName('http://new','new:att1'), 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1659,7 +1658,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>x</a> <b att1=\"x\">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('att1'), 1), functx:add-or-update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-or-update-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-or-update-attributes( $in-xml/a, xs:QName('new:att1'), 1), functx:add-or-update-attributes( $in-xml/a, QName('http://new','new:att1'), 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-add-or-update-attributes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\">x</a><a att1=\"1\" att2=\"2\">x</a><b att1=\"1\" att2=\"2\">x</b><a xmlns:new=\"http://new\" new:att1=\"1\">x</a><a xmlns:new=\"http://new\" new:att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1677,7 +1676,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace(' '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1695,7 +1694,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace(' x '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1713,7 +1712,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1731,7 +1730,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1749,7 +1748,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace($in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1767,7 +1766,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace($in-xml/c/text()[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1785,7 +1784,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a> </a> <b>x </b> <c> <x>x</x> </c> </in-xml> return (functx:all-whitespace(' '), functx:all-whitespace(' x '), functx:all-whitespace($in-xml/a), functx:all-whitespace($in-xml/b), functx:all-whitespace($in-xml/c), functx:all-whitespace($in-xml/c/text()[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-all-whitespace-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true false false true") of 
       true -> {comment, "String correct"};
@@ -1803,7 +1802,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:are-distinct-values( (1,2,1,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1821,7 +1820,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:are-distinct-values( (1,2,1,3,2.0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1839,7 +1838,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:are-distinct-values( (1,2,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1857,7 +1856,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:are-distinct-values( (1,2,1,3)), functx:are-distinct-values( (1,2,1,3,2.0)), functx:are-distinct-values( (1,2,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-are-distinct-values-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false true") of 
       true -> {comment, "String correct"};
@@ -1875,7 +1874,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:atomic-type(2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-atomic-type-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-atomic-type-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer") of 
       true -> {comment, "String correct"};
@@ -1893,7 +1892,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:atomic-type('abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-atomic-type-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-atomic-type-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:string") of 
       true -> {comment, "String correct"};
@@ -1911,7 +1910,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:atomic-type(xs:date('2005-12-15')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-atomic-type-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-atomic-type-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:date") of 
       true -> {comment, "String correct"};
@@ -1929,7 +1928,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:atomic-type( (2,'abc',xs:date('2005-12-15'))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-atomic-type-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-atomic-type-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer xs:string xs:date") of 
       true -> {comment, "String correct"};
@@ -1947,7 +1946,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:atomic-type(2), functx:atomic-type('abc'), functx:atomic-type(xs:date('2005-12-15')), functx:atomic-type( (2,'abc',xs:date('2005-12-15'))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-atomic-type-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-atomic-type-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer xs:string xs:date xs:integer xs:string xs:date") of 
       true -> {comment, "String correct"};
@@ -1965,7 +1964,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"69.99\"/> <price value=\"49.99\" discount=\"\"/> </prices> return (functx:avg-empty-is-zero( $in-xml//price/@discount, $in-xml//price))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-avg-empty-is-zero-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-avg-empty-is-zero-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -1983,7 +1982,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive(55, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2001,7 +2000,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive(1, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2019,7 +2018,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive(1200, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2037,7 +2036,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive('b', 'a', 'c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2055,7 +2054,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive(xs:date('2004-10-31'), xs:date('2004-10-15'), xs:date('2004-11-01')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2073,7 +2072,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-exclusive(55, 1, 1000), functx:between-exclusive(1, 1, 1000), functx:between-exclusive(1200, 1, 1000), functx:between-exclusive('b', 'a', 'c'), functx:between-exclusive(xs:date('2004-10-31'), xs:date('2004-10-15'), xs:date('2004-11-01')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-exclusive-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false true true") of 
       true -> {comment, "String correct"};
@@ -2091,7 +2090,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive(55, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2109,7 +2108,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive(1, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2127,7 +2126,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive(1200, 1, 1000))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2145,7 +2144,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive('b', 'b', 'd'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2163,7 +2162,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive(xs:date('2004-10-31'), xs:date('2004-10-15'), xs:date('2004-11-01')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2181,7 +2180,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:between-inclusive(55, 1, 1000), functx:between-inclusive(1, 1, 1000), functx:between-inclusive(1200, 1, 1000), functx:between-inclusive('b', 'b', 'd'), functx:between-inclusive(xs:date('2004-10-31'), xs:date('2004-10-15'), xs:date('2004-11-01')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-between-inclusive-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false true true") of 
       true -> {comment, "String correct"};
@@ -2199,7 +2198,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:camel-case-to-words( 'thisIsACamelCaseTerm',' '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this Is A Camel Case Term") of 
       true -> {comment, "String correct"};
@@ -2217,7 +2216,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:camel-case-to-words( 'thisIsACamelCaseTerm',','))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this,Is,A,Camel,Case,Term") of 
       true -> {comment, "String correct"};
@@ -2235,7 +2234,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:camel-case-to-words( 'thisIsACamelCaseTerm',' '), functx:camel-case-to-words( 'thisIsACamelCaseTerm',','))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-camel-case-to-words-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this Is A Camel Case Term this,Is,A,Camel,Case,Term") of 
       true -> {comment, "String correct"};
@@ -2253,7 +2252,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:capitalize-first('hello'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Hello") of 
       true -> {comment, "String correct"};
@@ -2271,7 +2270,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:capitalize-first('hello world'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Hello world") of 
       true -> {comment, "String correct"};
@@ -2289,7 +2288,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:capitalize-first('Hello world'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Hello world") of 
       true -> {comment, "String correct"};
@@ -2307,7 +2306,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:capitalize-first('hello'), functx:capitalize-first('hello world'), functx:capitalize-first('Hello world'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-capitalize-first-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Hello Hello world Hello world") of 
       true -> {comment, "String correct"};
@@ -2328,7 +2327,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty=\"http://datypic.com\"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, xs:QName('b'), xs:QName('y')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><y>b</y><c>c</c></a></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -2349,7 +2348,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty=\"http://datypic.com\"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, (xs:QName('a'), xs:QName('b'),xs:QName('c')), (xs:QName('x'), xs:QName('y'),xs:QName('z'))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><x><y>b</y><z>c</z></x></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -2370,7 +2369,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty=\"http://datypic.com\"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-2, (xs:QName('dty:b'),xs:QName('c')), (xs:QName('q'), QName('http://new','new:c'))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><q>b</q><new:c xmlns:new=\"http://new\">c</new:c></a></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -2391,7 +2390,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty=\"http://datypic.com\"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, xs:QName('b'), xs:QName('y')), functx:change-element-names-deep( $in-xml-1, (xs:QName('a'), xs:QName('b'),xs:QName('c')), (xs:QName('x'), xs:QName('y'),xs:QName('z'))), functx:change-element-names-deep( $in-xml-2, (xs:QName('dty:b'),xs:QName('c')), (xs:QName('q'), QName('http://new','new:c'))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-names-deep-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><y>b</y><c>c</c></a></in-xml><in-xml><x><y>b</y><z>c</z></x></in-xml><in-xml><a><q>b</q><new:c xmlns:new=\"http://new\">c</new:c></a></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -2409,7 +2408,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo',''))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns=\"http://foo\"><b>557</b><c>xyz</c></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2427,7 +2426,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo','foo'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo:a xmlns:foo=\"http://foo\"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2445,7 +2444,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo',''), functx:change-element-ns-deep( $in-xml, 'http://foo','foo'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-deep-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns=\"http://foo\"><b>557</b><c>xyz</c></a><foo:a xmlns:foo=\"http://foo\"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2463,7 +2462,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo',''))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns=\"http://foo\"><bar:b xmlns:bar=\"http://bar\">557</bar:b><bar:c xmlns:bar=\"http://bar\">xyz</bar:c></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2481,7 +2480,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo','foo'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo:a xmlns:foo=\"http://foo\"><bar:b xmlns:bar=\"http://bar\">557</bar:b><bar:c xmlns:bar=\"http://bar\">xyz</bar:c></foo:a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2499,7 +2498,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <bar:a xmlns:bar=\"http://bar\"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo',''), functx:change-element-ns( $in-xml, 'http://foo','foo'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-change-element-ns-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns=\"http://foo\"><bar:b xmlns:bar=\"http://bar\">557</bar:b><bar:c xmlns:bar=\"http://bar\">xyz</bar:c></a><foo:a xmlns:foo=\"http://foo\"><bar:b xmlns:bar=\"http://bar\">557</bar:b><bar:c xmlns:bar=\"http://bar\">xyz</bar:c></foo:a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2517,7 +2516,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:chars('abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-chars-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-chars-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a b c") of 
       true -> {comment, "String correct"};
@@ -2535,7 +2534,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:chars('a b c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-chars-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-chars-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a   b   c") of 
       true -> {comment, "String correct"};
@@ -2553,7 +2552,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:chars('abc'), functx:chars('a b c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-chars-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-chars-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a b c a   b   c") of 
       true -> {comment, "String correct"};
@@ -2571,7 +2570,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-any-of('abc',('bc','xy')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2589,7 +2588,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-any-of('abc',('de','xy')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2607,7 +2606,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-any-of('abc',('bc','xy')), functx:contains-any-of('abc',('de','xy')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-any-of-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
@@ -2625,7 +2624,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-case-insensitive( 'abcdef', 'def'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2643,7 +2642,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-case-insensitive( 'abcdEF', 'def'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2661,7 +2660,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-case-insensitive( 'abcdef', 'def'), functx:contains-case-insensitive( 'abcdEF', 'def'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-case-insensitive-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true") of 
       true -> {comment, "String correct"};
@@ -2681,7 +2680,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abc def ghi', 'def'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2701,7 +2700,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abc.def\\ghi', 'def'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2721,7 +2720,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abc def ghi', 'abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2741,7 +2740,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abc', 'abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -2761,7 +2760,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abcdef', 'abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -2781,7 +2780,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:contains-word('abc def ghi', 'def'), functx:contains-word('abc.def\\ghi', 'def'), functx:contains-word('abc def ghi', 'abc'), functx:contains-word('abc', 'abc'), functx:contains-word('abcdef', 'abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-contains-word-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-contains-word-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true true false") of 
       true -> {comment, "String correct"};
@@ -2799,7 +2798,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a y=\"2\" x=\"1\">123</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -2817,7 +2816,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/b, $in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b y=\"2\" x=\"9\">456</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -2835,7 +2834,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/d, $in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<d z=\"5\" x=\"9\">123</d>") of 
       true -> {comment, "XML Deep equal"};
@@ -2853,7 +2852,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a>> <b x=\"1\" y=\"2\">456</b> <c x=\"9\">123</c> <d z=\"5\">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b), functx:copy-attributes( $in-xml/b, $in-xml/c), functx:copy-attributes( $in-xml/d, $in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-copy-attributes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a y=\"2\" x=\"1\">123</a><b y=\"2\" x=\"9\">456</b><d z=\"5\" x=\"9\">123</d>") of 
       true -> {comment, "XML Deep equal"};
@@ -2875,7 +2874,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:date(2006,6,12))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12") of 
       true -> {comment, "String correct"};
@@ -2897,7 +2896,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:date('2006','06','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12") of 
       true -> {comment, "String correct"};
@@ -2919,7 +2918,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:date(2006,6,12), functx:date('2006','06','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-date-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-date-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12 2006-06-12") of 
       true -> {comment, "String correct"};
@@ -2945,7 +2944,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dateTime(2006,6,12,20,6,12))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dateTime-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dateTime-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12T20:06:12") of 
       true -> {comment, "String correct"};
@@ -2971,7 +2970,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dateTime('2006','6','12','20','6','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dateTime-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dateTime-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12T20:06:12") of 
       true -> {comment, "String correct"};
@@ -2997,7 +2996,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dateTime(2006,6,12,20,6,12), functx:dateTime('2006','6','12','20','6','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dateTime-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dateTime-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-06-12T20:06:12 2006-06-12T20:06:12") of 
       true -> {comment, "String correct"};
@@ -3023,7 +3022,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-in-year(xs:date('2004-01-01')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-in-year-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-in-year-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -3049,7 +3048,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-in-year( xs:dateTime('2004-02-01T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-in-year-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-in-year-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"32") of 
       true -> {comment, "Equal"};
@@ -3075,7 +3074,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-in-year('2004-02-05'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-in-year-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-in-year-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"36") of 
       true -> {comment, "Equal"};
@@ -3101,7 +3100,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-in-year(xs:date('2004-01-01')), functx:day-in-year( xs:dateTime('2004-02-01T12:00:13')), functx:day-in-year('2004-02-05'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-in-year-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-in-year-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 32 36") of 
       true -> {comment, "String correct"};
@@ -3121,7 +3120,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-abbrev-en( xs:date('2004-11-04')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thurs") of 
       true -> {comment, "String correct"};
@@ -3141,7 +3140,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-abbrev-en('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thurs") of 
       true -> {comment, "String correct"};
@@ -3161,7 +3160,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-abbrev-en( xs:date('2004-11-04')), functx:day-of-week-abbrev-en('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-abbrev-en-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thurs Thurs") of 
       true -> {comment, "String correct"};
@@ -3181,7 +3180,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-name-en( xs:date('2004-11-04')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thursday") of 
       true -> {comment, "String correct"};
@@ -3201,7 +3200,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-name-en('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thursday") of 
       true -> {comment, "String correct"};
@@ -3221,7 +3220,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week-name-en( xs:date('2004-11-04')), functx:day-of-week-name-en('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-name-en-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Thursday Thursday") of 
       true -> {comment, "String correct"};
@@ -3239,7 +3238,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week( xs:date('2004-11-04')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -3257,7 +3256,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week( xs:dateTime('2004-11-04T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -3275,7 +3274,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -3293,7 +3292,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:day-of-week( xs:date('2004-11-04')), functx:day-of-week( xs:dateTime('2004-11-04T12:00:13')), functx:day-of-week('2004-11-04'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-day-of-week-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-day-of-week-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4 4 4") of 
       true -> {comment, "String correct"};
@@ -3313,7 +3312,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:days-in-month(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-days-in-month-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-days-in-month-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"31") of 
       true -> {comment, "Equal"};
@@ -3333,7 +3332,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:days-in-month( xs:dateTime('2004-02-15T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-days-in-month-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-days-in-month-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"29") of 
       true -> {comment, "Equal"};
@@ -3353,7 +3352,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:days-in-month('2005-02-15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-days-in-month-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-days-in-month-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"28") of 
       true -> {comment, "Equal"};
@@ -3373,7 +3372,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:days-in-month(xs:date('2004-01-23')), functx:days-in-month( xs:dateTime('2004-02-15T12:00:13')), functx:days-in-month('2005-02-15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-days-in-month-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-days-in-month-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "31 29 28") of 
       true -> {comment, "String correct"};
@@ -3393,7 +3392,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(1,6,0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1DT6H") of 
       true -> {comment, "String correct"};
@@ -3413,7 +3412,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(2.5,0,0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P2DT12H") of 
       true -> {comment, "String correct"};
@@ -3433,7 +3432,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(1,(),3,5.6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1DT3M5.6S") of 
       true -> {comment, "String correct"};
@@ -3453,7 +3452,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(0,0,5,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT5M") of 
       true -> {comment, "String correct"};
@@ -3473,7 +3472,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(0,0,0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -3493,7 +3492,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:dayTimeDuration(1,6,0,0), functx:dayTimeDuration(2.5,0,0,0), functx:dayTimeDuration(1,(),3,5.6), functx:dayTimeDuration(0,0,5,0), functx:dayTimeDuration(0,0,0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dayTimeDuration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1DT6H P2DT12H P1DT3M5.6S PT5M PT0S") of 
       true -> {comment, "String correct"};
@@ -3511,7 +3510,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:ddmmyyyy-to-date('15-12-2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -3529,7 +3528,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:ddmmyyyy-to-date('15122004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -3547,7 +3546,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:ddmmyyyy-to-date('15/12/2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -3565,7 +3564,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:ddmmyyyy-to-date('15-12-2004'), functx:ddmmyyyy-to-date('15122004'), functx:ddmmyyyy-to-date('15/12/2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ddmmyyyy-to-date-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15 2004-12-15 2004-12-15") of 
       true -> {comment, "String correct"};
@@ -3583,7 +3582,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:depth-of-node($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -3601,7 +3600,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:depth-of-node($in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -3619,7 +3618,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:depth-of-node( $in-xml/author[1]/fName/text()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -3637,7 +3636,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:depth-of-node($in-xml), functx:depth-of-node($in-xml/author[1]), functx:depth-of-node( $in-xml/author[1]/fName/text()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-depth-of-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 4") of 
       true -> {comment, "String correct"};
@@ -3655,7 +3654,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors a1=\"xyz\"> <author a2=\"abc\"> <fName a3=\"def\">Kate</fName> <lName>Jones</lName> </author> <author> <fName a3=\"def\">John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-attribute-names($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-attribute-names-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-attribute-names-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a1 a2 a3") of 
       true -> {comment, "String correct"};
@@ -3675,7 +3674,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//author))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author>") of 
       true -> {comment, "XML Deep equal"};
@@ -3695,7 +3694,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//lName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<lName>Jones</lName><lName>Doe</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -3715,7 +3714,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -3735,7 +3734,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//author), functx:distinct-deep($in-xml//lName), functx:distinct-deep($in-xml//fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-deep-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author><lName>Jones</lName><lName>Doe</lName><fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -3755,7 +3754,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-names($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors author fName lName") of 
       true -> {comment, "String correct"};
@@ -3775,7 +3774,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-names( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "author fName lName") of 
       true -> {comment, "String correct"};
@@ -3795,7 +3794,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-names($in-xml), functx:distinct-element-names( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-names-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors author fName lName author fName lName") of 
       true -> {comment, "String correct"};
@@ -3815,7 +3814,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-paths( $in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors authors/author authors/author/fName authors/author/lName") of 
       true -> {comment, "String correct"};
@@ -3835,7 +3834,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-paths( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author authors/author/fName authors/author/lName") of 
       true -> {comment, "String correct"};
@@ -3855,7 +3854,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-element-paths( $in-xml), functx:distinct-element-paths( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-element-paths-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors authors/author authors/author/fName authors/author/lName authors/author authors/author/fName authors/author/lName") of 
       true -> {comment, "String correct"};
@@ -3875,7 +3874,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child, $in-xml/*) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<child>1</child><child>2</child><child>3</child><child>3</child>") of 
       true -> {comment, "XML Deep equal"};
@@ -3895,7 +3894,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child[3], $in-xml/*) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<child>3</child><child>1</child><child>2</child><child>3</child>") of 
       true -> {comment, "XML Deep equal"};
@@ -3915,7 +3914,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child, $in-xml/*) ), functx:distinct-nodes( ($in-xml/child[3], $in-xml/*) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-distinct-nodes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<child>1</child><child>2</child><child>3</child><child>3</child><child>3</child><child>1</child><child>2</child><child>3</child>") of 
       true -> {comment, "XML Deep equal"};
@@ -3933,7 +3932,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:duration-from-timezone('Z'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S") of 
       true -> {comment, "String correct"};
@@ -3951,7 +3950,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:duration-from-timezone('-05:00'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-PT5H") of 
       true -> {comment, "String correct"};
@@ -3969,7 +3968,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:duration-from-timezone('+09:00'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT9H") of 
       true -> {comment, "String correct"};
@@ -3987,7 +3986,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:duration-from-timezone('Z'), functx:duration-from-timezone('-05:00'), functx:duration-from-timezone('+09:00'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-duration-from-timezone-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "PT0S -PT5H PT9H") of 
       true -> {comment, "String correct"};
@@ -4011,7 +4010,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/first'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<first>Kate</first><first>John</first>") of 
       true -> {comment, "XML Deep equal"};
@@ -4035,7 +4034,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> return (name(functx:dynamic-path( $in-xml,'author/@test')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "test") of 
       true -> {comment, "String correct"};
@@ -4059,7 +4058,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author test=\"abc\"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a=\"http://a\">Doe</a:last></author>") of 
       true -> {comment, "XML Deep equal"};
@@ -4083,7 +4082,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author test=\"abc\"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a=\"http://a\">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/a:last'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a:last xmlns:a=\"http://a\">Doe</a:last>") of 
       true -> {comment, "XML Deep equal"};
@@ -4125,7 +4124,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-dynamic-path-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<first>Kate</first><first>John</first>test<author test=\"abc\"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a=\"http://a\">Doe</a:last></author><a:last xmlns:a=\"http://a\">Doe</a:last>") of 
       true -> {comment, "XML Deep equal"};
@@ -4143,7 +4142,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:escape-for-regex('5.55'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5\\.55") of 
       true -> {comment, "String correct"};
@@ -4161,7 +4160,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:escape-for-regex('[abc]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\[abc\\]") of 
       true -> {comment, "String correct"};
@@ -4179,7 +4178,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:escape-for-regex('5.55'), functx:escape-for-regex('[abc]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-escape-for-regex-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5\\.55 \\[abc\\]") of 
       true -> {comment, "String correct"};
@@ -4197,7 +4196,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:exclusive-or(true(),false()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4215,7 +4214,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:exclusive-or(true(),true()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4235,7 +4234,7 @@ environment('functx_book',__BaseDir) ->
                     2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4255,7 +4254,7 @@ environment('functx_book',__BaseDir) ->
                     2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-exclusive-or-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true") of 
       true -> {comment, "String correct"};
@@ -4279,7 +4278,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-month( xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4303,7 +4302,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-month( xs:dateTime('2004-01-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4327,7 +4326,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-month('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-03-01") of 
       true -> {comment, "String correct"};
@@ -4351,7 +4350,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-month( xs:date('2004-01-23')), functx:first-day-of-month( xs:dateTime('2004-01-23T12:00:13')), functx:first-day-of-month('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-month-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01 2004-01-01 2004-03-01") of 
       true -> {comment, "String correct"};
@@ -4375,7 +4374,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-year(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4399,7 +4398,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-year( xs:dateTime('2004-01-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4423,7 +4422,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-year('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4447,7 +4446,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:first-day-of-year(xs:date('2004-01-23')), functx:first-day-of-year( xs:dateTime('2004-01-23T12:00:13')), functx:first-day-of-year('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-day-of-year-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-01 2004-01-01 2004-01-01") of 
       true -> {comment, "String correct"};
@@ -4465,7 +4464,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node($in-xml//fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -4483,7 +4482,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node( ($in-xml//lName, $in-xml//fName) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -4501,7 +4500,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node($in-xml//fName), functx:first-node( ($in-xml//lName, $in-xml//fName) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-first-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-first-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName><fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -4519,7 +4518,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:follows-not-descendant( $in-xml//author[2],$in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4537,7 +4536,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:follows-not-descendant( $in-xml//author[1]/fName, $in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4555,7 +4554,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:follows-not-descendant( $in-xml//author[1],$in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4573,7 +4572,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:follows-not-descendant( $in-xml//author[2],$in-xml//author[1]), functx:follows-not-descendant( $in-xml//author[1]/fName, $in-xml//author[1]), functx:follows-not-descendant( $in-xml//author[1],$in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-follows-not-descendant-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false") of 
       true -> {comment, "String correct"};
@@ -4593,7 +4592,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:format-as-title-en( ('A Midsummer Night''s Dream', 'The Merchant of Venice', 'Hamlet')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-format-as-title-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-format-as-title-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Midsummer Night's Dream, A Merchant of Venice, The Hamlet") of 
       true -> {comment, "String correct"};
@@ -4611,7 +4610,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:fragment-from-uri( 'http://datypic.com/index.htm#abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -4629,7 +4628,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:fragment-from-uri( 'http://datypic.com/index.htm'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -4647,7 +4646,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:fragment-from-uri( 'http://datypic.com/index.htm#abc'), functx:fragment-from-uri( 'http://datypic.com/index.htm'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-fragment-from-uri-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc ") of 
       true -> {comment, "String correct"};
@@ -4669,7 +4668,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches-and-non-matches( 'abc123def', '\\d+'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<non-match>abc</non-match><match>123</match><non-match>def</non-match>") of 
       true -> {comment, "XML Deep equal"};
@@ -4691,7 +4690,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches-and-non-matches( 'abc123def', '\\d'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match>") of 
       true -> {comment, "XML Deep equal"};
@@ -4713,7 +4712,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches-and-non-matches( 'abc123def', '[a-z]{2}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>") of 
       true -> {comment, "XML Deep equal"};
@@ -4735,7 +4734,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches-and-non-matches( 'abc123def', '\\d+'), functx:get-matches-and-non-matches( 'abc123def', '\\d'), functx:get-matches-and-non-matches( 'abc123def', '[a-z]{2}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-and-non-matches-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<non-match>abc</non-match><match>123</match><non-match>def</non-match><non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match><match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>") of 
       true -> {comment, "XML Deep equal"};
@@ -4759,7 +4758,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches( 'abc123def', '\\d+'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " 123 ") of 
       true -> {comment, "String correct"};
@@ -4783,7 +4782,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches( 'abc123def', '\\d'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " 1 2 3 ") of 
       true -> {comment, "String correct"};
@@ -4807,7 +4806,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches( 'abc123def', '[a-z]{2}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab  de ") of 
       true -> {comment, "String correct"};
@@ -4831,7 +4830,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:get-matches( 'abc123def', '\\d+'), functx:get-matches( 'abc123def', '\\d'), functx:get-matches( 'abc123def', '[a-z]{2}'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-get-matches-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-get-matches-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " 123   1 2 3  ab  de ") of 
       true -> {comment, "String correct"};
@@ -4849,7 +4848,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4867,7 +4866,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4885,7 +4884,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4903,7 +4902,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/d))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4921,7 +4920,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/e))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4939,7 +4938,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/f))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4957,7 +4956,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/g))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4975,7 +4974,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/h))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -4993,7 +4992,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/i))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5011,7 +5010,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> <h><x>xml</x><y>xml</y></h> <i> <x>xml</x> <y>xml</y> </i> </in-xml> return (functx:has-element-only-content($in-xml/a), functx:has-element-only-content($in-xml/b), functx:has-element-only-content($in-xml/c), functx:has-element-only-content($in-xml/d), functx:has-element-only-content($in-xml/e), functx:has-element-only-content($in-xml/f), functx:has-element-only-content($in-xml/g), functx:has-element-only-content($in-xml/h), functx:has-element-only-content($in-xml/i))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-element-only-content-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false true false true true true") of 
       true -> {comment, "String correct"};
@@ -5029,7 +5028,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5047,7 +5046,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5065,7 +5064,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5083,7 +5082,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/d))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5101,7 +5100,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/e))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5119,7 +5118,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/f))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5137,7 +5136,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/g))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5155,7 +5154,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-empty-content($in-xml/a), functx:has-empty-content($in-xml/b), functx:has-empty-content($in-xml/c), functx:has-empty-content($in-xml/d), functx:has-empty-content($in-xml/e), functx:has-empty-content($in-xml/f), functx:has-empty-content($in-xml/g))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-empty-content-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true false false false false") of 
       true -> {comment, "String correct"};
@@ -5173,7 +5172,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5191,7 +5190,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5209,7 +5208,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5227,7 +5226,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/d))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5245,7 +5244,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/e))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5263,7 +5262,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/f))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5281,7 +5280,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/g))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5299,7 +5298,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> <g> <x>xml</x> </g> </in-xml> return (functx:has-mixed-content($in-xml/a), functx:has-mixed-content($in-xml/b), functx:has-mixed-content($in-xml/c), functx:has-mixed-content($in-xml/d), functx:has-mixed-content($in-xml/e), functx:has-mixed-content($in-xml/f), functx:has-mixed-content($in-xml/g))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-mixed-content-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false false true false") of 
       true -> {comment, "String correct"};
@@ -5317,7 +5316,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5335,7 +5334,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5353,7 +5352,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/c))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5371,7 +5370,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/d))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -5389,7 +5388,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/e))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5407,7 +5406,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/f))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -5425,7 +5424,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a></a> <b/> <c> </c> <d>xml</d> <e><x>xml</x></e> <f>mixed <x>xml</x></f> </in-xml> return (functx:has-simple-content($in-xml/a), functx:has-simple-content($in-xml/b), functx:has-simple-content($in-xml/c), functx:has-simple-content($in-xml/d), functx:has-simple-content($in-xml/e), functx:has-simple-content($in-xml/f))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-has-simple-content-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false true false false") of 
       true -> {comment, "String correct"};
@@ -5444,7 +5443,7 @@ environment('functx_book',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_book',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-id-from-element-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-id-from-element-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "preface") of 
       true -> {comment, "String correct"};
@@ -5462,7 +5461,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a id=\"A001\">abc</a> <b foo=\"A001\">def</b> <c id=\"B001\">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'B001'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-id-untyped-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-id-untyped-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<c id=\"B001\">ghi</c>") of 
       true -> {comment, "XML Deep equal"};
@@ -5480,7 +5479,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a id=\"A001\">abc</a> <b foo=\"A001\">def</b> <c id=\"B001\">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'A001'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-id-untyped-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-id-untyped-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a id=\"A001\">abc</a><b foo=\"A001\">def</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -5498,7 +5497,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a id=\"A001\">abc</a> <b foo=\"A001\">def</b> <c id=\"B001\">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'C001'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-id-untyped-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-id-untyped-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -5516,7 +5515,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a id=\"A001\">abc</a> <b foo=\"A001\">def</b> <c id=\"B001\">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'B001'), functx:id-untyped($in-xml,'A001'), functx:id-untyped($in-xml,'C001'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-id-untyped-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-id-untyped-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<c id=\"B001\">ghi</c><a id=\"A001\">abc</a><b foo=\"A001\">def</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -5534,7 +5533,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"69.99\"/> <price value=\"49.99\" discount=\"\"/> </prices> return (data(functx:if-absent( $in-xml//price[1]/@discount, 0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-absent-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-absent-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10.00") of 
       true -> {comment, "String correct"};
@@ -5552,7 +5551,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"69.99\"/> <price value=\"49.99\" discount=\"\"/> </prices> return (data(functx:if-absent( $in-xml//price[3]/@discount, 0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-absent-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-absent-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5570,7 +5569,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"69.99\"/> <price value=\"49.99\" discount=\"\"/> </prices> return (data(functx:if-absent( $in-xml//price[4]/@discount, 0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-absent-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-absent-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -5588,7 +5587,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"69.99\"/> <price value=\"49.99\" discount=\"\"/> </prices> return (data(functx:if-absent( $in-xml//price[1]/@discount, 0)), data(functx:if-absent( $in-xml//price[3]/@discount, 0)), data(functx:if-absent( $in-xml//price[4]/@discount, 0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-absent-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-absent-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10.00 0 ") of 
       true -> {comment, "String correct"};
@@ -5606,7 +5605,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[1], 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "29.99") of 
       true -> {comment, "String correct"};
@@ -5624,7 +5623,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[3], 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5642,7 +5641,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[99], 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5660,7 +5659,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[1]/@discount, 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10.00") of 
       true -> {comment, "String correct"};
@@ -5678,7 +5677,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[3]/@discount, 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5696,7 +5695,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[4]/@discount, 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -5714,7 +5713,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price discount=\"10.00\">29.99</price> <price discount=\"6.00\">39.99</price> <price></price> <price discount=\"\">49.99</price> </prices> return (functx:if-empty($in-xml//price[1], 0), functx:if-empty($in-xml//price[3], 0), functx:if-empty($in-xml//price[99], 0), functx:if-empty($in-xml//price[1]/@discount, 0), functx:if-empty($in-xml//price[3]/@discount, 0), functx:if-empty($in-xml//price[4]/@discount, 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-if-empty-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-if-empty-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "29.99 0 0 10.00 0 0") of 
       true -> {comment, "String correct"};
@@ -5732,7 +5731,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return let $anotherAuthor := <author> <fName>John</fName> <lName>Smith</lName> </author> return (functx:index-of-deep-equal-node( $in-xml/author,$anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5750,7 +5749,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return let $anotherAuthor := <author> <fName>John</fName> <lName>Smith</lName> </author> return (functx:index-of-deep-equal-node( $in-xml/author,$anotherAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -5768,7 +5767,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return let $anotherAuthor := <author> <fName>John</fName> <lName>Smith</lName> </author> return (functx:index-of-deep-equal-node( $in-xml/author/lName,$anAuthor/lName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5801,7 +5800,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-deep-equal-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 2") of 
       true -> {comment, "String correct"};
@@ -5819,7 +5818,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first( 'abcdabcdabcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -5837,7 +5836,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first( 'abcdabcdabcd','bcd'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5855,7 +5854,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first('a1234','\\d'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5873,7 +5872,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first('abc abc','\\s'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -5891,7 +5890,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first('abc abc','z'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -5909,7 +5908,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-match-first( 'abcdabcdabcd','abc'), functx:index-of-match-first( 'abcdabcdabcd','bcd'), functx:index-of-match-first('a1234','\\d'), functx:index-of-match-first('abc abc','\\s'), functx:index-of-match-first('abc abc','z'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-match-first-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 2 4") of 
       true -> {comment, "String correct"};
@@ -5927,7 +5926,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:index-of-node( $in-xml/author,$in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -5945,7 +5944,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:index-of-node( $in-xml/author,$in-xml/author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5963,7 +5962,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:index-of-node( $in-xml/author, $in-xml/author[lName='Doe']))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-node-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-node-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -5981,7 +5980,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:index-of-node( $in-xml/author,$in-xml/author[1]), functx:index-of-node( $in-xml/author,$in-xml/author[2]), functx:index-of-node( $in-xml/author, $in-xml/author[lName='Doe']))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 2") of 
       true -> {comment, "String correct"};
@@ -5999,7 +5998,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-first( 'abcdabcdabcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6017,7 +6016,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-first( 'abcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6035,7 +6034,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-first( 'xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -6053,7 +6052,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-first( 'abcdabcdabcd','abc'), functx:index-of-string-first( 'abcd','abc'), functx:index-of-string-first( 'xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-first-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1") of 
       true -> {comment, "String correct"};
@@ -6073,7 +6072,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-last( 'abcdabcdabcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"9") of 
       true -> {comment, "Equal"};
@@ -6093,7 +6092,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-last( 'abcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6113,7 +6112,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-last( 'xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -6133,7 +6132,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string-last( 'abcdabcdabcd','abc'), functx:index-of-string-last( 'abcd','abc'), functx:index-of-string-last( 'xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-last-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "9 1") of 
       true -> {comment, "String correct"};
@@ -6151,7 +6150,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string('abcdabcdabcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 5 9") of 
       true -> {comment, "String correct"};
@@ -6169,7 +6168,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string('abcd','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -6187,7 +6186,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string('xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -6205,7 +6204,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:index-of-string('abcdabcdabcd','abc'), functx:index-of-string('abcd','abc'), functx:index-of-string('xxx','abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-index-of-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-index-of-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 5 9 1") of 
       true -> {comment, "String correct"};
@@ -6223,7 +6222,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:insert-string('xyz','def',2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-insert-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-insert-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xdefyz") of 
       true -> {comment, "String correct"};
@@ -6241,7 +6240,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:insert-string('xyz','def',5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-insert-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-insert-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyzdef") of 
       true -> {comment, "String correct"};
@@ -6259,7 +6258,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:insert-string('xyz','',2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-insert-string-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-insert-string-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -6277,7 +6276,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:insert-string('','def',2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-insert-string-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-insert-string-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -6295,7 +6294,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:insert-string('xyz','def',2), functx:insert-string('xyz','def',5), functx:insert-string('xyz','',2), functx:insert-string('','def',2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-insert-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-insert-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xdefyz xyzdef xyz def") of 
       true -> {comment, "String correct"};
@@ -6313,7 +6312,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number('123'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6331,7 +6330,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number(123))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6349,7 +6348,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number(' 123 '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6367,7 +6366,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number(''))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6385,7 +6384,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number('123abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6403,7 +6402,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number('NaN'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6421,7 +6420,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6439,7 +6438,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6457,7 +6456,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml> <a>123</a> <b>abc</b> </in-xml> return (functx:is-a-number('123'), functx:is-a-number(123), functx:is-a-number(' 123 '), functx:is-a-number(''), functx:is-a-number('123abc'), functx:is-a-number('NaN'), functx:is-a-number($in-xml/a), functx:is-a-number($in-xml/b))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-a-number-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-a-number-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true false false false true false") of 
       true -> {comment, "String correct"};
@@ -6475,7 +6474,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri( 'http://www.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6493,7 +6492,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri( 'ftp://ftp.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6511,7 +6510,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri('ftp.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6529,7 +6528,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri('www.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6547,7 +6546,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri('prod.html'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6565,7 +6564,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-absolute-uri( 'http://www.datypic.com'), functx:is-absolute-uri( 'ftp://ftp.datypic.com'), functx:is-absolute-uri('ftp.datypic.com'), functx:is-absolute-uri('www.datypic.com'), functx:is-absolute-uri('prod.html'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-absolute-uri-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false false false") of 
       true -> {comment, "String correct"};
@@ -6583,7 +6582,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-ancestor( $in-xml//author[1], $in-xml//author[1]/fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6601,7 +6600,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-ancestor( $in-xml//author[1]/fName, $in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6619,7 +6618,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-ancestor( $in-xml//author[1]/fName, $in-xml//author[1]/fName/text()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6637,7 +6636,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-ancestor( $in-xml//author[1], $in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6655,7 +6654,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-ancestor( $in-xml//author[1], $in-xml//author[1]/fName), functx:is-ancestor( $in-xml//author[1]/fName, $in-xml//author[1]), functx:is-ancestor( $in-xml//author[1]/fName, $in-xml//author[1]/fName/text()), functx:is-ancestor( $in-xml//author[1], $in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-ancestor-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true false") of 
       true -> {comment, "String correct"};
@@ -6673,7 +6672,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-descendant( $in-xml//author[1]/fName, $in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-descendant-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-descendant-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6691,7 +6690,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-descendant( $in-xml//author[1], $in-xml//author[1]/fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-descendant-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-descendant-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6709,7 +6708,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-descendant( $in-xml//author[1]/fName/text(), $in-xml//author[1]/fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-descendant-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-descendant-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6727,7 +6726,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-descendant( $in-xml//author[1], $in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-descendant-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-descendant-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6745,7 +6744,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:is-descendant( $in-xml//author[1]/fName, $in-xml//author[1]), functx:is-descendant( $in-xml//author[1], $in-xml//author[1]/fName), functx:is-descendant( $in-xml//author[1]/fName/text(), $in-xml//author[1]/fName), functx:is-descendant( $in-xml//author[1], $in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-descendant-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-descendant-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true false") of 
       true -> {comment, "String correct"};
@@ -6763,7 +6762,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-leap-year(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6781,7 +6780,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-leap-year(2004))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6799,7 +6798,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-leap-year('2005-02-15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6817,7 +6816,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-leap-year(xs:date('2004-01-23')), functx:is-leap-year(2004), functx:is-leap-year('2005-02-15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-leap-year-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false") of 
       true -> {comment, "String correct"};
@@ -6835,7 +6834,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return let $anotherAuthor := <author> <lName>Doe</lName> <fName>John</fName> </author> return (functx:is-node-among-descendants-deep-equal( $in-xml/author[1],$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6853,7 +6852,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return let $anotherAuthor := <author> <lName>Doe</lName> <fName>John</fName> </author> return (functx:is-node-among-descendants-deep-equal( $anAuthor,$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6871,7 +6870,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return let $anotherAuthor := <author> <lName>Doe</lName> <fName>John</fName> </author> return (functx:is-node-among-descendants-deep-equal( $anotherAuthor,$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6889,7 +6888,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return let $anotherAuthor := <author> <lName>Doe</lName> <fName>John</fName> </author> return (functx:is-node-among-descendants-deep-equal( $anAuthor,$in-xml/author))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6907,7 +6906,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return let $anotherAuthor := <author> <lName>Doe</lName> <fName>John</fName> </author> return (functx:is-node-among-descendants-deep-equal( $in-xml/author[1],$in-xml), functx:is-node-among-descendants-deep-equal( $anAuthor,$in-xml), functx:is-node-among-descendants-deep-equal( $anotherAuthor,$in-xml), functx:is-node-among-descendants-deep-equal( $anAuthor,$in-xml/author))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-deep-equal-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false true") of 
       true -> {comment, "String correct"};
@@ -6925,7 +6924,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-among-descendants( $in-xml/price[1],$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6943,7 +6942,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-among-descendants( $in-xml,$in-xml/price[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6961,7 +6960,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-among-descendants( $in-xml,$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -6979,7 +6978,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-among-descendants( $aPrice,$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -6997,7 +6996,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-among-descendants( $in-xml/price[1],$in-xml), functx:is-node-among-descendants( $in-xml,$in-xml/price[1]), functx:is-node-among-descendants( $in-xml,$in-xml), functx:is-node-among-descendants( $aPrice,$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-among-descendants-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true false") of 
       true -> {comment, "String correct"};
@@ -7015,7 +7014,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return (functx:is-node-in-sequence-deep-equal( $in-xml/author[1],$in-xml/author))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7033,7 +7032,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return (functx:is-node-in-sequence-deep-equal( $anAuthor,$in-xml/author))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7051,7 +7050,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return (functx:is-node-in-sequence-deep-equal( $in-xml/author[1],$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7069,7 +7068,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>John</fName> <lName>Doe</lName> </author> return (functx:is-node-in-sequence-deep-equal( $in-xml/author[1],$in-xml/author), functx:is-node-in-sequence-deep-equal( $anAuthor,$in-xml/author), functx:is-node-in-sequence-deep-equal( $in-xml/author[1],$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-deep-equal-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false") of 
       true -> {comment, "String correct"};
@@ -7087,7 +7086,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-in-sequence( $in-xml/price[1],$in-xml/price))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7105,7 +7104,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-in-sequence( $in-xml/price[1],$in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7123,7 +7122,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-in-sequence( $aPrice,$in-xml/price))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7141,7 +7140,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <prices> <price value=\"29.99\" discount=\"10.00\"/> <price value=\"39.99\" discount=\"6.00\"/> <price value=\"49.99\" discount=\"\"/> </prices> return let $aPrice := <price value=\"49.99\" discount=\"\"/> return (functx:is-node-in-sequence( $in-xml/price[1],$in-xml/price), functx:is-node-in-sequence( $in-xml/price[1],$in-xml), functx:is-node-in-sequence( $aPrice,$in-xml/price))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-node-in-sequence-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false") of 
       true -> {comment, "String correct"};
@@ -7159,7 +7158,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-value-in-sequence(1,(1,2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7177,7 +7176,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-value-in-sequence(5,(1,2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -7195,7 +7194,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-value-in-sequence(1.0,(1,2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -7213,7 +7212,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:is-value-in-sequence(1,(1,2,3)), functx:is-value-in-sequence(5,(1,2,3)), functx:is-value-in-sequence(1.0,(1,2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-is-value-in-sequence-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false true") of 
       true -> {comment, "String correct"};
@@ -7241,7 +7240,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-month(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-31") of 
       true -> {comment, "String correct"};
@@ -7269,7 +7268,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-month( xs:dateTime('2004-09-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-09-30") of 
       true -> {comment, "String correct"};
@@ -7297,7 +7296,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-month('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-03-31") of 
       true -> {comment, "String correct"};
@@ -7325,7 +7324,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-month(xs:date('2004-01-23')), functx:last-day-of-month( xs:dateTime('2004-09-23T12:00:13')), functx:last-day-of-month('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-month-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-31 2004-09-30 2004-03-31") of 
       true -> {comment, "String correct"};
@@ -7353,7 +7352,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-year(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-31") of 
       true -> {comment, "String correct"};
@@ -7381,7 +7380,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-year( xs:dateTime('2004-12-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-31") of 
       true -> {comment, "String correct"};
@@ -7409,7 +7408,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-year('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-31") of 
       true -> {comment, "String correct"};
@@ -7437,7 +7436,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:last-day-of-year(xs:date('2004-01-23')), functx:last-day-of-year( xs:dateTime('2004-12-23T12:00:13')), functx:last-day-of-year('2004-03-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-day-of-year-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-31 2004-12-31 2004-12-31") of 
       true -> {comment, "String correct"};
@@ -7455,7 +7454,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node($in-xml//fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>John</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7473,7 +7472,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node( ($in-xml//lName, $in-xml//fName) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<lName>Doe</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7491,7 +7490,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node($in-xml//fName), functx:last-node( ($in-xml//lName, $in-xml//fName) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-last-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-last-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>John</fName><lName>Doe</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7513,7 +7512,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7535,7 +7534,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName><lName>Jones</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7557,7 +7556,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-leaf-elements-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName><fName>Kate</fName><lName>Jones</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -7575,7 +7574,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:left-trim(' xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-left-trim-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-left-trim-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -7594,7 +7593,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-left-trim-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-left-trim-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz    x") of 
       true -> {comment, "String correct"};
@@ -7612,7 +7611,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:left-trim('xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-left-trim-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-left-trim-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -7630,7 +7629,7 @@ environment('functx_book',__BaseDir) ->
                     (functx:left-trim(' xyz'), functx:left-trim(' xyz    x'), functx:left-trim('xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-left-trim-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-left-trim-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz xyz    x xyz") of 
       true -> {comment, "String correct"};
@@ -7650,7 +7649,7 @@ environment('functx_book',__BaseDir) ->
                     let $lines := 'a value on many lines' return (functx:line-count('a value'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-line-count-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-line-count-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -7675,7 +7674,7 @@ environment('functx_book',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-line-count-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-line-count-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -7700,7 +7699,7 @@ environment('functx_book',__BaseDir) ->
          return (functx:line-count('a value'), functx:line-count($lines))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-line-count-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-line-count-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 5") of 
       true -> {comment, "String correct"};
@@ -7718,7 +7717,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml>a value on many lines</in-xml> return (functx:lines('a value'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-lines-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-lines-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a value") of 
       true -> {comment, "String correct"};
@@ -7736,7 +7735,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml>a value on many lines</in-xml> return (functx:lines($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-lines-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-lines-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a value on many lines") of 
       true -> {comment, "String correct"};
@@ -7754,7 +7753,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <in-xml>a value on many lines</in-xml> return (functx:lines('a value'), functx:lines($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-lines-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-lines-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a value a value on many lines") of 
       true -> {comment, "String correct"};
@@ -7772,7 +7771,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:max-depth($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-depth-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-depth-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -7790,7 +7789,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:max-depth($in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-depth-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-depth-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -7808,7 +7807,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:max-depth($in-xml), functx:max-depth($in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-depth-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-depth-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 2") of 
       true -> {comment, "String correct"};
@@ -7826,7 +7825,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <string>def</string> <string>abc</string> </strings> </values> return (functx:max-determine-type($in-xml//num))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"115") of 
       true -> {comment, "Equal"};
@@ -7844,7 +7843,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <string>def</string> <string>abc</string> </strings> </values> return (functx:max-determine-type($in-xml//string))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -7862,7 +7861,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <string>def</string> <string>abc</string> </strings> </values> return (functx:max-determine-type( $in-xml//(num|string)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -7880,7 +7879,7 @@ environment('functx_book',__BaseDir) ->
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <string>def</string> <string>abc</string> </strings> </values> return (functx:max-determine-type($in-xml//num), functx:max-determine-type($in-xml//string), functx:max-determine-type( $in-xml//(num|string)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-determine-type-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "115 def def") of 
       true -> {comment, "String correct"};
@@ -7900,7 +7899,7 @@ environment('functx_book',__BaseDir) ->
                     let $lines := 'a value on several lines' return (functx:max-line-length('a value'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-line-length-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-line-length-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
@@ -7925,7 +7924,7 @@ environment('functx_book',__BaseDir) ->
          return (functx:max-line-length($lines))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-line-length-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-line-length-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -7950,7 +7949,7 @@ let $lines := 'a
          return (functx:max-line-length('a value'), functx:max-line-length($lines))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-line-length-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-line-length-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "7 12") of 
       true -> {comment, "String correct"};
@@ -7968,7 +7967,7 @@ let $lines := 'a
                     let $in-xml := <values> <int>1</int> <int>23</int> <int>115</int> </values> return (functx:max-node($in-xml//int))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<int>115</int>") of 
       true -> {comment, "XML Deep equal"};
@@ -7986,7 +7985,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:max-string( $in-xml/* ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "c") of 
       true -> {comment, "String correct"};
@@ -8004,7 +8003,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:max-string( (100,25,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
@@ -8022,7 +8021,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:max-string( $in-xml/* ), functx:max-string( (100,25,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-max-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-max-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "c 3") of 
       true -> {comment, "String correct"};
@@ -8040,7 +8039,7 @@ let $lines := 'a
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <str>def</str> <str>abc</str> </strings> </values> return (functx:min-determine-type($in-xml//num))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -8058,7 +8057,7 @@ let $lines := 'a
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <str>def</str> <str>abc</str> </strings> </values> return (functx:min-determine-type($in-xml//str))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -8076,7 +8075,7 @@ let $lines := 'a
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <str>def</str> <str>abc</str> </strings> </values> return (functx:min-determine-type($in-xml//(num|str)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "115") of 
       true -> {comment, "String correct"};
@@ -8094,7 +8093,7 @@ let $lines := 'a
                     let $in-xml := <values> <nums> <num>12</num> <num>23</num> <num>115</num> <num>12.5</num> </nums> <strings> <str>def</str> <str>abc</str> </strings> </values> return (functx:min-determine-type($in-xml//num), functx:min-determine-type($in-xml//str), functx:min-determine-type($in-xml//(num|str)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-determine-type-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12 abc 115") of 
       true -> {comment, "String correct"};
@@ -8112,7 +8111,7 @@ let $lines := 'a
                     let $in-xml := <values> <int>1</int> <int>23</int> <int>115</int> </values> return (functx:min-node($in-xml//int))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<int>1</int>") of 
       true -> {comment, "XML Deep equal"};
@@ -8130,7 +8129,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName/> <lName>Smith</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:min-non-empty-string( $in-xml//fName ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-non-empty-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-non-empty-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "John") of 
       true -> {comment, "String correct"};
@@ -8148,7 +8147,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:min-string( $in-xml/* ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
@@ -8166,7 +8165,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:min-string( (100,25,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
@@ -8184,7 +8183,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <x>a</x> <y>c</y> <z>b</z> </in-xml> return (functx:min-string( $in-xml/* ), functx:min-string( (100,25,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-min-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-min-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a 100") of 
       true -> {comment, "String correct"};
@@ -8202,7 +8201,7 @@ let $lines := 'a
                     (functx:mmddyyyy-to-date('12-15-2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -8220,7 +8219,7 @@ let $lines := 'a
                     (functx:mmddyyyy-to-date('12152004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -8238,7 +8237,7 @@ let $lines := 'a
                     (functx:mmddyyyy-to-date('12/15/2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -8256,7 +8255,7 @@ let $lines := 'a
                     (functx:mmddyyyy-to-date('12-15-2004'), functx:mmddyyyy-to-date('12152004'), functx:mmddyyyy-to-date('12/15/2004'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-mmddyyyy-to-date-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15 2004-12-15 2004-12-15") of 
       true -> {comment, "String correct"};
@@ -8274,7 +8273,7 @@ let $lines := 'a
                     (functx:month-abbrev-en(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jan") of 
       true -> {comment, "String correct"};
@@ -8292,7 +8291,7 @@ let $lines := 'a
                     (functx:month-abbrev-en( xs:dateTime('2004-01-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jan") of 
       true -> {comment, "String correct"};
@@ -8310,7 +8309,7 @@ let $lines := 'a
                     (functx:month-abbrev-en('2004-01-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jan") of 
       true -> {comment, "String correct"};
@@ -8328,7 +8327,7 @@ let $lines := 'a
                     (functx:month-abbrev-en(xs:date('2004-01-23')), functx:month-abbrev-en( xs:dateTime('2004-01-23T12:00:13')), functx:month-abbrev-en('2004-01-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-abbrev-en-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Jan Jan Jan") of 
       true -> {comment, "String correct"};
@@ -8346,7 +8345,7 @@ let $lines := 'a
                     (functx:month-name-en(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-name-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-name-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "January") of 
       true -> {comment, "String correct"};
@@ -8364,7 +8363,7 @@ let $lines := 'a
                     (functx:month-name-en( xs:dateTime('2004-01-23T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-name-en-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-name-en-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "January") of 
       true -> {comment, "String correct"};
@@ -8382,7 +8381,7 @@ let $lines := 'a
                     (functx:month-name-en('2004-01-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-name-en-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-name-en-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "January") of 
       true -> {comment, "String correct"};
@@ -8400,7 +8399,7 @@ let $lines := 'a
                     (functx:month-name-en(xs:date('2004-01-23')), functx:month-name-en( xs:dateTime('2004-01-23T12:00:13')), functx:month-name-en('2004-01-23'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-month-name-en-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-month-name-en-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "January January January") of 
       true -> {comment, "String correct"};
@@ -8420,7 +8419,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns.example.com/ns1\">abc</pre:a> return (functx:name-test(name($in-xml),('*')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -8440,7 +8439,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns.example.com/ns1\">abc</pre:a> return (functx:name-test(name($in-xml),('pre:*')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -8460,7 +8459,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns.example.com/ns1\">abc</pre:a> return (functx:name-test(name($in-xml),('*:a')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -8480,7 +8479,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns.example.com/ns1\">abc</pre:a> return (functx:name-test( name($in-xml),('pre:a','pre:b')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -8500,7 +8499,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns.example.com/ns1\">abc</pre:a> return (functx:name-test( name($in-xml),('a','b','c')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -8520,7 +8519,7 @@ let $lines := 'a
                     let $in-xml := <pre:a xmlns:pre=\"http://ns/example.com/ns1\">abc</pre:a> return (functx:name-test(name($in-xml),('*')), functx:name-test(name($in-xml),('pre:*')), functx:name-test(name($in-xml),('*:a')), functx:name-test( name($in-xml),('pre:a','pre:b')), functx:name-test( name($in-xml),('a','b','c')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-name-test-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-name-test-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true true false") of 
       true -> {comment, "String correct"};
@@ -8538,7 +8537,7 @@ let $lines := 'a
                     let $in-xml := <authors xmlns=\"http://ns.example.com/abc\" xmlns:d=\"http://ns.example.com/def\"> <author xmlns=\"http://ns.example.com/ghi\"> <fName xmlns:x=\"http://ns.example.com/xyz\" x:attr=\"123\">Kate</fName> <lName>Jones</lName> </author> </authors> return (functx:namespaces-in-use($in-xml))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-namespaces-in-use-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-namespaces-in-use-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://ns.example.com/abc http://ns.example.com/ghi http://ns.example.com/xyz") of 
       true -> {comment, "String correct"};
@@ -8556,7 +8555,7 @@ let $lines := 'a
                     (functx:next-day(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-next-day-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-next-day-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-24") of 
       true -> {comment, "String correct"};
@@ -8574,7 +8573,7 @@ let $lines := 'a
                     (functx:next-day( xs:dateTime('2005-12-31T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-next-day-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-next-day-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2006-01-01") of 
       true -> {comment, "String correct"};
@@ -8592,7 +8591,7 @@ let $lines := 'a
                     (functx:next-day(xs:date('2004-01-23')), functx:next-day( xs:dateTime('2005-12-31T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-next-day-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-next-day-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-24 2006-01-01") of 
       true -> {comment, "String correct"};
@@ -8610,7 +8609,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> return (functx:node-kind($in-xml/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "element") of 
       true -> {comment, "String correct"};
@@ -8628,7 +8627,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> return (functx:node-kind($in-xml/a/@z))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attribute") of 
       true -> {comment, "String correct"};
@@ -8646,7 +8645,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> return (functx:node-kind($in-xml/comment()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "comment") of 
       true -> {comment, "String correct"};
@@ -8664,7 +8663,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> return (functx:node-kind( $in-xml/processing-instruction()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "processing-instruction") of 
       true -> {comment, "String correct"};
@@ -8682,7 +8681,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <!-- this is in-xml --> <?test see?> <a z=\"2\">xyz</a> </in-xml> return (functx:node-kind($in-xml/a/text()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "text") of 
       true -> {comment, "String correct"};
@@ -8704,7 +8703,7 @@ let $lines := 'a
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_book',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "document-node") of 
       true -> {comment, "String correct"};
@@ -8741,7 +8740,7 @@ let $lines := 'a
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_book',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-node-kind-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-node-kind-all.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "element attribute comment processing-instruction text document-node") of 
       true -> {comment, "String correct"};
@@ -8760,7 +8759,7 @@ let $lines := 'a
                     (functx:non-distinct-values( (1,2,1,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -8779,7 +8778,7 @@ let $lines := 'a
                     (functx:non-distinct-values( (1,2,1,3,2.0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
       true -> {comment, "String correct"};
@@ -8798,7 +8797,7 @@ let $lines := 'a
                     (functx:non-distinct-values( (1,2,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -8817,7 +8816,7 @@ let $lines := 'a
                     (functx:non-distinct-values( (1,2,1,3)), functx:non-distinct-values( (1,2,1,3,2.0)), functx:non-distinct-values( (1,2,3) ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-non-distinct-values-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1 2") of 
       true -> {comment, "String correct"};
@@ -8835,7 +8834,7 @@ let $lines := 'a
                     (functx:number-of-matches('abcabc','ab'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -8853,7 +8852,7 @@ let $lines := 'a
                     (functx:number-of-matches('12345','\\d'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -8871,7 +8870,7 @@ let $lines := 'a
                     (functx:number-of-matches('aaaaaa','aaa'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -8889,7 +8888,7 @@ let $lines := 'a
                     (functx:number-of-matches('abcabc','ab'), functx:number-of-matches('12345','\\d'), functx:number-of-matches('aaaaaa','aaa'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-number-of-matches-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 5 2") of 
       true -> {comment, "String correct"};
@@ -8907,7 +8906,7 @@ let $lines := 'a
                     (functx:ordinal-number-en(1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1st") of 
       true -> {comment, "String correct"};
@@ -8925,7 +8924,7 @@ let $lines := 'a
                     (functx:ordinal-number-en(12))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12th") of 
       true -> {comment, "String correct"};
@@ -8943,7 +8942,7 @@ let $lines := 'a
                     (functx:ordinal-number-en(1), functx:ordinal-number-en(12))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-ordinal-number-en-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1st 12th") of 
       true -> {comment, "String correct"};
@@ -8963,7 +8962,7 @@ let $lines := 'a
                     (functx:pad-integer-to-length(12, 6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000012") of 
       true -> {comment, "String correct"};
@@ -8983,7 +8982,7 @@ let $lines := 'a
                     (functx:pad-integer-to-length(1, 6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000001") of 
       true -> {comment, "String correct"};
@@ -9003,7 +9002,7 @@ let $lines := 'a
                     (functx:pad-integer-to-length(12, 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12") of 
       true -> {comment, "String correct"};
@@ -9023,7 +9022,7 @@ let $lines := 'a
                     (functx:pad-integer-to-length(12, 6), functx:pad-integer-to-length(1, 6), functx:pad-integer-to-length(12, 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-integer-to-length-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "000012 000001 12") of 
       true -> {comment, "String correct"};
@@ -9041,7 +9040,7 @@ let $lines := 'a
                     (functx:pad-string-to-length('abc', '*', 6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc***") of 
       true -> {comment, "String correct"};
@@ -9059,7 +9058,7 @@ let $lines := 'a
                     (functx:pad-string-to-length('abcdef', '*', 4))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd") of 
       true -> {comment, "String correct"};
@@ -9077,7 +9076,7 @@ let $lines := 'a
                     (functx:pad-string-to-length('', '*', 4))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "****") of 
       true -> {comment, "String correct"};
@@ -9095,7 +9094,7 @@ let $lines := 'a
                     (functx:pad-string-to-length('abc', '*', 6), functx:pad-string-to-length('abcdef', '*', 4), functx:pad-string-to-length('', '*', 4))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-pad-string-to-length-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc*** abcd ****") of 
       true -> {comment, "String correct"};
@@ -9115,7 +9114,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node-with-pos( $in-xml//lName[. = 'Doe']))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author[2]/lName") of 
       true -> {comment, "String correct"};
@@ -9135,7 +9134,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node-with-pos($in-xml/*[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author[1]") of 
       true -> {comment, "String correct"};
@@ -9155,7 +9154,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node-with-pos( $in-xml//lName[. = 'Doe']), functx:path-to-node-with-pos($in-xml/*[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-with-pos-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author[2]/lName authors/author[1]") of 
       true -> {comment, "String correct"};
@@ -9173,7 +9172,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node($in-xml//lName[. = 'Doe']))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author/lName") of 
       true -> {comment, "String correct"};
@@ -9191,7 +9190,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node($in-xml/*[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author") of 
       true -> {comment, "String correct"};
@@ -9209,7 +9208,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:path-to-node($in-xml//lName[. = 'Doe']), functx:path-to-node($in-xml/*[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-path-to-node-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-path-to-node-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "authors/author/lName authors/author") of 
       true -> {comment, "String correct"};
@@ -9227,7 +9226,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:precedes-not-ancestor( $in-xml//author[1],$in-xml//author[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -9245,7 +9244,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:precedes-not-ancestor( $in-xml//author[1], $in-xml//author[1]/fName))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9263,7 +9262,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:precedes-not-ancestor( $in-xml//author[2],$in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -9281,7 +9280,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:precedes-not-ancestor( $in-xml//author[1],$in-xml//author[2]), functx:precedes-not-ancestor( $in-xml//author[1], $in-xml//author[1]/fName), functx:precedes-not-ancestor( $in-xml//author[2],$in-xml//author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-precedes-not-ancestor-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false") of 
       true -> {comment, "String correct"};
@@ -9299,7 +9298,7 @@ let $lines := 'a
                     (functx:previous-day(xs:date('2004-01-23')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-previous-day-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-previous-day-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-22") of 
       true -> {comment, "String correct"};
@@ -9317,7 +9316,7 @@ let $lines := 'a
                     (functx:previous-day( xs:dateTime('2005-01-01T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-previous-day-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-previous-day-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-31") of 
       true -> {comment, "String correct"};
@@ -9335,7 +9334,7 @@ let $lines := 'a
                     (functx:previous-day(xs:date('2004-01-23')), functx:previous-day( xs:dateTime('2005-01-01T12:00:13')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-previous-day-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-previous-day-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-01-22 2004-12-31") of 
       true -> {comment, "String correct"};
@@ -9357,7 +9356,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\"> <b attr1=\"xzy\">abc</b> </a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\"> <b a:attr1=\"ghi\" attr1=\"xzy\">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr2')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b>abc</b></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9379,7 +9378,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\"> <b attr1=\"xzy\">abc</b> </a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\"> <b a:attr1=\"ghi\" attr1=\"xzy\">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr3')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a attr2=\"456\"><b>abc</b></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9401,7 +9400,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\"> <b attr1=\"xzy\">abc</b> </a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\"> <b a:attr1=\"ghi\" attr1=\"xzy\">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-2, 'a:attr1'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a attr1=\"456\"><b attr1=\"xzy\">abc</b></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9423,7 +9422,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\"> <b attr1=\"xzy\">abc</b> </a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\"> <b a:attr1=\"ghi\" attr1=\"xzy\">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr2')), functx:remove-attributes-deep( $in-xml-1, ('attr1','attr3')), functx:remove-attributes-deep( $in-xml-2, 'a:attr1'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-deep-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b>abc</b></a><a attr2=\"456\"><b>abc</b></a><a attr1=\"456\"><b attr1=\"xzy\">abc</b></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9445,7 +9444,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\">abc</a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr2')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>abc</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9467,7 +9466,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\">abc</a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr3')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a attr2=\"456\">abc</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9489,7 +9488,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\">abc</a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\">abc</a> return (functx:remove-attributes($in-xml-1, '*'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>abc</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9511,7 +9510,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\">abc</a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\">abc</a> return (functx:remove-attributes( $in-xml-2, ('a:attr1')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a attr1=\"456\">abc</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9533,7 +9532,7 @@ let $lines := 'a
                     let $in-xml-1 := <a attr1=\"123\" attr2=\"456\">abc</a> return let $in-xml-2 := <a xmlns:a=\"http://a\" a:attr1=\"123\" attr1=\"456\">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr2')), functx:remove-attributes( $in-xml-1, ('attr1','attr3')), functx:remove-attributes($in-xml-1, '*'), functx:remove-attributes( $in-xml-2, ('a:attr1')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-attributes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>abc</a><a attr2=\"456\">abc</a><a>abc</a><a attr1=\"456\">abc</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -9555,7 +9554,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9577,7 +9576,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><c>Mixed <b>content</b></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9599,7 +9598,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, ('b','c')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a/></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9621,7 +9620,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-2, 'x:b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9643,7 +9642,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'b'), functx:remove-elements-deep( $in-xml-1, 'a'), functx:remove-elements-deep( $in-xml-1, ('b','c')), functx:remove-elements-deep( $in-xml-2, 'x:b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-deep-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a/></in-xml><in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9665,7 +9664,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9687,7 +9686,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, ('b','c')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a>b1c1</a>Mixed content</in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9709,7 +9708,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9731,7 +9730,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-2, 'x:b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9753,7 +9752,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'b'), functx:remove-elements-not-contents( $in-xml-1, ('b','c')), functx:remove-elements-not-contents( $in-xml-1, 'a'), functx:remove-elements-not-contents( $in-xml-2, 'x:b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-not-contents-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml><in-xml><a>b1c1</a>Mixed content</in-xml><in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml><in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9775,7 +9774,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, 'c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a>123</a><a>456</a></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9797,7 +9796,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, ('a','b')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><c>Mixed <b>content</b></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9819,7 +9818,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-2, 'x:a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a xmlns:x=\"http://x\">123</a><c xmlns:x=\"http://x\">Mixed <x:a>content</x:a></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9841,7 +9840,7 @@ let $lines := 'a
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x=\"http://x\"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, 'c'), functx:remove-elements( $in-xml-1, ('a','b')), functx:remove-elements( $in-xml-2, 'x:a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-remove-elements-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-remove-elements-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<in-xml><a>123</a><a>456</a></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a xmlns:x=\"http://x\">123</a><c xmlns:x=\"http://x\">Mixed <x:a>content</x:a></c></in-xml>") of 
       true -> {comment, "XML Deep equal"};
@@ -9859,7 +9858,7 @@ let $lines := 'a
                     (functx:repeat-string('*', 6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-repeat-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-repeat-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "******") of 
       true -> {comment, "String correct"};
@@ -9877,7 +9876,7 @@ let $lines := 'a
                     (functx:repeat-string('abc', 3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-repeat-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-repeat-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcabcabc") of 
       true -> {comment, "String correct"};
@@ -9895,7 +9894,7 @@ let $lines := 'a
                     (functx:repeat-string('*', 6), functx:repeat-string('abc', 3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-repeat-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-repeat-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "****** abcabcabc") of 
       true -> {comment, "String correct"};
@@ -9913,7 +9912,7 @@ let $lines := 'a
                     (functx:replace-beginning('abc-def', '-', 'xxx'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xxxdef") of 
       true -> {comment, "String correct"};
@@ -9931,7 +9930,7 @@ let $lines := 'a
                     (functx:replace-beginning('abc-def', '-', ''))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "def") of 
       true -> {comment, "String correct"};
@@ -9949,7 +9948,7 @@ let $lines := 'a
                     (functx:replace-beginning( '---abc', '[a-z]', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xbc") of 
       true -> {comment, "String correct"};
@@ -9967,7 +9966,7 @@ let $lines := 'a
                     (functx:replace-beginning( '2004-12-05', '-', '2005-'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2005-12-05") of 
       true -> {comment, "String correct"};
@@ -9985,7 +9984,7 @@ let $lines := 'a
                     (functx:replace-beginning('abc-def', '-', 'xxx'), functx:replace-beginning('abc-def', '-', ''), functx:replace-beginning( '---abc', '[a-z]', 'x'), functx:replace-beginning( '2004-12-05', '-', '2005-'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-beginning-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xxxdef def xbc 2005-12-05") of 
       true -> {comment, "String correct"};
@@ -10003,7 +10002,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <price num=\"1\">12</price> <price num=\"2\">20</price> <price num=\"3\">5</price> </in-xml> return (functx:replace-element-values( $in-xml/price, for $p in $in-xml/price return $p * 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price num=\"1\">24</price><price num=\"2\">40</price><price num=\"3\">10</price>") of 
       true -> {comment, "XML Deep equal"};
@@ -10021,7 +10020,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <price num=\"1\">12</price> <price num=\"2\">20</price> <price num=\"3\">5</price> </in-xml> return (for $p in $in-xml/price return functx:replace-element-values( $p,concat($p,'.0')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price num=\"1\">12.0</price><price num=\"2\">20.0</price><price num=\"3\">5.0</price>") of 
       true -> {comment, "XML Deep equal"};
@@ -10039,7 +10038,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <price num=\"1\">12</price> <price num=\"2\">20</price> <price num=\"3\">5</price> </in-xml> return (functx:replace-element-values( $in-xml/price, for $p in $in-xml/price return $p * 2), for $p in $in-xml/price return functx:replace-element-values( $p,concat($p,'.0')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-element-values-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<price num=\"1\">24</price><price num=\"2\">40</price><price num=\"3\">10</price><price num=\"1\">12.0</price><price num=\"2\">20.0</price><price num=\"3\">5.0</price>") of 
       true -> {comment, "XML Deep equal"};
@@ -10057,7 +10056,7 @@ let $lines := 'a
                     (functx:replace-first('abcabcabc', 'ab', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xcabcabc") of 
       true -> {comment, "String correct"};
@@ -10075,7 +10074,7 @@ let $lines := 'a
                     (functx:replace-first('elementary', 'e.*e', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xntary") of 
       true -> {comment, "String correct"};
@@ -10093,7 +10092,7 @@ let $lines := 'a
                     (functx:replace-first( 'elementary', 'e.*?e', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xmentary") of 
       true -> {comment, "String correct"};
@@ -10111,7 +10110,7 @@ let $lines := 'a
                     (functx:replace-first('9999-9999', '\\d+', 'X'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "X-9999") of 
       true -> {comment, "String correct"};
@@ -10129,7 +10128,7 @@ let $lines := 'a
                     (functx:replace-first('9999-9999', '\\d{3}', 'X'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "X9-9999") of 
       true -> {comment, "String correct"};
@@ -10147,7 +10146,7 @@ let $lines := 'a
                     (functx:replace-first('abcabcabc', 'ab', 'x'), functx:replace-first('elementary', 'e.*e', 'x'), functx:replace-first( 'elementary', 'e.*?e', 'x'), functx:replace-first('9999-9999', '\\d+', 'X'), functx:replace-first('9999-9999', '\\d{3}', 'X'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-first-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-first-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xcabcabc xntary xmentary X-9999 X9-9999") of 
       true -> {comment, "String correct"};
@@ -10175,7 +10174,7 @@ let $lines := 'a
          return (functx:replace-multi('abcdef123',$fr,$to))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-replace-multi-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-replace-multi-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xxxy0") of 
       true -> {comment, "String correct"};
@@ -10193,7 +10192,7 @@ let $lines := 'a
                     (functx:reverse-string('abc'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-reverse-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-reverse-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cba") of 
       true -> {comment, "String correct"};
@@ -10211,7 +10210,7 @@ let $lines := 'a
                     (functx:reverse-string('a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-reverse-string-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-reverse-string-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
@@ -10229,7 +10228,7 @@ let $lines := 'a
                     (functx:reverse-string('abc'), functx:reverse-string('a'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-reverse-string-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-reverse-string-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cba a") of 
       true -> {comment, "String correct"};
@@ -10247,7 +10246,7 @@ let $lines := 'a
                     (functx:right-trim('xyz '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-right-trim-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-right-trim-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -10265,7 +10264,7 @@ let $lines := 'a
          (functx:right-trim(' x   xyz '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-right-trim-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-right-trim-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " x   xyz") of 
       true -> {comment, "String correct"};
@@ -10283,7 +10282,7 @@ let $lines := 'a
                     (functx:right-trim('xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-right-trim-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-right-trim-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -10301,7 +10300,7 @@ let $lines := 'a
                     (functx:right-trim('xyz '), functx:right-trim(' x   xyz '), functx:right-trim('xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-right-trim-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-right-trim-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"xyz\", \" x   xyz\", \"xyz\"") of 
       true -> {comment, "Deep equal"};
@@ -10319,7 +10318,7 @@ let $lines := 'a
                     (functx:scheme-from-uri( 'http://www.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http") of 
       true -> {comment, "String correct"};
@@ -10337,7 +10336,7 @@ let $lines := 'a
                     (functx:scheme-from-uri( 'ftp://ftp.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ftp") of 
       true -> {comment, "String correct"};
@@ -10355,7 +10354,7 @@ let $lines := 'a
                     (functx:scheme-from-uri('ftp.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -10373,7 +10372,7 @@ let $lines := 'a
                     (functx:scheme-from-uri('www.datypic.com'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -10391,7 +10390,7 @@ let $lines := 'a
                     (functx:scheme-from-uri('prod.html'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -10409,7 +10408,7 @@ let $lines := 'a
                     (functx:scheme-from-uri( 'http://www.datypic.com'), functx:scheme-from-uri( 'ftp://ftp.datypic.com'), functx:scheme-from-uri('ftp.datypic.com'), functx:scheme-from-uri('www.datypic.com'), functx:scheme-from-uri('prod.html'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-scheme-from-uri-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http ftp   ") of 
       true -> {comment, "String correct"};
@@ -10427,7 +10426,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-deep-equal( $in-xml/author/*, $in-xml/*/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10445,7 +10444,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-deep-equal( $in-xml/author[1], $anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10463,7 +10462,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-deep-equal( (1,2,3), (1.0,2.0,3.0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10481,7 +10480,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-deep-equal( $in-xml/author/*, $in-xml/*/*), functx:sequence-deep-equal( $in-xml/author[1], $anAuthor), functx:sequence-deep-equal( (1,2,3), (1.0,2.0,3.0)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-deep-equal-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true") of 
       true -> {comment, "String correct"};
@@ -10499,7 +10498,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal-any-order( $in-xml/author, $in-xml/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10517,7 +10516,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal-any-order( $in-xml/author, ($in-xml/author[2],$in-xml/author[1])))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10535,7 +10534,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal-any-order( $in-xml/author[1],$anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10553,7 +10552,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal-any-order( $in-xml/author, $in-xml/*), functx:sequence-node-equal-any-order( $in-xml/author, ($in-xml/author[2],$in-xml/author[1])), functx:sequence-node-equal-any-order( $in-xml/author[1],$anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-any-order-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true false") of 
       true -> {comment, "String correct"};
@@ -10571,7 +10570,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal( $in-xml/author/*, $in-xml/*/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -10589,7 +10588,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal( $in-xml/author, ($in-xml/author[2],$in-xml/author[1])))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10607,7 +10606,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal( $in-xml/author[1],$anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -10625,7 +10624,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return let $anAuthor := <author> <fName>Kate</fName> <lName>Jones</lName> </author> return (functx:sequence-node-equal( $in-xml/author/*, $in-xml/*/*), functx:sequence-node-equal( $in-xml/author, ($in-xml/author[2],$in-xml/author[1])), functx:sequence-node-equal( $in-xml/author[1],$anAuthor))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-node-equal-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false false") of 
       true -> {comment, "String correct"};
@@ -10647,7 +10646,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type(2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer") of 
       true -> {comment, "String correct"};
@@ -10669,7 +10668,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type(('abc','def')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:string+") of 
       true -> {comment, "String correct"};
@@ -10691,7 +10690,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type(('abc',2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:anyAtomicType+") of 
       true -> {comment, "String correct"};
@@ -10713,7 +10712,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type( () ))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "empty-sequence()") of 
       true -> {comment, "String correct"};
@@ -10735,7 +10734,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/*[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "element()") of 
       true -> {comment, "String correct"};
@@ -10757,7 +10756,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "element()+") of 
       true -> {comment, "String correct"};
@@ -10779,7 +10778,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/*/@*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attribute()+") of 
       true -> {comment, "String correct"};
@@ -10801,7 +10800,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/*/text()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "text()+") of 
       true -> {comment, "String correct"};
@@ -10823,7 +10822,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/comment()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "comment()") of 
       true -> {comment, "String correct"};
@@ -10845,7 +10844,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type($in-xml/node()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "node()+") of 
       true -> {comment, "String correct"};
@@ -10867,7 +10866,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type(($in-xml/*,'2')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "item()+") of 
       true -> {comment, "String correct"};
@@ -10889,7 +10888,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a att1=\"y\">x</a> <b att1=\"x\">x</b> <!-- comment --> </in-xml> return (functx:sequence-type(2), functx:sequence-type(('abc','def')), functx:sequence-type(('abc',2)), functx:sequence-type( () ), functx:sequence-type($in-xml/*[1]), functx:sequence-type($in-xml/*), functx:sequence-type($in-xml/*/@*), functx:sequence-type($in-xml/*/text()), functx:sequence-type($in-xml/comment()), functx:sequence-type($in-xml/node()), functx:sequence-type(($in-xml/*,'2')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sequence-type-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sequence-type-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xs:integer xs:string+ xs:anyAtomicType+ empty-sequence() element() element()+ attribute()+ text()+ comment() node()+ item()+") of 
       true -> {comment, "String correct"};
@@ -10907,7 +10906,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName>John</fName><lName>Doe</lName></author>") of 
       true -> {comment, "XML Deep equal"};
@@ -10925,7 +10924,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]/fName[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -10943,7 +10942,7 @@ let $lines := 'a
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]), functx:siblings-same-name( $in-xml/author[1]/fName[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-same-name-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName>John</fName><lName>Doe</lName></author><fName>Kate</fName>") of 
       true -> {comment, "XML Deep equal"};
@@ -10961,7 +10960,7 @@ let $lines := 'a
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName a3=\"def\">John</fName><lName>Doe</lName></author>") of 
       true -> {comment, "XML Deep equal"};
@@ -10979,7 +10978,7 @@ let $lines := 'a
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]/fName[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<fName a3=\"def\">Kate</fName><lName>Jones</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -10997,7 +10996,7 @@ let $lines := 'a
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]), functx:siblings( $in-xml/author[1]/fName[2]))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-siblings-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-siblings-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<author><fName a3=\"def\">John</fName><lName>Doe</lName></author><fName a3=\"def\">Kate</fName><lName>Jones</lName>") of 
       true -> {comment, "XML Deep equal"};
@@ -11015,7 +11014,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric(('1','100','99')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 99 100") of 
       true -> {comment, "String correct"};
@@ -11033,7 +11032,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric($in-xml/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<f>1</f><e>4</e><f>35</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11053,7 +11052,7 @@ let $lines := 'a
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-as-numeric-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"1 99 100<f>1</f><e>4</e><f>35</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11071,7 +11070,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive(('a','c','B')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a B c") of 
       true -> {comment, "String correct"};
@@ -11089,7 +11088,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive($in-xml/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<f>a</f><e>B</e><f>c</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11111,7 +11110,7 @@ let $lines := 'a
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-case-insensitive-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"a B c<f>a</f><e>B</e><f>c</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11129,7 +11128,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <a>123</a> <b>456</b> <c>789</c> </in-xml> return (functx:sort-document-order( ($in-xml/c,$in-xml/a)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-document-order-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-document-order-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>123</a><c>789</c>") of 
       true -> {comment, "XML Deep equal"};
@@ -11147,7 +11146,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort(('c','a','b')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a b c") of 
       true -> {comment, "String correct"};
@@ -11165,7 +11164,7 @@ let $lines := 'a
                     let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort($in-xml/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<f>a</f><e>b</e><f>c</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11187,7 +11186,7 @@ let $lines := 'a
        ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-sort-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-sort-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"a b c<f>a</f><e>b</e><f>c</f>") of 
       true -> {comment, "XML Deep equal"};
@@ -11205,7 +11204,7 @@ let $lines := 'a
                     (functx:substring-after-if-contains('abcd','b'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cd") of 
       true -> {comment, "String correct"};
@@ -11223,7 +11222,7 @@ let $lines := 'a
                     (functx:substring-after-if-contains('abcd','x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd") of 
       true -> {comment, "String correct"};
@@ -11241,7 +11240,7 @@ let $lines := 'a
                     (functx:substring-after-if-contains('abcd','b'), functx:substring-after-if-contains('abcd','x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-if-contains-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cd abcd") of 
       true -> {comment, "String correct"};
@@ -11259,7 +11258,7 @@ let $lines := 'a
                     (functx:substring-after-last-match( 'abc-def-ghi', '[ad]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ef-ghi") of 
       true -> {comment, "String correct"};
@@ -11277,7 +11276,7 @@ let $lines := 'a
                     (functx:substring-after-last-match( 'abcd-abcd', 'bc?'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "d") of 
       true -> {comment, "String correct"};
@@ -11295,7 +11294,7 @@ let $lines := 'a
                     (functx:substring-after-last-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11313,7 +11312,7 @@ let $lines := 'a
                     (functx:substring-after-last-match( 'abc-def-ghi', '[ad]'), functx:substring-after-last-match( 'abcd-abcd', 'bc?'), functx:substring-after-last-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-match-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ef-ghi d abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11333,7 +11332,7 @@ let $lines := 'a
                     (functx:substring-after-last('abc-def-ghi', '-'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ghi") of 
       true -> {comment, "String correct"};
@@ -11353,7 +11352,7 @@ let $lines := 'a
                     (functx:substring-after-last('abcd-abcd', 'ab'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cd") of 
       true -> {comment, "String correct"};
@@ -11373,7 +11372,7 @@ let $lines := 'a
                     (functx:substring-after-last('abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11393,7 +11392,7 @@ let $lines := 'a
                     (functx:substring-after-last('abc-def-ghi', '-'), functx:substring-after-last('abcd-abcd', 'ab'), functx:substring-after-last('abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-last-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ghi cd abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11411,7 +11410,7 @@ let $lines := 'a
                     (functx:substring-after-match( 'abc-def-ghi', '[ce]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-def-ghi") of 
       true -> {comment, "String correct"};
@@ -11429,7 +11428,7 @@ let $lines := 'a
                     (functx:substring-after-match( 'abcd-abcd', 'ab?'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "cd-abcd") of 
       true -> {comment, "String correct"};
@@ -11447,7 +11446,7 @@ let $lines := 'a
                     (functx:substring-after-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11465,7 +11464,7 @@ let $lines := 'a
                     (functx:substring-after-match( 'abc-def-ghi', '[ce]'), functx:substring-after-match( 'abcd-abcd', 'ab?'), functx:substring-after-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-after-match-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-def-ghi cd-abcd abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11483,7 +11482,7 @@ let $lines := 'a
                     (functx:substring-before-if-contains('abcd','c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab") of 
       true -> {comment, "String correct"};
@@ -11501,7 +11500,7 @@ let $lines := 'a
                     (functx:substring-before-if-contains('abcd','x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd") of 
       true -> {comment, "String correct"};
@@ -11519,7 +11518,7 @@ let $lines := 'a
                     (functx:substring-before-if-contains('abcd','c'), functx:substring-before-if-contains('abcd','x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-if-contains-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab abcd") of 
       true -> {comment, "String correct"};
@@ -11537,7 +11536,7 @@ let $lines := 'a
                     (functx:substring-before-last-match( 'abc-def-ghi', '[ce]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-d") of 
       true -> {comment, "String correct"};
@@ -11555,7 +11554,7 @@ let $lines := 'a
                     (functx:substring-before-last-match( 'abcd-abcd', 'ab?'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-") of 
       true -> {comment, "String correct"};
@@ -11573,7 +11572,7 @@ let $lines := 'a
                     (functx:substring-before-last-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11591,7 +11590,7 @@ let $lines := 'a
                     (functx:substring-before-last-match( 'abc-def-ghi', '[ce]'), functx:substring-before-last-match( 'abcd-abcd', 'ab?'), functx:substring-before-last-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-match-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-d abcd- abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11611,7 +11610,7 @@ let $lines := 'a
                     (functx:substring-before-last( 'abc-def-ghi', '-'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-def") of 
       true -> {comment, "String correct"};
@@ -11631,7 +11630,7 @@ let $lines := 'a
                     (functx:substring-before-last('abcd-abcd', 'ab'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-") of 
       true -> {comment, "String correct"};
@@ -11651,7 +11650,7 @@ let $lines := 'a
                     (functx:substring-before-last('abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -11671,7 +11670,7 @@ let $lines := 'a
                     (functx:substring-before-last( 'abc-def-ghi', '-'), functx:substring-before-last('abcd-abcd', 'ab'), functx:substring-before-last('abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-last-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-def abcd- ") of 
       true -> {comment, "String correct"};
@@ -11689,7 +11688,7 @@ let $lines := 'a
                     (functx:substring-before-match( 'abc-def-ghi', '[dg]'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc-") of 
       true -> {comment, "String correct"};
@@ -11707,7 +11706,7 @@ let $lines := 'a
                     (functx:substring-before-match( 'abcd-abcd', 'bc?'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a") of 
       true -> {comment, "String correct"};
@@ -11725,7 +11724,7 @@ let $lines := 'a
                     (functx:substring-before-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11743,7 +11742,7 @@ let $lines := 'a
                     (functx:substring-before-match( 'abc-def-ghi', '[dg]'), functx:substring-before-match( 'abcd-abcd', 'bc?'), functx:substring-before-match( 'abcd-abcd', 'x'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-substring-before-match-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc- a abcd-abcd") of 
       true -> {comment, "String correct"};
@@ -11765,7 +11764,7 @@ let $lines := 'a
                     (functx:time(20,6,12))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-time-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-time-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "20:06:12") of 
       true -> {comment, "String correct"};
@@ -11787,7 +11786,7 @@ let $lines := 'a
                     (functx:time('20','6','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-time-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-time-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "20:06:12") of 
       true -> {comment, "String correct"};
@@ -11809,7 +11808,7 @@ let $lines := 'a
                     (functx:time(20,6,12), functx:time('20','6','12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-time-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-time-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "20:06:12 20:06:12") of 
       true -> {comment, "String correct"};
@@ -11827,7 +11826,7 @@ let $lines := 'a
                     (functx:timezone-from-duration( xs:dayTimeDuration('PT0S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Z") of 
       true -> {comment, "String correct"};
@@ -11845,7 +11844,7 @@ let $lines := 'a
                     (functx:timezone-from-duration( xs:dayTimeDuration('-PT5H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-05:00") of 
       true -> {comment, "String correct"};
@@ -11863,7 +11862,7 @@ let $lines := 'a
                     (functx:timezone-from-duration( xs:dayTimeDuration('PT9H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "+09:00") of 
       true -> {comment, "String correct"};
@@ -11881,7 +11880,7 @@ let $lines := 'a
                     (functx:timezone-from-duration( xs:dayTimeDuration('PT0S')), functx:timezone-from-duration( xs:dayTimeDuration('-PT5H')), functx:timezone-from-duration( xs:dayTimeDuration('PT9H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-timezone-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Z -05:00 +09:00") of 
       true -> {comment, "String correct"};
@@ -11899,7 +11898,7 @@ let $lines := 'a
                     (functx:total-days-from-duration( xs:dayTimeDuration('PT24H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -11917,7 +11916,7 @@ let $lines := 'a
                     (functx:total-days-from-duration( xs:dayTimeDuration('P1D')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -11935,7 +11934,7 @@ let $lines := 'a
                     (functx:total-days-from-duration( xs:dayTimeDuration('PT36H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5") of 
       true -> {comment, "String correct"};
@@ -11953,7 +11952,7 @@ let $lines := 'a
                     (functx:total-days-from-duration( xs:dayTimeDuration('PT48H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -11971,7 +11970,7 @@ let $lines := 'a
                     (functx:total-days-from-duration( xs:dayTimeDuration('PT24H')), functx:total-days-from-duration( xs:dayTimeDuration('P1D')), functx:total-days-from-duration( xs:dayTimeDuration('PT36H')), functx:total-days-from-duration( xs:dayTimeDuration('PT48H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-days-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1 1.5 2") of 
       true -> {comment, "String correct"};
@@ -11989,7 +11988,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('PT26H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"26") of 
       true -> {comment, "Equal"};
@@ -12007,7 +12006,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('PT1H30M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5") of 
       true -> {comment, "String correct"};
@@ -12025,7 +12024,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('-PT3H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-3") of 
       true -> {comment, "Equal"};
@@ -12043,7 +12042,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('P1D')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"24") of 
       true -> {comment, "Equal"};
@@ -12061,7 +12060,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('P1DT2H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"26") of 
       true -> {comment, "Equal"};
@@ -12079,7 +12078,7 @@ let $lines := 'a
                     (functx:total-hours-from-duration( xs:dayTimeDuration('PT26H')), functx:total-hours-from-duration( xs:dayTimeDuration('PT1H30M')), functx:total-hours-from-duration( xs:dayTimeDuration('-PT3H')), functx:total-hours-from-duration( xs:dayTimeDuration('P1D')), functx:total-hours-from-duration( xs:dayTimeDuration('P1DT2H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-hours-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "26 1.5 -3 24 26") of 
       true -> {comment, "String correct"};
@@ -12097,7 +12096,7 @@ let $lines := 'a
                     (functx:total-minutes-from-duration( xs:dayTimeDuration('PT90M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"90") of 
       true -> {comment, "Equal"};
@@ -12115,7 +12114,7 @@ let $lines := 'a
                     (functx:total-minutes-from-duration( xs:dayTimeDuration('PT1H90M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"150") of 
       true -> {comment, "Equal"};
@@ -12133,7 +12132,7 @@ let $lines := 'a
                     (functx:total-minutes-from-duration( xs:dayTimeDuration('PT3H')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"180") of 
       true -> {comment, "Equal"};
@@ -12151,7 +12150,7 @@ let $lines := 'a
                     (functx:total-minutes-from-duration( xs:dayTimeDuration('PT1M30S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5") of 
       true -> {comment, "String correct"};
@@ -12169,7 +12168,7 @@ let $lines := 'a
                     (functx:total-minutes-from-duration( xs:dayTimeDuration('PT90M')), functx:total-minutes-from-duration( xs:dayTimeDuration('PT1H90M')), functx:total-minutes-from-duration( xs:dayTimeDuration('PT3H')), functx:total-minutes-from-duration( xs:dayTimeDuration('PT1M30S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-minutes-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "90 150 180 1.5") of 
       true -> {comment, "String correct"};
@@ -12187,7 +12186,7 @@ let $lines := 'a
                     (functx:total-months-from-duration( xs:yearMonthDuration('P18M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"18") of 
       true -> {comment, "Equal"};
@@ -12205,7 +12204,7 @@ let $lines := 'a
                     (functx:total-months-from-duration( xs:yearMonthDuration('P1Y')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12") of 
       true -> {comment, "Equal"};
@@ -12223,7 +12222,7 @@ let $lines := 'a
                     (functx:total-months-from-duration( xs:yearMonthDuration('P1Y6M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"18") of 
       true -> {comment, "Equal"};
@@ -12241,7 +12240,7 @@ let $lines := 'a
                     (functx:total-months-from-duration( xs:yearMonthDuration('P18M')), functx:total-months-from-duration( xs:yearMonthDuration('P1Y')), functx:total-months-from-duration( xs:yearMonthDuration('P1Y6M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-months-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "18 12 18") of 
       true -> {comment, "String correct"};
@@ -12259,7 +12258,7 @@ let $lines := 'a
                     (functx:total-seconds-from-duration( xs:dayTimeDuration('PT90S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"90") of 
       true -> {comment, "Equal"};
@@ -12277,7 +12276,7 @@ let $lines := 'a
                     (functx:total-seconds-from-duration( xs:dayTimeDuration('PT90.5S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "90.5") of 
       true -> {comment, "String correct"};
@@ -12295,7 +12294,7 @@ let $lines := 'a
                     (functx:total-seconds-from-duration( xs:dayTimeDuration('PT1M30S')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"90") of 
       true -> {comment, "Equal"};
@@ -12313,7 +12312,7 @@ let $lines := 'a
                     (functx:total-seconds-from-duration( xs:dayTimeDuration('PT3M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"180") of 
       true -> {comment, "Equal"};
@@ -12331,7 +12330,7 @@ let $lines := 'a
                     (functx:total-seconds-from-duration( xs:dayTimeDuration('PT90S')), functx:total-seconds-from-duration( xs:dayTimeDuration('PT90.5S')), functx:total-seconds-from-duration( xs:dayTimeDuration('PT1M30S')), functx:total-seconds-from-duration( xs:dayTimeDuration('PT3M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-seconds-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "90 90.5 90 180") of 
       true -> {comment, "String correct"};
@@ -12349,7 +12348,7 @@ let $lines := 'a
                     (functx:total-years-from-duration( xs:yearMonthDuration('P18M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5") of 
       true -> {comment, "String correct"};
@@ -12367,7 +12366,7 @@ let $lines := 'a
                     (functx:total-years-from-duration( xs:yearMonthDuration('P1Y')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -12385,7 +12384,7 @@ let $lines := 'a
                     (functx:total-years-from-duration( xs:yearMonthDuration('P1Y6M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5") of 
       true -> {comment, "String correct"};
@@ -12403,7 +12402,7 @@ let $lines := 'a
                     (functx:total-years-from-duration( xs:yearMonthDuration('P18M')), functx:total-years-from-duration( xs:yearMonthDuration('P1Y')), functx:total-years-from-duration( xs:yearMonthDuration('P1Y6M')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-total-years-from-duration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.5 1 1.5") of 
       true -> {comment, "String correct"};
@@ -12421,7 +12420,7 @@ let $lines := 'a
                     (functx:trim(' xyz '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-trim-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-trim-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -12439,7 +12438,7 @@ let $lines := 'a
                     (functx:trim(' xyz'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-trim-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-trim-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "xyz") of 
       true -> {comment, "String correct"};
@@ -12457,7 +12456,7 @@ let $lines := 'a
                     (functx:trim('x   xyz '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-trim-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-trim-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "x   xyz") of 
       true -> {comment, "String correct"};
@@ -12475,7 +12474,7 @@ let $lines := 'a
                     (functx:trim(' xyz '), functx:trim(' xyz'), functx:trim('x   xyz '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-trim-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-trim-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"xyz\", \"xyz\",  \"x   xyz\"") of 
       true -> {comment, "Deep equal"};
@@ -12493,7 +12492,7 @@ let $lines := 'a
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, xs:QName('att1'), 123))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-update-attributes-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-update-attributes-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"123\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -12511,7 +12510,7 @@ let $lines := 'a
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-update-attributes-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-update-attributes-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"1\">x</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -12529,7 +12528,7 @@ let $lines := 'a
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/b, xs:QName('att1'), 123))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-update-attributes-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-update-attributes-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<b>x</b>") of 
       true -> {comment, "XML Deep equal"};
@@ -12547,7 +12546,7 @@ let $lines := 'a
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/c, QName('http://new','prefix:att1'), 123))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-update-attributes-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-update-attributes-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<c xmlns:prefix=\"http://new\" prefix:att1=\"123\">x</c>") of 
       true -> {comment, "XML Deep equal"};
@@ -12565,7 +12564,7 @@ let $lines := 'a
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, xs:QName('att1'), 123), functx:update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:update-attributes( $in-xml/b, xs:QName('att1'), 123), functx:update-attributes( $in-xml/c, QName('http://new','prefix:att1'), 123))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-update-attributes-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-update-attributes-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a att1=\"123\">x</a><a att1=\"1\">x</a><b>x</b><c xmlns:prefix=\"http://new\" prefix:att1=\"123\">x</c>") of 
       true -> {comment, "XML Deep equal"};
@@ -12583,7 +12582,7 @@ let $lines := 'a
                     (functx:value-except((1,2,3),(3,4,5)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-except-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-except-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
       true -> {comment, "String correct"};
@@ -12601,7 +12600,7 @@ let $lines := 'a
                     (functx:value-except((1,1,2,3),(2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-except-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-except-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -12619,7 +12618,7 @@ let $lines := 'a
                     (functx:value-except((1,2),(3,4)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-except-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-except-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2") of 
       true -> {comment, "String correct"};
@@ -12637,7 +12636,7 @@ let $lines := 'a
                     (functx:value-except((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-except-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-except-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -12655,7 +12654,7 @@ let $lines := 'a
                     (functx:value-except((1,2,3),(3,4,5)), functx:value-except((1,1,2,3),(2,3)), functx:value-except((1,2),(3,4)), functx:value-except((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-except-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-except-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 1 1 2 1 2 3") of 
       true -> {comment, "String correct"};
@@ -12673,7 +12672,7 @@ let $lines := 'a
                     (functx:value-intersect((1,2),(2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-intersect-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-intersect-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -12691,7 +12690,7 @@ let $lines := 'a
                     (functx:value-intersect((1,2,3),(2,3,4)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-intersect-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-intersect-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3") of 
       true -> {comment, "String correct"};
@@ -12709,7 +12708,7 @@ let $lines := 'a
                     (functx:value-intersect((1,2,2,3),(2,3)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-intersect-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-intersect-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3") of 
       true -> {comment, "String correct"};
@@ -12727,7 +12726,7 @@ let $lines := 'a
                     (functx:value-intersect((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-intersect-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-intersect-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "") of 
       true -> {comment, "String correct"};
@@ -12745,7 +12744,7 @@ let $lines := 'a
                     (functx:value-intersect((1,2),(2,3)), functx:value-intersect((1,2,3),(2,3,4)), functx:value-intersect((1,2,2,3),(2,3)), functx:value-intersect((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-intersect-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-intersect-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 2 3 2 3") of 
       true -> {comment, "String correct"};
@@ -12763,7 +12762,7 @@ let $lines := 'a
                     (functx:value-union((1,2),(3,4)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-union-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-union-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4") of 
       true -> {comment, "String correct"};
@@ -12781,7 +12780,7 @@ let $lines := 'a
                     (functx:value-union((1,2,3),(2,3,4)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-union-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-union-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4") of 
       true -> {comment, "String correct"};
@@ -12799,7 +12798,7 @@ let $lines := 'a
                     (functx:value-union((1,2,2,3),(3,4)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-union-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-union-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4") of 
       true -> {comment, "String correct"};
@@ -12817,7 +12816,7 @@ let $lines := 'a
                     (functx:value-union((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-union-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-union-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -12835,7 +12834,7 @@ let $lines := 'a
                     (functx:value-union((1,2),(3,4)), functx:value-union((1,2,3),(2,3,4)), functx:value-union((1,2,2,3),(3,4)), functx:value-union((1,2,2,3),()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-value-union-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-value-union-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 1 2 3 4 1 2 3 4 1 2 3") of 
       true -> {comment, "String correct"};
@@ -12853,7 +12852,7 @@ let $lines := 'a
                     (functx:word-count('hello there world'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-word-count-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-word-count-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -12871,7 +12870,7 @@ let $lines := 'a
                     (functx:word-count(' hello world '))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-word-count-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-word-count-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -12889,7 +12888,7 @@ let $lines := 'a
                     (functx:word-count('a.b.c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-word-count-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-word-count-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -12907,7 +12906,7 @@ let $lines := 'a
                     (functx:word-count('hello there world'), functx:word-count(' hello world '), functx:word-count('a.b.c'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-word-count-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-word-count-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 2 3") of 
       true -> {comment, "String correct"};
@@ -12928,7 +12927,7 @@ let $lines := 'a
                     (functx:words-to-camel-case('this Is A Term'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "thisIsATerm") of 
       true -> {comment, "String correct"};
@@ -12949,7 +12948,7 @@ let $lines := 'a
                     (functx:words-to-camel-case( 'This is a term'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ThisIsATerm") of 
       true -> {comment, "String correct"};
@@ -12970,7 +12969,7 @@ let $lines := 'a
                     (functx:words-to-camel-case('this Is A Term'), functx:words-to-camel-case( 'This is a term'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-words-to-camel-case-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "thisIsATerm ThisIsATerm") of 
       true -> {comment, "String correct"};
@@ -12989,7 +12988,7 @@ let $lines := 'a
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('num')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<num>1</num><num>2</num><num>3</num>") of 
       true -> {comment, "XML Deep equal"};
@@ -13008,7 +13007,7 @@ let $lines := 'a
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('new:num')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<new:num xmlns:new=\"http://newns\">1</new:num><new:num xmlns:new=\"http://newns\">2</new:num><new:num xmlns:new=\"http://newns\">3</new:num>") of 
       true -> {comment, "XML Deep equal"};
@@ -13027,7 +13026,7 @@ let $lines := 'a
                     (functx:wrap-values-in-elements( (1,2,3), QName('http://newns','num')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<num xmlns=\"http://newns\">1</num><num xmlns=\"http://newns\">2</num><num xmlns=\"http://newns\">3</num>") of 
       true -> {comment, "XML Deep equal"};
@@ -13046,7 +13045,7 @@ let $lines := 'a
                     (functx:wrap-values-in-elements( (1,2,3), QName('http://newns','new:num')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<new:num xmlns:new=\"http://newns\">1</new:num><new:num xmlns:new=\"http://newns\">2</new:num><new:num xmlns:new=\"http://newns\">3</new:num>") of 
       true -> {comment, "XML Deep equal"};
@@ -13065,7 +13064,7 @@ let $lines := 'a
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('num')), functx:wrap-values-in-elements( (1,2,3), xs:QName('new:num')), functx:wrap-values-in-elements( (1,2,3), QName('http://newns','num')), functx:wrap-values-in-elements( (1,2,3), QName('http://newns','new:num')))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-wrap-values-in-elements-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<num>1</num><num>2</num><num>3</num><new:num xmlns:new=\"http://newns\">1</new:num><new:num xmlns:new=\"http://newns\">2</new:num><new:num xmlns:new=\"http://newns\">3</new:num><num xmlns=\"http://newns\">1</num><num xmlns=\"http://newns\">2</num><num xmlns=\"http://newns\">3</num><new:num xmlns:new=\"http://newns\">1</new:num><new:num xmlns:new=\"http://newns\">2</new:num><new:num xmlns:new=\"http://newns\">3</new:num>") of 
       true -> {comment, "XML Deep equal"};
@@ -13085,7 +13084,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(1,6))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y6M") of 
       true -> {comment, "String correct"};
@@ -13105,7 +13104,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(1.5,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y6M") of 
       true -> {comment, "String correct"};
@@ -13125,7 +13124,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(1,()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y") of 
       true -> {comment, "String correct"};
@@ -13145,7 +13144,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(1,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y") of 
       true -> {comment, "String correct"};
@@ -13165,7 +13164,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(-1,-3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-P1Y3M") of 
       true -> {comment, "String correct"};
@@ -13185,7 +13184,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(-1,3))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-P9M") of 
       true -> {comment, "String correct"};
@@ -13205,7 +13204,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P0M") of 
       true -> {comment, "String correct"};
@@ -13225,7 +13224,7 @@ let $lines := 'a
                     (functx:yearMonthDuration(1,6), functx:yearMonthDuration(1.5,0), functx:yearMonthDuration(1,()), functx:yearMonthDuration(1,0), functx:yearMonthDuration(-1,-3), functx:yearMonthDuration(-1,3), functx:yearMonthDuration(0,0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yearMonthDuration-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "P1Y6M P1Y6M P1Y P1Y -P1Y3M -P9M P0M") of 
       true -> {comment, "String correct"};
@@ -13243,7 +13242,7 @@ let $lines := 'a
                     (functx:yyyyddmm-to-date('2004-15-12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13261,7 +13260,7 @@ let $lines := 'a
                     (functx:yyyyddmm-to-date('20041512'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13279,7 +13278,7 @@ let $lines := 'a
                     (functx:yyyyddmm-to-date('2004/15/12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13297,7 +13296,7 @@ let $lines := 'a
                     (functx:yyyyddmm-to-date('2004-15-12'), functx:yyyyddmm-to-date('20041512'), functx:yyyyddmm-to-date('2004/15/12'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyyddmm-to-date-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15 2004-12-15 2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13315,7 +13314,7 @@ let $lines := 'a
                     (functx:yyyymmdd-to-date('2004-12-15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13333,7 +13332,7 @@ let $lines := 'a
                     (functx:yyyymmdd-to-date('20041215'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13351,7 +13350,7 @@ let $lines := 'a
                     (functx:yyyymmdd-to-date('2004/12/15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15") of 
       true -> {comment, "String correct"};
@@ -13369,7 +13368,7 @@ let $lines := 'a
                     (functx:yyyymmdd-to-date('2004-12-15'), functx:yyyymmdd-to-date('20041215'), functx:yyyymmdd-to-date('2004/12/15'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-all.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "functx-functx-yyyymmdd-to-date-all.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2004-12-15 2004-12-15 2004-12-15") of 
       true -> {comment, "String correct"};

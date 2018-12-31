@@ -25,9 +25,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -82,7 +81,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item_tuple><itemno>1003</itemno><description>Old Bicycle</description></item_tuple><item_tuple><itemno>1007</itemno><description>Racing Bicycle</description></item_tuple></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -106,7 +105,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><item_tuple><itemno>1001</itemno><description>Red Bicycle</description><high_bid>55</high_bid></item_tuple><item_tuple><itemno>1003</itemno><description>Old Bicycle</description><high_bid>20</high_bid></item_tuple><item_tuple><itemno>1007</itemno><description>Racing Bicycle</description><high_bid>225</high_bid></item_tuple><item_tuple><itemno>1008</itemno><description>Broken Bicycle</description><high_bid/></item_tuple></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -129,7 +128,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><warning><name>Dee Linquent</name><rating>D</rating><description>Helicopter</description><reserve_price>50000</reserve_price></warning></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -151,7 +150,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><no_bid_item><itemno>1005</itemno><description>Tennis Racket</description></no_bid_item><no_bid_item><itemno>1006</itemno><description>Helicopter</description></no_bid_item><no_bid_item><itemno>1008</itemno><description>Broken Bicycle</description></no_bid_item></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -185,7 +184,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><jones_bike><itemno>1001</itemno><description>Red Bicycle</description><high_bid><bid>55</bid></high_bid><high_bidder><name>Mary Doe</name></high_bidder></jones_bike></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -211,7 +210,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><successful_item><itemno>1002</itemno><description>Motorcycle</description><reserve_price>500</reserve_price><high_bid>1200</high_bid></successful_item><successful_item><itemno>1004</itemno><description>Tricycle</description><reserve_price>15</reserve_price><high_bid>40</high_bid></successful_item></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -231,7 +230,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<high_bid>225</high_bid>") of 
       true -> {comment, "XML Deep equal"};
@@ -250,7 +249,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<item_count>3</item_count>") of 
       true -> {comment, "XML Deep equal"};
@@ -279,7 +278,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><monthly_result><month>1</month><item_count>1</item_count></monthly_result><monthly_result><month>2</month><item_count>2</item_count></monthly_result><monthly_result><month>3</month><item_count>3</item_count></monthly_result><monthly_result><month>4</month><item_count>1</item_count></monthly_result><monthly_result><month>5</month><item_count>1</item_count></monthly_result></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -305,7 +304,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><high_bid><itemno>1001</itemno><bid>55</bid><bidder>Mary Doe</bidder></high_bid><high_bid><itemno>1002</itemno><bid>1200</bid><bidder>Mary Doe</bidder></high_bid><high_bid><itemno>1003</itemno><bid>20</bid><bidder>Jack Sprat</bidder></high_bid><high_bid><itemno>1004</itemno><bid>40</bid><bidder>Tom Jones</bidder></high_bid><high_bid><itemno>1007</itemno><bid>225</bid><bidder>Roger Smith</bidder></high_bid></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -330,7 +329,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><expensive_item><itemno>1002</itemno><description>Motorcycle</description><high_bid>1200</high_bid></expensive_item></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -365,7 +364,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><popular_item><itemno>1001</itemno><description>Red Bicycle</description><bid_count>5</bid_count></popular_item><popular_item><itemno>1002</itemno><description>Motorcycle</description><bid_count>5</bid_count></popular_item></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -389,7 +388,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><bidder><userid>U01</userid><name>Tom Jones</name><bidcount>2</bidcount><avgbid>220</avgbid></bidder><bidder><userid>U02</userid><name>Mary Doe</name><bidcount>5</bidcount><avgbid>387</avgbid></bidder><bidder><userid>U03</userid><name>Dee Linquent</name><bidcount>2</bidcount><avgbid>487.5</avgbid></bidder><bidder><userid>U04</userid><name>Roger Smith</name><bidcount>5</bidcount><avgbid>266</avgbid></bidder><bidder><userid>U05</userid><name>Jack Sprat</name><bidcount>2</bidcount><avgbid>110</avgbid></bidder></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -414,7 +413,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><popular_item><itemno>1002</itemno><avgbid>800</avgbid></popular_item><popular_item><itemno>1007</itemno><avgbid>200</avgbid></popular_item><popular_item><itemno>1001</itemno><avgbid>45</avgbid></popular_item></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -437,7 +436,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><big_spender>Mary Doe</big_spender><big_spender>Dee Linquent</big_spender><big_spender>Roger Smith</big_spender></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -462,7 +461,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><user><userid>U01</userid><name>Tom Jones</name><status>active</status></user><user><userid>U02</userid><name>Mary Doe</name><status>active</status></user><user><userid>U03</userid><name>Dee Linquent</name><status>active</status></user><user><userid>U04</userid><name>Roger Smith</name><status>active</status></user><user><userid>U05</userid><name>Jack Sprat</name><status>active</status></user><user><userid>U06</userid><name>Rip Van Winkle</name><status>inactive</status></user></result>") of 
       true -> {comment, "XML Deep equal"};
@@ -486,7 +485,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<frequent_bidder/>") of 
       true -> {comment, "XML Deep equal"};
@@ -513,7 +512,7 @@ environment('users-items-bids',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('users-items-bids',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rdb-queries-results-q18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rdb-queries-results-q18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<result><user><name>Dee Linquent</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item></user><user><name>Jack Sprat</name><bid_on_item>Old Bicycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item></user><user><name>Mary Doe</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Red Bicycle</bid_on_item></user><user><name>Rip Van Winkle</name></user><user><name>Roger Smith</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Old Bicycle</bid_on_item><bid_on_item>Racing Bicycle</bid_on_item><bid_on_item>Red Bicycle</bid_on_item></user><user><name>Tom Jones</name><bid_on_item>Motorcycle</bid_on_item><bid_on_item>Tricycle</bid_on_item></user></result>") of 
       true -> {comment, "XML Deep equal"};

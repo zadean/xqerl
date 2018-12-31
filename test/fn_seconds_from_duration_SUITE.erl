@@ -39,9 +39,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -87,7 +86,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P0DT0H0M0S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -102,7 +101,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P15DT11H59M59S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
@@ -117,7 +116,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P31DT23H59M59S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"59") of 
       true -> {comment, "Equal"};
@@ -132,7 +131,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P3DT10H12.5S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"12.5") of 
       true -> {comment, "Equal"};
@@ -147,7 +146,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"-PT256S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-16") of 
       true -> {comment, "Equal"};
@@ -162,7 +161,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT20H20M10S\")) lt fn:seconds-from-duration(xs:dayTimeDuration(\"P03DT02H10M20S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -177,7 +176,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT10H10M09S\")) le fn:seconds-from-duration(xs:dayTimeDuration(\"P22DT10H09M31S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -192,7 +191,7 @@ all() -> [
    Qry = "fn:count(fn:seconds-from-duration(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -207,7 +206,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P01DT01H01M01S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -222,7 +221,7 @@ all() -> [
    Qry = "fn:avg((fn:seconds-from-duration(xs:dayTimeDuration(\"P23DT10H20M30S\")),fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT10H10M32S\"))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"31") of 
       true -> {comment, "Equal"};
@@ -237,7 +236,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT10H10M09S\")) + fn:seconds-from-duration(xs:dayTimeDuration(\"P22DT11H30M21S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"30") of 
       true -> {comment, "Equal"};
@@ -252,7 +251,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P30DT10H20M10S\")) - fn:seconds-from-duration(xs:dayTimeDuration(\"P10DT09H10M02S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
@@ -267,7 +266,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT09H04M20S\")) * fn:seconds-from-duration(xs:dayTimeDuration(\"P03DT10H10M03S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"60") of 
       true -> {comment, "Equal"};
@@ -282,7 +281,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT10H10M30S\")) div fn:seconds-from-duration(xs:dayTimeDuration(\"P05DT05H02M02S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"15") of 
       true -> {comment, "Equal"};
@@ -297,7 +296,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P25DT10H20M40S\")) idiv fn:seconds-from-duration(xs:dayTimeDuration(\"P05DT02H04M20S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -312,7 +311,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P10DT10H20M10S\")) mod fn:seconds-from-duration(xs:dayTimeDuration(\"P03DT03H03M03S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -327,7 +326,7 @@ all() -> [
    Qry = "+fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT10H10M20S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"20") of 
       true -> {comment, "Equal"};
@@ -342,7 +341,7 @@ all() -> [
    Qry = "-fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT03H20M30S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-30") of 
       true -> {comment, "Equal"};
@@ -357,7 +356,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P22DT10H10M01S\")) eq fn:seconds-from-duration(xs:dayTimeDuration(\"P22DT09H10M01S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -372,7 +371,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P23DT08H20M02S\")) ne fn:seconds-from-duration(xs:dayTimeDuration(\"P12DT05H22M03S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -387,7 +386,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT03H09M20S\")) le fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT15H21M31S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -402,7 +401,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT07H12M59S\")) ge fn:seconds-from-duration(xs:dayTimeDuration(\"P20DT01H13M01S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -417,7 +416,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:duration(\"P1Y2M3DT10H30M911S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"11") of 
       true -> {comment, "Equal"};
@@ -432,7 +431,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:dayTimeDuration(\"P21DT10H10M90S\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-seconds-from-duration-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-seconds-from-duration-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"30") of 
       true -> {comment, "Equal"};
@@ -447,7 +446,7 @@ all() -> [
    Qry = "seconds-from-duration()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -462,7 +461,7 @@ all() -> [
    Qry = "seconds-from-duration((), \"Wrong param\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -477,7 +476,7 @@ all() -> [
    Qry = "empty(seconds-from-duration(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -492,7 +491,7 @@ all() -> [
    Qry = "seconds-from-duration(()) instance of xs:decimal?", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -507,7 +506,7 @@ all() -> [
    Qry = "seconds-from-duration(xs:dayTimeDuration(\"P3DT8H2M1.03S\")) eq 1.03", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -522,7 +521,7 @@ all() -> [
    Qry = "seconds-from-duration(xs:dayTimeDuration(\"-P3DT8H2M1.03S\")) eq -1.03", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -537,7 +536,7 @@ all() -> [
    Qry = "seconds-from-duration(xs:duration(\"-P3Y4M8DT1H23M2.34S\")) eq -2.34", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-SecondsFromDurationFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -552,7 +551,7 @@ all() -> [
    Qry = "fn:seconds-from-duration(xs:yearMonthDuration('P1Y'))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-seconds-from-duration-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-seconds-from-duration-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};

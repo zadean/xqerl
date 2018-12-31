@@ -28,9 +28,8 @@
 suite() -> [{timetrap,{seconds, 60}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -81,7 +80,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<XMark-result-Q1>Seongtaek Mattern</XMark-result-Q1>") of 
       true -> {comment, "XML Deep equal"};
@@ -101,7 +100,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q2.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -123,7 +122,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q3.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -145,7 +144,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<XMark-result-Q4/>") of 
       true -> {comment, "XML Deep equal"};
@@ -166,7 +165,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<XMark-result-Q5>200</XMark-result-Q5>") of 
       true -> {comment, "XML Deep equal"};
@@ -185,7 +184,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<XMark-result-Q6>647</XMark-result-Q6>") of 
       true -> {comment, "XML Deep equal"};
@@ -201,7 +200,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<XMark-result-Q7>2734</XMark-result-Q7>") of 
       true -> {comment, "XML Deep equal"};
@@ -222,7 +221,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q8.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -248,7 +247,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q9.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -287,7 +286,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q10.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -310,7 +309,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q11.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -334,7 +333,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q12.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -354,7 +353,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q13.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -375,7 +374,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q14.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -395,7 +394,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q15.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -416,7 +415,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q16.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -436,7 +435,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q17.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -458,7 +457,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q18.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -479,7 +478,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q19.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -502,7 +501,7 @@ environment('XMarkAuction',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-Q20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-Q20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-Q20.xml")}) of 
       true -> {comment, "XML Deep equal"};
@@ -783,7 +782,7 @@ declare function local:convert($v as xs:decimal?) as xs:decimal?
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "XMark-All.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XMark-All.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "XMark/XMark-All.xml")}) of 
       true -> {comment, "XML Deep equal"};

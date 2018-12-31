@@ -95,9 +95,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -199,7 +198,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -214,7 +213,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -229,7 +228,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -244,7 +243,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -259,7 +258,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -274,7 +273,7 @@ all() -> [
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -289,7 +288,7 @@ all() -> [
    Qry = "fn:replace(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace3args-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace3args-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "This is a characte") of 
       true -> {comment, "String correct"};
@@ -304,7 +303,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"*\", \"p\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replaceErr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replaceErr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -319,7 +318,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"\\\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replaceErr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replaceErr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -334,7 +333,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"$y\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replaceErr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replaceErr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -349,7 +348,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"bra\", \"*\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a*cada*") of 
       true -> {comment, "String correct"};
@@ -364,7 +363,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"a.*a\", \"*\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "*") of 
       true -> {comment, "String correct"};
@@ -379,7 +378,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"a.*?a\", \"*\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "*c*bra") of 
       true -> {comment, "String correct"};
@@ -394,7 +393,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"a\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "brcdbr") of 
       true -> {comment, "String correct"};
@@ -409,7 +408,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"a(.)\", \"a$1$1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abbraccaddabbra") of 
       true -> {comment, "String correct"};
@@ -424,7 +423,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \".*?\", \"$1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -439,7 +438,7 @@ all() -> [
    Qry = "replace(\"AAAA\", \"A+\", \"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "b") of 
       true -> {comment, "String correct"};
@@ -454,7 +453,7 @@ all() -> [
    Qry = "replace(\"AAAA\", \"A+?\", \"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "bbbb") of 
       true -> {comment, "String correct"};
@@ -469,7 +468,7 @@ all() -> [
    Qry = "replace(\"darted\", \"^(.*?)d(.*)$\", \"$1c$2\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "carted") of 
       true -> {comment, "String correct"};
@@ -484,7 +483,7 @@ all() -> [
    Qry = "fn:replace(\"abcd\", \"(ab)|(a)\", \"[1=$1][2=$2]\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "[1=ab][2=]cd") of 
       true -> {comment, "String correct"};
@@ -499,7 +498,7 @@ all() -> [
    Qry = "fn:count(fn:replace((), \"bra\", \"*\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -514,7 +513,7 @@ all() -> [
    Qry = "replace(\"abracadabra\", \"bra\", \"*\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a*cada*") of 
       true -> {comment, "String correct"};
@@ -529,7 +528,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra?abracadabra\", \"\\?\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -544,7 +543,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra*abracadabra\", \"\\*\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -559,7 +558,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra+abracadabra\", \"\\+\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -574,7 +573,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra{abracadabra\", \"\\{\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -589,7 +588,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra}abracadabra\", \"\\}\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -604,7 +603,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra(abracadabra\", \"\\(\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -619,7 +618,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra)abracadabra\", \"\\)\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -634,7 +633,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra[abracadabra\", \"\\[\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-20.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -649,7 +648,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra]abracadabra\", \"\\]\", \"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-21.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -664,7 +663,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra-abracadabra\", \"\\-\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-22.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -679,7 +678,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra.abracadabra\", \"\\.\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-23.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -694,7 +693,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra|abracadabra\", \"\\|\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-24.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -709,7 +708,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra\\abracadabra\", \"\\\\\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-25.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -724,7 +723,7 @@ all() -> [
    Qry = "fn:replace(\"abracadabra	abracadabra\", \"\\t\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-26.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -740,7 +739,7 @@ all() -> [
 abracadabra\", \"\\n\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-27.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -755,7 +754,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabraabracadabra\", \"aa{1}\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-28.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrwithbracadabra") of 
       true -> {comment, "String correct"};
@@ -770,7 +769,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabraabracadabraabracadabra\", \"aa{1,}\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-29.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrwithbracadabrwithbracadabra") of 
       true -> {comment, "String correct"};
@@ -785,7 +784,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabraabracadabraabracadabra\", \"aa{1,2}\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-30.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrwithbracadabrwithbracadabra") of 
       true -> {comment, "String correct"};
@@ -800,7 +799,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra^abracadabra\", \"\\^\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-31.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabrawithabracadabra") of 
       true -> {comment, "String correct"};
@@ -815,7 +814,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"^a\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-32.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "withbracadabra") of 
       true -> {comment, "String correct"};
@@ -830,7 +829,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"ww\",\"with\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-33.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abracadabra") of 
       true -> {comment, "String correct"};
@@ -845,7 +844,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"a\", \"$1\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-34.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "$1br$1c$1d$1br$1") of 
       true -> {comment, "String correct"};
@@ -860,7 +859,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a?bracadabra?\", \"a?\", \"\\$1\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-35.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\$1bracadabr\\$1") of 
       true -> {comment, "String correct"};
@@ -875,7 +874,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"([aA])(?:br)([aA])\", \"$1**$2\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-36.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a**acada**a") of 
       true -> {comment, "String correct"};
@@ -890,7 +889,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"a\", \"\\$\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-37.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "$br$c$d$br$") of 
       true -> {comment, "String correct"};
@@ -905,7 +904,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"(a)\", \"\\$$1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-38.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "$abr$ac$ad$abr$a") of 
       true -> {comment, "String correct"};
@@ -920,7 +919,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"a\", \"\\\\\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-39.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\\br\\c\\d\\br\\") of 
       true -> {comment, "String correct"};
@@ -935,7 +934,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"|$1$15|\", \"x\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-40.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "|aa|br|aa|c|aa|d|aa|br|aa|") of 
       true -> {comment, "String correct"};
@@ -950,7 +949,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"$1520\", \"x\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-41.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a20bra20ca20da20bra20") of 
       true -> {comment, "String correct"};
@@ -965,7 +964,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a)(b))))) ))))) )))))\", \"($14.$15.$16.$17)\", \"x\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-42.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "(ab.a.b.ab7)racad(ab.a.b.ab7)ra") of 
       true -> {comment, "String correct"};
@@ -980,7 +979,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-43.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"concat('Mary', codepoints-to-string(13), 'Jones')") of 
       true -> {comment, "Equal"};
@@ -995,7 +994,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones', 's')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-44.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'Jacob Jones'") of 
       true -> {comment, "Equal"};
@@ -1010,7 +1009,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"Now, let's SEND OUT for QUICHE!!\", \"[A-Z][A-Z]+\", \"$0$0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-45.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-45.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!\"") of 
       true -> {comment, "Equal"};
@@ -1025,7 +1024,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"12-34\", \"^\\d+(-(\\d+))?$\", \"$2\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-46.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"34\"") of 
       true -> {comment, "Equal"};
@@ -1040,7 +1039,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace('abc', '^.+?(b+)?$', '$1')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-47.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-47.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -1055,7 +1054,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace('abcd', '^a(.).$|^a...$', '$1')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-48.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-48.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"\"") of 
       true -> {comment, "Equal"};
@@ -1070,7 +1069,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a/b/c\", \"/\", \"\\\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-49.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-49.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a\\b\\c") of 
       true -> {comment, "String correct"};
@@ -1085,7 +1084,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a\\b\\c\", \"\\\", \"\\\\\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-50.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-50.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a\\\\b\\\\c") of 
       true -> {comment, "String correct"};
@@ -1100,7 +1099,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-51.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-51.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a$b$c") of 
       true -> {comment, "String correct"};
@@ -1115,7 +1114,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$'\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-52.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-52.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a$'b$'c") of 
       true -> {comment, "String correct"};
@@ -1130,7 +1129,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$`\", \"q\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-53.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-53.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "a$`b$`c") of 
       true -> {comment, "String correct"};
@@ -1145,7 +1144,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"$1$1\", \"x\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-54.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-54.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "aabraacaadaabraa") of 
       true -> {comment, "String correct"};
@@ -1161,7 +1160,7 @@ abracadabra\", \"\\n\",\"with\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-55.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-55.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ak") of 
       true -> {comment, "String correct"};
@@ -1176,7 +1175,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace('10%', '^\\d*\\.?\\d+', '')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-replace-56.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-56.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "%") of 
       true -> {comment, "String correct"};
@@ -1191,7 +1190,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \" \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -1206,7 +1205,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", (), \"replacement\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1221,7 +1220,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"pattern\", ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1236,7 +1235,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \"X\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0001") of 
       true -> {comment, "Correct error"};
@@ -1251,7 +1250,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \"\", ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -1266,7 +1265,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid\\\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1281,7 +1280,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"(input)\", \"thisIsInvalid$\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1296,7 +1295,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid\\ \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1311,7 +1310,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid$ \")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-ReplaceFunc-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-ReplaceFunc-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1326,7 +1325,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"a a a \", \"(a )\", \"replacment: \\1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1341,7 +1340,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"a a a \", \"(a )\", \"replacment: \\1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0004") of 
       true -> {comment, "Correct error"};
@@ -1356,7 +1355,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"abcd\", \"(a)\\2(b)\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1371,7 +1370,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"abcd\", \"(asd)[\\1]\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1386,7 +1385,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"abcd\", \"(asd)[asd\\1]\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1401,7 +1400,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"abcd\", \"(asd)[asd\\0]\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1416,7 +1415,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"abcd\", \"1[asd\\0]\", \"\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
@@ -1438,7 +1437,7 @@ abracadabra\", \"\\n\",\"with\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ReplaceFunc-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ReplaceFunc-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[1]/para[1] = \"ThiQ Qbcd.\"") of 
@@ -1471,7 +1470,7 @@ abracadabra\", \"\\n\",\"with\")",
    ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-replace-001.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-replace-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1486,7 +1485,7 @@ abracadabra\", \"\\n\",\"with\")",
    Qry = "replace(\"a\",\"\",\"b\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-replace-002.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-replace-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -1503,7 +1502,7 @@ abracadabra\", \"\\n\",\"with\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-replace-003.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-replace-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -1520,7 +1519,7 @@ abracadabra\", \"\\n\",\"with\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-replace-004.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-replace-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};
@@ -1537,7 +1536,7 @@ abracadabra\", \"\\n\",\"with\")",
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-fn-replace-005.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-fn-replace-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0003") of 
       true -> {comment, "Correct error"};

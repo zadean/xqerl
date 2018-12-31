@@ -445,7 +445,7 @@ declare function _:print-testcase2($test-case, $name, $env)
     if ($test-case/*:module) then
       let $f := function($a)
                 {
-                  "   try xqerl_module:compile(filename:join(__BaseDir, """||
+                  "   try xqerl_code_server:compile(filename:join(__BaseDir, """||
                   string($a/@file)||""")) catch _:_ -> ok end" 
                 }
       return
@@ -471,10 +471,10 @@ declare function _:print-testcase2($test-case, $name, $env)
   (: add options if there is an environment :)
   (
     if ($test-case/*:environment) then
-      "   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
+      "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
       "             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,"||$_:n
     else
-      "   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
+      "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
       "             xqerl:run(Mod) of D -> D catch _:E -> E end,"||$_:n
   ) ||
   "   Out = " || _:print-result($test-case/*:result/*) ||', &#10;'||
@@ -745,7 +745,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set[@name = "fn-static-base-uri"]
+      $catalog/*:catalog/*:test-set(: [@name = "fn-static-base-uri"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
@@ -776,10 +776,9 @@ let $standardFuns       :=
   "end_per_suite(_Config) -> "                   ||$_:n||
   (: Timetrap set to 60 seconds to allow modules to be purged :)
   "   ct:timetrap({seconds,60}), "               ||$_:n||
-  "   xqerl_module:unload(all)."                 ||$_:n||
-  "init_per_suite(Config) -> "                   ||$_:n||
   (: Clears all compiled modules in the DB :)
-  "   xqerl_module:one_time_init(), "            ||$_:n||
+  "   xqerl_code_server:unload(all)."                 ||$_:n||
+  "init_per_suite(Config) -> "                   ||$_:n||
   "   {ok,_} = application:ensure_all_started(xqerl)," ||$_:n||
   "   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||$_:n||
   "   TD = filename:join(DD, ""QT3-test-suite""),"||$_:n||

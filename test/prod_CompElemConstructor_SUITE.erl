@@ -79,9 +79,8 @@
 suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
-   xqerl_module:unload(all).
+   xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
-   xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -226,7 +225,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element elem {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-name-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-name-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>text</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -241,7 +240,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "declare namespace foo=\"http://www.example.com/foo\"; element foo:elem {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-name-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-name-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo:elem xmlns:foo=\"http://www.example.com/foo\">text</foo:elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -256,7 +255,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element foo:elem {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-name-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-name-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
@@ -271,7 +270,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {()} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -286,7 +285,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {'one', 'two'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -301,7 +300,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -317,7 +316,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -332,7 +331,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {1,2} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -347,7 +346,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {123} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -362,7 +361,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:dateTime(\"1999-05-31T13:20:00\")} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -380,7 +379,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:QName('aQname')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<aQname>text</aQname>") of 
       true -> {comment, "XML Deep equal"};
@@ -395,7 +394,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {'elem'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>text</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -410,7 +409,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {'elem', ()} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>text</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -425,7 +424,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {(), 'elem'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>text</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -440,7 +439,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{element {'foo:elem'} {'text'}}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.example.com/foo\"><foo:elem>text</foo:elem></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -455,7 +454,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {'foo:elem'} {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -470,7 +469,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:untypedAtomic('elem')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>text</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -485,7 +484,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{element {xs:untypedAtomic('foo:elem')} {'text'}}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-16.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.example.com/foo\"><foo:elem>text</foo:elem></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -500,7 +499,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:untypedAtomic('foo:elem')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-17.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -515,7 +514,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {'el em'} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-18.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -530,7 +529,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:untypedAtomic('el em')} {'text'}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-compname-19.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-compname-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -545,7 +544,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "count((element elem {1, 'string', 1,2e3})/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -561,7 +560,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -576,7 +575,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "count((element elem {1, 2, <a/>, 3, 4, <b/>, 5, 6})/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-adjtext-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -591,7 +590,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element elem {1, element a {2, element b {element c {}, element d {3}}, 4}}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nested-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nested-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1<a>2<b><c/><d>3</d></b>4</a></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -607,7 +606,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nested-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nested-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
@@ -622,7 +621,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element elem {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/>") of 
       true -> {comment, "XML Deep equal"};
@@ -637,7 +636,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element elem {1,'a',3.5,4e2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1 a 3.5 400</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -653,7 +652,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -668,7 +667,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element elem {1, '', 2}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-enclexpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem>1  2</elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -683,7 +682,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "for $x in <a/>, $y in element elem {$x} return exactly-one($y/a) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -698,7 +697,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "for $x in <a b=\"b\"/>, $y in element elem {$x/@b} return $y/@b is $x/@b", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -713,7 +712,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "for $x in <!--comment-->, $y in element elem {$x} return exactly-one($y/comment()) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -728,7 +727,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "for $x in <?pi content?>, $y in element elem {$x} return exactly-one($y/processing-instruction()) is $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -743,7 +742,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "for $x in <a>text</a>, $y in element elem {$x/text()} return exactly-one($y/text()) is exactly-one($x/text())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-nodeid-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -759,7 +758,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -775,7 +774,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12678967") of 
@@ -799,7 +798,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -815,7 +814,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-constrmod-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"12678967") of 
@@ -842,7 +841,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "fn:base-uri(element elem {attribute xml:base {\"http://www.example.com\"}})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
@@ -857,7 +856,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "fn:base-uri(exactly-one((<elem xml:base=\"http://www.example.com\">{element a {}}</elem>)/a))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
@@ -872,7 +871,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "declare base-uri \"http://www.example.com\"; fn:base-uri(element elem {})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-baseuri-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "http://www.example.com") of 
       true -> {comment, "String correct"};
@@ -888,7 +887,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-doc-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-doc-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -903,7 +902,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "count((element elem {})/..)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-parent-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-parent-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -918,7 +917,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "fn:string(element elem {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-string-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-string-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab") of 
       true -> {comment, "String correct"};
@@ -933,7 +932,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "fn:data(element elem {'a', element a {}, 'b'})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-data-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-data-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ab") of 
       true -> {comment, "String correct"};
@@ -949,7 +948,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-attr-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-attr-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
@@ -965,7 +964,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-attr-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-attr-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0024") of 
       true -> {comment, "Correct error"};
@@ -981,7 +980,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-attr-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-attr-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem mark=\"w0\" west-attr-1=\"w1\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -997,7 +996,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-compelem-attr-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compelem-attr-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0025") of 
       true -> {comment, "Correct error"};
@@ -1012,7 +1011,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element \"name\" {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1027,7 +1026,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "<elem>{\"\", \"\", <e/>, <b></b>}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem> <e/><b/></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -1042,7 +1041,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "<elem>{<e/>, <b></b>, \"\", \"\"}</elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem><e/><b/> </elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -1057,7 +1056,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {\"aPrefix:localName\"} {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -1072,7 +1071,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {xs:untypedAtomic(\"aPrefix::localName\")} {\"content\"}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
@@ -1087,7 +1086,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "data(element foo {\"dsa\"}) instance of xs:untypedAtomic", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1102,7 +1101,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "data(element foo {\"dsa\"})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-7.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "dsa") of 
       true -> {comment, "String correct"};
@@ -1117,7 +1116,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element e {\"content\"} instance of element(*, xs:anyType)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-8.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1132,7 +1131,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element e {\"content\"} instance of element(*, xs:untyped)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-9.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
@@ -1155,7 +1154,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "declare construction strip; element e {\"content\"} instance of element(*, xs:untyped)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-10.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
@@ -1170,7 +1169,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element e {\"content\"} instance of element(a, xs:anyType)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-11.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1185,7 +1184,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "declare construction strip; element e {\"content\"} instance of element(b, xs:untyped)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-12.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -1200,7 +1199,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element e {element b{()}}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-13.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e><b/></e>") of 
       true -> {comment, "XML Deep equal"};
@@ -1220,7 +1219,7 @@ environment('acme_corp',__BaseDir) ->
       ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-14.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a xmlns:prefix=\"http://example.com/\"><b/></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -1238,7 +1237,7 @@ environment('acme_corp',__BaseDir) ->
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ComputeConElem-15.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ComputeConElem-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<Boston xmlns=\"http://example.com/NS\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1253,7 +1252,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "element {\"xmlns:error\"} {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-1.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQDY0096") of 
@@ -1276,7 +1275,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) element { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"error\")} {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-2.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0096") of 
       true -> {comment, "Correct error"};
@@ -1291,7 +1290,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) element { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"foo:error\")} {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-3.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0096") of 
       true -> {comment, "Correct error"};
@@ -1306,7 +1305,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is 'xml' and namespace URI is not 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) element { fn:QName(\"http://example.com/not-XML-uri\",\"xml:error\") } {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-4.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0096") of 
       true -> {comment, "Correct error"};
@@ -1321,7 +1320,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is not 'xml' and its namespace URI is 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) element { fn:QName(\"http://www.w3.org/XML/1998/namespace\",\"foo:error\") } {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-5.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0096") of 
       true -> {comment, "Correct error"};
@@ -1336,7 +1335,7 @@ environment('acme_corp',__BaseDir) ->
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is 'xmlns' Mary Holstege :) element { fn:QName(\"http://example.com/some-uri\",\"xmlns:error\") } {}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "comp-elem-bad-name-6.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "comp-elem-bad-name-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0096") of 
       true -> {comment, "Correct error"};
