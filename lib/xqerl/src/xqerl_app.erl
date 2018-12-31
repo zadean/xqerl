@@ -37,10 +37,10 @@
 
 start(_StartType, _StartArgs) ->
    logger:set_primary_config(level, debug), % turn on some logging for now
+   xqerl_config:normalize(xqerl),
    case xqerl_sup:start_link() of
       {ok,Pid} ->
-         xqerl_config:normalize(xqerl),
-         ok = logger:add_handlers(xqerl),
+         _ = logger:add_handlers(xqerl),
          {ok,Pid};
       Error ->
          Error

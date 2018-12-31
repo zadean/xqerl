@@ -31,9 +31,9 @@ run(Mod, Options) when is_atom(Mod) ->
    try
       Mod:main(Options)
    catch
-      _:#xqError{} = E ->
+      _:#xqError{} = E:S ->
          ?dbg("run",E),
-         E;
+         E#xqError{additional = xqerl_lib:format_stacktrace(S)};
       _:E:S ->
          ?dbg("run",E),
          ?dbg("run",S),
@@ -42,39 +42,31 @@ run(Mod, Options) when is_atom(Mod) ->
    end;
 run(#xqError{} = E, _Options) -> E;
 run(Str, Options) ->
-   %catch code:purge(xqerl_main),
-   %catch code:delete(xqerl_main),
    try
       Tokens = scan_tokens(Str),
-%io:format("~p~n",[Tokens]),
       % init the parse
-      erlang:put(xquery_id, xqerl_context:init(parser)),
+      _ = xqerl_context:init(parser),
       Tree = parse_tokens(Tokens),
       Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
       #{body := #xqModule{} = X} = Static,
       {_,_,_,_,_,Ret} = scan_tree(Static#{body := X#xqModule{type = expression}}),
-%io:format("~p~n",[Tree]),
-%io:format("~p~n",["***************************************************"]),
-%io:format("~p~n",[maps:get(body, Static)]),
       xqerl_context:destroy(Static),
-%io:format("~p~n",[Ret]),
       {value, Res, _} = erl_eval:exprs(Ret, 
                                        [{'Options',Options}],
                                        {value, fun handle_local_function/2}),
-%      erlang:erase(),
-%io:format("~p~n",[Res]),
       Res
    catch
       _:#xqError{} = E:StackTrace ->
-         ?dbg("run",E),
-         ?dbg("run",StackTrace),
-         E;
+         E#xqError{additional = xqerl_lib:format_stacktrace(StackTrace)};
       _:E:StackTrace ->
-         ?dbg("run",E),
-         ?dbg("run",StackTrace),
-         {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
-         E1
-         %E
+         #xqError{name = 
+                    #xqAtomicValue{type = 'xs:QName', 
+                                   value =
+                                     #qname{namespace = <<"http://www.w3.org/2005/xqt-errors">>,
+                                            prefix = <<"err">>, 
+                                local_name = <<"XPST0000">>}},
+                  description = E,
+                  additional = xqerl_lib:format_stacktrace(StackTrace)}
    after
       erlang:erase() % TODO only erase stuff added by the execution
    end.
@@ -141,38 +133,6 @@ scan_tree_static(Tree,FileName) ->
          xqerl_error:error('XPST0003')
    end.
 
-% ok | error
-compile_abstract(Abstract) ->
-   try 
-      compile:forms(Abstract, 
-                      [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
-      {ok,M,B} ->
-         code:load_binary(M, M, B),
-         B;
-      {error,E,_} ->
-         ?dbg("compile_abstract",E),
-         throw(E)
-   catch
-      _:#xqError{} = E ->
-         ?dbg("compile_abstract",E),
-         throw(E);
-      _:E:StackTrace ->
-         ?info("compile_abstract",E),
-         ?info("compile_abstract",StackTrace),
-         xqerl_error:error('XPST0008')
-   end.
-
--if(?PRINT).
-   % see what comes out
-   print_erl(B) ->
-      {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
-      FL = erl_syntax:form_list(AC),
-      PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
-      io:fwrite("~ts~n", [PP]),
-      ok.
--elif(true).
-   print_erl(_) -> ok.
--endif.
 
 handle_local_function(FunctionName, Arguments) ->
     io:format("Local call to ~p with ~p~n", [FunctionName, Arguments]).

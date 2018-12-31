@@ -5,7 +5,6 @@
       kernel,
       stdlib,
       syntax_tools,
-      mnesia,
       xmerl,
       compiler,
       common_test,
@@ -15,9 +14,9 @@
       xqerl_db,
       xs_regex,
       hackney,
-      cowboy,
-      observer, 
-      runtime_tools
+      cowboy%,
+      %observer, 
+      %runtime_tools
    ]},
    {mod, { xqerl_app, []}},
    {env, [

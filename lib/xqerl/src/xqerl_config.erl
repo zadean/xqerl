@@ -38,12 +38,15 @@ normalize(App) ->
 %% Internal functions
 %% ====================================================================
 
-normalize(xqerl, [{log_file, H}|T]) ->
-   application:set_env(xqerl, logger, logger(H), [{persistent, true}]),
-   normalize(xqerl, T);
-normalize(xqerl_db, [{data_dir, H}|T]) ->
-   application:set_env(xqerl_db, data_dir, make_absolute(H), [{persistent, true}]),
-   normalize(xqerl_db, T);
+normalize(A, [{log_file, H}|T]) ->
+   application:set_env(A, logger, logger(H), [{persistent, true}]),
+   normalize(A, T);
+normalize(A, [{code_dir, H}|T]) ->
+   application:set_env(A, code_dir, make_absolute(H), [{persistent, true}]),
+   normalize(A, T);
+normalize(A, [{data_dir, H}|T]) ->
+   application:set_env(A, data_dir, make_absolute(H), [{persistent, true}]),
+   normalize(A, T);
 normalize(A,[_|T]) ->
    normalize(A,T);
 normalize(_,[]) -> ok.

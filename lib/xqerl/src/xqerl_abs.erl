@@ -251,7 +251,7 @@ scan_mod(#xqModule{prolog = Prolog,
                    namespaces => ConstNamespaces},
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
-                                        {true, xqerl_static:string_atom(N)};
+                                        {true, N};
                                      (_) -> false
                                   end,Prolog),
    
@@ -286,6 +286,8 @@ scan_mod(#xqModule{prolog = Prolog,
 % Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
 % ?dbg("Dispatch",Dispatch),
 % _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+%?dbg("ImportedMods",ImportedMods),
+%?dbg("AllAbs",P10),
    {ModNs,
     library,
     ImportedMods,
@@ -365,12 +367,13 @@ scan_mod(#xqModule{prolog = Prolog,
    P2 = lists:flatten([?P(export_functions(Functions)),
                        RestExports,
                        ?P(used_records())]),
+   AllAbs = lists:flatten([P1,[P1a|P2],P3,P4,P5,P6,P7]),
    {FileName,
     main,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    lists:flatten([P1,[P1a|P2],P3,P4,P5,P6,P7])
+    AllAbs
    };
 
 scan_mod(#xqModule{prolog = Prolog, 

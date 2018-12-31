@@ -124,7 +124,7 @@ assert_xml(Result, QueryString0) ->
                                             value = <<"<x>",QueryString/binary,"</x>">>})
                  of
                  {'EXIT',#xqError{}} ->
-                    Mod = xqerl_module:compile("xqerl_main", unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
+                    Mod = xqerl_code_server:compile("xqerl_main", unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
                     R = Mod:main(#{}),
                     ?dbg("fallback to run",R),
                     R;
@@ -325,25 +325,15 @@ ensure_list(L) when is_list(L) -> L;
 ensure_list(L) -> [L].   
 
 run(all) ->
-   xqerl_module:one_time_init(),
    run(prod),
-   xqerl_module:one_time_init(),
    run(app),
-   xqerl_module:one_time_init(),
    run(misc),
-   xqerl_module:one_time_init(),
    run(fn),
-   xqerl_module:one_time_init(),
    run(fn2),
-   xqerl_module:one_time_init(),
    run(map),
-   xqerl_module:one_time_init(),
    run(op),
-   xqerl_module:one_time_init(),
    run(array),
-   xqerl_module:one_time_init(),
-   run(math),
-   xqerl_module:one_time_init();
+   run(math);
 run(app) ->
    run_suite(app_CatalogCheck_SUITE),
    run_suite(app_Demos_SUITE),
@@ -925,11 +915,13 @@ handle_environment(List) ->
 %%                                 Uri ++ "' at '" ++ File ++ "';\n"
 %%              end, Schemas),
    if Modules =/= [] ->
-         xqerl_module:unload(all);
+         xqerl_code_server:unload(all);
       true -> ok
    end,
+   ModulesP = [{File,unicode:characters_to_binary("Q{"++Uri++"}")} || 
+               {File,Uri} <- Modules],
    _ = lists:foreach(fun({File,_Uri}) ->
-                           catch xqerl_module:compile(File,[],Modules)
+                           catch xqerl_code_server:compile(File,[],ModulesP)
              end, Modules),
    
    DecFormats1 = lists:map(
@@ -951,11 +943,15 @@ handle_environment(List) ->
    
    % these can be complex queries, so compile/run instead of just exec
    Params1 = lists:foldl(fun({Name,"",Value},Map) ->
-                               Mod = xqerl_module:compile("param", Value),
-                               Map#{?LB(Name) => Mod:main(#{})};
+                               Mod = xqerl_code_server:compile("param", Value),
+                               Out = Map#{?LB(Name) => Mod:main(#{})},
+                               code:purge(Mod), code:delete(Mod), code:purge(Mod),
+                               Out;
                           ({Name,As,Value},Map) ->
-                             Mod = xqerl_module:compile("param", Value++" cast as "++As),
-                             Map#{?LB(Name) => Mod:main(#{})}                             
+                             Mod = xqerl_code_server:compile("param", Value++" cast as "++As),
+                             Out = Map#{?LB(Name) => Mod:main(#{})},
+                             code:purge(Mod), code:delete(Mod), code:purge(Mod),
+                             Out                             
                        end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
                                    Ns = maps:get(namespaces, Map, []),

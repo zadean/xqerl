@@ -3986,6 +3986,8 @@ variable_hash_name(#qname{namespace = 'no-namespace',local_name = L}) ->
    string_atom(<<"__Q{}", L/binary>>);
 variable_hash_name(#qname{namespace = <<>>,local_name = L}) ->
    string_atom(<<"__Q{}", L/binary>>);
+variable_hash_name(#qname{namespace = <<"Q{",_/binary>> = N,local_name = L}) ->
+   string_atom(<<"__", N/binary, L/binary>>);
 variable_hash_name(#qname{namespace = N,local_name = L}) ->
    string_atom(<<"__Q{", N/binary, "}", L/binary>>).
 

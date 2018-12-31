@@ -819,47 +819,37 @@ add_default_static_values(Tab, RawCdt) ->
 
 %TODO annotations (private)
 get_module_exports(Imports) when is_list(Imports) ->
-   Acc = xqerl_module:get_static_signatures(),
+   Acc = xqerl_code_server:get_static_signatures(),
    lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
-                     case xqerl_module:get_signatures(Ns) of
-                        {atomic,{Funs,Vars}} ->
-                           {atomic,Name} = xqerl_module:get_module_name(Ns),
-                           try
-                              Name:static_props()
-                           of 
-                              Props ->
-                                 %?dbg("{Funs,Vars}",{Funs,Vars}),
-                                 FunsAcc1 = Funs ++ FunsAcc, 
-                                 VarsAcc1 = Vars ++ VarsAcc,
-                                 PropsAcc1 = Props ++ PropsAcc,
-                                 {FunsAcc1,VarsAcc1,PropsAcc1}
-                           catch 
-                              _:_ ->
-                                 xqerl_error:error('XQST0059', 
-                                                 "Unknown ModNamespace", 
-                                                 Ns)
-                           end;
-                        {aborted,Error} ->
-                           {[],[],[Error]}
+                     {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
+                     try
+                        Name:static_props()
+                     of 
+                        Props ->
+                           %?dbg("{Funs,Vars}",{Funs,Vars}),
+                           FunsAcc1 = Funs ++ FunsAcc, 
+                           VarsAcc1 = Vars ++ VarsAcc,
+                           PropsAcc1 = Props ++ PropsAcc,
+                           {FunsAcc1,VarsAcc1,PropsAcc1}
+                     catch 
+                        _:_ ->
+                           xqerl_error:error('XQST0059', 
+                                           "Unknown ModNamespace", 
+                                           Ns)
                      end
                end, Acc, Imports);
 get_module_exports({Ns,_Px}) ->
-   case xqerl_module:get_signatures(Ns) of
-      {atomic,{Funs,Vars}} ->
-         {atomic,Name} = xqerl_module:get_module_name(Ns),
-         try
-            Name:static_props()
-         of 
-            Props ->
-               {Funs,Vars,Props}
-         catch 
-            _:_ ->
-               xqerl_error:error('XQST0059', 
-                               "Unknown ModNamespace", 
-                               Ns)
-         end;
-      {aborted,Error} ->
-         {[],[],Error}
+   {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
+   try
+      Name:static_props()
+   of 
+      Props ->
+         {Funs,Vars,Props}
+   catch 
+      _:_ ->
+         xqerl_error:error('XQST0059', 
+                         "Unknown ModNamespace", 
+                         Ns)
    end.
 
 import_functions(Functions,Tab) ->

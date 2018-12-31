@@ -23,26 +23,6 @@
          info/1,
          shrink/0]).
 
--export([test/0]).
-
-test() ->
-   %{ok, _} = ?MODULE:start_link(),
-   Host = <<"http://xqerl.org/">>,
-   Paths = [begin
-               B = integer_to_binary(I),
-               <<Host/binary,B/binary,"/dir/">>
-            %end || I <- lists:seq(0, 255)],
-            end || I <- lists:seq(256, 512)],
-   _ = [xqldb_db_sup:start_child(P) || P <- Paths],
-   %_ = [?MODULE:new(P) || P <- Paths],
-   %_ = [?MODULE:open(P,self()) || P <- Paths],
-   _ = xqldb_db:databases(Host),
-   _ = [xqldb_db:close(P) || P <- Paths],
-   %E = [P || P <- Paths, not ?MODULE:exists(P)],
-   %?MODULE:stop(),
-   ok.
-
-
 start_link() ->
    gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
@@ -244,8 +224,8 @@ get_next_id(Name) ->
 init([]) ->
    DataDir = application:get_env(xqerl_db, data_dir, "./data"),
    AbsDir = filename:absname(DataDir),
-   ok = filelib:ensure_dir(AbsDir),
    TabFile = filename:join(AbsDir, "xqerl_db.meta"),
+   ok = filelib:ensure_dir(TabFile),
    {ok, TabName} = dets:open_file(TabFile, []),
    Next = get_next_id(TabName),
    PathMap = check_fs_exists(TabName, AbsDir),

@@ -47,5 +47,18 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
+   SupFlags = #{strategy => one_for_one},
+   Server = child_map(worker, xqerl_code_server, []),
+   
+   {ok, {SupFlags, [Server]}}.
 
+%% ====================================================================
+%% Internal functions
+%% ====================================================================
+
+child_map(Type, Module, Args) ->
+   #{id        => Module,
+     type      => Type,
+     shutdown  => brutal_kill,
+     start     => {Module, start_link, Args},
+     modules   => [Module]}.
