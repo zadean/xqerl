@@ -143,7 +143,12 @@ split_query(Qry) ->
    lists:foldl(F, #{}, KVs).
 
 key_fun({uca,Opts}) ->
-   xq_uca:uca(Opts);
+   case erluca:uca(Opts) of
+      {error, _} ->
+         ?err('FOCH0002');
+      R ->
+         R
+   end;
 key_fun(codepoint) ->
    codepoint;
    %fun unicode:characters_to_binary/1;

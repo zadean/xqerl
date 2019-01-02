@@ -13,6 +13,7 @@
       inets,
       xqerl_db,
       xs_regex,
+      erluca,
       hackney,
       cowboy%,
       %observer, 
