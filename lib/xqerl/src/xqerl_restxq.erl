@@ -32,18 +32,9 @@
 %% ====================================================================
 -export([parse_template_fields/1,
          build_endpoints/2,
+         endpoint_sort/1,
          parse_annos/1]).
 
-
--record(endpoint, {path,
-                   path_length,
-                   path_map,
-                   methods,
-                   media_types,
-                   output_media_types,
-                   fields,
-                   module,
-                   function}).
 
 %% TODO: when the first value in the return value of a RESTXQ function is
 %% an element rest:response, with possibly http:response inside,
@@ -92,8 +83,7 @@ build_endpoints(Module, RestWrappers) ->
              endpoint_rec(Path,Methods,MediaTypes,OutputTypes,
                           Fields,Module,Function)
        end,
-   EPs = [F(RW) || RW <- RestWrappers],
-   endpoint_sort(EPs).
+   [F(RW) || RW <- RestWrappers].
 
 
 parse_annos(Annos) ->

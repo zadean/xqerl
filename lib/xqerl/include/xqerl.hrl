@@ -288,4 +288,15 @@
                   cnt :: non_neg_integer()
 }).
 
+% RESTXQ endpoint
+-record(endpoint, {path,
+                   path_length,
+                   path_map,
+                   methods,
+                   media_types,
+                   output_media_types,
+                   fields,
+                   module,
+                   function}).
+
 -endif. % -ifdef(xqerl_hrl).

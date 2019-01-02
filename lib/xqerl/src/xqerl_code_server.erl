@@ -60,7 +60,8 @@
          error                      :: term(),
          last_compile_time          :: term(),
          first_compile_time         :: term(),
-         imported_modules  = []     :: [binary()]
+         imported_modules  = []     :: [binary()],
+         rest_xq           = []     :: [term()]
         }).
 
 start_link() ->
@@ -127,10 +128,13 @@ init([]) ->
    {ok, Tab} = dets:open_file(TabName, [{type, set},{keypos, 2}]),
    % add ebin path to code path
    true = code:add_pathz(EbinDir),
+   DispatchFileName = filename:join(CodeDir, "dispatch.dat"),
+   ok = init_rest(DispatchFileName),
    {ok, #{dir  => CodeDir,
           stat => static_signatures(),
           tab  => Tab,
-          ebin => EbinDir}}.
+          ebin => EbinDir,
+          disp => DispatchFileName}}.
 
 
 -spec handle_call(Request :: term(), From :: {pid(), Tag :: term()}, State :: term()) -> Result when
@@ -148,8 +152,9 @@ init([]) ->
 	Reason :: term().
 
 handle_call(unload, _From, #{tab  := Tab,
-                             ebin := Ebin} = State) ->
-   Reply = do_unload(Tab, Ebin),
+                             ebin := Ebin,
+                             disp := DispatchFile} = State) ->
+   Reply = do_unload(Tab, Ebin, DispatchFile),
    {reply, Reply, State};
 
 handle_call(get_static_sigs, _From, #{stat := Sigs} = State) ->
@@ -267,10 +272,10 @@ do_compile(Filename, Str, Hints) ->
       Tree = parse_tokens(Toks),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri),
-      {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
+      {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
       xqerl_context:destroy(Static),
    
-      {ok,M,B} = compile:forms(Ret,
+      {ok,M,B} = compile:forms(Forms,
                                [debug_info, verbose,
                                 return_errors, no_auto_import,
                                 binary]),
@@ -284,7 +289,8 @@ do_compile(Filename, Str, Hints) ->
                    last_compile_time = erlang:system_time(),
                    imported_modules = ImportedMods,
                    function_sigs = patch(FunSigs,M),
-                   variable_sigs = patch(VarSigs,M)},
+                   variable_sigs = patch(VarSigs,M),
+                   rest_xq = RestXQ},
       gen_server:call(?MODULE, {save_mod, Rec, B})
    catch 
       ?NOT_FOUND(V) = Error ->
@@ -365,31 +371,92 @@ scan_tree(Tree) ->
          xqerl_error:error('XPST0003')
    end.
 
-save_module(#xq_module{module_name = ModName} = ModuleRecord,
+save_module(#xq_module{module_name = ModName,
+                       rest_xq = RestXq} = ModuleRecord,
             Beam, #{tab  := Tab,
-                    ebin := Ebin }) ->
+                    ebin := Ebin,
+                    disp := Dispatch }) ->
    BeamFilename = filename:join([Ebin, ModName]) ++ ".beam",
    %?dbg("ModName",ModName),
    _ = print_erl(ModName, Beam),
    file:write_file(BeamFilename, Beam),
    dets:insert(Tab, ModuleRecord),
-   ModName.
+   if RestXq == [] ->
+         ModName;
+      true ->
+         _ = merge_load_dispatch(ModName, RestXq, Dispatch),
+         ModName
+   end.
+
+init_rest(DispatchFileName) ->
+   Port = application:get_env(xqerl, port, 8081),
+   Paths  = case filelib:is_regular(DispatchFileName) of
+                true ->
+                   {ok, Dis} = file:consult(DispatchFileName),
+                   Dis;
+                false ->
+                   Dis = [],
+                   ok = write_dispatch(DispatchFileName, Dis),
+                   Dis
+             end,
+   DisTerm = xqerl_restxq:endpoint_sort(Paths),
+   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+   _ = cowboy:start_clear(xqerl_listener, 
+                          [{port, Port}], 
+                          #{env => #{dispatch => Dispatch}}),
+   ok.
+
+merge_load_dispatch(Module, Rest, DispatchFile) ->
+   {ok, OldEndPoints} = file:consult(DispatchFile),
+   NewEndPoints = xqerl_restxq:build_endpoints(Module, Rest),
+   EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints),
+   DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
+   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+   _ = write_dispatch(DispatchFile, EndPoints),
+   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+   ok.
+
+remove_module_dispatch(Module, DispatchFile) ->
+   {ok, OldEndPoints} = file:consult(DispatchFile),
+   EndPoints = [Ep || #endpoint{module = M} = Ep <- OldEndPoints,
+                      M =/= Module],
+   _ = write_dispatch(DispatchFile, EndPoints),
+   DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
+   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+   ok.
+   
+
+write_dispatch(Filename, Term) ->
+   Ser = io_lib:format("~tp.~n", [Term]),
+   file:write_file(Filename, Ser).
+
+% RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
+% Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
+% ?dbg("Dispatch",Dispatch),
+% _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+
 
 %% trim_q(<<"Q{", Namespace0/binary>>) ->
 %%    binary:part(Namespace0, 0, byte_size(Namespace0) - 1);
 trim_q(Namespace0) -> Namespace0.
 
-do_unload(Tab, Ebin) ->
+do_unload(Tab, Ebin, DispatchFile) ->
    All = dets:match(Tab, '$1'),
    _ = [begin
            file:delete(filename:join(Ebin, Mod) ++ ".beam"),
            code:purge(Mod),
            code:delete(Mod),
            code:purge(Mod),
-           dets:delete(Tab, Key)
+           dets:delete(Tab, Key),
+           if R == [] ->
+                 ok;
+              true ->
+                 remove_module_dispatch(Mod, DispatchFile)
+           end
         end || 
         A <- All,
-        #xq_module{target_namespace = Key, module_name = Mod} <- A],
+        #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
 
 -define(PRINT,false).

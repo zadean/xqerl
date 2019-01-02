@@ -229,10 +229,6 @@ scan_mod(#xqModule{prolog = Prolog,
                    declaration = {ModNs,_Prefix}, 
                    type = library,
                    body = _}, Map) ->
-   
-% Dis = cowboy_router:compile([{'_', []}]),
-% _ = cowboy:start_clear(xqerl_listener, [{port, 8082}], #{env => #{dispatch => Dis}}),
-   
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
@@ -273,7 +269,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
    P8 = function_functions(EmptyMap, Functions),
-   {RestExports, _RestWrappers} = rest_functions(EmptyMap, Functions),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
    P4 = lists:flatten([
          ?P(export_variables(Variables, EmptyMap)),
@@ -282,10 +278,6 @@ scan_mod(#xqModule{prolog = Prolog,
          ?P(used_records())
         ]),
    P10 = lists:flatten([P3, [P1a|P4], P5, P6, P7, P8, P9]),
-% RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
-% Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
-% ?dbg("Dispatch",Dispatch),
-% _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
 %?dbg("ImportedMods",ImportedMods),
 %?dbg("AllAbs",P10),
    {ModNs,
@@ -293,8 +285,8 @@ scan_mod(#xqModule{prolog = Prolog,
     ImportedMods,
     P1,
     P2,
-    % abstract after this point
-    P10
+    P10,
+    RestWrappers
    };
 
 scan_mod(#xqModule{prolog = Prolog, 
@@ -362,7 +354,7 @@ scan_mod(#xqModule{prolog = Prolog,
    P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
-   {RestExports, _RestWrappers} = rest_functions(EmptyMap, Functions),
+   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
                        RestExports,
@@ -373,7 +365,8 @@ scan_mod(#xqModule{prolog = Prolog,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    AllAbs
+    AllAbs,
+    RestWrappers
    };
 
 scan_mod(#xqModule{prolog = Prolog, 
