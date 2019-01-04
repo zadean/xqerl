@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<xqx:module xmlns:xqx="http://www.w3.org/2005/XQueryX"
+            xmlns:xqxuf="http://www.w3.org/2007/xquery-update-10"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.w3.org/2007/xquery-update-10
+                                http://www.w3.org/2007/xquery-update-10/xquery-update-10-xqueryx.xsd">
+  <xqx:mainModule>
+    <xqx:queryBody>
+      <xqxuf:replaceExpr>
+        <xqxuf:replaceValue/>
+        <xqxuf:targetExpr>
+          <xqx:sequenceExpr>
+            <xqx:computedCommentConstructor>
+              <xqx:argExpr>
+                <xqx:stringConstantExpr>
+                  <xqx:value> comment1 </xqx:value>
+                </xqx:stringConstantExpr>
+              </xqx:argExpr>
+            </xqx:computedCommentConstructor>
+            <xqx:computedCommentConstructor>
+              <xqx:argExpr>
+                <xqx:stringConstantExpr>
+                  <xqx:value> comment2</xqx:value>
+                </xqx:stringConstantExpr>
+              </xqx:argExpr>
+            </xqx:computedCommentConstructor>
+          </xqx:sequenceExpr>
+        </xqxuf:targetExpr>
+        <xqxuf:replacementExpr>
+          <xqx:integerConstantExpr>
+            <xqx:value>3</xqx:value>
+          </xqx:integerConstantExpr>
+        </xqxuf:replacementExpr>
+      </xqxuf:replaceExpr>
+    </xqx:queryBody>
+  </xqx:mainModule>
+</xqx:module>

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xqx:module xmlns:xqx="http://www.w3.org/2005/XQueryX"
+            xmlns:xqxuf="http://www.w3.org/2007/xquery-update-10"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.w3.org/2007/xquery-update-10
+                                http://www.w3.org/2007/xquery-update-10/xquery-update-10-xqueryx.xsd">
+  <xqx:mainModule>
+    <xqx:prolog>
+      <xqx:namespaceDecl>
+        <xqx:prefix>books</xqx:prefix>
+        <xqx:uri>http://ns.example.com/books</xqx:uri>
+      </xqx:namespaceDecl>
+      <xqx:varDecl>
+        <xqx:varName>input-context</xqx:varName>
+        <xqx:external/>
+      </xqx:varDecl>
+    </xqx:prolog>
+    <xqx:queryBody>
+      <xqxuf:insertExpr>
+        <xqxuf:sourceExpr>
+          <xqx:computedAttributeConstructor>
+            <xqx:tagName>ITEMS</xqx:tagName>
+            <xqx:valueExpr>
+              <xqx:functionCallExpr>
+                <xqx:functionName>count</xqx:functionName>
+                <xqx:arguments>
+                  <xqx:pathExpr>
+                    <xqx:stepExpr>
+                      <xqx:filterExpr>
+                        <xqx:varRef>
+                          <xqx:name>input-context</xqx:name>
+                        </xqx:varRef>
+                      </xqx:filterExpr>
+                    </xqx:stepExpr>
+                    <xqx:stepExpr>
+                      <xqx:xpathAxis>child</xqx:xpathAxis>
+                      <xqx:nameTest xqx:prefix="books">BOOKLIST</xqx:nameTest>
+                    </xqx:stepExpr>
+                    <xqx:stepExpr>
+                      <xqx:xpathAxis>child</xqx:xpathAxis>
+                      <xqx:nameTest xqx:prefix="books">BOOKS</xqx:nameTest>
+                    </xqx:stepExpr>
+                    <xqx:stepExpr>
+                      <xqx:xpathAxis>child</xqx:xpathAxis>
+                      <xqx:nameTest xqx:prefix="books">ITEM</xqx:nameTest>
+                    </xqx:stepExpr>
+                  </xqx:pathExpr>
+                </xqx:arguments>
+              </xqx:functionCallExpr>
+            </xqx:valueExpr>
+          </xqx:computedAttributeConstructor>
+        </xqxuf:sourceExpr>
+        <xqxuf:insertInto/>
+        <xqxuf:targetExpr>
+          <xqx:pathExpr>
+            <xqx:stepExpr>
+              <xqx:filterExpr>
+                <xqx:varRef>
+                  <xqx:name>input-context</xqx:name>
+                </xqx:varRef>
+              </xqx:filterExpr>
+            </xqx:stepExpr>
+            <xqx:stepExpr>
+              <xqx:xpathAxis>child</xqx:xpathAxis>
+              <xqx:nameTest xqx:prefix="books">BOOKLIST</xqx:nameTest>
+            </xqx:stepExpr>
+            <xqx:stepExpr>
+              <xqx:xpathAxis>child</xqx:xpathAxis>
+              <xqx:nameTest xqx:prefix="books">BOOKS</xqx:nameTest>
+            </xqx:stepExpr>
+          </xqx:pathExpr>
+        </xqxuf:targetExpr>
+      </xqxuf:insertExpr>
+    </xqx:queryBody>
+  </xqx:mainModule>
+</xqx:module>

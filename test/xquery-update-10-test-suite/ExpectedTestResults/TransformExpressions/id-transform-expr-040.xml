@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+ <example:works xmlns:example="http://www.example.com/xquery">
+  <example:employee name="Jane Doe 1" gender="female">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P1</example:pnum>
+   <example:hours>40</example:hours>
+  </example:employee>
+  <example:employee name = "John Doe 2" gender="male">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P2</example:pnum>
+   <example:hours>70</example:hours>
+   <example:hours>20</example:hours>Text data from Employee[2]
+  </example:employee>
+  <example:employee name = "Jane Doe 3" gender="female">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P3</example:pnum>
+   <example:hours>80</example:hours>
+  </example:employee>
+  <example:employee name= "John Doe 4" gender="male">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P4</example:pnum>
+   <example:hours>20</example:hours>
+   <example:hours>40</example:hours>
+  </example:employee>
+  <example:employee name= "Jane Doe 5" gender="female">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P5</example:pnum>
+   <example:hours>20</example:hours>
+   <example:hours>30</example:hours>   
+  </example:employee>
+  <example:employee name= "John Doe 6" gender="male">
+   <example:empnum>E1</example:empnum>
+   <example:pnum>P6</example:pnum>
+   <example:hours>12</example:hours>
+  </example:employee>
+  <example:employee name= "Jane Doe 7" gender="female">
+   <example:empnum>E2</example:empnum>
+   <example:pnum>P1</example:pnum>
+   <example:hours>40</example:hours>
+  </example:employee>
+  <example:employee name= "John Doe 8" gender="male">
+   <example:empnum>E2</example:empnum>
+   <example:pnum>P2</example:pnum>
+   <example:hours>80</example:hours>
+  </example:employee>
+  <example:employee name= "Jane Doe 9" gender="female">
+   <example:empnum>E3</example:empnum>
+   <example:pnum>P2</example:pnum>
+   <example:hours>20</example:hours>
+  </example:employee>
+  <example:employee name= "John Doe 10" gender="male">
+   <example:empnum>E3</example:empnum>
+   <example:pnum>P2</example:pnum>
+   <example:hours>20</example:hours>
+  </example:employee>
+  <example:employee name= "Jane Doe 11" gender="female">
+   <example:empnum>E4</example:empnum>
+   <example:pnum>P2</example:pnum>
+   <example:hours>20</example:hours>
+  </example:employee>
+  <example:employee name= "John Doe 12" gender="male">
+   <example:empnum>E4</example:empnum>
+   <example:pnum>P4</example:pnum>
+   <example:hours>40</example:hours>
+   <example:overtime>
+     <example:day>Monday</example:day>
+     <example:day>Tuesday</example:day>
+   </example:overtime>
+  </example:employee>
+  <example:employee name= "Jane Doe 13" gender="female" type="FT">
+   <example:empnum>E4</example:empnum>
+   <example:pnum>P5</example:pnum>
+   <example:hours>80</example:hours>
+   <example:status>active</example:status>
+   <!-- A Comment on Employee # 13 -->
+   <?PI value="PIValue"?>
+  </example:employee>
+ </example:works>

@@ -1,0 +1,22 @@
+<result count="10"> text-1A
+     text-2A
+       text-3A
+       text-3B
+       text-3C
+       text-3D
+       text-4A
+         text-4B
+             text-5A
+           text-6A
+            </result><result count="12"> text-6B
+           text-5B
+         text-4E
+             text-4G
+         text-4H
+       text-3E
+       text-3F
+      Text in east text-3G
+       text-3H
+     text-2D
+   text-1D
+</result>

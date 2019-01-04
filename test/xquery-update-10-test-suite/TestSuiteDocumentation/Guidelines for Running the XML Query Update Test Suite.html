@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Guidelines for Running the XML Query Update Test Suite</title>
+  <meta name="generator" content="amaya 9.51, see http://www.w3.org/Amaya/" />
+</head>
+
+<body xml:lang="en" lang="en">
+<p><img alt="W3C" src="http://www.w3.org/Icons/WWW/w3c_home.gif" /></p>
+
+<h1 style="text-align: center;">Guidelines for Running the XML Query Update
+Test Suite</h1>
+
+<p style="text-align: center;"></p>
+
+<h1>Overview</h1>
+
+<p>This document provides information to implementers who wish to run the
+XQuery Update Test Suite (XQUTS) on their implementation. It includes
+guidelines how test cases can be customized in order to run on an
+implementation, and describes the process of evaluating the results. The
+documentation of the XML Query Update Test Suite, which defines the structure
+of the test cases and the catalog, can be found in [1]. Guidelines for
+submitting results to the XML Query Working Group can be found in [3].</p>
+
+<h1>Obtaining a Test Harness</h1>
+
+<p>Implementers are expected to write their own test harness that implements
+the following tasks:</p>
+<ul>
+  <li>Read test cases from the catalog</li>
+  <li>Deciding which test cases to run</li>
+  <li>Execute each test case by:
+    <ul>
+      <li>Applying customization, if applicable (see below)</li>
+      <li>Reading the source files specified in the catalog</li>
+      <li>Executing the queries in each of the query states (in order)</li>
+      <li>Using the appropriate comparators to match the results</li>
+      <li>Categorizing the test result (pass, fail, etc., see below)</li>
+    </ul>
+  </li>
+  <li>Produce a file containing the results of the test run</li>
+</ul>
+
+<p>Ideally, the test harness produces an XML file containing all test results
+in the format shown below, that can be sent to the working group.</p>
+
+<p>The test cases in this test suite are independent of each other, and so
+can be executed in any order. As test case execution may modify source
+documents, it is the responsibility of the test harness to return the source
+documents to their original state before executing any subsequent test cases.
+Test sources <code>putOutput</code> and <code>putOutput2</code> refer to
+files that do not exist. A test harness should delete documents written to
+these locations after each test case has been run.</p>
+
+<h1>Deciding which test cases to run</h1>
+
+<p>Some features in the specification are optional or implementation-defined.<p>
+    
+<p>Where a test depends on an optional or implementation-defined feature then it is
+    placed in a test group whose group information includes a <code>depends-on</code>
+    element to document the dependency. The names of these features appear (with their meanings)
+    in the enumeration type <code>feature-enum</code> in the schema for the test catalog.
+    For example, <code>static-typing</code> labels tests that depend on the static typing
+    and <code>revalidation:strict</code> depends on revalidation mode strict being supported.
+    If the <code>feature</code> element specifies <code>supported="true"</code> (the default)
+    then the tests in this group should be run only if the product supports the feature; if it specifies
+    <code>supported="false"</code> then it should be run only if the product does not support the feature.
+    If more than one <code>feature</code> element is present then the tests should be run only
+if all the conditions are satisfied.</p>
+
+<p>One of the purposes of this test suite is to collect data on how many products support
+    optional features. Therefore, products should not attempt to run tests unless they 
+implement the relevant feature.</p>
+
+<h1>Test Suite Customization</h1>
+
+<p>In order to run the test suite on an XQuery implementation, implementers
+may customize the test suite and make a number of well-defined changes to the
+test cases. All changes made to the original test suite must be documented in
+free-text form as part of the result submission. Changes beyond the ones
+listed below must be highlighted.</p>
+
+<h2>Accessing Source Documents</h2>
+
+<p>XQuery supports a number of different ways to refer to source data as
+query context. Among these are the context item, external variables, the
+fn:doc() function, the fn:collection() function, implementation-defined
+functions, or parameter passing through host-language binding. Test cases
+that do not refer to any input document (i.e., the catalog does not contain
+any &ldquo;input-file&rdquo; for the &ldquo;test-case&rdquo;) do not need to
+be customized in this way. Sometimes the filename "emptydoc" is used to
+indicate this situation.</p>
+
+<p>The following example is a customizable test case:</p>
+
+<blockquote>
+  <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+(: insert-start :)
+declare variable $input-context external;
+(: insert-end :)
+
+
+let $var := $input-context/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+</blockquote>
+
+<p>and the corresponding catalog entry:</p>
+
+<blockquote>
+  <pre><code>&lt;test-case name="id-insert-expr-06" FilePath= ... &gt;
+  &lt;description&gt;Evaluates a simple insert expression with "after" clause only. ... &lt;/description&gt;
+  &lt;spec-citation spec="XQUPDATE" section-number="2.4.1" ...  section-pointer="#id-insert"/&gt;
+  &lt;state time="0"&gt;
+    &lt;query name="id-insert-expr-06" date="2007-06-04"/&gt;
+    &lt;input-file role="principal-data" variable="input-context"&gt;works-mod&lt;/input-file&gt;
+  &lt;/state&gt;
+  &lt;state time="1"&gt;    
+    &lt;query name="id-insert-expr-06-test" date="2007-06-04"/&gt;
+    &lt;input-file role="principal-data" variable="input-context"&gt;works-mod&lt;/input-file&gt;                        
+    &lt;output-file role="principal" compare="Fragment"&gt;id-insert-expr-06.xml&lt;/output-file&gt;
+  &lt;/state&gt;
+ &lt;/test-case&gt;</code></pre>
+</blockquote>
+
+<p>A test harness may use any of the following customizations of the query
+that is supplied. Note that option 3 and 5 are only applicable for test cases
+that use one source document.</p>
+<ol>
+  <li>Unchanged: use external variables as indicated in the original query.
+    <p>Users of static typing may choose to transform the variable
+    declarations between insert-start and insert-end comments by adding an
+    "as document-node()" clause as illustrated below:</p>
+
+    <blockquote>
+      <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+(: insert-start :)
+declare variable $input-context as document-node() external;
+(: insert-end :)
+
+let $var := $input-context/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+  <li>Implicit variable declaration: Remove variable declarations between
+    insert-start and insert-end comments. The implementation binds the input
+    context to the variable $input-context.
+
+    <blockquote>
+      <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := $input-context/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+  <li>Implicit context: Remove variable declarations between insert-start and
+    insert-end comments, and replace the variable references with the context
+    item (.).
+
+    <blockquote>
+      <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := ./works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+  <li>doc function: Remove variable declarations between insert-start and
+    insert-end comments, and replace variable references with the
+    fn:doc(someURI), where someURI is a URI that the test harness has
+    associated with the input file.
+
+    <blockquote>
+      <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := fn:doc("works-mod.xml")/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var&gt;</code></pre>
+    </blockquote>
+  </li>
+  <li>Default collection function: Remove variable declarations between
+    insert-start and insert-end comments, and replace variable references
+    with fn:collection().
+
+    <blockquote>
+      <pre><code>    
+(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := fn:collection()/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+  <li>Collection function: Remove variable declarations between insert-start
+    and insert-end comments, and replace variable references with
+    fn:collection(someURI) , where someURI is a URI that the test harness has
+    associated with the collection identified by the input file.
+
+    <blockquote>
+      <pre><code>(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := fn:collection("file:collection1")/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+  <li>Implementation-defined function: Remove variable declarations between
+    insert-start and insert-end comments, and replace variable references
+    with an implementation-defined function resolving to the input context.
+
+    <blockquote>
+      <pre><code>      
+(: Name: id-insert-expr-06 :)
+(: Description: Evaluation of simple insert expression that uses "after" clause only for an attribute. :)
+
+let $var := impl-fn:impl-udf("works-mod.xml")/works[1]/employee[3]
+return 
+  do insert attribute type {"Part Time"} after $var</code></pre>
+    </blockquote>
+  </li>
+</ol>
+
+<h1>Query States</h1>
+
+<p>A test case may define one or more states (using a &lt;test-case&gt;
+element and &lt;state&gt; elements). A &lt;state&gt; element may define: <ul>
+  <li>A &lt;query&gt; element that defines a query (via the "name"
+    attribute). Each query defined via the &lt;state&gt; element must be run
+    in the exact order they are defined as each state is aware of any changes
+    performed by the previous state(s) and depend on those states to execute
+    correctly. Therefore all queries defined on a previous state must execute
+    correctly before the next one can execute.</li>
+  <li>Zero or more &lt;input-file&gt; elements, which defines any input data
+    sources required for this state.</li>
+  <li>Zero or more &lt;output-file&gt; elements, which will contain the
+    expected results for this state.</li>
+  <li>Zero or more &lt;expected-error&gt; elements, which define the expected
+    errors (if any) for this state.</li>
+</ul>
+A query may define both an &lt;output-file&gt; and an &lt;expected-error&gt;
+element. If the same data source is used for multiple states, then that data
+source should not be set to its original state until the last state is
+executed. The queries defined within a &lt;state&gt; element can be
+customized using any of the approaches defined in the previous section.</p>
+
+<p>A test case is successful if each of its states is successful. Each state
+falls into one of these categories:</p>
+<ol>
+  <li>no expected results or errors - the state is successful if no error is
+    detected</li>
+  <li>one or more expected results, no expected errors - the state is
+    successful only if the actual result matches one of the expected
+  results</li>
+  <li>one or more expected errors, no expected results - the state is
+    successful if one of the expected errors is raised</li>
+  <li>one or more expected results and one or more expected errors - the
+    state is successful only if the actual result matches one of the expected
+    results or one of the expected errors is raised</li>
+</ol>
+
+<p>A source document may be updated in one state and queried in a subsequent
+state. Implementations may a) use the XDM instance that is produced by the
+updating state in the subsequent state, or b) serialize the updated document
+at the end of the updating state and then parse and validate the document in
+the subsequent state. Most test cases will execute successfully with either
+of these two approaches. A small number of test cases, found in the
+RemoveType and StrictRevalidation groups, will execute successfully only with
+the first approach.</p>
+
+<h1>Host Language Binding</h1>
+
+<p>Test cases can be embedded in a host language, for example using the
+xmlquery function in SQL. This may require escaping certain characters like
+quotes.</p>
+
+<blockquote>
+  <pre><code>select xmlquery('let $var := $input-context/works[1]/employee[3]
+return do insert attribute type {"Part Time"} after $var'
+                passing xmlcol as "input-context")
+from works-mod</code></pre>
+</blockquote>
+<!--
+<h1>External Variables</h1>
+
+<p>External variable tests (with our without types) are designed to use the
+results of executing the query(s) specified by the &lt;input-query&gt;
+element, also known as the input query (please note that there could be more
+than one &lt;input-query&gt; element). The following guidelines are suggested
+to properly execute these tests.</p>
+<ol>
+  <li>The &lt;input-query&gt; element specifies the query name via the "name"
+    attribute and a variable via the "variable" attribute.</li>
+  <li>Implementors should execute the input query(s) and bind its results to
+    the corresponding "variable" attribute.</li>
+  <li>The main query is specified via the &lt;query&gt; element. The main
+    query will declare one or more external variables, whose names
+    corresponds to the variables defined in the input query.</li>
+  <li>Implementors should bind the values of the variables defined in the
+    input-query(s) to the variable(s) defined in the main query.</li>
+  <li>The main query should then be executed.</li>
+</ol>
+
+<p>The following fragment from the catalog file illustrates the usage of the
+parameters described above:</p>
+
+<blockquote>
+  <pre><code>&lt;test-case name="extvardeclwithtype-17" ...&gt;
+   &lt;description&gt;External Variable used to evaluate a boolean expression ... .&lt;/description&gt;
+   &lt;spec-citation spec="XQuery" section-number="4.14" ... /&gt;
+   &lt;state time = "0"&gt;
+    &lt;query name="extvardeclwithtype-17" date="2006-02-09"/&gt;
+    &lt;input-file role="principal-data" variable="input-context"&gt;emptydoc&lt;/input-file&gt;
+    &lt;input-query variable="x" name="extvardeclwithtypetobind-17" date="2006-02-09"/&gt;
+    &lt;output-file role="principal" compare="Text"&gt;extvardeclwithtype-17.txt&lt;/output-file&gt;
+   &lt;/state&gt;
+&lt;/test-case&gt;</code></pre>
+</blockquote>
+-->
+
+<h1>Boundary-space Customization</h1>
+
+<p>The test cases and their associated results have been written with an
+expectation that the default value for the Boundary-space policy is strip. If
+necessary, a test harness may transform their queries by adding "declare
+boundary-space strip;" for those queries that do not already contain a
+Boundary-space Declaration.</p>
+
+<h1>Customizing XQueryX Tests</h1>
+
+<p>Customizing XQueryX tests must follow the same rules provided above.
+However, the XQueryX test cases do not include the insert-start/insert-end
+comments surrounding external variable declaration and schema import.
+Therefore, a test harness must find the items to be customized in the XQueryX
+document using the information found in the catalog. The external variable
+declaration and variable references in the XQueryX document typically looks
+as follows:</p>
+
+<blockquote>
+  <pre><code>&lt;xqx:varDecl&gt;
+  &lt;xqx:varName&gt;input-context&lt;/xqx:varName&gt;
+  &lt;xqx:external/&gt;
+&lt;/xqx:varDecl&gt;
+
+&lt;xqx:varRef&gt;
+  &lt;xqx:name&gt;input-context&lt;/xqx:name&gt;
+&lt;/xqx:varRef&gt;</code></pre>
+</blockquote>
+
+<h1>Comparing Results</h1>
+
+<p>In order to check correctness of running a test case state, the result of
+the implementation must be compared to the result provided in the test suite.
+The implementation's result of the test case state must be serialized and
+compared to the expected file(s) provided in the test suite. Serialization
+should be performed as described in XSLT 2.0 and XQuery 1.0 Serialization [4]
+with method="xml". The catalog defines for each test case, which of the
+following five comparators has to be applied:</p>
+<ul>
+  <li>XML: The test harness must canonicalize both, the actual result and the
+    expected result according to the &ldquo;Canonical XML&rdquo;
+    recommendation [2], which refers to a number of open-source
+    implementations. Byte-comparison can then be applied to the resulting XML
+    documents. If the test harness does this process in a different manner,
+    it must be documented.</li>
+  <li>XML fragment: For XML fragments, the same root node must be created for
+    both, implementation result and test suite result. The resulting XML can
+    be compared using XML comparison.</li>
+  <li>Text: Same comparison as "XML fragment".</li>
+  <li>Ignore: no comparison needs to be applied; the result is always true if
+    the implementation successfully executes the test case.</li>
+  <li>Inspect: A human is required to make the call about correctness of the
+    result according to the description in the test case.</li>
+  <li>Error: The expected result of the test case state is an error,
+    identified as an eight-character error code (e.g., XPST0003). The result
+    of a test is true, if the implementation raises an error. However,
+    raising an error because an implementation does not support the feature
+    is not considered a correct result.</li>
+</ul>
+
+<p>It is possible that a test case state provides multiple expected results.
+In this case, successfully comparing the actual result to one of the provided
+expected results is a "pass".</p>
+
+<p>Many tests involve operations on floats/doubles and converting those
+results to strings. Even as one explicit value is given, the task force
+realizes that other values may also be acceptable. In such cases submitters
+are encouraged to submit values that may differ. The task force will
+eventually determine if such values are within the acceptable range.</p>
+
+<p>If all states of a test case "pass", then the result for the test case is
+a "pass". Otherwise, the result for the test case is a "fail".</p>
+
+<p>The expected files provided in the test suite are serialized forms as
+specified by XML Query Serialization, with the following parameter values:</p>
+
+<table border="0">
+  <caption></caption>
+  <tbody>
+    <tr>
+      <td><span style="font-family: courier">byte-order-mark</span></td>
+      <td><span style="font-family: courier">no</span></td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">cdata-section-elements</td>
+      <td style="font-family: courier">empty</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">doctype-public</td>
+      <td style="font-family: courier">(none)</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">doctype-system</td>
+      <td style="font-family: courier">(none)</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">encoding</td>
+      <td style="font-family: courier">"utf-8"</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">escape-uri-attributes</td>
+      <td style="font-family: courier">(not applicable when method = xml)</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">include-content-type</td>
+      <td style="font-family: courier">(not applicable when method = xml)</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">indent</td>
+      <td style="font-family: courier">no</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">media-type</td>
+      <td style="font-family: courier">not applicable</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">method</td>
+      <td style="font-family: courier">xml</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">normalization-form</td>
+      <td style="font-family: courier">implementation-defined</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">omit-xml-declaration</td>
+      <td style="font-family: courier">yes</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">standalone</td>
+      <td style="font-family: courier">omit</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">undeclare-prefixes</td>
+      <td style="font-family: courier">no</td>
+    </tr>
+    <tr>
+      <td style="font-family: courier">use-character-maps</td>
+      <td style="font-family: courier">empty</td>
+    </tr>
+    <tr>
+      <td><span style="font-family: courier">version</span></td>
+      <td><span style="font-family: courier">implementation-defin</span><span
+        style="font-family: courier">ed</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For implementations using different parameters, the test harness must
+convert the result using the parameters above in order to perform
+byte-comparison with the provided expected results.</p>
+
+<h1>Reference</h1>
+
+<table border="0">
+  <tbody>
+    <tr>
+      <td valign="top">[1]</td>
+      <td><a href="../XQUTSCatalog.xml">XQuery Test Suite
+      Documentation</a></td>
+    </tr>
+    <tr>
+      <td valign="top">[2]</td>
+      <td>Canonical XML Version 1.0, W3C Recommendation 15 March 2001 <br />
+        (<a
+        href="http://www.w3.org/TR/xml-c14n">http://www.w3.org/TR/xml-c14n</a>)</td>
+    </tr>
+    <tr>
+      <td valign="top">[3]</td>
+      <td><a
+        href="Guidelines%20for%20Submitting%20XQUTS%20Test%20Results.html">Guidelines
+        for Submitting XQUTS Results</a></td>
+    </tr>
+    <tr>
+      <td valign="top">[4]</td>
+      <td><a href="http://www.w3.org/TR/xslt-xquery-serialization/">XSLT 2.0
+        and XQuery 1.0 Serialization</a></td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<address>
+  <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
+  $Date: 2010/07/27 18:41:59 $ by $Author: aeisenbe2 $
+</address>
+
+<p><a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a>
+© 2008-2010 <a href="http://www.w3.org/"><acronym
+title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a
+href="http://www.csail.mit.edu/"><acronym
+title="Massachusetts Institute of Technology">MIT</acronym></a>, <a
+href="http://www.ercim.org/"><acronym
+title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>,
+<a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+<a
+href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>,
+<a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-documents">document
+use</a> and <a rel="Copyright"
+href="http://www.w3.org/Consortium/Legal/copyright-software">software
+licensing</a> rules apply. Your interactions with this site are in accordance
+with our <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Public">public</a>
+and <a
+href="http://www.w3.org/Consortium/Legal/privacy-statement#Members">Member</a>
+privacy statements.</p>
+
+<p></p>
+</body>
+</html>

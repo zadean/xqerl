@@ -1,0 +1,6 @@
+<employee name = "John Doe 2" gender="male">
+   <empnum>E1</empnum>
+   <pnum>P2</pnum>
+   <hour1>70</hour1>
+   <hour2>20</hour2>Text data from Employee[2]
+  </employee>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xqx:module xmlns:xqx="http://www.w3.org/2005/XQueryX"
+            xmlns:xqxuf="http://www.w3.org/2007/xquery-update-10"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.w3.org/2007/xquery-update-10
+                                http://www.w3.org/2007/xquery-update-10/xquery-update-10-xqueryx.xsd">
+  <xqx:mainModule>
+    <xqx:prolog>
+      <xqxuf:revalidationDecl>lax</xqxuf:revalidationDecl>
+      <xqxuf:revalidationDecl>lax</xqxuf:revalidationDecl>
+      <xqx:varDecl>
+        <xqx:varName>input-context</xqx:varName>
+        <xqx:external/>
+      </xqx:varDecl>
+    </xqx:prolog>
+    <xqx:queryBody>
+      <xqx:integerConstantExpr>
+        <xqx:value>12</xqx:value>
+      </xqx:integerConstantExpr>
+    </xqx:queryBody>
+  </xqx:mainModule>
+</xqx:module>

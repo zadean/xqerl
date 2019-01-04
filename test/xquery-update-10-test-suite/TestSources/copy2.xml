@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<agenda-version>  
+  <entry>
+    <name>Benjamin</name>
+    <contact>benjamin@uni-versailles.fr</contact>
+  </entry>
+  <entry>
+    <name>Dario</name>
+    <contact>dario@uni-pisa.it</contact>
+  </entry>
+  <entry>
+    <name>Anthony</name>
+    <contact>tony@ehess.fr</contact>
+  </entry>
+ </agenda-version>

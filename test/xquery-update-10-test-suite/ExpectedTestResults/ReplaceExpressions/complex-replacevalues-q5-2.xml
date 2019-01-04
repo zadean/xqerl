@@ -1,0 +1,5 @@
+<result count="4"> text-5A
+           south  south  text-5B
+        </result><result count="1"><near-south> text-5A
+          <south mark="s0" south-attr-1="s1" south-attr-2="s2"> south <far-south/> south </south> text-5B
+        </near-south></result>

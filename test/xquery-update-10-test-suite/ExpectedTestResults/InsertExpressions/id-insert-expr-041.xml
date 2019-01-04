@@ -1,0 +1,5 @@
+<employee name="Jane Doe 1" gender="female">
+   <type>Full Time</type><age>30</age><type>Part Time</type><age>26</age><empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>

@@ -1,0 +1,5 @@
+<co3:employee name="Jane Doe 1" co2:gender="f" co1:age="30" xmlns:co1="http://www.example.com/company1" xmlns:co2="http://www.example.com/company2" xmlns:co3="http://www.example.com/company3">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </co3:employee>

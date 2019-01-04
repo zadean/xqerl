@@ -1,0 +1,15 @@
+<employees>
+  <employee dept="Toys" mgr="true">
+    <name>Smith</name>
+    <salary>100000</salary>
+  </employee>
+  <employee dept="Toys">
+    <name>Jones</name>
+    <salary>60000</salary>
+  </employee>
+  <employee dept="Shoes" mgr="true">
+    <name>Roberts</name>
+    <salary>150000</salary>
+  </employee>
+  
+</employees>

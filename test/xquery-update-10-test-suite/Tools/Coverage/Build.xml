@@ -1,0 +1,91 @@
+<project name="XQuery Update Test Suite Progress" default="all">
+
+   <description>
+      Show the coverage of the test cases in the test suite
+      for each section of the specification.
+   </description>
+   
+   <property
+      name="updateCatalog"
+      location="..\..\XQUTSCatalog.xml"
+      />
+   
+   <property
+      name="destination"
+      value=""
+      />
+   
+   <property
+      name="sourceDocs"
+      value="http://www.w3.org/TR/"
+      />
+   
+   
+   
+   <target name="all">
+      <mkdir dir="temp" />
+      <antcall target="getDocuments" />
+      <antcall target="process">
+         <param name="specname" value="update"/> 
+         <param name="spec" value="XQUPDATE"/> 
+      </antcall>
+      <antcall target="updateCoverage">
+         <param name="specName" value="XQUPDATE"/> 
+         <param name="prefix1" value="update"/> 
+         <param name="prefix2" value="update"/> 
+      </antcall>
+      <delete dir="temp" />
+   </target>
+   
+   
+   
+   <target name='getDocuments'>
+      <get src="${sourceDocs}xquery-update-10/" dest="temp/update.html"/>
+   </target>
+   
+   <target name="process">
+      <xslt in="temp/${specname}.html"
+         out="temp/${specname}_citations.xml"
+         destdir="."
+         basedir="."
+         style="TOCCitations.xsl"
+         force="yes">
+         <param name="spec" expression="${spec}"/> 
+         <xmlcatalog>
+            <dtd
+               publicId="-//W3C//DTD XHTML 1.0 Transitional//EN"
+               location="xhtml/xhtml1-transitional.dtd"/>
+            <dtd
+               publicId="-//W3C//ENTITIES Latin 1 for XHTML//EN"
+               location="xhtml/xhtml-lat1.ent"/>
+            <dtd
+               publicId="-//W3C//ENTITIES Symbols for XHTML//EN"
+               location="xhtml/xhtml-symbol.ent"/>
+            <dtd
+               publicId="-//W3C//ENTITIES Special for XHTML//EN"
+               location="xhtml/xhtml-special.ent"/>
+         </xmlcatalog>
+      </xslt>     
+   </target>
+   
+   
+   
+   <target name="updateCoverage">
+      <tstamp>
+         <format property="now" pattern="MM/dd/yyyy HH:mm" />
+      </tstamp>
+      
+      <xslt
+         in="temp/${prefix1}_citations.xml"
+         basedir="."
+         style="UpdateCoverage.xsl"
+         out="${prefix2}_coverage.html"
+         force="yes">
+         <param name="now" expression="${now}"/> 
+         <param name="catalogName" expression="${updateCatalog}"/> 
+         <param name="specName" expression="${specName}"/> 
+      </xslt>     
+   </target>
+   
+   
+</project>

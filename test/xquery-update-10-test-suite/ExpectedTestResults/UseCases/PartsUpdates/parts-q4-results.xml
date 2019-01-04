@@ -1,0 +1,9 @@
+<part name="car" partid="0">
+        <part name="engine" partid="1">
+            <part name="piston" partid="3"/>
+        </part>
+        <part name="door" partid="2">
+            <part name="window" partid="4"/>
+            <part name="lock" partid="5"/>
+        </part>
+    <part name="radio" partid="21"/></part>

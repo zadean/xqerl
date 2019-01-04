@@ -1,0 +1,6 @@
+<employee mgr="true" dept="Shoes">
+    <name>Morton</name>
+    <salary>150000</salary>
+    <!-- A comment Node on employee # 4 --><hours>10</hours>
+    <?PI value="PIValue"?>
+  </employee>

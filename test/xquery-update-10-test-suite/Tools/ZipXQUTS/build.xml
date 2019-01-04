@@ -1,0 +1,23 @@
+<project name="Build the XQTS zip file" default="build">
+   
+   <property name="version" value="current"/>
+   <property name="zipfile" value="../../Archive/XQUTS_${version}.zip"/>
+   <property name="stagingArea" value="../.."/>
+   <property name="catalog" value="${stagingArea}/XQUTSCatalog.xml"/>
+   
+   <target name="build">
+      
+      <!-- Remove the old XQTS zip file, if it exists. -->
+      
+      <delete file="${zipfile}"/>
+      
+      <!-- Create an initial XQTS zip file with the contents of our staging area. -->
+      
+      <zip
+         destfile="${zipfile}">
+         <fileset dir="${stagingArea}" includes="**" excludes="Archive/**, Tools/**, results/**"/>
+      </zip>
+      
+   </target>
+   
+</project>

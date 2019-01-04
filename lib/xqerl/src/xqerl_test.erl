@@ -117,7 +117,7 @@ assert_type(Result, TypeString) ->
 %% assert_xml             (: fn:deep-equal(result, run test query) :)
 assert_xml(Result, {file, FileLoc}) ->
    {ok,FileBin} = file:read_file(FileLoc),
-   assert_xml(Result, FileBin);
+   assert_xml(Result, normalize_lines(FileBin, <<>>));
 assert_xml(Result, QueryString) when is_list(QueryString) ->
    assert_xml(Result, unicode:characters_to_binary(QueryString));
 assert_xml(#xqError{} = Err, QueryString) ->
@@ -320,6 +320,16 @@ assert_error(Result, ErrorCode) ->
          %StrVal = string_value(Result),
          {false, {assert_error,Result,ErrorCode}}
    end.
+
+% normalize end-of-line characters 
+normalize_lines(<<13,10,T/binary>>, Acc) ->
+   normalize_lines(T, <<Acc/binary,10>>);
+normalize_lines(<<13,T/binary>>, Acc) ->
+   normalize_lines(T, <<Acc/binary,10>>);
+normalize_lines(<<H,T/binary>>, Acc) ->
+   normalize_lines(T, <<Acc/binary,H>>);
+normalize_lines(<<>>, Acc) -> Acc.
+
 
 string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
    NewList = lists:map(fun(I) ->

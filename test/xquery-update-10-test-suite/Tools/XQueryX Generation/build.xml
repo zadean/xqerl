@@ -1,0 +1,267 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!--                                                                         -->
+<!-- Generate XQueryX documents for all XQuery files in the test suite       -->
+<!--                                                                         -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<!--
+
+Please proceed with the following steps:
+
+1) get necessary update files by executing one of the following:
+   a) ant getPrivateUpdateFiles
+      this requires providing your username and password, as follows
+         ant getPrivateUpdateFiles -Dusername=... -Dpassword=...
+   b) ant getPublicUpdateFiles
+2) generate the XQueryX files, identifying the XQUTS test catalog
+   ant -DsourceDir=...
+
+-->
+
+
+
+<project name="Generate XQueryX" default="genAll">
+   
+   <description>Generate XQueryX documents corresponding to XQuery expressions used in test cases.</description>
+   
+   <property
+      name="sourceDir"
+      value="..\..\"
+      />
+   
+   <!-- Derived properties -->
+   
+   <property
+      name="QueryDir"
+      value="${sourceDir}Queries\"
+      />
+   
+   <property
+      name="XQueryDir"
+      value="${sourceDir}Queries\XQuery\"
+      />
+   
+   <property
+      name="XQueryXDir"
+      value="${sourceDir}Queries\XQueryX\"
+      />
+   
+   <!-- XQueryX schema files -->
+   
+   <property
+      name="XQueryXSchema"
+      value="http://www.w3.org/2005/XQueryX"/>
+   
+   <property
+      name="XQueryXSchemaFile"
+      value="file:temp/xqueryx.xsd"/>
+   
+   <property
+      name="XQueryXRedefSchemaFile"
+      value="file:temp/xquery-update-10-xqueryx-redef.xsd"/>
+   
+   <property
+      name="XQueryXUpdateSchema"
+      value="http://www.w3.org/2007/xquery-update-10"/>
+   
+   <property
+      name="XQueryXUpdateSchemaFile"
+      value="file:temp/xquery-update-10-xqueryx.xsd"/>
+   
+   <property
+      name="XQueryXSchemaLocation"
+      value="${XQueryXSchema} ${XQueryXRedefSchemaFile} ${XQueryXUpdateSchema} ${XQueryXUpdateSchemaFile}"/>
+   
+   
+   
+   
+   <target name="getPublicUpdateFiles" description="get public XQuery Update parser and schema files">
+      <mkdir dir="temp" />
+      <get
+         src="http://www.w3.org/2010/02/qt-applets/xquery10-update/applet.jar"
+         dest="temp/applet.jar" />
+      <get
+         src="http://www.w3.org/2007/xquery-update-10/xquery-update-10-xqueryx.xsd"
+         dest="temp/xquery-update-10-xqueryx.xsd" />
+      <get
+         src="http://www.w3.org/2007/xquery-update-10/xquery-update-10-xqueryx-redef.xsd"
+         dest="temp/xquery-update-10-xqueryx-redef.xsd" />
+      <get
+         src="http://www.w3.org/2005/XQueryX/xqueryx.xsd"
+         dest="temp/xqueryx.xsd" />
+      
+      <replaceregexp
+         file="temp/xquery-update-10-xqueryx-redef.xsd"
+         match='schemaLocation=".*"'
+         replace='schemaLocation="xqueryx.xsd"'
+         />
+      
+      <replaceregexp
+         file="temp/xquery-update-10-xqueryx.xsd"
+         match='schemaLocation=".*"'
+         replace='schemaLocation="xquery-update-10-xqueryx-redef.xsd"'
+         />
+      
+      <delete file="temp/applet-ant.zip" />
+   </target>   
+
+   
+   <target name="getPrivateUpdateFiles" description="get private XQuery Update parser and schema files">
+      <mkdir dir="temp" />
+      <get
+         src="http://www.w3.org/XML/Group/qtspecs/specifications/grammar-11/parser/applets/xquery10-update/applet.jar"
+         dest="temp/applet.jar"
+         username="${username}"
+         password="${password}" />
+      <get
+         src="http://www.w3.org/XML/Group/xsl-query-specs/xquery-updates/xquery-update-10-xqueryx.xsd"
+         dest="temp/xquery-update-10-xqueryx.xsd"
+         username="${username}"
+         password="${password}" />
+      <get
+         src="http://www.w3.org/XML/Group/xsl-query-specs/xquery-updates/xquery-update-10-xqueryx-redef.xsd"
+         dest="temp/xquery-update-10-xqueryx-redef.xsd"
+         username="${username}"
+         password="${password}" />
+      <get
+         src="http://www.w3.org/XML/Group/xsl-query-specs/xqueryx-2ed/xqueryx.xsd"
+         dest="temp/xqueryx.xsd"
+         username="${username}"
+         password="${password}" />
+      
+      <replaceregexp
+         file="temp/xquery-update-10-xqueryx-redef.xsd"
+         match='schemaLocation=".*"'
+         replace='schemaLocation="xqueryx.xsd"'
+         />
+      
+      <replaceregexp
+         file="temp/xquery-update-10-xqueryx.xsd"
+         match='schemaLocation=".*"'
+         replace='schemaLocation="xquery-update-10-xqueryx-redef.xsd"'
+         />
+      
+      <delete file="temp/applet-ant.zip" />
+   </target>   
+   
+   
+   <target name="checkBuild">
+      <uptodate property="buildNotRequired" targetfile="temp/applet-ant.zip">
+         <srcfiles dir="." includes="*.java" />
+      </uptodate>
+   </target>
+   
+   
+   <target name="clean" description="Remove all generated files">
+      <delete dir="temp" />
+   </target>
+   
+   
+   <target name="compile" depends="checkBuild" unless="buildNotRequired" >
+      
+      <fail message="Necessary XQuery Update files are missing.">
+         <condition>
+            <not>
+               <resourcecount count="1">
+                  <dirset dir="." includes="temp" />                  
+               </resourcecount>
+            </not>
+         </condition>
+      </fail>
+      
+      <javac classpath="temp/applet.jar" srcdir="." includes="*.java" destdir="temp" target="1.4"/>
+   </target>
+   
+   
+   <target name="build" depends="checkBuild, compile" unless="buildNotRequired" >
+      <zip destfile="temp/applet-ant.zip">
+         <fileset dir="temp" includes="**/*.class" />
+         <zipfileset src="temp/applet.jar" />
+      </zip>
+   </target>
+   
+   
+   <target name="declare" depends="build">
+      <taskdef name="generateXQueryX" classname="org.w3.xqtools.GenXQueryXTask">
+         <classpath>
+            <pathelement location="temp/applet-ant.zip"/>
+         </classpath>
+      </taskdef>
+   </target>
+   
+   
+   
+   <target name="genAll" depends="declare" description="Generate the XQueryX files">      
+      
+      <fail message="sourceDir property must be set.">
+         <condition>
+            <not>
+               <isset property="sourceDir" />
+            </not>
+         </condition>
+      </fail>
+      
+      <!-- XQueryX directory structure needs to be in place, if it isn't already -->
+      
+      <copy todir="${XQueryXDir}" includeEmptyDirs="yes">
+         <fileset dir="${XQueryDir}" includes="**/*.xq" />
+      </copy>
+      
+      <delete>
+         <fileset dir="${XQueryXDir}" includes="**/*.xq" />
+      </delete>
+      
+      <!-- transform all xquery's, except those listed in other_errors.txt -->
+      
+      <generateXQueryX dest="${XQueryXDir}">
+         <fileset  dir="${XQueryDir}" includes="**/*.xq">
+            <patternset>
+               <excludesfile name="other_errors.txt" />
+            </patternset>
+         </fileset>
+         
+         <mapper>
+            <regexpmapper handledirsep="yes" from="^(.*)\.xq$$" to="\1.xqx" />            
+         </mapper>
+         
+      </generateXQueryX>
+      
+   </target>
+   
+
+   <target name="deleteExistingXQueryX" description="Delete existing XQueryX files">      
+      
+      <fail message="sourceDir property must be set.">
+         <condition>
+            <not>
+               <isset property="sourceDir" />
+            </not>
+         </condition>
+      </fail>
+      
+      <delete>
+         <fileset dir="${XQueryXDir}" includes="**/*.xqx" />
+      </delete>
+      
+   </target>
+   
+
+   <target name='validateXQueryX' description="Validate XQueryX files">
+      
+      <fail message="sourceDir property must be set.">
+         <condition>
+            <not>
+               <isset property="sourceDir" />
+            </not>
+         </condition>
+      </fail>
+      
+      <schemavalidate>
+         <fileset dir="${XQueryXDir}" includes="**/*.xqx"/>
+         <schema namespace="http://www.w3.org/2007/xquery-update-10" file="temp/xquery-update-10-xqueryx.xsd" />
+         <schema namespace="http://www.w3.org/2005/XQueryX" file="temp/xquery-update-10-xqueryx-redef.xsd" />
+      </schemavalidate>
+   </target>
+   
+      
+</project>

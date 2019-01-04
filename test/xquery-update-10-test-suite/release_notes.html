@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>XML Query Update Test Suite Release Notes</title>
+</head>
+
+<body>
+
+<center>
+<h1>XML Query Update Test Suite Release Notes</h1>
+</center>
+
+<p>This document contains the release notes for the <a
+href="http://dev.w3.org/2007/xquery-update-10-test-suite/">XML Query Update
+Test Suite</a>.</p>
+
+<h2>XQUTS 1.0.1 (July 27, 2010)</h2>
+<ul>
+  <li>Changes have been made to reflect the resolutions of the following CR
+    issues by the XML Query WG: 
+    <ul>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=7279">7279</a>
+        missing whitespace from expected ValStrict tests.</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=7793">7793</a>
+        white space bugs in expected results</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=8251">8251</a>
+        is id-function-declaration-017 in the right group?</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=8706">8706</a>
+        [XQUTS] Test Suite test running guidelines incomplete</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9258">9258</a>
+        Static typing tests do not account for earlier static error</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9271">9271</a>
+        Coverage for upd:propagateNamespace</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9303">9303</a>
+        4 XQueryX tests are missing</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9312">9312</a>
+        id-rename-expr-035 should expect error XUDY0023</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9479">9479</a>
+        id-function-declaration-014</li>
+      <li><a href="http://www.w3.org/Bugs/Public/show_bug.cgi?id=9531">9531</a>
+        3 query names are (partially) misspelled in the catalog</li>
+    </ul>
+  </li>
+  <li>As a result of the resolution of 8706, the catalog identifies whether or
+    not to run certain test groups, based on whether the implementation being
+    tested supports some of the option features. Test harnesses will need to be
+    modified to take this into account. This change is documented in our <a
+    href="TestSuiteDocumentation/Guidelines for Running the XML Query Update Test Suite.html">Guidelines
+    for Running the XML Query Update Test Suite</a>.</li>
+</ul>
+
+<h2>XQUTS 1.0.0 (August 13, 2009)</h2>
+<ul>
+  <li>This version tests all of the features in the third publication of the
+    XQuery Update Facility Candidate Recommendation.</li>
+</ul>
+
+<h2>XQUTS 0.1.0 (July 6 , 2007)</h2>
+<ul>
+  <li>This version does not have any tests for the update primitives.</li>
+</ul>
+</body>
+</html>

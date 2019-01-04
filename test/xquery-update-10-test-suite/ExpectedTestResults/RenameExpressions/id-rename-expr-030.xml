@@ -1,0 +1,5 @@
+<employee xmlns:example="http://www.example.com/xquery" example:fullname="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>
