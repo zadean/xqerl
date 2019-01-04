@@ -150,6 +150,8 @@ msg('FOTY0012') -> "Argument to fn:data() contains a node that does not have a t
 msg('FOTY0013') -> "The argument to fn:data() contains a function item.";
 msg('FOTY0014') -> "The argument to fn:string() is a function item.";
 msg('FOTY0015') -> "An argument to fn:deep-equal() contains a function item.";
+msg('FOUP0001') -> "It is a dynamic error if the first operand of fn:put is not a node of a supported kind.";
+msg('FOUP0002') -> "It is a dynamic error if the second operand of fn:put is not a valid lexical representation of the xs:anyURI type.";
 msg('FOUT1170') -> "Invalid $href argument to fn:unparsed-text() (etc.)";
 msg('FOUT1190') -> "Cannot decode resource retrieved by fn:unparsed-text() (etc.)";
 msg('FOUT1200') -> "Cannot infer encoding of resource retrieved by fn:unparsed-text() (etc.)";
@@ -283,6 +285,40 @@ msg('SERE0020') -> "It is an error if a numeric value being serialized using the
 msg('SERE0021') -> "It is an error if a sequence being serialized using the JSON output method includes items for which no rules are provided in the appropriate section of the serialization rules.";
 msg('SERE0022') -> "It is an error if a map being serialized using the JSON output method has two keys with the same string value, unless the allow-duplicate-names has the value yes, true or 1.";
 msg('SERE0023') -> "It is an error if a sequence being serialized using the JSON output method is of length greater than one.";
+
+%% Update Facility
+
+msg('XUST0001') -> "It is a static error if an updating expression is used where the expression category rules prohibit it.";
+msg('XUST0003') -> "It is a static error if a Prolog contains more than one revalidation declaration.";
+msg('XUTY0004') -> "It is a type error if the insertion sequence of an insert expression contains an attribute node following a node that is not an attribute node.";
+msg('XUTY0005') -> "In an insert expression where into, as first into, or as last into is specified, it is a type error if the target expression returns a non-empty result that does not consist of a single element or document node.";
+msg('XUTY0006') -> "In an insert expression where before or after is specified, it is a type error if the target expression returns a non-empty result that does not consist of a single element, text, comment, or processing instruction node.";
+msg('XUTY0007') -> "It is a type error if the target expression of a delete expression does not return a sequence of zero or more nodes.";
+msg('XUTY0008') -> "In a replace expression, it is a type error if the target expression returns a non-empty result that does not consist of a single element, attribute, text, comment, or processing instruction node.";
+msg('XUDY0009') -> "In a replace expression where value of is not specified, it is a dynamic error if the node returned by the target expression does not have a parent.";
+msg('XUTY0010') -> "In a replace expression where value of is not specified and the target is an element, text, comment, or processing instruction node, it is a type error if the replacement sequence does not consist of zero or more element, text, comment, or processing instruction nodes.";
+msg('XUTY0011') -> "In a replace expression where value of is not specified and the target is an attribute node, it is a type error if the replacement sequence does not consist of zero or more attribute nodes.";
+msg('XUTY0012') -> "In a rename expression, it is a type error if the target expression returns a non-empty result that does not consist of a single element, attribute, or processing instruction node.";
+msg('XUTY0013') -> "In a copy modify expression, it is a type error if a source expression in the copy clause does not return a single node.";
+msg('XUDY0014') -> "In a copy modify expression, it is a dynamic error if the modify clause modifies any node that was not created by the copy clause.";
+msg('XUDY0015') -> "It is a dynamic error if any node is the target of more than one rename expression within the same query.";
+msg('XUDY0016') -> "It is a dynamic error if any node is the target of more than one replace expression (without value of being specified) within the same query.";
+msg('XUDY0017') -> "It is a dynamic error if any node is the target of more than one replace value of expression within the same query.";
+msg('XUDY0018') -> "It is a dynamic error if a function that was declared to be external but not updating returns a non-empty pending update list.";
+msg('XUDY0021') -> "It is a dynamic error if the XDM instance that would result from applying all the updates in a query violates any constraint specified in [XQuery and XPath Data Model (XDM) 3.0]. In this case, none of the updates in the query are made effective.";
+msg('XUTY0022') -> "It is a type error if an insert expression specifies the insertion of an attribute node into a document node.";
+msg('XUDY0023') -> "It is a dynamic error if an insert, replace, or rename expression affects an element node by introducing a new namespace binding that conflicts with one of its existing namespace bindings.";
+msg('XUDY0024') -> "It is a dynamic error if the effect of a set of updating expressions is to introduce conflicting namespace bindings into an element node.";
+msg('XUST0026') -> "It is a static error if a revalidation declaration in a Prolog specifies a revalidation mode that is not supported by the current implementation.";
+msg('XUDY0027') -> "It is a dynamic error if the target expression of an insert, replace, or rename expression evaluates to an empty sequence.";
+msg('XUDY0029') -> "In an insert expression where before or after is specified, it is a dynamic error if the node returned by the target expression does not have a parent.";
+msg('XUDY0030') -> "It is a dynamic error if an insert expression specifies the insertion of an attribute node before or after a child of a document node.";
+msg('XUDY0031') -> "It is a dynamic error if multiple calls to fn:put in the same snapshot specify the same URI (after resolution of relative URIs).";
+msg('XUST0032') -> "It is a static error if an %updating or %simple annotation is used on a VarDecl.";
+msg('XUST0033') -> "It is a static error to use more than one %updating or %simple annotation in a given annotation set.";
+msg('XUST0034') -> "It is a static error to use more than one updating function assertion in the function assertionXQ30 set of a FunctionTest.";
+msg('XUDY0037') -> "It is a dynamic error if the pending update list returned by the modify expression of a CopyModifyExpr or TransformWithExpr contains a upd:put update primitive.";
+msg('XUDY0038') -> "It is a dynamic error if the function returned by the PrimaryExpr of a dynamic function invocation is an updating function, and the dynamic function invocation is not a partial function applicationXQ30.";
 
 msg(_Code) ->
    "Doh!!".
