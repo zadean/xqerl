@@ -567,7 +567,9 @@ format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) ->
            FunB/binary, "/",
            AryB/binary
            >>,
-   [Out|format_stacktrace_(T)].
+   [Out|format_stacktrace_(T)];
+format_stacktrace_([H|T]) ->
+   [H|format_stacktrace_(T)].
 
    
 

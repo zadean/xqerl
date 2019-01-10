@@ -86,12 +86,22 @@ declare function _:is_supported($testGroup as element(_:test-group)) as xs:boole
     if ($feature eq 'static-typing' and $supported) then false() else 
     if ($feature eq 'static-typing') then true() else 
     
-    true()
-  (: full-axis
-     put:comment
-     put:processing-instruction
-     put:attribute
-     put:text :)
+    if ($feature eq 'put:attribute' and $supported) then false() else 
+    if ($feature eq 'put:attribute') then true() else 
+    
+    if ($feature eq 'put:text' and $supported) then false() else 
+    if ($feature eq 'put:text') then true() else 
+    
+    if ($feature eq 'put:comment' and $supported) then false() else 
+    if ($feature eq 'put:comment') then true() else 
+    
+    if ($feature eq 'put:processing-instruction' and $supported) then false() else 
+    if ($feature eq 'put:processing-instruction') then true() else 
+    
+    if ($supported) then true() else 
+    
+    false()
+  (: full-axis :)
 };
 
 declare function _:get_supported_cases($grp as element(_:test-group))
@@ -128,6 +138,15 @@ declare function _:print-test-case($case as element(_:test-case),
       "   xqldb_dml:insert_doc(""" || $uri || """, source(__BaseDir, '" || $in || "'))"
     )
     ,
+    (: Input to delete :)
+    (
+      for $t in $states/_:input-URI/text()
+      group by $t
+      let $uri := $base-uri || $t || "-" || $pos || ".xml"
+      return
+      "   xqldb_dml:delete_doc(""" || $uri || """)"
+    )
+    ,
     (: states :)
     (
       for $state at $spos in $states
@@ -159,19 +178,46 @@ declare function _:print-test-case($case as element(_:test-case),
       "                xqerl:run(Q"||$spos||", Ctx"||$spos||")" || $n ||
       "             catch _:E"||$spos||" -> E"||$spos||" end," || $n ||
       (
-        if ($scen eq 'runtime-error') then
+        if ($scen eq 'runtime-error' and count($state/_:expected-error) eq 1) then
           "      case xqerl_test:assert_error(Res"||$spos||","""||
-                 $state/_:expected-error[1]||""") of " || $n ||
+                 $state/_:expected-error||""") of " || $n ||
           "         true -> {comment, ""Correct error""};" || $n ||
           "         {false, Err"||$spos||"} -> ct:fail(Err"||$spos||") " || $n ||
           "      end"
-        else if (exists($state/_:output-file)) then
+        else if ($scen eq 'runtime-error' and count($state/_:expected-error) eq 2) then
+          "      case xqerl_test:assert_error(Res"||$spos||","""||
+                 $state/_:expected-error[1]||""") of " || $n ||
+          "         true -> {comment, ""Correct error""};" || $n ||
+          "         {false, _} -> " || $n ||
+          "            case xqerl_test:assert_error(Res"||$spos||","""||
+                       $state/_:expected-error[2]||""") of " || $n ||
+          "               true -> {comment, ""Correct error""};" || $n ||
+          "               {false, Err"||$spos||"} ->  ct:fail(Err"||$spos||") " || $n ||
+          "            end" ||
+          "      end"
+        else if (count($state/_:output-file) eq 1) then
+        let $c := if ($state/_:output-file/@compare eq 'XML') then 'doc_file' else 'file'
+        return
           "      case xqerl_test:assert_xml(Res"||$spos||","||
-                 "{file, filename:join(__BaseDir, """||
-                 _:result_file($path, $state/_:output-file[1])||""")}) of" || $n ||
+                 "{"||$c||", filename:join(__BaseDir, """||
+                 _:result_file($path, $state/_:output-file)||""")}) of" || $n ||
           "         true -> {comment, ""Correct""};" || $n ||
           "         {false, Err"||$spos||"} -> ct:fail(Err"||$spos||") " || $n ||
           "      end"
+        else if (count($state/_:output-file) > 1) then
+        "      case lists:any(fun(true) -> true; (_) -> false end, [" || $n ||
+        (
+          for $of in $state/_:output-file
+          let $c := if ($of/@compare eq 'XML') then 'doc_file' else 'file'
+          return
+          "         xqerl_test:assert_xml(Res"||$spos||","||
+                 "{"||$c||", filename:join(__BaseDir, """||
+                 _:result_file($path, $of)||""")})"
+        ) => string-join(","||$n)
+        || "]) of " || $n ||
+        "         true -> {comment, ""Correct""};" || $n ||
+        "         false -> ct:fail(Res"||$spos||")" || $n ||
+        "      end"
         else
           "      Res"||$spos
       ) || $n ||
@@ -179,7 +225,7 @@ declare function _:print-test-case($case as element(_:test-case),
     ) => string-join("," || $n)
     
   ) => string-join("," || $n) ||
-  "   ." || $n
+  "." || $n
 };
 
 (: Children of test-case @name, @FilePath, @scenario
@@ -274,4 +320,4 @@ let $mod :=
   ) => string-join($n)
 ) 
 return 
-  file:write-text('xquts_SUITE.erl', $mod, "utf-8")
+  file:write-text('C:\git\zadean\xqerl\test\xquts_SUITE.erl', $mod, "utf-8")

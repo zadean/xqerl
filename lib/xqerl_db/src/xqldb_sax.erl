@@ -78,7 +78,7 @@ parse_file(DB,File,Uri) ->
 
 parse_list(_DB,[],_Uri) -> ok;
 parse_list(DB,List,Uri) ->
-   %?dbg("start", Uri),
+   %?dbg("start", List),
    %Self = self(),
    State = default_state(DB,Uri),
    F = fun(E,S) ->
@@ -127,8 +127,8 @@ default_state(DB, Uri) ->
    UriId = xqldb_namespace_table:insert(?NMSP_TABLE_P(DB), <<>>),
    XmlId = xqldb_namespace_table:insert(
              ?NMSP_TABLE_P(DB), <<"http://www.w3.org/XML/1998/namespace">>),
-   M1 = add_uri(#{},[],UriId),
-   M2 = add_uri(M1,"http://www.w3.org/XML/1998/namespace",XmlId),
+   M1 = add_uri(#{},<<>>,UriId),
+   M2 = add_uri(M1,<<"http://www.w3.org/XML/1998/namespace">>,XmlId),
    #{pos      => 0,
      parent   => [0],
      names    => #{},
@@ -141,7 +141,7 @@ default_state(DB, Uri) ->
      nsp_off  => [],
      nsp_on   => [],
      att_dec  => #{},
-     ignore_ws => true
+     ignore_ws => false
     }.
 
 default_split_state(Fun, Path) ->
@@ -164,7 +164,18 @@ event(startDocument, _L, #{db  := DB,
    Nd = xqldb_nodes:document(UriRef),
    State#{pos := 1,
           parent := [{0,Nd}]};
+event(startFragment, _L, #{db  := DB,
+                           uri := Uri} = State) ->
+   UriRef = xqldb_string_table:insert(?TEXT_TABLE_P(DB), Uri),
+   Nd = xqldb_nodes:document(UriRef),
+   State#{pos := 1,
+          parent := [{0,Nd}]};
 event(endDocument, _L, #{parent := [{0,Nd}],
+                         chld_stk := [Chld,_],
+                         nsp_off := Nsps} = _State) ->
+   Tree = xqldb_nodes:set_children(Nd,lists:reverse(Chld)),
+   {Tree, Nsps};
+event(endFragment, _L, #{parent := [{0,Nd}],
                          chld_stk := [Chld,_],
                          nsp_off := Nsps} = _State) ->
    Tree = xqldb_nodes:set_children(Nd,lists:reverse(Chld)),
@@ -177,7 +188,7 @@ event({startPrefixMapping, PrefixS, UriS}, _, #{db  := DB,
    Uri = ?u2b(UriS),
    UriId = xqldb_namespace_table:insert(?NMSP_TABLE_P(DB), Uri),
    N = {Pos,UriId,Prefix},
-   Scp1 = add_uri(Scp,UriS,UriId),
+   Scp1 = add_uri(Scp,Uri,UriId),
    State#{nsps := Scp1, nsp_on := [N|On], has_ns := true};
 event({endPrefixMapping, PrefixS}, _, #{pos := Pos,
                                         nsp_on := On,
@@ -196,7 +207,7 @@ event({startElement, UriS, LocalNameS, {PrefixS,_}, Attributes}, _,
         has_ns := HasNs,
         nsps := Scp} = State) ->
    AttLen = length(Attributes),
-   UriId = maps:get(UriS, Scp),
+   UriId = maps:get(?u2b(UriS), Scp),
    {NameId, NameMap1} = get_name_id(DB, ?u2b(PrefixS), ?u2b(LocalNameS), NameMap),
    Elem = xqldb_nodes:element(Pos - Parent,NameId,UriId,HasNs,AttLen),
    {Atts,State1} = att_events(Attributes,[],State,LocalNameS),
@@ -284,12 +295,20 @@ att_events([{UriS, PrefixS, AttributeNameS, ValueS}|T], Acc,
              nsps := Scp,
              att_dec := AttDec,
              names := NameMap} = State, ElementLocalName) ->
+   Uri = ?u2b(UriS),
    Bin = ?u2b(ValueS),
-   NsRef = maps:get(UriS, Scp),
+   NsRef = case maps:find(Uri, Scp) of
+              {ok,V} ->
+                 V;
+              error ->
+                 ?dbg("unknown", {Uri, Scp}),
+                 throw({error, unknown_namespace})
+           end,
    TextRef = xqldb_string_table:insert(?ATT_TABLE_P(DB), Bin),
-   {NameRef, NameMap1} = get_name_id(DB, ?u2b(PrefixS), ?u2b(AttributeNameS), NameMap),
+   AttributeName = ?u2b(AttributeNameS),
+   {NameRef, NameMap1} = get_name_id(DB, ?u2b(PrefixS), AttributeName, NameMap),
    Offset = length(Acc) + 1,
-   Type = get_att_type({ElementLocalName, AttributeNameS}, AttDec),
+   Type = get_att_type({ElementLocalName, AttributeName}, AttDec),
    Node = xqldb_nodes:attribute(Offset, NameRef, NsRef, TextRef, Type),
    att_events(T, [Node|Acc], State#{names := NameMap1}, ElementLocalName);
 att_events([],Acc,State,_) ->

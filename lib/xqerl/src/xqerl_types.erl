@@ -123,6 +123,9 @@ return_value(Other) ->
 
 return_value([Seq], Ctx) ->
    return_value(Seq, Ctx);
+return_value(Seq, #{pul := Pul} = Ctx) ->
+   ok = xqerl_update:apply_updates(Ctx, Pul),
+   return_value(Seq, maps:remove(pul, Ctx));
 return_value(Seq, #{options := Opts}) ->
    if is_map_key(method, Opts) ->
          Seq2 = xqerl_seq3:flatten(Seq),

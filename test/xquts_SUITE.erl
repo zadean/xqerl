@@ -676,37 +676,6 @@
          'revalidation-declaration-03-fail'/1,
          'revalidation-declaration-05'/1,
          'revalidation-declaration-06'/1,
-         'removeType-valskip-ins-001'/1,
-         'removeType-valskip-ins-002'/1,
-         'removeType-valskip-ins-003'/1,
-         'removeType-valskip-ins-004'/1,
-         'removeType-valskip-ins-005'/1,
-         'removeType-valskip-ins-006'/1,
-         'removeType-valskip-ins-007'/1,
-         'removeType-valskip-ins-008'/1,
-         'removeType-valskip-ins-009'/1,
-         'removeType-valskip-ins-010'/1,
-         'removeType-valskip-ins-011'/1,
-         'removeType-valskip-ins-012'/1,
-         'removeType-valskip-ins-013'/1,
-         'removeType-valskip-ins-014'/1,
-         'removeType-valskip-del-001'/1,
-         'removeType-valskip-del-002'/1,
-         'removeType-valskip-del-003'/1,
-         'removeType-valskip-del-004'/1,
-         'removeType-valskip-del-005'/1,
-         'removeType-valskip-ren-001'/1,
-         'removeType-valskip-ren-002'/1,
-         'removeType-valskip-ren-003'/1,
-         'removeType-valskip-ren-004'/1,
-         'removeType-valskip-ren-005'/1,
-         'removeType-valskip-ren-006'/1,
-         'removeType-valskip-repnode-001'/1,
-         'removeType-valskip-repnode-002'/1,
-         'removeType-valskip-repnode-003'/1,
-         'removeType-valskip-repnode-004'/1,
-         'removeType-valskip-repnode-005'/1,
-         'removeType-valskip-repnode-006'/1,
          'complex-deletes-q1'/1,
          'complex-deletes-q2'/1,
          'complex-deletes-q6'/1,
@@ -721,13 +690,9 @@
          'complex-renames-q2'/1,
          'complex-renames-q3'/1,
          'complex-renames-q4'/1,
-         'fn-put-003'/1,
          'fn-put-003-fail'/1,
-         'fn-put-004'/1,
          'fn-put-004-fail'/1,
-         'fn-put-005'/1,
          'fn-put-005-fail'/1,
-         'fn-put-006'/1,
          'fn-put-006-fail'/1,
          'relational-data-q1'/1,
          'relational-data-q2'/1,
@@ -1433,37 +1398,6 @@ all() -> [
    'revalidation-declaration-03-fail',
    'revalidation-declaration-05',
    'revalidation-declaration-06',
-   'removeType-valskip-ins-001',
-   'removeType-valskip-ins-002',
-   'removeType-valskip-ins-003',
-   'removeType-valskip-ins-004',
-   'removeType-valskip-ins-005',
-   'removeType-valskip-ins-006',
-   'removeType-valskip-ins-007',
-   'removeType-valskip-ins-008',
-   'removeType-valskip-ins-009',
-   'removeType-valskip-ins-010',
-   'removeType-valskip-ins-011',
-   'removeType-valskip-ins-012',
-   'removeType-valskip-ins-013',
-   'removeType-valskip-ins-014',
-   'removeType-valskip-del-001',
-   'removeType-valskip-del-002',
-   'removeType-valskip-del-003',
-   'removeType-valskip-del-004',
-   'removeType-valskip-del-005',
-   'removeType-valskip-ren-001',
-   'removeType-valskip-ren-002',
-   'removeType-valskip-ren-003',
-   'removeType-valskip-ren-004',
-   'removeType-valskip-ren-005',
-   'removeType-valskip-ren-006',
-   'removeType-valskip-repnode-001',
-   'removeType-valskip-repnode-002',
-   'removeType-valskip-repnode-003',
-   'removeType-valskip-repnode-004',
-   'removeType-valskip-repnode-005',
-   'removeType-valskip-repnode-006',
    'complex-deletes-q1',
    'complex-deletes-q2',
    'complex-deletes-q6',
@@ -1478,13 +1412,9 @@ all() -> [
    'complex-renames-q2',
    'complex-renames-q3',
    'complex-renames-q4',
-   'fn-put-003',
    'fn-put-003-fail',
-   'fn-put-004',
    'fn-put-004-fail',
-   'fn-put-005',
    'fn-put-005-fail',
-   'fn-put-006',
    'fn-put-006-fail',
    'relational-data-q1',
    'relational-data-q2',
@@ -1554,7 +1484,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Variable declaration with an updating expression rhs.
 'variable-declaration-02'(Config) -> 
@@ -1572,7 +1502,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with an updating function and enclosed expression is also updating expression.
 'id-function-declaration-01'(Config) -> 
@@ -1599,7 +1529,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with non updating/non external function and enclosed expression is also updating expression.
 'id-function-declaration-02'(Config) -> 
@@ -1617,7 +1547,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with an updating/non external function and enclosed expression is an empty sequence.
 'id-function-declaration-03'(Config) -> 
@@ -1644,7 +1574,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an update expression used with an updating/non external function and enclosed expression is a call to fn:error.
 'id-function-declaration-04'(Config) -> 
@@ -1662,7 +1592,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a mathematical expression used with an updating/non external function. Enclosed expression is a mathematical expression.
 'id-function-declaration-05'(Config) -> 
@@ -1680,7 +1610,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with an updating function and enclosed expression is also updating (delete) expression.
 'id-function-declaration-06'(Config) -> 
@@ -1707,7 +1637,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with non updating/non external function and enclosed expression is an updating (delete)expression.
 'id-function-declaration-07'(Config) -> 
@@ -1725,7 +1655,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with an updating function and enclosed expression is also updating (replace) expression.
 'id-function-declaration-08'(Config) -> 
@@ -1752,7 +1682,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with non updating/non external function and enclosed expression is also updating (replace)expression.
 'id-function-declaration-09'(Config) -> 
@@ -1770,7 +1700,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a rename expression used with an updating function and enclosed expression is also updating (rename) expression.
 'id-function-declaration-010'(Config) -> 
@@ -1797,7 +1727,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a rename expression used with non updating/non external function and enclosed expression is also updating (rename) expression.
 'id-function-declaration-011'(Config) -> 
@@ -1815,7 +1745,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression used with an updating function and enclosed expression is also updating (transform) expression.
 'id-function-declaration-012'(Config) -> 
@@ -1833,7 +1763,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression used with non updating/non external function and enclosed expression is non updating (transform) expression.
 'id-function-declaration-013'(Config) -> 
@@ -1851,7 +1781,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a function declaration declared as updating and a return type is specified.
 'id-function-declaration-014'(Config) -> 
@@ -1867,9 +1797,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0028") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUST0002") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Updating function contains updating expression in a disallowed place.
 'id-function-declaration-015'(Config) -> 
@@ -1887,7 +1820,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Updating function returns a value on a non-executed branch.
 'id-function-declaration-016'(Config) -> 
@@ -1905,7 +1838,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Recursive updating function.
 'id-function-declaration-017'(Config) -> 
@@ -1917,11 +1850,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/FunctionDeclaration/id-function-declaration-017.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/FunctionDeclaration/id-function-declaration-017.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Function declaration, non-updating, with updating expression.
 'function-declaration-01'(Config) -> 
@@ -1939,7 +1872,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Function declaration, updating, with return type.
 'function-declaration-02'(Config) -> 
@@ -1957,7 +1890,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Function declaration, updating, with simple expression.
 'function-declaration-03'(Config) -> 
@@ -1975,7 +1908,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Function declaration, updating, with vacuous expression.
 'function-declaration-04'(Config) -> 
@@ -1993,7 +1926,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" clause only. Inserts an element.
 'id-insert-expr-01'(Config) -> 
@@ -2020,7 +1953,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" clause only. Inserts an element.
 'id-insert-expr-02'(Config) -> 
@@ -2047,7 +1980,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as first" and "into" clauses. Inserts an element.
 'id-insert-expr-03'(Config) -> 
@@ -2074,7 +2007,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as last" and "into" clauses. Inserts an element.
 'id-insert-expr-04'(Config) -> 
@@ -2101,7 +2034,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "into" clause only. Inserts an element.
 'id-insert-expr-05'(Config) -> 
@@ -2128,7 +2061,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" clause only. Inserts an attribute.
 'id-insert-expr-06'(Config) -> 
@@ -2155,7 +2088,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "before" clause only. Inserts an attribute.
 'id-insert-expr-07'(Config) -> 
@@ -2182,7 +2115,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as first" and "into" clauses. Inserts an attribute.
 'id-insert-expr-08'(Config) -> 
@@ -2209,7 +2142,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as last" and "into" clauses. Inserts an attribute.
 'id-insert-expr-09'(Config) -> 
@@ -2236,7 +2169,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "into" clause only. Inserts an attribute.
 'id-insert-expr-010'(Config) -> 
@@ -2263,7 +2196,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" clause only. Inserts a comment.
 'id-insert-expr-011'(Config) -> 
@@ -2290,7 +2223,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "before" clause only. Inserts a comment.
 'id-insert-expr-012'(Config) -> 
@@ -2317,7 +2250,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as first" and "into" clauses. Inserts a comment.
 'id-insert-expr-013'(Config) -> 
@@ -2344,7 +2277,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as first" and "into" clauses. Inserts a comment.
 'id-insert-expr-014'(Config) -> 
@@ -2371,7 +2304,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "into" clause only. Inserts a comment.
 'id-insert-expr-015'(Config) -> 
@@ -2398,7 +2331,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "before" clause only. Inserts an element into a directly constructed element node.
 'id-insert-expr-016'(Config) -> 
@@ -2425,7 +2358,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" clause only. Inserts an element into a directly constructed element node.
 'id-insert-expr-017'(Config) -> 
@@ -2452,7 +2385,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as first" and "into" clauses. Inserts an element into a directly constructed element node.
 'id-insert-expr-018'(Config) -> 
@@ -2479,7 +2412,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "as last" and "into" clauses. Inserts an element into a directly constructed element node.
 'id-insert-expr-019'(Config) -> 
@@ -2506,7 +2439,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "into" clause only. Inserts an element into a directly constructed element node.
 'id-insert-expr-020'(Config) -> 
@@ -2533,7 +2466,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression with "after" only. Insert a sequence of element nodes into a directly constructed element node.
 'id-insert-expr-021'(Config) -> 
@@ -2560,7 +2493,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of simple insert expression that uses "into" clause only to insert a sequence of element nodes into into an XML data source.
 'id-insert-expr-022'(Config) -> 
@@ -2587,7 +2520,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression where source expression is an updating expression.
 'id-insert-expr-023'(Config) -> 
@@ -2605,7 +2538,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression where target expression is an updating expression.
 'id-insert-expr-024'(Config) -> 
@@ -2623,7 +2556,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a simple insert expression where both source and target expressions are updating expressions.
 'id-insert-expr-025'(Config) -> 
@@ -2641,7 +2574,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the source sequence have an attribute node following an element node.
 'id-insert-expr-026'(Config) -> 
@@ -2659,7 +2592,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the target expression is a sequence of nodes.
 'id-insert-expr-027'(Config) -> 
@@ -2677,7 +2610,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the target expression is the empty sequence.
 'id-insert-expr-028'(Config) -> 
@@ -2695,7 +2628,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the target expression evaluates to a number.
 'id-insert-expr-029'(Config) -> 
@@ -2713,7 +2646,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the source expression evaluates to a number.
 'id-insert-expr-030'(Config) -> 
@@ -2740,7 +2673,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression where the target expression is a complex expression.
 'id-insert-expr-031'(Config) -> 
@@ -2767,7 +2700,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of attributes is inserted as first.
 'id-insert-expr-032'(Config) -> 
@@ -2794,7 +2727,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of attributes is inserted as last.
 'id-insert-expr-033'(Config) -> 
@@ -2821,7 +2754,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of nodes is inserted as first. Make sure order is preserved.
 'id-insert-expr-034'(Config) -> 
@@ -2848,7 +2781,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of nodes is inserted as last. Make sure order is preserved.
 'id-insert-expr-035'(Config) -> 
@@ -2875,7 +2808,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of nodes is inserted using "before" clause. Make sure order is preserved.
 'id-insert-expr-036'(Config) -> 
@@ -2902,7 +2835,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of nodes is inserted using "after" clause. Make sure order is preserved.
 'id-insert-expr-037'(Config) -> 
@@ -2929,7 +2862,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of Comment nodes are inserted using "before" clause. Make sure order is preserved.
 'id-insert-expr-038'(Config) -> 
@@ -2956,7 +2889,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a sequence of Comment nodes are inserted using "after" clause. Make sure order is preserved.
 'id-insert-expr-039'(Config) -> 
@@ -2983,7 +2916,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a two groups of element nodes is inserted as using "after" clause. Make sure order is mantained within a groups.
 'id-insert-expr-040'(Config) -> 
@@ -3006,11 +2939,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-040.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-040.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-040-alt.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where a two groups of element nodes is inserted as using "before" clause. Make sure order is mantained within a groups.
 'id-insert-expr-041'(Config) -> 
@@ -3033,11 +2968,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-041.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-041.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-041-alt.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where two groups of element nodes are inserted as using "before" and "after" clauses respectively. Make sure order is mantained within groups.
 'id-insert-expr-042'(Config) -> 
@@ -3064,7 +3001,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression where two groups of element nodes are inserted as using "after" and "before" clauses respectively. Make sure order is mantained within groups.
 'id-insert-expr-043'(Config) -> 
@@ -3091,7 +3028,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where the source expression is a transform expression.
 'id-insert-expr-044'(Config) -> 
@@ -3118,7 +3055,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where the before clause is used and the result is a document node.
 'id-insert-expr-045'(Config) -> 
@@ -3136,7 +3073,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where the after clause is used and the result is a document node.
 'id-insert-expr-046'(Config) -> 
@@ -3154,7 +3091,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where the target is a comment node and usage of after clause.
 'id-insert-expr-047'(Config) -> 
@@ -3181,7 +3118,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where the target is a comment node and usage of before clause.
 'id-insert-expr-048'(Config) -> 
@@ -3208,7 +3145,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where two nodes are inserted into the same node using the "as first" clause.
 'id-insert-expr-049'(Config) -> 
@@ -3231,11 +3168,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-049.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-049.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-049-alt.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression, where two nodes are inserted into the same node using the "as last" clause.
 'id-insert-expr-050'(Config) -> 
@@ -3258,11 +3197,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-050.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-050.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-050-alt.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Same as id-insert-expr-01, but using keyword "nodes".
 'id-insert-expr-051'(Config) -> 
@@ -3289,7 +3230,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert into respects as first, as last, before, and after.
 'id-insert-expr-052'(Config) -> 
@@ -3312,11 +3253,17 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052a.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052a.xml")}),
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052b.xml")}),
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052c.xml")}),
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052d.xml")}),
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052e.xml")}),
+         xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-052f.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Insert empty sequences into, as first, as last, before, and after.
 'id-insert-expr-053'(Config) -> 
@@ -3339,11 +3286,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-053.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-053.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert an element into a comment.
 'id-insert-expr-054'(Config) -> 
@@ -3361,7 +3308,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element into a text node.
 'id-insert-expr-055'(Config) -> 
@@ -3379,7 +3326,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element into a PI.
 'id-insert-expr-056'(Config) -> 
@@ -3397,7 +3344,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert text node into a text node.
 'id-insert-expr-057'(Config) -> 
@@ -3415,7 +3362,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element before an attribute.
 'id-insert-expr-058'(Config) -> 
@@ -3433,7 +3380,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element after an attribute.
 'id-insert-expr-059'(Config) -> 
@@ -3451,7 +3398,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute before an attribute.
 'id-insert-expr-060'(Config) -> 
@@ -3469,7 +3416,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute after an attribute.
 'id-insert-expr-061'(Config) -> 
@@ -3487,7 +3434,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element before an element without a parent.
 'id-insert-expr-062'(Config) -> 
@@ -3505,7 +3452,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an element after an element without a parent.
 'id-insert-expr-063'(Config) -> 
@@ -3523,7 +3470,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute into a comment.
 'id-insert-expr-064'(Config) -> 
@@ -3539,9 +3486,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUTY0022") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute into a text node.
 'id-insert-expr-065'(Config) -> 
@@ -3557,9 +3507,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUTY0022") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute into a PI.
 'id-insert-expr-066'(Config) -> 
@@ -3575,9 +3528,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUTY0022") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute into a document.
 'id-insert-expr-067'(Config) -> 
@@ -3595,7 +3551,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute into attribute.
 'id-insert-expr-068'(Config) -> 
@@ -3611,9 +3567,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUTY0022") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute before an element without a parent.
 'id-insert-expr-069'(Config) -> 
@@ -3629,9 +3588,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute after an element without a parent.
 'id-insert-expr-070'(Config) -> 
@@ -3647,9 +3609,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute before an text node without a parent.
 'id-insert-expr-071'(Config) -> 
@@ -3665,9 +3630,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute after an text node without a parent.
 'id-insert-expr-072'(Config) -> 
@@ -3683,9 +3651,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute before a comment without a parent.
 'id-insert-expr-073'(Config) -> 
@@ -3701,9 +3672,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute after a comment without a parent.
 'id-insert-expr-074'(Config) -> 
@@ -3719,9 +3693,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute before a PI without a parent.
 'id-insert-expr-075'(Config) -> 
@@ -3737,9 +3714,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert an attribute after a PI without a parent.
 'id-insert-expr-076'(Config) -> 
@@ -3755,9 +3735,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XUDY0030") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Insert text nodes as first, as last, before, and after.
 'id-insert-expr-077'(Config) -> 
@@ -3780,11 +3763,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-077.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-077.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert PI as first, as last, before, and after.
 'id-insert-expr-078'(Config) -> 
@@ -3807,11 +3790,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-078.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-078.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert a document as first.
 'id-insert-expr-079'(Config) -> 
@@ -3834,11 +3817,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-079.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-079.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert a mixed sequence as first, as last, before, and after.
 'id-insert-expr-080'(Config) -> 
@@ -3861,11 +3844,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-080.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-080.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-081'(Config) -> 
@@ -3883,7 +3866,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-082'(Config) -> 
@@ -3901,7 +3884,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-083'(Config) -> 
@@ -3919,7 +3902,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-084'(Config) -> 
@@ -3937,7 +3920,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-085'(Config) -> 
@@ -3955,7 +3938,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an attribute.
 'id-insert-expr-086'(Config) -> 
@@ -3973,7 +3956,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-081-no-inherit'(Config) -> 
@@ -3991,7 +3974,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-082-no-inherit'(Config) -> 
@@ -4009,7 +3992,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-083-no-inherit'(Config) -> 
@@ -4027,7 +4010,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-084-no-inherit'(Config) -> 
@@ -4045,7 +4028,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an element.
 'id-insert-expr-085-no-inherit'(Config) -> 
@@ -4063,7 +4046,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when inserting an attribute.
 'id-insert-expr-086-no-inherit'(Config) -> 
@@ -4081,7 +4064,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute before an element that does not have an element parent.
 'id-insert-expr-087'(Config) -> 
@@ -4099,7 +4082,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute after an element that does not have an element parent.
 'id-insert-expr-088'(Config) -> 
@@ -4117,7 +4100,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute before a comment that does not have an element parent.
 'id-insert-expr-089'(Config) -> 
@@ -4135,7 +4118,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute after a comment that does not have an element parent.
 'id-insert-expr-090'(Config) -> 
@@ -4153,7 +4136,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute before a PI that does not have an element parent.
 'id-insert-expr-091'(Config) -> 
@@ -4171,7 +4154,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute after a PI that does not have an element parent.
 'id-insert-expr-092'(Config) -> 
@@ -4189,7 +4172,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert an attribute that requires creation of a new namespace node.
 'id-insert-expr-093'(Config) -> 
@@ -4212,11 +4195,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-093.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-093.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert an attribute that doesn't conflict with an element in the default namespace.
 'id-insert-expr-094'(Config) -> 
@@ -4239,11 +4222,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-094.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/InsertExpressions/id-insert-expr-094.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression that removes an element from a directly constructed element node.
 'id-delete-expr-01'(Config) -> 
@@ -4270,7 +4253,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression that removes an attribute from a directly constructed element node.
 'id-delete-expr-02'(Config) -> 
@@ -4297,7 +4280,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression that removes a comment node from a directly constructed element node.
 'id-delete-expr-03'(Config) -> 
@@ -4324,7 +4307,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression that removes multiple element nodes from an XML File.
 'id-delete-expr-04'(Config) -> 
@@ -4351,7 +4334,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression that removes a sequence of element nodes from directly constructed element nodes.
 'id-delete-expr-05'(Config) -> 
@@ -4378,7 +4361,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression is an updating expression.
 'id-delete-expr-06'(Config) -> 
@@ -4396,7 +4379,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression is a mathematical expression.
 'id-delete-expr-07'(Config) -> 
@@ -4414,7 +4397,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression results in a sequence of zero nodes.
 'id-delete-expr-08'(Config) -> 
@@ -4441,7 +4424,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression is set to "()".
 'id-delete-expr-09'(Config) -> 
@@ -4468,7 +4451,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression is a complex one.
 'id-delete-expr-010'(Config) -> 
@@ -4495,7 +4478,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A delete expression where the target expression results in a sequence of integers.
 'id-delete-expr-011'(Config) -> 
@@ -4513,7 +4496,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A delete expression with multiple delete states.
 'id-delete-expr-012'(Config) -> 
@@ -4561,7 +4544,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err4} -> ct:fail(Err4) 
       end
-   end   .
+   end.
 
 %% Delete an element node and its parent.
 'id-delete-expr-013'(Config) -> 
@@ -4584,11 +4567,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-013.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-013.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an element node parent and then the element node.
 'id-delete-expr-014'(Config) -> 
@@ -4611,11 +4594,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-014.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-014.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an element node multiple times.
 'id-delete-expr-015'(Config) -> 
@@ -4638,11 +4621,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-015.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-015.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an element node multiple times.
 'id-delete-expr-016'(Config) -> 
@@ -4665,11 +4648,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-016.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-016.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an element node, making sure that it is remains visible in this snapshot.
 'id-delete-expr-017'(Config) -> 
@@ -4692,11 +4675,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-017.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-017.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an element node, making sure that it is remains visible in this snapshot.
 'id-delete-expr-018'(Config) -> 
@@ -4719,11 +4702,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-018.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-018.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete an attribute node multiple times.
 'id-delete-expr-019'(Config) -> 
@@ -4746,11 +4729,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-019.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-019.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete a text node multiple times.
 'id-delete-expr-020'(Config) -> 
@@ -4773,11 +4756,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-020.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-020.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete a comment node multiple times.
 'id-delete-expr-021'(Config) -> 
@@ -4800,11 +4783,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-021.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-021.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete a PI node multiple times.
 'id-delete-expr-022'(Config) -> 
@@ -4827,11 +4810,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-022.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/id-delete-expr-022.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete all PIs with target "a-pi".
 'complex-deletes-q3'(Config) -> 
@@ -4870,7 +4853,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete last text node child of document element.
 'complex-deletes-q4'(Config) -> 
@@ -4909,7 +4892,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete all text node children of element "south".
 'complex-deletes-q5'(Config) -> 
@@ -4948,7 +4931,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete the element called "far-east".
 'complex-deletes-q10'(Config) -> 
@@ -4987,7 +4970,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete all attributes called "mark".
 'complex-deletes-q11'(Config) -> 
@@ -5026,7 +5009,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete all attributes on the "west" element.
 'complex-deletes-q12'(Config) -> 
@@ -5065,7 +5048,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete the attributes names "west-attr-2", "center-attr-2", and "south-attr-2".
 'complex-deletes-q13'(Config) -> 
@@ -5104,7 +5087,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete the document node.
 'complex-deletes-q14'(Config) -> 
@@ -5134,7 +5117,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an element node.
 'id-replace-expr-01'(Config) -> 
@@ -5161,7 +5144,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an attribute node.
 'id-replace-expr-02'(Config) -> 
@@ -5188,7 +5171,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression that replaces a comment node.
 'id-replace-expr-03'(Config) -> 
@@ -5215,7 +5198,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression that replaces Processing Instruction node.
 'id-replace-expr-04'(Config) -> 
@@ -5242,7 +5225,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an element node with a sequence of zero nodes.
 'id-replace-expr-010'(Config) -> 
@@ -5269,7 +5252,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression.
 'id-replace-expr-011'(Config) -> 
@@ -5287,7 +5270,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target expression is an updating expression.
 'id-replace-expr-012'(Config) -> 
@@ -5305,7 +5288,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target expression results in more than one node.
 'id-replace-expr-013'(Config) -> 
@@ -5323,7 +5306,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target expression results in a single node with no parent property.
 'id-replace-expr-014'(Config) -> 
@@ -5341,7 +5324,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target is a document node.
 'id-replace-expr-015'(Config) -> 
@@ -5359,7 +5342,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where an attempt is made to replace an attribute node with an element node.
 'id-replace-expr-016'(Config) -> 
@@ -5377,7 +5360,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression where an Element node value is replaced with an attribute node.
 'id-replace-expr-022'(Config) -> 
@@ -5395,7 +5378,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression, where the target node is an attribute and the replacement list is not exclusively attribute nodes.
 'id-replace-expr-023'(Config) -> 
@@ -5413,7 +5396,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression where an empty traget is replaced with an attribute node.
 'id-replace-expr-028'(Config) -> 
@@ -5431,7 +5414,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace the values of text nodes.
 'id-replace-expr-029'(Config) -> 
@@ -5454,11 +5437,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-029.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-029.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace the values of text nodes.
 'id-replace-expr-030'(Config) -> 
@@ -5481,11 +5464,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-030.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-030.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace the value of a element node with a sequence.
 'id-replace-expr-031'(Config) -> 
@@ -5508,11 +5491,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-031.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-031.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace the value of a element node with a sequence.
 'id-replace-expr-032'(Config) -> 
@@ -5535,11 +5518,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-032.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-032.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace the value of a element node with a document.
 'id-replace-expr-033'(Config) -> 
@@ -5562,11 +5545,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-033.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-033.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace an attribute node with a sequence of attribute nodes.
 'id-replace-expr-034'(Config) -> 
@@ -5589,11 +5572,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-034.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-034.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when replacing an attribute.
 'id-replace-expr-045'(Config) -> 
@@ -5611,7 +5594,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when replacing an attribute.
 'id-replace-expr-045-no-inherit'(Config) -> 
@@ -5629,7 +5612,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an element node and usage of "value of" keyword.
 'id-replace-expr-05'(Config) -> 
@@ -5656,7 +5639,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an attribute node and usage of "value of" keyword.
 'id-replace-expr-06'(Config) -> 
@@ -5683,7 +5666,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces a comment node and usage of "value of" keyword.
 'id-replace-expr-07'(Config) -> 
@@ -5710,7 +5693,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces a Processing Instruction node and usage of "value of" keyword.
 'id-replace-expr-08'(Config) -> 
@@ -5737,7 +5720,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, which replaces an element node and usage of "value of" keyword. It uses an arithmetic expression.
 'id-replace-expr-09'(Config) -> 
@@ -5764,7 +5747,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression and usage of "value of" keyword.
 'id-replace-expr-017'(Config) -> 
@@ -5782,7 +5765,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target expression is an updating expression and usage of the "value of" keyword.
 'id-replace-expr-018'(Config) -> 
@@ -5800,7 +5783,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target expression results into more than one node and usage of the "value of" keyword.
 'id-replace-expr-019'(Config) -> 
@@ -5818,7 +5801,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, where the target is a document node and usage of the "value of" keyword.
 'id-replace-expr-020'(Config) -> 
@@ -5836,7 +5819,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression, used to replace an attribute node's value with an element node and usage of the "value of" clause.
 'id-replace-expr-021'(Config) -> 
@@ -5863,7 +5846,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression with value of clause, where the target is a comment node and replacement string contains two adjacents hypens.
 'id-replace-expr-024'(Config) -> 
@@ -5881,7 +5864,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression with value of clause, where the target is a PI node and replacement string contains "?>".
 'id-replace-expr-025'(Config) -> 
@@ -5899,7 +5882,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression with value of clause, where the target expression results in and empty sequence.
 'id-replace-expr-026'(Config) -> 
@@ -5917,7 +5900,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression with value of clause, where the target expression is set to "()"
 'id-replace-expr-027'(Config) -> 
@@ -5935,7 +5918,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace value of element with empty sequence.
 'id-replace-expr-035'(Config) -> 
@@ -5958,11 +5941,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-035.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-035.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of element with a sequence.
 'id-replace-expr-036'(Config) -> 
@@ -5985,11 +5968,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of an attribute with empty sequence.
 'id-replace-expr-037'(Config) -> 
@@ -6012,11 +5995,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a comment with empty sequence.
 'id-replace-expr-038'(Config) -> 
@@ -6039,11 +6022,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-038.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-038.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a PI with empty sequence.
 'id-replace-expr-039'(Config) -> 
@@ -6066,11 +6049,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-039.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-039.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a text node with empty sequence.
 'id-replace-expr-040'(Config) -> 
@@ -6093,11 +6076,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-040.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-040.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of an attribute with a sequence.
 'id-replace-expr-041'(Config) -> 
@@ -6120,11 +6103,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-041.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-041.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a comment with a sequence.
 'id-replace-expr-042'(Config) -> 
@@ -6147,11 +6130,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-042.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-042.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a PI with a sequence.
 'id-replace-expr-043'(Config) -> 
@@ -6174,11 +6157,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-043.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-043.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of a text node with a sequence.
 'id-replace-expr-044'(Config) -> 
@@ -6201,11 +6184,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-044.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ReplaceExpressions/id-replace-expr-044.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of all PIs with target "a-pi".
 'complex-replacevalues-q3'(Config) -> 
@@ -6244,7 +6227,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of last text node child of document element.
 'complex-replacevalues-q4'(Config) -> 
@@ -6283,7 +6266,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of all text node children of element "south".
 'complex-replacevalues-q5'(Config) -> 
@@ -6322,7 +6305,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of the element called "center".
 'complex-replacevalues-q9'(Config) -> 
@@ -6361,7 +6344,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of the element called "south".
 'complex-replacevalues-q10'(Config) -> 
@@ -6400,7 +6383,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of all attributes called "mark".
 'complex-replacevalues-q11'(Config) -> 
@@ -6439,7 +6422,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of all attributes on the "west" element.
 'complex-replacevalues-q12'(Config) -> 
@@ -6478,7 +6461,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace the value of the attributes named "west-attr-2", "center-attr-2", and "south-attr-2".
 'complex-replacevalues-q13'(Config) -> 
@@ -6517,7 +6500,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace the value of the "far-west" element with a string containing markup.
 'complex-replacevalues-q14'(Config) -> 
@@ -6556,7 +6539,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% A rename expression that renames an element from a directly constructed element node.
 'id-rename-expr-01'(Config) -> 
@@ -6583,7 +6566,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression that renames an attribute from a directly constructed element node.
 'id-rename-expr-02'(Config) -> 
@@ -6610,7 +6593,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression that renames a Processing Instruction.
 'id-rename-expr-03'(Config) -> 
@@ -6637,7 +6620,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression that renames an element from an xml file.
 'id-rename-expr-04'(Config) -> 
@@ -6664,7 +6647,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression that renames an attribute from an xml file.
 'id-rename-expr-05'(Config) -> 
@@ -6691,7 +6674,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression is an updating expression.
 'id-rename-expr-06'(Config) -> 
@@ -6709,7 +6692,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression results in a sequence of two nodes.
 'id-rename-expr-07'(Config) -> 
@@ -6727,7 +6710,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression is the empty sequence.
 'id-rename-expr-08'(Config) -> 
@@ -6745,7 +6728,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the new name expression is the empty sequence.
 'id-rename-expr-09'(Config) -> 
@@ -6763,7 +6746,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the new name expression is an updating expression.
 'id-rename-expr-010'(Config) -> 
@@ -6779,9 +6762,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"XPTY0004") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% A rename expression where the new name expression is build dynamically (fn:string-join function).
 'id-rename-expr-011'(Config) -> 
@@ -6808,7 +6794,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression evaluates to a number.
 'id-rename-expr-012'(Config) -> 
@@ -6826,7 +6812,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the newname expression evaluates to a number.
 'id-rename-expr-013'(Config) -> 
@@ -6844,7 +6830,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression is a complex one.
 'id-rename-expr-014'(Config) -> 
@@ -6871,7 +6857,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression evaluates to a sequence of two attribute nodes.
 'id-rename-expr-015'(Config) -> 
@@ -6889,7 +6875,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression, where the new name expression uses fn:concat function.
 'id-rename-expr-016'(Config) -> 
@@ -6916,7 +6902,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression, where the new name expression uses fn:substring function.
 'id-rename-expr-017'(Config) -> 
@@ -6943,7 +6929,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression, where the new name expression is a transform expression that returns a node. The fn:name function is used to retrieve the name of the node.
 'id-rename-expr-018'(Config) -> 
@@ -6970,7 +6956,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% A rename expression where the target expression is a comment node.
 'id-rename-expr-019'(Config) -> 
@@ -6988,7 +6974,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A rename expression where the new name expression is a comment node.
 'id-rename-expr-020'(Config) -> 
@@ -7006,7 +6992,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename a document node.
 'id-rename-expr-021'(Config) -> 
@@ -7020,8 +7006,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUTY0012") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Rename a text node.
 'id-rename-expr-022'(Config) -> 
@@ -7035,8 +7024,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUTY0012") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Rename an element using a sequence.
 'id-rename-expr-023'(Config) -> 
@@ -7054,7 +7046,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an element using a sequence.
 'id-rename-expr-024'(Config) -> 
@@ -7072,7 +7064,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an attribute using a number.
 'id-rename-expr-025'(Config) -> 
@@ -7090,7 +7082,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an attribute using an invalid NCName.
 'id-rename-expr-026'(Config) -> 
@@ -7108,7 +7100,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an element using an invalid QName.
 'id-rename-expr-027'(Config) -> 
@@ -7126,7 +7118,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an attribute using an invalid QName.
 'id-rename-expr-028'(Config) -> 
@@ -7144,7 +7136,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an element using a QName.
 'id-rename-expr-029'(Config) -> 
@@ -7167,11 +7159,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-029.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-029.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Rename an attribute using a QName.
 'id-rename-expr-030'(Config) -> 
@@ -7194,11 +7186,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-030.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-030.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Rename an element using a QName.
 'id-rename-expr-031'(Config) -> 
@@ -7221,11 +7213,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-031.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-031.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Rename an attribute using a QName.
 'id-rename-expr-032'(Config) -> 
@@ -7248,11 +7240,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-032.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-032.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when renaming an element.
 'id-rename-expr-033'(Config) -> 
@@ -7270,7 +7262,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when renaming an attribute.
 'id-rename-expr-034'(Config) -> 
@@ -7288,7 +7280,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when renaming an element.
 'id-rename-expr-033-no-inherit'(Config) -> 
@@ -7306,7 +7298,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check namepsace propogation when renaming an attribute.
 'id-rename-expr-034-no-inherit'(Config) -> 
@@ -7324,7 +7316,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an element to be in a namespace (the default namespace)
 'id-rename-expr-035'(Config) -> 
@@ -7338,11 +7330,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-035.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-035.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an element to be in a namespace (with a prefix)
 'id-rename-expr-036'(Config) -> 
@@ -7356,11 +7348,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename an attribute to be in a namespace (with a prefix)
 'id-rename-expr-037'(Config) -> 
@@ -7374,11 +7366,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/RenameExpressions/id-rename-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename all PIs with target "a-pi".
 'complex-renames-q1'(Config) -> 
@@ -7417,7 +7409,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename the element called "far-east".
 'complex-renames-q5'(Config) -> 
@@ -7456,7 +7448,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename all attributes called "mark".
 'complex-renames-q6'(Config) -> 
@@ -7495,7 +7487,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename all attributes on the "west" element.
 'complex-renames-q7'(Config) -> 
@@ -7534,7 +7526,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename the attributes names "west-attr-2", "center-attr-2", and "south-attr-2".
 'complex-renames-q8'(Config) -> 
@@ -7573,7 +7565,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression with modify clause set to empty sequence.
 'id-transform-expr-01'(Config) -> 
@@ -7591,7 +7583,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression with modify clause set to a delete expression.
 'id-transform-expr-02'(Config) -> 
@@ -7609,7 +7601,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression with modify clause set to a rename expression.
 'id-transform-expr-03'(Config) -> 
@@ -7627,7 +7619,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression with modify clause set to an insert expression.
 'id-transform-expr-04'(Config) -> 
@@ -7645,7 +7637,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression with modify clause set to a replace expression.
 'id-transform-expr-05'(Config) -> 
@@ -7663,7 +7655,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where multiple element nodes are bounded.
 'id-transform-expr-06'(Config) -> 
@@ -7681,7 +7673,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where an attribute is transformed.
 'id-transform-expr-07'(Config) -> 
@@ -7699,7 +7691,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where a comment is transformed.
 'id-transform-expr-08'(Config) -> 
@@ -7717,7 +7709,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where the modify clause contains a call to fn:error()
 'id-transform-expr-09'(Config) -> 
@@ -7735,7 +7727,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where two variables are bounded and only one is transformed.
 'id-transform-expr-010'(Config) -> 
@@ -7753,7 +7745,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where two variables are bounded and both are transformed.
 'id-transform-expr-011'(Config) -> 
@@ -7771,7 +7763,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where the source expression is an updating expression.
 'id-transform-expr-012'(Config) -> 
@@ -7789,7 +7781,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where the modify clause contains a non-updating expression.
 'id-transform-expr-013'(Config) -> 
@@ -7807,7 +7799,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression where the return expression contains an updating expression.
 'id-transform-expr-014'(Config) -> 
@@ -7825,7 +7817,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression the pending update list contains a node that was not created within this transform expression.
 'id-transform-expr-015'(Config) -> 
@@ -7843,7 +7835,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which inserts a node and deletes a node with the same name.
 'id-transform-expr-016'(Config) -> 
@@ -7861,7 +7853,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which deletes a node and insert a node with the same name.
 'id-transform-expr-017'(Config) -> 
@@ -7879,7 +7871,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which contains an embedded Transform expression.
 'id-transform-expr-018'(Config) -> 
@@ -7897,7 +7889,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an element node is affected by more than one rename expression.
 'id-transform-expr-019'(Config) -> 
@@ -7915,7 +7907,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an element node is affected by more than one replace expression (no "value of" being specified.
 'id-transform-expr-020'(Config) -> 
@@ -7933,7 +7925,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an attribute node is affected by more than one rename expression.
 'id-transform-expr-021'(Config) -> 
@@ -7951,7 +7943,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an attribute node is affected by more than one replace expression (no "value of" being specified.
 'id-transform-expr-022'(Config) -> 
@@ -7969,7 +7961,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an attribute node is affected by more than one replace value expression.
 'id-transform-expr-023'(Config) -> 
@@ -7987,7 +7979,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an element node is affected by more than one replace value expression.
 'id-transform-expr-024'(Config) -> 
@@ -8005,7 +7997,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where an Element is modified by a "replace" expression and of its children is also updated by a "replace with value of" expression.
 'id-transform-expr-025'(Config) -> 
@@ -8023,7 +8015,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where the source expression results in more than one single element node.
 'id-transform-expr-026'(Config) -> 
@@ -8041,7 +8033,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, where the source expression results in more than one single attribute node.
 'id-transform-expr-027'(Config) -> 
@@ -8059,7 +8051,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which inserts a node to insure the original data is not modified.
 'id-transform-expr-028'(Config) -> 
@@ -8086,7 +8078,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which deletes a node to insure the original data is not modified.
 'id-transform-expr-029'(Config) -> 
@@ -8113,7 +8105,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which contains a replace expression to insure the original data is not modified.
 'id-transform-expr-030'(Config) -> 
@@ -8140,7 +8132,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression, which contains a rename expression to insure the original data is not modified.
 'id-transform-expr-031'(Config) -> 
@@ -8167,7 +8159,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Transform with copy binding to an empty sequence.
 'id-transform-expr-032'(Config) -> 
@@ -8181,8 +8173,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUTY0013") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Transform with copy binding to an empty sequence.
 'id-transform-expr-033'(Config) -> 
@@ -8196,11 +8191,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-033.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-033.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a document.
 'id-transform-expr-034'(Config) -> 
@@ -8214,11 +8209,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-034.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-034.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform an attribute.
 'id-transform-expr-035'(Config) -> 
@@ -8232,11 +8227,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-035.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-035.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a text node.
 'id-transform-expr-036'(Config) -> 
@@ -8250,11 +8245,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a comment.
 'id-transform-expr-037'(Config) -> 
@@ -8268,11 +8263,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a PI.
 'id-transform-expr-038'(Config) -> 
@@ -8286,11 +8281,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-038.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-038.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform two elements copied from the same element.
 'id-transform-expr-039'(Config) -> 
@@ -8304,11 +8299,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-039.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-039.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a document by changing the namespaces of its elements.
 'id-transform-expr-040'(Config) -> 
@@ -8322,11 +8317,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-040.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-040.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Transform a document by changing the namespaces of its elements.
 'id-transform-expr-041'(Config) -> 
@@ -8340,11 +8335,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-041.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TransformExpressions/id-transform-expr-041.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause creates a new element node.
 'id-transform-expr-042'(Config) -> 
@@ -8362,7 +8357,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the type of the new element node.
 'id-transform-expr-043'(Config) -> 
@@ -8380,7 +8375,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the nilled property of the new element node.
 'id-transform-expr-044'(Config) -> 
@@ -8398,7 +8393,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the is-idref property of the new element node.
 'id-transform-expr-045'(Config) -> 
@@ -8416,7 +8411,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the is-id property of the new element node.
 'id-transform-expr-046'(Config) -> 
@@ -8434,7 +8429,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the id property of a new attribute node.
 'id-transform-expr-047'(Config) -> 
@@ -8452,7 +8447,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the is-idrefs property of a new attribute node.
 'id-transform-expr-048'(Config) -> 
@@ -8470,7 +8465,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the type of a new attribute node.
 'id-transform-expr-049'(Config) -> 
@@ -8488,7 +8483,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Copy clause changes the type of an xml:id attribute node, but not the is-id property.
 'id-transform-expr-050'(Config) -> 
@@ -8506,7 +8501,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The copy clause sometimes changes the in-scope-namespaces.
 'id-transform-expr-051'(Config) -> 
@@ -8524,7 +8519,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The copy clause sometimes changes the in-scope-namespaces.
 'id-transform-expr-052'(Config) -> 
@@ -8542,7 +8537,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The copy clause sometimes changes the in-scope-namespaces.
 'id-transform-expr-053'(Config) -> 
@@ -8560,7 +8555,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The copy clause sometimes changes the in-scope-namespaces.
 'id-transform-expr-054'(Config) -> 
@@ -8578,7 +8573,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Within a transform, an element node is renamed more than once.
 'id-transform-expr-055'(Config) -> 
@@ -8596,7 +8591,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Within a transform, an attribute node is renamed more than once.
 'id-transform-expr-056'(Config) -> 
@@ -8614,7 +8609,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Within a transform, an element node is replaced more than once.
 'id-transform-expr-057'(Config) -> 
@@ -8632,7 +8627,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Within a transform, the value of an element node is replaced more than once.
 'id-transform-expr-058'(Config) -> 
@@ -8650,7 +8645,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An element node is renamed more than once.
 'compatibility-001'(Config) -> 
@@ -8668,7 +8663,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An element node is renamed more than once.
 'compatibility-002'(Config) -> 
@@ -8686,7 +8681,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An attribute node is renamed more than once.
 'compatibility-003'(Config) -> 
@@ -8704,7 +8699,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An attribute node is renamed more than once.
 'compatibility-004'(Config) -> 
@@ -8722,7 +8717,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A PI node is renamed more than once.
 'compatibility-005'(Config) -> 
@@ -8740,7 +8735,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A PI node is renamed more than once.
 'compatibility-006'(Config) -> 
@@ -8758,7 +8753,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An element node is replaced more than once.
 'compatibility-007'(Config) -> 
@@ -8776,7 +8771,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An element node is replaced more than once.
 'compatibility-008'(Config) -> 
@@ -8794,7 +8789,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An attribute node is replaced more than once.
 'compatibility-009'(Config) -> 
@@ -8812,7 +8807,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An attribute node is replaced more than once.
 'compatibility-010'(Config) -> 
@@ -8830,7 +8825,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An text node is replaced more than once.
 'compatibility-011'(Config) -> 
@@ -8848,7 +8843,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An text node is replaced more than once.
 'compatibility-012'(Config) -> 
@@ -8866,7 +8861,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An PI node is replaced more than once.
 'compatibility-013'(Config) -> 
@@ -8884,7 +8879,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% An PI node is replaced more than once.
 'compatibility-014'(Config) -> 
@@ -8902,7 +8897,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A comment node is replaced more than once.
 'compatibility-015'(Config) -> 
@@ -8920,7 +8915,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% A comment node is replaced more than once.
 'compatibility-016'(Config) -> 
@@ -8938,7 +8933,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of an element node is replaced more than once.
 'compatibility-017'(Config) -> 
@@ -8956,7 +8951,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of an element node is replaced more than once.
 'compatibility-018'(Config) -> 
@@ -8974,7 +8969,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of an attribute node is replaced more than once.
 'compatibility-019'(Config) -> 
@@ -8992,7 +8987,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of an attribute node is replaced more than once.
 'compatibility-020'(Config) -> 
@@ -9010,7 +9005,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a text node is replaced more than once.
 'compatibility-021'(Config) -> 
@@ -9028,7 +9023,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a text node is replaced more than once.
 'compatibility-022'(Config) -> 
@@ -9046,7 +9041,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a PI node is replaced more than once.
 'compatibility-023'(Config) -> 
@@ -9064,7 +9059,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a PI node is replaced more than once.
 'compatibility-024'(Config) -> 
@@ -9082,7 +9077,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a comment node is replaced more than once.
 'compatibility-025'(Config) -> 
@@ -9100,7 +9095,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% The value of a comment node is replaced more than once.
 'compatibility-026'(Config) -> 
@@ -9118,7 +9113,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace and replace value of operate on the same element.
 'compatibility-027'(Config) -> 
@@ -9141,11 +9136,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-027.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-027.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace and replace value of operate on the same element.
 'compatibility-028'(Config) -> 
@@ -9168,11 +9163,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-028.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-028.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of and insert operate on the same element.
 'compatibility-029'(Config) -> 
@@ -9195,11 +9190,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-029.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-029.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Replace value of and insert operate on the same element.
 'compatibility-030'(Config) -> 
@@ -9222,11 +9217,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-030.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Compatibility/compatibility-030.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with FLWOR expression where the let clause is an updating expression.
 'id-flwor-expr-01'(Config) -> 
@@ -9244,7 +9239,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with FLWOR expression where the for clause is an updating expression.
 'id-flwor-expr-02'(Config) -> 
@@ -9262,7 +9257,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with FLWOR expression where the "where" clause is an updating expression.
 'id-flwor-expr-03'(Config) -> 
@@ -9280,7 +9275,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-04'(Config) -> 
@@ -9298,7 +9293,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with FLWOR expression where the let clause is an updating expression.
 'id-flwor-expr-05'(Config) -> 
@@ -9316,7 +9311,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with FLWOR expression where the for clause is an updating expression.
 'id-flwor-expr-06'(Config) -> 
@@ -9334,7 +9329,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with FLWOR expression where the "where" clause is an updating expression.
 'id-flwor-expr-07'(Config) -> 
@@ -9352,7 +9347,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-08'(Config) -> 
@@ -9370,7 +9365,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with FLOWR expression with "let" clause set to an updating (replace) expression.
 'id-flwor-expr-09'(Config) -> 
@@ -9388,7 +9383,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with FLOWR expression with "for" clause set to an updating (replace) expression.
 'id-flwor-expr-010'(Config) -> 
@@ -9406,7 +9401,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with FLOWR expression with "where" clause set to an updating (replace) expression.
 'id-flwor-expr-011'(Config) -> 
@@ -9424,7 +9419,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used with FLOWR expression with "order by" clause set to an updating (replace) expression.
 'id-flwor-expr-012'(Config) -> 
@@ -9442,7 +9437,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with FLWOR expression where let clause is an updating expression.
 'id-flwor-expr-013'(Config) -> 
@@ -9460,7 +9455,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with FLWOR expression where the "for" clause is an updating expression.
 'id-flwor-expr-014'(Config) -> 
@@ -9478,7 +9473,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with FLWOR expression where the "where" clause is an updating expression.
 'id-flwor-expr-015'(Config) -> 
@@ -9496,7 +9491,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-016'(Config) -> 
@@ -9514,7 +9509,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "let" expression is a transform expression.
 'id-flwor-expr-017'(Config) -> 
@@ -9532,7 +9527,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "for" expression is a non updating (transform) expression.
 'id-flwor-expr-018'(Config) -> 
@@ -9550,7 +9545,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "where" expression is an non updating (transform) expression.
 'id-flwor-expr-019'(Config) -> 
@@ -9568,7 +9563,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "order by" expression is a non updating (transform) expression.
 'id-flwor-expr-020'(Config) -> 
@@ -9586,7 +9581,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a FLWOR expression, where return is a delete expression that deletes a series nodes bounded via let clause.
 'id-flwor-expr-021'(Config) -> 
@@ -9613,7 +9608,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a FLWOR expression, where return is a delete expression that deletes a series nodes bounded via for clause.
 'id-flwor-expr-022'(Config) -> 
@@ -9640,7 +9635,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% For clause that contains a for expression with a simple return clause.
 'id-flwor-expr-023'(Config) -> 
@@ -9654,11 +9649,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/FLWORExpression/id-flwor-expr-023.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/FLWORExpression/id-flwor-expr-023.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% For clause that contains a for expression with a updating return clause.
 'id-flwor-expr-024'(Config) -> 
@@ -9672,8 +9667,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% For clause that contains a for expression with a vacuous return clause.
 'id-flwor-expr-025'(Config) -> 
@@ -9691,7 +9689,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-01'(Config) -> 
@@ -9709,7 +9707,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (a "case") is an updating expression. Other branches return ().
 'id-typeswitch-expr-02'(Config) -> 
@@ -9732,11 +9730,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-02.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-02.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-02a.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (the "default") is an updating expression. Other branches return ().
 'id-typeswitch-expr-03'(Config) -> 
@@ -9759,11 +9759,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-03.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-03.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-03a.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (a "case") is an updating expression. Other branches return fn:error().
 'id-typeswitch-expr-04'(Config) -> 
@@ -9790,7 +9792,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (the "default") is an updating expression. Other branches return fn:error().
 'id-typeswitch-expr-05'(Config) -> 
@@ -9808,7 +9810,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (a "case") is an updating expression. Other branches return a string.
 'id-typeswitch-expr-06'(Config) -> 
@@ -9826,7 +9828,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (the "default") is an updating expression. Other branches return a string.
 'id-typeswitch-expr-07'(Config) -> 
@@ -9844,7 +9846,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-08'(Config) -> 
@@ -9862,7 +9864,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with typeswitch expression where a branch (a case) is an updating expression. The other branches are set to "()".
 'id-typeswitch-expr-09'(Config) -> 
@@ -9889,7 +9891,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression used with typeswitch expression where a branch (the default) is an updating expression. The other branches are set to "()".
 'id-typeswitch-expr-010'(Config) -> 
@@ -9916,7 +9918,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (a "case") is an updating expression. All other branches return "fn:error()".
 'id-typeswitch-expr-011'(Config) -> 
@@ -9939,11 +9941,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-011.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-011.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-011-2.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "default") is an updating expression. All other branches return "fn:error()".
 'id-typeswitch-expr-012'(Config) -> 
@@ -9961,7 +9965,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "case") is an updating expression. All other branches return a string.
 'id-typeswitch-expr-013'(Config) -> 
@@ -9979,7 +9983,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "default") is an updating expression. All other branches return string.
 'id-typeswitch-expr-014'(Config) -> 
@@ -9997,7 +10001,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where the operand is an updating (replace) expression.
 'id-typeswitch-expr-015'(Config) -> 
@@ -10015,7 +10019,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (a case) is an updating (replace) expression. Other branches are the empty sequence.
 'id-typeswitch-expr-016'(Config) -> 
@@ -10042,7 +10046,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (the default) is an updating (replace) expression. Other branches are the empty sequence.
 'id-typeswitch-expr-017'(Config) -> 
@@ -10069,7 +10073,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (a case) is an updating (replace) expression. Other branches are a call to the fn:error function.
 'id-typeswitch-expr-018'(Config) -> 
@@ -10096,7 +10100,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (the default) is an updating (replace) expression. Other branches are a call to the fn:error function.
 'id-typeswitch-expr-019'(Config) -> 
@@ -10123,7 +10127,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (a case) is an updating (replace) expression. Other branches return a string.
 'id-typeswitch-expr-020'(Config) -> 
@@ -10141,7 +10145,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (the default) is an updating (transform) expression. Other branches return a string.
 'id-typeswitch-expr-021'(Config) -> 
@@ -10159,7 +10163,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-022'(Config) -> 
@@ -10177,7 +10181,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression where a branch (a case) is an updating expression. Other branches equal to the empty sequence
 'id-typeswitch-expr-023'(Config) -> 
@@ -10204,7 +10208,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression where a branch (the default) is an updating expression. Other branches equal to the empty sequence.
 'id-typeswitch-expr-024'(Config) -> 
@@ -10231,7 +10235,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression where a branch (a case) is an updating expression. Other branches are an invokation to "fn:error()"
 'id-typeswitch-expr-025'(Config) -> 
@@ -10258,7 +10262,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression where a branch (the default) is an updating expression. Other branches are an invokation to "fn:error()"
 'id-typeswitch-expr-026'(Config) -> 
@@ -10276,7 +10280,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (a case)is an updating expression. Other branches return a string
 'id-typeswitch-expr-027'(Config) -> 
@@ -10294,7 +10298,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (the default)is an updating expression. Other branches return a string
 'id-typeswitch-expr-028'(Config) -> 
@@ -10312,7 +10316,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where the operand is a non updating (transform) expression.
 'id-typeswitch-expr-029'(Config) -> 
@@ -10330,7 +10334,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (a case) is an updating (transform) expression. Other branches are "()"
 'id-typeswitch-expr-030'(Config) -> 
@@ -10348,7 +10352,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (the default) is an updating (transform) expression. Other branches are "()".
 'id-typeswitch-expr-031'(Config) -> 
@@ -10366,7 +10370,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (a case) is a non updating (transform) expression and the other cases an invokation to fn:error.
 'id-typeswitch-expr-032'(Config) -> 
@@ -10384,7 +10388,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (the default)is a non updating (transform) expression and the other cases an invokation to fn:error.
 'id-typeswitch-expr-033'(Config) -> 
@@ -10402,7 +10406,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (a case)is an updating (transform) and the other branches return a string.
 'id-typeswitch-expr-034'(Config) -> 
@@ -10420,7 +10424,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a typeswitch expression where a branch (the default)is an updating (transform) and the other branches return a string.
 'id-typeswitch-expr-035'(Config) -> 
@@ -10438,7 +10442,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Updating typeswitch expression in an updating typeswitch expression.
 'id-typeswitch-expr-036'(Config) -> 
@@ -10461,11 +10465,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Vacuous typeswitch expression in an updating typeswitch expression.
 'id-typeswitch-expr-037'(Config) -> 
@@ -10488,11 +10492,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/TypeswitchExpression/id-typeswitch-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Simple typeswitch expression in an updating typeswitch expression.
 'id-typeswitch-expr-038'(Config) -> 
@@ -10506,8 +10510,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch return ().
 'id-conditional-expr-01'(Config) -> 
@@ -10534,7 +10541,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "else") is an updating expression. Other branch returns ().
 'id-conditional-expr-02'(Config) -> 
@@ -10561,7 +10568,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch calls fn:error().
 'id-conditional-expr-03'(Config) -> 
@@ -10588,7 +10595,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "else") is an updating expression. Other branch calls fn:error().
 'id-conditional-expr-04'(Config) -> 
@@ -10615,7 +10622,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch print a string.
 'id-conditional-expr-05'(Config) -> 
@@ -10633,7 +10640,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "else") is an updating expression. Other branch print a string.
 'id-conditional-expr-06'(Config) -> 
@@ -10651,7 +10658,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-07'(Config) -> 
@@ -10678,7 +10685,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "else") is an updating expression. The "then" returns the empty sequence.
 'id-conditional-expr-08'(Config) -> 
@@ -10705,7 +10712,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" returns fn:error().
 'id-conditional-expr-09'(Config) -> 
@@ -10732,7 +10739,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "else") is an updating expression. The "then" returns fn:error().
 'id-conditional-expr-010'(Config) -> 
@@ -10759,7 +10766,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" print a string
 'id-conditional-expr-011'(Config) -> 
@@ -10777,7 +10784,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string
 'id-conditional-expr-012'(Config) -> 
@@ -10795,7 +10802,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "then") is an updating (replace) expression. The "else" return the empty sequence.
 'id-conditional-expr-013'(Config) -> 
@@ -10822,7 +10829,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "else") is an updating (replace) expression. The "then" return the empty sequence.
 'id-conditional-expr-014'(Config) -> 
@@ -10849,7 +10856,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "then") is an updating (replace) expression. The "else" invokes the fn:error function.
 'id-conditional-expr-015'(Config) -> 
@@ -10876,7 +10883,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "else") is an updating (replace) expression. The "then" invokes the fn:error function.
 'id-conditional-expr-016'(Config) -> 
@@ -10903,7 +10910,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the then) is an updating (replace) expression. The "else" just return a string.
 'id-conditional-expr-017'(Config) -> 
@@ -10921,7 +10928,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the else) is an updating (replace) expression. The "then" just return a string.
 'id-conditional-expr-018'(Config) -> 
@@ -10939,7 +10946,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-019'(Config) -> 
@@ -10966,7 +10973,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "else") is an updating expression. The "then" returns the empty sequence.
 'id-conditional-expr-020'(Config) -> 
@@ -10993,7 +11000,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "then") is an updating expression. The "else" invokes the fn:error function.
 'id-conditional-expr-021'(Config) -> 
@@ -11020,7 +11027,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "else") is an updating expression. The "then" invokes the fn:error function.
 'id-conditional-expr-022'(Config) -> 
@@ -11047,7 +11054,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of rename expression used with conditional expression where a branch (the "then") is an updating expression. The "else" prints a string.
 'id-conditional-expr-023'(Config) -> 
@@ -11065,7 +11072,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string.
 'id-conditional-expr-024'(Config) -> 
@@ -11083,7 +11090,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "then")is an updating (transform) and the "else" returns the empty sequence.
 'id-conditional-expr-025'(Config) -> 
@@ -11101,7 +11108,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "else")is an updating (transform) and the "then" returns the empty sequence.
 'id-conditional-expr-026'(Config) -> 
@@ -11119,7 +11126,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "then")is an updating (transform) and the "else" is an invokation to fn:error().
 'id-conditional-expr-027'(Config) -> 
@@ -11137,7 +11144,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "else")is an updating (transform) and the "then" is an invokation to fn:error().
 'id-conditional-expr-028'(Config) -> 
@@ -11155,7 +11162,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "then")is an non updating (transform) and the "else" returns a string.
 'id-conditional-expr-029'(Config) -> 
@@ -11173,7 +11180,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "else")is a non updating (transform) and the "then" return a string.
 'id-conditional-expr-030'(Config) -> 
@@ -11191,7 +11198,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where the if-clause is an non-updating (transform) expression.
 'id-conditional-expr-031'(Config) -> 
@@ -11209,7 +11216,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a conditional expression where the if-clause is an updating (delete) expression.
 'id-conditional-expr-032'(Config) -> 
@@ -11227,7 +11234,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a conditional expression, where both branches are updating expressions (delete). Both delete the same node (only one is selected).
 'id-conditional-expr-033'(Config) -> 
@@ -11254,7 +11261,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates a conditional expression, where the if branch contains a delete expression and the else branch contains transform expression.
 'id-conditional-expr-034'(Config) -> 
@@ -11272,7 +11279,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a conditional expression, where both branches contains a transform expression.
 'id-conditional-expr-035'(Config) -> 
@@ -11290,7 +11297,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Updating conditional expression in a conditional expression.
 'id-conditional-expr-036'(Config) -> 
@@ -11313,11 +11320,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ConditionalExpression/id-conditional-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ConditionalExpression/id-conditional-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Vacuous conditional expression in a conditional expression.
 'id-conditional-expr-037'(Config) -> 
@@ -11340,11 +11347,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ConditionalExpression/id-conditional-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ConditionalExpression/id-conditional-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Simple conditional expression in a conditional expression.
 'id-conditional-expr-038'(Config) -> 
@@ -11358,8 +11365,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Evaluates an insert expression used with comma expression where a both expressions are updating expressions.
 'id-comma-expr-01'(Config) -> 
@@ -11386,7 +11396,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is an updating expression and second one is ().
 'id-comma-expr-02'(Config) -> 
@@ -11413,7 +11423,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is () and second expression is an updating expression.
 'id-comma-expr-03'(Config) -> 
@@ -11440,7 +11450,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is an updating expression and second one is call to fn:error().
 'id-comma-expr-04'(Config) -> 
@@ -11466,11 +11476,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_error(Res2,"") of 
-         true -> {comment, "Correct error"};
+      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-04.xml")}) of
+         true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is a call to fn:error() and second expression is an updating expression.
 'id-comma-expr-05'(Config) -> 
@@ -11496,11 +11506,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_error(Res2,"") of 
-         true -> {comment, "Correct error"};
+      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-05.xml")}) of
+         true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is an updating expression and second one a mathematical expression.
 'id-comma-expr-06'(Config) -> 
@@ -11518,7 +11528,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression used with comma expression where first expression is mathematical expression and second one is an updating expression.
 'id-comma-expr-07'(Config) -> 
@@ -11536,7 +11546,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation a delete expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-08'(Config) -> 
@@ -11563,7 +11573,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is an updating expression and the secon one is ().
 'id-comma-expr-09'(Config) -> 
@@ -11590,7 +11600,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is () and second expression is an updating expression.
 'id-comma-expr-010'(Config) -> 
@@ -11617,7 +11627,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is an updating expression and the second one a call to fn:error().
 'id-comma-expr-011'(Config) -> 
@@ -11635,7 +11645,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where second expression is an updating expression and the first one a call to fn:error().
 'id-comma-expr-012'(Config) -> 
@@ -11653,7 +11663,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
 'id-comma-expr-013'(Config) -> 
@@ -11671,7 +11681,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is a mathematical expression and the second one is an updating expression.
 'id-comma-expr-014'(Config) -> 
@@ -11689,7 +11699,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where both expressions are updating (replace) expressions.
 'id-comma-expr-015'(Config) -> 
@@ -11716,7 +11726,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is an updating (replace) expression and the second one is ().
 'id-comma-expr-016'(Config) -> 
@@ -11743,7 +11753,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is the empty sequence and the second one is an updating (replace) expression.
 'id-comma-expr-017'(Config) -> 
@@ -11770,7 +11780,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is an updating (replace) expression and the second one a call to fn:error().
 'id-comma-expr-018'(Config) -> 
@@ -11788,7 +11798,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is a call to fn:error() and the second one is an updating (replace) expression.
 'id-comma-expr-019'(Config) -> 
@@ -11806,7 +11816,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is an updating (replace) expression and the second one is a mathematical expression.
 'id-comma-expr-020'(Config) -> 
@@ -11824,7 +11834,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is a mathematical expression and second one is an updating (replace) expression.
 'id-comma-expr-021'(Config) -> 
@@ -11842,7 +11852,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of rename expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-022'(Config) -> 
@@ -11869,7 +11879,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is an updating expression and the second one is ().
 'id-comma-expr-023'(Config) -> 
@@ -11896,7 +11906,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is () and second expression is an updating expression.
 'id-comma-expr-024'(Config) -> 
@@ -11923,7 +11933,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is an updating expression and the second one a call to fn:error().
 'id-comma-expr-025'(Config) -> 
@@ -11941,7 +11951,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is a call to fn:error() and the second one updating expression.
 'id-comma-expr-026'(Config) -> 
@@ -11959,7 +11969,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
 'id-comma-expr-027'(Config) -> 
@@ -11977,7 +11987,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is a mathematical expression and second one is an updating expression.
 'id-comma-expr-028'(Config) -> 
@@ -11995,7 +12005,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where both expressions are non-updating (transform) expressions.
 'id-comma-expr-029'(Config) -> 
@@ -12013,7 +12023,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is an non-updating (transform) expression. The second one is the empty sequence.
 'id-comma-expr-030'(Config) -> 
@@ -12031,7 +12041,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is the empty sequence and the second one is an non-updating (transform) expression.
 'id-comma-expr-031'(Config) -> 
@@ -12049,7 +12059,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is an non-updating (transform) expression and the second one an invokation to "fn:error()".
 'id-comma-expr-032'(Config) -> 
@@ -12067,7 +12077,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is an invokation to "fn:error()" and the second one is an non-updating (transform) expression.
 'id-comma-expr-033'(Config) -> 
@@ -12085,7 +12095,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is an non-updating (transform) expression and the second one is a mathematical expression.
 'id-comma-expr-034'(Config) -> 
@@ -12103,7 +12113,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression together with a comma expression where the first expression is a mathematical expression and the second one is an non-updating (transform) expression.
 'id-comma-expr-035'(Config) -> 
@@ -12121,7 +12131,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Updating comma expression in a conditional expression.
 'id-comma-expr-036'(Config) -> 
@@ -12144,11 +12154,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-036.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-036.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Vacuous comma expression in a conditional expression.
 'id-comma-expr-037'(Config) -> 
@@ -12171,11 +12181,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-037.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/CommaExpression/id-comma-expr-037.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Simple comma expression in a conditional expression.
 'id-comma-expr-038'(Config) -> 
@@ -12189,8 +12199,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Parenthesized simple expression.
 'parenthesized-expr-01'(Config) -> 
@@ -12204,11 +12217,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/ParenthesizedExpressions/parenthesized-expr-01.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/ParenthesizedExpressions/parenthesized-expr-01.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Parenthesized updating expression.
 'parenthesized-expr-02'(Config) -> 
@@ -12222,8 +12235,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Parenthesized vacuous expression.
 'parenthesized-expr-03'(Config) -> 
@@ -12241,7 +12257,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates an insert expression as an parameter to a function call.
 'id-function-call-01'(Config) -> 
@@ -12259,7 +12275,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a delete expression as a parameter to a function call.
 'id-function-call-02'(Config) -> 
@@ -12277,7 +12293,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a replace expression as a parameter to a function call.
 'id-function-call-03'(Config) -> 
@@ -12295,7 +12311,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a rename expression as a parameter to a function call.
 'id-function-call-04'(Config) -> 
@@ -12313,7 +12329,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a transform expression as a parameter to a function call.
 'id-function-call-05'(Config) -> 
@@ -12331,7 +12347,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates a function call than contains two parameters, one updating (rename) and an integer.
 'id-function-call-06'(Config) -> 
@@ -12349,7 +12365,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) in initializing expression for variable declaration.
 'id-other-expr-01'(Config) -> 
@@ -12367,7 +12383,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (insert) in initializing expression for variable declaration.
 'id-other-expr-02'(Config) -> 
@@ -12385,7 +12401,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) in initializing expression for variable declaration.
 'id-other-expr-03'(Config) -> 
@@ -12403,7 +12419,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (replace) in initializing expression for variable declaration.
 'id-other-expr-04'(Config) -> 
@@ -12421,7 +12437,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an non-updating expression (transform) in initializing expression for variable declaration.
 'id-other-expr-05'(Config) -> 
@@ -12439,7 +12455,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-06'(Config) -> 
@@ -12457,7 +12473,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:true() function.
 'id-other-expr-07'(Config) -> 
@@ -12475,7 +12491,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:false() function.
 'id-other-expr-08'(Config) -> 
@@ -12493,7 +12509,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:false() function.
 'id-other-expr-09'(Config) -> 
@@ -12511,7 +12527,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-010'(Config) -> 
@@ -12529,7 +12545,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (replace) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-011'(Config) -> 
@@ -12547,7 +12563,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (insert) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-012'(Config) -> 
@@ -12565,7 +12581,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an non updating expression (transform) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-013'(Config) -> 
@@ -12583,7 +12599,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Node Comparison (is) expression.
 'id-other-expr-014'(Config) -> 
@@ -12601,7 +12617,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a Node Comparison (is) expression.
 'id-other-expr-015'(Config) -> 
@@ -12619,7 +12635,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (replace) as part of a Node Comparison (is) expression.
 'id-other-expr-016'(Config) -> 
@@ -12637,7 +12653,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an non updating expression (transform) as part of a node comparison (is) expression.
 'id-other-expr-017'(Config) -> 
@@ -12655,7 +12671,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an non updating expression (transform) as part of a node comparison (is) expression (both operands are transform expressions).
 'id-other-expr-018'(Config) -> 
@@ -12673,7 +12689,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (insert) as part of a Node Comparison (is) expression.
 'id-other-expr-019'(Config) -> 
@@ -12691,7 +12707,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (insert) as part of a Value Comparison (eq operator) expression.
 'id-other-expr-020'(Config) -> 
@@ -12709,7 +12725,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ne operator) expression.
 'id-other-expr-021'(Config) -> 
@@ -12727,7 +12743,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (gt operator) expression.
 'id-other-expr-022'(Config) -> 
@@ -12745,7 +12761,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (lt operator) expression.
 'id-other-expr-023'(Config) -> 
@@ -12763,7 +12779,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (le operator) expression.
 'id-other-expr-024'(Config) -> 
@@ -12781,7 +12797,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ge operator) expression.
 'id-other-expr-025'(Config) -> 
@@ -12799,7 +12815,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (union operator).
 'id-other-expr-26'(Config) -> 
@@ -12817,7 +12833,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (intersect operator).
 'id-other-expr-027'(Config) -> 
@@ -12835,7 +12851,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (except operator).
 'id-other-expr-028'(Config) -> 
@@ -12853,7 +12869,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of a non updating expression (transform) as part of a sequence expression (union operator).
 'id-other-expr-029'(Config) -> 
@@ -12867,11 +12883,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/OtherExpressions/id-other-expr-029.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/OtherExpressions/id-other-expr-029.xml")}),
+         xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/OtherExpressions/id-other-expr-029-2.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err1} -> ct:fail(Err1) 
+         false -> ct:fail(Res1)
       end
-   end   .
+   end.
 
 %% Evaluates usage of a non updating expression (transform) as part of a sequence expression (intersect operator).
 'id-other-expr-030'(Config) -> 
@@ -12889,7 +12907,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of a non updating expression (transform) as part of a sequence expression (except operator).
 'id-other-expr-031'(Config) -> 
@@ -12907,7 +12925,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluates usage of an updating expression (delete) as part of a range expression.
 'id-other-expr-032'(Config) -> 
@@ -12925,11 +12943,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Store a document.
 'fn-put-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-521.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-001.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-521.xml">>}},
@@ -12946,11 +12965,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-001.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-001.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Bad URI as argument to fn:put.
 'fn-put-007'(Config) -> 
@@ -12968,11 +12987,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that fn:put is an updating function.
 'fn-put-008'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-523.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-008.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-523.xml">>}},
@@ -12984,13 +13004,14 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that fn:put is an updating function.
 'fn-put-009'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml"),
    xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml", source(__BaseDir, 'works-mod')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-524.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-009.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml')"),
@@ -13008,7 +13029,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-009a.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-009a.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
@@ -13020,17 +13041,18 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
              catch _:E3 -> E3 end,
-      case xqerl_test:assert_xml(Res3,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-009b.xml")}) of
+      case xqerl_test:assert_xml(Res3,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-009b.xml")}) of
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Check that fn:put does not become effective until after completion of the snapshot.
 'fn-put-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml"),
    xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml", source(__BaseDir, 'works-mod')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-525.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml')"),
@@ -13041,13 +13063,17 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FODC0002") of 
          true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
+         {false, _} -> 
+            case xqerl_test:assert_error(Res1,"FODC0005") of 
+               true -> {comment, "Correct error"};
+               {false, Err1} ->  ct:fail(Err1) 
+            end      end
+   end.
 
 %% Multiple invocations of fn:put on the same URI.
 'fn-put-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-526.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-012.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-526.xml">>}},
@@ -13059,11 +13085,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Multiple invocations of fn:put on different URIs.
 'fn-put-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-527.xml"),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput2-527.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-013.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-527.xml">>},
@@ -13081,7 +13109,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-013a.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-013a.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
@@ -13093,15 +13121,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
              catch _:E3 -> E3 end,
-      case xqerl_test:assert_xml(Res3,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-013b.xml")}) of
+      case xqerl_test:assert_xml(Res3,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-013b.xml")}) of
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Multiple invocations of fn:put on the same URI.
 'fn-put-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-528.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-014.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-528.xml">>}},
@@ -13113,11 +13142,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% simple test of fn:put function
 'put-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-529.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/put-001.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-529.xml">>}},
@@ -13138,11 +13168,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Store an element.
 'fn-put-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-530.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-002.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-530.xml">>}},
@@ -13159,17 +13190,18 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-002.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-002.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check that fn:put is an updating function.
 'fn-put-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml"),
    xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml", source(__BaseDir, 'works-mod')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-531.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml')"),
@@ -13187,7 +13219,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-010a.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-010a.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
@@ -13199,11 +13231,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
              catch _:E3 -> E3 end,
-      case xqerl_test:assert_xml(Res3,{file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-010b.xml")}) of
+      case xqerl_test:assert_xml(Res3,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/Put/fn-put-010b.xml")}) of
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q1'(Config) -> 
@@ -13221,7 +13253,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q2'(Config) -> 
@@ -13239,7 +13271,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q3'(Config) -> 
@@ -13257,7 +13289,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q4'(Config) -> 
@@ -13275,7 +13307,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q5'(Config) -> 
@@ -13293,7 +13325,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q6'(Config) -> 
@@ -13311,7 +13343,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q7'(Config) -> 
@@ -13329,7 +13361,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q8'(Config) -> 
@@ -13356,7 +13388,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q9'(Config) -> 
@@ -13374,7 +13406,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q10'(Config) -> 
@@ -13392,7 +13424,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q11'(Config) -> 
@@ -13419,7 +13451,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q12'(Config) -> 
@@ -13437,7 +13469,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q13'(Config) -> 
@@ -13455,7 +13487,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q14'(Config) -> 
@@ -13469,11 +13501,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"") of 
-         true -> {comment, "Correct error"};
+      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdatePrimitives/AttributeErrors/attribute-errors-q14.xml")}) of
+         true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q15'(Config) -> 
@@ -13491,7 +13523,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q16'(Config) -> 
@@ -13509,7 +13541,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% 
 'attribute-errors-q17'(Config) -> 
@@ -13527,7 +13559,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert after of attribute with implicit namespace binding that clashes.
 'namespace-errors-q1'(Config) -> 
@@ -13545,7 +13577,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert of attribute with implicit namespace binding that clashes.
 'namespace-errors-q2'(Config) -> 
@@ -13563,7 +13595,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert as first of attribute with implicit namespace binding that clashes.
 'namespace-errors-q3'(Config) -> 
@@ -13581,7 +13613,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename of no namespace element with implicit namespace binding that clashes.
 'namespace-errors-q4'(Config) -> 
@@ -13599,7 +13631,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename of namespaced element with implicit namespace binding that clashes.
 'namespace-errors-q5'(Config) -> 
@@ -13617,7 +13649,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename of attribute with implicit namespace binding that clashes.
 'namespace-errors-q6'(Config) -> 
@@ -13635,7 +13667,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace of attribute with implicit namespace binding that clashes.
 'namespace-errors-q7'(Config) -> 
@@ -13653,7 +13685,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace of attribute with muliple attributes, one of which has an implicit namespace binding that clashes.
 'namespace-errors-q8'(Config) -> 
@@ -13671,7 +13703,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Multiple inserts of attribute with implicit namespace binding that clashes.
 'namespace-errors-q9'(Config) -> 
@@ -13689,7 +13721,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert and replace of attributes with implicit namespace binding that clashes.
 'namespace-errors-q10'(Config) -> 
@@ -13707,7 +13739,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Multiple replaces of attributes with implicit namespace binding that clashes.
 'namespace-errors-q11'(Config) -> 
@@ -13725,7 +13757,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace and rename of attributes with implicit namespace binding that clashes.
 'namespace-errors-q12'(Config) -> 
@@ -13743,7 +13775,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Two renames of attributes with implicit namespace binding that clashes.
 'namespace-errors-q13'(Config) -> 
@@ -13761,7 +13793,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename and insert of attributes with implicit namespace binding that clashes.
 'namespace-errors-q14'(Config) -> 
@@ -13779,7 +13811,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename of element and insert of attribute with implicit namespace binding that clashes.
 'namespace-errors-q15'(Config) -> 
@@ -13797,7 +13829,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Rename of element with non-prefixed implicit namespace binding that does not clash.
 'namespace-errors-q16'(Config) -> 
@@ -13820,11 +13852,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdatePrimitives/NamespaceErrors/namespace-errors-q16.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdatePrimitives/NamespaceErrors/namespace-errors-q16.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert new attributes with implicit namespace bindings that clash.
 'namespace-errors-q17'(Config) -> 
@@ -13842,7 +13874,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Insert new attributes with implicit namespace bindings that clash.
 'namespace-errors-q18'(Config) -> 
@@ -13860,7 +13892,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Replace introduces new attributes with implicit namespace bindings that clash.
 'namespace-errors-q19'(Config) -> 
@@ -13878,7 +13910,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Multiple operations that add non-conflicting namespace bindings to a node.
 'mergeUpdates-001'(Config) -> 
@@ -13901,11 +13933,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/mergeUpdates/mergeUpdates-001.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/mergeUpdates/mergeUpdates-001.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Multiple operations that add conflicting namespace bindings to a node.
 'mergeUpdates-002'(Config) -> 
@@ -13923,7 +13955,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Apply insertInto then delete.
 'applyUpdates-001'(Config) -> 
@@ -13946,11 +13978,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-001.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-001.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply insertInto then delete.
 'applyUpdates-002'(Config) -> 
@@ -13973,11 +14005,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-002.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-002.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply insertBefore then replaceNode.
 'applyUpdates-003'(Config) -> 
@@ -14000,11 +14032,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-003.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-003.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply insertBefore then replaceNode.
 'applyUpdates-004'(Config) -> 
@@ -14027,11 +14059,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-004.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-004.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply insertAsFirst then replaceElementContent.
 'applyUpdates-005'(Config) -> 
@@ -14054,11 +14086,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-005.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-005.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply insertAsFirst then replaceElementContent.
 'applyUpdates-006'(Config) -> 
@@ -14081,11 +14113,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-006.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-006.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply replaceNode then delete.
 'applyUpdates-007'(Config) -> 
@@ -14108,11 +14140,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-007.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-007.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply replaceNode then delete.
 'applyUpdates-008'(Config) -> 
@@ -14135,11 +14167,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-008.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-008.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply multiple operations to the same node.
 'applyUpdates-009'(Config) -> 
@@ -14162,11 +14194,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-009.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-009.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Apply multiple operations to the same node.
 'applyUpdates-010'(Config) -> 
@@ -14189,11 +14221,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-010.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/applyUpdates/applyUpdates-010.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete elements and merge text nodes.
 'applyUpdates-011'(Config) -> 
@@ -14220,7 +14252,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Delete the content of a text node.
 'applyUpdates-012'(Config) -> 
@@ -14247,7 +14279,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert and delete attributes with the same name.
 'applyUpdates-013'(Config) -> 
@@ -14274,7 +14306,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert and delete attributes with the same name.
 'applyUpdates-014'(Config) -> 
@@ -14301,7 +14333,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check atomicity with a good operation and a bad operation.
 'applyUpdates-016'(Config) -> 
@@ -14328,7 +14360,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert and rename attributes with the same name.
 'applyUpdates-021'(Config) -> 
@@ -14355,7 +14387,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert and replace attributes with the same name.
 'applyUpdates-022'(Config) -> 
@@ -14382,7 +14414,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Insert two attributes with the same name and delete the containing element.
 'applyUpdates-023'(Config) -> 
@@ -14396,8 +14428,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUDY0021") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Insert two attributes with the same name and delete the containing element's parent.
 'applyUpdates-024'(Config) -> 
@@ -14411,8 +14446,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUDY0021") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Swap the names of two attribute nodes.
 'applyUpdates-025'(Config) -> 
@@ -14439,7 +14477,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Rename one attribute node, replace another.
 'applyUpdates-026'(Config) -> 
@@ -14466,7 +14504,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-001'(Config) -> 
@@ -14484,7 +14522,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-002'(Config) -> 
@@ -14502,7 +14540,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-003'(Config) -> 
@@ -14520,7 +14558,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-004'(Config) -> 
@@ -14538,7 +14576,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-005'(Config) -> 
@@ -14556,7 +14594,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-006'(Config) -> 
@@ -14574,7 +14612,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-007'(Config) -> 
@@ -14592,7 +14630,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-008'(Config) -> 
@@ -14610,7 +14648,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-009'(Config) -> 
@@ -14628,7 +14666,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:setToUntyped.
 'setToUntyped-010'(Config) -> 
@@ -14646,7 +14684,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces01'(Config) -> 
@@ -14658,11 +14696,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces01.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces01.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces02'(Config) -> 
@@ -14674,11 +14712,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces02.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces02.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces03'(Config) -> 
@@ -14690,11 +14728,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces03.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces03.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces04'(Config) -> 
@@ -14706,11 +14744,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces04.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces04.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces05'(Config) -> 
@@ -14722,11 +14760,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces05.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces05.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces06'(Config) -> 
@@ -14738,11 +14776,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      case xqerl_test:assert_xml(Res1,{file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces06.xml")}) of
+      case xqerl_test:assert_xml(Res1,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/UpdateRoutines/propagateNamespaces/propagateNamespaces06.xml")}) of
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-01'(Config) -> 
@@ -14758,7 +14796,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-02'(Config) -> 
@@ -14774,7 +14812,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-03'(Config) -> 
@@ -14790,7 +14828,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-04'(Config) -> 
@@ -14806,7 +14844,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-05'(Config) -> 
@@ -14822,7 +14860,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-06'(Config) -> 
@@ -14838,7 +14876,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-07'(Config) -> 
@@ -14854,7 +14892,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-08'(Config) -> 
@@ -14870,7 +14908,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-09'(Config) -> 
@@ -14886,7 +14924,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-10'(Config) -> 
@@ -14902,7 +14940,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-11'(Config) -> 
@@ -14918,7 +14956,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-12'(Config) -> 
@@ -14934,7 +14972,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-13'(Config) -> 
@@ -14950,7 +14988,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-14'(Config) -> 
@@ -14966,7 +15004,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-15'(Config) -> 
@@ -14982,7 +15020,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-16'(Config) -> 
@@ -14998,7 +15036,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-17'(Config) -> 
@@ -15014,7 +15052,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-18'(Config) -> 
@@ -15030,7 +15068,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-19'(Config) -> 
@@ -15046,7 +15084,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-20'(Config) -> 
@@ -15062,7 +15100,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-21'(Config) -> 
@@ -15078,7 +15116,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-22'(Config) -> 
@@ -15094,7 +15132,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-23'(Config) -> 
@@ -15110,7 +15148,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-24'(Config) -> 
@@ -15126,7 +15164,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-25'(Config) -> 
@@ -15142,7 +15180,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-26'(Config) -> 
@@ -15158,7 +15196,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-27'(Config) -> 
@@ -15174,7 +15212,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-28'(Config) -> 
@@ -15190,7 +15228,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-29'(Config) -> 
@@ -15206,7 +15244,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-30'(Config) -> 
@@ -15222,7 +15260,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-31'(Config) -> 
@@ -15238,7 +15276,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-32'(Config) -> 
@@ -15254,7 +15292,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-33'(Config) -> 
@@ -15270,7 +15308,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-34'(Config) -> 
@@ -15286,7 +15324,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-35'(Config) -> 
@@ -15302,7 +15340,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-36'(Config) -> 
@@ -15318,7 +15356,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-37'(Config) -> 
@@ -15334,7 +15372,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-38'(Config) -> 
@@ -15350,7 +15388,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-39'(Config) -> 
@@ -15366,7 +15404,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-40'(Config) -> 
@@ -15382,7 +15420,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-41'(Config) -> 
@@ -15398,7 +15436,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-42'(Config) -> 
@@ -15414,7 +15452,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-43'(Config) -> 
@@ -15430,7 +15468,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-44'(Config) -> 
@@ -15446,7 +15484,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-45'(Config) -> 
@@ -15462,7 +15500,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-46'(Config) -> 
@@ -15478,7 +15516,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-47'(Config) -> 
@@ -15494,7 +15532,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-48'(Config) -> 
@@ -15510,7 +15548,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-49'(Config) -> 
@@ -15526,7 +15564,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-50'(Config) -> 
@@ -15542,7 +15580,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-51'(Config) -> 
@@ -15558,7 +15596,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-52'(Config) -> 
@@ -15574,7 +15612,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-53'(Config) -> 
@@ -15590,7 +15628,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-54'(Config) -> 
@@ -15606,7 +15644,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-55'(Config) -> 
@@ -15622,7 +15660,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with transform expression.
 'statictyp-xqupd-56'(Config) -> 
@@ -15638,7 +15676,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with transform expression.
 'statictyp-xqupd-57'(Config) -> 
@@ -15654,7 +15692,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-58'(Config) -> 
@@ -15670,7 +15708,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-59'(Config) -> 
@@ -15686,7 +15724,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-60'(Config) -> 
@@ -15702,7 +15740,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% keywords can be used as variable names
 'update10keywords'(Config) -> 
@@ -15720,7 +15758,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% One declare validation specifying strict
 'revalidation-declaration-01-fail'(Config) -> 
@@ -15734,8 +15772,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0026") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% One declare validation specifying lax
 'revalidation-declaration-03-fail'(Config) -> 
@@ -15749,8 +15790,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUST0026") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% One declare validation specifying skip
 'revalidation-declaration-05'(Config) -> 
@@ -15768,7 +15812,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% Two declare validation specifying skip
 'revalidation-declaration-06'(Config) -> 
@@ -15786,835 +15830,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
-
-%% insert before removes type from ancestors
-'removeType-valskip-ins-001'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-672.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-672.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-001.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-672.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-001-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-672.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-001.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% insert after removes type from ancestors
-'removeType-valskip-ins-002'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-673.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-673.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-002.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-673.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-002-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-673.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-002.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% insert into (of text node) removes type from ancestors
-'removeType-valskip-ins-003'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-674.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-674.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-003.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-674.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-003-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-674.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-003.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% insert as first into (of element node) removes type from ancestors
-'removeType-valskip-ins-004'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-675.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-675.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-004.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-675.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-004-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-675.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-004.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% insert as last into (of comment node) doesn't remove type from ancestors
-'removeType-valskip-ins-005'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-676.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-676.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-005.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-676.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-005-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-676.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-005.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% insert attributes removes type from ancestors
-'removeType-valskip-ins-006'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-677.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-677.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-006.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-677.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-006-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-677.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-006.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, adding xsi:nil is not an error
-'removeType-valskip-ins-007'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-678.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-678.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-007.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-678.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-007-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-678.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-007.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, adding xml:id has is-ID property but not xs:ID type
-'removeType-valskip-ins-008'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-679.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-679.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-008.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-679.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-008-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-679.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-008.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode preserve, inserted elements retain their type
-'removeType-valskip-ins-009'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-680.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-680.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-009.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-680.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-009-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-680.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-009.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode strip, inserted elements lose their type
-'removeType-valskip-ins-010'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-681.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-681.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-010.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-681.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-010-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-681.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-010.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode preserve, inserted attributes retain their type
-'removeType-valskip-ins-011'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-682.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-682.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-011.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-682.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-011-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-682.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-011.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode strip, inserted attributes lose their type
-'removeType-valskip-ins-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-683.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-683.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-012.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-683.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-012-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-683.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-012.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode preserve, adding an IDREF attribute affects result of idref()
-'removeType-valskip-ins-013'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-684.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-684.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-013.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-684.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-013-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-684.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-013.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: with no validation, but construction mode preserve, adding an IDREF attribute affects result of idref()
-'removeType-valskip-ins-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-685.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-685.xml", source(__BaseDir, 'users')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ins-014.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-685.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ins-014-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-685.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ins-014.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: deleting an element removes type from ancestors
-'removeType-valskip-del-001'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-686.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-686.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-del-001.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-686.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-del-001-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-686.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-del-001.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: deleting an attribute removes type from ancestors
-'removeType-valskip-del-002'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-687.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-687.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-del-002.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-687.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-del-002-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-687.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-del-002.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: deleting an xml:id attribute affects result of id()
-'removeType-valskip-del-003'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-688.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-688.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-del-003.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-688.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-del-003-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-688.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-del-003.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: deleting a text node removes type from ancestors
-'removeType-valskip-del-004'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-689.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-689.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-del-004.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-689.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-del-004-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-689.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-del-004.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: deleting a comment node does not remove type from ancestors
-'removeType-valskip-del-005'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-690.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-690.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-del-005.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-690.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-del-005-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-690.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-del-005.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: Renaming an element removes type from self and ancestors
-'removeType-valskip-ren-001'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-691.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-691.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-001.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-691.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ren-001-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-691.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ren-001.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: Renaming an attribute removes type from ancestors
-'removeType-valskip-ren-002'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-692.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-692.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-002.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-692.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ren-002-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-692.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ren-002.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: Renaming an xml:id attribute affects result of id()
-'removeType-valskip-ren-003'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-693.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-693.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-003.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-693.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ren-003-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-693.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ren-003.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: Renaming a text node is an error
-'removeType-valskip-ren-004'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-694.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-694.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-004.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-694.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUTY0012") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
-
-%% Description: Renaming a PI node does not remove type from ancestors
-'removeType-valskip-ren-005'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-695.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-695.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-005.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-695.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-ren-005-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-695.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-ren-005.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% Description: two updates create conflicting namespace bindings, not detected until upd:rename() is executed, at which point it causes XUDY0024
-'removeType-valskip-ren-006'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-696.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-696.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-ren-006.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-696.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0024") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end   .
-
-%% replace node on an element node removes type from ancestors
-'removeType-valskip-repnode-001'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-697.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-697.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-001.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-697.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-001-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-697.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-001.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% replace node on an attribute node removes type from ancestors
-'removeType-valskip-repnode-002'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-698.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-698.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-002.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-698.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-002-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-698.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-002.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% replace node on an attribute node retains type of new attribute with construction=preserve
-'removeType-valskip-repnode-003'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-699.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-699.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-003.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-699.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-003-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-699.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-003.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% replace node on an ID attribute with construction=strip drops the ID
-'removeType-valskip-repnode-004'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-700.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-700.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-004.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-700.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-004-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-700.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-004.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% replace node on an ID attribute with construction=preserve drops the old ID and enables the new
-'removeType-valskip-repnode-005'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-701.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-701.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-005.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-701.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-005-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-701.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-005.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
-
-%% replace node on an IDREF attribute with construction=strip drops the old ID
-'removeType-valskip-repnode-006'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-702.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-702.xml", source(__BaseDir, 'books')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/valskip-repnode-006.xq"),
-      Ctx1 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-702.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end,
-   begin
-      F2 = filename:join(__BaseDir, "Queries/XQuery/ValSkip/removeType-valskip-repnode-006-test.xq"),
-      Ctx2 = #{<<"books">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-702.xml')")},
-      Res2 = try
-                Q2 = xqerl_code_server:compile(F2),
-                xqerl:run(Q2, Ctx2)
-             catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/ValSkip/valskip-repnode-006.out")}) of
-         true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
-      end
-   end   .
+   end.
 
 %% Delete leading comments of document element.
 'complex-deletes-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-703.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-703.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-703.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16623,19 +15848,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-703.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/complex-deletes-q1.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/complex-deletes-q1.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-703.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16644,16 +15869,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete trailing comments of document element.
 'complex-deletes-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-704.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-704.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-704.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16662,19 +15887,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-704.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/complex-deletes-q2.xml")}) of
+      case xqerl_test:assert_xml(Res2,{doc_file, filename:join(__BaseDir, "ExpectedTestResults/DeleteExpressions/complex-deletes-q2.xml")}) of
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-704.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16683,16 +15908,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete the text node child of element "east".
 'complex-deletes-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-705.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-705.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-705.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16701,7 +15926,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-705.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16713,7 +15938,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-705.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16722,16 +15947,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete all text nodes that come directly after a comment or PI.
 'complex-deletes-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-706.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-706.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-706.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16740,7 +15965,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-706.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16752,7 +15977,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-706.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16761,16 +15986,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete all elements called "south-east".
 'complex-deletes-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-707.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-707.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-707.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16779,7 +16004,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-707.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16791,7 +16016,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-707.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16800,16 +16025,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Delete the element called "center".
 'complex-deletes-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-708.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-708.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-708.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16818,7 +16043,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-708.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16830,7 +16055,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-708.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16839,16 +16064,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace the value of the leading comments of document element.
 'complex-replacevalues-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-709.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-709.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-709.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16857,7 +16082,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-709.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16869,7 +16094,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-709.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16878,16 +16103,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace values of trailing comments of document element.
 'complex-replacevalues-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-710.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-710.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-710.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16896,7 +16121,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-710.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16908,7 +16133,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-710.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16917,16 +16142,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of the text node child of element "east".
 'complex-replacevalues-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-711.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-711.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-711.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16935,7 +16160,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-711.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16947,7 +16172,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-711.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16956,16 +16181,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace the value of all text nodes that come directly after a comment or PI.
 'complex-replacevalues-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-712.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-712.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-712.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -16974,7 +16199,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-712.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -16986,7 +16211,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-712.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -16995,16 +16220,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Replace value of all elements called "south-east".
 'complex-replacevalues-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-713.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-713.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-713.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17013,7 +16238,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-713.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17025,7 +16250,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-713.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -17034,16 +16259,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename all elements called "south-east".
 'complex-renames-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-714.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-714.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-714.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17052,7 +16277,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-714.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17064,7 +16289,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-714.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -17073,16 +16298,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename the element called "center".
 'complex-renames-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-715.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-715.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-715.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17091,7 +16316,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-715.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17103,7 +16328,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-715.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -17112,16 +16337,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
+   end.
 
 %% Rename one of the elements called "south-east".
 'complex-renames-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-716.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-716.xml", source(__BaseDir, 'TopMany')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml", source(__BaseDir, 'TopMany')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-716.xml')")},
+      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17130,7 +16355,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4-test.xq"),
-      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-716.xml')")},
+      Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17142,7 +16367,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4-test2.xq"),
-      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-716.xml')")},
+      Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res3 = try
                 Q3 = xqerl_code_server:compile(F3),
                 xqerl:run(Q3, Ctx3)
@@ -17151,27 +16376,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err3} -> ct:fail(Err3) 
       end
-   end   .
-
-%% Store a comment.
-'fn-put-003'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-003.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-717.xml">>}},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end   .
+   end.
 
 %% Store a comment.
 'fn-put-003-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-686.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-003.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-718.xml">>}},
+      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-686.xml">>}},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17180,94 +16393,67 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct error"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
-
-%% Store a PI.
-'fn-put-004'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-004.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-719.xml">>}},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end   .
+   end.
 
 %% Store a PI.
 'fn-put-004-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-687.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-004.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-720.xml">>}},
+      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-687.xml">>}},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
-
-%% Store an attribute.
-'fn-put-005'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-005.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-721.xml">>}},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"FOUP0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Store an attribute.
 'fn-put-005-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-688.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-005.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-722.xml">>}},
+      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-688.xml">>}},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
-
-%% Store a text node.
-'fn-put-006'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-006.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-723.xml">>}},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"FOUP0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Store a text node.
 'fn-put-006-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-689.xml"),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-006.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-724.xml">>}},
+      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-689.xml">>}},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"FOUP0001") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Update Use Case # 1
 'relational-data-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-725.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-725.xml", source(__BaseDir, 'users')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-690.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-690.xml", source(__BaseDir, 'users')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q1.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-725.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-690.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17276,7 +16462,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q1-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-725.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-690.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17285,19 +16471,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 2
 'relational-data-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-726.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-726.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-726.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-726.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-691.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-691.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-691.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-691.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q2.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-726.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-726.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-691.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-691.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17306,8 +16492,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q2-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-726.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-726.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-691.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-691.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17316,19 +16502,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 3
 'relational-data-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-727.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-727.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-727.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-727.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-692.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-692.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-692.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-692.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q3.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-727.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-727.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-692.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-692.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17337,8 +16523,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q3-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-727.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-727.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-692.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-692.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17347,16 +16533,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 4
 'relational-data-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-728.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-728.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-693.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-693.xml", source(__BaseDir, 'users2')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q4.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-728.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-693.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17365,7 +16551,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q4-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-728.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-693.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17374,19 +16560,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 5
 'relational-data-q5-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-729.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-729.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-729.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-729.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-694.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-694.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-694.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-694.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-1.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-729.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-729.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-694.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-694.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17395,8 +16581,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-1-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-729.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-729.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-694.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-694.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17405,19 +16591,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 5
 'relational-data-q5-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-730.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-730.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-730.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-730.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-695.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-695.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-695.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-695.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-2.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-730.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-730.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-695.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-695.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17426,8 +16612,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-2-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-730.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-730.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-695.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-695.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17436,22 +16622,22 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 6
 'relational-data-q6-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-731.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-731.xml", source(__BaseDir, 'users')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-731.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-731.xml", source(__BaseDir, 'items')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-731.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-731.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-696.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-696.xml", source(__BaseDir, 'users')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-696.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-696.xml", source(__BaseDir, 'items')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-696.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-696.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-1.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-731.xml')"),
-              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-731.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-731.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-696.xml')"),
+              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-696.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-696.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17460,9 +16646,9 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-731.xml')"),
-              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-731.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-731.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-696.xml')"),
+              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-696.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-696.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17471,22 +16657,22 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 6 - Alternate method
 'relational-data-q6-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-732.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-732.xml", source(__BaseDir, 'users')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-732.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-732.xml", source(__BaseDir, 'items')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-732.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-732.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-697.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-697.xml", source(__BaseDir, 'users')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-697.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-697.xml", source(__BaseDir, 'items')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-697.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-697.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-2.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-732.xml')"),
-              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-732.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-732.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-697.xml')"),
+              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-697.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-697.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17495,9 +16681,9 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-732.xml')"),
-              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-732.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-732.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-697.xml')"),
+              <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-697.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-697.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17506,16 +16692,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 7
 'relational-data-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-733.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-733.xml", source(__BaseDir, 'items')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-698.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-698.xml", source(__BaseDir, 'items')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q7.xq"),
-      Ctx1 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-733.xml')")},
+      Ctx1 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-698.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17527,7 +16713,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q7-test.xq"),
-      Ctx2 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-733.xml')")},
+      Ctx2 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-698.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17536,19 +16722,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Update Use Case # 8
 'relational-data-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-734.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-734.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-734.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-734.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-699.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-699.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-699.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-699.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q8.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-734.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-734.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-699.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-699.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17560,29 +16746,31 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q8-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-734.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-734.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-699.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-699.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q8-results-2.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q8-results-2.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q8-results-3.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Update Use Case # 9
 'relational-data-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-735.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-735.xml", source(__BaseDir, 'users2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-735.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-735.xml", source(__BaseDir, 'bids')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-700.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-700.xml", source(__BaseDir, 'users2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-700.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-700.xml", source(__BaseDir, 'bids')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q9.xq"),
-      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-735.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-735.xml')")},
+      Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-700.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-700.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17594,53 +16782,58 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q9-test.xq"),
-      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-735.xml')"),
-              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-735.xml')")},
+      Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-700.xml')"),
+              <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-700.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q9-results-2.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q9-results-2.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/RelationalDataUpdates/relational-data-q9-results-3.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Address Book Use case # 1
 'address-book-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/archive-736.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/archive-736.xml", source(__BaseDir, 'archive')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-736.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-736.xml", source(__BaseDir, 'copy1')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-736.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-736.xml", source(__BaseDir, 'copy2')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/log-736.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/log-736.xml", source(__BaseDir, 'log')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/archive-701.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/archive-701.xml", source(__BaseDir, 'archive')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml", source(__BaseDir, 'copy1')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml", source(__BaseDir, 'copy2')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/log-701.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/log-701.xml", source(__BaseDir, 'log')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/AddressBookUpdates/address-book-q1.xq"),
-      Ctx1 = #{<<"archive">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/archive-736.xml')"),
-              <<"copy1">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/copy1-736.xml')"),
-              <<"copy2">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/copy2-736.xml')"),
-              <<"log">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/log-736.xml')")},
+      Ctx1 = #{<<"archive">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/archive-701.xml')"),
+              <<"copy1">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml')"),
+              <<"copy2">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml')"),
+              <<"log">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/log-701.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
              catch _:E1 -> E1 end,
-      Res1
-   end   .
+      case xqerl_test:assert_error(Res1,"XUDY0017") of 
+         true -> {comment, "Correct error"};
+         {false, Err1} -> ct:fail(Err1) 
+      end
+   end.
 
 %% Soap Use case # 1
 'soap-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/airports-737.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/airports-737.xml", source(__BaseDir, 'airports')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-737.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-737.xml", source(__BaseDir, 'soapMsg')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/airports-702.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/airports-702.xml", source(__BaseDir, 'airports')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml", source(__BaseDir, 'soapMsg')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/SoapUpdates/soap-q1.xq"),
-      Ctx1 = #{<<"airportsDoc">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/airports-737.xml')"),
-              <<"msg">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/soapMsg-737.xml')")},
+      Ctx1 = #{<<"airportsDoc">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/airports-702.xml')"),
+              <<"msg">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17649,16 +16842,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.
 
 %% namespaces Use case # 1
 'namespaces-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-738.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-738.xml", source(__BaseDir, 'grant')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-703.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-703.xml", source(__BaseDir, 'grant')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NamespacesUpdates/namespaces-q1.xq"),
-      Ctx1 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-738.xml')")},
+      Ctx1 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-703.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17667,7 +16860,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NamespacesUpdates/namespaces-q1-test.xq"),
-      Ctx2 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-738.xml')")},
+      Ctx2 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-703.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17676,16 +16869,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 1
 'parts-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-739.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-739.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q1.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-739.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17694,7 +16887,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q1-test.xq"),
-      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-739.xml')")},
+      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17703,16 +16896,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 2
 'parts-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-740.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-740.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q2.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-740.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17721,7 +16914,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q2-test.xq"),
-      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-740.xml')")},
+      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17730,19 +16923,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 3
 'parts-q3-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-741.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-741.xml", source(__BaseDir, 'part-tree')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-741.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-741.xml", source(__BaseDir, 'part-list')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml", source(__BaseDir, 'part-list')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-1.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-741.xml')"),
-              <<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-741.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml')"),
+              <<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17751,7 +16944,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-test.xq"),
-      Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-741.xml')")},
+      Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17760,19 +16953,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 3 (alternate solution)
 'parts-q3-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-742.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-742.xml", source(__BaseDir, 'part-list')),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-742.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-742.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml", source(__BaseDir, 'part-list')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-2.xq"),
-      Ctx1 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-742.xml')"),
-              <<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-742.xml')")},
+      Ctx1 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml')"),
+              <<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17784,25 +16977,27 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-test.xq"),
-      Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-742.xml')")},
+      Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
              catch _:E2 -> E2 end,
-      case xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/PartsUpdates/parts-q3-results.xml")}) of
+      case lists:any(fun(true) -> true; (_) -> false end, [
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/PartsUpdates/parts-q3-results.xml")}),
+         xqerl_test:assert_xml(Res2,{file, filename:join(__BaseDir, "ExpectedTestResults/UseCases/PartsUpdates/parts-q3-results-no-update.xml")})]) of 
          true -> {comment, "Correct"};
-         {false, Err2} -> ct:fail(Err2) 
+         false -> ct:fail(Res2)
       end
-   end   .
+   end.
 
 %% Parts Use case # 4
 'parts-q4-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-743.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-743.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-1.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-743.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17811,7 +17006,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-test.xq"),
-      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-743.xml')")},
+      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17820,16 +17015,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 4. Alternate solution.
 'parts-q4-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-744.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-744.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-2.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-744.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17838,7 +17033,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-test.xq"),
-      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-744.xml')")},
+      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17847,16 +17042,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Parts Use case # 6
 'parts-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-745.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-745.xml", source(__BaseDir, 'part-tree')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml", source(__BaseDir, 'part-tree')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q6.xq"),
-      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-745.xml')")},
+      Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17865,7 +17060,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end,
    begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q6-test.xq"),
-      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-745.xml')")},
+      Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml')")},
       Res2 = try
                 Q2 = xqerl_code_server:compile(F2),
                 xqerl:run(Q2, Ctx2)
@@ -17874,16 +17069,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err2} -> ct:fail(Err2) 
       end
-   end   .
+   end.
 
 %% Nil Use case # 1
 'nil-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-746.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-746.xml", source(__BaseDir, 'employees')),
+   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-711.xml"),
+   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-711.xml", source(__BaseDir, 'employees')),
    begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NilUpdates/nil-q1.xq"),
-      Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-746.xml')")},
+      Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-711.xml')")},
       Res1 = try
                 Q1 = xqerl_code_server:compile(F1),
                 xqerl:run(Q1, Ctx1)
@@ -17892,4 +17087,4 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          true -> {comment, "Correct"};
          {false, Err1} -> ct:fail(Err1) 
       end
-   end   .
+   end.

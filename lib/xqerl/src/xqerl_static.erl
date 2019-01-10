@@ -83,6 +83,9 @@
 
 -define(A(T),<<T>>).
 
+-define(NO_UPD(State), 
+        case is_updating(State) of true -> ?err('XUST0001'); _ -> ok end).
+
 % state should hold the entire static context, augmented by statements that 
 % can do it in their own scope.
 -record(context,
@@ -122,6 +125,8 @@
          known_collections,
          default_collection_type,
          known_collations,
+         revalidation,
+         is_updating = false,
          % helpers
          context,
          tab,
@@ -334,6 +339,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 context_item_type => CtxItemType,
                 known_fx_sigs => FinalState#state.known_fx_sigs,
                 tab => Tab,
+                contains_updates => get_contains_updates(), 
                 stat_props => StatProps,
                 'boundary-space' => FinalState#state.boundary_space,
                 'construction-mode' => FinalState#state.construction_mode,
@@ -377,6 +383,167 @@ strip_unused_imports([{'module-import', {N,_}} = H|T],UnusedImports) ->
 strip_unused_imports([H|T],UnusedImports) ->
    [H|strip_unused_imports(T,UnusedImports)].
 
+
+
+handle_node(State, {update, _Id, InsertKind, Src, Tgt})
+   % inserts
+   when InsertKind == 'after';
+        InsertKind == 'before';
+        InsertKind == 'into_first';
+        InsertKind == 'into_last';
+        InsertKind == 'into' -> 
+   State1 = set_updating(State, true),
+   SrcState = handle_node(State1, Src),
+   TgtState = handle_node(State1, Tgt),
+   SrcStmt = get_statement(SrcState),
+   TgtStmt = get_statement(TgtState),
+   %SrcType = get_statement_type(SrcState),
+   %TgtType = get_statement_type(TgtState),
+   %SimTgtType = get_simple_type(TgtType#xqSeqType.type),
+%%    SrcNodes = check_type_match(SrcType, #xqSeqType{type = node, 
+%%                                                    occur = zero_or_many}),
+%%    if SrcNodes == false ->
+%%          ?err('XUTY0004');
+%%       true ->
+%%          ok
+%%    end,
+   % Src and Tgt switched
+   Node = {update, InsertKind, TgtStmt, SrcStmt},
+   set_statement_and_type(State1, Node, 
+                          #xqSeqType{type = 'empty-sequence', occur = zero}); 
+
+handle_node(State, {update, _Id, delete, Tgt}) ->
+   State1 = set_updating(State, true),
+   TgtState = handle_node(State1, Tgt),
+   TgtStmt = get_statement(TgtState),
+   TgtType = get_statement_type(TgtState),
+   TgtNodes = check_type_match(TgtType, #xqSeqType{type = node, 
+                                                   occur = zero_or_many}),
+   if TgtNodes == false ->
+         ?err('XUTY0007');
+      true ->
+         ok
+   end,
+   Node = {update, delete, TgtStmt},
+   set_statement_and_type(State1, Node, 
+                          #xqSeqType{type = 'empty-sequence', occur = zero}); 
+   
+handle_node(State, {update, _Id, replace_value, Tgt, Val}) -> 
+   State1 = set_updating(State, true),
+   ValState = handle_node(State1, 
+                          {comp_cons, 
+                           #xqTextNode{expr = {content_expr, Val}}}),
+   ValStmt = get_statement(ValState),
+   TgtState = handle_node(State1, Tgt),
+   TgtStmt = get_statement(TgtState),
+   TgtType = get_statement_type(TgtState),
+   TgtNodes = check_type_match(TgtType, #xqSeqType{type = node, 
+                                                   occur = zero_or_many}),
+   if TgtNodes == false ->
+         ?err('XUTY0008');
+      true ->
+         ok
+   end,
+   Node = {update, replace_value, TgtStmt, ValStmt},
+   set_statement_and_type(State1, Node, 
+                          #xqSeqType{type = 'empty-sequence', occur = zero}); 
+
+handle_node(State, {update, _Id, replace, Tgt, Val}) ->
+   State1 = set_updating(State, true),
+   ValState = handle_node(State1, Val),
+   ValStmt = get_statement(ValState),
+   TgtState = handle_node(State1, Tgt),
+   TgtStmt = get_statement(TgtState),
+   TgtType = get_statement_type(TgtState),
+   TgtNodes = check_type_match(TgtType, #xqSeqType{type = node, 
+                                                   occur = zero_or_many}),
+   if TgtNodes == false ->
+         ?err('XUTY0008');
+      true ->
+         ok
+   end,
+   Node = {update, replace, TgtStmt, ValStmt},
+   set_statement_and_type(State1, Node, 
+                          #xqSeqType{type = 'empty-sequence', occur = zero}); 
+
+handle_node(State, {update, _Id, rename, Tgt, Val}) -> 
+   State1 = set_updating(State, true),
+   ValState = handle_node(State1, Val),
+   ValStmt = get_statement(ValState),
+   ValStmt1 = resolve_element_name(State, ValStmt),
+   ValType = get_statement_type(ValState),
+   ValChk = check_type_match(ValType, 
+                             #xqSeqType{type = node, occur = one}),
+   ?dbg("ValChk",{ValChk, ValType}),
+   case ValType of
+      #xqSeqType{type = 'xs:QName'} -> ok;
+      #xqSeqType{type = 'xs:string'} -> ok;
+      #xqSeqType{type = 'xs:untypedAtomic'} -> ok;
+      _ when ValChk =/= false -> ok;
+      _ ->
+         ?err('XPTY0004')
+   end,
+   TgtState = handle_node(State1, Tgt),
+   TgtStmt = get_statement(TgtState),
+   TgtType = get_statement_type(TgtState),
+   TgtNodes = check_type_match(TgtType, #xqSeqType{type = node, 
+                                                   occur = zero_or_many}),
+   if TgtNodes == false ->
+         ?err('XUTY0012');
+      true ->
+         ok
+   end,
+   Node = {update, rename, TgtStmt, ValStmt1},
+   set_statement_and_type(State1, Node, 
+                          #xqSeqType{type = 'empty-sequence', occur = zero}); 
+   
+handle_node(State, {update, modify, Id, Vars, Expr, Return}) -> 
+   State1 = set_updating(State, copy),
+   CopyFold = 
+     fun(#xqVar{id = VId, 
+                name = Name, 
+                type = Type} = X, IState) ->
+           OldStatement = 
+             case get_statement(IState) of
+                undefined -> [];
+                List when is_list(List) -> List;
+                Tuple -> [Tuple]
+             end,
+           NewState = handle_node(IState, X),
+           St2 = get_statement(NewState),
+           StTy = get_statement_type(NewState),
+           ErlVarName = copy_variable_name(VId),
+           NewVar  = {Name,Type,[],ErlVarName, false},
+           NewState1 = add_inscope_variable(NewState, NewVar),           
+           case check_type_match(StTy, #xqSeqType{type = node, 
+                                                  occur = one}) of
+              false ->
+                 ?err('XUTY0013');
+              _ ->
+                 set_statement(NewState1, OldStatement ++ [St2])
+           end
+     end,
+   ReturnVarFold = 
+     fun(#xqVar{id = VId, 
+                name = Name, 
+                type = Type}, IState) ->
+           ErlVarName = local_variable_name(VId),
+           NewVar  = {Name,Type,[],ErlVarName, false},
+           add_inscope_variable(IState, NewVar)
+     end,
+   CopyState = lists:foldl(CopyFold, set_statement(State1, undefined), Vars),
+   VarsStmt = get_statement(CopyState),
+   ExprState = handle_node(CopyState, Expr),
+   ExprStmt = get_statement(ExprState),
+   ReturnState0 = lists:foldl(ReturnVarFold, State1, Vars),
+   ReturnState = handle_node(set_updating(ReturnState0,false), Return),
+   ReturnStmt = get_statement(ReturnState),
+   ReturnType = get_statement_type(ReturnState),
+   Node = {update, modify, Id, VarsStmt, ExprStmt, ReturnStmt},
+   set_statement_and_type(CopyState, Node, ReturnType); 
+
+handle_node(State, {'updating-function-call', Name, Arity, Args}) -> 
+   handle_node(State, {'function-call', Name, Arity, Args});
 
 handle_node(State, #qname{namespace = NsExpr, 
                           prefix = PxExpr, 
@@ -435,13 +602,15 @@ handle_node(State, Nodes) when is_list(Nodes) ->
          S = get_statement(St),
          T = get_statement_type(St),
          C = get_static_count(St),
-         {S,T,C}
+         U = is_updating(St),
+         {S,T,C,U}
        end,
    All = lists:map(F, Nodes),
-   Statements = [S || {S,_,_} <- All],
-   Types  = [T || {_S,T,_} <- All, 
+   Upd = lists:any(fun({_,_,_,U}) -> U == true end, All),
+   Statements = [S || {S,_,_,_} <- All],
+   Types  = [T || {_S,T,_,_} <- All, 
                   T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
-   Counts = [C || {_S,T,C} <- All, 
+   Counts = [C || {_S,T,C,_} <- All, 
                   T =/= #xqSeqType{type = 'empty-sequence', occur = zero}],
    Counts1 = lists:foldl(fun(_I,undefined) ->
                                undefined;
@@ -451,7 +620,8 @@ handle_node(State, Nodes) when is_list(Nodes) ->
                                undefined
                          end, 0, Counts),
    Type = get_list_type(Types),
-   set_static_count(set_statement_and_type(State, Statements, Type), Counts1);
+   State1 = set_updating(State, Upd),
+   set_static_count(set_statement_and_type(State1, Statements, Type), Counts1);
 %% 3.1 Primary Expressions
 handle_node(State, #xqQuery{query = Qry} )-> 
    % clear all but global variables !!
@@ -480,15 +650,17 @@ handle_node(State, #xqVarRef{name = Name}) ->
 %% 3.1.3 Parenthesized Expressions
 handle_node(State, {sequence, Expr}) -> 
    S = handle_node(State, Expr),
+   Upd = is_updating(S),
+   State1 = set_updating(State, Upd),
    St = get_statement(S),
    T = get_statement_type(S),
    Cnt = get_static_count(S),
    if is_list(St) ->
          set_static_count(
-           set_statement_and_type(State, {sequence, St}, T), Cnt);
+           set_statement_and_type(State1, {sequence, St}, T), Cnt);
       true ->
          set_static_count(
-         set_statement_and_type(State, {sequence, l(St)}, T), Cnt)
+         set_statement_and_type(State1, {sequence, l(St)}, T), Cnt)
    end;
 %% 3.1.4 Context Item Expression
 handle_node(State = #state{context_item_type = CIType}, 'context-item') -> 
@@ -640,6 +812,7 @@ handle_node(State,#xqVar{id = Id,
    VarType = get_statement_type(VarState),
    VarStmt = get_statement(VarState),
    SVarType = VarType,
+   ?NO_UPD(VarState),                                    
    VarStmt1 = 
       case check_type_match(VarType, Type) of
          false ->
@@ -678,7 +851,8 @@ handle_node(State,#xqVar{id = Id,
 
 handle_node(State, #xqFunction{name = FName, type = FType0, 
                                annotations = Annotations,
-                               params = Params, body = Expr} = Node) -> 
+                               params = Params, body = Expr,
+                               external = External} = Node) -> 
    if FName == undefined ->
          ok = check_anon_fun_annos(Annotations);
       true -> ok
@@ -692,7 +866,14 @@ handle_node(State, #xqFunction{name = FName, type = FType0,
             end,
    {State1,_} = lists:foldl(ParFld, {State,1}, Params),
    _ = check_parameter_names(Params),
+   
+   UpdAnno = get_update_anno(Annotations),
    S1 = handle_node(State1, Expr),
+   case is_updating(S1) of 
+      true when UpdAnno == simple -> ?err('XUST0001'); 
+      true when UpdAnno == none, External == false -> ?err('XUST0001'); 
+      _ -> ok 
+   end,
    % ensure functions that return sequences are sequences
    St1 = case get_statement(S1) of
             L when is_list(L), length(L) > 1 ->
@@ -1781,8 +1962,13 @@ handle_node(State, #xqFlwor{} = FL) ->
                                       [Tuple]
                                 end,
                  NewState = handle_node(IState, X),
-                 St2 = get_statement(NewState),
-                 set_statement(NewState, OldStatement ++ [St2])
+                 case is_updating(NewState) of
+                    true ->
+                       ?err('XUST0001');
+                    _ ->
+                       St2 = get_statement(NewState),
+                       set_statement(NewState, OldStatement ++ [St2])
+                 end
            end,
          CtxItemType = State#state.context_item_type,
          StateEmpty0 = set_statement_and_type(State, undefined, undefined),
@@ -1801,7 +1987,8 @@ handle_node(State, #xqFlwor{} = FL) ->
                           _ ->
                              ReturnType1#xqSeqType{occur = zero_or_many}                       
                        end,
-         set_statement_and_type(State, 
+         IsUpd = is_updating(ReturnState),
+         set_statement_and_type(set_updating(State, IsUpd), 
                                 #xqFlwor{id = Id, 
                                          loop = get_statement(LoopState), 
                                          return = get_statement(ReturnState)}, 
@@ -1822,6 +2009,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    ForState = handle_node(StateC, Expr),
+   ?NO_UPD(ForState),
    % for loop type is one out of a sequence
    ForType = get_statement_type(ForState),
    OutType = if Type == undefined ->
@@ -1880,6 +2068,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    ErlVarName = local_variable_name(Id),
    ErlPosName = local_variable_name(Pid),
    ForState = handle_node(StateC, Expr),
+   ?NO_UPD(ForState),
    % for loop type is one out of a sequence   
    ForType = get_statement_type(ForState), 
    OutType = if Type == undefined ->
@@ -1924,6 +2113,7 @@ handle_node(State, {'let',#xqVar{id = Id,
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    LetState = handle_node(StateC, Expr),
+   ?NO_UPD(LetState),
    LetType = get_statement_type(LetState),
    OutType = if Type == undefined ->
                    LetType;
@@ -2092,7 +2282,7 @@ handle_node(State, #xqWindow{type = WindowType,
                   end,
    % window variable is only in scope at the end
    State1 = add_inscope_variable(EndState,  WinVar),
-
+   ?NO_UPD(State1),
    Output = #xqWindow{ type = WindowType,
                        win_variable = Node#xqVar{id = Id,
                                              name = WName,
@@ -2117,6 +2307,7 @@ handle_node(State, #xqWindow{type = WindowType,
 handle_node(State, {where, Id, Expr}) -> 
   %?dbg("where",{Id,Expr}),
    S1 = handle_node(State, Expr),
+   ?NO_UPD(S1),
    St = get_statement(S1),
    set_statement_and_type(State, {where, Id, St}, ?boolone);
   
@@ -2140,6 +2331,7 @@ handle_node(State, {group_by, Id, GExprs}) ->
    State1 = increase_occur_inscope_vars(State),
    
    S1 = handle_node(State1, GExprs),
+   ?NO_UPD(S1),
    St = get_statement(S1),
    set_statement(State1, {group_by, Id, St});
 handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{name = Name}, 
@@ -2193,7 +2385,9 @@ handle_node(State, #xqOrderSpec{expr = OExpr,
    Ok = lists:member(NewColl, Collations),
    if Ok ->
          NewMod = {modifier,Dir,{empty,NewEmptO},{collation,NewColl}},
-         SimOExpr = get_statement(handle_node(State, OExpr)),
+         OState = handle_node(State, OExpr),
+         ?NO_UPD(OState),
+         SimOExpr = get_statement(OState),
          set_statement(State, {order, {atomize, SimOExpr}, NewMod});
       true ->
          ?err('XQST0076')
@@ -2225,6 +2419,7 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
              E1 -> {error,E1}
           end,
    IfS1 = handle_node(State, If),
+   ?NO_UPD(IfS1),
    ThS1 = (catch handle_node(State, Then)),
    ElS1 = (catch handle_node(State, Else)),
    IfSt = get_statement(IfS1),
@@ -2235,7 +2430,8 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    #xqSeqType{occur = ElOc} = ElTy0 = get_statement_type(ElS1),
    ThCt = get_static_count(ThS1),
    ElCt = get_static_count(ElS1),
-   
+   Upd = is_updating(ThS1) == true orelse is_updating(ElS1) == true, 
+   State1 = set_updating(State, Upd),
    % see if a positional predicate is hiding here
    InPred = get_in_predicate(State),
    ThIsInt = (catch check_type_match(ThTy0, #xqSeqType{type = 'xs:integer', occur = one_or_many})),
@@ -2258,20 +2454,20 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    % is the if statement a boolean value?
    if IfSt == ?true ->
          set_static_count(
-           set_statement_and_type(State, ThSt, ThTy), ThCt);
+           set_statement_and_type(State1, ThSt, ThTy), ThCt);
       IfSt == ?false ->
          set_static_count(
-           set_statement_and_type(State, ElSt, ElTy), ElCt);
+           set_statement_and_type(State1, ElSt, ElTy), ElCt);
       true ->
          case IfSt of
             #xqAtomicValue{} -> % atomics can be checked now
                EBV = xqerl_operators:eff_bool_val(IfSt),
                if EBV == true ->
                   set_static_count(
-                    set_statement_and_type(State, ThSt, ThTy), ThCt);
+                    set_statement_and_type(State1, ThSt, ThTy), ThCt);
                   true ->
                   set_static_count(
-                    set_statement_and_type(State, ElSt, ElTy), ElCt)
+                    set_statement_and_type(State1, ElSt, ElTy), ElCt)
                end;
             _ ->
                %TODO static type feature here
@@ -2292,7 +2488,7 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
                                  undefined
                            end,
                set_static_count(
-                 set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, 
+                 set_statement_and_type(State1, {'if-then-else', IfSt, ThSt, ElSt}, 
                                         BothType), BothCount)
          end
    end;
@@ -2302,6 +2498,7 @@ handle_node(State, #xqSwitch{id      = _SwitchId,
                              clauses = Cases,
                              default = DefaultExpr}) -> 
    RState = handle_node(State, RootExpr),
+   ?NO_UPD(RState),
    RSt = get_statement(RState),
    StateC = set_in_constructor(State, false),
    CStates = lists:map(fun(#xqSwitchClause{operands = Matches,
@@ -2324,8 +2521,11 @@ handle_node(State, #xqSwitch{id      = _SwitchId,
    DSt = get_statement(DState),
    DSty = get_statement_type(DState),
    StatementType = get_list_type([CSty,DSty]),
+   Upd = lists:any(fun(S) ->
+                         is_updating(S)
+                   end, [DState|CStates]),
    % TODO change to xqSwitch record
-   set_statement_and_type(State, 
+   set_statement_and_type(set_updating(State, Upd), 
                           {'switch', RSt, [CSt, {'default', DSt}]}, 
                           StatementType);
 %% 3.16 Quantified Expressions
@@ -2358,10 +2558,11 @@ handle_node(State, #xqTryCatch{id = Id,
    AddlVar = list_to_atom("__AddlVar" ++ integer_to_list(Id)),
 
    TryState = (catch handle_node(State, Expr)),
+   TryUpd = is_updating(TryState),
    TrySt = get_statement(TryState),
    TryTy = get_statement_type(TryState),
    CatchFun = 
-     fun({Errors,DoExpr}, InType) ->
+     fun({Errors,DoExpr}, {InType, CatchUpd0}) ->
            % add the magic error variables
            Stat1 = add_inscope_variable(
                      State, 
@@ -2401,15 +2602,17 @@ handle_node(State, #xqTryCatch{id = Id,
            CatchSt = get_statement(CatchState),
            CatchTy = get_statement_type(CatchState),
            CombType = get_list_type([InType,CatchTy]),
+           CatchUpd1 = CatchUpd0 orelse is_updating(CatchState),
            ResErrors = 
              lists:map(fun(#xqNameTest{name = EName}) ->
                              #xqNameTest{name = resolve_qname(EName, State)}
                        end, Errors),
-           {{ResErrors, CatchSt}, CombType}
+           {{ResErrors, CatchSt}, {CombType, CatchUpd1}}
      end,   
-   {Statements, Type} = lists:mapfoldl(CatchFun, TryTy, CatchClauses),
-   set_statement_and_type(State, {'try', Id, TrySt, 
-                                  {'catch', Statements}}, Type);
+   {Statements, {Type, Upd}} = 
+      lists:mapfoldl(CatchFun, {TryTy, TryUpd}, CatchClauses),
+   set_statement_and_type(set_updating(State, Upd), 
+                          {'try', Id, TrySt, {'catch', Statements}}, Type);
 %% 3.18 Expressions on SequenceTypes
 %% 3.18.1 Instance Of
 handle_node(State, {instance_of, Expr1, Expr2}) ->
@@ -2440,11 +2643,14 @@ handle_node(State, #xqTypeswitch{input = RootExpr,
                                  cases = Cases,
                                  default = Default}) -> 
    S1 = handle_node(State, RootExpr),
+   ?NO_UPD(S1),
    St1 = get_statement(S1),
    S2 = handle_node(S1, Cases ++ [Default]),
    St2 = get_statement(S2),
    Sty = get_statement_type(S2),
-   set_statement_and_type(State, {'typeswitch', St1, St2}, Sty);
+   Upd = is_updating(S2),
+   State1 = set_updating(State, Upd),
+   set_statement_and_type(State1, {'typeswitch', St1, St2}, Sty);
 
 handle_node(State, #xqTypeswitchCase{types = default, variable = undefined, expr = Expr}) ->
    S1 = handle_node(State, Expr),
@@ -3138,15 +3344,21 @@ handle_node(State, {'function-call', #qname{namespace = undefined} = Name,
 
 % catch-all for all fx's
 handle_node(State, {'function-call', Name, Arity, Args}) ->
-   #xqFunction{params = Params, type = Type} = 
+   #xqFunction{params = Params, type = Type, annotations = Annos} = 
     F = get_static_function(State, {Name, Arity}),
+   UpdAnno = get_update_anno(Annos),
+   State1 = if UpdAnno == updating ->
+                  set_updating(State, true);
+               true ->
+                  State
+            end,
    StateC = set_in_constructor(State, false),
    SimpArgs = handle_list(StateC, Args),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
    NewArgs = lists:map(fun({S,_C}) ->
                            S
                        end, CheckArgs),
-   set_statement_and_type(State, 
+   set_statement_and_type(State1, 
                           {'function-call', 
                            F#xqFunction{params = NewArgs}}, Type);
 
@@ -3225,6 +3437,8 @@ handle_node(State, {'simple-map', SeqExpr, MapExpr}) ->
 %% 3.22 Extension Expressions
 handle_node(State, {pragma, Pragmas, Exprs}) -> 
    S1 = handle_node(State, Exprs),
+   Upd = is_updating(S1),
+   State1 = set_updating(State, Upd),
    St = get_statement(S1),
    Sty = get_statement_type(S1),
    % just resolve any names
@@ -3238,13 +3452,15 @@ handle_node(State, {pragma, Pragmas, Exprs}) ->
              end
        end,
    P = lists:filtermap(F, Pragmas),
-   set_statement_and_type(State, {pragma, P, St}, Sty);
+   set_statement_and_type(State1, {pragma, P, St}, Sty);
 
 handle_node(State, {'node-cons', Expr}) -> 
    ST = handle_node(State, Expr),
    S1 = get_statement(ST),
    ST1 = get_statement_type(ST),
-   set_statement_and_type(State, S1, ST1);
+   Upd = is_updating(ST),
+   State1 = set_updating(State, Upd),
+   set_statement_and_type(State1, S1, ST1);
 
 handle_node(State, {content_expr, Expr}) -> 
    ST = handle_node(State, Expr),
@@ -3729,7 +3945,8 @@ pro_glob_functions(Prolog, ModNs) ->
              % check reserved annotation NS 
              Af = fun(#annotation{name = 
                         #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
-                               local_name = L}}) when L == ?A("public");
+                               local_name = L}}) when L == ?A("updating");
+                                                      L == ?A("public");
                                                       L == ?A("private") ->
                        ok;
                     (#annotation{name = 
@@ -3840,6 +4057,7 @@ scan_setters(#state{tab = Tab} = State, SetList) ->
    CN = set_or_error('copy-namespaces', SetList, 
                      {preserve, 'no-inherit'}, 'XQST0055'),
    DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList),State),
+   RM = set_or_error('revalidation', SetList, lax, 'XUST0003'),
    ok = check_def_collation(State, DC),
    
    State#state{boundary_space = BS,
@@ -3849,7 +4067,8 @@ scan_setters(#state{tab = Tab} = State, SetList) ->
                order_mode = OM,
                empty_order = EO,
                copy_ns_mode = CN,
-               known_dec_formats = DF}.
+               known_dec_formats = DF,
+               revalidation = RM}.
 
 %% {Name, Type, Annos, function_name, Arity, [param_types] }
 scan_functions(Functions) ->
@@ -5211,6 +5430,35 @@ check_anon_fun_annos(Annotations) ->
          end, Annotations),
    ok.
 
+get_update_anno(Annos) ->
+   get_update_anno(Annos, []).
+
+get_update_anno([#annotation{
+                   name =
+                     #qname{namespace = ?A("http://www.w3.org/2012/xquery"), 
+                            local_name = ?A("simple")}}|T], []) ->
+   get_update_anno(T, simple);
+get_update_anno([#annotation{
+                   name = 
+                     #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                            local_name = ?A("simple")}}|_], _) ->
+   ?err('XUST0033');
+get_update_anno([#annotation{
+                   name = 
+                     #qname{namespace = ?A("http://www.w3.org/2012/xquery"), 
+                            local_name = ?A("updating")}}|T], []) ->
+   get_update_anno(T, updating);
+get_update_anno([#annotation{
+                   name = 
+                     #qname{namespace = ?A("http://www.w3.org/2012/xquery"), 
+                            local_name = ?A("updating")}}|_], _) ->
+   ?err('XUST0033');
+get_update_anno([_|T], A) ->
+   get_update_anno(T, A);
+get_update_anno([], []) -> none;
+get_update_anno([], A) -> A.
+   
+
 %% ====================================================================
 %% GETTER/SETTERS for static context information being passed around
 %% ====================================================================
@@ -5281,6 +5529,20 @@ get_static_count(#state{context = #context{static_count = StaticCount}}) ->
 get_static_count({'EXIT',_}) -> 
    0.
 
+set_updating(State, Upd) ->
+   Copy = is_updating(State) == copy,
+   if Copy ->
+         ok;
+      Upd ->
+         erlang:put(contains_updates, true);
+      true ->
+         ok
+   end,
+   State#state{is_updating = Upd}.
+
+is_updating({'EXIT', _}) -> false;
+is_updating(#state{is_updating = U}) -> U.
+
 set_in_constructor(#state{context = #context{} = Ctx} = State, InConstructor) ->
    NewCtx = Ctx#context{in_constructor = InConstructor},
    State#state{context = NewCtx}.
@@ -5317,8 +5579,13 @@ get_inscope_ns(#state{context = #context{inscope_ns = InscopeNs}}) ->
 
 global_variable_name(Name) ->
    variable_hash_name(Name).
+
 local_variable_name(Id) ->
    list_to_atom(lists:concat(["__XQ__var_", Id])).
+
+copy_variable_name(Id) ->
+   list_to_atom(lists:concat(["__Copy__var_", Id])).
+
 param_variable_name(Id) ->
    list_to_atom(lists:concat([param_prefix(), Id])).
 
@@ -5717,4 +5984,12 @@ resolve_kind_type(State, KType) ->
          end;
       T1 ->
          T1
-   end.   
+   end.
+
+get_contains_updates() ->
+   case erlang:get(contains_updates) of
+      undefined ->
+         false;
+      O ->
+         O
+   end.

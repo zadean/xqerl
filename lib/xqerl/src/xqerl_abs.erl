@@ -291,7 +291,8 @@ scan_mod(#xqModule{prolog = Prolog,
 
 scan_mod(#xqModule{prolog = Prolog, 
                    type = main, 
-                   body = Body}, #{file_name := FileName, tab := Tab} =  Map) ->
+                   body = Body}, #{file_name := FileName,
+                                   tab := Tab} =  Map) ->
    xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
@@ -797,14 +798,22 @@ body_function(ContextMap, Body,Prolog) ->
                     lists:reverse(maps:get(variables, ContextMap))),
    VarSetAbs = lists:flatten(VarSetAbs0),
    BodyAbs = expr_do(maps:put(ctx_var, LastCtx,ContextMap), Body),
+   HasUpd = maps:get(contains_updates, ContextMap),
    V1 = ?P("_@@VarSetAbs"),
-   M = ?P(["main(Options) ->",
-           " Ctx0 = xqerl_context:merge(init(), Options),",
-           " _@@ImportedVars,",
-           " _@@V1,",
-           "_@BodyAbs",
-           "."]),
-%%    ?dbg("M",M),
+   M = if HasUpd ->
+             ?P(["main(Options) ->",
+                 " PUL = xqerl_update:pending_update_list(erlang:self()),",
+                 " Ctx0 = xqerl_context:merge(init(), Options#{pul => PUL}),",
+                 " _@@ImportedVars,",
+                 " _@@V1,",
+                 "_@BodyAbs."]);
+          true ->
+             ?P(["main(Options) ->",
+                 " Ctx0 = xqerl_context:merge(init(), Options),",
+                 " _@@ImportedVars,",
+                 " _@@V1,",
+                 "_@BodyAbs."])
+       end,             
    [M].
 
 expression_body(ContextMap, Body, Prolog, Variables, Init) ->
@@ -1007,6 +1016,68 @@ export_atts([{F,A}|T]) ->
 
 param_types(Params) ->
    [ T || #xqVar{type = T} <- Params].
+
+
+expr_do(Ctx, {update, rename, Tgt, Src}) ->
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+   SrcAbs = expr_do(Ctx, Src),
+   Namespaces = abs_ns_list(Ctx),
+   TgtAbs = expr_do(Ctx, Tgt),
+   ?P(["begin ",
+       " xqerl_update:add(_@CtxVar, {rename, _@TgtAbs, ",
+       " xqerl_node:ensure_qname(_@SrcAbs, _@Namespaces)})  end"]);
+expr_do(Ctx, {update, InsertKind, Src, Tgt}) ->
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+   SrcAbs = expr_do(Ctx, Src),
+   TgtAbs = expr_do(Ctx, Tgt),
+   ?P("begin xqerl_update:add(_@CtxVar, {_@InsertKind@, _@SrcAbs, _@TgtAbs})  end");
+expr_do(Ctx, {update, delete, Tgt}) ->
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+   TgtAbs = expr_do(Ctx, Tgt),
+   ?P("begin xqerl_update:add(_@CtxVar, {delete, _@TgtAbs})  end");
+expr_do(Ctx, {update, modify, Id, VarsStmt, ExprStmt, ReturnStmt}) ->
+   %?dbg("VarsStmt",VarsStmt),
+   CtxNext = next_ctx_var_name(),
+   Ctx1 = set_context_variable_name(Ctx, CtxNext),
+   CtxVar1 = {var, ?L, CtxNext},
+   PFun = fun(#xqVar{id = ID, 
+                     name = #qname{} = Name,
+                     type = Type, 
+                     annotations = Annos,
+                     expr = VarEx}, Map) ->
+                VarExprAbs = expr_do(Map, VarEx),
+                VarName = copy_variable_name(ID),
+                %% {name,type,annos,Name}
+                NewMap = add_variable({Name,Type,Annos,VarName}, Map),
+                VarAbs = {var,?L,VarName},
+                {?P("_@VarAbs = xqerl_node:copy_node(_@VarExprAbs)"), NewMap}
+          end,
+   {CopySet,Ctx2} =  lists:mapfoldl(PFun, Ctx1, VarsStmt),
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+%return_part(Ctx,{Id, Expr},IsList)
+   ModifyMatch = [{var,?L,local_variable_name(ID)} 
+                 || #xqVar{id = ID} <- VarsStmt],
+   CopyMatch = [{var,?L,copy_variable_name(ID)} 
+                 || #xqVar{id = ID} <- VarsStmt],
+   ExprStmtAbs = expr_do(Ctx2, ExprStmt),
+   Pul = {var, ?L, list_to_atom("Pul__" ++ integer_to_list(Id))},
+   RetCtx = lists:foldl(fun(#xqVar{id = ID,
+                                   name = #qname{} = Name,
+                                   type = Type,
+                                   annotations = Annos}, C) ->
+                              VarName = local_variable_name(ID),
+                              add_variable({Name,Type,Annos,VarName}, C)
+                        end, Ctx, VarsStmt),
+   RetAbs = expr_do(RetCtx, ReturnStmt),
+   ?P(["begin",
+       " _@Pul = xqerl_update:pending_update_list(erlang:self()),",
+       " _@CtxVar1 = _@CtxVar#{pul => _@Pul},",
+       "_@CopySet,",
+       "_@ExprStmtAbs,",
+       " [_@@ModifyMatch] = xqerl_update:apply_local_updates(_@CtxVar1, _@Pul, [_@@CopyMatch]),",
+       " _@RetAbs",
+       "end"]);
+
 
 % cardinality ensure
 expr_do(Ctx, {ensure, #xqAtomicValue{} = Var, _}) ->
@@ -1852,6 +1923,7 @@ expr_do(Ctx, {'except', Expr1, Expr2}) ->
    ?P("xqerl_seq3:except(_@E1,_@E2)");
 
 expr_do(Ctx, #xqVarRef{name = Name}) ->
+   ?dbg("Loc",Name),
    {V,_} = get_variable_ref(Name, Ctx),
    V;
 
@@ -3433,6 +3505,9 @@ next_ctx_var_name() ->
 
 local_variable_name(Id) ->
   list_to_atom(lists:concat(["__XQ__var_", Id])).
+
+copy_variable_name(Id) ->
+   list_to_atom(lists:concat(["__Copy__var_", Id])).
 
 node_function_name(Id) ->
    list_to_atom(lists:concat(["node_cons__", Id])).

@@ -1036,23 +1036,29 @@ add_self_to_children(#{id := {Ref,_},
 % DB nodes
 add_self_to_children(#{id := {Ref,ParPos},
                        ns := Namespaces,
-                       ch := Children} = Obj) when is_binary(Ref) ->
-   case erlang:get({'$_db_node_children', Ref, ParPos}) of
-      undefined ->
+                       ch := [{I,B}|_] = Children} = Obj) 
+   when is_binary(Ref),
+        is_binary(B),
+        is_integer(I) ->
+   %case erlang:get({'$_db_node_children', Ref, ParPos}) of
+   %   undefined ->
          %?dbg("Building", {Ref,ParPos}),
          DB = get_db_from_uri(Ref),
          Vals = [merge_ns(build_db_node_1(Bin, ParPos, Id, DB),Namespaces) 
                 || {Id, Bin} <- Children],
-         erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
+   %      erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
          Obj#{ch := Vals};
-      Vals ->
-         Obj#{ch := Vals}
-   end;
+   %   Vals ->
+   %      Obj#{ch := Vals}
+   %end;
 add_self_to_children(#{id := {Ref,ParPos},
                        nk := Nk,
-                       ch := Children} = Obj) when is_binary(Ref) ->
-   case erlang:get({'$_db_node_children', Ref, ParPos}) of
-      undefined ->
+                       ch := [{I,B}|_] = Children} = Obj)
+   when is_binary(Ref),
+        is_binary(B),
+        is_integer(I) ->
+   %case erlang:get({'$_db_node_children', Ref, ParPos}) of
+   %   undefined ->
          %?dbg("Building", {Ref,ParPos}),
          DB = get_db_from_uri(Ref),
          Vals0 = [build_db_node_1(Bin, ParPos, Id, DB)
@@ -1062,11 +1068,11 @@ add_self_to_children(#{id := {Ref,ParPos},
                    true ->
                       Vals0
                 end,
-         erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
+   %      erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
          Obj#{ch := Vals};
-      Vals ->
-         Obj#{ch := Vals}
-   end;
+   %   Vals ->
+   %      Obj#{ch := Vals}
+   %end;
 
 add_self_to_children(Obj) -> Obj.
 

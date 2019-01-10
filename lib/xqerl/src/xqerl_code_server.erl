@@ -288,8 +288,10 @@ do_compile(Filename, Str, Hints) ->
    try
    %%%
       Toks = scan_tokens(Str),
+      %io:format("~p~n", [Toks]),
       _ = xqerl_context:init(parser),
       Tree = parse_tokens(Toks),
+      %io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
@@ -311,6 +313,7 @@ do_compile(Filename, Str, Hints) ->
                    function_sigs = patch(FunSigs,M),
                    variable_sigs = patch(VarSigs,M),
                    rest_xq = RestXQ},
+      code:purge(M),
       gen_server:call(?MODULE, {save_mod, Rec, B})
    catch 
       ?NOT_FOUND(V) = Error ->
@@ -388,6 +391,7 @@ scan_tree(Tree) ->
       _:E:StackTrace ->
          ?dbg("scan_tree",E),
          ?dbg("scan_tree",StackTrace),
+         io:format("~p~n",[StackTrace]),
          xqerl_error:error('XPST0003')
    end.
 

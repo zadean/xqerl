@@ -118,6 +118,14 @@ assert_type(Result, TypeString) ->
 assert_xml(Result, {file, FileLoc}) ->
    {ok,FileBin} = file:read_file(FileLoc),
    assert_xml(Result, normalize_lines(FileBin, <<>>));
+assert_xml(Result, {doc_file, FileLoc}) ->
+   {ok,FileBin} = file:read_file(FileLoc),
+   Norm = normalize_lines(FileBin, <<>>),
+   Doc = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>},
+                              #xqAtomicValue{type = 'xs:string', 
+                              value = Norm}),
+   Norm1 = xqerl_node:to_xml(Doc),   
+   assert_xml(Result, Norm1);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
    assert_xml(Result, unicode:characters_to_binary(QueryString));
 assert_xml(#xqError{} = Err, QueryString) ->
@@ -136,16 +144,18 @@ assert_xml(Result, QueryString0) ->
             ResXml2 = xqerl_fn:'parse-xml-fragment'(
                         #{'base-uri' => <<>>}, 
                         #xqAtomicValue{type = 'xs:string', 
-                                       value = <<"<x>",ResXml/binary,"</x>">>}),
+                                       value = ResXml}),
+                                       %value = <<"<x>",ResXml/binary,"</x>">>}),
             %?dbg("ResXml2",ResXml2),
             QueryString2 =
               case catch xqerl_fn:'parse-xml-fragment'(
                              #{'base-uri' => <<>>}, 
                              #xqAtomicValue{type = 'xs:string', 
-                                            value = <<"<x>",QueryString/binary,"</x>">>})
+                                            value = QueryString})
+                                            %value = <<"<x>",QueryString/binary,"</x>">>})
                  of
                  {'EXIT',#xqError{}} ->
-                    Mod = xqerl_code_server:compile("xqerl_main", unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
+                    Mod = xqerl_code_server:compile("xqerl_main", unicode:characters_to_list(<<"document{ ",QueryString/binary," }">>)),
                     R = Mod:main(#{}),
                     ?dbg("fallback to run",R),
                     R;

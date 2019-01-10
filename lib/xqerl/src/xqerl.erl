@@ -45,6 +45,7 @@ run(Mod, Options) when is_atom(Mod) ->
    catch
       _:#xqError{} = E:S ->
          ?dbg("run",E),
+         ?dbg("run",S),
          E#xqError{additional = xqerl_lib:format_stacktrace(S)};
       _:E:S ->
          ?dbg("run",E),

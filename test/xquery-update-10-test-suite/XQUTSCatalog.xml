@@ -548,7 +548,7 @@
                   section-title="Function Declaration" section-pointer="id-function-declaration"/>
                <state time="0">
                   <query name="id-function-declaration-017" date="2009-05-30"/>
-                  <output-file role="principal" compare="Fragment"
+                  <output-file role="principal" compare="XML"
                      >id-function-declaration-017.xml</output-file>
                </state>
             </test-case>
@@ -3920,7 +3920,7 @@
                   <expected-error>XQDY0074</expected-error>
                </state>
             </test-case>
-            <test-case name="id-rename-expr-021" FilePath="RenameExpressions/" scenario="standard"
+            <test-case name="id-rename-expr-021" FilePath="RenameExpressions/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Rename a document node.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.4" section-title="Rename"
@@ -3931,7 +3931,7 @@
                   <expected-error>XUTY0012</expected-error>
                </state>
             </test-case>
-            <test-case name="id-rename-expr-022" FilePath="RenameExpressions/" scenario="standard"
+            <test-case name="id-rename-expr-022" FilePath="RenameExpressions/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Rename a text node.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.4" section-title="Rename"
@@ -4712,7 +4712,7 @@
                </state>
             </test-case>
             <test-case name="id-transform-expr-032" FilePath="TransformExpressions/"
-               scenario="standard" Creator="Andrew Eisenberg">
+               scenario="runtime-error" Creator="Andrew Eisenberg">
                <description>Transform with copy binding to an empty sequence.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.5" section-title="Transform"
                   section-pointer="id-transform"/>
@@ -5811,7 +5811,7 @@
                   <output-file role="principal" compare="XML">id-flwor-expr-023.xml</output-file>
                </state>
             </test-case>
-            <test-case name="id-flwor-expr-024" FilePath="FLWORExpression/" scenario="standard"
+            <test-case name="id-flwor-expr-024" FilePath="FLWORExpression/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>For clause that contains a for expression with a updating return
                   clause.</description>
@@ -6517,7 +6517,7 @@
                </state>
             </test-case>
             <test-case name="id-typeswitch-expr-038" FilePath="TypeswitchExpression/"
-               scenario="standard" Creator="Andrew Eisenberg">
+               scenario="runtime-error" Creator="Andrew Eisenberg">
                <description>Simple typeswitch expression in an updating typeswitch
                   expression.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.3" section-title="Replace"
@@ -7221,7 +7221,7 @@
                </state>
             </test-case>
             <test-case name="id-conditional-expr-038" FilePath="ConditionalExpression/"
-               scenario="standard" Creator="Andrew Eisenberg">
+               scenario="runtime-error" Creator="Andrew Eisenberg">
                <description>Simple conditional expression in a conditional expression.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.3.2"
                   section-title="Replacing the Value of a Node"
@@ -7898,7 +7898,7 @@
                   <output-file role="principal" compare="XML">id-comma-expr-037.xml</output-file>
                </state>
             </test-case>
-            <test-case name="id-comma-expr-038" FilePath="CommaExpression/" scenario="standard"
+            <test-case name="id-comma-expr-038" FilePath="CommaExpression/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Simple comma expression in a conditional expression.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.3.2"
@@ -7931,7 +7931,7 @@
                </state>
             </test-case>
             <test-case name="parenthesized-expr-02" FilePath="ParenthesizedExpressions/"
-               scenario="standard" Creator="Andrew Eisenberg">
+               scenario="runtime-error" Creator="Andrew Eisenberg">
                <description>Parenthesized updating expression.</description>
                <spec-citation spec="XQUPDATE" section-number="2.4.2" section-title="Delete"
                   section-pointer="id-delete"/>
@@ -9585,7 +9585,7 @@
                   </state>
                </test-case>
                <test-case name="applyUpdates-023" FilePath="UpdateRoutines/applyUpdates/"
-                  scenario="standard" Creator="Michael Kay">
+                  scenario="runtime-error" Creator="Michael Kay">
                   <description>Insert two attributes with the same name and delete the containing
                      element.</description>
                   <spec-citation spec="XQUPDATE" section-number="3.2.2"
@@ -9598,7 +9598,7 @@
                   </state>
                </test-case>
                <test-case name="applyUpdates-024" FilePath="UpdateRoutines/applyUpdates/"
-                  scenario="standard" Creator="Michael Kay">
+                  scenario="runtime-error" Creator="Michael Kay">
                   <description>Insert two attributes with the same name and delete the containing
                      element's parent.</description>
                   <spec-citation spec="XQUPDATE" section-number="3.2.2"
@@ -10859,7 +10859,7 @@
                </depends-on>
             </GroupInfo>
             <test-case name="revalidation-declaration-01-fail"
-               FilePath="Prolog/RevalidationDeclaration/" scenario="standard"
+               FilePath="Prolog/RevalidationDeclaration/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>One declare validation specifying strict</description>
                <spec-citation spec="XQUPDATE" section-number="2.2.1"
@@ -11149,7 +11149,7 @@
                </depends-on>
             </GroupInfo>
             <test-case name="revalidation-declaration-03-fail"
-               FilePath="Prolog/RevalidationDeclaration/" scenario="standard"
+               FilePath="Prolog/RevalidationDeclaration/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>One declare validation specifying lax</description>
                <spec-citation spec="XQUPDATE" section-number="2.2.1"
@@ -11200,6 +11200,7 @@
                   <expected-error>XUST0003</expected-error>
                </state>
             </test-case>
+            <!-- 
             <test-case name="removeType-valskip-ins-001" FilePath="ValSkip/" scenario="standard"
                Creator="Saxonica">
                <description>insert before removes type from ancestors</description>
@@ -11724,7 +11725,7 @@
                   <output-file role="principal" compare="Fragment"
                      >valskip-repnode-006.out</output-file>
                </state>
-            </test-case>
+            </test-case> -->
          </test-group>
          <test-group name="Revalidation Declaration Skip Unsupported">
             <GroupInfo>
@@ -11740,7 +11741,7 @@
                </depends-on>
             </GroupInfo>
             <test-case name="revalidation-declaration-05-fail"
-               FilePath="Prolog/RevalidationDeclaration/" scenario="standard"
+               FilePath="Prolog/RevalidationDeclaration/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>One declare validation specifying skip</description>
                <spec-citation spec="XQUPDATE" section-number="2.2.1"
@@ -12461,6 +12462,11 @@
                   <query name="fn-put-003" date="2008-11-05"/>
                   <input-URI role="principal-data" variable="input-URI">putOutput</input-URI>
                </state>
+               <state time="1">
+                  <query name="fn-put-003-test" date="2019-01-11"/>
+                  <input-URI role="principal-data" variable="input-URI">putOutput</input-URI>
+                  <output-file role="principal" compare="XML">fn-put-003.xml</output-file>
+               </state>
             </test-case>
          </test-group>
          <test-group name="put-comment-fail">
@@ -12511,6 +12517,11 @@
                   <query name="fn-put-004" date="2008-11-05"/>
                   <input-URI role="principal-data" variable="input-URI">putOutput</input-URI>
                </state>
+               <state time="1">
+                  <query name="fn-put-004-test" date="2019-01-11"/>
+                  <input-URI role="principal-data" variable="input-URI">putOutput</input-URI>
+                  <output-file role="principal" compare="XML">fn-put-004.xml</output-file>
+               </state>
             </test-case>
          </test-group>
          <test-group name="put-PI-fail">
@@ -12526,7 +12537,7 @@
                      section-pointer="id-func-put"/>
                </depends-on>
             </GroupInfo>
-            <test-case name="fn-put-004-fail" FilePath="Put/" scenario="standard"
+            <test-case name="fn-put-004-fail" FilePath="Put/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Store a PI.</description>
                <spec-citation spec="XQUPDATE" section-number="2.6.1" section-title="fn:put"
@@ -12577,7 +12588,7 @@
                      section-pointer="id-func-put"/>
                </depends-on>
             </GroupInfo>
-            <test-case name="fn-put-005-fail" FilePath="Put/" scenario="standard"
+            <test-case name="fn-put-005-fail" FilePath="Put/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Store an attribute.</description>
                <spec-citation spec="XQUPDATE" section-number="2.6.1" section-title="fn:put"
@@ -12627,7 +12638,7 @@
                      section-pointer="id-func-put"/>
                </depends-on>
             </GroupInfo>
-            <test-case name="fn-put-006-fail" FilePath="Put/" scenario="standard"
+            <test-case name="fn-put-006-fail" FilePath="Put/" scenario="runtime-error"
                Creator="Andrew Eisenberg">
                <description>Store a text node.</description>
                <spec-citation spec="XQUPDATE" section-number="2.6.1" section-title="fn:put"
@@ -12867,7 +12878,7 @@
             <description/>
          </GroupInfo>
          <test-case name="address-book-q1" FilePath="UseCases/AddressBookUpdates/"
-            scenario="standard" Creator="Update Task Force">
+            scenario="runtime-error" Creator="Update Task Force">
             <description>Address Book Use case # 1</description>
             <spec-citation spec="XQUPDATE" section-number="1.2.2" section-title="Q1"
                section-pointer="addrbook-q1"/>

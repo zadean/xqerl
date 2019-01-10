@@ -37,7 +37,8 @@
 -export([exists_doc/1,
          select_doc/1,
          insert_doc/2,
-         delete_doc/1]).
+         delete_doc/1,
+         select_node_root/2]).
 
 %% JSON
 -export([exists_json_doc/1,
@@ -96,6 +97,20 @@ delete_collection(Uri) ->
         end || DB <- DBs],
    ok.
    
+
+select_node_root(DbUri, Pos) ->
+   case xqldb_db:exists(DbUri) of
+      false -> [];
+      true ->
+         DB = xqldb_db:database(DbUri),
+         case xqldb_path_table:lookup_record(?PATH_TABLE_P(DB), {Pos, xml}) of
+            [{U,{xml,R,_}}] ->
+               {U,R};
+            O ->
+               ?dbg("O",O),
+               []
+         end
+   end.
 
 exists_doc(DocUri) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),

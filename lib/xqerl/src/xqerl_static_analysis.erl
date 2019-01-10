@@ -79,6 +79,36 @@ analyze(Body, Functions, Variables) ->
 %%    x(G, Map, K, Expr),
 %%    Map;
 
+x(G, Map, Parent,{update, modify, Id, Vars, Expr, Return}) ->
+   K = {Id, modify},
+   add_vertex(G, K),
+   add_edge(G,K,Parent),
+   LM = lists:foldl(fun(E,M) ->
+                        x(G, M, Parent, E)
+                    end, Map, Vars),
+   x(G, LM, K, Expr),
+   x(G, LM, K, Return);
+x(G, Map, Parent, {update, Id,_,A,B,C}) ->
+   K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, K),
+   add_edge(G,K,Parent),
+   x(G, Map, K, A),
+   x(G, Map, K, B),
+   x(G, Map, K, C),
+   Map;
+x(G, Map, Parent, {update, Id,_,A,B}) ->
+   K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, K),
+   add_edge(G,K,Parent),
+   x(G, Map, K, A),
+   x(G, Map, K, B),
+   Map;
+x(G, Map, Parent, {update, Id,_,A}) ->
+   K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, K),
+   add_edge(G,K,Parent),
+   x(G, Map, K, A),
+   Map;
 x(G, Map, Parent,{where,Id,Expr} ) ->
    K = {Id,where},
    add_vertex(G, K),

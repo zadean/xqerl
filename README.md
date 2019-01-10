@@ -4,7 +4,7 @@ Erlang XQuery 3.1 Processor and XML Database
 
 This is a currently a draft/proof-of-concept. If you use it, don't use it for mission critical data!
 
-It is passing 99.8% of 29,142 test cases (49 failures mainly to being a compiled language and not interpreted). 1,752 cases are skipped due to functions or features that are optional and not implemented. 
+It is passing 99.8% of 29,142 test cases (49 failures mainly to being a compiled language and not interpreted at runtime). 1,752 cases are skipped due to functions or features that are optional and not implemented. 
 
 
 ##### New to Erlang?
@@ -14,10 +14,10 @@ It is passing 99.8% of 29,142 test cases (49 failures mainly to being a compiled
 * Module Feature
 * Serialization Feature
 * Higher-Order Function Feature
+* XQuery Update Facility 3.0
 
-### Features it does not have, but might later:
+### Features it does not have:
 
-* XQuery Update Facility
 * Schema Aware & Typed Data Features
 * Static Typing Feature
 
@@ -58,13 +58,9 @@ Yes, please. I've been doing it alone, so any help is much appreciated.
 
 A query-rewrite phase is missing. A cost-based implementation that can be run at the database level should be added. 
 
-RestXQ is not yet implemented. Once it is, xqerl will most-likely only use a REST API. 
-
-Static module information is saved in mnesia. This could be put into a gen_server as mnesia is a bit of overkill.
-
 Serialization is not implemented 100%. Most cases should work, but some will not work properly. 
 
 Database processes should close their files and hibernate after a timeout period.
 
-... and most likely many more things ...
+... and most likely more things ...
 

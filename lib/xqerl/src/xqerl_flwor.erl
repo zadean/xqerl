@@ -884,7 +884,7 @@ maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_lift_nested_for_clause(#xqFlwor{loop = Clauses} = FL, G) ->
    F = fun({'let', #xqVar{name = N,
-                          expr = #xqFlwor{loop = [{'for',_,_}|T]} = Fl1} = V,
+                          expr = #xqFlwor{loop = [{'for',_,_}|_]} = Fl1} = V,
             AType} = L1, _) ->
              case maybe_split_for(Fl1, G) of
                 {true, NewFl} ->
@@ -1294,11 +1294,14 @@ relies_on([], That, G) -> % replied upon by something
          _ ->
             [vertex_name(That)]
       end,
+   Upd = updating(Vn, G),
+   %?dbg("Upd",Upd),
    Rg = [R || 
          R <- digraph_utils:reachable(Vn, G),
          %ok == ?dbg("R",{R,Vn,digraph_utils:reaching(Vn, G)}),
          is_tuple(R),
-         not lists:member(R, Vn) ],
+         not lists:member(R, Vn) orelse Upd ],
+   %?dbg("Rg", Rg),
    Rg;
 relies_on(This, That, G) -> % this relies on that
    Cn = vertex_name(This),
@@ -1323,6 +1326,10 @@ relies_on_for_no_pos(This, {'for',#xqVar{},_} = That, G) -> % this relies on tha
          R <- digraph_utils:reaching([Cn], G),
          lists:member(R, Vn) ],
    Rg =/= [].  
+
+updating(Vs, G) ->
+   [ok || {_,update} <- digraph_utils:reaching(Vs, G)] =/= [].
+
 
 from_pos_list(PList) ->
    [V || {_,V} <- PList].

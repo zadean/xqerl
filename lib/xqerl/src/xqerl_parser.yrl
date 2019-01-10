@@ -68,6 +68,10 @@ Nonterminals
 'UnionExpr' 'UnionExprs' 'UnorderedExpr' 'ValueComp' 'ValueExpr' 'VarDecl' 
 'VarName' 'VarRef' 'VersionDecl' 'WhereClause' 'Wildcard'
 %
+'CopyBindingList' 'CopyBinding'
+'RevalidationDecl' 'InsertExpr' 'DeleteExpr' 'ReplaceExpr' 'RenameExpr'
+'UpdatingFunctionCall' 'CopyModifyExpr' 'InsertExprTargetChoice'
+'TransformWithExpr'
 .
 
 Terminals 
@@ -96,6 +100,10 @@ Terminals
 %
 'schema' 'schema-attribute' 'schema-element' 
 'lax' 'strict' 'validate' 
+% Update Facility
+'updating' 'skip' 'revalidation' 'after' 'before' 'into' 'first' 'last' 'nodes'
+'insert' 'delete' 'with' 'value' 'replace' 'rename' 'invoke' 'modify' 'copy'
+'transform'
 
 % ADDED
 'quot' 'apos'
@@ -197,6 +205,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'Setter'                 -> 'EmptyOrderDecl'       : {set, '$1'}.
 'Setter'                 -> 'CopyNamespacesDecl'   : {set, '$1'}.
 'Setter'                 -> 'DecimalFormatDecl'    : {set, '$1'}.
+'Setter'                 -> 'RevalidationDecl'    : {set, '$1'}.
 
 'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'preserve' : {'boundary-space', 'preserve'}.
 'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'strip'    : {'boundary-space', 'strip'}.
@@ -224,6 +233,10 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 
 'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : {'decimal-format', qname(other,'$3'), '$4'}.
 'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : {'decimal-format', <<>>, '$4'}.
+
+'RevalidationDecl'       -> 'declare' 'revalidation' 'strict' : ?err('XUST0026'). %{'revalidation', 'strict'}.
+'RevalidationDecl'       -> 'declare' 'revalidation' 'lax' : ?err('XUST0026'). %{'revalidation', 'lax'}.
+'RevalidationDecl'       -> 'declare' 'revalidation' 'skip' : {'revalidation', 'skip'}.
 
 'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral'  : [{'$1', bin_value_of('$3')}].
 'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral' 'DFPropertyNameList' : [{'$1', bin_value_of('$3')}|'$4'].
@@ -311,7 +324,9 @@ end.
 'AnnotatedDecl'          -> 'declare' 'FunctionDecl'                  : '$2'.
  
 'AnnotationList'         -> 'Annotation' 'AnnotationList' : ['$1' | '$2'].
+'AnnotationList'         -> 'updating'   'AnnotationList' : [#annotation{name = {qname,<<"http://www.w3.org/2012/xquery">>,<<>>,<<"updating">>}, values = []} | '$2'].
 'AnnotationList'         -> 'Annotation' : ['$1'].
+'AnnotationList'         -> 'updating' : [#annotation{name = {qname,<<"http://www.w3.org/2012/xquery">>,<<>>,<<"updating">>}, values = []}].
 
 'LiteralList'            -> 'Literal' ',' 'LiteralList' : ['$1' | '$3'].
 'LiteralList'            -> 'Literal' : ['$1'].
@@ -370,7 +385,49 @@ end.
 'ExprSingle'             -> 'TypeswitchExpr' : '$1'.
 'ExprSingle'             -> 'IfExpr' : '$1'.
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
+'ExprSingle'             -> 'InsertExpr' : '$1'.
+'ExprSingle'             -> 'DeleteExpr' : '$1'.
+'ExprSingle'             -> 'RenameExpr' : '$1'.
+'ExprSingle'             -> 'ReplaceExpr' : '$1'.
+'ExprSingle'             -> 'UpdatingFunctionCall' : '$1'.
+'ExprSingle'             -> 'CopyModifyExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
+
+% [199]
+'InsertExprTargetChoice' -> 'after' : 'after'.
+'InsertExprTargetChoice' -> 'before' : 'before'.
+'InsertExprTargetChoice' -> 'as' 'first' 'into' : 'into_first'.
+'InsertExprTargetChoice' -> 'as' 'last' 'into' : 'into_last'.
+'InsertExprTargetChoice' -> 'into' : 'into'.
+  
+% [200]
+'InsertExpr' -> 'insert' 'node' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : {update, next_id(), '$4', '$3', '$5'}.
+'InsertExpr' -> 'insert' 'nodes' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : {update, next_id(), '$4', '$3', '$5'}.
+
+% [201]
+'DeleteExpr' -> 'delete' 'node'  'ExprSingle' : {update, next_id(), delete, '$3'}.
+'DeleteExpr' -> 'delete' 'nodes' 'ExprSingle' : {update, next_id(), delete, '$3'}.
+
+% [202]
+'ReplaceExpr' -> 'replace' 'value' 'of' 'node' 'ExprSingle' 'with' 'ExprSingle' : {update, next_id(), replace_value, '$5', '$7'}.
+'ReplaceExpr' -> 'replace' 'node' 'ExprSingle' 'with' 'ExprSingle' : {update, next_id(), replace, '$3', '$5'}.
+
+% [203]
+'RenameExpr' -> 'rename' 'node' 'ExprSingle' 'as' 'ExprSingle' : {update, next_id(), rename, '$3', '$5'}.
+
+% [207]
+'UpdatingFunctionCall' -> 'invoke' 'updating' 'PrimaryExpr' 'ArgumentList' : {'updating-function-call', '$3', length('$4'), '$4'}.
+
+% [208]
+'CopyModifyExpr' -> 'copy' 'CopyBindingList' 'modify' 'ExprSingle' 'return' 'ExprSingle' :
+   {update, modify, next_id(), '$2', '$4', '$6'}.
+
+'CopyBindingList' -> 'CopyBinding' ',' 'CopyBindingList' : ['$1'|'$3'].
+'CopyBindingList' -> 'CopyBinding' : ['$1'].
+
+'CopyBinding' -> '$' 'VarName' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'expr' = '$4', anno = line('$1')}.
+  
+
 % [41]
 'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = element(2, '$3'), anno = element(1, '$3')}.
 'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = element(2, '$2'), anno = element(1, '$2')}.
@@ -708,8 +765,24 @@ end.
                                                                                           _ ->
                                                                                              {'postfix', next_id(), '$3',[{arguments,['$1'|'$4']}] }
                                                                                        end.
-'ArrowExpr'              -> 'UnaryExpr' : '$1'.
+'ArrowExpr'              -> 'TransformWithExpr' : '$1'.
 
+% [97] UPD TransformWithExpr     ::=      UnaryExpr ( "transform" "with" "{" Expr? "}" )?
+'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' '}' : 
+   Id = next_id(),
+   B = list_to_binary(["~", integer_to_list(Id)]),
+   Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
+   {update, modify, [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+      #xqVarRef{name = Nm}, 
+      #xqVarRef{name = Nm}}.
+'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' 'Expr' '}' :
+   Id = next_id(),
+   B = list_to_binary(["~", integer_to_list(Id)]),
+   Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
+   {update, modify, [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+      {'simple-map', #xqVarRef{name = Nm}, '$5'}, 
+      #xqVarRef{name = Nm}}.
+'TransformWithExpr' -> 'UnaryExpr' : '$1'.
 
 % [97]     UnaryExpr      ::=      ("-" | "+")* ValueExpr  
 'UnaryExpr'              -> 'uminus' : '$1'.

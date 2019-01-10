@@ -508,8 +508,11 @@
  {'years-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("zero-or-one")},{xqSeqType, item, zero_or_one}, [], 
  {'zero-or-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{{qname, ?A("http://www.w3.org/2012/xquery"), [],?A("updating")},[]}}],
- {'put', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined}, one},{xqSeqType, 'xs:string', one}]}]).
+{{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
+ {'put', 3}, 2,[{xqSeqType, item, one},{xqSeqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
+ {'put', 4}, 3,[{xqSeqType, item, one},{xqSeqType, 'xs:string', one},{xqSeqType, item, zero_or_one}]}
+]).
 
 %% ====================================================================
 %% API functions
@@ -669,7 +672,7 @@
 -export(['year-from-dateTime'/2]).
 -export(['years-from-duration'/2]).
 -export(['zero-or-one'/2]).
--export(['put'/3]).
+-export(['put'/3,'put'/4]).
 
 
 %% Returns the absolute value of $arg. 
@@ -5255,5 +5258,29 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 %% The intent is that, if fn:put is invoked on a document node and no error is 
 %% raised, a subsequent 
 %% query can access the stored document by invoking fn:doc with the same URI. 
-'put'(_Ctx,_Arg1,_Arg2) -> exit({not_implemented,?LINE}).
-
+'put'(Ctx, Arg1, Arg2) ->
+   'put'(Ctx, Arg1, Arg2, []).
+'put'(Ctx, [Node0], Uri0, Opts0) -> 'put'(Ctx, Node0, Uri0, Opts0);
+'put'(#{'base-uri' := BaseUri0} = Ctx, Node0, Uri0, Opts0) -> 
+   ok = case xqldb_mem_nodes:node_kind(Node0) of
+           document -> ok;
+           element -> ok;
+           %comment -> ok;
+           %'processing-instruction' -> ok;
+           _ ->
+              ?err('FOUP0001')
+        end,
+   Uri = xqerl_types:value(Uri0),
+   BaseUri = xqerl_types:value(BaseUri0),
+   try 
+      xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
+   of
+      AbsUri ->
+         Nss = maps:get(namespaces, Ctx, []),
+         Opts = xqerl_options:serialization_option_map(Opts0, Nss),
+         _ = xqerl_update:add(Ctx, {put, Node0, AbsUri, Opts}),
+         []
+   catch
+      _:_ ->
+         ?err('FOUP0002')
+   end.

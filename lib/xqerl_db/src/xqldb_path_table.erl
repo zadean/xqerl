@@ -43,6 +43,7 @@
          stop/1,
          insert/2,
          lookup/2,
+         lookup_record/2,
          all/1,
          delete/2,
          delete_all/1]).
@@ -79,6 +80,8 @@ insert(Pid, {_,_,_,_} = Value) when is_pid(Pid) ->
 %% Delete all values with Name
 -spec delete(server(), {Name :: binary(), Type :: res_type()}) -> ok.
 
+delete(Pid, {_,_,_} = Req) when is_pid(Pid) ->
+   gen_server:call(Pid, {delete, Req});
 delete(Pid, {_,_} = Req) when is_pid(Pid) ->
    gen_server:call(Pid, {delete, Req}).
 
@@ -89,11 +92,20 @@ delete(Pid, {_,_} = Req) when is_pid(Pid) ->
 lookup(Pid, {_,_} = Req) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Req}).
 
+%% Returns [{Name, Type, Pos, Size}] values for the given Name and Type.
+-spec lookup_record(server(), {NPos :: non_neg_integer(), 
+                               Type :: res_type() | res_or_link}) -> 
+         [{Name :: binary(), Type :: res_type() | res_or_link, 
+           Pos :: non_neg_integer(), Size :: non_neg_integer()}].
+
+lookup_record(Pid, PosType) when is_pid(Pid) ->
+   gen_server:call(Pid, {lookup, PosType}).
+
 %% Returns all names in the table.
 -spec all(server()) -> [{Name :: binary(), 
-                        Type :: res_type(),
-                        Pos :: non_neg_integer(), 
-                        Size :: non_neg_integer()}].
+                         Type :: res_type(),
+                         Pos :: non_neg_integer(), 
+                         Size :: non_neg_integer()}].
 
 all(Pid) when is_pid(Pid) ->
    gen_server:call(Pid, all).
@@ -168,10 +180,20 @@ handle_call({delete, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
    Pattern = {Name, {Type, '_', '_'}},
    ok = dets:match_delete(HeapFile, Pattern),
    {reply, ok, State};
+handle_call({delete, {Name, Type, Pos}}, _From, #{tab  := HeapFile} = State) ->
+   Pattern = {Name, {Type, Pos, '_'}},
+   ok = dets:match_delete(HeapFile, Pattern),
+   {reply, ok, State};
 
 handle_call({lookup, {Name, res_or_link}}, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{Name,{'$1','$2','$3'}},[{'=:=','$1',res}],[{{'$2','$3'}}]},
                 {{Name,{'$1','$2','$3'}},[{'=:=','$1',link}],[{{'$2','$3'}}]}],
+   Got = dets:select(HeapFile, MatchSpec),
+   {reply, lists:flatten(Got), State};
+handle_call({lookup, {Pos, Type}}, _From, #{tab  := HeapFile} = State) 
+  when is_integer(Pos) ->
+   MatchSpec = [{{'$1',{Type,'$2','$3'}}, 
+                 [{'>=',Pos,'$2'},{'=<',Pos,{'+','$3','$2'}}],['$_']}],
    Got = dets:select(HeapFile, MatchSpec),
    {reply, lists:flatten(Got), State};
 handle_call({lookup, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
