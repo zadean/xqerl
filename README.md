@@ -27,13 +27,13 @@ There is no cool GUI or web interface. If you need that, you may want to try out
 
 The main idea with xqerl is to take XQuery code that works in other processors and turn that into scalable, concurrent Erlang applications.
 
-xqerl compiles all code before use. That is, it does not compile on-the-fly. To compile an XQuery module from file, use: `xqerl_module:compile(FileName)`.
-The value returned from the `xqerl_module:compile(FileName)` call is an atom with the name of the module. This atom is the Erlang module name, and can be used to call Main modules. For example:
+xqerl compiles all code before use. That is, it does not compile on-the-fly. To compile an XQuery module from file, use: `xqerl:compile(FileName)`.
+The value returned from the `xqerl:compile(FileName)` call is an atom with the name of the module. This atom is the Erlang module name, and can be used to call Main modules. For example:
 
 ```erlang
 (xqerl_node@127.0.0.1)1> M = xqerl_module:compile("/home/coolperson/coolModule.xq").
 file____home_coolperson_coolModule_xq
-(xqerl_node@127.0.0.1)2> M:main(#{}). % or optionally file____home_coolperson_coolModule_xq:main(#{}).
+(xqerl_node@127.0.0.1)2> xqerl:run(M, #{}). 
 ```
 
 The map parameter is the context item given to the query. This is where external variable values and the context-item can be set.
@@ -48,7 +48,10 @@ To load data into the database use the `xqldb_dml:insert_doc(DocUri, Filename)` 
 Deleting data is done with function `xqldb_dml:delete_doc(DocUri)`.
 
 ### Building
-rebar3 is currently the best way to build xqerl from source. In the future, release packages will be bundled for easy installation.
+rebar3 is currently the best way to build xqerl (and its dependencies) from source. In the future, release packages will be bundled for easy installation.
+
+### Running tests
+`rebar3 ct`
 
 ### Contributing
 Yes, please. I've been doing it alone, so any help is much appreciated.
