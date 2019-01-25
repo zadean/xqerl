@@ -1,4 +1,4 @@
-
+![Logo](./doc/img/logo_m.png "xqerl")
 # xqerl
 Erlang XQuery 3.1 Processor and XML Database
 
