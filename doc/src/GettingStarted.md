@@ -56,20 +56,15 @@ You'll see a few warnings about unused variables. (I'm working on it!!)
 
 ## Step 4. Start it
 
-*All the steps here will use "erl", but on Windows, "werl" can be used instead.*
-Start xqerl
-
 From the console that just compiled everything run:
 
- `erl -mnesia dir '"_build/default/lib/xqerl/data/xqerl_node"' +pc unicode -pa _build/default/lib/xqerl/ebin -pa _build/default/lib/xqerl_db/ebin -setcookie xqerl -sname xqerl_node`
+ `rebar3 shell`
 
 Initialize everything
 
 From the erlang shell, run the following:
 
 ```erlang
-(xqerl_node@some_machine)1> xqerl_db:install([node()]).
-(xqerl_node@some_machine)2> xqerl_module:one_time_init().
 (xqerl_node@some_machine)3> application:ensure_all_started(xqerl). 
 ```
 
@@ -77,20 +72,6 @@ This will initialize the database and also start the code server.
 
 ## Step 5. Start using it
 
-##### Run a simple XQuery:
-
-```erlang
-(xqerl_node@some_machine)4> xqerl:run("for $x in (1 to 9) return $x + 1").
-[{xqAtomicValue,'xs:integer',2},
- {xqAtomicValue,'xs:integer',3},
- {xqAtomicValue,'xs:integer',4},
- {xqAtomicValue,'xs:integer',5},
- {xqAtomicValue,'xs:integer',6},
- {xqAtomicValue,'xs:integer',7},
- {xqAtomicValue,'xs:integer',8},
- {xqAtomicValue,'xs:integer',9},
- {xqAtomicValue,'xs:integer',10}]
-```
 
 ##### Double-quotes must be escaped in the shell:
 
