@@ -29,158 +29,242 @@
 %% API functions
 %% ====================================================================
 
--export([set_children/2,
-         node_size/1,
-         node_kind/1,
-         node_offset/1,
-         doc_tree_to_node_table/1]).
-
 -export([document/1,
-         element/5,
-         text/2,
-         attribute/5,
-         comment/2,
-         proc_inst/3]).
+         element/4,
+         text/1,
+         attribute/4,
+         comment/1,
+         proc_inst/2]).
 
-%% 13 Bytes 
-%% d - Kind:3|Text:32|____:32|Size:32|____:19|__:10|___:1|____:7 = 67
-%% e - Kind:3|____:32|Dist:32|Size:32|Name:19|Ns:10|NsF:1|Atts:7 = 104
-%% t - Kind:3|Text:32|Dist:32|____:32|____:19|__:10|___:1|____:7 = 67
-%% a - Kind:3|Text:32|____:32|____:32|Name:19|Ns:10|___:1|Dist:7 = 71
-%% c - Kind:3|Text:32|Dist:32|____:32|____:19|__:10|___:1|____:7 = 67
-%% p - Kind:3|Text:32|Dist:32|____:32|Name:19|__:10|___:1|____:7 = 86
+-export([nodes_to_postings/4,
+         ids_to_root/1]).
 
+%% NodeBin filters on type name, value
+-export([is_element/2,
+         is_attribute/3,
+         is_proc_inst/2,
+         is_comment/1,
+         is_text/2,
+         is_document/1]).
+
+-export([copy_node/1,
+         
+test/0]).
+
+
+%% d - Kind:8 | Text:32                   = 40
 document(UriRef) ->
-   #{kind => ?document,
-     text => UriRef,
-     size => 0,
-     chld => []}.
+   <<?document, UriRef:32/integer>>.
 
-element(Offset,NameRef,NsRef,HasNs,AttCnt) ->
-   #{kind => ?element,
-     dist => Offset,
-     name => NameRef,
-     ns   => NsRef,
-     nsf  => HasNs,
-     atts => AttCnt,
-     size => AttCnt,
-     chld => []}.
+%% e - Kind:8 |         | Name:21 | Ns:11 | NsF:1 | Atts:7 = 48
+element(NameRef, NsRef, HasNs, AttCnt) ->
+   H = if HasNs -> 1; true -> 0 end,              
+   <<?element, NameRef:21/integer, NsRef:11/integer, H:1, AttCnt:7/integer>>.
 
-text(Offset,TextRef) when is_integer(TextRef) ->
-   Bin = <<?text:3,TextRef:32/integer,Offset:32/integer,
-           0:19/integer,0:10,0:1,0:7>>,
-   #{kind => ?text,
-     dist => Offset,
-     text => TextRef,
-     bin => Bin}.
+%% t - Kind:8 | Text:32 |                 = 40
+text(TextRef) ->
+   <<?text, TextRef:32/integer>>.
 
-attribute(Offset,NameRef,NsRef,TextRef,Type) ->
-   Bin = <<?attribute:3,TextRef:32/integer,Type:3/integer,0:29/integer,
-           NameRef:19/integer,NsRef:10,0:1,Offset:7>>,
-   #{kind => ?attribute,
-     dist => Offset,
-     name => NameRef,
-     ns   => NsRef,
-     text => TextRef,
-     bin  => Bin}.
+%% a - Kind:4 | Type:4  | Text:32 | Name:21 | Ns:11 = 72
+attribute(NameRef, NsRef, TextRef, Type) ->
+   <<?attribute:4, Type:4, TextRef:32/integer, NameRef:21/integer, NsRef:11>>.
 
-comment(Offset,TextRef) ->
-   Bin = <<?comment:3,TextRef:32/integer,Offset:32/integer,
-           0:19/integer,0:10,0:1,0:7>>,
-   #{kind => ?comment,
-     dist => Offset,
-     text => TextRef,
-     bin => Bin}.
+%% c - Kind:8 | Text:32 |                 = 40
+comment(TextRef) ->
+   <<?comment:8, TextRef:32/integer>>.
 
-proc_inst(Offset,NameRef,TextRef) ->
-   Bin = <<?proc_inst:3,TextRef:32/integer,Offset:32/integer,
-           NameRef:19/integer,0:10,0:1,0:7>>,
-   #{kind => ?proc_inst,
-     dist => Offset,
-     name => NameRef,
-     text => TextRef,
-     bin => Bin}.
+%% p - Kind:8 | Text:32 | Name:24         = 64
+proc_inst(NameRef, TextRef) ->
+   <<?proc_inst:8, TextRef:32/integer, NameRef:24/integer>>.
 
-node_size(<<?element:3,_:32/integer,S:32/integer,_/bitstring>>) -> S;
-node_size(<<?text:3,_/bitstring>>) -> 0;
-node_size(<<?attribute:3,_/bitstring>>) -> 0;
-node_size(<<?document:3,_:32/integer,S:32/integer,_/bitstring>>) -> S;
-node_size(<<?comment:3,_/bitstring>>) -> 0;
-node_size(<<?proc_inst:3,_/bitstring>>) -> 0.
 
-node_kind(<<?element:3,_/bitstring>>) -> element;
-node_kind(<<?text:3,_/bitstring>>) -> text;
-node_kind(<<?attribute:3,_/bitstring>>) -> attribute;
-node_kind(<<?document:3,_/bitstring>>) -> document;
-node_kind(<<?comment:3,_/bitstring>>) -> comment;
-node_kind(<<?proc_inst:3,_/bitstring>>) -> 'processing-instruction'.
+% List of nodes as index postings
+nodes_to_postings(Index, Field, Nodes, Timestamp) ->
+   [{Index, Field, Id, Bin, [], Timestamp} || {Id, Bin} <- Nodes].
 
-%% d - Kind:3|Text:32|____:32|Size:32|____:19|__:10|___:1|____:7 = 67
-%% e - Kind:3|____:32|Dist:32|Size:32|Name:19|Ns:10|NsF:1|Atts:7 = 104
-%% t - Kind:3|Text:32|Dist:32|____:32|____:19|__:10|___:1|____:7 = 67
-%% a - Kind:3|Text:32|____:32|____:32|Name:19|Ns:10|___:1|Dist:7 = 71
-%% c - Kind:3|Text:32|Dist:32|____:32|____:19|__:10|___:1|____:7 = 67
-%% p - Kind:3|Text:32|Dist:32|____:32|Name:19|__:10|___:1|____:7 = 86
 
-node_offset(<<?element:3,O:32/integer,_/bitstring>>) -> O;
-node_offset(<<?attribute:3,_:94/bitstring,O:7/integer>>) -> O;
-node_offset(<<_:35,O:32/integer,_/bitstring>>) -> O.
-   
+% Path to root from binary node id 
+ids_to_root(NodeId) ->
+   Size = byte_size(NodeId) div 4,
+   [begin
+       B = I * 4,
+       <<N:B/binary,_/binary>> = NodeId,
+       N
+    end ||
+    I <- lists:seq(0, Size)].
 
-set_children(#{kind := ?element,
-               dist := Offset,
-               name := NameRef,
-               ns   := NsRef,
-               nsf  := HasNs,
-               atts := AttCnt} = _Node, Children) ->
-   NsF = if HasNs -> 1; true -> 0 end,
-   S = get_size(Children),
-   CB = get_bin(Children),
-   Bin = <<?element:3,Offset:32/integer,
-           S:32/integer,NameRef:19/integer,NsRef:10/integer,
-           NsF:1,AttCnt:7/integer,CB/binary>>,
-   #{size => S,
-     bin  => Bin,
-     kind => ?element};
-%%    xqldb_structure:index_doc(Node#{size := S,
-%%                                    bin  => Bin,
-%%                                    chld := Children});
-set_children(#{kind := ?document,
-               text := UriRef} = _Node, Children) ->
-   S = get_size(Children),
-   CB = get_bin(Children),
-   Bin = <<?document:3,UriRef:32/integer,
-           S:32/integer,0:19/integer,0:10/integer,
-           0:1,0:7/integer,CB/binary>>,
-   Bin.
+%% Returns if this NodeBin is an element with Name, NameId is a list.
+-spec is_element(Name :: {UriId  :: '_' | non_neg_integer(), 
+                          NameId :: '_' | [non_neg_integer()]},
+                 NodeBin :: binary()) ->
+         boolean().
+
+is_element(Name, <<?element, NameRef:21/integer, 
+                             NsRef:11/integer, _:1, _:7/integer>>) -> 
+   case Name of
+      {'_', '_'} -> true;
+      {'_', [NameRef]} -> true;
+      {NsRef, '_'} -> true;
+      {NsRef, [NameRef]} -> true;
+      {NsRef, Names} ->
+         [NameRef] == [N || N <- Names, N == NameRef];
+      _ -> false
+   end;
+is_element(_, _) -> false.
+
+%% Returns if this NodeBin is an attribute with Name and Value, NameId is a list.
+-spec is_attribute(Name :: {UriId  :: '_' | non_neg_integer(), 
+                            NameId :: '_' | [non_neg_integer()]},
+                   Value :: '_' | non_neg_integer(),
+                   NodeBin :: binary()) ->
+         boolean().
+
+is_attribute(Name, Value, <<?attribute:4, _:4, TextRef:32/integer, 
+                            NameRef:21/integer, NsRef:11>>) -> 
+   case {Name, Value} of
+      {{'_', '_'}, '_'} -> true;
+      {{'_', [NameRef]}, '_'} -> true;
+      {{NsRef, '_'}, '_'} -> true;
+      {{NsRef, [NameRef]}, '_'} -> true;
+      {{NsRef, Names}, '_'} ->
+         [NameRef] == [N || N <- Names, N == NameRef];
+      {{'_', '_'}, TextRef} -> true;
+      {{'_', [NameRef]}, TextRef} -> true;
+      {{NsRef, '_'}, TextRef} -> true;
+      {{NsRef, [NameRef]}, TextRef} -> true;
+      {{NsRef, Names}, TextRef} ->
+         [NameRef] == [N || N <- Names, N == NameRef];
+      _ -> false
+   end;
+is_attribute(_, _, _) -> false.
+
+%% Returns if this NodeBin is a processing-instruction with NameId.
+-spec is_proc_inst(Name :: '_' | non_neg_integer(),
+                   NodeBin :: binary()) ->
+         boolean().
+
+is_proc_inst(NameRef, <<?proc_inst:8, _:32/integer, NameRef:24/integer>>) -> 
+   true;
+is_proc_inst(_, _) -> false.
+
+%% Returns if this NodeBin is a comment.
+-spec is_comment(NodeBin :: binary()) -> boolean().
+
+is_comment(<<?comment:8, _:32/integer>>) -> 
+   true;
+is_comment(_) -> false.
+
+%% Returns if this NodeBin is a text with Value.
+-spec is_text(Value :: '_' | non_neg_integer(),
+              NodeBin :: binary()) ->
+         boolean().
+
+is_text(Value, <<?text, TextRef:32/integer>>) ->
+   case Value of
+      '_' -> true;
+      TextRef -> true;
+      _ -> false
+   end;
+is_text(_, _) -> false.
+
+%% Returns if this NodeBin is a document. TODO add root element name
+-spec is_document(NodeBin :: binary()) -> boolean().
+
+is_document(<<?document, _:32/integer>>) -> 
+   true;
+is_document(_) -> false.
+
+
+
+%% Get the Erlang node this came from.
+get_source_pid(#xqDocumentNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqElementNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqAttributeNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqTextNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqCommentNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqNamespaceNode{identity = {Node,_,_}}) -> Node;
+get_source_pid(#xqProcessingInstructionNode{identity = {Node,_,_}}) -> Node.
+
+%% Get the Doc this node this came from.
+get_doc_id(#xqDocumentNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqElementNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqAttributeNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqTextNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqCommentNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqNamespaceNode{identity = {_,I,_}}) -> I;
+get_doc_id(#xqProcessingInstructionNode{identity = {_,I,_}}) -> I.
+
+%% Get the Doc this node this came from.
+get_node_id(#xqDocumentNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqElementNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqAttributeNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqTextNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqCommentNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqNamespaceNode{identity = {_,_,I}}) -> I;
+get_node_id(#xqProcessingInstructionNode{identity = {_,_,I}}) -> I.
+
+
+%% makes a deep copy of the node given in `record` form without ancestors.
+%% all in-scope namespaces are retained here and can be stripped by any
+%% new parent nodes making another copy.
+copy_node(XNode) ->
+   Node = erlang:node(get_source_pid(XNode)),
+   case Node == node() of
+      false ->
+         % non-local XML should be built where it came from
+         rpc:call(Node, ?MODULE, ?FUNCTION_NAME, [XNode]);
+      true ->
+         copy_local_node(XNode)
+   end.
+% each DB node has {SupPid, DocId, NodeId} as its ID Sup gives node() and DB
+% in-memory nodes have {Ref, NodeId}
+
+copy_local_node(XNode) ->
+   DbPid = get_source_pid(XNode),
+   DocId = get_doc_id(XNode),
+   NodeId = get_node_id(XNode),
+   DB = xqldb_db:database(DbPid),
+   Server = maps:get(index, DB),
+   {Low, High} = get_node_id_range(NodeId),
+   Filter = filter_fun(High, NodeId), 
+   AllNodes = merge_index:range_sync(Server, doc, DocId, Low, High, any, Filter),
+   AllNodes.
+
+get_node_id_range(<<>>) -> {undefined, undefined};
+get_node_id_range(NodeId) -> 
+   ByteSize = byte_size(NodeId),
+   HeadSize = (ByteSize - 4),
+   <<H:HeadSize/binary,T:32/integer>> = NodeId,
+   T1 = T + 1,
+   High = <<H:HeadSize/binary,T1:32/integer>>,
+   {trunc_id(NodeId), High}.
+
+trunc_id(<<>>) -> <<>>;
+trunc_id(<<_:4/binary>> = A) -> A;
+trunc_id(<<_:8/binary>> = A) -> A;
+trunc_id(<<A:8/binary,_/binary>>) -> <<A:8/binary>>.
+
+test() ->
+   DB = xqldb_db:database(<<"file:///git/zadean/xqerl/test/QT3-test-suite/fn/">>),
+   Nd = #xqDocumentNode{identity = {maps:get(db_name, DB),<<"72">>,<<0,0,0,1,0,0,0,12>>}},
+   copy_node(Nd).
+
+filter_fun(undefined, _) ->
+   fun(_, _) -> true end;
+filter_fun(High, NodeId) ->
+   fun({L,_,_},_) when L < NodeId -> false;
+      ({H,_,_},_) when High =< H -> false;
+      (_,_) -> true
+   end.
 
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
  
-
-get_size([#{kind := ?element,
-            size := S}|T]) ->
-   1 + S + get_size(T);
-get_size([#{kind := K}|T]) when K == ?text;
-                                K == ?attribute;
-                                K == ?comment;
-                                K == ?proc_inst ->
-   1 + get_size(T);
-get_size([]) -> 0.
-
-get_bin(Children) ->
-   << B || #{bin := B} <- Children >>.
-
-doc_tree_to_node_table(#{kind := ?document,
-                         size := Size, 
-                         bin := Bin, chld := Children}) ->
-   Deep = [Bin, [doc_tree_to_node_table(C) || C <- Children] ],
-   Io = erlang:iolist_to_binary(Deep),
-   {Size,Io};
-doc_tree_to_node_table(#{bin := Bin, chld := Children}) ->
-   [Bin, 
-    [doc_tree_to_node_table(C) || C <- Children] ];
-doc_tree_to_node_table(#{bin := Bin}) -> Bin.
-
+%% d - Kind:8 | Text:32                   = 40
+%% e - Kind:8 |         | Name:21 | Ns:11 | NsF:1 | Atts:7 = 48
+%% t - Kind:8 | Text:32 |                 = 40
+%% a - Kind:4 | Type:4  | Text:32 | Name:21 | Ns:11 = 72
+%% c - Kind:8 | Text:32 |                 = 40
+%% p - Kind:8 | Text:32 | Name:24         = 64

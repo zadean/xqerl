@@ -21,6 +21,7 @@
 %% -------------------------------------------------------------------
 
 -include_lib("kernel/include/logger.hrl").
+-include("xqerl_item.hrl").
 
 % node kinds
 -define(fragment, 7). % non-conformant xml
@@ -62,25 +63,12 @@
         {key,
          value}).
 
--define(BSZ,13).
--define(BUSZ,104).
+%-define(BSZ,13).
+%-define(BUSZ,104).
 
 -define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(trace(A,B),io:format("~p: ~p~n",[A,B])).
-
-
-
-
--record(xqAtomicValue,
-        {
-         type  = undefined :: atom(),
-         value = undefined :: term() | []
-        }).
--record(xqNode, {
-      doc   :: pid() | term(),
-      node  :: [integer()] | binary()
-   }).
 
 -define(IS_LOCAL(Ref), erlang:node(Ref) == erlang:node()).
 

@@ -817,7 +817,7 @@ dummy_timezone(Tab) ->
          Frag = #xqElementNode{name = #qname{namespace = ?NS,
                                              prefix = ?PX,
                                              local_name = ?A("analyze-string-result")},
-                               expr = Expr},
+                               content = Expr},
          xqerl_node:new_fragment(Ctx, Frag)
    end.
 
@@ -825,7 +825,7 @@ analyze_string1([],String) -> % no matches
    #xqElementNode{name = #qname{namespace = ?NS,
                                 prefix = ?PX,
                                 local_name = ?A("non-match")},
-                         expr = ?str(String)};
+                         content = ?str(String)};
 analyze_string1(List,String) ->
    Fun = 
      fun([{Start,End}|Groups],LastPos) ->
@@ -839,7 +839,7 @@ analyze_string1(List,String) ->
               case Groups of
                 [] ->
                    S = string:slice(String,Start,End),
-                   #xqTextNode{expr = ?str(S)};
+                   #xqTextNode{string_value = ?str(S)};
                 _ ->
                    {B,_} = hd(Groups),
                    {Es,Ee} = hd(lists:reverse(Groups)),
@@ -847,13 +847,13 @@ analyze_string1(List,String) ->
                    Tail = if (Start + End) > GrpSize -> % missing tail text 
                                 Slc1 = string:slice(String,GrpSize,
                                                     Start + End - GrpSize),
-                                [#xqTextNode{expr = ?str(Slc1)}];
+                                [#xqTextNode{string_value = ?str(Slc1)}];
                              true ->
                                 []
                           end,
                     if B > Start ->
                           S = string:slice(String,Start,Start + End - B),
-                          [#xqTextNode{expr = ?str(S)} |
+                          [#xqTextNode{string_value = ?str(S)} |
                              get_groups(String,Groups,1)] ++ Tail;
                        true ->
                           get_groups(String,Groups,1) ++ Tail
@@ -862,7 +862,7 @@ analyze_string1(List,String) ->
            Match = #xqElementNode{name = #qname{namespace = ?NS,
                                                 prefix = ?PX,
                                                 local_name = ?A("match")},
-                                  expr = Matches},
+                                  content = Matches},
            if End == 0 ->
                  ?err('FORX0003'); % would match empty str
               true ->
@@ -883,16 +883,16 @@ get_groups(String,[{Start,End}],Cnt) ->
    [#xqElementNode{name = #qname{namespace = ?NS,
                                 prefix = ?PX,
                                 local_name = ?A("group")},
-                  expr = [#xqAttributeNode{name = 
+                  content = [#xqAttributeNode{name = 
                                              #qname{namespace = 'no-namespace', 
                                                     prefix = <<>>, 
                                                     local_name = ?A("nr")},
-                                           expr = ?atint(Cnt)},
+                                           string_value = ?str(integer_to_binary(Cnt))},
                           if End == 0 ->
                                 [];
                              true ->
                                 Slc = string:slice(String,Start,End),
-                                #xqTextNode{expr = ?str(Slc)}
+                                #xqTextNode{string_value = ?str(Slc)}
                           end
                          ]}];   
 get_groups(String,[{-1,0}|T],Cnt) ->
@@ -902,44 +902,44 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    if NStart < Pos1 orelse NEnd == 0;
       {Start,End} == {NStart,NEnd} -> % overlap/empty group
          End1 = NStart - Start,
-         Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End1))},
+         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End1))},
          Att1 = #xqAttributeNode{name = 
                                    #qname{namespace = 'no-namespace', 
                                           prefix = <<>>, 
                                           local_name = ?A("nr")}, 
-                                 expr = ?atint(Cnt)},
+                                 string_value = ?str(integer_to_binary(Cnt))},
          Grps = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
          [#xqElementNode{name = #qname{namespace = ?NS,
                                        prefix = ?PX,
                                        local_name = ?A("group")},
-                         expr = [Att1,
-                                 Txt1,
-                                 Grps]}];
+                         content = [Att1,
+                                    Txt1,
+                                    Grps]}];
       NStart > Pos1 -> % gap
          Length = NStart - Pos1,  
-         Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
-         Txt2 = #xqTextNode{expr = ?str(string:slice(String,Pos1,Length))},
+         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End))},
+         Txt2 = #xqTextNode{string_value = ?str(string:slice(String,Pos1,Length))},
          Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                prefix = <<>>, 
                                                local_name = ?A("nr")}, 
-                                 expr = ?atint(Cnt)},
+                                 string_value = ?str(integer_to_binary(Cnt))},
          Grps1 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
          [#xqElementNode{name = #qname{namespace = ?NS,
                                       prefix = ?PX,
                                       local_name = ?A("group")},
-                        expr = [Att1,Txt1]},
+                        content = [Att1,Txt1]},
           Txt2|Grps1];
       true -> % no overlap
-         Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
+         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End))},
          Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                prefix = <<>>, 
                                                local_name = ?A("nr")}, 
-                                 expr = ?atint(Cnt)},
+                                 string_value = ?str(integer_to_binary(Cnt))},
          Grps2 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
          [#xqElementNode{name = #qname{namespace = ?NS,
                                       prefix = ?PX,
                                       local_name = ?A("group")},
-                        expr = [Att1,Txt1]}|Grps2]
+                        content = [Att1,Txt1]}|Grps2]
   end.
 
 %% Makes a dynamic call on a function with an argument list supplied 

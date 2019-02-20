@@ -32,17 +32,17 @@
 -define(key(Value),#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                   prefix = <<>>, 
                                                   local_name = <<"key">>},
-                                    expr = #xqAtomicValue{type = 'xs:string', 
+                                    string_value = #xqAtomicValue{type = 'xs:string', 
                                                           value = Value}}).
 -define(esckey, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                prefix = <<>>, 
                                                local_name = <<"escaped-key">>},
-                                 expr = #xqAtomicValue{type = 'xs:string', 
+                                 string_value = #xqAtomicValue{type = 'xs:string', 
                                                        value = <<"true">>}}).
 -define(esc, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                             prefix = <<>>, 
                                             local_name = <<"escaped">>},
-                              expr = #xqAtomicValue{type = 'xs:string', 
+                              string_value = #xqAtomicValue{type = 'xs:string', 
                                                     value = <<"true">>}}).
 
 -define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
@@ -111,7 +111,7 @@ string_to_xml(String, Options) ->
       Term ->
          %?dbg("Term",Term),
          Frag = json_to_xml(State, <<>>, Term),
-         Doc = #xqDocumentNode{expr = Frag},
+         Doc = #xqDocumentNode{content = Frag},
          Opt = #{namespaces => [],
                  'base-uri' => get_base_uri(Options),
                  'copy-namespaces' => {preserve,'no-inherit'}},
@@ -149,7 +149,7 @@ xml_to_json(State, [#xqElementNode{} = E]) ->
 xml_to_json(State = #state{indent = Indent},
              #xqElementNode{name = #qname{namespace = ?ns, 
                                           local_name = <<"array">>},
-                            expr = Expr}) ->
+                            content = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Content = lists:map(fun(V) ->
                           xml_to_json(State, V)
@@ -163,7 +163,7 @@ xml_to_json(State = #state{indent = Indent},
    end;
 xml_to_json(State = #state{indent = Indent}, 
             #xqElementNode{name = #qname{namespace = ?ns, local_name = <<"map">>},
-                           expr = Expr}) ->
+                           content = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Fold = fun(V,Check) ->
                 case xml_to_json(State, V) of
@@ -194,7 +194,7 @@ xml_to_json(State = #state{indent = Indent},
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
                                                 local_name = <<"boolean">>},
-                                  expr = Expr}) -> 
+                                  content = Expr}) -> 
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       Txt = xqerl_node:atomize_nodes(Rest),
@@ -212,7 +212,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
                                                 local_name = <<"null">>},
-                                  expr = Expr}) -> 
+                                  content = Expr}) -> 
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
    if Rest =/= [] ->
          ?err('FOJS0006');
@@ -225,7 +225,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
                                                 local_name = <<"number">>},
-                                  expr = Expr})->
+                                  content = Expr})->
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       Txt = xqerl_node:atomize_nodes(Rest),
@@ -248,7 +248,7 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
                                                 local_name = <<"string">>},
-                                  expr = Expr}) ->
+                                  content = Expr}) ->
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
    case Rest of
       [#xqTextNode{}] when Key =:= [] ->
@@ -279,21 +279,21 @@ get_attributes(Content, AllowWs) ->
       Key = [ xqerl_types:string_value(K) || 
               #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = <<"key">>},
-                               expr = K} <- Content ],
+                               string_value = K} <- Content ],
       EscKey = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
                  #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                 local_name = <<"escaped-key">>},
-                                  expr = K} <- Content ],
+                                  string_value = K} <- Content ],
       Esc = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
               #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = <<"escaped">>},
-                               expr = K} <- Content ],
+                               string_value = K} <- Content ],
       Rest0 = [ K || K <- Content, 
                      not is_record(K, xqProcessingInstructionNode),
                      not is_record(K, xqCommentNode)],
-      F = fun(#xqTextNode{expr = [#xqAtomicValue{value = V}]}) ->
+      F = fun(#xqTextNode{string_value = [#xqAtomicValue{value = V}]}) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
-             (#xqTextNode{expr = #xqAtomicValue{value = V}}) ->
+             (#xqTextNode{string_value = #xqAtomicValue{value = V}}) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
              (#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = Ln}}) 
@@ -330,7 +330,7 @@ json_to_xml(State, Key, {array, Values}) ->
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = Content};
+                  content = Content};
 json_to_xml(#state{duplicates = Dupes,
                    escape = Escape} = State, 
             Key, {object, Members}) ->
@@ -361,19 +361,19 @@ json_to_xml(#state{duplicates = Dupes,
                   attributes = att_key(Key, Escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = Content};
+                  content = Content};
 json_to_xml(State, Key, true) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = #xqAtomicValue{type = 'xs:boolean', value = true}};
+                  content = #xqAtomicValue{type = 'xs:boolean', value = true}}; %% TODO make this a string node
 json_to_xml(State, Key, false) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = #xqAtomicValue{type = 'xs:boolean', value = false}};
+                  content = #xqAtomicValue{type = 'xs:boolean', value = false}}; %% TODO make this a string node
 json_to_xml(State, Key, null) -> 
    #xqElementNode{name = ?qn("null"),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
@@ -388,7 +388,7 @@ json_to_xml(State, Key, {Val, Lex})
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = #xqAtomicValue{type = 'xs:string', value = Lex}};
+                  content = #xqAtomicValue{type = 'xs:string', value = Lex}}; %% TODO make this a string node
 json_to_xml(State, Key, Val) ->
    Norm = normalize_string(State, Val),
    Esc = att_esc(Norm, State#state.escape),
@@ -396,8 +396,8 @@ json_to_xml(State, Key, Val) ->
                   attributes = [Esc|att_key(Key, State#state.escape)],
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = #xqAtomicValue{type = 'xs:string', 
-                                        value = Norm}}.
+                  content = #xqAtomicValue{type = 'xs:string', 
+                                        value = Norm}}. %% TODO make this a string node
 
 json_to_map(State, {array, Values}) ->
    {array,lists:map(fun(V) ->

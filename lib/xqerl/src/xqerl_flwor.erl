@@ -527,6 +527,7 @@ bool(T) -> xqerl_operators:eff_bool_val(T).
 %%   Static optimizations of FLWOR statements   %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% TODO : add xpath optimizations too 
 
 %% Attempts to optimize a FLWOR statement by reordering clauses 
 %% and removing unused variables 
@@ -549,7 +550,7 @@ optimize(#xqFlwor{} = FL, Digraph) ->
                  true ->
                     F6
               end,
-%?dbg("F7",F7),
+         _ = print_digraph(Digraph),
          case F7 of
             #xqFlwor{} ->
                Cl8 = combine_wheres(F7#xqFlwor.loop),
@@ -630,7 +631,7 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
                          ?dbg("splitting for",Nm),
                          Let = {'let',#xqVar{id = Id,name = Nm,
                                              expr = Ex,
-                                             type = % new type can any sequence 
+                                             type = % new type can `any` sequence 
                                                maybe_zero_type(
                                                  maybe_many_type(Ty))},
                                 maybe_many_type(AType)},
@@ -953,7 +954,8 @@ merge_for_where([{for,#xqVar{name = FName,
          ?dbg("removing where clause",WName),
          digraph:add_edge(G, WName, FVName),
          case catch replace_var_with_context_item(FVarRef, WExpr) of
-            {error,_} -> % caused by predicates and other axis steps
+            {error,E} -> % caused by predicates and other axis steps
+               ?dbg("ERROR removing where clause", E),
                [For,Where|merge_for_where(T, G)];
             WExpr2 ->
                ?dbg("removed where clause",{FVarRef,WExpr2}),
@@ -1412,4 +1414,10 @@ remove_dependancies(G, Vertex) ->
 %%    ?dbg("Out   ",Out),
 %%    true.
 
+print_digraph(G) -> ok.
+%%   [?dbg("D",E) ||
+%%    Edge <- digraph:edges(G),
+%%    E <- [digraph:edge(G, Edge)],
+%%    element(1, element(3,E)) =/= 0
+%%   ].
 

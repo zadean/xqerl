@@ -36,9 +36,16 @@ start_link() ->
    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 start_child(Uri) ->
-   DBDirectory = xqldb_db_server:new(Uri),
-   ok = filelib:ensure_dir(DBDirectory ++ "/x"),
-   supervisor:start_child(?MODULE, [DBDirectory, Uri]).
+   {DBDirectory, Id} = xqldb_db_server:new(Uri),
+   try
+      ok = filelib:ensure_dir(DBDirectory ++ "/x"),
+      {ok, P} = supervisor:start_child(?MODULE, [DBDirectory, Uri]),
+      {ok, P, Id}
+   catch 
+      _ : Err : Stack ->
+         io:format("~p~n", [Stack]),
+         throw(Err)
+   end.
 
    
 %% ====================================================================

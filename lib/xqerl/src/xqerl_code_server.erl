@@ -294,6 +294,7 @@ do_compile(Filename, Str, Hints) ->
       %io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri),
+%io:format("~p~n", [maps:get(body, Static)]),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
       xqerl_context:destroy(Static),
    
@@ -483,8 +484,8 @@ do_unload(Tab, Ebin, DispatchFile) ->
         #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
 
--define(PRINT,false).
-%-define(PRINT,true).
+%-define(PRINT,false).
+-define(PRINT,true).
 
 -if(?PRINT).
    % see what comes out

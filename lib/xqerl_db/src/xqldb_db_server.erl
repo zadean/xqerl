@@ -60,8 +60,8 @@ open(Uri, SupPid) ->
    gen_server:call(?MODULE, {open, uri_to_path(Uri), SupPid}).
 
 % Sets Uri to status closed if it exists or does nothing if not.
-close(Uri) ->
-   gen_server:call(?MODULE, {close, uri_to_path(Uri)}).
+close({Uri, Id}) ->
+   gen_server:call(?MODULE, {close, uri_to_path(Uri), Id}).
 
 % Returns true if the Uri exists.
 exists(Uri) ->
@@ -72,6 +72,7 @@ info(Uri) ->
    gen_server:call(?MODULE, {info, uri_to_path(Uri)}).
 
 % Returns [{RelUri, Pid}] of all open DBs under given path.
+%% idea here is when given a Uri to get all dbs with rel path
 get_open(Uri) ->
    gen_server:call(?MODULE, {get_open, uri_to_path(Uri)}).
 
@@ -103,7 +104,7 @@ uri_to_path(Uri) when is_binary(Uri) ->
          [_|Sp] = filename:split(P),
          [<<"file">>|Sp];
       #{path := <<>>} ->
-         {error, invalid_uri, ""};
+         throw({error, invalid_uri, ""});
       #{path := P} ->
          [_|Sp] = filename:split(P),
          [<<"file">>|Sp]
@@ -123,12 +124,12 @@ list2path([H]) -> filename:join([[$0,$0],[$0,$0],[$0,$0],[$0,H]]);
 list2path([]) -> filename:join([[$0,$0],[$0,$0],[$0,$0],[$0,$0]]).
 
 check_fs_exists(TabName, DataDir) ->
-   Known = "nodes.heap", % filename known to exist in DBs
+   Known = "ind", % filename known to exist in DBs
    Fun = fun({_, {_, missing}}) -> continue; % already gone
             ({Uri, Id}) ->
                Path = int_to_path(Id),
                Join = filename:join([DataDir, Path, Known]),
-               case filelib:is_file(Join) of
+               case filelib:is_dir(Join) of
                   true ->
                      continue;
                   false ->
@@ -137,90 +138,17 @@ check_fs_exists(TabName, DataDir) ->
          end,               
    Missing = dets:traverse(TabName, Fun),
    dets:insert(TabName, Missing),
-   Fold = fun({Path,{Id,Stat}}, M) ->
-                insert_new(Path, M, Id, Stat);
-             ({Path,Id}, M) ->
-                insert_new(Path, M, Id, closed)
-          end,
-   dets:foldl(Fold, #{}, TabName).
+   ok.
 
-insert_new([], M, Id, Stat) ->
-   M#{id => Id,
-      stat => Stat};
-insert_new([H|Split], M, Id, Stat) ->
-   if is_map_key(H, M) ->
-         M#{H := insert_new(Split, maps:get(H, M), Id, Stat)};
-      true ->
-         M#{H => insert_new(Split, #{}, Id, Stat)}
-   end.
 
-set_pid_open([], Map, Pid) ->
-   Map#{pid => Pid,
-        stat => open};
-set_pid_open([H|Path], Map, Pid) ->
-   if is_map_key(H, Map) ->
-         Map#{H := set_pid_open(Path, maps:get(H, Map), Pid)};
-      true ->
-         throw({error, not_exists})
-   end.
-
-set_closed([], Map) ->
-   Map#{pid => none,
-        stat => closed};
-set_closed([H|Path], Map) ->
-   if is_map_key(H, Map) ->
-         Map#{H := set_closed(Path, maps:get(H, Map))};
-      true ->
-         Map
-   end.
-
-do_exists([], #{id := _}) -> true;
-do_exists([], _) -> false;
-do_exists([H|Path], Map) ->
-   if is_map_key(H, Map) ->
-         do_exists(Path, maps:get(H, Map));
-      true ->
-         false
-   end.
-
-% {Status, Id, Pid}
-get_info([], #{id := I, stat := S, pid := P}) ->
-   {S, I, P};
-get_info([], #{id := I, stat := S}) ->
-   {S, I, none};
-get_info([], _) ->
-   {error, not_exists};
-get_info([H|Path], Map) ->
-   if is_map_key(H, Map) ->
-         get_info(Path, maps:get(H, Map));
-      true ->
-         {error, not_exists}
-   end.
-
-do_get_open([], Map) ->
-   Open = collect_open([{<<".">>, Map}], []),
-   lists:sort(Open);
-do_get_open([H|Path], Map) ->
-   if is_map_key(H, Map) ->
-         do_get_open(Path, maps:get(H, Map));
-      true ->
-         []
-   end.
-   
-collect_open([{U, #{stat := open, pid := P} = M}|Ms], A) ->
-   NMs = [{filename:join(U, D), N} || {D, N} <- maps:to_list(M), is_binary(D), is_map(N)],
-   NA = collect_open(NMs, [{U,P}|A]),
-   collect_open(Ms, NA);
-collect_open([{U, #{stat := closed} = M}|Ms], A) ->
-   NMs = [{filename:join(U, D), N} || {D, N} <- maps:to_list(M), is_binary(D), is_map(N)],
-   NA = collect_open(NMs, [{U,closed}|A]),
-   collect_open(Ms, NA);
-collect_open([{U,M}|Ms], A) ->
-   NMs = [{filename:join(U, D), N} || {D, N} <- maps:to_list(M), is_binary(D), is_map(N)],
-   NA = collect_open(NMs, A),
-   collect_open(Ms, NA);
-collect_open([], A) ->
-   A.
+%% collect all DB ids
+%% this should return a list of relative paths
+do_get_open(Path, Ets) ->
+   MPattern = Path ++ '$1',
+   MatchSpec = [{{{MPattern,'_'}, '_', open},[],['$1']},
+                {{{MPattern,'_'}, '_', closed},[],['$1']}],
+   Res = ets:select(Ets, MatchSpec),
+   [filename:join([<<".">>|R]) || R <- Res].
 
 get_next_id(Name) ->
    Fun = fun({_,{I,_}}, A) when I > A ->
@@ -236,11 +164,23 @@ get_next_id(Name) ->
    io:format("~p~n",[Max]),
    if Max =:= 0 -> 0; true -> Max + 1 end.
 
-   
+dets_to_ets(TabName, Ets) ->
+   Fun = fun({P,{I,missing}}, E) ->
+               ets:insert(E, {{P,I}, undefined, missing}),
+               E;
+            ({P,I}, E) ->
+               ets:insert(E, {{P,I}, undefined, closed}),
+               E
+         end,            
+   _ = dets:foldl(Fun, Ets, TabName),
+   ok.
 
 %% ====================================================================
 %% Behavioural functions
 %% ====================================================================
+
+%% dets table is {Path, Id}
+%% ets table is {{Path, Id}, Pid, Status}
 
 init([]) ->
    DataDir = application:get_env(xqerl_db, data_dir, "./data"),
@@ -248,61 +188,97 @@ init([]) ->
    TabFile = filename:join(AbsDir, "xqerl_db.meta"),
    ok = filelib:ensure_dir(TabFile),
    {ok, TabName} = dets:open_file(TabFile, []),
+   Ets = ets:new(?MODULE, [ordered_set]),
    Next = get_next_id(TabName),
-   PathMap = check_fs_exists(TabName, AbsDir),
-   {ok, #{tab => TabName,
-          map => PathMap,
+   ok = check_fs_exists(TabName, AbsDir), % loads dets table
+   ok = dets_to_ets(TabName, Ets), % load the ets table
+   {ok, #{meta => TabName,
+          tab => Ets,
           nxt => Next,
           dir => AbsDir}}.
 
 % Sets Uri to status opening or {error, already_exists} if the DB already exists.
-% Returns the Directory to use for the new DB.
-handle_call({new, Path}, _From, #{tab := TabName,
-                                  map := Map,
+% Returns the {Directory, Id} to use for the new DB.
+handle_call({new, Path}, _From, #{meta := TabName,
+                                  tab := Ets,
                                   dir := DataDir,
                                   nxt := Next} = State) ->
-   case dets:lookup(TabName, Path) of
+   try
+   case ets:select(Ets, [{{{Path,'_'},'_','_'},[],['$_']}]) of
       [] ->
          % insert Next increase Next
-         Map1 = insert_new(Path, Map, Next, opening),
          dets:insert(TabName, {Path, Next}),
+         ets:insert(Ets, {{Path, Next}, undefined, opening}),
          DbDir = filename:join([DataDir, int_to_path(Next)]),
-         {reply, DbDir, State#{nxt := Next + 1,
-                               map := Map1}};
-      [{_, {Id, missing}}] ->
-         Map1 = insert_new(Path, Map, Id, opening),
+         {reply, {DbDir, Next}, State#{nxt := Next + 1}};
+      [{{_, Id},_,missing}] ->
          dets:insert(TabName, {Path, Id}),
+         ets:insert(Ets, {{Path, Id}, undefined, opening}),
          DbDir = filename:join([DataDir, int_to_path(Id)]),
-         {reply, DbDir, State#{map := Map1}};
-      [{_, Id}] ->
-         Map1 = insert_new(Path, Map, Id, opening),
+         {reply, {DbDir, Id}, State};
+      [{{_, Id}, Pid, open}] when is_pid(Pid) ->
+         % check if it is still alive
+         case erlang:is_process_alive(Pid) of
+            true -> % do not allow to open again
+               {reply, {error, already_exists}, State};
+            false ->
+               % if not alive, mark closed and return error
+               ets:insert(Ets, {{Path, Id}, undefined, closed}),
+               {reply, {error, already_exists}, State}
+         end;
+      [{{_, Id}, undefined, closed}] ->
+         ets:insert(Ets, {{Path, Id}, undefined, opening}),
          DbDir = filename:join([DataDir, int_to_path(Id)]),
-         {reply, DbDir, State#{map := Map1}}
+         {reply, {DbDir, Id}, State}
+   end
+   catch
+      _:ER:St ->
+      io:format("~p~n",[{ER,St}]),
+      throw(ER)
    end;
 % Sets Uri to status open or {error, not_exists} if the DB does not exist.
-handle_call({open, Path, SupPid}, _From, #{map := Map} = State) ->
+handle_call({open, Path, SupPid}, _From, #{tab := Ets} = State) ->
    try 
-      Map1 = set_pid_open(Path, Map, SupPid),
-      {reply, ok, State#{map := Map1}}
+      [Id] = ets:select(Ets, [{{{Path,'$1'},'_','_'},[],['$1']}]),
+      ets:insert(Ets, {{Path, Id}, SupPid, open}),
+      {reply, ok, State}
    catch
       _:_ ->
          {reply, {error, not_exists}, State}
    end;
 % Sets Uri to status closed if it exists or does nothing if not.
-handle_call({close, Path}, _From, #{map := Map} = State) ->
-   Map1 = set_closed(Path, Map),
-   {reply, ok, State#{map := Map1}};
+handle_call({close, {Path, Id}}, _From, #{tab := Ets} = State) ->
+   ets:insert(Ets, {{Path, Id}, undefined, closed}),
+   {reply, ok, State};
 % Returns true if the Uri exists.
-handle_call({exists, Path}, _From, #{map := Map} = State) ->
-   Reply = do_exists(Path, Map),
-   {reply, Reply, State};
+handle_call({exists, Path}, _From, #{tab := Ets} = State) ->
+   case ets:select(Ets, [{{{Path,'_'},'_','_'},[],['$_']}]) of
+      [] ->
+         {reply, false, State};
+      _ ->
+         {reply, true, State}
+   end;
 % Returns {Status, Id, Pid} if the Uri exists, {error, not_exists} if not.
-handle_call({info, Path}, _From, #{map := Map} = State) ->
-   Reply = get_info(Path, Map),
-   {reply, Reply, State};
+handle_call({info, Path}, _From, #{tab := Ets} = State) ->
+   case ets:select(Ets, [{{{Path,'_'},'_','_'},[],['$_']}]) of
+      [] ->
+         {reply, {error, not_exists}, State};
+      [{{_, _},_,missing}] ->
+         {reply, {error, not_exists}, State};
+      [{{_, Id}, Pid, Status}] when is_pid(Pid) ->
+         % check if it is still alive
+         case erlang:is_process_alive(Pid) of
+            true ->
+               {reply, {Status, Id, Pid}, State};
+            false ->
+               {reply, {error, not_exists}, State}
+         end;
+      [{{_, Id}, undefined, closed}] ->
+         {reply, {closed, Id, undefined}, State}
+   end;
 % Returns [{Uri, Pid}] of all existing DBs under given path.
-handle_call({get_open, Path}, _From, #{map := Map} = State) ->
-   Reply = do_get_open(Path, Map),
+handle_call({get_open, Path}, _From, #{tab := Ets} = State) ->
+   Reply = do_get_open(Path, Ets),
    {reply, Reply, State}.
 
 handle_cast(shrink, State) ->

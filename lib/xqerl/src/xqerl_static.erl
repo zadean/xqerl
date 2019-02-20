@@ -96,7 +96,8 @@
                                         <<"http://www.w3.org/XML/1998/namespace">>, 
                                       prefix = <<"xml">>}] ,
          static_count,
-         can_inline   = false,  
+         can_inline   = false,
+         is_db_node = false, % does this thing belong to a DB doc/collection  
          in_constructor = false, % currently in an XML constructor 
          in_predicate = false % currently in a predicate 
         }).
@@ -432,7 +433,7 @@ handle_node(State, {update, _Id, replace_value, Tgt, Val}) ->
    State1 = set_updating(State, true),
    ValState = handle_node(State1, 
                           {comp_cons, 
-                           #xqTextNode{expr = {content_expr, Val}}}),
+                           #xqTextNode{string_value = {content_expr, Val}}}),
    ValStmt = get_statement(ValState),
    TgtState = handle_node(State1, Tgt),
    TgtStmt = get_statement(TgtState),
@@ -642,6 +643,8 @@ handle_node(State, #xqVarRef{name = Name}) ->
       undefined ->
          %?dbg("undefined", undefined),
          set_statement_and_type(State, Varname, Type);
+      true ->
+         set_statement_and_type(set_is_db(State, true), Varname, Type);
       Literal ->
          %?dbg("Literal", Literal),
          set_statement_and_type(State, Literal, Type)
@@ -811,6 +814,7 @@ handle_node(State,#xqVar{id = Id,
    VarState = handle_node(State, Expr),
    VarType = get_statement_type(VarState),
    VarStmt = get_statement(VarState),
+   IsDB = get_is_db(VarState),
    SVarType = VarType,
    ?NO_UPD(VarState),                                    
    VarStmt1 = 
@@ -838,11 +842,13 @@ handle_node(State,#xqVar{id = Id,
    External = case is_static_literal(VarStmt) of
                  true when not Ext ->
                     {false, VarStmt};
+                 _ when IsDB ->
+                    {false, true};
                  _ ->
                     Ext
               end,
    NewVar  = {Name,SVarType,[],{GlobVarName,1},External},
-   State1 = add_inscope_variable(State, NewVar),
+   State1 = add_inscope_variable(set_is_db(State, IsDB), NewVar),
    NewStatement = Node#xqVar{id = Id,
                              name = Name, 
                              type = SVarType, 
@@ -1266,8 +1272,10 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
    %?dbg("Ft",Ft),
    %?dbg("Ty",Ty),
          case Ty of
-            #xqSeqType{type = node} ->
-               set_statement_and_type(State, {path_expr, Id, [{postfix, Id, St, Ft}]}, Ty);
+            #xqSeqType{type = node} -> 
+               Ps = {path_expr, Id, [{postfix, Id, St, Ft}]},
+io:format("~p~n",[Ps]),
+               set_statement_and_type(State, Ps, Ty);
             _ ->
                set_statement_and_type(State, {postfix, Id, St, Ft}, Ty)
          end
@@ -1284,7 +1292,7 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
 handle_node(State, {path_expr, Id, Steps}) ->
    StateC = set_in_constructor(State, false),
 %?dbg("Type",get_statement_type(State)),
-   Fold = fun(Step, LastType) ->
+   Fold = fun(Step, {LastType, LastDB}) ->
                State2 = set_statement_type(StateC, LastType),
                State1 = handle_node(State2, Step),
                Val = get_statement(State1),
@@ -1294,11 +1302,17 @@ handle_node(State, {path_expr, Id, Steps}) ->
                         Other ->
                            Other#xqSeqType{occur = zero_or_many}
                      end,
-               {Val, Typ}
+               {Val, {Typ, LastDB or get_is_db(State1)}}
           end,
-   {Statements, Type} = lists:mapfoldl(Fold, get_statement_type(State), Steps),
+   {Statements, {Type, IsDB}} = lists:mapfoldl(Fold, {get_statement_type(State), false}, Steps),
    %?dbg("{Id, Statements}",{Id, Statements}),
-   set_statement_and_type(State, {path_expr, Id, Statements}, Type);
+   ?dbg("IsDB",IsDB),
+   Ps = if IsDB ->
+              {db_path_expr, Id, Statements};
+           true ->
+              {path_expr, Id, Statements}
+        end,
+   set_statement_and_type(State, Ps, Type);
 handle_node(State, {'any-root', Step}) ->
    State1 = handle_node(State, Step),
    Val = get_statement(State1),
@@ -2009,6 +2023,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    ForState = handle_node(StateC, Expr),
+   IsDB = get_is_db(ForState),
    ?NO_UPD(ForState),
    % for loop type is one out of a sequence
    ForType = get_statement_type(ForState),
@@ -2037,13 +2052,15 @@ handle_node(State,{'for',#xqVar{id = Id,
    External = case is_static_literal(ForStmt) of
               true ->
                  {false, ForStmt};
+              _ when IsDB ->
+                 {false, true};
               _ ->
                  ForStmt
            end,
 
    ForLet = if MakeLet -> 'let'; true -> 'for' end,
    NewVar  = {Name,SForType,[],ErlVarName,External},
-   State1 = add_inscope_variable(State, NewVar),
+   State1 = set_is_db(add_inscope_variable(State, NewVar), IsDB),
    NewStatement = {ForLet,Node#xqVar{id = Id,
                                 name = Name, 
                                 type = OutType, 
@@ -2068,6 +2085,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    ErlVarName = local_variable_name(Id),
    ErlPosName = local_variable_name(Pid),
    ForState = handle_node(StateC, Expr),
+   IsDB = get_is_db(ForState),
    ?NO_UPD(ForState),
    % for loop type is one out of a sequence   
    ForType = get_statement_type(ForState), 
@@ -2092,7 +2110,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    NewVar  = {Name,SForType,[],ErlVarName},
    NewPos  = {PName,?intone,[],ErlPosName},
    
-   State1 = add_inscope_variable(State, NewVar),
+   State1 = set_is_db(add_inscope_variable(State, NewVar), IsDB),
    State2 = add_inscope_variable(State1, NewPos),
 
    NewStatement = {'for',Node#xqVar{id = Id,
@@ -2113,6 +2131,7 @@ handle_node(State, {'let',#xqVar{id = Id,
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    LetState = handle_node(StateC, Expr),
+   IsDB = get_is_db(LetState),
    ?NO_UPD(LetState),
    LetType = get_statement_type(LetState),
    OutType = if Type == undefined ->
@@ -2149,12 +2168,14 @@ handle_node(State, {'let',#xqVar{id = Id,
    External = case is_static_literal(LetStmt1) of
                  true ->
                     {false, LetStmt1};
+                 _ when IsDB ->
+                    {false, true};
                  _ ->
                     LetStmt1
               end,
    NewVar  = {Name,LetType,[],ErlVarName, External},
 
-   State1 = add_inscope_variable(State, NewVar),
+   State1 = set_is_db(add_inscope_variable(State, NewVar), IsDB),
    
    NewStatement = {'let',Node#xqVar{id = Id, 
                                 name = Name, 
@@ -3107,6 +3128,29 @@ handle_node(State, {'function-call',
                           {'function-call', 
                            F#xqFunction{params = NewArgs, 
                                         type = Type1}}, Type1);
+% DB node calls
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN,local_name = ?A("doc")} = Name, 1, 
+                    [Arg]}) -> 
+   F = get_static_function(State, {Name, 1}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   Type = #xqSeqType{type = document, occur = zero_or_one},
+   ArgSt = get_statement(SimpArg),
+   set_statement_and_type(set_is_db(State, true), 
+                          {'function-call',
+                           F#xqFunction{params = [ArgSt], type = Type}}, Type);
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN,local_name = ?A("collection")} = Name, 1, 
+                    [Arg]}) -> 
+   F = get_static_function(State, {Name, 1}),
+   StateC = set_in_constructor(State, false),
+   SimpArg = handle_node(StateC, Arg),
+   Type = #xqSeqType{type = item, occur = zero_or_many},
+   ArgSt = get_statement(SimpArg),
+   set_statement_and_type(set_is_db(State, true), 
+                          {'function-call',
+                           F#xqFunction{params = [ArgSt], type = Type}}, Type);
 
 % list reordering / takes type of the arg
 handle_node(State, {'function-call', 
@@ -4284,8 +4328,7 @@ namespace_nodes(AttsNs) ->
    [Ns || #xqNamespaceNode{} = Ns <- AttsNs].
 
 override_namespaces(State, Namespaces) ->
-   Fun = fun(#xqNamespaceNode{name = #qname{namespace = Ns, 
-                                            prefix = <<>>}} = Namespace, 
+   Fun = fun(#xqNamespaceNode{uri = Ns, prefix = <<>>} = Namespace, 
              State1) ->
                New = #xqNamespace{namespace = Ns, prefix = <<>>},
                Known = State1#state.known_ns,
@@ -4293,8 +4336,7 @@ override_namespaces(State, Namespaces) ->
                State2 = State1#state{default_elem_ns = Ns,
                                      known_ns = NewKnown},
                add_inscope_namespace(State2, Namespace);
-            (#xqNamespaceNode{name = #qname{namespace = Ns, 
-                                            prefix = Px}} = Namespace, 
+            (#xqNamespaceNode{uri = Ns, prefix = Px} = Namespace, 
              State1) ->
                New = #xqNamespace{namespace = Ns, prefix = Px},
                Known = State1#state.known_ns,
@@ -4304,8 +4346,7 @@ override_namespaces(State, Namespaces) ->
          end,
    lists:foldl(Fun, State, Namespaces).
 
-add_inscope_namespace(State, #xqNamespaceNode{name = #qname{namespace = Ns, 
-                                                            prefix = Px}}) ->
+add_inscope_namespace(State, #xqNamespaceNode{uri = Ns, prefix = Px}) ->
    New = #xqNamespace{namespace = Ns, prefix = Px},
    Known = get_inscope_ns(State),
    NewKnown = lists:keystore(Px, 3, Known, New),
@@ -4417,7 +4458,7 @@ check_unique_att_names(Attributes) ->
 check_direct_namespaces(Namespaces) ->
    Sorted = lists:sort(Namespaces),
    Unique = lists:usort(Namespaces),
-   Prefixes = lists:usort([P || #xqNamespaceNode{name = #qname{prefix = P}} 
+   Prefixes = lists:usort([P || #xqNamespaceNode{prefix = P} 
                            <- Unique]),
    if length(Sorted) =/= length(Prefixes) ->
          ?err('XQST0071');
@@ -4425,7 +4466,7 @@ check_direct_namespaces(Namespaces) ->
          ok
    end,    
    lists:foreach(
-     fun(#xqNamespaceNode{name = #qname{namespace = N2x, prefix = P2x}}) ->
+     fun(#xqNamespaceNode{uri = N2x, prefix = P2x}) ->
            P2 = xqerl_types:string_value(P2x),
            N2 = if is_atom(N2x) -> % no-namespace
                       N2x;
@@ -4457,7 +4498,7 @@ check_direct_namespaces(Namespaces) ->
 handle_direct_constructor(State = #state{base_uri = BU}, 
                           #xqElementNode{name = QName, 
                                          attributes = AttsNs, 
-                                         expr = Content} = Node) ->
+                                         content = Content} = Node) ->
    InscopeNs = get_inscope_ns(State),
    Namespaces = namespace_nodes(AttsNs),
    Attributes = attribute_nodes(AttsNs),
@@ -4478,7 +4519,7 @@ handle_direct_constructor(State = #state{base_uri = BU},
                     O
               end,
    NewBase = [S ||
-              #xqAttributeNode{expr = [?atomic(_,S)],
+              #xqAttributeNode{string_value = [?atomic(_,S)],
                                name = #qname{prefix = <<"xml">>,
                                              local_name = <<"base">>}} <-
               Attributes2],
@@ -4495,13 +4536,13 @@ handle_direct_constructor(State = #state{base_uri = BU},
                  Node#xqElementNode{name = QName1, 
                                     base_uri = BU2,
                                     attributes = Namespaces ++ Attributes2, 
-                                    expr = SContent, 
+                                    content = SContent, 
                                     inscope_ns = InscopeNs});
 %% 3.9.1.1 Attributes
-handle_direct_constructor(State, #xqAttributeNode{expr = Content} = Node) ->
+handle_direct_constructor(State, #xqAttributeNode{string_value = Content} = Node) ->
    S1 = handle_attribute_content(State, Content),
    St = get_statement(S1),
-   set_statement(State, Node#xqAttributeNode{expr = St});
+   set_statement(State, Node#xqAttributeNode{string_value = St});
 %% 3.9.1.2 Namespace Declaration Attributes
 %% handle_direct_constructor(State, #xqNamespaceNode{name = QName} = Node) ->
 %%    default_return(State, Node);
@@ -4515,21 +4556,21 @@ handle_direct_constructor(
          ok
    end,
    set_statement(State, Node#xqProcessingInstructionNode{base_uri = <<>>});
-handle_direct_constructor(State, #xqCommentNode{expr = Content} = Node) ->
+handle_direct_constructor(State, #xqCommentNode{string_value = Content} = Node) ->
    S1 = handle_node(State, Content),
    St = get_statement(S1),
-   set_statement(State, Node#xqCommentNode{expr = St});
-handle_direct_constructor(State, #xqTextNode{expr = Content} ) ->
+   set_statement(State, Node#xqCommentNode{string_value = St});
+handle_direct_constructor(State, #xqTextNode{string_value = Content} ) ->
    S1 = handle_node(State, Content),
    St = get_statement(S1),
-   set_statement(State, #xqTextNode{expr = St});
+   set_statement(State, #xqTextNode{string_value = St});
 % catch-all for expressions
 handle_direct_constructor(State, Cons) ->
    handle_node(State, Cons).
 
 %% 3.9.3.1 Computed Element Constructors
 handle_comp_constructor(State = #state{base_uri = BU}, 
-                        #xqElementNode{name = Name, expr = Expr} = Node) ->
+                        #xqElementNode{name = Name, content = Expr} = Node) ->
    InscopeNs = get_inscope_ns(State),
    S1 = get_statement(handle_node(State, Expr)),
    S2 = case Name of
@@ -4543,14 +4584,14 @@ handle_comp_constructor(State = #state{base_uri = BU},
    set_statement_and_type(State, 
                           Node#xqElementNode{name = 
                                                resolve_element_name(State, S2),
-                                             expr = S1, 
+                                             content = S1, 
                                              inscope_ns = InscopeNs,
                                              base_uri = 
                                                ?atomic('xs:anyURI',BU)}, 
                           #xqSeqType{type = 'element', occur = one});
 %% 3.9.3.2 Computed Attribute Constructors
 handle_comp_constructor(State, #xqAttributeNode{name = Name, 
-                                                expr = Expr} = Node) ->
+                                                string_value = Expr} = Node) ->
    S1 = get_statement(handle_node(State, Expr)),
    Name1 = case Name of
            'empty-sequence' ->
@@ -4562,19 +4603,19 @@ handle_comp_constructor(State, #xqAttributeNode{name = Name,
         end,
    Name2 = resolve_attribute_name(State, Name1),
    set_statement_and_type(State, 
-                          Node#xqAttributeNode{name = Name2, expr = S1}, 
+                          Node#xqAttributeNode{name = Name2, string_value = S1}, 
                           #xqSeqType{type = 'attribute', occur = one});
 %% 3.9.3.3 Document Node Constructors
 handle_comp_constructor(State = #state{base_uri = BU}, 
-                        #xqDocumentNode{expr = Expr} = Node) -> 
+                        #xqDocumentNode{content = Expr} = Node) -> 
    S1 = get_statement(handle_node(State, Expr)),
    set_statement_and_type(State, 
-                          Node#xqDocumentNode{expr = S1, 
-                                              base_uri = 
+                          Node#xqDocumentNode{content = S1, 
+                                              document_uri = 
                                                 ?atomic('xs:anyURI',BU)}, 
                           #xqSeqType{type = 'document-node', occur = one});
 %% 3.9.3.4 Text Node Constructors
-handle_comp_constructor(State, #xqTextNode{expr = Content} = Node) -> 
+handle_comp_constructor(State, #xqTextNode{string_value = Content} = Node) -> 
    S1 = handle_node(State, Content),
    St = get_statement(S1),
   %?dbg("St",St),
@@ -4582,12 +4623,12 @@ handle_comp_constructor(State, #xqTextNode{expr = Content} = Node) ->
       St == {content_expr,[]} ->
          set_statement(State, 'empty-sequence');
       true ->
-         set_statement(State, Node#xqTextNode{expr = St})
+         set_statement(State, Node#xqTextNode{string_value = St})
    end;  
 %% 3.9.3.5 Computed Processing Instruction Constructors
 handle_comp_constructor(State, 
                         #xqProcessingInstructionNode{name = Name, 
-                                                     expr = Expr} = Node) -> 
+                                                     string_value = Expr} = Node) -> 
    S1 = get_statement(handle_node(State, Expr)),
    S2 = case Name of
            'empty-sequence' ->
@@ -4602,26 +4643,27 @@ handle_comp_constructor(State,
    set_statement_and_type(State, 
                           Node#xqProcessingInstructionNode{name = 
                                                              resolve_pi_name(State, S2), 
-                                                           expr = S1}, 
+                                                           string_value = S1}, 
                           #xqSeqType{type = 'processing-instruction', 
                                      occur = one});
 %% 3.9.3.6 Computed Comment Constructors
-handle_comp_constructor(State, #xqCommentNode{expr = Content} = Node) -> 
+handle_comp_constructor(State, #xqCommentNode{string_value = Content} = Node) -> 
    S1 = handle_node(State, Content),
    St = get_statement(S1),
-   set_statement(State, Node#xqCommentNode{expr = St});
+   set_statement(State, Node#xqCommentNode{string_value = St});
 %% 3.9.3.7 Computed Namespace Constructors
-handle_comp_constructor(State, #xqNamespaceNode{name = Name} = Node) -> 
-   S2 = case Name of
-           'empty-sequence' ->
+handle_comp_constructor(State, #xqNamespaceNode{uri = U, prefix = P} = Node) -> 
+   {U1, P1} = case {U, P} of
+           {'empty-sequence', _} ->
               ?err('XPTY0004');
-           #qname{namespace = undefined} ->
+           {undefined, _} ->
               ?err('XPST0081');
            _ ->
-              get_statement(handle_node(State, Name))
+              {U, P}
+              %get_statement(handle_node(State, Name))
         end,
    set_statement_and_type(State, 
-                          Node#xqNamespaceNode{name = S2}, 
+                          Node#xqNamespaceNode{uri = U1, prefix = P1}, 
                           #xqSeqType{type = 'namespace', occur = one}).
 
 %% 3.9.1.3 Content
@@ -4785,11 +4827,11 @@ combine_literals_to_text([#xqAtomicValue{type = 'xs:string', value = Val1},
 combine_literals_to_text([{RefType,Txt}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
-   [#xqTextNode{expr = #xqAtomicValue{type = 'xs:string', 
+   [#xqTextNode{string_value = #xqAtomicValue{type = 'xs:string', 
                                       value = Txt}, 
                 cdata = true}|combine_literals_to_text(T)];
 combine_literals_to_text([#xqAtomicValue{type = 'xs:string'} = H|T]) ->
-   [#xqTextNode{expr = H, cdata = true}|combine_literals_to_text(T)];
+   [#xqTextNode{string_value = H, cdata = true}|combine_literals_to_text(T)];
 combine_literals_to_text([H|T]) ->
    [H|combine_literals_to_text(T)].
 
@@ -5566,6 +5608,13 @@ set_inscope_ns(#state{context = #context{} = Ctx} = State, InscopeNs) ->
 get_inscope_ns(#state{context = #context{inscope_ns = InscopeNs}}) -> 
    InscopeNs.
 
+set_is_db(#state{context = #context{} = Ctx} = State, IsDb) ->
+   NewCtx = Ctx#context{is_db_node = IsDb},
+   State#state{context = NewCtx}.
+
+get_is_db(#state{context = #context{is_db_node = IsDb}}) -> 
+   IsDb.
+
 %% TODO - use these functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 
 %% set_can_inline(#state{context = #context{} = Ctx} = State, CanInline) ->
@@ -5655,6 +5704,8 @@ get_variable(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
 %%       [] ->
 %%          undefined
 %%    end;
+
+% static value can be undefined | an atomic, or true for DB nodes
 get_variable_static_value(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
    case [Value || {_,_,_,VarAtom1,{false,Value}} <- Vars, 
                   VarAtom1 == VarAtom] of

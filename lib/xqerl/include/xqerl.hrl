@@ -22,6 +22,7 @@
 %%
 %% -------------------------------------------------------------------
 -include_lib("kernel/include/logger.hrl").
+-include("xqerl_item.hrl").
 
 %% The variables available in both XQuery 3.1 and XSLT 3.0 are:
 %% - err:code - the error code
@@ -152,103 +153,6 @@
    type  = item :: term(), %:: atom() | #xqKindTest{},
    occur = zero_or_many  :: zero | one | zero_or_one | zero_or_many | one_or_many | none
 }).
-
-% 3 types of items
--record(xqAtomicValue,
-        {
-         type  = undefined :: atom(),
-         value = undefined :: term() | []
-        }).
-
--record(qname, 
-        {
-         namespace  :: 'no-namespace' | default | undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()],
-         prefix    = undefined :: default | undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()],
-         local_name :: undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()]
-        }).
-
--record(xqNamespace, 
-        {
-         namespace  :: 'no-namespace' | undefined | binary() | [],
-         prefix     :: undefined | binary() | []
-        }).
-
--record(xqXmlFragment, {
-      identity     = undefined :: term(),
-      desc_count   = 0         :: integer(),
-      document_uri = undefined :: term(),
-      children     = []        :: [term()],
-      string_value = <<>>      :: binary()
-   }).
-
--record(xqDocumentNode, {
-      identity     = undefined :: term(),
-      desc_count   = 0         :: integer(),
-      base_uri     = undefined :: term(),
-      children     = []        :: [term()],
-      value        = undefined :: term(),
-      string_value = <<>>      :: binary(),
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqElementNode, {
-      identity     = undefined :: term(),
-      desc_count   = 0         :: integer(),
-      name         = undefined :: #qname{} | term(),
-      parent_node  = undefined :: term(),
-      children     = []        :: [term()],
-      attributes   = []        :: undefined | term() | [term()],
-      inscope_ns   = []        ,
-      nilled       = false     :: boolean(),
-      type         = undefined :: term(),
-      base_uri     = <<>>      :: binary() | #xqAtomicValue{},
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqAttributeNode, {
-      identity     = undefined :: term(),
-      name         = undefined :: #qname{} | term(),
-      parent_node  = undefined :: term(),
-      value        = undefined :: term(),
-      string_value = <<>>      :: binary(),
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqNamespaceNode, {
-      identity     = undefined :: term(),
-      name         = undefined :: #qname{} | term(),
-      parent_node  = undefined :: term(),
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqProcessingInstructionNode, {
-      identity     = undefined :: term(),
-      name         = undefined :: #qname{} | term(),
-      parent_node  = undefined :: term(),
-      base_uri     = <<>>      :: binary() | #xqAtomicValue{},
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqCommentNode, {
-      identity     = undefined :: term(),
-      parent_node  = undefined :: term(),
-      string_value = <<>>      :: binary(),
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
-
--record(xqTextNode, {
-      identity     = undefined :: term(),
-      parent_node  = undefined :: term(),
-      cdata        = false     :: boolean(),
-      path_index   = undefined,% :: [integer()],
-      expr         = undefined :: term()
-   }).
 
 -record(dec_format, {
    decimal = ".",

@@ -29,7 +29,7 @@
 
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(PX, <<"array">>).
-
+-define(MAX_SIZE, (1 bsl 24) - 1).
 
 -'module-namespace'({?NS,?PX}).
 

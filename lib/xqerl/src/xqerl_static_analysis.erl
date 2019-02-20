@@ -55,6 +55,7 @@ analyze(Body, Functions, Variables) ->
    % analyze
    _ = x(G, M2, Body1 ++ Functions1 ++ Variables1, []),
    %print(G),
+   _ = xqerl_static_path_analysis:analyze(G),
    G.
 
 %% print(G) ->
@@ -71,18 +72,57 @@ analyze(Body, Functions, Variables) ->
 % when new Ref found, find id and make link to parent, leave parent as is
 
 % path expressions
-%% x(G, Map, Parent,{path_expr,Id,Expr} ) ->
-%%    K = {Id,path_expr},
-%%    ?dbg("{K,Parent}",{K,Parent}),
-%%    add_vertex(G, K),
-%%    add_edge(G,K,Parent),
-%%    x(G, Map, K, Expr),
-%%    Map;
+x(G, Map, Parent,{path_expr,Id,Expr} ) ->
+   K = {Id,path_expr},
+   %?dbg("{K,Parent}",{K,Parent}),
+   add_vertex(G, K),
+   case Parent of
+      {_,{axisStep,_,_}} ->
+         add_edge(G, K, Parent, {predicate, Parent, K}),
+         x(G, Map#{path := Id}, K, Expr),
+         Map;
+      _ ->
+         add_edge(G, K, Parent, {Parent, '=', K}),
+         x(G, Map#{path := Id}, K, Expr),
+         Map
+   end;
+
+x(G, Map, Parent, [#xqVarRef{name = Nm0} = V|T]) ->
+   M = x(G, Map, Parent, V),
+   Nm = sim_name(Nm0),
+   Id = maps:get(Nm, M),
+   %?dbg("{V,Parent}",{{Id, Nm},Parent}),
+   x(G, M, {Id, Nm}, T);
+x(G, Map, Parent, [#xqAxisStep{id = Id,
+                               axis = Axis,
+                               node_test = Nt,
+                               predicates = Preds}|T] ) ->
+   K = {Id, {axisStep, Axis, Nt}},
+   %?dbg("{K,Parent}",{K,Parent}),
+   add_vertex(G, K),
+   add_edge(G,K,Parent, {step, maps:get(path, Map)}),
+   %x(G, Map, Parent, Preds),
+   x(G, Map, K, Preds),
+   x(G, Map, K, T),
+   Map;
+
+x(G, Map, Parent, #xqAxisStep{id = Id,
+                              axis = Axis,
+                              node_test = Nt,
+                              predicates = Preds}) ->
+   % TODO add `free` axis steps to the current path item when in predicate
+   K = {Id, {axisStep, Axis, Nt}},
+   add_vertex(G, K),
+   PathParent = {maps:get(path, Map), path_expr},
+   add_edge(G,K, Parent, {step, maps:get(path, Map)}),
+   add_edge(G,K, PathParent, {step, maps:get(path, Map)}),
+   x(G, Map, K, Preds),
+   Map;
 
 x(G, Map, Parent,{update, modify, Id, Vars, Expr, Return}) ->
    K = {Id, modify},
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, update),
    LM = lists:foldl(fun(E,M) ->
                         x(G, M, Parent, E)
                     end, Map, Vars),
@@ -91,7 +131,7 @@ x(G, Map, Parent,{update, modify, Id, Vars, Expr, Return}) ->
 x(G, Map, Parent, {update, Id,_,A,B,C}) ->
    K = {Id, update}, % ensure updates are not moved
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    x(G, Map, K, B),
    x(G, Map, K, C),
@@ -99,27 +139,27 @@ x(G, Map, Parent, {update, Id,_,A,B,C}) ->
 x(G, Map, Parent, {update, Id,_,A,B}) ->
    K = {Id, update}, % ensure updates are not moved
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    x(G, Map, K, B),
    Map;
 x(G, Map, Parent, {update, Id,_,A}) ->
    K = {Id, update}, % ensure updates are not moved
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    Map;
 x(G, Map, Parent,{where,Id,Expr} ) ->
    K = {Id,where},
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, where),
    x(G, Map, K, Expr),
    Map;
 
 x(G, Map, Parent,{order_by,Id,Expr} ) ->
    K = {Id,order_by},
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, order),
    x(G, Map, K, Expr),
    Map;
 
@@ -127,14 +167,14 @@ x(G, Map, Parent,{group_by,Id,Expr} ) ->
    K = {Id,group_by},
    %?dbg("{Id,group}",K),
    add_vertex(G, K),
-   add_edge(G,K,Parent),
+   add_edge(G,K,Parent, group),
    x(G, Map, K, Expr),
    Map;
 
 x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent),
+   add_edge(G, {Id,Nm}, Parent, {variable, Id, set}),
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    case Pos of
       #xqPosVar{id = Id1, name = Nm1} ->
@@ -144,7 +184,7 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
                ok
          end,
          add_vertex(G, {Id1,sim_name(Nm1)}),
-         add_edge(G, {Id1,sim_name(Nm1)}, Parent),
+         add_edge(G, {Id1,sim_name(Nm1)}, Parent, {variable, Id1, set}),
          M2 = maps:put(sim_name(Nm1), Id1, M1),
          x(G, Map, Parent, D),
          x(G, Map, {Id,Nm}, D),
@@ -169,7 +209,7 @@ x(G, Map, Parent,
             end_expr   = Ee}) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent),
+   add_edge(G, {Id,Nm}, Parent, variable),
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    x(G, Map, {Id,Nm}, Ex),
    Fold = fun(undefined,M) ->
@@ -177,12 +217,12 @@ x(G, Map, Parent,
              (#xqVar{id = Id2, name = Nm3},M) ->
                 Nm2 = sim_name(Nm3),
                 add_vertex(G, {Id2,Nm2}),
-                add_edge(G, {Id2,Nm2}, {Id2,Nm2}),
+                add_edge(G, {Id2,Nm2}, {Id2,Nm2}, {variable, Id2}),
                 add_variable_to_scope(Nm2, Id2, M, G);
              (#xqPosVar{id = Id2, name = Nm3},M) ->
                 Nm2 = sim_name(Nm3),
                 add_vertex(G, {Id2,Nm2}),
-                add_edge(G, {Id2,Nm2}, {Id2,Nm2}),
+                add_edge(G, {Id2,Nm2}, {Id2,Nm2}, {pos_variable, Id2}),
                 add_variable_to_scope(Nm2, Id2, M, G)
           end,
    M2 = lists:foldl(Fold, M1, [S1,S2,S3,S4]),
@@ -194,7 +234,7 @@ x(G, Map, Parent,
 x(G, Map, Parent, #xqTypeswitchCase{types = default, variable = #xqVar{id = Id, name = Nm0, expr = D}}) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent),
+   add_edge(G, {Id,Nm}, Parent, type_switch),
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    x(G, M1, Parent, D),
    Map;
@@ -202,7 +242,7 @@ x(G, Map, Parent, #xqTypeswitchCase{types = default, variable = #xqVar{id = Id, 
 x(G, Map, Parent, [#xqTypeswitchCase{variable = #xqVar{id = Id, name = Nm0, expr = D}}|T]) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent),
+   add_edge(G, {Id,Nm}, Parent, type_switch),
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    x(G, M1, Parent, D),
    x(G, Map, Parent, T),
@@ -235,7 +275,7 @@ x(G, Map, [#xqVar{id = Id, name = Nm0, expr = Body}|T], _Data) ->
          ContextEdges = digraph_utils:reaching([{Id,Nm}], G),
          case lists:member({dynamic,context_item}, ContextEdges) of
             true ->
-               add_edge(G,context_item,{Id,Nm});
+               add_edge(G,context_item,{Id,Nm}, ext);
             _ ->
                ok
          end;
@@ -252,13 +292,13 @@ x(G, Map, [#xqQuery{query = Qry}|T], _Data) ->
    ContextEdges = digraph_utils:reaching([main], G),
    case lists:member({dynamic,context_item}, ContextEdges) of
       true ->
-         add_edge(G,context_item,main);
+         add_edge(G,context_item,main, ext);
       _ ->
          ok
    end;
 x(G, Map, [{'context-item',{_,_,Expr}}|T],_Data ) ->
    add_vertex(G, context_item),
-   add_edge(G,context_item,main),
+   add_edge(G,context_item,main, ext),
    x(G, Map, context_item, Expr),
    x(G, Map, T, []);
 x(G, Map, Parent, Data) when is_list(Data) ->
@@ -270,8 +310,8 @@ x(G, Map, Parent, Data) when is_list(Data) ->
 x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
    add_vertex(G, {TI,'if-then-else'}),
    add_vertex(G, {EI,'if-then-else'}),
-   add_edge(G,{TI,'if-then-else'},Parent),
-   add_edge(G,{EI,'if-then-else'},Parent),
+   add_edge(G,{TI,'if-then-else'},Parent, conditional),
+   add_edge(G,{EI,'if-then-else'},Parent, conditional),
    x(G, Map, Parent, If),
    x(G, Map, {TI,'if-then-else'}, Then),
    x(G, Map, {EI,'if-then-else'}, Else),
@@ -306,8 +346,8 @@ x(G, Map, Parent, {Cons,Bod}) when Cons =:= direct_cons;
                                    Cons =:= comp_cons ->
    add_vertex(G, {static,base_uri}),
    add_vertex(G, {static,known_namespaces}),
-   add_edge(G,{static,base_uri},Parent),
-   add_edge(G,{static,known_namespaces},Parent),
+   add_edge(G,{static,base_uri},Parent, property),
+   add_edge(G,{static,known_namespaces},Parent, property),
    %?dbg("Bod",Bod),
    x(G, Map, Parent, Bod),
    Map;
@@ -316,7 +356,7 @@ x(G, Map, Parent, #xqFlwor{} = Data) ->
    Map;
 x(G, Map, Parent, #xqPosVar{id = Id1, name = Nm1}) ->
    add_vertex(G, {Id1,sim_name(Nm1)}),
-   add_edge(G, {Id1,sim_name(Nm1)}, Parent),
+   add_edge(G, {Id1,sim_name(Nm1)}, Parent, {pos_variable, Id1}),
    M2 = maps:put(sim_name(Nm1), Id1, Map),
    x(G, M2, Parent, []),
    M2;
@@ -332,7 +372,7 @@ x(G, Map, Parent, #xqVarRef{name = Nm0}) ->
          ?dbg("XPST0008",'XPST0008'),
          ?err('XPST0008'); % self reference, variable does not exist yet
       Id ->
-         add_edge(G, {Id,Nm}, Parent),
+         add_edge(G, {Id,Nm}, Parent, {variable, Id, ref}),
          Map
    end;
 x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
@@ -343,16 +383,16 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
          Id = maps:get({Nm, Ar}, Map),
          if Id == 0 ->
                add_vertex(G, {-1,Nm,Ar}),
-               add_edge(G, {-1,Nm,Ar}, Parent),
-               add_edge(G, {Id,Nm,Ar}, Parent);
+               add_edge(G, {-1,Nm,Ar}, Parent, static),
+               add_edge(G, {Id,Nm,Ar}, Parent, static);
             true ->
-               add_edge(G, {Id,Nm,Ar}, Parent)
+               add_edge(G, {Id,Nm,Ar}, Parent, local)
          end,
          x(G, Map, Parent, Args);
       _ -> % non local function
          add_properties(G, Nm0, Ar),
          add_vertex(G, {-1,Nm,Ar}),
-         add_edge(G, {-1,Nm,Ar}, Parent),
+         add_edge(G, {-1,Nm,Ar}, Parent, ext),
          x(G, Map, Parent, Args)
    end,
    Map;
@@ -363,16 +403,16 @@ x(G, Map, Parent, {'function-ref', Nm0, Ar}) ->
          Id = maps:get({Nm, Ar}, Map),
          if Id == 0 ->
                add_vertex(G, {-1,Nm,Ar}),
-               add_edge(G, {-1,Nm,Ar}, Parent),
-               add_edge(G, {Id,Nm,Ar}, Parent);
+               add_edge(G, {-1,Nm,Ar}, Parent, static),
+               add_edge(G, {Id,Nm,Ar}, Parent, static);
             true ->
                %add_edge(G, {Id,Nm,Ar}, Parent) % allow local function refs...
-               add_edge(G, {-1,Nm,Ar}, Parent) % allow local function refs...
+               add_edge(G, {-1,Nm,Ar}, Parent, local) % allow local function refs...
          end;
       _ -> % non local function
          add_properties(G, Nm0, Ar),
          add_vertex(G, {-1,Nm,Ar}),
-         add_edge(G, {-1,Nm,Ar}, Parent)
+         add_edge(G, {-1,Nm,Ar}, Parent, ext)
    end,
    Map;
 x(G, Map, Parent, Data) when is_tuple(Data) ->
@@ -380,7 +420,11 @@ x(G, Map, Parent, Data) when is_tuple(Data) ->
    x(G, Map, Parent, D1);
 x(G, Map, Parent, 'context-item') ->
    add_vertex(G, context_item),
-   add_edge(G, context_item, Parent),
+   add_edge(G, context_item, Parent, []),
+   Map;
+x(G, Map, Parent, 'root') ->
+   add_vertex(G, context_item),
+   add_edge(G, context_item, Parent, {step, maps:get(path, Map)}),
    Map;
 x(G, Map, [_|T], D) ->
    x(G, Map, T, D);
@@ -392,7 +436,7 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
    %?dbg("{Parent,{Id,flwor}}",{Parent,{Id,flwor}}),
    add_vertex(G, {Id,flwor}),
    %add_edge(G,Parent,{Id,flwor}),
-   add_edge(G,{Id,flwor},Parent),
+   add_edge(G,{Id,flwor},Parent, []),
    Le = lists:flatmap(fun(#xqWindow{} = E) ->
                            l(E);
                          ({group_by,_,_} = E) ->
@@ -468,12 +512,15 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
 add_vertex(G,V) -> digraph:add_vertex(G,V).
 
 add_edge(G, A, B) ->
+   add_edge(G, A, B, undefined).
+
+add_edge(G, A, B, L) ->
    Ex = [V || E <- digraph:out_edges(G, A),
               {_,_,V,_} <- [digraph:edge(G, E)],
               V == B],
    case Ex of
       [] ->
-         digraph:add_edge(G, A, B);
+         digraph:add_edge(G, A, B, L);
       _ ->
          ok
    end,
@@ -534,7 +581,7 @@ add_glob_variables(G, Variables) ->
                add_vertex(G, context_item),
                maps:put(context_item, -1, Map)
          end,
-   lists:foldl(Fun, maps:new(), Variables).
+   lists:foldl(Fun, #{path => []}, Variables).
 
 % returns map
 add_glob_funs(G, Functions, Map0) ->
@@ -572,11 +619,11 @@ add_properties(G, Nm0, Ar) ->
    Dynamic = maps:get(dynamic_properties, Properties),
    lists:foreach(fun(P) ->
                        add_vertex(G, {static, P}),
-                       add_edge(G, {static, P},{0,Nm,Ar})
+                       add_edge(G, {static, P},{0,Nm,Ar}, property)
                  end, Static),
    lists:foreach(fun(P) ->
                        add_vertex(G, {dynamic, P}),
-                       add_edge(G, {dynamic, P},{0,Nm,Ar})
+                       add_edge(G, {dynamic, P},{0,Nm,Ar}, property)
                  end, Dynamic),
    ok.
 

@@ -15,7 +15,8 @@
       xs_regex,
       erluca,
       hackney,
-      cowboy%,
+      cowboy,
+      merge_index%,
       %observer, 
       %runtime_tools
    ]},

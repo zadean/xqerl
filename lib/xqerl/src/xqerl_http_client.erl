@@ -339,13 +339,13 @@ attribute(LocalName, Value) ->
   #xqAttributeNode{name = #qname{namespace = 'no-namespace',
                                  prefix = <<>>,
                                  local_name = LocalName},
-                   expr = #xqAtomicValue{type = 'xs:string',
+                   string_value = #xqAtomicValue{type = 'xs:string',
                                          value = Value}}.
 
 element_node(Name, Atts, Expr) ->
    #xqElementNode{name = Name, 
                   attributes = Atts, 
-                  expr = Expr}.
+                  content = Expr}.
 
 
 parse_body(MediaTyp, Body) ->

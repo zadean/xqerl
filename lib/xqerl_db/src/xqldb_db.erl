@@ -35,7 +35,6 @@
          %
          database/1,
          databases/1,
-         paths/1,
          exists/1]).
 
 -export([create_or_open/2]). % internal
@@ -44,18 +43,20 @@
 open(Uri) when is_list(Uri) -> open(unicode:characters_to_binary(Uri));
 open(Uri) ->
    case get_pid(Uri) of
-      Pid when is_pid(Pid) ->
-         {ok, Pid};
-      _ ->
-         xqldb_db_sup:start_child(Uri)
+      {Id, Pid} when is_pid(Pid) ->
+         {ok, Pid, Id};
+      Other ->
+         io:format("~p~n", [Other]),
+         {ok, Pid, Id} = xqldb_db_sup:start_child(Uri),
+         {ok, Pid, Id}         
    end.
 
 %% Closes an open DB
 close(Uri) when is_list(Uri) -> close(unicode:characters_to_binary(Uri));
 close(Uri) ->
    case get_pid(Uri) of
-      Pid when is_pid(Pid) ->
-         xqldb_db_server:close(Uri),
+      {Id, Pid} when is_pid(Pid) ->
+         xqldb_db_server:close({Uri, Id}),
          _ = supervisor:terminate_child(xqldb_db_sup, Pid),
          ok;
       _ ->
@@ -67,12 +68,15 @@ close(Uri) ->
 database(Uri) when is_list(Uri) -> database(unicode:characters_to_binary(Uri));
 database(Uri) when is_binary(Uri) ->
    case get_pid(Uri) of
-      Pid when is_pid(Pid) ->
-         db_ref(Pid, Uri);
+      {Id, Pid} when is_pid(Pid) ->
+         db_ref(Pid, Uri, Id);
       _ ->
-         {ok,Pid} = open(Uri),
-         db_ref(Pid, Uri)
-   end.
+         {ok, Pid, Id} = open(Uri),
+         db_ref(Pid, Uri, Id)
+   end;
+database(SupPid) when is_pid(SupPid) ->
+   db_ref(SupPid).
+
 
 %% Returns a list of all DBs under the given URI, opens any closed.
 databases(Uri) when is_list(Uri) -> databases(unicode:characters_to_binary(Uri));
@@ -80,31 +84,9 @@ databases(Uri) ->
    UPids = xqldb_db_server:get_open(Uri),
    [begin
        DBPath = xqldb_uri:join(Uri, RelU),
-       Pid2 = if Pid == closed ->
-                    {ok,P} = open(DBPath),
-                    P;
-                 true ->
-                    Pid
-              end,
-       db_ref(Pid2, DBPath)
-    end || {RelU, Pid} <- UPids].
-
-%% Returns a list of all paths under the given URI.
-paths(Uri) when is_list(Uri) -> paths(unicode:characters_to_binary(Uri));
-paths(Uri) ->
-   UPids = xqldb_db_server:get_open(Uri),
-   Fun = fun({RelU, Pid}) ->
-               DBPath = xqldb_uri:join(Uri, RelU),
-               Pid2 = if Pid == closed ->
-                            {ok,P} = open(DBPath),
-                            P;
-                         true ->
-                            Pid
-                      end,               
-               DB = db_ref(Pid2, DBPath),
-               [P || {P,_,_,_} <- xqldb_path_table:all(?PATH_TABLE_P(DB))]
-         end,
-   lists:flatmap(Fun, UPids).
+       {ok, Pid, Id} = open(DBPath),
+       db_ref(Pid, DBPath, Id)
+    end || RelU <- UPids].
 
 %% Returns if there is an existing DB at URI.
 exists(Uri) when is_list(Uri) -> exists(unicode:characters_to_binary(Uri));
@@ -116,7 +98,7 @@ exists(Uri) ->
 %% Internal API functions
 %% ====================================================================
 create_or_open(DBDirectory, Uri) ->
-   {ok, Sup} = supervisor:start_link(?MODULE, [DBDirectory]),
+   {ok, Sup} = supervisor:start_link(?MODULE, [DBDirectory, Uri]),
    xqldb_db_server:open(Uri, Sup),
    {ok, Sup}.
 
@@ -130,13 +112,13 @@ get_pid(Uri) ->
          error;
       {opening,_,none} ->
          get_pid(Uri);
-      {_,_,Pid} ->
-         Pid
+      {_,I,Pid} ->
+         {I, Pid}
    end.
 
-init([DBDirectory]) ->
+init([DBDirectory, Uri]) ->
    SupFlags = #{strategy => one_for_all}, % restart all if one goes down
-   NewOpen = case filelib:is_file(filename:join(DBDirectory, "nodes.heap")) of
+   NewOpen = case filelib:is_dir(filename:join(DBDirectory, "ind")) of
                 true -> open;
                 false -> new
              end,
@@ -147,13 +129,14 @@ init([DBDirectory]) ->
    NSNds = child_map(ns_nodes, xqldb_ns_node_table, [NewOpen, DBDirectory, ?NS_NODE]), 
    Texts = child_map(texts, xqldb_string_table, [NewOpen, DBDirectory, ?TEXT]), 
    Attrs = child_map(attrs, xqldb_string_table, [NewOpen, DBDirectory, ?ATTS]),
-   Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH]),
+   Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH, Uri]),
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
    JSON  = child_map(json, xqldb_json_table, [NewOpen, DBDirectory, ?JSON]),
-   Nodes = child_map(nodes, xqldb_node_table, [NewOpen, DBDirectory, ?NODES]),
+   Index = child_map(index, mi_server, [DBDirectory ++ "/ind"]),
    
    {ok, {SupFlags, 
-         [Locks, Strct, Names, NmSps, NSNds, Texts, Attrs, Paths, JSON, Ress, Nodes]}}.
+         [Locks, Strct, Names, NmSps, NSNds, Texts, 
+          Attrs, Paths, JSON, Ress, Index]}}.
 
 %% ====================================================================
 %% Internal functions
@@ -162,14 +145,20 @@ init([DBDirectory]) ->
 
 child_map(Id, Module, Args) ->
    #{id        => Id,
+     %shutdown  => 1000,
      shutdown  => brutal_kill,
      start     => {Module, start_link, Args},
      modules   => [Module]}.
 
 
-db_ref(SupRef, Uri) ->
+db_ref(SupRef) ->
    Children = supervisor:which_children(SupRef),
-   get_pid_tids(Children, #{db_name => SupRef,
+   get_pid_tids(Children, #{db_name => SupRef}).
+
+db_ref(SupRef, Uri, Id) ->
+   Children = supervisor:which_children(SupRef),
+   get_pid_tids(Children, #{db_id => Id,
+                            db_name => SupRef,
                             db_uri => Uri}).
 
 get_pid_tids([], Map) -> Map;

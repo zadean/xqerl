@@ -784,6 +784,13 @@ handle_call({insert, Value}, _From, State) ->
    {Reply, State1} = upsert_string_value(Value, State),
    {reply, Reply, State1};
 
+handle_call({lookup, Ids}, _From, State) when is_list(Ids) ->
+   Fun = fun(Id, St) ->
+               {Str, St2} = lookup_string_from_id(Id, St),
+               {{Id, Str}, St2}
+         end,
+   {List, State1} = lists:mapfoldl(Fun, State, Ids),
+   {reply, maps:from_list(List), State1};
 handle_call({lookup, Id}, _From, State) ->
    {Reply, State1} = lookup_string_from_id(Id, State),
    {reply, Reply, State1}.

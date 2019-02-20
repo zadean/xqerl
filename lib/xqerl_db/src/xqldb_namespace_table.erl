@@ -70,8 +70,9 @@ tid(Pid) when is_pid(Pid) ->
 stop({Pid,_Tid}) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
-%% Returns the binary value for the given ID, or error if no such ID exists.
--spec lookup(server(), Id::non_neg_integer()) -> 
+%% Returns the binary value for the given ID, (or vice-versa) 
+%% or error if no such ID exists.
+-spec lookup(server(), Id :: non_neg_integer() | binary()) -> 
          Value::binary() | error.
 
 lookup({Pid,_Tid}, Id) when is_pid(Pid) -> 

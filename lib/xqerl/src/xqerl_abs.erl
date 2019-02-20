@@ -63,13 +63,13 @@ static_records() ->
     {xqAtomicValue,               "-record(xqAtomicValue,{type,value})."},
     {qname,                       "-record(qname,{namespace,prefix,local_name})."},
     {xqFunction,                  "-record(xqFunction,{id,annotations,name,arity,params,type,body,external})."},
-    {xqDocumentNode,              "-record(xqDocumentNode,{identity,desc_count,base_uri,children,value,string_value,path_index,expr})."},
-    {xqElementNode,               "-record(xqElementNode,{identity,desc_count,name,parent_node,children,attributes,inscope_ns,nilled,type,base_uri,path_index,expr})."},
-    {xqAttributeNode,             "-record(xqAttributeNode,{identity,name,parent_node,value,string_value,path_index,expr})."},
-    {xqTextNode,                  "-record(xqTextNode,{identity,parent_node,cdata,path_index,expr})."},
-    {xqCommentNode,               "-record(xqCommentNode,{identity,parent_node,string_value,path_index,expr})."},
-    {xqProcessingInstructionNode, "-record(xqProcessingInstructionNode,{identity,name,parent_node,base_uri,path_index,expr})."},
-    {xqNamespaceNode,             "-record(xqNamespaceNode,{identity,name,parent_node,path_index,expr})."},
+    {xqDocumentNode,              "-record(xqDocumentNode, {identity,document_uri,base_uri,children,content})."},
+    {xqElementNode,               "-record(xqElementNode, {identity,name,parent_node,children,attributes,inscope_ns,type,base_uri,content})."},
+    {xqAttributeNode,             "-record(xqAttributeNode, {identity,name,parent_node,string_value,type})."},
+    {xqTextNode,                  "-record(xqTextNode, {identity,parent_node,cdata,string_value})."},
+    {xqCommentNode,               "-record(xqCommentNode, {identity,parent_node,string_value})."},
+    {xqProcessingInstructionNode, "-record(xqProcessingInstructionNode, {identity,name,parent_node,base_uri,string_value})."},
+    {xqNamespaceNode,             "-record(xqNamespaceNode, {identity,uri,prefix,parent_node})."},
     {xqNamespace,                 "-record(xqNamespace,{namespace,prefix})."},
     {xqFunTest,                   "-record(xqFunTest,{kind,annotations,name,params,type})."},
     {xqSeqType,                   "-record(xqSeqType,{type,occur})."},
@@ -726,6 +726,7 @@ set_globals(Prolog, Map) ->
    ok = global_variable_map_set(ImportedMods,Locals),
    ok.
 
+%% USED ???
 global_variable_map_match(Modules,Locals) ->
    Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
 %?dbg("Vars",Vars),
@@ -769,8 +770,6 @@ body_function(ContextMap, Body,Prolog) ->
             P = [{match,?L,AV, {call,?L,{atom,?L,V},[CtxVar]}},
                  {match,?L,NV, {map,?L,CtxVar,
                                 [{map_field_assoc,?L,{atom,?L,V},AV}]}}],
-%%             P = ?P(["_@AV = '@V@'(_@CtxVar),",
-%%                     "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             {P, NV};
          ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
             NC = next_ctx_var_name(),
@@ -1529,6 +1528,21 @@ expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
             ])%;
    end;
          
+%%% TODO : do something cool with DB paths
+expr_do(Ctx0, {db_path_expr,_Id,[ {variable,Var} | Steps ]}) ->
+   Ctx = clear_context_variables(Ctx0),
+   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+   CtxSeq = a_var(Var,CurrCtxVar),
+   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
+      {[],_} -> % nothing simple, only complex
+         Comp = step_expr_do(Ctx, Steps, CtxSeq),
+         O = ?P(["begin",
+                 " _@@Comp",
+                 "end"
+            ]),
+         O%;
+   end;
+
 
 expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
    Ctx = clear_context_variables(Ctx0),
@@ -1544,9 +1558,27 @@ expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
          O%;
    end;
 
-
-
 expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
+   Ctx = clear_context_variables(Ctx0),
+   CtxSeq = case Base of
+               {postfix,_,_,_} -> % use old context item
+                  expr_do(Ctx0, {expr, Base});
+               #xqAxisStep{} -> % use old context item, 
+                  expr_do(Ctx0, {expr, Base});
+               _ ->
+                  expr_do(Ctx, {expr, Base})
+            end,
+   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
+      {[],_} -> % nothing simple, only complex
+         Comp = step_expr_do(Ctx, Steps, CtxSeq),
+         O = ?P(["begin",
+                 " _@@Comp",
+                 "end"
+            ]),
+         O%;
+   end;
+
+expr_do(Ctx0, {db_path_expr,_Id,[ Base | Steps ]}) ->
    Ctx = clear_context_variables(Ctx0),
    CtxSeq = case Base of
                {postfix,_,_,_} -> % use old context item
@@ -1627,10 +1659,10 @@ expr_do(Ctx, {Op,Vars,Test}) when Op =:= every;
        "          end,[_@VarTup || _@Gens])}"]);
 
 % ordering
-expr_do(Ctx, {'function-call', 
-              #qname{namespace = ?FN,
-                     local_name = ?A("unordered")}, 1, Args}) ->
-   expr_do(Ctx, {'unordered-expr', Args});
+%% expr_do(Ctx, {'function-call', 
+%%               #qname{namespace = ?FN,
+%%                      local_name = ?A("unordered")}, 1, Args}) ->
+%%    expr_do(Ctx, {'unordered-expr', Args});
 expr_do(_Ctx, {'unordered-expr', 'empty-expr'}) -> ?err('XPST0003');
 expr_do(Ctx, {'unordered-expr', Expr}) ->
    % new context to unordered
@@ -3140,7 +3172,7 @@ abs_path_expr(Ctx, {path_expr, Id, _Steps}) ->
    ok.
 
 abs_document_node(Ctx, #xqDocumentNode{identity = Id, 
-                                       expr = E, 
+                                       content = E, 
                                        base_uri = BU}) ->
    _ = add_used_record_type(xqDocumentNode),
    VarTup = get_variable_tuple(Ctx),
@@ -3172,7 +3204,7 @@ abs_document_node(Ctx, #xqDocumentNode{identity = Id,
    Fun = ?P(["'@FN@'(Ctx,_@VarTup) ->",
             " _@P1,",
             " Expr = _@E2,",
-            " #xqDocumentNode{base_uri = BaseUri, children = [], expr = Expr}."
+            " #xqDocumentNode{base_uri = BaseUri, children = [], content = Expr}."
             ]),
    add_global_funs([Fun]),
    CCtx = {var,?L,get_context_variable_name(Ctx)},
@@ -3180,7 +3212,7 @@ abs_document_node(Ctx, #xqDocumentNode{identity = Id,
 
 abs_element_node(Ctx, #xqElementNode{name = N, 
                                      attributes = A1, % namespaces in here
-                                     expr = E0, 
+                                     content = E0, 
                                      type = Type, 
                                      base_uri = BU, 
                                      inscope_ns = IsNs}) ->
@@ -3206,9 +3238,9 @@ abs_element_node(Ctx, #xqElementNode{name = N,
               expr_do(Ctx,E0)
         end,
    ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
-       " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, expr = _@E5}"]).
+       " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, content = _@E5}"]).
 
-abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
+abs_attribute_node(Ctx, #xqAttributeNode{name = N, string_value = E}) ->
    _ = add_used_record_type(xqAttributeNode),
    E1 = case N of
            #qname{namespace = _Ns, prefix = Px} ->
@@ -3237,9 +3269,9 @@ abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
                          end, {nil,?L}, Flat)
               end
         end,
-   ?P("#xqAttributeNode{name = _@E1, expr = _@E2}").
+   ?P("#xqAttributeNode{name = _@E1, string_value = _@E2}").
 
-abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
+abs_text_node(Ctx, #xqTextNode{string_value = E, cdata = C}) ->
    _ = add_used_record_type(xqTextNode),
    E1 = case is_list(E) of
            true ->
@@ -3254,9 +3286,9 @@ abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
                     expr_do(Ctx, E)
               end
         end,
-   ?P("#xqTextNode{cdata = _@C@, expr = _@E1}").
+   ?P("#xqTextNode{cdata = _@C@, string_value = _@E1}").
 
-abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
+abs_comment_node(Ctx, #xqCommentNode{string_value = E}) ->
    _ = add_used_record_type(xqCommentNode),
    E1 = case is_list(E) of
            true ->
@@ -3269,10 +3301,10 @@ abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
                     expr_do(Ctx, E)
               end
         end,
-   ?P("#xqCommentNode{string_value = _@S@, expr = _@E1}").
+   ?P("#xqCommentNode{string_value = _@E1}").
 
 abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, 
-                                              expr = E, 
+                                              string_value = E, 
                                               base_uri = BU}) ->
    _ = add_used_record_type(xqProcessingInstructionNode),
    BU1 = case maps:get('base-uri', Ctx) of
@@ -3301,7 +3333,7 @@ abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N,
                     expr_do(Ctx, E)
               end
         end,
-   ?P("#xqProcessingInstructionNode{name = _@E1,base_uri = _@E2,expr = _@E3}").
+   ?P("#xqProcessingInstructionNode{name = _@E1,base_uri = _@E2,string_value = _@E3}").
 
 abs_namespace_node(_Ctx, #xqNamespace{namespace = N, prefix = P}) ->
    _ = add_used_record_type(xqNamespace),
@@ -3310,10 +3342,10 @@ abs_namespace_node(_Ctx, #xqNamespace{namespace = N, prefix = P}) ->
       true ->
          ?P("#xqNamespace{namespace = _@N@, prefix = _@P}")
    end;
-abs_namespace_node(Ctx, #xqNamespaceNode{name = Name}) ->
+abs_namespace_node(Ctx, #xqNamespaceNode{uri = U, prefix = P}) ->
    _ = add_used_record_type(xqNamespaceNode),
-   E1 = abs_ns_qname(Ctx,Name),
-   ?P("#xqNamespaceNode{name = _@E1}").
+   {U1, P1} = abs_ns_qname(Ctx,{U,P}),
+   ?P("#xqNamespaceNode{uri = _@U1, prefix = _@P1}").
 
 abs_fun_test(Ctx,#xqFunTest{kind = Kind, 
                             annotations = Annos, 

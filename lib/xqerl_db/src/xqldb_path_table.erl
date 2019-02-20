@@ -39,14 +39,17 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([start_link/3,
+-export([start_link/4,
          stop/1,
+         new_document_id/1,
          insert/2,
          lookup/2,
          lookup_record/2,
          all/1,
          delete/2,
          delete_all/1]).
+
+-define(CLOSE_TIMEOUT, 12000000).
 
 -type state() :: #{tab => dets:tab_name(),
                    next => non_neg_integer()}.
@@ -55,12 +58,13 @@
 %% Open or create a new string table server.  
 -spec start_link(open | new,
                  DBDirectory::file:name_all(),
-                 TableName::string()) ->
+                 TableName::string(),
+                 Uri::binary()) ->
          {ok,Pid::pid()}.
-start_link(new, DBDirectory, TableName) ->
-   gen_server:start_link(?MODULE, [new, DBDirectory, TableName], []);
-start_link(open, DBDirectory, TableName) ->
-   gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
+start_link(new, DBDirectory, TableName, Uri) ->
+   gen_server:start_link(?MODULE, [new, DBDirectory, TableName, Uri], []);
+start_link(open, DBDirectory, TableName, Uri) ->
+   gen_server:start_link(?MODULE, [open, DBDirectory, TableName, Uri], []).
 
 %% Shutdown this server. 
 -spec stop(server()) -> ok | {ok,_}.
@@ -74,7 +78,7 @@ stop(Pid) when is_pid(Pid) ->
                         Pos :: non_neg_integer(), 
                         Size :: non_neg_integer()}) -> ok.
 
-insert(Pid, {_,_,_,_} = Value) when is_pid(Pid) ->
+insert(Pid, {_,_,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
 
 %% Delete all values with Name
@@ -116,6 +120,12 @@ all(Pid) when is_pid(Pid) ->
 delete_all(Pid) when is_pid(Pid) ->
    gen_server:call(Pid, delete_all).
 
+%% Returns the next unique document id.
+-spec new_document_id(server()) -> ok | {error,_}.
+
+new_document_id(Pid) when is_pid(Pid) ->
+   gen_server:call(Pid, new_document_id).
+
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
@@ -151,59 +161,82 @@ open(DBDirectory, TableName) ->
 %% Callbacks
 %% ====================================================================
  
-init([new, DBDirectory, TableName]) ->
+init([new, DBDirectory, TableName, Uri]) ->
    State = new(DBDirectory, TableName),
-   {ok,State};
-init([open, DBDirectory, TableName]) ->
+   {ok,State#{uri => Uri}};
+init([open, DBDirectory, TableName, Uri]) ->
    State = open(DBDirectory, TableName),
-   {ok,State}.
+   {ok,State#{uri => Uri}}.
 
 terminate(_Reason,#{tab  := HeapFile}) ->
    ok = dets:close(HeapFile),
    ok.
 
-handle_call({insert, {Name, Type, Pos, Size}}, 
+handle_call({insert, {Name, Type, DocId}}, 
             _From, #{tab  := HeapFile} = State) ->
-   ok = dets:insert(HeapFile, {Name, {Type, Pos, Size}}),
-   {reply, ok, State};
+   ok = dets:insert(HeapFile, {Name, {Type, DocId}}),
+   {reply, ok, State, ?CLOSE_TIMEOUT};
+
+handle_call(new_document_id, _From, State) ->
+   Unique = erlang:unique_integer([positive, monotonic]),
+   Bin = int_to_base62(Unique),
+   {reply, Bin, State, ?CLOSE_TIMEOUT};
 
 handle_call(delete_all, _From, #{tab  := HeapFile} = State) ->
    Reply = dets:delete_all_objects(HeapFile),
-   {reply, Reply, State};
+   {reply, Reply, State, ?CLOSE_TIMEOUT};
 
 handle_call(all, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{'$1',{'$2','$3','$4'}},[],[{{'$1','$2','$3','$4'}}]}],
+   MatchSpec = [{{'$1',{'$2','$3'}},[],[{{'$1','$2','$3'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:sort(lists:flatten(Got)), State};
+   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
 
 handle_call({delete, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
-   Pattern = {Name, {Type, '_', '_'}},
+   Pattern = {Name, {Type, '_'}},
    ok = dets:match_delete(HeapFile, Pattern),
-   {reply, ok, State};
-handle_call({delete, {Name, Type, Pos}}, _From, #{tab  := HeapFile} = State) ->
-   Pattern = {Name, {Type, Pos, '_'}},
+   {reply, ok, State, ?CLOSE_TIMEOUT};
+handle_call({delete, {Name, Type, DocId}}, _From, #{tab  := HeapFile} = State) ->
+   Pattern = {Name, {Type, DocId}},
    ok = dets:match_delete(HeapFile, Pattern),
-   {reply, ok, State};
+   {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call({lookup, {Name, res_or_link}}, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{Name,{'$1','$2','$3'}},[{'=:=','$1',res}],[{{'$2','$3'}}]},
                 {{Name,{'$1','$2','$3'}},[{'=:=','$1',link}],[{{'$2','$3'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State};
+   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
 handle_call({lookup, {Pos, Type}}, _From, #{tab  := HeapFile} = State) 
   when is_integer(Pos) ->
    MatchSpec = [{{'$1',{Type,'$2','$3'}}, 
                  [{'>=',Pos,'$2'},{'=<',Pos,{'+','$3','$2'}}],['$_']}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State};
+   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
 handle_call({lookup, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{Name,{Type,'$1','$2'}},[],[{{'$1','$2'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State}.
+   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT}.
 
 handle_cast(_Request, State) -> {noreply,State}.
 
+handle_info(timeout, #{uri := Uri} = State) -> 
+   _ = xqldb_db:close(Uri),
+   {noreply,State};
 handle_info(_Request, State) -> {noreply,State}.
 
 code_change(_, State, _) -> {ok, State}.
   
+-define(ALPHA, <<"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz">>).
+
+get_byte(N) ->
+   binary:at(?ALPHA, N).
+
+int_to_base62(Int) ->
+   erlang:list_to_binary(int_to_base62(Int, [])).
+
+%int_to_base62(Int, Acc) when Int < 0 -> int_to_base62(-Int, Acc);
+int_to_base62(0, Acc) -> Acc;
+int_to_base62(Int, Acc) ->
+   Rem = Int rem 62,
+   Div = Int div 62,
+   int_to_base62(Div, [get_byte(Rem)|Acc]).
+

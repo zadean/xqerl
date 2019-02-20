@@ -870,6 +870,24 @@ split_child_bin(Bin, Pos) ->
 %% <<?attribute:3,TextRef:32/integer,0:32/integer,NameRef:19/integer,NsRef:10,0:1,Offset:7>>,
 %% <<?comment:3,TextRef:32/integer,Offset:32/integer,0:19/integer,0:10,0:1,0:7>>,
 %% <<?proc_inst:3,TextRef:32/integer,Offset:32/integer,NameRef:19/integer,0:10,0:1,0:7>>,
+
+%get_string_ids(Bin, DB) ->
+   
+  
+get_string_ids(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>) ->
+   [UriRef|get_string_ids(Rest)];
+get_string_ids(<<?text:3,TextRef:32/integer,_:32/integer,0:37,Rest/binary>>) ->
+   [TextRef|get_string_ids(Rest)];
+get_string_ids(<<?proc_inst:3,TextRef:32/integer,_:69,Rest/binary>>) ->
+   [TextRef|get_string_ids(Rest)];
+get_string_ids(<<?comment:3,TextRef:32/integer,_:69,Rest/binary>>) ->
+   [TextRef|get_string_ids(Rest)];
+get_string_ids(<<_:?BSZ/binary,Rest/binary>>) ->
+   get_string_ids(Rest);
+get_string_ids(<<>>) -> [].
+   
+
+
 build_db_node_1(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>, [], Pos, DB) ->
    DbUri = ?DBURI(DB),
    NdId = {DbUri, Pos},
@@ -877,7 +895,9 @@ build_db_node_1(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>, [], Pos, DB)
            DbUri,
            xqldb_string_table:lookup(?TEXT_TABLE_P(DB), UriRef)),
    Doc = document(NdId,Uri,Uri),
-   Children = split_child_bin(Rest, Pos + 1),
+   Children = [build_db_node_1(B, Pos, P, DB) ||
+               {P,B} <- split_child_bin(Rest, Pos + 1)], 
+   %Children = split_child_bin(Rest, Pos + 1),
    add_children(Doc, Children);
 build_db_node_1(<<?element:3,_:32/integer,_Size:32/integer,NameRef:19/integer,
                   NsRef:10/integer,NsF:1,AttCnt:7/integer,Rest/binary>>, 
@@ -907,7 +927,9 @@ build_db_node_1(<<?element:3,_:32/integer,_Size:32/integer,NameRef:19/integer,
    AttFun = fun(At, E) -> add_attribute(E, At) end,
    Elem2 = lists:foldl(AttFun, Elem1, Atts),
    Elem3 = set_parent(Elem2, ParId),
-   Children = split_child_bin(Rest1, Pos + 1 + AttCnt),
+   Children = [build_db_node_1(B, Pos, P, DB) ||
+               {P,B} <- split_child_bin(Rest1, Pos + 1 + AttCnt)], 
+   %Children = split_child_bin(Rest1, Pos + 1 + AttCnt),
    add_children(Elem3, Children);
 build_db_node_1(<<?text:3,TextRef:32/integer,_Offset:32/integer,0:37>>, 
                 ParentPos, Pos, DB) ->
