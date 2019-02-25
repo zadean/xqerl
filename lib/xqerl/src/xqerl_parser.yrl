@@ -72,9 +72,12 @@ Nonterminals
 'RevalidationDecl' 'InsertExpr' 'DeleteExpr' 'ReplaceExpr' 'RenameExpr'
 'UpdatingFunctionCall' 'CopyModifyExpr' 'InsertExprTargetChoice'
 'TransformWithExpr'
+% moved here from Terminals, added 'maybeNCName' to Terminals
+'NCName'
 .
 
 Terminals 
+'maybeNCName'
 % terminating
 'S' % whitespace
 '#)' '(#'
@@ -108,14 +111,14 @@ Terminals
 % ADDED
 'quot' 'apos'
 'cdata-contents' 'PITarget' 'DirPIContents' 'comment-text'
-'IntegerLiteral' 'NCName' 'DecimalLiteral' 'DoubleLiteral' 
+'IntegerLiteral' 'DecimalLiteral' 'DoubleLiteral' 
 %'QName'
 'wildcard' 'lone-slash' 'PredefinedEntityRef' 'CharRef' '{{' '}}' 'EscapeQuot'
 'EscapeApos' 'QuotAttrContentChar' 'ElementContentChar' 'AposAttrContentChar'
 %3.1
 'decimal-format' 'decimal-separator' 'grouping-separator' 'infinity'          
 'minus-sign' 'NaN' 'percent' 'per-mille' 'zero-digit' 'digit' 
-'pattern-separator' 'exponent-separator' 'context' '%' allowing 'tumbling' 
+'pattern-separator' 'exponent-separator' 'context' '%' 'allowing' 'tumbling' 
 'sliding' 'window' 'start' 'when' 'only' 'end' 'previous' 'next' 'count' 'group'
 'switch' 'catch' 'try' '||' '=>' 'type' '!' '#' 'map' 'array' 'namespace-node'
 '``[' ']``' '`{' '}`' '*:' ':*' 'PragmaContents' 'StringConstructorChars' 'Q'.
@@ -126,8 +129,11 @@ Endsymbol '$end'.
 
 Left  100   ','.
 
-Left     102 'UnprefixedName'.
+
+Left     99  'NCName'.
 Left     101 'PrefixedName'.
+Left     102 'UnprefixedName'.
+
 Nonassoc 2200 ':' ' :' ': '.
 
 Nonassoc  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
@@ -150,6 +156,12 @@ Left  1800  '!'.
 Left  1900  'lone-slash' '/' '//'.
 Left  2000  '[' ']' '?'.
 Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'.
+
+%Left 99 'maybeNCName'.
+%Nonassoc 201 'array' 'attribute' 'comment' 'document-node' 'element' 'empty-sequence' 'function' 'item' 'map' 'namespace-node' 'node' 'processing-instruction' 'schema-attribute' 'schema-element' 'text'.
+
+
+%Right 9999 'NCName'.
 
 'Module'                 -> 'VersionDecl' 'MainModule'   : erlang:put(var_id, 1), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
 'Module'                 -> 'VersionDecl' 'LibraryModule': erlang:put(var_id, 1), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
@@ -715,8 +727,10 @@ end.
 'AndExprs'               -> 'ComparisonExpr' 'and' 'AndExprs' : {'and', '$1', '$3'}.
 'AndExpr'                -> 'AndExprs' : '$1'.
 % [85]  
-'ComparisonExpr'         -> 'StringConcatExpr' 'ValueComp'   'StringConcatExpr' : {'$2', '$1', '$3'}.
-'ComparisonExpr'         -> 'StringConcatExpr' 'GeneralComp' 'StringConcatExpr' : {'$2', '$1', '$3'}.
+'ComparisonExpr'         -> 'StringConcatExpr' 'ValueComp'   'StringConcatExpr' : 
+   {'$2', maybe_atomize_path('$1'), maybe_atomize_path('$3')}.
+'ComparisonExpr'         -> 'StringConcatExpr' 'GeneralComp' 'StringConcatExpr' : 
+   {'$2', maybe_atomize_path('$1'), maybe_atomize_path('$3')}.
 'ComparisonExpr'         -> 'StringConcatExpr' 'NodeComp'    'StringConcatExpr' : {'$2', '$1', '$3'}.
 'ComparisonExpr'         -> 'StringConcatExpr' : '$1'.
 % [86]
@@ -737,8 +751,20 @@ end.
 'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'mod'  'UnionExpr' : {'modulo', '$1', '$3'}.
 'MultiplicativeExpr'    -> 'UnionExpr'  : '$1'.
 % [90]   
-'UnionExprs'             -> 'IntersectExceptExpr' 'union' 'UnionExprs' : {'union', '$1', '$3'}.
-'UnionExprs'             -> 'IntersectExceptExpr' '|' 'UnionExprs' : {'union', '$1', '$3'}.
+'UnionExprs'             -> 'IntersectExceptExpr' 'union' 'UnionExprs' : 
+case '$3' of
+   {'union', L} ->
+      {'union', ['$1'|L]};
+   _ ->
+      {'union', ['$1', '$3']}
+end.
+'UnionExprs'             -> 'IntersectExceptExpr' '|' 'UnionExprs' : 
+case '$3' of
+   {'union', L} ->
+      {'union', ['$1'|L]};
+   _ ->
+      {'union', ['$1','$3']}
+end.
 'UnionExprs'             -> 'IntersectExceptExpr' : '$1'.
 'UnionExpr'              -> 'UnionExprs' : '$1'.
 % [91]     IntersectExceptExpr     ::=      InstanceofExpr ( ("intersect" | "except") InstanceofExpr )* 
@@ -780,7 +806,7 @@ end.
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
    {update, modify, [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
-      {'simple-map', #xqVarRef{name = Nm}, '$5'}, 
+      {'simple-map', next_id(), #xqVarRef{name = Nm}, '$5'}, 
       #xqVarRef{name = Nm}}.
 'TransformWithExpr' -> 'UnaryExpr' : '$1'.
 
@@ -841,10 +867,10 @@ end.
 % [107]    SimpleMapExpr     ::=      PathExpr ("!" PathExpr)*
 'SimpleMapExpr'          -> 'PathExpr' '!' 'SimpleMapExpr' : 
 case '$3' of
-   {'simple-map', P, S} ->
-      {'simple-map', {'simple-map', '$1', P}, S};
+   {'simple-map', I, P, S} ->
+      {'simple-map', I, {'simple-map', next_id(), '$1', P}, S};
    _ ->
-      {'simple-map', '$1', '$3'}
+      {'simple-map', next_id(), '$1', '$3'}
 end.
 'SimpleMapExpr'          -> 'PathExpr' : '$1'.
 
@@ -859,11 +885,12 @@ end.
       V -> {path_expr, next_id(), V} 
    end.
 'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
-'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : case '$1' of #xqAxisStep{} ->
-                                                                  case '$3' of 
-                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self', anno = line('$2')} , '$3'];
-                                                                    _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] end;
-                                                                   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] end.
+'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : 
+ case '$3' of 
+   [#xqAxisStep{axis = child, predicates = []} = H|T] -> 
+      ['$1',H#xqAxisStep{axis = descendant}|T];
+   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] 
+ end.
 'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
 
 % [110]    StepExpr    ::=      PostfixExpr | AxisStep  
@@ -1444,6 +1471,142 @@ end.
 %% 'QuotAttrContentChar'    -> 'Char' : value_of('$1'). % Char - ["{}<&]
 %% 'AposAttrContentChar'    -> 'Char' : value_of('$1'). % Char - ['{}<&]
 
+%% Here keywords from the scanner can fallback to NCName.
+%% Not all keywords are eligible to fallback, only the ones here.
+'NCName' -> 'maybeNCName' : '$1'.
+'NCName' -> 'NaN' : to_NCName('$1').
+'NCName' -> 'after' : to_NCName('$1').
+'NCName' -> 'ancestor' : to_NCName('$1').
+'NCName' -> 'ancestor-or-self' : to_NCName('$1').
+'NCName' -> 'and' : to_NCName('$1').
+'NCName' -> 'apos' : to_NCName('$1').
+'NCName' -> 'as' : to_NCName('$1').
+'NCName' -> 'ascending' : to_NCName('$1').
+'NCName' -> 'at' : to_NCName('$1').
+'NCName' -> 'base-uri' : to_NCName('$1').
+'NCName' -> 'before' : to_NCName('$1').
+'NCName' -> 'boundary-space' : to_NCName('$1').
+'NCName' -> 'by' : to_NCName('$1').
+'NCName' -> 'case' : to_NCName('$1').
+'NCName' -> 'cast' : to_NCName('$1').
+'NCName' -> 'castable' : to_NCName('$1').
+'NCName' -> 'catch' : to_NCName('$1').
+'NCName' -> 'cdata-contents' : to_NCName('$1').
+'NCName' -> 'child' : to_NCName('$1').
+'NCName' -> 'collation' : to_NCName('$1').
+'NCName' -> 'comment-text' : to_NCName('$1').
+'NCName' -> 'construction' : to_NCName('$1').
+'NCName' -> 'context' : to_NCName('$1').
+'NCName' -> 'copy' : to_NCName('$1').
+'NCName' -> 'copy-namespaces' : to_NCName('$1').
+'NCName' -> 'count' : to_NCName('$1').
+'NCName' -> 'decimal-format' : to_NCName('$1').
+'NCName' -> 'decimal-separator' : to_NCName('$1').
+'NCName' -> 'default' : to_NCName('$1').
+'NCName' -> 'delete' : to_NCName('$1').
+'NCName' -> 'descendant' : to_NCName('$1').
+'NCName' -> 'descendant-or-self' : to_NCName('$1').
+'NCName' -> 'descending' : to_NCName('$1').
+'NCName' -> 'digit' : to_NCName('$1').
+'NCName' -> 'div' : to_NCName('$1').
+'NCName' -> 'document' : to_NCName('$1').
+'NCName' -> 'else' : to_NCName('$1').
+'NCName' -> 'empty' : to_NCName('$1').
+'NCName' -> 'encoding' : to_NCName('$1').
+'NCName' -> 'end' : to_NCName('$1').
+'NCName' -> 'eq' : to_NCName('$1').
+'NCName' -> 'every' : to_NCName('$1').
+'NCName' -> 'except' : to_NCName('$1').
+'NCName' -> 'exponent-separator' : to_NCName('$1').
+'NCName' -> 'external' : to_NCName('$1').
+'NCName' -> 'first' : to_NCName('$1').
+'NCName' -> 'following' : to_NCName('$1').
+'NCName' -> 'following-sibling' : to_NCName('$1').
+'NCName' -> 'for' : to_NCName('$1').
+'NCName' -> 'ge' : to_NCName('$1').
+'NCName' -> 'greatest' : to_NCName('$1').
+'NCName' -> 'group' : to_NCName('$1').
+'NCName' -> 'grouping-separator' : to_NCName('$1').
+'NCName' -> 'gt' : to_NCName('$1').
+'NCName' -> 'idiv' : to_NCName('$1').
+'NCName' -> 'in' : to_NCName('$1').
+'NCName' -> 'infinity' : to_NCName('$1').
+'NCName' -> 'inherit' : to_NCName('$1').
+'NCName' -> 'insert' : to_NCName('$1').
+'NCName' -> 'instance' : to_NCName('$1').
+'NCName' -> 'intersect' : to_NCName('$1').
+'NCName' -> 'into' : to_NCName('$1').
+'NCName' -> 'invoke' : to_NCName('$1').
+'NCName' -> 'is' : to_NCName('$1').
+'NCName' -> 'last' : to_NCName('$1').
+'NCName' -> 'lax' : to_NCName('$1').
+'NCName' -> 'le' : to_NCName('$1').
+'NCName' -> 'least' : to_NCName('$1').
+'NCName' -> 'let' : to_NCName('$1').
+'NCName' -> 'lt' : to_NCName('$1').
+'NCName' -> 'minus-sign' : to_NCName('$1').
+'NCName' -> 'mod' : to_NCName('$1').
+'NCName' -> 'modify' : to_NCName('$1').
+'NCName' -> 'module' : to_NCName('$1').
+'NCName' -> 'ne' : to_NCName('$1').
+'NCName' -> 'next' : to_NCName('$1').
+'NCName' -> 'no-inherit' : to_NCName('$1').
+'NCName' -> 'no-preserve' : to_NCName('$1').
+'NCName' -> 'nodes' : to_NCName('$1').
+'NCName' -> 'of' : to_NCName('$1').
+'NCName' -> 'only' : to_NCName('$1').
+'NCName' -> 'option' : to_NCName('$1').
+'NCName' -> 'or' : to_NCName('$1').
+'NCName' -> 'order' : to_NCName('$1').
+'NCName' -> 'ordered' : to_NCName('$1').
+'NCName' -> 'ordering' : to_NCName('$1').
+'NCName' -> 'parent' : to_NCName('$1').
+'NCName' -> 'pattern-separator' : to_NCName('$1').
+'NCName' -> 'per-mille' : to_NCName('$1').
+'NCName' -> 'percent' : to_NCName('$1').
+'NCName' -> 'preceding' : to_NCName('$1').
+'NCName' -> 'preceding-sibling' : to_NCName('$1').
+'NCName' -> 'preserve' : to_NCName('$1').
+'NCName' -> 'previous' : to_NCName('$1').
+'NCName' -> 'quot' : to_NCName('$1').
+'NCName' -> 'rename' : to_NCName('$1').
+'NCName' -> 'replace' : to_NCName('$1').
+'NCName' -> 'return' : to_NCName('$1').
+'NCName' -> 'revalidation' : to_NCName('$1').
+'NCName' -> 'satisfies' : to_NCName('$1').
+'NCName' -> 'schema' : to_NCName('$1').
+'NCName' -> 'self' : to_NCName('$1').
+'NCName' -> 'skip' : to_NCName('$1').
+'NCName' -> 'sliding' : to_NCName('$1').
+'NCName' -> 'some' : to_NCName('$1').
+'NCName' -> 'stable' : to_NCName('$1').
+'NCName' -> 'start' : to_NCName('$1').
+'NCName' -> 'strict' : to_NCName('$1').
+'NCName' -> 'strip' : to_NCName('$1').
+'NCName' -> 'then' : to_NCName('$1').
+'NCName' -> 'to' : to_NCName('$1').
+'NCName' -> 'transform' : to_NCName('$1').
+'NCName' -> 'treat' : to_NCName('$1').
+'NCName' -> 'try' : to_NCName('$1').
+'NCName' -> 'tumbling' : to_NCName('$1').
+'NCName' -> 'type' : to_NCName('$1').
+'NCName' -> 'union' : to_NCName('$1').
+'NCName' -> 'unordered' : to_NCName('$1').
+'NCName' -> 'updating' : to_NCName('$1').
+'NCName' -> 'validate' : to_NCName('$1').
+'NCName' -> 'value' : to_NCName('$1').
+'NCName' -> 'variable' : to_NCName('$1').
+'NCName' -> 'version' : to_NCName('$1').
+'NCName' -> 'when' : to_NCName('$1').
+'NCName' -> 'where' : to_NCName('$1').
+'NCName' -> 'window' : to_NCName('$1').
+'NCName' -> 'with' : to_NCName('$1').
+'NCName' -> 'xquery' : to_NCName('$1').
+'NCName' -> 'zero-digit' : to_NCName('$1').
+
+
+  
+
  Erlang code.
 
 %% -------------------------------------------------------------------
@@ -1476,6 +1639,10 @@ end.
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
 -dialyzer(no_return).
+
+to_NCName({A,B,C}) ->
+%?dbg("Token to NCName", C),
+   {A,B,erlang:atom_to_list(C)}.
 
 value_of(Token) ->
    element(3, Token).
@@ -1848,4 +2015,15 @@ name_to_kind_test({Axis, Test}) ->
    {Axis, Test};
 name_to_kind_test({Axis, Test, Ln}) ->
    {Axis, Test, Ln}.
-  
+
+maybe_atomize_path({path_expr, Id, Exprs}) ->
+   P1 = case lists:reverse(Exprs) of
+      [#xqAxisStep{} = H|T] ->
+         H1 = {'function-call', {qname,<<"http://www.w3.org/2005/xpath-functions">>,<<"fn">>,<<"data">>},0, []},
+         lists:reverse([H1,H|T]);
+      _ ->
+         Exprs
+   end,
+   {path_expr, Id, P1};
+maybe_atomize_path(Other) -> Other.
+

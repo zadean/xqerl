@@ -215,7 +215,7 @@ scan_dc_token(">" ++ T, A, Depth) ->
    case lookback(A) of 
       %'S' ->
       %   {{'>', ?L, '>'}, T, Depth };
-      'NCName' ->
+      'maybeNCName' ->
          {{'>', ?L, '>'}, T, Depth };
       {'</',_,_} ->
          {{'>', ?L, '>'}, T, Depth };
@@ -449,282 +449,175 @@ scan_token(Str = "xs:" ++ _T, _A) ->
 scan_token("Q{}" ++ T, _A) -> {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'}', ?L, '}'}], T};
 scan_token(Str = "Q{" ++ _, _A) ->
    scan_QName(Str);
-scan_token("decimal-format" ++ T = Str, A) ->  
-   case lookback(A) of
-      'declare' ->
-         {{'decimal-format', ?L, 'decimal-format'}, T};
-      'default' ->
-         {{'decimal-format', ?L, 'decimal-format'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-% DFPropertyName can only be followed by '=' 
-scan_token("decimal-separator" ++ T = Str, A) ->  
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("decimal-separator", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("grouping-separator" ++ T = Str, A) ->  
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("grouping-separator", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("infinity" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("infinity", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("minus-sign" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("minus-sign", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("NaN" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("NaN", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("percent" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("percent", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("per-mille" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("per-mille", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("zero-digit" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("zero-digit", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("digit" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("digit", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("pattern-separator" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("pattern-separator", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("exponent-separator" ++ T = Str, A) ->
-   case lookforward_is_equal(T) of
-      true ->
-         qname_if_path("exponent-separator", T, lookback(A));
-      _ ->
-         scan_name(Str)
-   end;
 
-scan_token("context" ++ T = Str, A) ->  
-   case lookback(A) of
-      'declare' ->
-         {{'context', ?L, 'context'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "allowing" ++ T, _A) ->  
-   case lookforward_is_empty(T) of
-      false ->
-         scan_name(Str);
-      _ ->
-         {{'allowing', ?L, 'allowing'}, T}
-   end;
-scan_token(Str = "tumbling" ++ T, A) ->  
-   case lookback(A) of
-      'for' ->
-         {{'tumbling', ?L, 'tumbling'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "sliding" ++ T, A) ->  
-   case lookback(A) of
-      'for' ->
-         {{'sliding', ?L, 'sliding'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "window" ++ T, _A) ->
-   case lookforward_is_var(T) of
+scan_token("zero-digit" ++ T, _A) -> maybe_token("zero-digit", T);
+scan_token("xquery" ++ T, _A) -> maybe_token("xquery", T);
+scan_token("with" ++ T, _A) -> maybe_token("with", T); % update facility
+scan_token("window" ++ T, _A) -> maybe_token("window", T);
+scan_token("where" ++ T, _A) -> maybe_token("where", T);
+scan_token("when" ++ T, _A) -> maybe_token("when", T);
+scan_token("version" ++ T, _A) -> maybe_token("version", T);
+scan_token("variable" ++ T, _A) -> maybe_token("variable", T);
+scan_token("value" ++ T, _A) -> maybe_token("value", T); % update facility
+scan_token("validate" ++ T, _A) -> maybe_token("validate", T);
+scan_token("updating" ++ T, _A) -> maybe_token("updating", T); % update facility
+scan_token("unordered" ++ T, _A) -> maybe_token("unordered", T);
+scan_token("union" ++ T, _A) -> maybe_token("union", T);
+scan_token("typeswitch" ++ T, _A) -> maybe_token("typeswitch", T);
+scan_token("type" ++ T, _A) -> maybe_token("type", T);
+scan_token("tumbling" ++ T, _A) -> maybe_token("tumbling", T);
+scan_token("try" ++ T, _A) -> maybe_token("try", T);
+scan_token("treat" ++ T, _A) -> maybe_token("treat", T);
+scan_token("transform" ++ T, _A) -> maybe_token("transform", T); % update facility
+scan_token("to" ++ T, _A) -> maybe_token("to", T);
+scan_token("then" ++ T, _A) -> maybe_token("then", T);
+scan_token("text" ++ T, _A) -> maybe_token("text", T);
+scan_token("switch" ++ T, _A) -> maybe_token("switch", T);
+scan_token("strip" ++ T, _A) -> maybe_token("strip", T);
+scan_token("strict" ++ T, _A) -> maybe_token("strict", T);
+scan_token("start" ++ T, _A) -> maybe_token("start", T);
+scan_token("stable" ++ T, _A) -> maybe_token("stable", T);
+scan_token("some" ++ T, _A) -> maybe_token("some", T);
+scan_token("sliding" ++ T, _A) -> maybe_token("sliding", T);
+scan_token("skip" ++ T, _A) -> maybe_token("skip", T); % ??
+scan_token("self" ++ T, _A) -> maybe_token("self", T);
+scan_token("schema-element" ++ T, _A) -> maybe_token("schema-element", T);
+scan_token("schema-attribute" ++ T, _A) -> maybe_token("schema-attribute", T);
+scan_token("schema" ++ T, _A) -> maybe_token("schema", T);
+scan_token("satisfies" ++ T, _A) -> maybe_token("satisfies", T);
+scan_token("revalidation" ++ T, _A) -> maybe_token("revalidation", T); % update facility
+scan_token("return" ++ T, _A) -> maybe_token("return", T);
+scan_token("replace" ++ T, _A) -> maybe_token("replace", T); % update facility
+scan_token("rename" ++ T, _A) -> maybe_token("rename", T); % update facility
+scan_token("processing-instruction" ++ T, _A) -> maybe_token("processing-instruction", T);
+scan_token("previous" ++ T, _A) -> maybe_token("previous", T);
+scan_token("preserve" ++ T, _A) -> maybe_token("preserve", T);
+scan_token("preceding-sibling" ++ T, _A) -> maybe_token("preceding-sibling", T);
+scan_token("preceding" ++ T, _A) -> maybe_token("preceding", T);
+scan_token("percent" ++ T, _A) -> maybe_token("percent", T);
+scan_token("per-mille" ++ T, _A) -> maybe_token("per-mille", T);
+scan_token("pattern-separator" ++ T, _A) -> maybe_token("pattern-separator", T);
+scan_token("parent" ++ T, _A) -> maybe_token("parent", T);
+scan_token("ordering" ++ T, _A) -> maybe_token("ordering", T);
+scan_token("ordered" ++ T, _A) -> maybe_token("ordered", T);
+scan_token("order" ++ T, _A) -> maybe_token("order", T);
+scan_token("or" ++ T, _A) -> maybe_token("or", T);
+scan_token("option" ++ T, _A) -> maybe_token("option", T);
+scan_token("only" ++ T, _A) -> maybe_token("only", T);
+scan_token("of" ++ T, _A) -> maybe_token("of", T);
+scan_token("nodes" ++ T, _A) -> maybe_token("nodes", T); % update facility
+scan_token("node" ++ T, _A) -> maybe_token("node", T);
+scan_token("no-preserve" ++ T, _A) -> maybe_token("no-preserve", T);
+scan_token("no-inherit" ++ T, _A) -> maybe_token("no-inherit", T);
+scan_token("next" ++ T, _A) -> maybe_token("next", T);
+scan_token("ne" ++ T, _A) -> maybe_token("ne", T);
+scan_token("namespace-node" ++ T, _A) -> maybe_token("namespace-node", T);
+scan_token("namespace" ++ T, _A) -> maybe_token("namespace", T);
+scan_token("module" ++ T, _A) -> maybe_token("module", T);
+scan_token("modify" ++ T, _A) -> maybe_token("modify", T);
+scan_token("mod" ++ T, _A) -> maybe_token("mod", T);
+scan_token("minus-sign" ++ T, _A) -> maybe_token("minus-sign", T);
+scan_token("map" ++ T, _A) -> maybe_token("map", T);
+scan_token("lt" ++ T, _A) -> maybe_token("lt", T);
+scan_token("let" ++ T, _A) -> maybe_token("let", T);
+scan_token("least" ++ T, _A) -> maybe_token("least", T);
+scan_token("le" ++ T, _A) -> maybe_token("le", T);
+scan_token("lax" ++ T, _A) -> maybe_token("lax", T);
+scan_token("last" ++ T, _A) -> maybe_token("last", T); % update facility
+scan_token("item" ++ T, _A) -> maybe_token("item", T);
+scan_token("is" ++ T, _A) -> maybe_token("is", T);
+scan_token("invoke" ++ T, _A) -> maybe_token("invoke", T); % update facility
+scan_token("into" ++ T, _A) -> maybe_token("into", T); % update facility
+scan_token("intersect" ++ T, _A) -> maybe_token("intersect", T);
+scan_token("instance" ++ T, _A) -> maybe_token("instance", T);
+scan_token("insert" ++ T, _A) -> maybe_token("insert", T); % update facility
+scan_token("inherit" ++ T, _A) -> maybe_token("inherit", T);
+scan_token("infinity" ++ T, _A) -> maybe_token("infinity", T);
+scan_token("in" ++ T, _A) -> maybe_token("in", T);
+% import !!
+scan_token(Str = "import" ++ T, _A) -> 
+   case is_keyword_import(T) of
       true ->
-         {{'window', ?L, 'window'}, T};
+         {{'import',?L,'import'}, T};
       _ ->
          scan_name(Str)
    end;
-scan_token(Str = "when" ++ T, A) ->  
-   case lookback(A) of
-      'start' ->
-         {{'when', ?L, 'when'}, T};
-      'end' ->
-         {{'when', ?L, 'when'}, T};
-      {'$',_,_} ->
-         {{'when', ?L, 'when'}, T};
-      'NCName' ->
-         {{'when', ?L, 'when'}, T};
+scan_token("if" ++ T, _A) -> maybe_token("if", T);
+scan_token("idiv" ++ T, _A) -> maybe_token("idiv", T);
+scan_token("gt" ++ T, _A) -> maybe_token("gt", T);
+scan_token("grouping-separator" ++ T, _A) -> maybe_token("grouping-separator", T);
+scan_token("group" ++ T, _A) -> maybe_token("group", T);
+scan_token("greatest" ++ T, _A) -> maybe_token("greatest", T);
+scan_token("ge" ++ T, _A) -> maybe_token("ge", T);
+scan_token("function" ++ T, _A) -> maybe_token("function", T);
+scan_token("for" ++ T, _A) -> maybe_token("for", T);
+scan_token("following-sibling" ++ T, _A) -> maybe_token("following-sibling", T);
+scan_token("following" ++ T, _A) -> maybe_token("following", T);
+scan_token("first" ++ T, _A) -> maybe_token("first", T); % update facility
+scan_token("external" ++ T, _A) -> maybe_token("external", T);
+scan_token("exponent-separator" ++ T, _A) -> maybe_token("exponent-separator", T);
+scan_token("except" ++ T, _A) -> maybe_token("except", T);
+scan_token("every" ++ T, _A) -> maybe_token("every", T);
+scan_token("eq" ++ T, _A) -> maybe_token("eq", T);
+scan_token("end" ++ T, _A) -> maybe_token("end", T);
+scan_token("encoding" ++ T, _A) -> maybe_token("encoding", T);
+scan_token("empty-sequence" ++ T, _A) -> maybe_token("empty-sequence", T);
+scan_token("empty" ++ T, _A) -> maybe_token("empty", T);
+scan_token("else" ++ T, _A) -> maybe_token("else", T);
+scan_token("element" ++ T, _A) -> maybe_token("element", T);
+scan_token("document-node" ++ T, _A) -> maybe_token("document-node", T);
+scan_token("document" ++ T, _A) -> maybe_token("document", T);
+scan_token("div" ++ T, _A) -> maybe_token("div", T);
+scan_token("digit" ++ T, _A) -> maybe_token("digit", T);
+scan_token("descending" ++ T, _A) -> maybe_token("descending", T);
+scan_token("descendant-or-self" ++ T, _A) -> maybe_token("descendant-or-self", T);
+scan_token("descendant" ++ T, _A) -> maybe_token("descendant", T);
+scan_token("delete" ++ T, _A) -> maybe_token("delete", T); % update facility
+scan_token("default" ++ T, _A) -> maybe_token("default", T);
+% declare !!
+scan_token(Str = "declare" ++ T, _A) -> 
+   case is_keyword_declare(T) of
+      true ->
+         {{'declare', ?L, 'declare'}, T};
       _ ->
          scan_name(Str)
-   end;
-scan_token(Str = "only" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      _ ->
-         case lookforward_is_end(T) of
-            true ->
-               {{'only', ?L, 'only'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
+   end;    
+scan_token("decimal-separator" ++ T, _A) -> maybe_token("decimal-separator", T);
+scan_token("decimal-format" ++ T, _A) -> maybe_token("decimal-format", T);
+scan_token("count" ++ T, _A) -> maybe_token("count", T);
+scan_token("copy-namespaces" ++ T, _A) -> maybe_token("copy-namespaces", T);
+scan_token("copy" ++ T, _A) -> maybe_token("copy", T); % update facility
+scan_token("context" ++ T, _A) -> maybe_token("context", T);
+scan_token("construction" ++ T, _A) -> maybe_token("construction", T);
+scan_token("comment" ++ T, _A) -> maybe_token("comment", T);
+scan_token("collation" ++ T, _A) -> maybe_token("collation", T);
+scan_token("child" ++ T, _A) -> maybe_token("child", T);
+scan_token("cdata-contents" ++ T, _A) -> maybe_token("cdata-contents", T); % ??
+scan_token("catch" ++ T, _A) -> maybe_token("catch", T);
+scan_token("castable" ++ T, _A) -> maybe_token("castable", T);
+scan_token("cast" ++ T, _A) -> maybe_token("cast", T);
+scan_token("case" ++ T, _A) -> maybe_token("case", T);
+scan_token("by" ++ T, _A) -> maybe_token("by", T);
+scan_token("boundary-space" ++ T, _A) -> maybe_token("boundary-space", T);
+scan_token("before" ++ T, _A) -> maybe_token("before", T);
+scan_token("base-uri" ++ T, _A) -> maybe_token("base-uri", T);
+scan_token("attribute" ++ T, _A) -> maybe_token("attribute", T);
+scan_token("at" ++ T, _A) -> maybe_token("at", T);
+scan_token("ascending" ++ T, _A) -> maybe_token("ascending", T);
+scan_token("as" ++ T, _A) -> maybe_token("as", T);
+scan_token("array" ++ T, _A) -> maybe_token("array", T);
+scan_token("and" ++ T, _A) -> maybe_token("and", T);
+scan_token("ancestor-or-self" ++ T, _A) -> maybe_token("ancestor-or-self", T);
+scan_token("ancestor" ++ T, _A) -> maybe_token("ancestor", T);
+scan_token("after" ++ T, _A) -> maybe_token("after", T); % update facility
+scan_token("allowing" ++ T, _A) -> maybe_token("allowing", T);
+scan_token("NaN" ++ T, _A) -> maybe_token("NaN", T);
+
+%% 'declare' and 'import' must be done in scanner, no NCName
 scan_token("%" ++ T, _A) ->  {{'%', ?L, '%'}, T};
-scan_token(Str = "starts" ++ _T, _A) -> 
-   scan_name(Str);
-scan_token("start" ++ T, A) ->  qname_if_path("start", T, lookback(A));
-% function names
-%% scan_token(Str = "in-scope-prefixes" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "default-collation" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "for-each-pair" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "for-each" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "format-integer" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "format-number" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "format-date" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "format-time" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "element-with-id" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "local-name" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "document-uri" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "node-name" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "tokenize" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "insert" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "index-of" ++ _T, _A) ->  scan_name(Str);
-%% scan_token(Str = "ends" ++ _T, _A) ->  scan_name(Str);
-
-scan_token(Str = "ends" ++ _T, _A) -> 
-   scan_name(Str);
-scan_token("end" ++ T = Str, A) ->  
-   case lookforward_is_paren(T) of
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("end", T, lookback(A))
-   end;   
-scan_token(Str = "previous" ++ T, A) ->  
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      _ ->
-         case lookforward_is_var(T) of
-            true ->
-               {{'previous', ?L, 'previous'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token(Str = "next" ++ T, _A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'next', ?L, 'next'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "count" ++ T, _A) -> % done  
-   case lookforward_is_var(T) of
-      true ->
-         {{'count', ?L, 'count'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-scan_token("group" ++ T, A) ->  qname_if_path("group", T, lookback(A));
-scan_token("switch" ++ T, A) -> 
-   case lookback(A) of
-      ',' ->
-         {{'switch', ?L, 'switch'}, T};
-      _ ->
-         qname_if_path("switch", T, lookback(A))
-   end;
-scan_token("catch" ++ T = Str, A) ->  
-   case lookforward_is_paren(T) of
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("catch", T, lookback(A))
-   end;   
-scan_token(Str = "try" ++ T, _A) ->  
-   case lookforward_is_curly(trim_ws(T)) of
-      true ->
-         {{'try', ?L, 'try'}, T};
-      _ ->
-         scan_name(Str)
-   end;
 scan_token("||" ++ T, _A) ->  {{'||', ?L, '||'}, T};
 scan_token("=>" ++ T, _A) ->  {{'=>', ?L, '=>'}, T};
-scan_token(Str = "typeswitch" ++ T, _A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         {{'typeswitch', ?L, 'typeswitch'}, T};
-      _ ->
-         scan_name(Str)
-   end;
 scan_token("#" ++ T, _A) ->  {{'#', ?L, '#'}, T};
-scan_token(Str = "map" ++ T, _A) -> 
-   case lookforward_is_paren_or_curly(T) of
-      true ->
-         {{'map', ?L, 'map'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "array" ++ T, A) ->  
-   case lookforward_is_paren_or_curly(T) andalso lookback(A) =/= 'namespace' of 
-      true ->
-         {{'array', ?L, 'array'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "namespace-node" ++ T, A) -> 
-   case lookforward_is_paren_or_curly(T) andalso (not (lookback(A) == 'function')) of
-      true ->
-         {{'namespace-node', ?L, 'namespace-node'}, T};
-      _ ->
-         case lookforward_is_ws(T) of
-            true ->
-               case lookback(A) of
-                  '/' ->
-                     scan_name(Str);
-                  'function' ->
-                     scan_name(Str);
-                  _ ->
-                     {{'namespace-node',?L,'namespace-node'}, T}
-               end;
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token(Str = "namespace-u" ++ _T, _A) ->  scan_name(Str);
 scan_token(Str = "``[" ++ _T, _A) ->  
    {Toks, T1} = scan_str_const(Str, [], []),
    {lists:flatten(Toks), T1};
@@ -735,1160 +628,17 @@ scan_token(Str = "(#" ++ _T, _A) ->
 scan_token(")#" ++ T, _A) ->  {{')#', ?L, ')#'}, T};
 scan_token("`{" ++ T, _A) ->  {{'`{', ?L, '`{'}, T};
 scan_token("}`" ++ T, _A) ->  {{'}`', ?L, '}`'}, T};
-
-scan_token(Str = "schema-element" ++ T, _A) -> 
-   case lookforward_is_paren(T) of
-      true ->
-         {{'schema-element', ?L, 'schema-element'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "schema-attribute" ++ T, _A) -> 
-   case lookforward_is_paren(T) of
-      true ->
-         {{'schema-attribute', ?L, 'schema-attribute'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "processing-instruction" ++ T, A) -> 
-   case lookforward_is_paren_or_curly(T) of
-      true ->
-         {{'processing-instruction', ?L, 'processing-instruction'}, T};
-      _ ->
-         case lookforward_is_ws(T) of
-            true ->
-               case lookback(A) of
-                  '/' ->
-                     scan_name(Str);
-                  _ ->
-                     {{'processing-instruction',?L,'processing-instruction'}, T}
-               end;
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token(Str = "copy-namespaces" ++ T, A) -> 
-   case lookback(A) of
-      'declare' ->
-         {{'copy-namespaces', ?L, 'copy-namespaces'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "empty-sequence" ++ T, _A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         {{'empty-sequence', ?L, 'empty-sequence'}, T};
-      _ ->
-         scan_name(Str)
-   end;   
-scan_token(Str = "boundary-space" ++ T, A) ->
-   case lookback(A) of
-      'declare' ->
-         {{'boundary-space', ?L, 'boundary-space'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-scan_token(Str = "no-preserve" ++ T, A) -> 
-   case lookback(A) of
-      'boundary-space' ->
-         {{'no-preserve', ?L, 'no-preserve'}, T};
-      'construction' ->
-         {{'no-preserve', ?L, 'no-preserve'}, T};
-      'copy-namespaces' ->
-         {{'no-preserve', ?L, 'no-preserve'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "no-inherit" ++ T, A) -> 
-   case lookback(A) of
-      ',' ->
-         {{'no-inherit', ?L, 'no-inherit'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "preserve" ++ T, A) -> 
-   case lookback(A) of
-      'boundary-space' ->
-         {{'preserve', ?L, 'preserve'}, T};
-      'construction' ->
-         {{'preserve', ?L, 'preserve'}, T};
-      'copy-namespaces' ->
-         {{'preserve', ?L, 'preserve'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "inherit" ++ T, A) -> 
-   case lookback(A) of
-      ',' ->
-         {{'inherit', ?L, 'inherit'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-scan_token(Str = "document-node" ++ T, _A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         {{'document-node', ?L, 'document-node'}, T};
-      _ ->
-         scan_name(Str)
-   end;   
-scan_token(Str = "construction" ++ T, A) -> 
-   case lookback(A) of
-      'declare' ->
-         {{'construction', ?L, 'construction'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("descending" ++ T = Str, A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("descending", T, lookback(A))
-   end;
-scan_token(Str = "unordered" ++ T, A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         scan_name(Str);
-      _ ->
-         case lookforward_is_paren_or_curly(T) of 
-            true ->
-               {{'unordered', ?L, 'unordered'}, T};
-            _ ->
-               case lookback(A) of
-                  'ordering' ->
-                     {{'unordered', ?L, 'unordered'}, T};
-                  _ ->
-                     scan_name(Str)
-               end
-         end
-   end;
-scan_token("satisfies" ++ T, A) -> 
-   case lookback(A) of
-      'NCName' ->
-         {{'satisfies', ?L, 'satisfies'}, T};
-      _ ->
-         qname_if_path("satisfies", T, lookback(A))
-   end;
-scan_token(Str = "namespace" ++ T, A) ->
-   case lookback(A) of
-      [] ->
-         case lookforward_is_curly(T) of
-            true ->
-               {{'namespace', ?L, 'namespace'}, T};
-            _ ->
-               qname_if_path("namespace", T, lookback(A))
-               %scan_name(Str)
-         end;
-      'declare' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      'module' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      'element' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      'schema' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      'function' ->
-         case lookforward_is_paren(T) of
-            true ->
-               scan_name(Str);
-            _ ->
-               {{'namespace', ?L, 'namespace'}, T}
-         end;
-      ',' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      '(' ->
-         {{'namespace', ?L, 'namespace'}, T};
-      _ ->
-         case lookforward_is_equal(T) of
-            true ->
-               scan_name(Str);
-            _ ->
-               qname_if_path("namespace", T, lookback(A))
-         end
-   end;
-scan_token("intersect" ++ T, A) -> qname_if_path("intersect", T, lookback(A));
-scan_token(Str = "collation-" ++ _T, _A) ->
-   scan_name(Str);
-scan_token("collation" ++ T = Str, A) ->
-   % can only be followed by URILiteral.
-   case lookforward_is_paren(T) of
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("collation", T, lookback(A))
-   end;   
-scan_token(Str = "ascending" ++ T, A) -> 
-   case lookforward_is_paren(T) of
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("ascending", T, lookback(A))
-   end;
-scan_token("variable" ++ T, A) -> qname_if_path("variable", T, lookback(A));
-scan_token(Str = "ordering" ++ T, A) -> 
-   case lookback(A) of
-      'declare' ->
-         {{'ordering',?L,'ordering'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "instance" ++ T, A) -> 
-   case lookforward_is_ws(T) of
-      true ->
-         case lookback(A) of
-            '/' ->
-               scan_name(Str);
-            'function' ->
-               scan_name(Str);
-            _ ->
-               {{'instance',?L,'instance'}, T}
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("greatest" ++ T, A) -> qname_if_path("greatest", T, lookback(A));
-scan_token(Str = "function" ++ T, A) ->  
-   case lookforward_is_paren(T) of
-      true ->
-         {{'function', ?L, 'function'}, T};
-      _ ->
-         case lookforward_is_ws(T) of
-            true ->
-               case lookback(A) of
-                  '/' ->
-                     scan_name(Str);
-                  [] ->
-                     scan_name(Str);
-                  _ ->
-                     {{'function', ?L, 'function'}, T}
-               end;
-            _ ->
-               scan_name("function" ++ T)
-         end
-   end;
-scan_token("external" ++ T = Str, _A) ->
-   case lookforward_external(T) of
-      true ->
-         {{'external', ?L, 'external'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-scan_token("encoding" ++ T = Str, A) -> 
-   case lookforward_is_paren(T) of
-      true ->
-         scan_name(Str);
-      _ ->
-         qname_if_path("encoding", T, lookback(A))
-   end;   
-scan_token(Str = "document" ++ T, _A) -> 
-   case lookforward_is_curly(T) of 
-      true ->
-         {{'document', ?L, 'document'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "validate" ++ T, _A) -> 
-   case lookforward_validate(T) of 
-      true ->
-         {{'validate', ?L, 'validate'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "castable" ++ T, A) -> 
-    case lookforward_is_paren(T) of
-       true ->
-          scan_name(Str);
-       _ ->
-         qname_if_path("castable", T, lookback(A))
-    end;
-scan_token(Str = "base-uri" ++ T, A) -> 
-   case lookback(A) of
-      'declare' ->
-         {{'base-uri', ?L, 'base-uri'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "schema" ++ T, A) -> 
-   case lookback(A) of
-      'import' ->
-         {{'schema', ?L, 'schema'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-%%% start Axis keywords
-scan_token(Str = "child" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'child', ?L, 'child'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "attribute" ++ T, _A) -> 
-   case lookforward_is_paren_or_curly(T) of
-      true ->
-         {{'attribute', ?L, 'attribute'}, T};
-      _ ->
-         case lookforward_is_axis(T) of
-            true ->
-               {{'attribute', ?L, 'attribute'}, T};
-            _ ->
-               % worst-case a computed constructor
-               % 'attribute'    'EQName'    'EnclosedExpr'
-               case lookforward_is_ws(T) of 
-                  true ->
-                     T1 = strip_ws(T),
-                     case scan_name(T1) of
-                        {invalid_name, _} ->
-                           ?dbg("Line",?LINE),
-                           scan_name(Str);
-                        {_, T2} ->
-                           case lookforward_is_paren_or_curly(T2) of
-                              true ->
-                                 {{'attribute', ?L, 'attribute'}, T};
-                              _ ->
-                                 scan_name(Str)
-                           end
-                     end;
-                  _ ->
-                     scan_name(Str)
-               end
-         end
-   end;
-scan_token(Str = "self" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'self', ?L, 'self'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "descendant-or-self" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'descendant-or-self', ?L, 'descendant-or-self'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "descendant" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'descendant', ?L, 'descendant'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "following-sibling" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'following-sibling', ?L, 'following-sibling'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "following" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'following', ?L, 'following'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "parent" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'parent', ?L, 'parent'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "preceding-sibling" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'preceding-sibling', ?L, 'preceding-sibling'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "preceding" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'preceding', ?L, 'preceding'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "ancestor-or-self" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'ancestor-or-self', ?L, 'ancestor-or-self'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "ancestor" ++ T, _A) -> 
-   case lookforward_is_axis(T) of
-      true ->
-         {{'ancestor', ?L, 'ancestor'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-%%% end Axis keywords
-
-scan_token(Str = "version" ++ T, A) ->
-   case lookback(A) of
-      'xquery' ->
-         {{'version', ?L, 'version'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "ordered" ++ T, A) -> 
-   case lookforward_is_paren(T) of 
-      true ->
-         scan_name(Str);
-      _ ->
-         case lookforward_is_paren_or_curly(T) of 
-            true ->
-               {{'ordered', ?L, 'ordered'}, T};
-            _ ->
-               case lookback(A) of
-                  'ordering' ->
-                     {{'ordered', ?L, 'ordered'}, T};
-                  _ ->
-                     scan_name(Str)
-               end
-         end
-   end;
-scan_token(Str = "element" ++ T, A) -> 
-   Curly = lookforward_is_paren_or_curly(T),
-   case lookforward_is_paren_or_curly(T) orelse 
-          (T =/=[] andalso not xmerl_lib:is_namechar(hd(T)) andalso xmerl_lib:is_namechar(hd(trim_ws(T)))) of
-      true ->
-         case lookback(A) of
-            '/' when Curly == false ->
-               case lookforward_is_return(T) of
-                  true ->
-                     scan_name(Str);
-                  _ ->
-                     {{'element', ?L, 'element'}, T}
-               end;
-            'element' ->
-               scan_name(Str);
-            _ ->
-               {{'element', ?L, 'element'}, T}
-         end;
-      _ ->
-         case lookforward_is_ws(T) of
-            true ->
-               case lookback(A) of
-                  '/' ->
-                     scan_name(Str);
-                  'element' ->
-                     scan_name(Str);
-                  _ ->
-                     {{'element', ?L, 'element'}, T}
-               end;
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token(Str = "default" ++ T, A) ->
-   case lookback(A) of 
-      'declare' ->
-         {{'default', ?L, 'default'}, T};
-      [] ->
-         scan_name(Str);
-      LB ->
-         case lookforward_is_paren(T) of
-            true ->
-               scan_name(Str);
-            _ ->
-               qname_if_path("default", T, LB)
-         end
-   end;
-scan_token(Str = "declare" ++ T, _A) -> 
-   case is_keyword_declare(T) of
-      true ->
-         {{'declare', ?L, 'declare'}, T};
-      _ ->
-         scan_name(Str)
-   end;    
-scan_token(Str = "updating" ++ T, A) ->
-   case lookback(A) of 
-      'declare' ->
-         {{'updating', ?L, 'updating'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "revalidation" ++ T, A) ->
-   case lookback(A) of 
-      'declare' ->
-         {{'revalidation', ?L, 'revalidation'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "comment" ++ T, _A) ->
-   case lookforward_is_paren_or_curly(T) of 
-      true ->
-         {{'comment', ?L, 'comment'}, T};
-      _ ->
-         scan_name(Str)
-   end;    
-scan_token(Str = "xquery" ++ T, []) -> 
-   case lookforward_is_version(T) of
-      true ->
-         {{'xquery',?L,'xquery'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("stable" ++ T, A) -> qname_if_path("stable", T, lookback(A));
-scan_token("return" ++ T = Str, A) ->
-   case lookforward_is_var(T) of
-      true ->
-         {{'return',?L,'return'}, T};
-      _ ->
-         case lookback(A) of
-            'function' ->
-               scan_name(Str);
-            'element' ->
-               scan_name(Str);
-            'attribute' ->
-               scan_name(Str);
-            'processing-instruction' ->
-               scan_name(Str);
-            '/' ->
-               qname_if_path("return", T, lookback(A));
-            _ ->
-               {{'return',?L,'return'}, T}
-         end
-   end;
-scan_token(Str = "option" ++ T, A) -> 
-   case lookback(A) of
-      'declare' ->
-         {{'option',?L,'option'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "module" ++ T, A) -> 
-   case lookforward_is_namespace(T) of
-      true ->
-         {{'module',?L,'module'}, T};
-      _ ->
-         case lookback(A) of
-            import ->
-               {{'module',?L,'module'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token("import" ++ T, A) -> 
-   case is_keyword_import(T) of
-      true ->
-         {{'import',?L,'import'}, T};
-      _ ->
-         qname_if_path("import", T, lookback(A))
-   end;
-
-scan_token("insert" ++ T, A) -> 
-   case lookforward_is_node(T) of
-      true ->
-         {{'insert',?L,'insert'}, T};
-      _ ->
-         qname_if_path("insert", T, lookback(A))
-   end;
-
-scan_token("replace" ++ T, A) ->
-   case lookforward_is_node(T) orelse lookforward_is_value(T) of
-      true ->
-         {{'replace',?L,'replace'}, T};
-      _ ->
-         qname_if_path("replace", T, lookback(A))
-   end;
-
-scan_token("copy" ++ T, A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'copy',?L,'copy'}, T};
-      _ ->
-         qname_if_path("copy", T, lookback(A))
-   end;
-
-scan_token("delete" ++ T, A) ->
-   case lookforward_is_node(T) of
-      true ->
-         {{'delete',?L,'delete'}, T};
-      _ ->
-         qname_if_path("delete", T, lookback(A))
-   end;
-scan_token("rename" ++ T, A) ->
-   case lookforward_is_node(T) of
-      true ->
-         {{'rename',?L,'rename'}, T};
-      _ ->
-         qname_if_path("rename", T, lookback(A))
-   end;
-
-scan_token("modify" ++ T, A) -> 
-   case in_copy(A) of
-      true ->
-         {{'modify',?L,'modify'}, T};
-      false ->
-         qname_if_path("modify", T, lookback(A))
-   end;
-
-scan_token("with" ++ T, A) -> 
-   case in_replace(A) of
-      true ->
-         {{'with',?L,'with'}, T};
-      false ->
-         qname_if_path("with", T, lookback(A))
-   end;
-
-scan_token("nodes" ++ T, A) -> 
-   case lookback(A) of
-      'insert' ->
-         {{'nodes',?L,'nodes'}, T};
-      'delete' ->
-         {{'nodes',?L,'nodes'}, T};
-      _ ->
-         qname_if_path("nodes", T, lookback(A))
-   end;
-
-scan_token("after" ++ T, A) -> 
-   case in_insert(A) of
-      true ->
-         {{'after',?L,'after'}, T};
-      false ->
-         qname_if_path("after", T, lookback(A))
-   end;
-   
-scan_token("before" ++ T, A) ->
-   case in_insert(A) of
-      true ->
-         {{'before',?L,'before'}, T};
-      false ->
-         qname_if_path("before", T, lookback(A))
-   end;
-
-scan_token("into" ++ T, A) ->
-   case in_insert(A) of
-      true ->
-         {{'into',?L,'into'}, T};
-      false ->
-         qname_if_path("into", T, lookback(A))
-   end;
-
-scan_token("transform" ++ T, A) -> qname_if_path("transform", T, lookback(A));
-scan_token("first" ++ T, A) -> qname_if_path("first", T, lookback(A));
-scan_token("last" ++ T, A) -> qname_if_path("last", T, lookback(A));
-scan_token("value" ++ T, A) -> qname_if_path("value", T, lookback(A));
-scan_token("invoke" ++ T, A) -> qname_if_path("invoke", T, lookback(A));
-
-scan_token("except" ++ T, A) -> qname_if_path("except", T, lookback(A));
-scan_token("where" ++ T, A) -> 
-   InFl = in_flwor(A),
-   Spec = special_token(lookback(A)),
-   if Spec ->
-         qname_if_path("where", T, lookback(A));
-      true ->
-         if InFl ->
-               {{'where', ?L, 'where'}, T};
-            true ->
-               qname_if_path("where", T, lookback(A))
-         end
-   end;
-scan_token("union" ++ T, A) -> qname_if_path("union", T, lookback(A));
-scan_token("treat" ++ T, A) -> qname_if_path("treat", T, lookback(A));
-scan_token("strip" ++ T, A) -> qname_if_path("strip", T, lookback(A));
-scan_token(Str = "order" ++ T, A) -> % done
-   case lookback(A) of
-      'default' ->
-         {{'order',?L,'order'}, T};
-      _ ->
-         case lookforward_is_by(T) of
-            true ->
-               {{'order',?L,'order'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token("minus" ++ T, A) -> qname_if_path("minus", T, lookback(A));
-scan_token("least" ++ T, A) -> qname_if_path("least", T, lookback(A));
-scan_token("every" ++ T = Str, A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'every',?L,'every'}, T};
-      _ ->
-         case lookforward_is_paren(T) of
-            true ->
-               scan_name(Str);
-            _ ->
-               qname_if_path("every", T, lookback(A))
-         end
-   end;
-scan_token(Str = "some" ++ T, _A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'some',?L,'some'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "empty" ++ T, A) -> % done
-   case lookforward_greatest_least(T) of 
-      true ->
-         {{'empty',?L,'empty'}, T};
-      _ ->
-         case lookback(A) of 
-            'allowing' ->
-               {{'empty',?L,'empty'}, T};               
-            'order' ->
-               {{'empty',?L,'empty'}, T};               
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token("then" ++ T = Str, A) -> 
-   case lookback(A) of
-      ')' ->
-         {{'then',?L,'then'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "text" ++ T, _A) -> 
-   case lookforward_is_paren_or_curly(T) of
-      true ->
-         {{'text',?L,'text'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token("quot" ++ T, A) -> qname_if_path("quot", T, lookback(A));
-%scan_token("plus" ++ T, A) -> qname_if_path("plus", T, lookback(A));
-scan_token(Str = "node" ++ T, A) -> % done
-   case lookforward_is_paren(T) of
-      true ->
-         {{'node',?L,'node'}, T};
-      _ ->
-         case lookback(A) of
-            'insert' ->
-               {{'node',?L,'node'}, T};
-            'delete' ->
-               {{'node',?L,'node'}, T};
-            'rename' ->
-               {{'node',?L,'node'}, T};
-            'replace' ->
-               {{'node',?L,'node'}, T};
-            'of' ->
-               {{'node',?L,'node'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-
-scan_token(Str = "type" ++ T, A) ->  % done
-   case lookback(A) of
-      'validate' ->
-         {{'type',?L,'type'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "skip" ++ T, A) ->  % done
-   case lookback(A) of
-      'revalidation' ->
-         {{'skip',?L,'skip'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "strict" ++ T, A) ->  % done
-   case lookback(A) of
-      'revalidation' ->
-         {{'strict',?L,'strict'}, T};
-      'validate' ->
-         {{'strict',?L,'strict'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "lax" ++ T, A) ->  % done
-   case lookback(A) of
-      'revalidation' ->
-         {{'lax',?L,'lax'}, T};
-      'validate' ->
-         {{'lax',?L,'lax'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-
-scan_token(Str = "item" ++ T, A) ->  % done
-   case lookforward_is_paren(T) of
-      true ->
-         {{'item',?L,'item'}, T};
-      _ ->
-         case lookback(A) of
-            'context' ->
-               {{'item',?L,'item'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-
-scan_token(Str = [S,$i,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
-                                               (?whitespace(S)) ->
-   ?INC(H),
-   ?INC(S),
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'idiv',?L,'idiv'}, T}
-   end;
-scan_token("idiv" ++ T = Str, A) -> 
-   case lookback(A) of
-      ')' ->
-         {{'idiv',?L,'idiv'}, T};
-      '*' ->
-         {{'idiv',?L,'idiv'}, T};
-      [] ->
-         {{'idiv',?L,'idiv'}, T};
-      _ -> 
-         scan_name(Str)
-   end;
-
-scan_token(Str = [S,$m,$o,$d,H|T], A)  when (?whitespace(H)) andalso
-                                            (?whitespace(S)) -> 
-   ?INC(H),
-   ?INC(S),
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'mod',?L,'mod'}, T}
-   end;
-scan_token("mod" ++ T = Str, A) -> 
-   case lookback(A) of
-      ')' ->
-         {{'mod',?L,'mod'}, T};
-      '*' ->
-         {{'mod',?L,'mod'}, T};
-      [] ->
-         {{'mod',?L,'mod'}, T};
-      _ -> 
-         scan_name(Str)
-   end;
-
-scan_token(Str = [S,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
-                                            (?whitespace(S)) -> 
-   ?INC(H),
-   ?INC(S),
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'div',?L,'div'}, T}
-   end;
-scan_token(Str = "div" ++ T, A) -> 
-   case lookback(A) of
-      ')' ->
-         {{'div',?L,'div'}, T};
-      '*' ->
-         {{'div',?L,'div'}, T};
-      [] ->
-         {{'div',?L,'div'}, T};
-      _ -> 
-         scan_name(Str)
-   end;
-
-scan_token("else" ++ T = Str, A) -> 
-   case lookback(A) of
-      ')' ->
-         {{'else',?L,'else'}, T};
-      'then' ->
-         scan_name(Str);
-      'else' ->
-         scan_name(Str);
-      L ->
-         case in_if_then_no_else(A) of
-            true ->
-               {{'else',?L,'else'}, T};
-            _ ->
-               qname_if_path("else", T, L)
-         end
-   end;
-scan_token("cast" ++ T, A) -> qname_if_path("cast", T, lookback(A));
-scan_token("case" ++ T, A) -> qname_if_path("case", T, lookback(A));   
-scan_token("apos" ++ T, A) -> qname_if_path("apos", T, lookback(A));
-scan_token(Str = "let" ++ T, _A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         %?dbg("A",A),
-         {{'let',?L,'let'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "for" ++ T, _A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'for',?L,'for'}, T};
-      _ ->
-         case lookforward_is_window(T) of
-            true ->
-               {{'for',?L,'for'}, T};
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token("and" ++ [$$|T], _A) -> 
-   {{'and',?L,'and'}, [$$|T]};
-scan_token(Str = "and" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      _ ->
-         {{'and',?L,'and'}, T}
-   end;
-scan_token(Str = "to" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      _ ->
-         {{'to',?L,'to'}, T}
-   end;
-scan_token(Str = "or" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '?' ->
-         scan_name(Str);
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      _ ->
-         {{'or',?L,'or'}, T}
-   end;
-scan_token("of" ++ T, A) -> qname_if_path("of", T, lookback(A));
-scan_token(Str = "ne" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      _ ->
-         {{'ne',?L,'ne'}, T}
-   end;
-scan_token(Str = "lt" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case length(A) =/= 0 of
-      true ->
-         case lookback(A) of
-            '/' ->
-               scan_name(Str);
-            'function' ->
-               scan_name(Str);
-            '(' ->
-               scan_name(Str);
-            _ ->
-               {{'lt',?L,'lt'}, T}
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "le" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case length(A) =/= 0 of
-      true ->
-         case lookback(A) of
-            '/' ->
-               scan_name(Str);
-            'function' ->
-               scan_name(Str);
-            '(' ->
-               scan_name(Str);
-            _ ->
-               {{'le',?L,'le'}, T}
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "is" ++ T, A) -> 
-   case length(A) =/= 0 of
-      true ->
-         case lookback(A) of
-            O when O == '/';
-                   O == '{';
-                   O == 'function';
-                   O == '+';
-                   O == '-';
-                   O == '*';
-                   O == 'div';
-                   O == ';' ->
-               scan_name(Str);                   
-            _O ->
-               %?dbg(?LINE,O),
-               {{'is',?L,'is'}, T}
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "in" ++ T, A) -> 
-   case length(A) =/= 0 of
-      true ->
-         case lookback(A) of
-            {'$',_,_} ->
-               {{'in',?L,'in'}, T};
-            '/' ->
-               scan_name(Str);
-            'element' ->
-               scan_name(Str);
-            'attribute' ->
-               scan_name(Str);
-            'namespace' ->
-               scan_name(Str);
-            'function' ->
-               scan_name(Str);
-            'NCName' ->
-               {{'in',?L,'in'}, T};
-            'empty' ->
-               {{'in',?L,'in'}, T};
-            ')' ->
-               {{'in',?L,'in'}, T};
-            '+' ->
-               {{'in',?L,'in'}, T};
-            '?' when length(T) > 0, ?whitespace(hd(T)) ->
-               {{'in',?L,'in'}, T};
-            '?' ->
-               qname_if_path("in", T, lookback(A));
-            '*' ->
-               {{'in',?L,'in'}, T};
-            _ ->
-               qname_if_path("in", T, lookback(A))
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "if" ++ T, _A) -> 
-   case lookforward_is_paren(T) of
-      true ->
-         {{'if',?L,'if'}, T};
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "gt" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      _ ->
-         {{'gt',?L,'gt'}, T}
-   end;
-scan_token(Str = "ge" ++ [H|T], A) when ?whitespace(H) -> 
-   ?INC(H),
-   case lookback(A) of
-      '/' ->
-         scan_name(Str);
-      '(' ->
-         scan_name(Str);
-      'function' ->
-         scan_name(Str);
-      _ ->
-         {{'ge',?L,'ge'}, T}
-   end;
-scan_token(Str = "eq" ++ T, A) -> 
-   case lookforward_is_ws(T) of
-      true ->
-         ?INC(hd(T)),
-         case lookback(A) of
-            '/' ->
-               scan_name(Str);
-            '(' ->
-               scan_name(Str);
-            'function' ->
-               scan_name(Str);
-            _ ->
-               {{'eq',?L,'eq'}, T}
-         end;
-      _ ->
-         scan_name(Str)
-   end;
-scan_token(Str = "by" ++ T, A) -> 
-   case lookback(A) of
-      'order' ->
-         {{'by',?L,'by'}, T};
-      'group' ->
-         {{'by',?L,'by'}, T};
-      _ ->
-         scan_name(Str)   
-   end;
-scan_token(Str = "at" ++ T, A) -> 
-   case lookforward_is_var(T) of
-      true ->
-         {{'at',?L,'at'}, T};
-      _ ->
-         case lookforward_is_ws(T) andalso not lookforward_is_paren(T) of
-            true ->
-               case lookback(A) of
-                  '/' ->
-                     scan_name(Str);
-                  _ ->
-                     {{'at',?L,'at'}, T}
-               end;
-            _ ->
-               scan_name(Str)
-         end
-   end;
-scan_token(Str = "as" ++ T, A) -> 
-   case lookforward_is_ws(T) of
-      true ->
-         case lookback(A) of
-            '/' ->
-               scan_name(Str);
-            {'$',_,_} ->
-               {{'as',?L,'as'}, T};
-            ')' ->
-               {{'as',?L,'as'}, T};
-            'cast' ->
-               {{'as',?L,'as'}, T};
-            _LB ->
-               case in_rename(A) of
-                  true ->
-                     {{'as',?L,'as'}, T};
-                  _ ->
-                     ?dbg("LB",_LB),
-                     case lookforward_is_paren(T) of
-                        true ->
-                           scan_name(Str);
-                        _ ->
-                           qname_if_path("as", T, lookback(A))
-                     end
-               end
-         end;
-      _ ->
-         scan_name(Str)
-   end;
 scan_token(Str = "<![CDATA[" ++ _, _A) ->  {direct, Str, 0};
 scan_token("]]>" ++ T, _A) ->  
    ?dbg(?MODULE,?LINE),
    {{']]>', ?L, ']]>'}, T};
-
 % direct comment, send to DC
 scan_token(Str = "<!--" ++ _, _A) -> {direct, Str, 0};
 % direct PI, send to DC
 scan_token(Str = "<?" ++ _, _A) ->  {direct, Str, 0};
-
 scan_token("(/)" ++ T, A) ->  
    case lookback(A) of
-      'NCName' ->
+      'maybeNCName' ->
          {[{'(', ?L, '('},{'lone-slash', ?L, 'lone-slash'},{')', ?L, ')'}], T};
       ')' -> % maybe a fun call ???
          {[{'(', ?L, '('},{'lone-slash', ?L, 'lone-slash'},{')', ?L, ')'}], T};
@@ -1909,8 +659,7 @@ scan_token(Str = ":*" ++ _T, _A) ->
    {Name,T1} = scan_name(tl(Str)),
    {[{':', ?L, ':'},Name], T1};
 scan_token("*:=" ++ T, _A) ->  
-   {[{'*', ?L, '*'},{':=', ?L, ':='}], T}
-   ;
+   {[{'*', ?L, '*'},{':=', ?L, ':='}], T};
 scan_token("*:*" ++ T, _A) -> % let the parser figure it out
    {[{'*', ?L, '*'},{':', ?L, ':'},{'*', ?L, '*'}], T};
 scan_token(Str = "*:" ++ _T, _A) ->
@@ -1964,7 +713,7 @@ scan_token("/" ++ T, A) ->
                case lookback(A) of
                   '/>' ->
                      {{'/', ?L, '/'}, T};
-                  'NCName' ->
+                  'maybeNCName' ->
                      {{'/', ?L, '/'}, T};
                   ')' ->
                      {{'/', ?L, '/'}, T};
@@ -2023,6 +772,39 @@ scan_token(Str = "<" ++ T, A) ->
 scan_token("=" ++ T, _A) ->  {{'=', ?L, '='}, T};
 scan_token(">" ++ T, _A) ->  {{'>', ?L, '>'}, T};
 scan_token("/>" ++ _, _A) -> ?err('XPST0003');
+% special idiv ?? 
+scan_token(Str = [S,$i,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
+                                               (?whitespace(S)) ->
+   ?INC(H),
+   ?INC(S),
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'idiv',?L,'idiv'}, T}
+   end;
+% special mod ?? 
+scan_token(Str = [S,$m,$o,$d,H|T], A)  when (?whitespace(H)) andalso
+                                            (?whitespace(S)) -> 
+   ?INC(H),
+   ?INC(S),
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'mod',?L,'mod'}, T}
+   end;
+% special div ?? 
+scan_token(Str = [S,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
+                                            (?whitespace(S)) -> 
+   ?INC(H),
+   ?INC(S),
+   case lookback(A) of
+      'function' ->
+         scan_name(tl(Str));
+      _ ->
+         {{'div',?L,'div'}, T}
+   end;
 
 % QName as the fall-through, for function names
 scan_token([H|T], _A) when ?whitespace(H) ->  
@@ -2032,6 +814,17 @@ scan_token(T, _A) ->
    %?dbg("fallthrough",T),
    scan_name(T).
 
+
+maybe_token(TokenPart, Rest = [H|_]) ->
+   case xmerl_lib:is_namechar(H)
+      orelse H == 895
+      orelse H == 383 of
+      true when H =/= $: ->
+         scan_name(TokenPart ++ Rest);
+      _ -> % false or is colon
+         Atom = list_to_atom(TokenPart), 
+         {{Atom, ?L, Atom}, Rest}
+   end.
 
 trim_ws([H|T]) when ?whitespace(H) ->
    trim_ws(T);
@@ -2192,31 +985,31 @@ scan_name(Str) ->
    {invalid_name, Str}.
 
 scan_prefix([], Acc) ->
-   {{'NCName',?L, lists:reverse(Acc)}, []};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, []};
 scan_prefix(Str = [H|_], Acc) when ?whitespace(H) ->
-   {{'NCName',?L, lists:reverse(Acc)}, Str};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, Str};
 scan_prefix(T = "::" ++ _, Acc) ->
    %% This is the next token
-   {{'NCName',?L, lists:reverse(Acc)}, T};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, T};
 scan_prefix(":" ++ T, Acc) ->
    {LocalPart, T1} = scan_local_part(T, []),
    case LocalPart of
       {'*',_, _} ->
-         Prefix = {'NCName',?L, lists:reverse(Acc)},
+         Prefix = {'maybeNCName',?L, lists:reverse(Acc)},
          {[Prefix,{':*',?L, ':*'}], T1};
-      {'NCName',_, []} ->
-         {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
-      {'NCName',_, [H2|_] = L1} ->
+      {'maybeNCName',_, []} ->
+         {{'maybeNCName',?L, lists:reverse(Acc)}, ":" ++ T1};
+      {'maybeNCName',_, [H2|_] = L1} ->
          case xmerl_lib:is_letter(H2)
             orelse H2 =:= $_
             orelse H2 == 895
             orelse H2 == 383 of
             true ->
                %?dbg("LocalPart",LocalPart),
-               Prefix = {'NCName',?L, lists:reverse(Acc)},
+               Prefix = {'maybeNCName',?L, lists:reverse(Acc)},
                {[Prefix, {':',?L, ':'}, LocalPart], T1};
             _ ->
-               {{'NCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
+               {{'maybeNCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
          end
    end;
 scan_prefix("*:" ++ T, _Acc) when T =/= [] ->
@@ -2232,17 +1025,17 @@ scan_prefix(Str = [H|T], Acc) ->
       true ->
          scan_prefix(T, [H|Acc]);
       false ->
-         {{'NCName',?L, lists:reverse(Acc)}, Str}
+         {{'maybeNCName',?L, lists:reverse(Acc)}, Str}
    end.
 
 scan_local_part([], Acc) ->
-   {{'NCName',?L, lists:reverse(Acc)}, []};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, []};
 scan_local_part([H|T], []) when H == $* ->
    {{'*',?L, '*'}, T};
 scan_local_part(Str = [H|_], Acc) when ?whitespace(H) ->
-   {{'NCName',?L, lists:reverse(Acc)}, Str};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, Str};
 scan_local_part(Str = [H|_], Acc) when H == $: ->
-   {{'NCName',?L, lists:reverse(Acc)}, Str};
+   {{'maybeNCName',?L, lists:reverse(Acc)}, Str};
 scan_local_part(Str = [H|T], Acc) ->
    case xmerl_lib:is_namechar(H)
        orelse H == 895
@@ -2250,127 +1043,126 @@ scan_local_part(Str = [H|T], Acc) ->
       true ->
          scan_local_part(T, [H|Acc]);
       false ->
-         {{'NCName',?L, lists:reverse(Acc)}, Str}
+         {{'maybeNCName',?L, lists:reverse(Acc)}, Str}
    end.
 
-special_token('?') -> true;
-
-special_token('@') -> true;
-special_token('::') -> true;
-special_token('*:') -> true;
-special_token(',') -> true;
-special_token('(') -> true;
-special_token('[') -> true;
-special_token('/') -> true;
-special_token('//') -> true;
-special_token('|') -> true;
-special_token('-') -> true;
-special_token('=') -> true;
-special_token('!=') -> true;
-special_token('<') -> true;
-special_token('<=') -> true;
-special_token('>=') -> true;
-special_token('and') -> true;
-special_token('or') -> true;
-special_token('mod') -> true;
-special_token('div') -> true;
-special_token('</') -> true;
-special_token(':=') -> true;
-special_token('where') -> true;
-special_token(_) -> false.
+%% special_token('?') -> true;
+%% special_token('@') -> true;
+%% special_token('::') -> true;
+%% special_token('*:') -> true;
+%% special_token(',') -> true;
+%% special_token('(') -> true;
+%% special_token('[') -> true;
+%% special_token('/') -> true;
+%% special_token('//') -> true;
+%% special_token('|') -> true;
+%% special_token('-') -> true;
+%% special_token('=') -> true;
+%% special_token('!=') -> true;
+%% special_token('<') -> true;
+%% special_token('<=') -> true;
+%% special_token('>=') -> true;
+%% special_token('and') -> true;
+%% special_token('or') -> true;
+%% special_token('mod') -> true;
+%% special_token('div') -> true;
+%% special_token('</') -> true;
+%% special_token(':=') -> true;
+%% special_token('where') -> true;
+%% special_token(_) -> false.
 
 lookback([[X,_]|_]) -> X;
 lookback([{X,_,_}|_]) -> X;
 % function call w/ prefix
-lookback([[{'NCName',_,_},_,_]|_]) -> 'NCName';
+lookback([[{'maybeNCName',_,_},_,_]|_]) -> 'maybeNCName';
 % string constructor
 lookback([[{'``[',_,_}|_]|_]) -> '``[';
 lookback(_) -> [].
 
-lookforward_greatest_least(T) ->
-   case lookforward_is_ws(T) of
-      true ->
-         case strip_ws(T) of
-            [$g,$r,$e,$a,$t,$e,$s,$t,$,|_]->
-               true;
-            [$g,$r,$e,$a,$t,$e,$s,$t,S|_] when ?whitespace(S) ->
-               true;
-            [$l,$e,$a,$s,$t,$,|_] ->
-               true;
-            [$l,$e,$a,$s,$t,S|_] when ?whitespace(S) ->
-               true;
-            _ ->
-               false
-         end;
-      _ ->
-         false
-   end.
+%% lookforward_greatest_least(T) ->
+%%    case lookforward_is_ws(T) of
+%%       true ->
+%%          case strip_ws(T) of
+%%             [$g,$r,$e,$a,$t,$e,$s,$t,$,|_]->
+%%                true;
+%%             [$g,$r,$e,$a,$t,$e,$s,$t,S|_] when ?whitespace(S) ->
+%%                true;
+%%             [$l,$e,$a,$s,$t,$,|_] ->
+%%                true;
+%%             [$l,$e,$a,$s,$t,S|_] when ?whitespace(S) ->
+%%                true;
+%%             _ ->
+%%                false
+%%          end;
+%%       _ ->
+%%          false
+%%    end.
 
-lookforward_external(T) ->
-   case trim_ws(T) of
-      ":="++_ ->
-         true;
-      ";"++_ ->
-         true;
-      _ ->
-         false
-   end.
+%% lookforward_external(T) ->
+%%    case trim_ws(T) of
+%%       ":="++_ ->
+%%          true;
+%%       ";"++_ ->
+%%          true;
+%%       _ ->
+%%          false
+%%    end.
 
-lookforward_validate(T) ->
-   case lookforward_is_ws(T) of
-      true ->
-         case trim_ws(T) of
-            [${|_] ->
-               true;
-            [$l,$a,$x|_] ->
-               true;
-            [$s,$t,$r,$i,$c,$t|_] ->
-               true;
-            [$t,$y,$p,$e,_] ->
-               true;
-            _ ->
-               false
-         end;
-      _ ->
-         case trim_ws(T) of
-            [${|_] ->
-               true;
-            _ ->
-               false
-         end
-   end.
+%% lookforward_validate(T) ->
+%%    case lookforward_is_ws(T) of
+%%       true ->
+%%          case trim_ws(T) of
+%%             [${|_] ->
+%%                true;
+%%             [$l,$a,$x|_] ->
+%%                true;
+%%             [$s,$t,$r,$i,$c,$t|_] ->
+%%                true;
+%%             [$t,$y,$p,$e,_] ->
+%%                true;
+%%             _ ->
+%%                false
+%%          end;
+%%       _ ->
+%%          case trim_ws(T) of
+%%             [${|_] ->
+%%                true;
+%%             _ ->
+%%                false
+%%          end
+%%    end.
 
-lookforward_is_by(T) ->
-   case lookforward_is_ws(T) of
-      true ->
-         case trim_ws(T) of
-            [$b,$y,S|_] when ?whitespace(S) ->
-               true;
-            _ ->
-               false
-         end;
-      _ ->
-         false
-   end.
+%% lookforward_is_by(T) ->
+%%    case lookforward_is_ws(T) of
+%%       true ->
+%%          case trim_ws(T) of
+%%             [$b,$y,S|_] when ?whitespace(S) ->
+%%                true;
+%%             _ ->
+%%                false
+%%          end;
+%%       _ ->
+%%          false
+%%    end.
 
-lookforward_is_ws([H|_]) when ?whitespace(H) ->
-   true;
-lookforward_is_ws("(:" ++ _) ->
-   true;
-lookforward_is_ws(_) ->
-   false.
+%% lookforward_is_ws([H|_]) when ?whitespace(H) ->
+%%    true;
+%% lookforward_is_ws("(:" ++ _) ->
+%%    true;
+%% lookforward_is_ws(_) ->
+%%    false.
 
-lookforward_is_axis(T) ->
-   case trim_ws(T) of
-      "::" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_axis(T) ->
+%%    case trim_ws(T) of
+%%       "::" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_return(T) ->
-   case trim_ws(T) of
-      "return" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_return(T) ->
+%%    case trim_ws(T) of
+%%       "return" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
 lookforward_is_number([]) -> false;
 lookforward_is_number([H|_]) ->
@@ -2382,75 +1174,76 @@ lookforward_is_number([H|_]) ->
          false
    end.
 
-lookforward_is_end(T) ->
-   case trim_ws(T) of
-      "end" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_end(T) ->
+%%    case trim_ws(T) of
+%%       "end" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_equal(T) ->
-   case trim_ws(T) of
-      "=" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_equal(T) ->
+%%    case trim_ws(T) of
+%%       "=" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_empty(T) ->
-   case trim_ws(T) of
-      "empty" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_empty(T) ->
+%%    case trim_ws(T) of
+%%       "empty" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_var(T) ->
-   case trim_ws(T) of
-      "$" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_var(T) ->
+%%    case trim_ws(T) of
+%%       "$" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_node(T) ->
-   case trim_ws(T) of
-      "node" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_node(T) ->
+%%    case trim_ws(T) of
+%%       "node" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_version(T) ->
-   case trim_ws(T) of
-      "version" ++ _ -> true;
-      "encoding" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_version(T) ->
+%%    case trim_ws(T) of
+%%       "version" ++ _ -> true;
+%%       "encoding" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_namespace(T) ->
-   case trim_ws(T) of
-      "namespace" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_namespace(T) ->
+%%    case trim_ws(T) of
+%%       "namespace" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_value(T) ->
-   case trim_ws(T) of
-      "value" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_value(T) ->
+%%    case trim_ws(T) of
+%%       "value" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_window(T) ->
-   case trim_ws(T) of
-      "sliding" ++ _ -> true;
-      "tumbling" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_window(T) ->
+%%    case trim_ws(T) of
+%%       "sliding" ++ _ -> true;
+%%       "tumbling" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_paren(T) ->
-   case trim_ws(T) of
-      "(" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_paren(T) ->
+%%    case trim_ws(T) of
+%%       "(" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-lookforward_is_paren_or_curly(T) ->
-   case trim_ws(T) of
-      "(" ++ _ -> true;
-      "{" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_paren_or_curly(T) ->
+%%    case trim_ws(T) of
+%%       "(" ++ _ -> true;
+%%       "{" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
+%% keyword `declare` must not be an NCName 
 is_keyword_declare(Str) ->
    Trim = case Str of
              [H|T] when ?whitespace(H) ->
@@ -2479,6 +1272,7 @@ is_keyword_declare(Str) ->
       _ -> false
    end.
 
+%% keyword `import` must not be an NCName 
 is_keyword_import(Str) ->
    Trim = case Str of
              [H|T] when ?whitespace(H) ->
@@ -2494,73 +1288,73 @@ is_keyword_import(Str) ->
       _ -> false
    end.
 
-lookforward_is_curly(T) ->
-   case trim_ws(T) of
-      "{" ++ _ -> true;
-      _ -> false
-   end.
+%% lookforward_is_curly(T) ->
+%%    case trim_ws(T) of
+%%       "{" ++ _ -> true;
+%%       _ -> false
+%%    end.
 
-qname_if_path(Tok, [], _Last) ->
-   scan_name(Tok);
-qname_if_path(Tok, R, []) ->
-   scan_name(Tok ++ R);
-qname_if_path(Tok, [H|T], {'$',_,_}) ->
-   case xmerl_lib:is_namechar(H) of
-      true ->
-         scan_name(Tok ++ [H|T]);
-      _ ->
-         {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]}
-   end;
-qname_if_path(Tok, [H|T], Last) ->
-   case xmerl_lib:is_namechar(H) of
-      true ->
-         scan_name(Tok ++ [H|T]);
-      _ when Last == ')';
-             Last == 'NCName';
-             Last == 'IntegerLiteral';
-             Last == 'DecimalLiteral';
-             Last == 'DoubleLiteral';
-             Last == 'StringLiteral' ->
-         {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]};
-      _ ->
-         case special_token(Last) orelse 
-                (lookforward_is_paren([H|T]) andalso not reserved_function_name(Tok)) orelse
-                is_naming(Last) of
-            true ->
-               scan_name(Tok ++ [H|T]);
-            _ ->
-               {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]}
-         end
-   end.
+%% qname_if_path(Tok, [], _Last) ->
+%%    scan_name(Tok);
+%% qname_if_path(Tok, R, []) ->
+%%    scan_name(Tok ++ R);
+%% qname_if_path(Tok, [H|T], {'$',_,_}) ->
+%%    case xmerl_lib:is_namechar(H) of
+%%       true ->
+%%          scan_name(Tok ++ [H|T]);
+%%       _ ->
+%%          {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]}
+%%    end;
+%% qname_if_path(Tok, [H|T], Last) ->
+%%    case xmerl_lib:is_namechar(H) of
+%%       true ->
+%%          scan_name(Tok ++ [H|T]);
+%%       _ when Last == ')';
+%%              Last == 'maybeNCName';
+%%              Last == 'IntegerLiteral';
+%%              Last == 'DecimalLiteral';
+%%              Last == 'DoubleLiteral';
+%%              Last == 'StringLiteral' ->
+%%          {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]};
+%%       _ ->
+%%          case special_token(Last) orelse 
+%%                 (lookforward_is_paren([H|T]) andalso not reserved_function_name(Tok)) orelse
+%%                 is_naming(Last) of
+%%             true ->
+%%                scan_name(Tok ++ [H|T]);
+%%             _ ->
+%%                {{list_to_atom(Tok), ?L, list_to_atom(Tok)}, [H|T]}
+%%          end
+%%    end.
 
-is_naming('element') -> true;
-is_naming('attribute') -> true;
-is_naming('namespace') -> true;
-is_naming('function') -> true;
-is_naming('union') -> true;
-is_naming('intersect') -> true;
-is_naming('except') -> true;
-is_naming(_) -> false.
+%% is_naming('element') -> true;
+%% is_naming('attribute') -> true;
+%% is_naming('namespace') -> true;
+%% is_naming('function') -> true;
+%% is_naming('union') -> true;
+%% is_naming('intersect') -> true;
+%% is_naming('except') -> true;
+%% is_naming(_) -> false.
 
-reserved_function_name("array") -> true;
-reserved_function_name("attribute") -> true;
-reserved_function_name("comment") -> true;
-reserved_function_name("document-node") -> true;
-reserved_function_name("element") -> true;
-reserved_function_name("empty-sequence") -> true;
-reserved_function_name("function") -> true;
-reserved_function_name("if") -> true;
-reserved_function_name("item") -> true;
-reserved_function_name("map") -> true;
-reserved_function_name("namespace-node") -> true;
-reserved_function_name("node") -> true;
-reserved_function_name("processing-instruction") -> true;
-reserved_function_name("schema-attribute") -> true;
-reserved_function_name("schema-element") -> true;
-reserved_function_name("switch") -> true;
-reserved_function_name("text") -> true;
-reserved_function_name("typeswitch") -> true;
-reserved_function_name(_) -> false.
+%% reserved_function_name("array") -> true;
+%% reserved_function_name("attribute") -> true;
+%% reserved_function_name("comment") -> true;
+%% reserved_function_name("document-node") -> true;
+%% reserved_function_name("element") -> true;
+%% reserved_function_name("empty-sequence") -> true;
+%% reserved_function_name("function") -> true;
+%% reserved_function_name("if") -> true;
+%% reserved_function_name("item") -> true;
+%% reserved_function_name("map") -> true;
+%% reserved_function_name("namespace-node") -> true;
+%% reserved_function_name("node") -> true;
+%% reserved_function_name("processing-instruction") -> true;
+%% reserved_function_name("schema-attribute") -> true;
+%% reserved_function_name("schema-element") -> true;
+%% reserved_function_name("switch") -> true;
+%% reserved_function_name("text") -> true;
+%% reserved_function_name("typeswitch") -> true;
+%% reserved_function_name(_) -> false.
 
 scan_direct_comment_text([], _A) ->  
    ?dbg("unbalanced comment",'XPST0003'),
@@ -2815,39 +1609,39 @@ scan_braced_uri([], _Acc) ->
    ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003').
 
-in_if_then_no_else([]) -> false;
-in_if_then_no_else([{then,_,then}|_]) -> true;
-in_if_then_no_else([{'if',_,'if'}|_]) -> false;
-in_if_then_no_else([_|T]) ->
-  in_if_then_no_else(T).
+%% in_if_then_no_else([]) -> false;
+%% in_if_then_no_else([{then,_,then}|_]) -> true;
+%% in_if_then_no_else([{'if',_,'if'}|_]) -> false;
+%% in_if_then_no_else([_|T]) ->
+%%   in_if_then_no_else(T).
 
-in_flwor([]) -> false;
-in_flwor([{'for',_,'for'}|_]) -> true;
-in_flwor([{'let',_,'let'}|_]) -> true;
-in_flwor([{'window',_,'window'}|_]) -> true;
-in_flwor([{'return',_,'return'}|_]) -> false;
-in_flwor([_|T]) -> in_flwor(T).
+%% in_flwor([]) -> false;
+%% in_flwor([{'for',_,'for'}|_]) -> true;
+%% in_flwor([{'let',_,'let'}|_]) -> true;
+%% in_flwor([{'window',_,'window'}|_]) -> true;
+%% in_flwor([{'return',_,'return'}|_]) -> false;
+%% in_flwor([_|T]) -> in_flwor(T).
 
-in_copy([]) -> false;
-in_copy([{'copy',_,'copy'}|_]) -> true;
-in_copy([{'return',_,'return'}|_]) -> false;
-in_copy([_|T]) -> in_copy(T).
+%% in_copy([]) -> false;
+%% in_copy([{'copy',_,'copy'}|_]) -> true;
+%% in_copy([{'return',_,'return'}|_]) -> false;
+%% in_copy([_|T]) -> in_copy(T).
 
-in_replace([]) -> false;
-in_replace([{'with',_,'with'}|_]) -> false;
-in_replace([{'node',_,_},{'of',_,_}|_]) -> true;
-in_replace([{'node',_,_},{'replace',_,_}|_]) -> true;
-in_replace([_|T]) -> in_replace(T).
+%% in_replace([]) -> false;
+%% in_replace([{'with',_,'with'}|_]) -> false;
+%% in_replace([{'node',_,_},{'of',_,_}|_]) -> true;
+%% in_replace([{'node',_,_},{'replace',_,_}|_]) -> true;
+%% in_replace([_|T]) -> in_replace(T).
 
-in_rename([]) -> false;
-in_rename([{'as',_,'as'}|_]) -> false;
-in_rename([{'node',_,_},{'rename',_,_}|_]) -> true;
-in_rename([_|T]) -> in_rename(T).
+%% in_rename([]) -> false;
+%% in_rename([{'as',_,'as'}|_]) -> false;
+%% in_rename([{'node',_,_},{'rename',_,_}|_]) -> true;
+%% in_rename([_|T]) -> in_rename(T).
 
-in_insert([]) -> false;
-in_insert([{'node',_,_},{'insert',_,_}|_]) -> true;
-in_insert([{'nodes',_,_},{'insert',_,_}|_]) -> true;
-in_insert([_|T]) -> in_insert(T).
+%% in_insert([]) -> false;
+%% in_insert([{'node',_,_},{'insert',_,_}|_]) -> true;
+%% in_insert([{'nodes',_,_},{'insert',_,_}|_]) -> true;
+%% in_insert([_|T]) -> in_insert(T).
 
    
    
