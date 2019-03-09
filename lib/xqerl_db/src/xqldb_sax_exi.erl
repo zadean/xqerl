@@ -362,7 +362,7 @@ get_string_id(_DB, GlobalId, StringMap, AttStringMap) ->
 
 %% ATTRIBUTE TEXTS 
 get_attribute_string_id(DB, {GlobalId, Value}, AttStringMap, _) ->
-   DbId = xqldb_string_table:insert(?ATT_TABLE_P(DB), Value),
+   DbId = xqldb_string_table:insert(?TEXT_TABLE_P(DB), Value),
    {DbId, AttStringMap#{GlobalId => DbId}};
 get_attribute_string_id(_DB, GlobalId, AttStringMap, StringMap) ->
    if is_map_key(GlobalId, AttStringMap) ->

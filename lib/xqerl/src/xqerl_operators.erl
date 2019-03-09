@@ -41,6 +41,7 @@
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(intv(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
+-define(strv(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(sing(Val), Val).
 -define(dec(Val),decimal(Val)).
 -define(BIN(V),(V)/binary).
@@ -439,13 +440,17 @@ equal(#xqAtomicValue{type = T2, value = Val2},
 equal(#xqAtomicValue{} = Arg1, #xqAtomicValue{} = Arg2, _Collation) ->
    equal(Arg1, Arg2).
 
-equal(undefined, undefined) -> [];
-equal([], []) -> [];
-equal([], _) -> [];
-equal(_, []) -> [];
+equal(#xqAtomicValue{type = T1, value = V1}, 
+      #xqAtomicValue{type = T2, value = V2}) 
+   when ?xs_integer(T1), 
+        ?xs_integer(T2) ->
+   % happens often so skip numeric equal
+   ?bool(V1 =:= V2);
 equal(#xqAtomicValue{type = T1} = Arg1, 
-      #xqAtomicValue{type = T2} = Arg2) when ?xs_numeric(T1),?xs_numeric(T2) ->
-   ?sing(numeric_equal(Arg1,Arg2));
+      #xqAtomicValue{type = T2} = Arg2) 
+   when ?xs_numeric(T1),
+        ?xs_numeric(T2) ->
+   numeric_equal(Arg1,Arg2);
 equal(#{nk := _} = Arg1, Arg2) ->
    At = xqerl_types:atomize(Arg1),
    equal(At, Arg2);
@@ -580,15 +585,17 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'}, #xqAtomicValue{}) ->
    ?err('XPTY0004');
 equal(#xqAtomicValue{}, #xqAtomicValue{}) ->
    ?err('XPTY0004');
-
+equal(undefined, undefined) -> [];
+equal([], []) -> [];
+equal([], _) -> [];
+equal(_, []) -> [];
 equal([Arg1], Arg2) ->
    equal(Arg1, Arg2);
 equal(Arg1, [Arg2]) ->
    equal(Arg1, Arg2);
 equal(#xqFunction{},_) -> ?err('FOTY0013');
 equal(_,#xqFunction{}) -> ?err('FOTY0013');
-equal(_, _) ->
-   ?err('XPTY0004').
+equal(_, _) -> ?err('XPTY0004').
 
 not_equal(undefined, undefined) -> [];
 not_equal([], []) -> [];
@@ -607,6 +614,17 @@ not_equal(Arg1, [Arg2]) ->
 not_equal(Arg1, Arg2) ->
    ?sing(negate(equal(Arg1, Arg2))).
 
+greater_than(#xqAtomicValue{type = T1, value = V1}, 
+             #xqAtomicValue{type = T2, value = V2}) 
+   when ?xs_integer(T1), 
+        ?xs_integer(T2) ->
+   % happens often so skip numeric equal
+   ?bool(V1 > V2);
+greater_than(#xqAtomicValue{type = T1} = Arg1, 
+             #xqAtomicValue{type = T2} = Arg2) 
+   when ?xs_numeric(T1),
+        ?xs_numeric(T2) ->
+   numeric_greater_than(Arg1,Arg2);
 greater_than(#{nk := _} = Arg1, Arg2) ->
    At = xqerl_types:atomize(Arg1),
    greater_than(At, Arg2);
@@ -687,6 +705,17 @@ greater_than(Arg1, [Arg2]) ->
 greater_than(Arg1, Arg2) ->
    ?sing(numeric_greater_than(Arg1, Arg2)).
 
+less_than(#xqAtomicValue{type = T1, value = V1}, 
+          #xqAtomicValue{type = T2, value = V2}) 
+   when ?xs_integer(T1), 
+        ?xs_integer(T2) ->
+   % happens often so skip numeric equal
+   ?bool(V1 < V2);
+less_than(#xqAtomicValue{type = T1} = Arg1, 
+          #xqAtomicValue{type = T2} = Arg2) 
+   when ?xs_numeric(T1),
+        ?xs_numeric(T2) ->
+   numeric_less_than(Arg1,Arg2);
 less_than(#{nk := _} = Arg1, Arg2) ->
    At = xqerl_types:atomize(Arg1),
    less_than(At, Arg2);
@@ -756,8 +785,7 @@ less_than([Arg1], Arg2) ->
    less_than(Arg1, Arg2);
 less_than(Arg1, [Arg2]) ->
    less_than(Arg1, Arg2);
-less_than(Arg1, Arg2) ->
-   ?sing(numeric_less_than(Arg1, Arg2)).
+less_than(_, _) -> ?err('XPTY0004').
 
 greater_than_eq(#{nk := _} = Arg1, Arg2) ->
    At = xqerl_types:atomize(Arg1),
@@ -1038,26 +1066,12 @@ general_compare(Op,#xqRange{} = List1,#xqRange{} = List2) ->
    ?bool(Bool);
    
 general_compare(Op,#xqAtomicValue{} = V1,List2) when is_list(List2) ->
-   Bool = lists:any(fun(#xqAtomicValue{} = V2) ->
-                          (value_compare(Op,V1,V2))#xqAtomicValue.value;
-                       (#xqRange{} = V2) ->
-                          range_val_comp_any(Op, V1, V2);
-                       (V2) ->
-                          V3 = xqerl_types:atomize(V2),
-                          (value_compare(Op,V1, V3))#xqAtomicValue.value
-                    end, List2),
+   Bool = general_compare_any_2(List2, Op, V1),
    ?bool(Bool);
 general_compare(Op,#xqAtomicValue{} = V1, V2) ->
    general_compare(Op,V1,xqerl_types:atomize(V2));
 general_compare(Op,List1,#xqAtomicValue{} = V2) when is_list(List1) ->
-   Bool = lists:any(fun(#xqAtomicValue{} = V1) ->
-                          (value_compare(Op,V1,V2))#xqAtomicValue.value;
-                       (#xqRange{} = V1) ->
-                          range_val_comp_any(Op, V1, V2);
-                       (V1) ->
-                          V3 = xqerl_types:atomize(V1),
-                          (value_compare(Op,V3, V2))#xqAtomicValue.value
-                    end, List1),
+   Bool = general_compare_any_1(List1, Op, V2),
    ?bool(Bool);
 general_compare(Op,V1,#xqAtomicValue{} = V2) ->
    general_compare(Op,xqerl_types:atomize(V1),V2);
@@ -1079,16 +1093,82 @@ general_compare(Op,List1,List2) ->
 
 cartesian_compare(Op,List1,List2) ->
    Bool = lists:any(
-            fun(V1) ->
+            fun(#xqRange{} = V1) ->
                   lists:any(
-                    fun(V2) ->
-                          (value_compare(Op,V1,V2))#xqAtomicValue.value
+                    fun(#xqRange{} = V2) ->
+                          range_range_comp_any(Op, V1, V2);
+                       (V2) ->
+                          range_val_comp_any(Op, V1, V2)
+                    end, List2);
+               (V1) ->
+                  lists:any(
+                    fun(#xqRange{} = V2) ->
+                          range_val_comp_any(Op, V1, V2);
+                       (V2) ->
+                          (value_compare(Op, V1, V2))#xqAtomicValue.value
                     end, List2)
             end, List1),
    ?bool(Bool).
-   
+
+general_compare_any_1([#xqAtomicValue{} = V1|R1], Op, V2) ->
+   case value_compare(Op,V1,V2) of
+      ?bool(true) ->
+         true;
+      _ ->
+         general_compare_any_1(R1, Op, V2)
+   end;
+general_compare_any_1([#xqRange{} = V1|R1], Op, V2) ->
+   case range_val_comp_any(Op,V1,V2) of
+      true ->
+         true;
+      _ ->
+         general_compare_any_1(R1, Op, V2)
+   end;
+general_compare_any_1([V1|R1], Op, V2) ->
+   V3 = xqerl_types:atomize(V1),
+   case value_compare(Op,V3,V2) of
+      ?bool(true) ->
+         true;
+      _ ->
+         general_compare_any_1(R1, Op, V2)
+   end;
+general_compare_any_1([], _, _) -> false.
+
+
+general_compare_any_2([#xqAtomicValue{} = V2|R2], Op, V1) ->
+   case value_compare(Op,V1,V2) of
+      ?bool(true) ->
+         true;
+      _ ->
+         general_compare_any_2(R2, Op, V1)
+   end;
+general_compare_any_2([#xqRange{} = V2|R2], Op, V1) ->
+   case range_val_comp_any(Op,V1,V2) of
+      true ->
+         true;
+      _ ->
+         general_compare_any_2(R2, Op, V1)
+   end;
+general_compare_any_2([V2|R2], Op, V1) ->
+   V3 = xqerl_types:atomize(V2),
+   case value_compare(Op,V1,V3) of
+      ?bool(true) ->
+         true;
+      _ ->
+         general_compare_any_2(R2, Op, V1)
+   end;
+general_compare_any_2([], _, _) -> false.
+
+
+-compile({inline,[{value_compare,3}]}).
 
 %2a both are untyped
+value_compare(Op,
+              #xqAtomicValue{type = 'xs:untypedAtomic', value = Val1},
+              #xqAtomicValue{type = 'xs:untypedAtomic', value = Val2}) 
+   when is_binary(Val1),
+        is_binary(Val2) ->
+   value_compare(Op, ?strv(Val1), ?strv(Val2));
 value_compare(Op,
               #xqAtomicValue{type = 'xs:untypedAtomic'} = Val1,
               #xqAtomicValue{type = 'xs:untypedAtomic'} = Val2) ->
@@ -1158,25 +1238,21 @@ atomize_list(#xqAtomicValue{} = V) ->
 atomize_list(#{nk := _} = N) ->
    [xqerl_types:atomize(N)];
 atomize_list(#array{data = List}) ->
-   lists:flatten(atomize_list(List));
-atomize_list(Seq) when is_list(Seq) ->
-   lists:flatten(
-     lists:flatmap(fun(#xqFunction{}) ->
-                   ?err('FOTY0013');
-                (#array{data = List}) ->
-                   atomize_list(List);
-                (#xqAtomicValue{} = V) ->
-                   [V];
-                (L) when is_list(L) ->
-                   atomize_list(L);
-                (#{nk := _} = N) ->
-                   [xqerl_types:atomize(N)];
-                (#xqRange{} = R) ->
-                   %?dbg("R",R),
-                   xqerl_seq3:expand(R)
-             end, Seq));
-atomize_list(Seq) ->
-   atomize_list([Seq]).
+   atomize_list(List);
+atomize_list([#xqAtomicValue{} = H|T]) ->
+   [H|atomize_list(T)];
+atomize_list([#{nk := _} = H|T]) ->
+   [xqerl_types:atomize(H)|atomize_list(T)];
+atomize_list([#array{data = List}|T]) ->
+   atomize_list(List) ++ atomize_list(T);
+atomize_list([H|T]) when is_list(H) ->
+   atomize_list(H) ++ atomize_list(T);
+atomize_list([#xqRange{} = H|T]) ->
+   [H|atomize_list(T)];
+atomize_list([#xqFunction{}|_]) -> ?err('FOTY0013');
+atomize_list(Seq) when not is_list(Seq) ->
+   atomize_list([Seq]);
+atomize_list([]) -> [].
 
 % returns: numeric
 numeric_add(#xqAtomicValue{value = neg_zero} = A,B) ->
@@ -1566,6 +1642,14 @@ numeric_less_than(#xqAtomicValue{type = _, value = ValA},
    when is_integer(ValA), 
         is_integer(ValB) ->
    ?bool(ValA < ValB);
+numeric_less_than(#xqAtomicValue{type = _, value = #xsDecimal{int = ValA, scf = 0}},
+                  #xqAtomicValue{type = _, value = ValB})
+   when is_integer(ValB) ->
+   ?bool(ValA < ValB);
+numeric_less_than(#xqAtomicValue{type = _, value = ValA},
+                  #xqAtomicValue{type = _, value = #xsDecimal{int = ValB, scf = 0}})
+   when is_integer(ValA) ->
+   ?bool(ValA < ValB);
 numeric_less_than(#xqAtomicValue{type = _, value = ValA},
                   #xqAtomicValue{type = _, value = ValB})
    when is_float(ValA), 
@@ -1609,6 +1693,14 @@ numeric_greater_than(#xqAtomicValue{type = _, value = ValA},
                      #xqAtomicValue{type = _, value = ValB})
    when is_integer(ValA), 
         is_integer(ValB) ->
+   ?bool(ValA > ValB);
+numeric_greater_than(#xqAtomicValue{type = _, value = #xsDecimal{int = ValA, scf = 0}},
+                     #xqAtomicValue{type = _, value = ValB})
+   when is_integer(ValB) ->
+   ?bool(ValA > ValB);
+numeric_greater_than(#xqAtomicValue{type = _, value = ValA},
+                     #xqAtomicValue{type = _, value = #xsDecimal{int = ValB, scf = 0}})
+   when is_integer(ValA) ->
    ?bool(ValA > ValB);
 numeric_greater_than(#xqAtomicValue{type = _, value = ValA},
                      #xqAtomicValue{type = _, value = ValB})
@@ -2782,13 +2874,12 @@ key_val(_) -> ?err('XPTY0004').
 
 %% Computes the effective boolean value of the sequence $arg. 
 % 3
-eff_bool_val(#xqAtomicValue{value = Bool}) when is_boolean(Bool) ->
-   Bool;
+eff_bool_val(#xqAtomicValue{value = true}) -> true;
+eff_bool_val(#xqAtomicValue{value = false}) -> false;
 % 1
-eff_bool_val([]) ->
-   false;
-eff_bool_val(Bool) when is_boolean(Bool) ->
-   Bool;
+eff_bool_val(true) -> true;
+eff_bool_val(false) -> false;
+eff_bool_val([]) -> false;
 % 2
 eff_bool_val(#{nk := _}) ->
    true;

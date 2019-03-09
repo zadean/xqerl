@@ -22,16 +22,13 @@
 
 -module(xqerl).
 
--define(PRINT,false).
-%-define(PRINT,true).
-
 -include("xqerl.hrl").
--include("xqerl_parser.hrl").
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([run/1, run/2,
+-export([run/1, 
+         run/2,
          compile/1]). 
 
 compile(Filename) ->
@@ -57,18 +54,11 @@ run(#xqError{} = E, _Options) -> E;
 run(Str, Options) ->
    OldProcDict = erlang:erase(),
    try
-      Tokens = scan_tokens(Str),
-      % init the parse
-      _ = xqerl_context:init(parser),
-      Tree = parse_tokens(Tokens),
-      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
-      #{body := #xqModule{} = X} = Static,
-      {_,_,_,_,_,Ret} = scan_tree(Static#{body := X#xqModule{type = expression}}),
-      xqerl_context:destroy(Static),
-      {value, Res, _} = erl_eval:exprs(Ret, 
-                                       [{'Options',Options}],
-                                       {value, fun handle_local_function/2}),
-      Res
+      M = xqerl_code_server:compile(
+            "/xqerl_run" ++
+              integer_to_list(erlang:unique_integer()) ++ 
+              ".xq", Str, false),
+      run(M, Options)
    catch
       _:#xqError{} = E:StackTrace ->
          E#xqError{additional = xqerl_lib:format_stacktrace(StackTrace)};
@@ -86,68 +76,3 @@ run(Str, Options) ->
       [erlang:put(K, V) || {K,V} <- OldProcDict]
    end.
 
-% returns Tokens
-scan_tokens(Str) ->
-   try 
-      xqerl_scanner:tokens(Str) 
-   of
-      Tokens ->
-         Tokens
-   catch
-      _:#xqError{} = E ->
-         ?dbg("scan_tokens e",E),
-         throw(E);
-      _:_:StackTrace ->
-         ?dbg("scan_tokens",StackTrace),
-         xqerl_error:error('XPST0003')
-   end.
-
-% returns Tree
-parse_tokens(Tokens) ->
-   try 
-      {ok, Tree} = xqerl_parser:parse(Tokens),
-      Tree
-   catch
-      _:#xqError{} = E ->
-         ?dbg("parse_tokens",E),
-         throw(E);
-      _:Err:StackTrace ->
-         ?dbg("Err",Err),
-         ?dbg("Tokens",Tokens),
-         ?dbg("parse_tokens e",StackTrace),
-         xqerl_error:error('XPST0003')
-   end.
-   
-% returns Abstract
-scan_tree(Tree) ->
-   try xqerl_abs:scan_mod(Tree) of
-      Abstract ->
-         Abstract
-   catch
-      _:#xqError{} = E:StackTrace ->
-         ?dbg("scan_tree",E),
-         ?dbg("scan_tree",StackTrace),
-         throw(E);
-      _:E:StackTrace ->
-         ?dbg("scan_tree",E),
-         ?dbg("scan_tree",StackTrace),
-         xqerl_error:error('XPST0003')
-   end.
-
-scan_tree_static(Tree,FileName) ->
-   try xqerl_static:handle_tree(Tree,FileName) of
-      Abstract ->
-         Abstract
-   catch
-      _:#xqError{} = E:StackTrace ->
-         ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",StackTrace),
-         throw(E);
-      _:_:StackTrace ->
-         ?dbg("scan_tree_static",StackTrace),
-         xqerl_error:error('XPST0003')
-   end.
-
-
-handle_local_function(FunctionName, Arguments) ->
-    io:format("Local call to ~p with ~p~n", [FunctionName, Arguments]).

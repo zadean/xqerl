@@ -43,6 +43,7 @@
 
 % revert everything from merl
 -define(P(Text), revert(?Q(Text))).
+%-define(P1(Text), revert(erl_syntax:add_ann(?L, ?Q(Text)))).
 
 -compile(inline_list_funcs).
 
@@ -77,12 +78,16 @@ static_records() ->
     {xqRange,                     "-record(xqRange,{min,max,cnt})."}
    ].
 
+% revert to abstract form and ensure filename and line are in it
+% XXX rethink this, keep everything in syntax-tree form until last minute
+% set line and file for each leaf and node, then big revert at the end.
+% later, remove `merl` from everything and set the annos inline.
 revert(L) when is_list(L) ->
    [revert(I) || I <- L];
 revert(I) ->
    try
       A = erl_anno:new(0),
-      B = erl_anno:set_file("dummy.file", A),
+      B = erl_anno:set_file(get_filename(), A),
       C = erl_anno:set_line(get_line(), B),
       Set = erl_syntax:set_pos(I, C),
       erl_syntax:revert(Set)
@@ -91,19 +96,25 @@ revert(I) ->
          ?dbg("{E,S}", {E,S}),
          erl_syntax:revert(I)
    end.
-%% revert(I) ->
-%%    erl_syntax:revert(
-%%       erl_syntax:set_pos(I, erl_anno:new(get_line()))).
 
 get_line() ->
    erlang:get(line_number).
+
+get_filename() ->
+   erlang:get(current_filename).
 
 set_line(undefined) ->
    ok;
 set_line(L) ->
    erlang:put(line_number, L).
 
+set_filename(undefined) ->
+   ok;
+set_filename(L) ->
+   erlang:put(current_filename, L).
+
 init_mod_scan() ->
+   erlang:put(current_filename, ""),
    erlang:put(line_number, 1),
    erlang:put(imp_mod, 1),
    erlang:put(ctx, 1),
@@ -230,6 +241,7 @@ scan_mod(#xqModule{prolog = Prolog,
                    type = library,
                    body = _}, Map) ->
    _ = init_mod_scan(),
+   _ = set_filename(ModNs),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
    _ = add_used_record_type(xqSeqType),
@@ -295,6 +307,7 @@ scan_mod(#xqModule{prolog = Prolog,
                                    tab := Tab} =  Map) ->
    xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
    _ = init_mod_scan(),
+   _ = set_filename(FileName),
    ok = set_globals(Prolog, Map),
    _ = add_used_record_type(xqAtomicValue),
    % the prolog is sorted in reverse order
@@ -454,7 +467,7 @@ init_function(Variables,Prolog) ->
    VarSetFun = fun({_N,_T,_A,V,_Ext}, CtxVar) -> %%% mapfold here to make new ctx for each variable
                      NC = next_ctx_var_name(),
                      NV = {var,?L,NC},
-                     VV = {var,?L,V},
+                     VV = {var,?L,next_var_name()},
                      O = ?P("_@VV = '@V@'(_@CtxVar), "
                             "_@NV = (_@CtxVar)#{'@V@' => _@VV}"),
                      {O,NV}
@@ -598,7 +611,7 @@ rest_functions(Ctx, Functions) ->
            FunName = rest_fun_name(FId),
            G5 = ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
-                    "Ctx = init_ctx(),"
+                    "Ctx = init(init_ctx()),"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "ReturnVal = xqerl_types:rest_return_value(XQuery,#{options => _@Serial@}),",
                     "xqerl_context:destroy(Ctx),",
@@ -837,11 +850,15 @@ expression_body(ContextMap, Body, Prolog, Variables, Init) ->
             AV = {var,?L,next_var_name()},
             NC = next_ctx_var_name(),
             NV = {var,?L,NC},
-            [ExtVar] = [TheVar || 
-                        #xqVar{name = Nm} = TheVar <- Variables, 
+            [ExtVar] = [begin
+                           _ = set_line(LineNum),
+                           TheVar
+                        end || 
+                        #xqVar{name = Nm,
+                               anno = LineNum} = TheVar <- Variables, 
                         Nm == N], 
             VarFun = internal_variable_function(ContextMap, ExtVar),
-            P = ?Q(["_@AV = _@VarFun,",
+            P = ?P(["_@AV = _@VarFun,",
                     "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             %P = ?P("xqerl_lib:lput('@V@','@V@'(_@CV))"),
             {P, NV};
@@ -886,7 +903,8 @@ expression_body(ContextMap, Body, Prolog, Variables, Init) ->
 variable_functions(ContextMap, Variables) ->
    LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
    F = fun(#xqVar{id = _, name = QName, expr = Expr, 
-                  external = Ext, type = Type0}) ->
+                  external = Ext, type = Type0, anno = LineNum}) ->
+             _ = set_line(LineNum),
              Type = if Type0 == undefined ->
                           #xqSeqType{type = item, occur = zero_or_many};
                        true ->
@@ -920,7 +938,9 @@ variable_functions(ContextMap, Variables) ->
     #xqVar{anno = Line} = V <- Variables].
 
 internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr, 
-                                          external = Ext, type = Type0}) ->
+                                          external = Ext, type = Type0, 
+                                          anno = LineNum}) ->
+   _ = set_line(LineNum),
    CtxVar = {var, ?L, get_context_variable_name(LocCtx)},
    Type = if Type0 == undefined ->
                  #xqSeqType{type = item, occur = zero_or_many};
@@ -1226,10 +1246,6 @@ expr_do(_Ctx, {error, ErrCode}) when is_atom(ErrCode) ->
    ?P("xqerl_error:error(_@ErrCode@)");
 
 % bang operator
-%% expr_do(Ctx, {'simple-map',SeqExpr,{'simple-map',_,_} = MapExpr}) ->
-%%    SeqAbs = expr_do(Ctx, SeqExpr),
-%%    step_expr_do(Ctx, MapExpr, SeqAbs);
-
 expr_do(Ctx, {'simple-map',SeqExpr,MapExpr}) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    SeqAbs = expr_do(Ctx, SeqExpr),
@@ -1401,18 +1417,22 @@ expr_do(Ctx, {range,Expr1,Expr2}) ->
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
    ?P("xqerl_seq3:range(_@E1,_@E2)");
-expr_do(Ctx, {'and',Expr1,Expr2}) ->
+
+%#xqLogicalExpr
+expr_do(Ctx, #xqLogicalExpr{comp = Op,
+                            anno = Line,
+                            lhs = Expr1,
+                            rhs = Expr2}) ->
+   _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
    S1 = ?P("xqerl_operators:eff_bool_val(_@E1)"),
    S2 = ?P("xqerl_operators:eff_bool_val(_@E2)"),
-   ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 andalso _@S2}");
-expr_do(Ctx, {'or',Expr1,Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   S1 = ?P("xqerl_operators:eff_bool_val(_@E1)"),
-   S2 = ?P("xqerl_operators:eff_bool_val(_@E2)"),
-   ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 orelse _@S2}");
+   if Op =:= 'and' ->
+         ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 andalso _@S2}");
+      Op =:= 'or' ->
+         ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 orelse _@S2}")
+   end;
 
 % instance of / castable
 expr_do(Ctx, {instance_of,Expr1,Expr2}) ->
@@ -1505,98 +1525,18 @@ expr_do(_,{path_expr,_,['empty-sequence'|_]}) ->
 %% Complex are joins and complex predicates  
 %%  they call the document process per function 
 
-expr_do(Ctx0, {path_expr,_Id,[ 'context-item' | Steps ]}) ->
-   CtxItem = expr_do(Ctx0, 'context-item'),
-   Ctx = clear_context_variables(Ctx0),
-   CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
-   Comp = step_expr_do(Ctx, Steps, CtxSeq),
-   ?P(["begin",
-       " _@@Comp",
-       "end"
-      ]);
-expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
-                                                  R == {'root'} ->
-   CtxItem = expr_do(Ctx0, 'context-item'),
-   Ctx = clear_context_variables(Ctx0),
-   CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
-      {[],_Rest} -> % nothing simple, only complex
-         Comp = step_expr_do(Ctx, [R|Steps], CtxSeq),
-         ?P(["begin",
-             " _@@Comp",
-             "end"
-            ])%;
-   end;
-         
-%%% TODO : do something cool with DB paths
-expr_do(Ctx0, {db_path_expr,_Id,[ {variable,Var} | Steps ]}) ->
-   Ctx = clear_context_variables(Ctx0),
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   CtxSeq = a_var(Var,CurrCtxVar),
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-      {[],_} -> % nothing simple, only complex
-         Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         O = ?P(["begin",
-                 " _@@Comp",
-                 "end"
-            ]),
-         O%;
-   end;
+%abs_path_expr(Ctx, {path_expr, Id, Steps})
+expr_do(Ctx, {db_path_expr,_Id, _Steps} = P) ->
+   %?dbg("db_path_expr",_Id),
+   abs_path_expr(Ctx, P);
+
+expr_do(Ctx, {path_expr,_Id, _Steps} = P) ->
+   abs_path_expr(Ctx, P);
 
 
-expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
-   Ctx = clear_context_variables(Ctx0),
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   CtxSeq = a_var(Var,CurrCtxVar),
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-      {[],_} -> % nothing simple, only complex
-         Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         O = ?P(["begin",
-                 " _@@Comp",
-                 "end"
-            ]),
-         O%;
-   end;
 
-expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
-   Ctx = clear_context_variables(Ctx0),
-   CtxSeq = case Base of
-               {postfix,_,_,_} -> % use old context item
-                  expr_do(Ctx0, {expr, Base});
-               #xqAxisStep{} -> % use old context item, 
-                  expr_do(Ctx0, {expr, Base});
-               _ ->
-                  expr_do(Ctx, {expr, Base})
-            end,
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-      {[],_} -> % nothing simple, only complex
-         Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         O = ?P(["begin",
-                 " _@@Comp",
-                 "end"
-            ]),
-         O%;
-   end;
 
-expr_do(Ctx0, {db_path_expr,_Id,[ Base | Steps ]}) ->
-   Ctx = clear_context_variables(Ctx0),
-   CtxSeq = case Base of
-               {postfix,_,_,_} -> % use old context item
-                  expr_do(Ctx0, {expr, Base});
-               #xqAxisStep{} -> % use old context item, 
-                  expr_do(Ctx0, {expr, Base});
-               _ ->
-                  expr_do(Ctx, {expr, Base})
-            end,
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
-      {[],_} -> % nothing simple, only complex
-         Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         O = ?P(["begin",
-                 " _@@Comp",
-                 "end"
-            ]),
-         O%;
-   end;
+
 
 expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
    expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
@@ -1691,6 +1631,9 @@ expr_do(Ctx, {'ordered-expr', Expr}) ->
 expr_do(#{position_variable := PosVar}, 
         {'function-call', #xqFunction{body = {xqerl_fn,position,_}}}) ->
    ?P("_@PosVar");
+expr_do(#{size_variable := {var,_,_} = SizeVar}, 
+        {'function-call', #xqFunction{body = {xqerl_fn,last,_}}}) ->
+   ?P("(_@SizeVar)()");
 expr_do(#{size_variable := SizeVar}, 
         {'function-call', #xqFunction{body = {xqerl_fn,last,_}}}) ->
    ?P("_@SizeVar");
@@ -1836,12 +1779,22 @@ expr_do(Ctx, {expr,List}) when is_list(List) ->
 
 expr_do(Ctx, {expr,E}) ->
    expr_do(Ctx, E);
+
 expr_do(Ctx, {sequence,List}) ->
-   Exprs = lists:map(fun('empty-sequence') -> {nil,?L};
-                        (E) ->
-                           expr_do(Ctx, E)
-                     end, List),
+   Exprs = lists:flatmap(
+             fun('empty-sequence') -> [];
+                ({sequence,SList}) -> % flatten sequences
+                   alist(expr_do(Ctx, SList));
+                (E) ->
+                   alist(expr_do(Ctx, E))
+             end, List),
    from_list_to_seq(Exprs);
+%% expr_do(Ctx, {sequence,List}) ->
+%%    Exprs = lists:map(fun('empty-sequence') -> {nil,?L};
+%%                         (E) ->
+%%                            expr_do(Ctx, E)
+%%                      end, List),
+%%    from_list_to_seq(Exprs);
 
 expr_do(_Ctx, []) ->
     {nil,?L};
@@ -1955,7 +1908,7 @@ expr_do(Ctx, {'except', Expr1, Expr2}) ->
    ?P("xqerl_seq3:except(_@E1,_@E2)");
 
 expr_do(Ctx, #xqVarRef{name = Name}) ->
-   ?dbg("Loc",Name),
+   %?dbg("Loc",Name),
    {V,_} = get_variable_ref(Name, Ctx),
    V;
 
@@ -1974,6 +1927,8 @@ expr_do(Ctx, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
                             true -> MatchExprs
                          end,
            ReturnAbs = expr_do(Ctx, ReturnExpr),
+           %% TODO change this to lists:any/2 of deep-equal matches
+           %% The match should be using the default collation
            IFold = fun(MatchExpr, Abs1) ->
                          Var = {var,?L,next_var_name()},
                          MatchExpr1 = expr_do(Ctx, 
@@ -2048,60 +2003,43 @@ expr_do(Ctx, {'if-then-else', If, Then, Else}) ->
    ?P(["case xqerl_operators:eff_bool_val(_@IfSt) of",
        "   true -> _@True; _ -> _@False end"]);
 
-expr_do(Ctx, {Op, Expr1, Expr2}) when Op =:= '='; Op =:= '!=';
-                                      Op =:= '>'; Op =:= '>=';
-                                      Op =:= '<'; Op =:= '<=' ->
+expr_do(Ctx, #xqComparisonExpr{anno = Line,
+                               comp = Op,
+                               lhs = Expr1,
+                               rhs = Expr2}) ->
+   _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:general_compare('@Op@',_@E1,_@E2)");
-expr_do(Ctx, {'eq', Expr1, Expr2}) -> 
+   if Op =:= '='; Op =:= '!=';
+      Op =:= '>'; Op =:= '>=';
+      Op =:= '<'; Op =:= '<=' ->
+         ?P("xqerl_operators:general_compare('@Op@',_@E1,_@E2)");
+      Op =:= 'eq' -> ?P("xqerl_operators:equal(_@E1,_@E2)");
+      Op =:= 'ne' -> ?P("xqerl_operators:not_equal(_@E1,_@E2)");
+      Op =:= 'gt' -> ?P("xqerl_operators:greater_than(_@E1,_@E2)");
+      Op =:= 'ge' -> ?P("xqerl_operators:greater_than_eq(_@E1,_@E2)");
+      Op =:= 'lt' -> ?P("xqerl_operators:less_than(_@E1,_@E2)");
+      Op =:= 'le' -> ?P("xqerl_operators:less_than_eq(_@E1,_@E2)");
+      Op =:= '<<' -> ?P("xqerl_operators:node_before(_@E1,_@E2)");
+      Op =:= '>>' -> ?P("xqerl_operators:node_after(_@E1,_@E2)");
+      Op =:= 'is' -> ?P("xqerl_operators:node_is(_@E1,_@E2)")
+   end;
+
+expr_do(Ctx, #xqArithExpr{op = Op,
+                          lhs = Expr1,
+                          rhs = Expr2,
+                          anno = Line}) ->
+   _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:equal(_@E1,_@E2)");
-expr_do(Ctx, {'ne', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:not_equal(_@E1,_@E2)");
-expr_do(Ctx, {'lt', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:less_than(_@E1,_@E2)");
-expr_do(Ctx, {'le', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:less_than_eq(_@E1,_@E2)");
-expr_do(Ctx, {'gt', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:greater_than(_@E1,_@E2)");
-expr_do(Ctx, {'ge', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:greater_than_eq(_@E1,_@E2)");
-expr_do(Ctx, {Op, Expr1, Expr2}) when Op =:= 'add';
-                                      Op =:= 'subtract';
-                                      Op =:= 'multiply';
-                                      Op =:= 'divide';
-                                      Op =:= 'modulo' ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:'@Op@'(_@E1,_@E2)");
-expr_do(Ctx, {'integer-divide', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:idivide(_@E1,_@E2)");
-expr_do(Ctx, {'<<', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:node_before(_@E1,_@E2)");
-expr_do(Ctx, {'>>', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:node_after(_@E1,_@E2)");
-expr_do(Ctx, {'is', Expr1, Expr2}) ->
-   E1 = expr_do(Ctx, Expr1),
-   E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_operators:node_is(_@E1,_@E2)");
+   if Op =:= '+' -> ?P("xqerl_operators:add(_@E1,_@E2)");
+      Op =:= '-' -> ?P("xqerl_operators:subtract(_@E1,_@E2)");
+      Op =:= '*' -> ?P("xqerl_operators:multiply(_@E1,_@E2)");
+      Op =:= 'div' -> ?P("xqerl_operators:divide(_@E1,_@E2)");
+      Op =:= 'mod' -> ?P("xqerl_operators:modulo(_@E1,_@E2)");
+      Op =:= 'idiv' -> ?P("xqerl_operators:idivide(_@E1,_@E2)")
+   end;
+
 expr_do(Ctx, {'unary', '-', Expr1}) ->
    E1 = expr_do(Ctx, Expr1),
    ?P("xqerl_operators:unary_minus(_@E1)");
@@ -2145,15 +2083,66 @@ expr_do(_Ctx, Expr) ->
    {nil,?L}.
 
 
+%% path_expr_do : here recursivly try to compile simple steps together
+% and jump out to do one step at a time (step_expr_do) if complex  
+% entire path expression goes in a global function, so no need
+% to wrap in begin/end
+path_expr_do(Ctx0, {_PathExpr, _Id, [ Base | Steps ]}) ->
+   Ctx = clear_context_variables(Ctx0),
+   CtxItems = 
+     case Base of
+        'context-item' -> % get context item
+           expr_do(Ctx0, 'context-item');
+        {'any-root'} -> % get root of context item
+           expr_do(Ctx0, 'context-item');
+        {'root'} -> % get root of context item
+           step_expr_do(Ctx, [Base], expr_do(Ctx0, 'context-item'));
+        {postfix,_,_,_} -> % use old context item
+           expr_do(Ctx0, {expr, Base});
+        #xqAxisStep{} -> % use old context item, 
+           expr_do(Ctx0, {expr, Base});
+        {variable,Var} ->
+            CurrCtxVar = {var, ?L, get_context_variable_name(Ctx0)},
+            a_var(Var, CurrCtxVar);           
+        _ ->
+           ?dbg("Base", Base),
+           expr_do(Ctx, {expr, Base})
+     end,
+
+   CtxVar = {var, ?L, 'InitCtxItem'},
+   % document order ensures this is a list of XML nodes
+   case Steps of
+      [] when is_record(Base, xqAxisStep) -> % already doc ordered
+         ?P(["_@CtxItems"]);
+      [] ->
+         ?P(["case xqldb_xpath:document_order(begin  _@CtxItems end) of",
+                " {error, non_node} -> xqerl_error:error('XPTY0019');",
+                " C -> C end"]);
+      _ ->
+         CtxSeq = ?P(["InitCtxItem = begin _@CtxItems end"]), % steps will order it
+%%          CtxSeq = ?P(["InitCtxItem = case xqldb_xpath:document_order(begin _@CtxItems end) of",
+%%                 " {error, non_node} -> xqerl_error:error('XPTY0019');",
+%%                 " C -> C end"]),
+         [CtxSeq | compile_path_statement(Ctx, CtxVar, Steps)]
+   end.
+
+
+
+step_expr_do(_, [continue], SourceVar) ->
+   % continue triggers that this statement will be used as 
+   % the context for another statement
+   SourceVar;
 step_expr_do(_, [], SourceVar) ->
-   ?P("_@SourceVar");
+   O = ?P("_@SourceVar"),
+   alist(O);
 step_expr_do(_, [atomize], SourceVar) -> 
    DocVar = {var,?L,next_var_name()},
-   ?P([" xqerl_seq3:path_map(",
+   O = ?P([" xqerl_seq3:path_map(",
        "      fun(_@DocVar,_,_) ->",
        "             xqerl_types:atomize(_@DocVar)",
        "      end, _@SourceVar)"       
-      ]);
+      ]),
+   alist(O);
 step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
                                                 Step1 == {'any-root'} ->
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
@@ -2205,9 +2194,13 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) -> % stepping on an unknown
             "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
             "             _@E1",
             "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
-            "      end, _@SourceVar)"       
-           ]), 
-   [O1|R1];
+            "      end, _@SourceVar)"
+           ]),
+   if is_list(O1) ->
+         O1 ++ R1;
+      true ->
+         [O1|R1]
+   end;
 step_expr_do(Ctx, #xqAxisStep{} = As, SourceAbs) ->
    do_axis_step(Ctx, SourceAbs, As);
 step_expr_do(Ctx, Other, _) ->
@@ -3163,13 +3156,24 @@ alist(L) when is_list(L) -> lists:flatten(L);
 alist(L) -> [L].
 
 % return module function that takes a list of nodes and returns whatever
-% TODO implement
-abs_path_expr(Ctx, {path_expr, Id, _Steps}) ->
+abs_path_expr(Ctx, {_, Id, _Steps} = P) ->
    FunNameAtom = path_function_name(Id), 
    CallingCtx = {var,?L,get_context_variable_name(Ctx)},
    CallingVarTup = get_variable_tuple(Ctx),
-   _FunCall = ?P("'@FunNameAtom'(_@CallingCtx,_@CallingVarTup)"),
-   ok.
+   %% conditionals can duplicate path calls
+   %% so make sure there is only one function
+   case global_fun_exists(FunNameAtom, 2) of
+      true ->
+         ?P("'@FunNameAtom@'(_@CallingCtx,_@CallingVarTup)");
+      false ->
+         Ctx1 = set_context_variable_name(Ctx, '__Ctx'),
+         Expr = path_expr_do(Ctx1, P),
+         Fun = ?P(["'@FunNameAtom@'(__Ctx,_@CallingVarTup) ->",
+                  " _@Expr."
+                  ]),
+         add_global_funs([Fun]),   
+         ?P("'@FunNameAtom@'(_@CallingCtx,_@CallingVarTup)")
+   end.
 
 abs_document_node(Ctx, #xqDocumentNode{identity = Id, 
                                        content = E, 
@@ -3344,6 +3348,7 @@ abs_namespace_node(_Ctx, #xqNamespace{namespace = N, prefix = P}) ->
    end;
 abs_namespace_node(Ctx, #xqNamespaceNode{uri = U, prefix = P}) ->
    _ = add_used_record_type(xqNamespaceNode),
+   %U1 = expr_do(Ctx, F)
    {U1, P1} = abs_ns_qname(Ctx,{U,P}),
    ?P("#xqNamespaceNode{uri = _@U1, prefix = _@P1}").
 
@@ -3412,8 +3417,23 @@ abs_qname(_Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
          ?P("#qname{namespace = _@N@, prefix = _@P@, local_name = _@L@}")
    end.
 
-abs_ns_qname(_Ctx, undefined) ->
-   atom_or_string(undefined);
+abs_ns_qname(Ctx, {N, P}) ->
+   E1 = if is_tuple(N) ->
+              expr_do(Ctx, N);
+           true ->
+              atom_or_string(N)
+        end,
+   E2 = if is_tuple(P) ->
+              case P of
+                 #xqAtomicValue{value = <<>>} ->
+                    atom_or_string(<<>>);
+                 _ ->
+                    expr_do(Ctx, P)
+              end;
+           true ->
+              atom_or_string(P)
+        end,
+   {E1, E2};
 abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
    _ = add_used_record_type(qname),
    E1 = if is_tuple(N) ->
@@ -3573,8 +3593,8 @@ abs_list(List) ->
                       {cons,?L, E, Abs}
                 end, {nil,?L}, List).
 
-from_list_to_seq([List]) ->
-   ?P("(_@List)");
+%% from_list_to_seq([List]) when not is_list(List) ->
+%%    ?P("(_@List)");
 from_list_to_seq(List) when is_list(List) ->
    E1 = abs_list(List),
    ?P("xqerl_seq3:flatten(_@E1)").
@@ -3597,6 +3617,11 @@ add_global_funs(Funs) ->
       Gs ->
          erlang:put(global_funs,Funs ++ Gs)
    end.
+
+global_fun_exists(Name0, Arity0) ->
+   [1 || 
+    {function,_,Name,Arity,_} <- get_global_funs(), 
+    Name == Name0, Arity == Arity0] == [1].
 
 a_term(Term) ->
    erl_syntax:revert(erl_syntax:abstract(Term)).
@@ -3814,7 +3839,7 @@ do_axis_step(Ctx, SourceVariable, #xqAxisStep{id = _Id, axis = Axis,
 local_name_filter(#xqKindTest{name = #qname{local_name = Ln}}) ->
    ?P("{_@Ln@}");
 local_name_filter(#xqKindTest{name = undefined}) ->
-   ?Q("{any}").
+   ?Q("{'_'}").
 
 
 name_type_filter(#xqKindTest{type = #xqSeqType{type = 'xs:anyType'}} = K) ->
@@ -3822,38 +3847,38 @@ name_type_filter(#xqKindTest{type = #xqSeqType{type = 'xs:anyType'}} = K) ->
 name_type_filter(#xqKindTest{name = #qname{namespace = 'no-namespace'} = N} = K) ->
    name_type_filter(K#xqKindTest{name = N#qname{namespace = <<>>}});
 
-name_type_filter(#xqKindTest{name = undefined, type = undefined}) -> ?Q("{any,any,any}");
-name_type_filter(#xqKindTest{name = undefined, type = #xqSeqType{type = Type}}) -> ?P("{any,any,_@Type@}");
+name_type_filter(#xqKindTest{name = undefined, type = undefined}) -> ?Q("{'_','_','_'}");
+name_type_filter(#xqKindTest{name = undefined, type = #xqSeqType{type = Type}}) -> ?P("{'_','_',_@Type@}");
 
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = <<"*">>}, 
                              type = undefined}) -> 
-   ?Q("{any,any,any}");
+   ?Q("{'_','_','_'}");
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = Ln}, 
                              type = undefined}) -> 
-   ?P("{any,_@Ln@,any}");
+   ?P("{'_',_@Ln@,'_'}");
 name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
                                            local_name = <<"*">>}, 
                              type = undefined}) -> 
-   ?P("{_@Ns@,any,any}");
+   ?P("{_@Ns@,'_','_'}");
 name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
                                            local_name = Ln}, 
                              type = undefined}) -> 
-   ?P("{_@Ns@,_@Ln@,any}");
+   ?P("{_@Ns@,_@Ln@,'_'}");
 
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = <<"*">>}, 
                              type = #xqSeqType{type = Type}}) -> 
-   ?P("{any,any,_@Type@}");
+   ?P("{'_','_',_@Type@}");
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = Ln}, 
                              type = #xqSeqType{type = Type}}) -> 
-   ?P("{any,_@Ln@,_@Type@}");
+   ?P("{'_',_@Ln@,_@Type@}");
 name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
                                            local_name = <<"*">>}, 
                              type = #xqSeqType{type = Type}}) -> 
-   ?P("{_@Ns@,any,_@Type@}");
+   ?P("{_@Ns@,'_',_@Type@}");
 name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
                                            local_name = Ln}, 
                              type = #xqSeqType{type = Type}}) -> 
@@ -3897,11 +3922,13 @@ handle_axis_step_pred(Ctx, {positional_predicate, Pred}) ->
                 %position_variable => PosVar,
                 position_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@PosVar}"),
                 size_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@SizeVar}")},
-   E1 = expr_do(Ctx2, Pred),
+   E1 = expr_do(Ctx2, Pred), 
+   % TODO check for last() function call and use in filter params as match
+%   ?dbg("E1", {Pred, E1}),
    ?P("fun(_@IntCtxVar,_@PosVar,_@SizeVar) -> "
       "xqerl_operators:eff_bool_val("
-      "  xqerl_types:value(xqerl_operators:equal(_@E1, #xqAtomicValue{type = 'xs:integer', value = _@PosVar})))"
-      "   end");
+      "  xqerl_operators:general_compare('=',_@E1, #xqAtomicValue{type = 'xs:integer', value = _@PosVar})) "
+      "end");
 handle_axis_step_pred(Ctx, Other) ->
    ?dbg("!!!SKIPPING!!!", Other),
    expr_do(Ctx, Other).
@@ -3992,3 +4019,159 @@ add_used_record_type(Atom) ->
          ok         
    end.
    
+%% splits a path expression into simple and complex parts.
+%% simple parts: forward axes without predicates
+%%  all child axes need not be doc-ordered
+%% complex part: steps predicates and reverse steps other than parent
+%%   after a complex step, if the steps continue, they can possibly be simple.
+%% need to check if they are. so, split the path expression into parts  
+
+%% Simple steps can most-likely be answered using the structure index
+%% db_path_expr are known to be DB nodes path_expr can be either DB or memory
+compile_path_statement(Ctx, CurrentContextSeq, Steps) ->
+   SplitSteps = split_steps(Steps), 
+   compile_path_statement_1(Ctx, CurrentContextSeq, SplitSteps).
+
+compile_path_statement_1(Ctx, SourceVar, [{[],Hard}]) ->
+   step_expr_do(Ctx, Hard, SourceVar);
+compile_path_statement_1(Ctx, SourceVar, [{Simp,[]}]) ->
+   [build_simple_path(Ctx, SourceVar, Simp)];
+compile_path_statement_1(Ctx, SourceVar, [{Simp,Hard}]) ->
+   NextVar = {var, ?L, next_var_name()},
+   S = build_simple_path(Ctx, SourceVar, Simp),
+   Sa = ?P("_@NextVar = _@S"),
+   [Sa|step_expr_do(Ctx, Hard, NextVar)];
+
+compile_path_statement_1(Ctx, SourceVar, [{[],Hard}|Rest]) ->
+   Abs0 = step_expr_do(Ctx, Hard ++ [continue], SourceVar),
+   NewSourceVar = lists:last(Abs0),
+   Abs = lists:droplast(Abs0),
+   Abs ++ compile_path_statement_1(Ctx, NewSourceVar, Rest);
+compile_path_statement_1(Ctx, SourceVar, [{Simp,[]}|Rest]) ->
+   NextVar = {var, ?L, next_var_name()},
+   S = build_simple_path(Ctx, SourceVar, Simp),
+   Sa = ?P("_@NextVar = _@S"),
+   [Sa|compile_path_statement_1(Ctx, NextVar, Rest)];
+compile_path_statement_1(Ctx, SourceVar, [{Simp,Hard}|Rest]) ->
+   NextVar = {var, ?L, next_var_name()},
+   S = build_simple_path(Ctx, SourceVar, Simp),
+   Sa = ?P("_@NextVar = _@S"),
+   Abs0 = step_expr_do(Ctx, Hard ++ [continue], NextVar),
+   NewSourceVar = lists:last(Abs0),
+   Abs = lists:droplast(Abs0),
+   [Sa|Abs] ++ compile_path_statement_1(Ctx, NewSourceVar, Rest).
+
+build_simple_path(_Ctx, SourceVar, Simp) ->
+   %CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+   List = lists:map(fun simple_axis/1, Simp),
+   AList = a_term(List),
+   %?dbg("List ",List),
+   ?P("xqldb_xpath:simple_path(_@SourceVar, _@AList)").
+
+%% returns [{Simple, Hard}] list 
+split_steps([]) -> [];
+split_steps(Steps) ->
+   case lists:splitwith(fun is_simple_step/1, Steps) of
+      {Sim1, []} ->
+         [{Sim1, []}];
+      {Sim1, Hard1} ->
+         {Sim1a, Hard1a} = maybe_split_predicate_step(Sim1, Hard1),
+         {Hard2, Rest} = lists:splitwith(fun is_hard_step/1, Hard1a),
+         [{Sim1a, Hard2} | split_steps(Rest)]
+   end.
+
+is_hard_step(Step) ->
+   not is_simple_step(Step).
+
+is_simple_step(#xqAxisStep{axis = Axis,
+                           node_test = #xqKindTest{type = Ty},
+                           predicates = []}) 
+   when Axis == child;
+        Axis == self;
+        Axis == descendant;
+        Axis == 'descendant-or-self';
+        Axis == attribute ->
+   if Ty == undefined;
+      Ty == 'xs:anyType';
+      Ty == 'xs:string';
+      Ty == 'xs:untyped';
+      Ty == 'xs:untypedAtomic' ->
+         true;
+      true ->
+         false
+   end;
+is_simple_step(_) ->
+   false.
+
+% if the head of the hard steps is easy, except for non-positional predicate, 
+% split into
+% simple & hd hard, and make hd hard into a self axis step
+maybe_split_predicate_step(Sim, 
+                           [#xqAxisStep{axis = Axis,
+                                        predicates = [{predicate, _}] = Preds} = H|Hs]) 
+   when Axis == child;
+        Axis == self;
+        Axis == descendant;
+        Axis == 'descendant-or-self';
+        Axis == attribute ->
+   case contains_position_call(Preds) of
+      true ->
+         {Sim, [H|Hs]};
+      false ->
+         ?dbg("Preds",Preds),
+         NewSim = Sim ++ [H#xqAxisStep{predicates = []}],
+         NewHard = [H#xqAxisStep{axis = self}|Hs],
+         ?dbg("H    ",H),
+         {NewSim, NewHard}
+   end;
+maybe_split_predicate_step(Sim, Hard) ->
+   {Sim, Hard}.
+
+simple_axis(#xqAxisStep{axis = Axis,
+                        node_test = 
+                          #xqKindTest{kind = Kind,
+                                      name = Name}}) ->
+   {Axis, simple_name(Kind, Name)}.
+
+simple_name(attribute, #qname{namespace = N, local_name = L}) ->
+   {att, any_name(N), any_name(L)};
+simple_name(attribute, undefined) ->
+   {att, '_', '_'};
+simple_name('processing-instruction', #qname{local_name = L}) ->
+   {pi, any_name(L)};
+simple_name('processing-instruction', undefined) ->
+   {pi, '_'};
+simple_name(_, #qname{namespace = N, local_name = L}) ->
+   {any_name(N), any_name(L)};
+simple_name(document, undefined) ->
+   [];
+simple_name(node, _) ->
+   '_';
+simple_name(Kind, _) ->
+   Kind.
+
+any_name(<<"*">>) -> '_';
+any_name('no-namespace') -> <<>>;
+any_name(N) -> N.
+
+%% -record(xqAxisStep, {
+%%    axis       = child | descendant | attribute | self | 'descendant-or-self' | 'following-sibling' | following | namespace | parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
+%%    node_test  = #xqKindTest{},
+%% }).
+%% -record(xqKindTest, {
+%%    kind :: node | text | comment | 'namespace-node' | namespace | 'schema-element' | element | 'schema-attribute' | attribute | 'document-node' | document | 'processing-instruction',
+%%    name :: #qname{} | undefined,
+%% }).
+                                                  
+
+%%    step_expr_do(_, [continue], SourceVar)
+%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+%%    NextVar = {var,?L,next_var_name()},
+
+contains_position_call({qname,<<"http://www.w3.org/2005/xpath-functions">>,_,<<"position">>}) -> true;
+contains_position_call({qname,<<"http://www.w3.org/2005/xpath-functions">>,_,<<"last">>}) -> true;
+contains_position_call(L) when is_list(L) ->
+   lists:any(fun contains_position_call/1, L);
+contains_position_call(T) when is_tuple(T) ->
+   contains_position_call(tuple_to_list(T));
+contains_position_call(_) -> false.

@@ -217,14 +217,15 @@ handle_call({new, Path}, _From, #{meta := TabName,
          DbDir = filename:join([DataDir, int_to_path(Id)]),
          {reply, {DbDir, Id}, State};
       [{{_, Id}, Pid, open}] when is_pid(Pid) ->
+         DbDir = filename:join([DataDir, int_to_path(Id)]),
          % check if it is still alive
          case erlang:is_process_alive(Pid) of
-            true -> % do not allow to open again
-               {reply, {error, already_exists}, State};
+            true -> % already there
+               {reply, {open, Pid, Id}, State};
             false ->
                % if not alive, mark closed and return error
                ets:insert(Ets, {{Path, Id}, undefined, closed}),
-               {reply, {error, already_exists}, State}
+               {reply, {closed, DbDir, Id}, State}
          end;
       [{{_, Id}, undefined, closed}] ->
          ets:insert(Ets, {{Path, Id}, undefined, opening}),
@@ -234,7 +235,7 @@ handle_call({new, Path}, _From, #{meta := TabName,
    catch
       _:ER:St ->
       io:format("~p~n",[{ER,St}]),
-      throw(ER)
+      {reply, {error, ER}, State}
    end;
 % Sets Uri to status open or {error, not_exists} if the DB does not exist.
 handle_call({open, Path, SupPid}, _From, #{tab := Ets} = State) ->
@@ -247,7 +248,7 @@ handle_call({open, Path, SupPid}, _From, #{tab := Ets} = State) ->
          {reply, {error, not_exists}, State}
    end;
 % Sets Uri to status closed if it exists or does nothing if not.
-handle_call({close, {Path, Id}}, _From, #{tab := Ets} = State) ->
+handle_call({close, Path, Id}, _From, #{tab := Ets} = State) ->
    ets:insert(Ets, {{Path, Id}, undefined, closed}),
    {reply, ok, State};
 % Returns true if the Uri exists.
@@ -273,6 +274,8 @@ handle_call({info, Path}, _From, #{tab := Ets} = State) ->
             false ->
                {reply, {error, not_exists}, State}
          end;
+      [{{_, Id}, undefined, opening}] ->
+         {reply, {opening, Id, undefined}, State};
       [{{_, Id}, undefined, closed}] ->
          {reply, {closed, Id, undefined}, State}
    end;

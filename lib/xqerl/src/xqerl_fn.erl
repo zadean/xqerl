@@ -1022,7 +1022,7 @@ avg1([H|T], Sum, Count) ->
 'base-uri'(_Ctx,[]) -> [];
 'base-uri'(Ctx,[N]) -> 'base-uri'(Ctx,N);
 'base-uri'(_Ctx,#{nk := _} = Node) ->
-   case xqldb_mem_nodes:base_uri(Node) of
+   case xqldb_xpath:base_uri(Node) of
       [] -> [];
       <<>> -> [];
       BaseUri ->
@@ -1729,7 +1729,7 @@ distinct_vals(Vals,Fun) ->
 'document-uri'(Ctx,[Node]) ->
    'document-uri'(Ctx,Node);
 'document-uri'(_Ctx, #{nk := _} = Node) -> 
-   DUri = xqldb_mem_nodes:document_uri(Node),
+   DUri = xqldb_xpath:document_uri(Node),
    if DUri == [];
       DUri == <<>> ->
          [];
@@ -2464,7 +2464,7 @@ unmask_static_mod_ns(T) -> T.
 'has-children'(Ctx,[Arg1]) ->
    'has-children'(Ctx,Arg1);
 'has-children'(_Ctx, #{nk := _} = Node) ->
-   case xqldb_mem_nodes:children(Node) of
+   case xqldb_xpath:child_node(Node, {[]}) of
       [] ->
          ?bool(false);
       _ ->
@@ -2533,7 +2533,8 @@ head_1(H) -> H.
 'id'(Ctx,Refs,[Node]) ->
    'id'(Ctx,Refs,Node);
 'id'(Ctx,Refs, #{nk := _} = Node) ->
-   case xqldb_xpath:ancestor_or_self_document_node(Node, {{any,any,any},[]}) of
+   case xqldb_xpath:ancestor_or_self_document_node(Node, 
+                                                   {{'_','_','_'},[]}) of
       [] ->
          ?err('FODC0001');
       [D] ->
@@ -2544,7 +2545,7 @@ head_1(H) -> H.
                 end,
          RefToks = lists:flatmap(TokF, Refs),
          try
-            xqldb_mem_nodes:id(D, RefToks)
+            xqldb_xpath:id(D, RefToks)
          catch 
             ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
             ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
@@ -2574,7 +2575,7 @@ head_1(H) -> H.
 'idref'(Ctx,Refs,[Node]) ->
    'idref'(Ctx,Refs,Node);
 'idref'(Ctx,Refs, #{nk := _} = Node) -> % dtd-infoset dependency 
-   case xqldb_xpath:ancestor_or_self_document_node(Node, {{any,any,any},[]}) of
+   case xqldb_xpath:ancestor_or_self_document_node(Node, {{'_','_','_'},[]}) of
       [] ->
          ?err('FODC0001');
       [D] ->
@@ -2585,7 +2586,7 @@ head_1(H) -> H.
                 end,
          RefToks = lists:flatmap(RefF, Refs),
          try
-            xqldb_mem_nodes:idref(D, RefToks)
+            xqldb_xpath:idref(D, RefToks)
          catch 
             ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
             ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
@@ -2674,7 +2675,7 @@ head_1(H) -> H.
 'in-scope-prefixes'(Ctx, [Arg1]) ->
    'in-scope-prefixes'(Ctx, Arg1);
 'in-scope-prefixes'(_Ctx, #{nk := _} = Node) -> 
-   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
+   InScopeNs = xqldb_xpath:namespace_nodes(Node),
    Filt = fun({_,<<>>}) ->
                 false;
              ({<<>>,<<>>}) ->
@@ -2837,7 +2838,7 @@ check_json_to_xml_opts(_) ->
 'lang'(_Ctx,Testlang0,#{nk := _} = Node) -> 
    try
      %?dbg("Testlang0",Testlang0),
-      case xqldb_mem_nodes:lang(Node) of
+      case xqldb_xpath:lang(Node) of
          [] ->
             ?bool(false);
          NStr ->
@@ -2860,7 +2861,12 @@ check_json_to_xml_opts(_) ->
 -spec 'last'(xq_types:context()) ->
          xq_types:xs_integer().
 'last'(Ctx) ->
-   xqerl_context:get_context_size(Ctx).
+   case xqerl_context:get_context_size(Ctx) of
+      F when is_function(F, 0) ->
+         F();
+      I ->
+         I
+   end.
 
 %% Provides access to the public functions and global variables of a 
 %% dynamically-loaded XQuery library module. 
@@ -2962,10 +2968,9 @@ check_json_to_xml_opts(_) ->
    % cache regex in ets 
    Key = {?MODULE,?FUNCTION_NAME,?FUNCTION_ARITY,Pattern1,Flags1},
    R = case cached(Ctx,Key) of
-          [] ->
+          undefined ->
              M = xs_regex:compile(Pattern1,Flags1),
-             ok = cache(Ctx,Key,M),
-             M;
+             cache(Ctx,Key,M);
           G ->
              G
        end,
@@ -3064,6 +3069,8 @@ min1([H|T], Min) ->
 
 compare_convert_seq([], Acc, SeqType) ->
    {Acc,SeqType};
+compare_convert_seq([[]|T], Acc, SeqType) ->
+   compare_convert_seq(T, Acc, SeqType);
 compare_convert_seq([#array{data = L}|T], Acc, SeqType) ->
    compare_convert_seq(L ++ T, Acc, SeqType);
 compare_convert_seq([#{nk := _} = H|T], Acc, SeqType) ->
@@ -3341,7 +3348,7 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
    'namespace-uri-for-prefix'(Ctx,Prefix,Element);
 'namespace-uri-for-prefix'(_Ctx, Prefix, #{nk := _} = Node) -> 
    P1 = xqerl_types:string_value(Prefix),
-   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
+   InScopeNs = xqldb_xpath:namespace_nodes(Node),
   %?dbg("InScopeNs",InScopeNs),
    case lists:keyfind(P1, 1, InScopeNs) of
       false when P1 == <<"xml">> ->
@@ -3812,7 +3819,7 @@ trim_declaration_1(<<>>, _) -> <<>>.
       _ ->
          Path = xqldb_xpath:document_order(xqldb_xpath:ancestor_or_self_node(Node, {[]})),
         %?dbg("Path",length(Path)),
-         path_1(Path,[],xqldb_mem_nodes:parent(Node))
+         path_1(Path,[],xqldb_xpath:parent_node(Node, {[]}))
    end;
 'path'(_,_) -> 
    ?err('XPTY0004').
@@ -3832,7 +3839,7 @@ path_1([Node|Rest],Acc, Parent) ->
 path_2(element,[#{id := NId} = Node|Rest],Acc, Parent) ->
    {Ns,_,Ln} = xqldb_mem_nodes:node_name(Node),
    Pre = [N || 
-          #{id := Id} = N <- xqldb_xpath:child_element(Parent, {{Ns,Ln,any},[]}),
+          #{id := Id} = N <- xqldb_xpath:child_element(Parent, {{Ns,Ln,'_'},[]}),
           Id < NId],
    Pos = length(Pre) + 1,
    Str = <<"Q{", Ns/binary, "}", Ln/binary, "[", (integer_to_binary(Pos))/binary, "]">>,
@@ -4135,7 +4142,7 @@ string_value(At) -> xqerl_types:string_value(At).
    'resolve-QName'(Ctx,String,Element);
 
 'resolve-QName'(Ctx, String, #{nk := _} = Node) -> 
-   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
+   InScopeNs = xqldb_xpath:namespace_nodes(Node),
    IsNs = lists:map(fun({P,U}) ->
                         #xqNamespace{namespace = U, prefix = P}
                     end, InScopeNs) ++ maps:get(namespaces, Ctx,[]),
@@ -4612,7 +4619,7 @@ sort1(Ctx,A,B,Coll) ->
          SourceSeq;
       true ->
          Len = xqerl_seq3:size(SourceSeq),
-         'subsequence'(_Ctx,SourceSeq,StartingLoc,?dbl(Len))
+         'subsequence'(_Ctx,SourceSeq,StartingLoc,?dbl(float(Len)))
    end.
 
 %% fn:subsequence(

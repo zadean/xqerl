@@ -230,11 +230,13 @@ ensure_qname(#qname{namespace = #xqAtomicValue{} = Nx} = QName,
              InScopeNamespaces) ->
    NewNx = xqerl_types:string_value(Nx),
    ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
+
 ensure_qname(#qname{prefix = #xqAtomicValue{value = <<>>}} = QName, 
              InScopeNamespaces) ->
    ensure_qname(QName#qname{prefix = <<>>}, InScopeNamespaces);
-ensure_qname(#qname{prefix = #xqAtomicValue{} = Nx} = QName, 
-             InScopeNamespaces) ->
+ensure_qname(#qname{prefix = #xqAtomicValue{type = AT} = Nx} = QName, 
+             InScopeNamespaces) when ?xs_string(AT);
+                                     AT == 'xs:untypedAtomic' ->
    try
       NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
       ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
@@ -242,6 +244,9 @@ ensure_qname(#qname{prefix = #xqAtomicValue{} = Nx} = QName,
       _:_ ->
          ?err('XQDY0074')
    end;
+ensure_qname(#qname{prefix = #xqAtomicValue{}}, _) ->
+   ?err('XPTY0004');
+
 ensure_qname(#qname{local_name = #xqAtomicValue{} = Nx} = QName, 
              InScopeNamespaces) ->
    try
@@ -719,13 +724,14 @@ handle_content(Ctx, Parent, #xqNamespaceNode{uri = U, prefix = P} = N,
                InScopeNamespaces, Sz) ->
    % check if there is an inscope namespace with the same URI, use it's prefix
    {Id,Ctx1} = next_id(Ctx),
-   {U,P1} = ensure_qname({U,P}, InScopeNamespaces),
+   {U1,P1} = ensure_qname({U,P}, InScopeNamespaces),
 %?dbg("N",N),
 %?dbg("NsName",NsName),
-   _ = check_computed_namespaces([N]),
    Node = N#xqNamespaceNode{identity = Id, 
-                            parent_node = Parent, 
+                            parent_node = Parent,
+                            uri = U1, 
                             prefix = P1},
+   _ = check_computed_namespaces([Node]),
    Ctx2 = add_node(Ctx1, Id, Node),
    {Id, Sz + 1, Ctx2};
 
@@ -1272,24 +1278,8 @@ atomize_nodes(List) ->
 atomize_node([]) -> ?str(<<>>);
 atomize_node(#xqAtomicValue{} = Av) ->
    Av;
-atomize_node(#{nk := Type} = Node) ->
-   String = 
-     case xqldb_mem_nodes:string_value(Node) of
-        [] ->
-           <<>>;
-        [S] ->
-           S;
-        S ->
-           S
-     end,
-   if Type == namespace;
-      Type == comment ->
-         ?str(String);
-      Type == 'processing-instruction' ->
-         ?str(string:trim(String, leading));
-      true ->
-         ?untyp(String)
-   end;
+atomize_node(#{nk := _} = Node) ->
+   xqerl_types:atomize(Node);
 atomize_node(#xqElementNode{content = S}) -> atomize_node(S);
 atomize_node(#xqAttributeNode{string_value = S}) -> ?untyp(xqerl_types:string_value(S));
 atomize_node(#xqNamespaceNode{uri = S}) -> ?str(S);
@@ -1306,6 +1296,14 @@ nodes_equal(Node1, Node2, Collation) ->
    ?bool(nodes_equal_1(Node1, Node2, Collation)).
 
 %% Tests if 2 nodes are logically deep-equal 
+nodes_equal_1(#{nk := _,
+                id := {_,_,_}} = N1, N2, C) -> 
+   Copy = xqldb_nodes:deep_copy_node(N1),
+   nodes_equal_1(Copy, N2, C);
+nodes_equal_1(N1, #{nk := _,
+                    id := {_,_,_}} = N2, C) -> 
+   Copy = xqldb_nodes:deep_copy_node(N2),
+   nodes_equal_1(N1, Copy, C);
 nodes_equal_1(#{nk := _} = N1,#{nk := _} = N1,_) -> true;
 nodes_equal_1(#{nk := Type1} = Node1, 
               #{nk := Type2} = Node2, Collation) ->
@@ -1421,6 +1419,11 @@ to_xml(N) when is_list(N) ->
    M = combine_atomics(N,[]),
    << <<(to_xml(M1))/binary>> ||
       M1 <- M >>;
+to_xml(#{nk := _,
+         id := {_,_,_}} = Node) ->
+   % deep copy DB nodes
+   Copy = xqldb_nodes:deep_copy_node(Node),
+   xqerl_serialize:serialize(Copy, #{method => xml});
 to_xml(#{nk := _} = Node) ->
    xqerl_serialize:serialize(Node, #{method => xml});
 to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
@@ -1506,6 +1509,10 @@ check_computed_default_override(#qname{namespace = 'no-namespace'},
    end;
 check_computed_default_override(_, _) -> ok.
 
+node_to_content(#{nk := _,
+                  id := {_,_,_}} = N, Preserve) ->
+   Copy = xqldb_nodes:deep_copy_node(N),
+   node_to_content(Copy, Preserve);
 node_to_content(#{nk := _} = Orig, Preserve) ->
    F = fun O([]) -> [];
            O(#{nk := document,

@@ -45,10 +45,13 @@ open(Uri) ->
    case get_pid(Uri) of
       {Id, Pid} when is_pid(Pid) ->
          {ok, Pid, Id};
+      opening ->
+         timer:sleep(1),
+         open(Uri);
       Other ->
          io:format("~p~n", [Other]),
          {ok, Pid, Id} = xqldb_db_sup:start_child(Uri),
-         {ok, Pid, Id}         
+         {ok, Pid, Id}
    end.
 
 %% Closes an open DB
@@ -110,9 +113,11 @@ get_pid(Uri) ->
    case xqldb_db_server:info(Uri) of
       {error,_} ->
          error;
-      {opening,_,none} ->
-         get_pid(Uri);
-      {_,I,Pid} ->
+      {opening,_,_} ->
+         opening;
+      {closed,_,_} ->
+         closed;
+      {open,I,Pid} ->
          {I, Pid}
    end.
 
@@ -124,19 +129,16 @@ init([DBDirectory, Uri]) ->
              end,
    Locks = child_map(db_lock, xqldb_lock, []), 
    Strct = child_map(structure, xqldb_structure_index, [NewOpen, DBDirectory, ?STRUCT]), 
-   Names = child_map(names, xqldb_name_table, [NewOpen, DBDirectory, ?NAME]), 
-   NmSps = child_map(namespaces, xqldb_namespace_table, [NewOpen, DBDirectory, ?NMSP]),
-   NSNds = child_map(ns_nodes, xqldb_ns_node_table, [NewOpen, DBDirectory, ?NS_NODE]), 
-   Texts = child_map(texts, xqldb_string_table, [NewOpen, DBDirectory, ?TEXT]), 
-   Attrs = child_map(attrs, xqldb_string_table, [NewOpen, DBDirectory, ?ATTS]),
+   Names = child_map(names,      xqldb_name_table, [NewOpen, DBDirectory, ?NAME]), 
+   NmSps = child_map(namespaces, xqldb_name_table, [NewOpen, DBDirectory, ?NMSP]),
+   Texts = child_map(texts, xqldb_string_table2, [NewOpen, DBDirectory, ?TEXT]), 
    Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH, Uri]),
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
    JSON  = child_map(json, xqldb_json_table, [NewOpen, DBDirectory, ?JSON]),
    Index = child_map(index, mi_server, [DBDirectory ++ "/ind"]),
    
    {ok, {SupFlags, 
-         [Locks, Strct, Names, NmSps, NSNds, Texts, 
-          Attrs, Paths, JSON, Ress, Index]}}.
+         [Locks, Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index]}}.
 
 %% ====================================================================
 %% Internal functions

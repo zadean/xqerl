@@ -167,25 +167,28 @@ ensure_zero_or_one(A) -> A.
 ensure_zero_or_more(A) -> A.
 
 
-size(#xqRange{cnt = Size}) ->
-   Size;
-size([]) -> 0;
+size(#xqRange{cnt = Size}) -> Size;
 size(List) when is_list(List) ->
-   HasRange = lists:any(fun(R) ->
-                              is_record(R, xqRange) orelse is_list(R)
-                        end, List),
-   if HasRange ->
-         Cs = [case I of
-                  #xqRange{cnt = C} -> C;
-                  L when is_list(L) -> ?MODULE:size(L);
-                  _ -> 1
-               end || I <- List],
-         lists:sum(Cs);
-      true ->
-         length(List)
-   end;
-size(_) ->
-   1.
+   size_1(List, 0);
+size(_) -> 1.
+
+size_1([#xqRange{cnt = C}|T], Sum) ->
+   size_1(T, Sum + C);
+size_1([H|T], Sum) when is_list(H) ->
+   size_1(T, Sum + size_1(H, 0));
+size_1([_|T], Sum) ->
+   size_1(T, Sum + 1);
+size_1([], Sum) -> Sum.
+
+%% has_list_or_range([H|_]) when is_list(H);
+%%                               is_record(H, xqRange) ->
+%%    true;
+%% has_list_or_range([_|T]) ->
+%%    has_list_or_range(T);
+%% has_list_or_range([]) ->
+%%    false.
+
+   
 %% size([H|T]) when is_list(H) ->
 %%    ?MODULE:size(H) + ?MODULE:size(T);
 %% size([#xqRange{} = H|T]) ->
@@ -397,7 +400,10 @@ for_each(_Ctx, _Fun,[]) -> empty();
 for_each(_Ctx, Map, Seq) when is_map(Map) ->
    xqerl_map:get_matched(Map, Seq);
 for_each(Ctx, Fun, Seq) when is_function(Fun) ->
-   Ctx1 = xqerl_context:set_context_size(Ctx, ?int_rec(?MODULE:size(Seq))),
+   Size = fun() ->
+                ?int_rec(?MODULE:size(Seq))
+          end,
+   Ctx1 = xqerl_context:set_context_size(Ctx, Size),
    for_each1(Ctx1, Fun, expand(Seq), 1);
 for_each(Ctx, Fun,Seq) ->
    Fun1 = singleton_value(Fun),
@@ -580,7 +586,7 @@ map(Ctx, Fun, Seq) when not is_list(Seq) ->
    map(Ctx, Fun, [Seq]);
 map(_Ctx, Fun,[]) when is_function(Fun) -> empty();
 map(Ctx, Fun, Seq) when is_function(Fun,4) ->
-   Size = ?int_rec(?MODULE:size(Seq)),
+   Size = fun() -> ?int_rec(?MODULE:size(Seq)) end,
    map1(Ctx, Fun, Seq, 1, Size);
 map(Ctx, Fun,Seq) ->
    Fun1 = singleton_value(Fun),
@@ -676,9 +682,9 @@ to_list([#xqRange{} = H|T]) ->
    to_list(H) ++ to_list(T);
 to_list([#array{} = H|T]) -> 
    to_list(H) ++ to_list(T);
-to_list(S) when not is_list(S) -> [S];
 to_list([H|T]) -> 
-   [H|to_list(T)].
+   [H|to_list(T)];
+to_list(S) when not is_list(S) -> [S].
 
 
 expand(#xqRange{} = R) ->
@@ -826,7 +832,9 @@ position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
       position_filter1(UniquePos, 1, Seq)
    catch
       _:_ ->
-         Size = ?MODULE:size(Seq0),
+         Size = fun() ->
+                     ?int_rec(?MODULE:size(Seq0))
+                end,
          Ctx0 = xqerl_context:set_context_size(Ctx, Size),
          {Positions,_} =
            lists:mapfoldl(fun(Item,Pos) ->
@@ -880,14 +888,34 @@ filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
 filter(Ctx, Fun, Seq2) when is_function(Fun,4) ->
-   Size = ?MODULE:size(Seq2),
-   filter1(Ctx, Fun, Seq2, 1, ?int_rec(Size)).
+   Size = fun() ->
+                ?int_rec(?MODULE:size(Seq2))
+          end,
+   try
+      filter1(Ctx, Fun, Seq2, 1, Size)
+   catch 
+      _:#xqError{name = #xqAtomicValue{value = 
+                                         #qname{local_name = <<"XPTY0019">>}}} ->
+         % context was not a node when one was expected
+         ?err('XPTY0020');
+      _:function_clause:StackTrace ->
+         ?dbg("H",StackTrace),
+         % context was not a node when one was expected
+         ?err('XPTY0020');
+      _:#xqError{} = E:StackTrace ->
+         ?dbg("H",StackTrace),
+         throw(E)
+  end.
 
 filter1(_Ctx, _Fun, [], _Pos,_Size) -> [];
 filter1(Ctx, Fun, [H|T], Pos,Size) ->
    NextPos = Pos + 1,
    PosRec = ?int_rec(Pos),
-   try Fun(Ctx,H,PosRec,Size) of
+   case Fun(Ctx,H,PosRec,Size) of
+      #xqAtomicValue{value = true} ->
+         [H|filter1(Ctx, Fun, T, NextPos,Size)];
+      #xqAtomicValue{value = false} ->
+         filter1(Ctx, Fun, T, NextPos,Size);
       [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
          if FPos == Pos ->
                [H|filter1(Ctx, Fun, T, NextPos,Size)];
@@ -907,18 +935,6 @@ filter1(Ctx, Fun, [H|T], Pos,Size) ->
             true ->
                filter1(Ctx, Fun, T, NextPos,Size)
          end
-   catch 
-      _:#xqError{name = #xqAtomicValue{value = 
-                                         #qname{local_name = <<"XPTY0019">>}}} ->
-         % context was not a node when one was expected
-         ?err('XPTY0020');
-      _:function_clause ->
-         % context was not a node when one was expected
-         ?err('XPTY0020');
-      _:#xqError{} = E:StackTrace ->
-         ?dbg("H",H),
-         ?dbg("H",StackTrace),
-         throw(E)
   end.
 
 concat_seqs([],Seq2) -> Seq2;

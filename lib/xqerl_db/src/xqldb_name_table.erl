@@ -20,8 +20,7 @@
 %%
 %% -------------------------------------------------------------------
 
-%% A name table is a lookup for each distinct node name.
-
+%% A name table is a lookup for each distinct node name (local, prefix or uri).
 
 -module(xqldb_name_table).
 
@@ -43,7 +42,8 @@
          stop/1,
          insert/2,
          lookup/2,
-         match/2]).
+         match/2,
+         id_map/1]).
 
 -export([tid/1]).
 
@@ -51,9 +51,7 @@
                    file => file:io_device(),
                    next => non_neg_integer()}).
 -type(server() :: {Pid::pid(), Tid::ets:tid()}).
--type(name() :: prefixed_name() | unprefixed_name()).
--type(prefixed_name() :: {LocalName::binary(), Prefix::binary()}).
--type(unprefixed_name() :: {LocalName::binary(), <<>>}).
+-type(name() :: LocalName::binary()).
 
 %% Open or create a new string table server.  
 -spec start_link(open | new,
@@ -76,6 +74,12 @@ tid(Pid) when is_pid(Pid) ->
 
 stop({Pid,_}) when is_pid(Pid) ->
    gen_server:stop(Pid).
+
+%% Shutdown this server. 
+-spec id_map(server()) -> map().
+
+id_map({Pid,_}) when is_pid(Pid) ->
+   gen_server:call(Pid, id_map).
 
 %% Returns the ID for a name in the table.
 %% If no such value exists, creates a new value in the table and returns its ID.
@@ -121,11 +125,8 @@ new(DBDirectory, TableName) when is_binary(DBDirectory) ->
    new(binary_to_list(DBDirectory), TableName);
 new(DBDirectory, TableName) ->
    HeapName = filename:absname_join(DBDirectory, TableName ++ ".heap"),
-   % delete any old data
-   {ok,Trunc} = file:open(HeapName, [write]), file:close(Trunc),
    % new heap
-   {ok,HeapFile} = file:open(HeapName, 
-                             [read,write,binary,read_ahead,delayed_write,raw]),
+   {ok,HeapFile} = dets:open_file(HeapName, []),
    Table = ets:new(list_to_atom(TableName), [public, set, {read_concurrency,true},
                              {write_concurrency,true}]),
    #{tab  => Table,
@@ -142,55 +143,21 @@ open(DBDirectory, TableName) when is_binary(DBDirectory) ->
    open(binary_to_list(DBDirectory), TableName);
 open(DBDirectory, TableName) ->
    HeapName = filename:absname_join(DBDirectory, TableName ++ ".heap"),
-   {ok,HeapFile} = file:open(HeapName, 
-                             [read,write,binary,read_ahead,delayed_write,raw]),
+   {ok,HeapFile} = dets:open_file(HeapName, []),
    Table = ets:new(list_to_atom(TableName), [public, set, {read_concurrency,true},
                              {write_concurrency,true}]),
-   ok = heap_to_ets(HeapFile,Table),
+   _ = dets:to_ets(HeapFile, Table),
    Nxt = get_next_id(Table),
    #{tab  => Table,
      next => Nxt,
      file => HeapFile}.
  
-% given file and value, writes to file end and returns ok
-append_file(File,Id,Value) ->
-   Bin = term_to_binary(Value),
-   Size = byte_size(Bin),
-   file:write(File, [<<Id:16/integer>>,
-                     <<Size:32/integer>>,
-                     Bin]).
-
 get_next_id(Tab) ->
    M = [{{'$1','_'},[{is_integer,'$1'}],['$1']}],
    L = ets:select(Tab, M),
    case L of
       [] -> 1;
       _ -> lists:max(L) + 1
-   end.
-
-heap_to_ets(File,Tab) ->
-   % last action should be an ets insert, true
-   true = read_heap_to_ets(Tab,read(File),[]),
-   ok.
-
-read_heap_to_ets(Tab,eof,Acc) -> ets:insert(Tab,Acc);
-read_heap_to_ets(Tab,{<<Id:16/integer,Size:32/integer,
-                        Value:Size/binary,Rest/binary>>,Cont},Acc) ->
-   Term = binary_to_term(Value),
-   read_heap_to_ets(Tab,{Rest,Cont},[{Term,Id},{Id,Term}|Acc]);
-read_heap_to_ets(Tab,{<<>>,Cont},Acc) ->
-   read_heap_to_ets(Tab,Cont(),Acc);
-read_heap_to_ets(Tab,{Rest,Cont},Acc) ->
-   {New,Cont2} = Cont(),
-   ets:insert(Tab,Acc),
-   read_heap_to_ets(Tab,{<<Rest/binary,New/binary>>,Cont2},[]).
-
-read(Fd) ->
-   case file:read(Fd,1 bsl 15) of
-      {ok,Bin} ->
-         {Bin, fun() -> read(Fd) end};
-      Other ->
-         Other
    end.
 
 %% ====================================================================
@@ -212,6 +179,12 @@ terminate(_Reason,#{tab  := Table,
 
 handle_cast(_Request, State) -> {noreply,State}.
 
+handle_call(id_map, _From, #{tab  := Table} = State) ->
+   Ms = [{{'$1','$2'},[],[{{'$1','$2'}}]}],
+   List = ets:select(Table, Ms),
+   Reply = maps:from_list(List),
+   {reply, Reply, State};
+
 handle_call(tid, _From, #{tab  := Table} = State) ->
    {reply,Table,State};
 handle_call({insert, Value}, _From, #{tab  := Table,
@@ -220,7 +193,7 @@ handle_call({insert, Value}, _From, #{tab  := Table,
    case ets:insert_new(Table, {Value, Next}) of
       true -> % not already there
          true = ets:insert_new(Table, {Next, Value}),
-         _ = append_file(HeapFile,Next,Value),
+         ok = dets:insert(HeapFile, [{Next, Value}, {Value, Next}]),
          {reply, Next, State#{next := Next + 1}};
       false ->
          [{_,Id}] = ets:lookup(Table, Value),
@@ -234,8 +207,8 @@ handle_call({lookup, Id}, _From, #{tab  := Table} = State) ->
          {reply,error,State}
    end;
 handle_call({match, LocalName}, _From, #{tab  := Table} = State) ->
-   Ids = ets:match(Table, {{LocalName,'_'},'$1'}),
-   {reply,lists:flatten(Ids),State}.
+   Id = ets:lookup_element(Table, LocalName, 2),
+   {reply, Id, State}.
 
 handle_info(_Request, State) -> {noreply,State}.
 

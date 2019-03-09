@@ -43,6 +43,8 @@
          xqerl_http_client,
          xqerl_error]).
 
+-define(TIMEOUT, 60000).
+
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -91,10 +93,10 @@ stop() ->
    gen_server:stop(?MODULE).
 
 get_static_signatures() ->
-   gen_server:call(?MODULE, get_static_sigs, 5000).
+   gen_server:call(?MODULE, get_static_sigs, ?TIMEOUT).
 
 get_signatures(ModNamespace) ->
-   Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, 10000),
+   Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, ?TIMEOUT),
    case Rep of
       {error, unknown_namespace} ->
          xqerl_error:error('XQST0059', "Unknown ModNamespace", ModNamespace);
@@ -103,7 +105,7 @@ get_signatures(ModNamespace) ->
    end.
 
 unload(_) ->
-   gen_server:call(?MODULE, unload, 60000).
+   gen_server:call(?MODULE, unload, ?TIMEOUT).
 
 
 compile(Filename) ->
@@ -154,7 +156,7 @@ init([]) ->
           stat => static_signatures(),
           tab  => Tab,
           ebin => EbinDir,
-          disp => DispatchFileName}}.
+          disp => DispatchFileName}, ?TIMEOUT}.
 
 
 -spec handle_call(Request :: term(), From :: {pid(), Tag :: term()}, State :: term()) -> Result when
@@ -175,10 +177,10 @@ handle_call(unload, _From, #{tab  := Tab,
                              ebin := Ebin,
                              disp := DispatchFile} = State) ->
    Reply = do_unload(Tab, Ebin, DispatchFile),
-   {reply, Reply, State};
+   {reply, Reply, State, ?TIMEOUT};
 
 handle_call(get_static_sigs, _From, #{stat := Sigs} = State) ->
-   {reply, Sigs, State};
+   {reply, Sigs, State, ?TIMEOUT};
 
 handle_call({get_signatures, Namespace0}, _From, #{tab := Tab} = State) ->
    Namespace = trim_q(Namespace0),
@@ -191,11 +193,11 @@ handle_call({get_signatures, Namespace0}, _From, #{tab := Tab} = State) ->
                           variable_sigs = Vars}] ->
                  {Name, Funs, Vars}
            end,
-    {reply, Reply, State};
+    {reply, Reply, State, ?TIMEOUT};
 
 handle_call({save_mod, Rec, Beam}, _From, State) ->
    Reply = save_module(Rec, Beam, State),
-   {reply, Reply, State}.
+   {reply, Reply, State, ?TIMEOUT}.
 
 
 -spec handle_cast(Request :: term(), State :: term()) -> Result when
@@ -207,7 +209,7 @@ handle_call({save_mod, Rec, Beam}, _From, State) ->
 	Timeout :: non_neg_integer() | infinity.
 
 handle_cast(_Msg, State) ->
-    {noreply, State}.
+    {noreply, State, ?TIMEOUT}.
 
 
 -spec handle_info(Info :: timeout | term(), State :: term()) -> Result when
@@ -219,7 +221,7 @@ handle_cast(_Msg, State) ->
 	Timeout :: non_neg_integer() | infinity.
 
 handle_info(_Info, State) ->
-    {noreply, State}.
+    {noreply, State, ?TIMEOUT}.
 
 
 -spec terminate(Reason, State :: term()) -> Any :: term() when
@@ -283,20 +285,55 @@ add_stacktrace(E, StackTrace) ->
                    value = V}).
 
 
+do_compile(Filename, Str, false) ->
+   OldProcDict = erlang:erase(),
+   try
+   %%%
+      Toks = scan_tokens(Str),
+%io:format("~p~n", [Toks]),
+      _ = xqerl_context:init(parser),
+      Tree = parse_tokens(Toks),
+%io:format("~p~n", [Tree]),
+      FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+      Static = scan_tree_static(Tree, FileUri),
+%io:format("~p~n", [Tree]),
+%io:format("~p~n", [maps:get(body, Static)]),
+      {_,_,_,_,_,Forms,_} = scan_tree(Static),
+      xqerl_context:destroy(Static),
+%io:format("~p~n", [Forms]),
+      {ok,M,B} = compile:forms(Forms,
+                               [debug_info, verbose,
+                                return_errors, no_auto_import,
+                                binary]),
+      code:load_binary(M, "", B),
+      _ = print_erl(M, B),
+      M
+   catch 
+      _:#xqError{} = Error:StackTrace ->
+         add_stacktrace(Error, StackTrace);
+      _:Error:_ ->
+         Error
+   %%%
+   after
+      _ = erlang:erase(),
+      _ = [erlang:put(K, V) || {K, V} <- OldProcDict]
+   end;   
 do_compile(Filename, Str, Hints) ->
    OldProcDict = erlang:erase(),
    try
    %%%
       Toks = scan_tokens(Str),
-      %io:format("~p~n", [Toks]),
+%io:format("~p~n", [Toks]),
       _ = xqerl_context:init(parser),
       Tree = parse_tokens(Toks),
-      %io:format("~p~n", [Tree]),
+%io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri),
+%io:format("~p~n", [Tree]),
 %io:format("~p~n", [maps:get(body, Static)]),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
       xqerl_context:destroy(Static),
+%io:format("~p~n", [Forms]),
    
       {ok,M,B} = compile:forms(Forms,
                                [debug_info, verbose,
@@ -315,7 +352,7 @@ do_compile(Filename, Str, Hints) ->
                    variable_sigs = patch(VarSigs,M),
                    rest_xq = RestXQ},
       code:purge(M),
-      gen_server:call(?MODULE, {save_mod, Rec, B})
+      gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT)
    catch 
       ?NOT_FOUND(V) = Error ->
          KN1 = trim_q(V),
@@ -363,10 +400,12 @@ parse_tokens(Tokens) ->
       Tree
    catch
       _:#xqError{} = E:S ->
+         %?dbg("parse_tokens e",Tokens),
          throw(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("parse_tokens e",E),
          ?dbg("parse_tokens e",StackTrace),
+         ?dbg("parse_tokens e",Tokens),
          xqerl_error:error('XPST0003')
    end.
 
@@ -375,6 +414,7 @@ scan_tree_static(Tree, BaseUri) ->
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
       _:#xqError{} = E:S ->
+         %?dbg("parse_tokens e",E),
          throw(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("scan_tree_static",E),
@@ -406,6 +446,11 @@ save_module(#xq_module{module_name = ModName,
    _ = print_erl(ModName, Beam),
    file:write_file(BeamFilename, Beam),
    dets:insert(Tab, ModuleRecord),
+   %%% XXX might be nasty
+   code:purge(ModName),
+   code:delete(ModName),
+   code:purge(ModName),
+   %%%
    if RestXq == [] ->
          ModName;
       true ->
@@ -434,17 +479,20 @@ init_rest(DispatchFileName) ->
 merge_load_dispatch(Module, Rest, DispatchFile) ->
    {ok, OldEndPoints} = file:consult(DispatchFile),
    NewEndPoints = xqerl_restxq:build_endpoints(Module, Rest),
-   EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints),
+   OldEndPoints1 = remove_module_from_endpoints(Module, OldEndPoints),
+   EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints1),
    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
    _ = write_dispatch(DispatchFile, EndPoints),
    _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
    ok.
 
+remove_module_from_endpoints(Module, EndPoints) ->
+   [Ep || #endpoint{module = M} = Ep <- EndPoints, M =/= Module].
+   
 remove_module_dispatch(Module, DispatchFile) ->
    {ok, OldEndPoints} = file:consult(DispatchFile),
-   EndPoints = [Ep || #endpoint{module = M} = Ep <- OldEndPoints,
-                      M =/= Module],
+   EndPoints = remove_module_from_endpoints(Module, OldEndPoints),
    _ = write_dispatch(DispatchFile, EndPoints),
    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
@@ -484,8 +532,8 @@ do_unload(Tab, Ebin, DispatchFile) ->
         #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
 
-%-define(PRINT,false).
--define(PRINT,true).
+-define(PRINT,false).
+%-define(PRINT,true).
 
 -if(?PRINT).
    % see what comes out

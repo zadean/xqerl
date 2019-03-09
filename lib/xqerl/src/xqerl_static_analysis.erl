@@ -71,28 +71,65 @@ analyze(Body, Functions, Variables) ->
 % scan everything, when new Var found, add edge and make parent, 
 % when new Ref found, find id and make link to parent, leave parent as is
 
+
+x(G, Map, Parent, #xqComparisonExpr{id = Id,
+                                    lhs = Lhs,
+                                    rhs = Rhs}) ->
+   L = {Id, comp_left},
+   R = {Id, comp_right},
+   K = {Id, xqComparisonExpr},
+   add_vertex(G, L),
+   add_vertex(G, R),
+   add_edge(G, K, Parent, comparison),
+   add_edge(G, L, Parent, comparison),
+   add_edge(G, R, Parent, comparison),
+   x(G, Map, L, Lhs),
+   x(G, Map, R, Rhs),
+   Map;
+
 % path expressions
+%% x(G, Map, Parent,{path_expr,Id,Expr} ) ->
+%%    x(G, Map#{path := Id}, Parent, Expr),
+%%    Map;
 x(G, Map, Parent,{path_expr,Id,Expr} ) ->
    K = {Id,path_expr},
-   %?dbg("{K,Parent}",{K,Parent}),
+   %?dbg("{K,Parent}",{K,Parent, Expr}),
    add_vertex(G, K),
    case Parent of
       {_,{axisStep,_,_}} ->
          add_edge(G, K, Parent, {predicate, Parent, K}),
          x(G, Map#{path := Id}, K, Expr),
          Map;
+      %{_,{_,B}} when is_binary(B) ->
+      %   add_edge(G, K, Parent, {path, maps:get(path, Map)}),
+      %   x(G, Map#{path := Id}, K, Expr),
+      %   Map;
       _ ->
          add_edge(G, K, Parent, {Parent, '=', K}),
          x(G, Map#{path := Id}, K, Expr),
          Map
    end;
 
-x(G, Map, Parent, [#xqVarRef{name = Nm0} = V|T]) ->
+% function call in path
+%% x(G, Map, Parent, [{'function-call',Nm0,Ar,_} = V|T]) ->
+%%    M = x(G, Map, Parent, V),
+%%    Nm = sim_name(Nm0),
+%%    Id = get_fun_id({Nm, Ar}, M),
+%%    K = {Id, Nm, Ar},
+%%    %?dbg("{V,Parent}",{{Id, Nm},Parent}),
+%%    x(G, M, K, T);
+
+% variable ref in path
+x(G, Map, Parent, [V|T]) when V == 'root';
+                              V == 'any-root' ->
    M = x(G, Map, Parent, V),
-   Nm = sim_name(Nm0),
-   Id = maps:get(Nm, M),
-   %?dbg("{V,Parent}",{{Id, Nm},Parent}),
-   x(G, M, {Id, Nm}, T);
+   x(G, M, context_item, T);
+%% x(G, Map, Parent, [#xqVarRef{name = Nm0} = V|T]) -> %% this makes a sequence crappy
+%%    M = x(G, Map, Parent, V),
+%%    Nm = sim_name(Nm0),
+%%    Id = maps:get(Nm, M),
+%%    %?dbg("{V,Parent}",{{Id, Nm},Parent}),
+%%    x(G, M, {Id, Nm}, T);
 x(G, Map, Parent, [#xqAxisStep{id = Id,
                                axis = Axis,
                                node_test = Nt,
@@ -100,26 +137,66 @@ x(G, Map, Parent, [#xqAxisStep{id = Id,
    K = {Id, {axisStep, Axis, Nt}},
    %?dbg("{K,Parent}",{K,Parent}),
    add_vertex(G, K),
-   add_edge(G,K,Parent, {step, maps:get(path, Map)}),
-   %x(G, Map, Parent, Preds),
-   x(G, Map, K, Preds),
+   add_edge(G, K, Parent, {path, maps:get(path, Map)}),
+   case Preds of
+      [] ->
+         ok;
+      _ ->
+         PredK = {Id, predicate},
+         add_vertex(G, PredK),
+         add_edge(G, PredK, K, {path, maps:get(path, Map)}),
+         x(G, Map, {Id, predicate}, Preds)
+   end,
    x(G, Map, K, T),
    Map;
+
+%% x(G, Map, Parent, [{sequence, [{union, Unions}]}|T] ) ->
+%%    Fun = fun({path_expr,Id,Paths}) ->
+%%                K = {Id, union},
+%%                NewPaths = Paths ++ T, % adding tail to each path
+%%                add_edge(G, K, Parent, {path, maps:get(path, Map)}),
+%%                x(G, Map, Parent, {path_expr,Id,NewPaths});
+%%             ({sequence, [{path_expr,Id,Paths}]}) ->
+%%                K = {Id, union},
+%%                NewPaths = Paths ++ T, % adding tail to each path
+%%                add_edge(G, K, Parent, {path, maps:get(path, Map)}),
+%%                x(G, Map, Parent, {path_expr,Id,NewPaths});
+%%             (Other) ->
+%%                x(G, Map, Parent, Other)
+%%          end,
+%%    lists:foreach(Fun, Unions),
+%%    Map;
 
 x(G, Map, Parent, #xqAxisStep{id = Id,
                               axis = Axis,
                               node_test = Nt,
                               predicates = Preds}) ->
-   % TODO add `free` axis steps to the current path item when in predicate
    K = {Id, {axisStep, Axis, Nt}},
    add_vertex(G, K),
    PathParent = {maps:get(path, Map), path_expr},
-   add_edge(G,K, Parent, {step, maps:get(path, Map)}),
-   add_edge(G,K, PathParent, {step, maps:get(path, Map)}),
-   x(G, Map, K, Preds),
+   add_edge(G, K, Parent, {path, maps:get(path, Map)}),
+   add_edge(G, K, PathParent, {path, maps:get(path, Map)}),
+   case Preds of
+      [] ->
+         ok;
+      _ ->
+         PredK = {Id, predicate},
+         add_vertex(G, PredK),
+         add_edge(G, PredK, K, {path, maps:get(path, Map)}),
+         x(G, Map, {Id, predicate}, Preds)
+   end,
    Map;
 
-x(G, Map, Parent,{update, modify, Id, Vars, Expr, Return}) ->
+% Left hand side is the context item
+x(G, Map, Parent, {'simple-map', Id, Lhs, Rhs}) ->
+   K = {Id, map},
+   add_vertex(G, K),
+   add_edge(G, K, Parent, map),
+   x(G, Map, Parent, Lhs),
+   x(G, Map, K, Rhs),
+   Map;
+
+x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
    K = {Id, modify},
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
@@ -171,11 +248,37 @@ x(G, Map, Parent,{group_by,Id,Expr} ) ->
    x(G, Map, K, Expr),
    Map;
 
+
 x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent, {variable, Id, set}),
-   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   add_edge(G, {Id,Nm}, Parent, []),
+   M1 = add_variable_to_scope(Nm0, Id, Map, G),
+   case D of
+      #xqFlwor{return = {path_expr, PathId, _}} -> % flwor return is path
+         K = {PathId, path_expr},
+         add_vertex(G, K),
+         add_edge(G, K, {Id,Nm}, {variable, Id, set});
+      {path_expr, PathId, _} -> % expression is path
+         K = {PathId, path_expr},
+         add_vertex(G, K),
+         add_edge(G, K, {Id,Nm}, {variable, Id, set});
+      #xqVarRef{name = RefNm0} -> % expression is variable reference
+         RefNm = sim_name(RefNm0),
+         case catch maps:get(RefNm, Map) of
+            {'EXIT',_} ->
+               ?dbg("RefNm0",RefNm0),
+               ?err('XPST0008');
+            RefId when {RefId,RefNm} == Parent ->
+               ?dbg("RefNm0",RefNm0),
+               ?err('XPST0008'); % self reference, variable does not exist yet
+            RefId ->
+               add_edge(G, {RefId,RefNm}, {Id,Nm}, {variable, Id, set}),
+               ok
+         end;
+      _ ->
+         ok
+   end,
    case Pos of
       #xqPosVar{id = Id1, name = Nm1} ->
          if Nm0 == Nm1 ->
@@ -186,11 +289,11 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
          add_vertex(G, {Id1,sim_name(Nm1)}),
          add_edge(G, {Id1,sim_name(Nm1)}, Parent, {variable, Id1, set}),
          M2 = maps:put(sim_name(Nm1), Id1, M1),
-         x(G, Map, Parent, D),
+         %x(G, Map, Parent, D),
          x(G, Map, {Id,Nm}, D),
          M2;
       _ ->
-         x(G, Map, Parent, D),
+         %x(G, Map, Parent, D),
          x(G, Map, {Id,Nm}, D),
          M1
    end;
@@ -210,7 +313,7 @@ x(G, Map, Parent,
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
    add_edge(G, {Id,Nm}, Parent, variable),
-   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   M1 = add_variable_to_scope(Nm0, Id, Map, G),
    x(G, Map, {Id,Nm}, Ex),
    Fold = fun(undefined,M) ->
                 M;
@@ -218,12 +321,12 @@ x(G, Map, Parent,
                 Nm2 = sim_name(Nm3),
                 add_vertex(G, {Id2,Nm2}),
                 add_edge(G, {Id2,Nm2}, {Id2,Nm2}, {variable, Id2}),
-                add_variable_to_scope(Nm2, Id2, M, G);
+                add_variable_to_scope(Nm3, Id2, M, G);
              (#xqPosVar{id = Id2, name = Nm3},M) ->
                 Nm2 = sim_name(Nm3),
                 add_vertex(G, {Id2,Nm2}),
                 add_edge(G, {Id2,Nm2}, {Id2,Nm2}, {pos_variable, Id2}),
-                add_variable_to_scope(Nm2, Id2, M, G)
+                add_variable_to_scope(Nm3, Id2, M, G)
           end,
    M2 = lists:foldl(Fold, M1, [S1,S2,S3,S4]),
    x(G, M2, {Id,Nm}, Se),
@@ -235,7 +338,7 @@ x(G, Map, Parent, #xqTypeswitchCase{types = default, variable = #xqVar{id = Id, 
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
    add_edge(G, {Id,Nm}, Parent, type_switch),
-   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   M1 = add_variable_to_scope(Nm0, Id, Map, G),
    x(G, M1, Parent, D),
    Map;
 
@@ -243,24 +346,29 @@ x(G, Map, Parent, [#xqTypeswitchCase{variable = #xqVar{id = Id, name = Nm0, expr
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
    add_edge(G, {Id,Nm}, Parent, type_switch),
-   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   M1 = add_variable_to_scope(Nm0, Id, Map, G),
    x(G, M1, Parent, D),
    x(G, Map, Parent, T),
    Map;
 
+% local function defs
 x(G, Map, [#xqFunction{id = Id, 
                        name = Nm0, 
                        arity = Ar, 
                        body = Body, 
                        params = Params}|T], _Data) ->
    Nm = sim_name(Nm0),
-   add_vertex(G, {Id,Nm,Ar}),
+   FnKey = {Id,Nm,Ar},
+   add_vertex(G, FnKey),
    % overload params
    Map1 = lists:foldl(fun(#xqVar{id = Id1, name = Nm1}, M) ->
-                            add_vertex(G, {Id1,sim_name(Nm1)}),
-                            maps:put(sim_name(Nm1), Id1, M)
+                            ParmSim = sim_name(Nm1),
+                            ParmKey = {Id1,ParmSim},
+                            add_vertex(G, ParmKey),
+                            add_edge(G, ParmKey, FnKey, parameter),
+                            add_variable_to_scope(Nm1, Id1, M, G)
                       end, Map, Params),
-   x(G, Map1, {Id,Nm, Ar}, Body),
+   x(G, Map1, FnKey, Body),
    x(G, Map, T, []);
 
 % global variables
@@ -317,8 +425,11 @@ x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
    x(G, Map, {EI,'if-then-else'}, Else),
    Map;
 
-x(G, Map, Parent, #xqTryCatch{expr = Expr, catches = Catches}) ->
-   x(G, Map, Parent, Expr),
+x(G, Map, Parent, #xqTryCatch{id = Id, expr = Expr, catches = Catches}) ->
+   K = {Id, try_catch},
+   add_vertex(G, K),
+   add_edge(G, K, Parent, try_catch),
+   x(G, Map, K, Expr),
    ErrNs = <<"http://www.w3.org/2005/xqt-errors">>,
    E1 = {ErrNs,<<"code">>},
    E2 = {ErrNs,<<"description">>},
@@ -341,7 +452,7 @@ x(G, Map, Parent, #xqTryCatch{expr = Expr, catches = Catches}) ->
              E5 => E5,
              E6 => E6,
              E7 => E7},
-   x(G, M2, Parent, Catches);
+   x(G, M2, K, Catches);
 x(G, Map, Parent, {Cons,Bod}) when Cons =:= direct_cons;
                                    Cons =:= comp_cons ->
    add_vertex(G, {static,base_uri}),
@@ -366,12 +477,13 @@ x(G, Map, Parent, #xqVarRef{name = Nm0}) ->
    Nm = sim_name(Nm0),
    case catch maps:get(Nm, Map) of
       {'EXIT',_} ->
-         ?dbg("XPST0008",{Nm}),
+         ?dbg("XPST0008",{Parent, Nm0}),
          ?err('XPST0008');
       Id when {Id,Nm} == Parent ->
-         ?dbg("XPST0008",'XPST0008'),
+         ?dbg("XPST0008",{Parent, Nm0}),
          ?err('XPST0008'); % self reference, variable does not exist yet
       Id ->
+         %?dbg("Parent",Parent),
          add_edge(G, {Id,Nm}, Parent, {variable, Id, ref}),
          Map
    end;
@@ -380,19 +492,53 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
    Nm = sim_name(Nm0),
    case maps:is_key({Nm, Ar}, Map) of 
       true ->
-         Id = maps:get({Nm, Ar}, Map),
+         Id = get_fun_id({Nm, Ar}, Map),
          if Id == 0 ->
                add_vertex(G, {-1,Nm,Ar}),
                add_edge(G, {-1,Nm,Ar}, Parent, static),
-               add_edge(G, {Id,Nm,Ar}, Parent, static);
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, static)
+               end;
             true ->
-               add_edge(G, {Id,Nm,Ar}, Parent, local)
+%% this causes problems with variable refs with same name as params
+%%                Params = lists:sort(
+%%                  [{P, V1}                   
+%%                  || E <- digraph:in_edges(G, {Id,Nm,Ar}),
+%%                     {_, V1,_,{param,_} = P} <- [digraph:edge(G, E)]]),
+%%                ?dbg("Params", Params),
+%%                ?dbg("Args  ", Args),
+%%                %% here find the paramaters and link the calling vars to them
+%%                Zip = fun({_,Param}, Arg) ->
+%%                            x(G, Map, Param, Arg)
+%%                      end,
+%%                if length(Params) == length(Args) ->
+%%                      _ = lists:zipwith(Zip, Params, Args);
+%%                   true ->
+%%                      ok
+%%                end,
+               case is_axis_parent(Parent) of 
+                  true ->
+                     ?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, local)
+               end
          end,
          x(G, Map, Parent, Args);
       _ -> % non local function
          add_properties(G, Nm0, Ar),
          add_vertex(G, {-1,Nm,Ar}),
-         add_edge(G, {-1,Nm,Ar}, Parent, ext),
+         case is_axis_parent(Parent) of 
+            true ->
+               ?dbg("Axis Parent", {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+            false ->
+               add_edge(G, {-1,Nm,Ar}, Parent, ext)
+         end,
          x(G, Map, Parent, Args)
    end,
    Map;
@@ -418,13 +564,22 @@ x(G, Map, Parent, {'function-ref', Nm0, Ar}) ->
 x(G, Map, Parent, Data) when is_tuple(Data) ->
    D1 = tuple_to_list(Data),
    x(G, Map, Parent, D1);
+% simple map statement is the context-item
+x(_G, Map, {_, map} = _Parent, 'context-item') ->
+   %add_vertex(G, context_item),
+   %add_edge(G, context_item, Parent, current_context),
+   Map;
 x(G, Map, Parent, 'context-item') ->
    add_vertex(G, context_item),
-   add_edge(G, context_item, Parent, []),
+   add_edge(G, context_item, Parent, current_context),
    Map;
 x(G, Map, Parent, 'root') ->
    add_vertex(G, context_item),
-   add_edge(G, context_item, Parent, {step, maps:get(path, Map)}),
+   add_edge(G, context_item, Parent, {path, maps:get(path, Map)}),
+   Map;
+x(G, Map, Parent, 'any-root') ->
+   add_vertex(G, context_item),
+   add_edge(G, context_item, Parent, {path, maps:get(path, Map)}),
    Map;
 x(G, Map, [_|T], D) ->
    x(G, Map, T, D);
@@ -432,11 +587,9 @@ x(_, Map, _, _) ->
    Map.
 
 xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
-   %?dbg("Loop",Loop),
-   %?dbg("{Parent,{Id,flwor}}",{Parent,{Id,flwor}}),
-   add_vertex(G, {Id,flwor}),
-   %add_edge(G,Parent,{Id,flwor}),
-   add_edge(G,{Id,flwor},Parent, []),
+   Key = {Id,flwor},
+   add_vertex(G, Key),
+   add_edge(G,Key,Parent, []),
    Le = lists:flatmap(fun(#xqWindow{} = E) ->
                            l(E);
                          ({group_by,_,_} = E) ->
@@ -453,67 +606,17 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
                            l(E)
                       end, Loop),
    LM = lists:foldl(fun(E,M) ->
+                        %x(G, M, E, Parent)
                         x(G, M, Parent, E)
-                        %x(G, M, {Id,flwor}, E)
                     end, Map, Le),
-   %?dbg("Le",Le),
-   %x(G, LM, Parent, Ret).
-   %Verts = digraph_utils:reaching([{Id,flwor}], G),
-   %?dbg("Verts",Verts),
-   %Sub = digraph_utils:subgraph(G, Verts),
-   %Sort = better_topsort(Sub,Le),
-   %?dbg("Sort",Sort),
-   
-   %digraph:delete(Sub),
-   % put in process dict for static phase to reorder
-   %erlang:put({Id,flwor}, Sort),
-
-   %x(G, LM, Parent, Ret).
-   x(G, LM, {Id,flwor}, Ret).
-
-%% better_topsort(G,O) ->
-%%    Orig = [ case T of
-%%                #xqWindow{win_variable = #xqVar{id = I, name = N}} ->
-%%                   {I,sim_name(N)};
-%%                #xqVar{id = I, name = N} ->
-%%                   {I,sim_name(N)};
-%%                {where,I,_} ->
-%%                   {I,where};
-%%                {group_by,I,_} ->
-%%                   {I,group_by};
-%%                {order_by,I,_} ->
-%%                   {I,order_by}
-%%             end || T <- O
-%%           ],
-%%    TS = [{I,N} || {I,N} <- Orig],
-%%    Cons = [ {I,sim_name(N)} || 
-%%             #xqVar{id = I, name = N, expr = Expr} <- O,
-%%             constuctor_let(Expr)] ++
-%%             [{I,sim_name(N)} || 
-%%              #xqWindow{win_variable = #xqVar{id = I, name = N}} <- O],
-%%    %?dbg("OSort",Orig),
-%%    F = lists:filter(fun(V) ->
-%%                           Rg = [{I,N} || 
-%%                                 {I,N} <- digraph_utils:reaching([V], G), 
-%%                                 is_integer(I),
-%%                                 not is_atom(N) ],
-%%                           %?dbg("V",V),
-%%                           %?dbg("Rg",Rg),
-%%                           Rg == [V] andalso not lists:member(V, Cons)
-%%                     end, TS),
-%%    L = F ++ (TS -- F),
-%%    %?dbg("TS",TS),
-%%    %?dbg("F",F),
-%%    %?dbg("L",L),
-%%    [I || {I,_} <- L].
-
-
+   x(G, LM, Key, Ret).
 
 add_vertex(G,V) -> digraph:add_vertex(G,V).
 
 add_edge(G, A, B) ->
    add_edge(G, A, B, undefined).
 
+% adds edge A -> B with label L if none exists
 add_edge(G, A, B, L) ->
    Ex = [V || E <- digraph:out_edges(G, A),
               {_,_,V,_} <- [digraph:edge(G, E)],
@@ -588,9 +691,17 @@ add_glob_funs(G, Functions, Map0) ->
    %?dbg("Functions",Functions),
    Fun = fun(#xqFunction{name = #qname{namespace = undefined}}, _) ->
                ?err('XQST0060');
-            (#xqFunction{id = Id, name = Nm, arity = Ar}, Map) ->
+            (#xqFunction{id = Id, name = Nm, arity = Ar, params = Params}, Map) ->
                S = sim_name(Nm),
+               FnKey = {Id,S, Ar},
                add_vertex(G, {Id,S, Ar}),
+               %% add parameter dependencies
+               _ = lists:foldl(fun(#xqVar{id = Id1, name = Nm1}, Pos) ->
+                                     ParmKey = {Id1,sim_name(Nm1)},
+                                     add_vertex(G, ParmKey),
+                                     add_edge(G, ParmKey, FnKey, {param, Pos}),
+                                     Pos + 1
+                                  end, 1, Params),
                case maps:is_key({S, Ar}, Map) of
                   true -> ?err('XQST0034');
                   _ -> maps:put({S, Ar}, Id, Map)
@@ -627,36 +738,9 @@ add_properties(G, Nm0, Ar) ->
                  end, Dynamic),
    ok.
 
-
-%% constuctor_let(undefined) -> true; % count clause
-%% constuctor_let(Expr) ->
-%%    F = fun O([]) ->
-%%             false;
-%%            O(T) when is_tuple(T) ->
-%%             O(tuple_to_list(T));
-%%            O(L) when is_list(L) ->
-%%             lists:foldl(fun(X,A) -> A orelse O(X) end, false, L);
-%%            O(direct_cons) ->
-%%             true;
-%%            O(comp_cons) ->
-%%             true;
-%%            O(_) ->
-%%             false
-%%          end,
-%%    F(Expr).
-
-% add variable to the map, also if shadowing name, add edge
+% add variable to the map
 add_variable_to_scope(Nm, Id, Map, _G) ->
-   case maps:find(Nm, Map) of
-      error ->
-         maps:put(Nm, Id, Map);
-      {ok,_V} ->
-         %K = {Id,Nm},
-         %?dbg("K",K),
-         %?dbg("V",V),
-         %add_edge(G, {V,Nm}, K),
-         maps:put(Nm, Id, Map)
-   end.
+   maps:put(sim_name(Nm), Id, Map).
 
 
 is_private([]) -> false;
@@ -666,8 +750,15 @@ is_private([{annotation,
 is_private([_|T]) -> is_private(T).
 
 
+is_axis_parent({_,{axisStep,_,_}}) -> true;
+is_axis_parent({_,predicate}) -> true;
+is_axis_parent(_) -> false.
 
 
+get_fun_id({{<<"http://www.w3.org/2005/xpath-functions">>,<<"concat">>},_}, _M) ->
+   0;
+get_fun_id({Nm, Ar}, M) ->
+  maps:get({Nm, Ar}, M).
 
 
 

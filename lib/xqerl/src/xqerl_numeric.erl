@@ -166,7 +166,7 @@ decimal(#xsDecimal{} = D) -> simplify(D);
 %%    decimal(list_to_binary(String));
 decimal(String) ->
    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-      [] ->
+      undefined ->
          Val = case split_on_dot(String,<<>>) of
                   [Int,Fract] ->
                      Scf = byte_size(Fract),
@@ -211,7 +211,7 @@ double(#xsDecimal{int = Int, scf = Scf} = D) ->
    end;
 double(String) ->
    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-      [] ->
+      undefined ->
          OVal = begin
    Val = case xqerl_lib:trim(String) of
             <<$.,T/binary>> ->

@@ -641,9 +641,10 @@ handle_node(State, #xqVarRef{name = Name}) ->
    Varname = {variable, element(4, St)},
    case get_variable_static_value(State, Varname) of
       undefined ->
-         %?dbg("undefined", undefined),
+         %?dbg("xqVarRef", Name),
          set_statement_and_type(State, Varname, Type);
       true ->
+         %?dbg("xqVarRef", Name),
          set_statement_and_type(set_is_db(State, true), Varname, Type);
       Literal ->
          %?dbg("Literal", Literal),
@@ -651,6 +652,9 @@ handle_node(State, #xqVarRef{name = Name}) ->
    end;
 
 %% 3.1.3 Parenthesized Expressions
+
+handle_node(State, {sequence, [{range,_,_} = Range]}) ->
+   handle_node(State, Range);
 handle_node(State, {sequence, Expr}) -> 
    S = handle_node(State, Expr),
    Upd = is_updating(S),
@@ -1274,7 +1278,7 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
          case Ty of
             #xqSeqType{type = node} -> 
                Ps = {path_expr, Id, [{postfix, Id, St, Ft}]},
-io:format("~p~n",[Ps]),
+%io:format("~p~n",[Ps]),
                set_statement_and_type(State, Ps, Ty);
             _ ->
                set_statement_and_type(State, {postfix, Id, St, Ft}, Ty)
@@ -1291,6 +1295,12 @@ io:format("~p~n",[Ps]),
 % Steps is a list of steps to take in order
 handle_node(State, {path_expr, Id, Steps}) ->
    StateC = set_in_constructor(State, false),
+   IsMaybeDb = case get_in_predicate(State) of
+                  true ->
+                     get_is_db(State);
+                  _ ->
+                     false
+               end,
 %?dbg("Type",get_statement_type(State)),
    Fold = fun(Step, {LastType, LastDB}) ->
                State2 = set_statement_type(StateC, LastType),
@@ -1302,17 +1312,18 @@ handle_node(State, {path_expr, Id, Steps}) ->
                         Other ->
                            Other#xqSeqType{occur = zero_or_many}
                      end,
-               {Val, {Typ, LastDB or get_is_db(State1)}}
+               {Val, {Typ, LastDB orelse get_is_db(State1)}}
           end,
-   {Statements, {Type, IsDB}} = lists:mapfoldl(Fold, {get_statement_type(State), false}, Steps),
+   {Statements, {Type, IsDB}} = 
+     lists:mapfoldl(Fold,
+                    {get_statement_type(State), IsMaybeDb}, Steps),
    %?dbg("{Id, Statements}",{Id, Statements}),
-   ?dbg("IsDB",IsDB),
    Ps = if IsDB ->
               {db_path_expr, Id, Statements};
            true ->
               {path_expr, Id, Statements}
         end,
-   set_statement_and_type(State, Ps, Type);
+   set_statement_and_type(set_is_db(State, IsDB), Ps, Type);
 handle_node(State, {'any-root', Step}) ->
    State1 = handle_node(State, Step),
    Val = get_statement(State1),
@@ -1513,6 +1524,12 @@ handle_node(State, {range, Expr1, Expr2}) ->
    end;
          
 %% 3.4.2 Combining Node Sequences
+handle_node(State, {union, [A,B|List]}) ->
+   Fold = fun(Item, Acc) ->
+                {union, Item, Acc}
+          end,
+   All = lists:foldl(Fold, {union, A, B}, List),
+   handle_node(State, All);
 handle_node(State, {Op, Expr1, Expr2}) when Op == union;
                                             Op == intersect;
                                             Op == except -> 
@@ -1541,126 +1558,45 @@ handle_node(State, {Op, Expr1, Expr2}) when Op == union;
    set_statement_and_type(State, {Op, Val1, Val2}, Typ);
 
 %% 3.5 Arithmetic Expressions
-handle_node(State, {'add', Expr1, Expr2}) ->
+handle_node(State, #xqArithExpr{op = Op,
+                                lhs = Expr1,
+                                rhs = Expr2} = Expr) ->
    S1 = handle_node(State, Expr1),
    S2 = handle_node(State, Expr2),
    St1 = get_statement(S1),
    St2 = get_statement(S2),
-   Atomic = both_atomics(St1, St2),
    T1 = get_statement_type(S1),
    T2 = get_statement_type(S2),
-   BothOne = both_non_empty(T1, T2),
-   T3 = static_operator_type('add',T1,T2),
-   if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:add(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'add', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one});
-      true ->
-         set_statement_and_type(State, {'add', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
-handle_node(State, {'subtract', Expr1, Expr2}) ->
-   S1 = handle_node(State, Expr1),
-   S2 = handle_node(State, Expr2),
-   St1 = get_statement(S1),
-   St2 = get_statement(S2),
+   T3 = static_operator_type(Op,T1,T2),
    Atomic = both_atomics(St1, St2),
-   T1 = get_statement_type(S1),
-   T2 = get_statement_type(S2),
-   T3 = static_operator_type('subtract',T1,T2),
-   BothOne = both_non_empty(T1, T2),
-   if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:subtract(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'subtract', St1, St2}, 
-                                #xqSeqType{type = T3, occur = one});
-      true ->
-         set_statement_and_type(State, {'subtract', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
-handle_node(State, {'multiply', Expr1, Expr2}) ->
-   S1 = handle_node(State, Expr1),
-   S2 = handle_node(State, Expr2),
-   St1 = get_statement(S1),
-   St2 = get_statement(S2),
-   Atomic = both_atomics(St1, St2),
-   T1 = get_statement_type(S1),
-   T2 = get_statement_type(S2),
-   T3 = static_operator_type('multiply',T1,T2),
-   BothOne = both_non_empty(T1, T2),
-   if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:multiply(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'multiply', St1, St2}, 
-                                #xqSeqType{type = T3, occur = one});
-      true ->
-         set_statement_and_type(State, {'multiply', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
-handle_node(State, {'divide', Expr1, Expr2}) ->
-   S1 = handle_node(State, Expr1),
-   S2 = handle_node(State, Expr2),
-   St1 = get_statement(S1),
-   St2 = get_statement(S2),
-   Atomic = both_atomics(St1, St2),
-   T1 = get_statement_type(S1),
-   T2 = get_statement_type(S2),
-   T3 = static_operator_type('divide',T1,T2),
-   BothOne = both_non_empty(T1, T2),
-   if Atomic andalso element(3, St2) =/= 0 ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:divide(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'divide', St1, St2}, 
-                                #xqSeqType{type = T3, occur = one});
-      true ->
-         set_statement_and_type(State, {'divide', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
-handle_node(State, {'integer-divide', Expr1, Expr2}) ->
-   S1 = handle_node(State, Expr1),
-   S2 = handle_node(State, Expr2),
-   St1 = get_statement(S1),
-   St2 = get_statement(S2),
-   Atomic = both_atomics(St1, St2),
-   T1 = get_statement_type(S1),
-   T2 = get_statement_type(S2),
-   T3 = static_operator_type('idivide',T1,T2),
-   BothOne = both_non_empty(T1, T2),
-   if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:idivide(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'integer-divide', St1, St2}, 
-                                #xqSeqType{type = T3, occur = one});
-      true ->
-         set_statement_and_type(State, {'integer-divide', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
-handle_node(State, {'modulo', Expr1, Expr2}) ->
-   S1 = handle_node(State, Expr1),
-   S2 = handle_node(State, Expr2),
-   St1 = get_statement(S1),
-   St2 = get_statement(S2),
-   Atomic = both_atomics(St1, St2),
-   T1 = get_statement_type(S1),
-   T2 = get_statement_type(S2),
-   T3 = static_operator_type('modulo',T1,T2),
-   BothOne = both_non_empty(T1, T2),
-   if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:modulo(St1, St2),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
-      BothOne ->
-         set_statement_and_type(State, {'modulo', St1, St2}, 
-                                #xqSeqType{type = T3, occur = one});
-      true ->
-         set_statement_and_type(State, {'modulo', St1, St2}, 
-                                #xqSeqType{type = T3, occur = zero_or_one})
-   end; 
+   BothOne = both_singleton(T1, T2),
+   NewExpr = 
+      if Atomic, Op =:= '+' ->
+            xqerl_operators:add(St1, St2);
+         Atomic, Op =:= '-' ->
+            xqerl_operators:subtract(St1, St2);
+         Atomic, Op =:= '-' ->
+            xqerl_operators:subtract(St1, St2);
+         Atomic, Op =:= '*' ->
+            xqerl_operators:multiply(St1, St2);
+         Atomic, Op =:= 'div', element(3, St2) /= 0 ->
+            xqerl_operators:divide(St1, St2);
+         Atomic, Op =:= 'idiv' ->
+            xqerl_operators:idivide(St1, St2);
+         Atomic, Op =:= 'mod' ->
+            xqerl_operators:modulo(St1, St2);
+         true ->
+            Expr#xqArithExpr{lhs = St1, rhs = St2}
+      end,
+   Type = if is_record(NewExpr, xqAtomicValue) ->
+                #xqSeqType{type = NewExpr#xqAtomicValue.type, occur = one};
+             BothOne ->
+                #xqSeqType{type = T3, occur = one};
+             true ->
+                #xqSeqType{type = T3, occur = zero_or_one}
+          end,
+   set_statement_and_type(State, NewExpr, Type);
+
 handle_node(State, {'unary', '+', Expr1} = _Node) ->
    S1 = handle_node(State, Expr1),
    St1 = get_statement(S1),
@@ -1716,108 +1652,73 @@ handle_node(State, {'concat', _, _} = Concat) ->
    handle_node(State, S3);
 %% 3.7 Comparison Expressions
 %% 3.7.1 Value Comparisons
-handle_node(State, {'eq', Expr1, Expr2}) -> 
+handle_node(State, #xqComparisonExpr{comp = Comp, 
+                                     lhs = Expr1, 
+                                     rhs = Expr2} = Expr)
+   when Comp =:= 'eq';
+        Comp =:= 'ne';
+        Comp =:= 'ge';
+        Comp =:= 'gt';
+        Comp =:= 'le';
+        Comp =:= 'lt' -> 
    S1 = get_statement(handle_node(State, Expr1)),
    S2 = get_statement(handle_node(State, Expr2)),
    Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:equal(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
+   NewExpr = 
+   if Atomic, Comp =:= 'eq' ->
+         xqerl_operators:equal(S1, S2);
+      Atomic, Comp =:= 'ne' ->
+         xqerl_operators:not_equal(S1, S2);
+      Atomic, Comp =:= 'ge' ->
+         xqerl_operators:greater_than_eq(S1, S2);
+      Atomic, Comp =:= 'gt' ->
+         xqerl_operators:greater_than(S1, S2);
+      Atomic, Comp =:= 'le' ->
+         xqerl_operators:less_than_eq(S1, S2);
+      Atomic, Comp =:= 'lt' ->
+         xqerl_operators:less_than(S1, S2);
       true ->
-         set_statement_and_type(State, {'eq', S1, S2}, ?boolzone)
-   end; 
-handle_node(State, {'ne', Expr1, Expr2}) ->
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:not_equal(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
-      true ->
-         set_statement_and_type(State, {'ne', S1, S2}, ?boolzone)
-   end; 
-handle_node(State, {'ge', Expr1, Expr2}) ->
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:greater_than_eq(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
-      true ->
-         set_statement_and_type(State, {'ge', S1, S2}, ?boolzone)
-   end; 
-handle_node(State, {'gt', Expr1, Expr2}) ->
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:greater_than(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
-      true ->
-         set_statement_and_type(State, {'gt', S1, S2}, ?boolzone)
-   end; 
-handle_node(State, {'le', Expr1, Expr2}) ->
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:less_than_eq(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
-      true ->
-         set_statement_and_type(State, {'le', S1, S2}, ?boolzone)
-   end; 
-handle_node(State, {'lt', Expr1, Expr2}) ->
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:less_than(S1, S2),
-         set_statement_and_type(State, Eq, ?boolzone);
-      true ->
-         set_statement_and_type(State, {'lt', S1, S2}, ?boolzone)
-   end; 
+         Expr#xqComparisonExpr{lhs = S1, 
+                               rhs = S2}
+   end,
+   set_statement_and_type(State, NewExpr, ?boolzone);
 %% 3.7.2 General Comparisons
-handle_node(State, {'=', {sequence,[{range,_,_} = Range]}, Expr}) ->
-   handle_node(State, {'=', Range, Expr});
-handle_node(State, {'=', {range,Min1,Max1} = Range, Expr}) ->
-   {range,Min,Max} = get_statement(handle_node(State, Range)),
-   EState = handle_node(State, Expr),
-   Stmt = get_statement(EState),
-   Type = get_statement_type(EState),
-   if Type#xqSeqType.occur == one, ?xs_integer(Type#xqSeqType.type) ;
-      Type#xqSeqType.occur == zero_or_one, ?xs_integer(Type#xqSeqType.type) ->
-         NewStatement =  {'and',
-                          {'>=',Expr,Min1},
-                          {'<=',Expr,Max1}                         
-                         },
-         handle_node(State, NewStatement);
-      Type#xqSeqType.type == 'xs:untypedAtomic' ->
-         set_statement_and_type(State, 
-                                {'=', {range,Min,Max},
-                                 {cast_as,Stmt,#xqSeqType{type = 'xs:double'}}},
-                                ?boolone);
-      true ->
-         set_statement_and_type(State, {'=', {range,Min,Max}, Stmt}, ?boolone)
-   end;
-handle_node(State, {Op, Expr1, Expr2}) when Op == '=';
-                                            Op == '!=';
-                                            Op == '<';
-                                            Op == '<=';
-                                            Op == '>';
-                                            Op == '>=' -> 
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   Atomic = both_atomics(S1, S2),
-   if Atomic ->
-         Eq = xqerl_operators:general_compare(Op, S1, S2),
-         set_statement_and_type(State, Eq, ?boolone);
-      true ->
-         set_statement_and_type(State, {Op, S1, S2}, ?boolone)
-   end; 
+handle_node(State, #xqComparisonExpr{comp = Comp,
+                                     lhs = Expr1, 
+                                     rhs = Expr2
+                                    } = Expr)
+   when Comp =:= '=';
+        Comp =:= '!=';
+        Comp =:= '<';
+        Comp =:= '<=';
+        Comp =:= '>';
+        Comp =:= '>=' -> 
+   S1 = handle_node(State, Expr1),
+   S2 = handle_node(State, Expr2),
+   St1 = get_statement(S1),
+   St2 = get_statement(S2),
+%   Singles = both_one_or_zero(S1, S2), % an array can also be a single item...
+   Atomic = both_atomics(St1, St2),
+   NewExpr = 
+      if Atomic ->
+            xqerl_operators:general_compare(Comp, St1, St2);
+%%          Singles == true ->
+%%             Expr#xqComparisonExpr{comp = general_to_value_comp(Comp),
+%%                                   lhs = St1,
+%%                                   rhs = St2};
+         true ->
+            Expr#xqComparisonExpr{lhs = St1,
+                                  rhs = St2}
+      end,
+   set_statement_and_type(State, NewExpr, ?boolone);
 %% 3.7.3 Node Comparisons
-handle_node(State, {Comp, Expr1, Expr2}) when Comp =:= 'is';
-                                              Comp =:= '>>';
-                                              Comp =:= '<<' ->
+handle_node(State, #xqComparisonExpr{comp = Comp,
+                                     lhs = Expr1, 
+                                     rhs = Expr2
+                                    } = Expr)
+   when Comp =:= 'is';
+        Comp =:= '>>';
+        Comp =:= '<<' -> 
    ArgType = #xqSeqType{type = node, occur = zero_or_one},
    S1 = handle_node(State, Expr1),
    St1 = get_statement(S1),
@@ -1828,7 +1729,8 @@ handle_node(State, {Comp, Expr1, Expr2}) when Comp =:= 'is';
    A = check_type_match(Sty1, ArgType),
    B = check_type_match(Sty2, ArgType),
    if A == true andalso B == true ->
-         set_statement_and_type(State, {Comp, St1, St2}, ?boolzone);
+         NewExpr = Expr#xqComparisonExpr{lhs = St1, rhs = St2},
+         set_statement_and_type(State, NewExpr, ?boolzone);
       true ->
          ?dbg("A",{Sty1, ArgType,A}),
          ?dbg("B",{Sty2, ArgType,B}),
@@ -1836,11 +1738,17 @@ handle_node(State, {Comp, Expr1, Expr2}) when Comp =:= 'is';
    end;
 
 %% 3.8 Logical Expressions
-handle_node(State, {Op, Expr1, Expr2}) when Op == 'and';
-                                            Op == 'or' -> 
+handle_node(State, #xqLogicalExpr{lhs = Expr1,
+                                  rhs = Expr2} = Expr) ->
+   %% TODO maybe do something with each side,
+   % reorder, check if one is true/false?
+   % will end up an andalso/orelse
+   % can reorder at will, so use the best
    S1 = get_statement(handle_node(State, Expr1)),
    S2 = get_statement(handle_node(State, Expr2)),
-   set_statement_and_type(State, {Op, S1, S2}, ?boolone);
+   NewExpr = Expr#xqLogicalExpr{lhs = S1,
+                                rhs = S2},
+   set_statement_and_type(State, NewExpr, ?boolone);
 %% 3.9 Node Constructors
 %% 3.9.1 Direct Element Constructors
 handle_node(State, {direct_cons, Cons}) ->
@@ -2020,7 +1928,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 expr = Expr, 
                                 position = undefined} = Node,_}) ->
 %?dbg("Expr",Expr),
-   StateC = set_in_constructor(State, false),
+   StateC = set_is_db(set_in_constructor(State, false), false),
    ErlVarName = local_variable_name(Id),
    ForState = handle_node(StateC, Expr),
    IsDB = get_is_db(ForState),
@@ -2055,7 +1963,7 @@ handle_node(State,{'for',#xqVar{id = Id,
               _ when IsDB ->
                  {false, true};
               _ ->
-                 ForStmt
+                 false %ForStmt
            end,
 
    ForLet = if MakeLet -> 'let'; true -> 'for' end,
@@ -2081,7 +1989,7 @@ handle_node(State,{'for',#xqVar{id = Id,
           true ->
              ok
        end,
-   StateC = set_in_constructor(State, false),
+   StateC = set_is_db(set_in_constructor(State, false), false),
    ErlVarName = local_variable_name(Id),
    ErlPosName = local_variable_name(Pid),
    ForState = handle_node(StateC, Expr),
@@ -2128,7 +2036,7 @@ handle_node(State, {'let',#xqVar{id = Id,
                                  name = Name, 
                                  type = Type, 
                                  expr = Expr} = Node,_}) ->
-   StateC = set_in_constructor(State, false),
+   StateC = set_is_db(set_in_constructor(State, false), false),
    ErlVarName = local_variable_name(Id),
    LetState = handle_node(StateC, Expr),
    IsDB = get_is_db(LetState),
@@ -2162,7 +2070,7 @@ handle_node(State, {'let',#xqVar{id = Id,
                  Type#xqSeqType.occur =/= LetType#xqSeqType.occur ->
                     {OutType,{ensure, LetStmt, OutType}};
                  true ->
-                    {LetType,LetStmt}
+                    {OutType,LetStmt}
               end,
    
    External = case is_static_literal(LetStmt1) of
@@ -2171,9 +2079,10 @@ handle_node(State, {'let',#xqVar{id = Id,
                  _ when IsDB ->
                     {false, true};
                  _ ->
-                    LetStmt1
+                    false %LetStmt1
               end,
-   NewVar  = {Name,LetType,[],ErlVarName, External},
+   NewVar  = {Name,OutType,[],ErlVarName, External},
+%%    NewVar  = {Name,LetType,[],ErlVarName, External},
 
    State1 = set_is_db(add_inscope_variable(State, NewVar), IsDB),
    
@@ -2202,7 +2111,7 @@ handle_node(State, #xqWindow{type = WindowType,
                              start_expr = StartExpr,
                              end_expr   = EndExpr}) -> 
    % window statement variable
-   StateC = set_in_constructor(State, false),
+   StateC = set_is_db(set_in_constructor(State, false), false),
    ErlVarName = local_variable_name(Id),
    WinState = handle_node(StateC, Expr),
    WinType = get_statement_type(WinState), 
@@ -2460,13 +2369,15 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    Pos = get_statement(handle_node(State, ?POSITION)),
    {ThSt, ThTy} = 
       if InPred andalso ThIsInt ->
-            {{'=', Pos, ThSt0}, #xqSeqType{type = 'xs:boolean', occur = one}};
+            {#xqComparisonExpr{id = B1, comp = '=', lhs = Pos, rhs = ThSt0}, 
+             #xqSeqType{type = 'xs:boolean', occur = one}};
          true ->
             {ThSt0, ThTy0}
       end,
    {ElSt, ElTy} = 
       if InPred andalso ElIsInt ->
-            {{'=', Pos, ElSt0}, #xqSeqType{type = 'xs:boolean', occur = one}};
+            {#xqComparisonExpr{id = B2, comp = '=', lhs = Pos, rhs = ElSt0}, 
+             #xqSeqType{type = 'xs:boolean', occur = one}};
          true ->
             {ElSt0, ElTy0}
       end,
@@ -2989,7 +2900,7 @@ handle_node(State, {'function-call',
                 #xqFunTest{type = T}} when LocalName == ?A("avg") ->
                 
                 try
-                   NT = static_operator_type(divide,
+                   NT = static_operator_type('div',
                                              T#xqSeqType.type,'xs:integer'),
                    T#xqSeqType{type = NT}
                 catch 
@@ -2999,7 +2910,7 @@ handle_node(State, {'function-call',
                 end;
              _ when LocalName == ?A("avg"), Type0#xqSeqType.type =/= item ->
                 try
-                   NT = static_operator_type(divide,
+                   NT = static_operator_type('div',
                                              Type0#xqSeqType.type,'xs:integer'),
                    Type0#xqSeqType{type = NT}
                 catch 
@@ -3153,6 +3064,20 @@ handle_node(State, {'function-call',
                            F#xqFunction{params = [ArgSt], type = Type}}, Type);
 
 % list reordering / takes type of the arg
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN,local_name = ?A("subsequence")} = Name, 2, 
+                    [Arg1, Arg2]}) -> 
+   F = get_static_function(State, {Name, 2}),
+   StateC = set_in_constructor(State, false),
+   SimpArg1 = handle_node(StateC, Arg1),
+   SimpArg2 = handle_node(StateC, Arg2),
+   ArgSt1 = get_statement(SimpArg1),
+   ArgSt2 = get_statement(SimpArg2),
+   Type1 = maybe_zero_type(get_statement_type(SimpArg1)),
+   set_statement_and_type(State, 
+                          {'function-call',
+                           F#xqFunction{params = [ArgSt1,ArgSt2], type = Type1}}, Type1);
+
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,local_name = ?A("reverse")} = Name, 1, 
                     [Arg]}) -> 
@@ -3462,7 +3387,7 @@ handle_node(State, {treat_as, Expr1, #xqSeqType{} = Expr2}) ->
                    {instance_of, St1, St2}, St1, {error, 'XPDY0050'}},   
    set_statement_and_type(State, NewStatement, St2);
 %% 3.19 Simple map operator (!)
-handle_node(State, {'simple-map', SeqExpr, MapExpr}) -> 
+handle_node(State, {'simple-map', _Id, SeqExpr, MapExpr}) -> 
    SeqState     = handle_node(State, SeqExpr),
    SeqStatement = get_statement(SeqState),
    SeqType      = get_statement_type(SeqState),
@@ -3530,8 +3455,8 @@ handle_node(State, Node) ->
    ?dbg("UNKNOWN NODE", State#state.context),
    State.
 
-both_non_empty(#xqSeqType{occur = one}, #xqSeqType{occur = one}) -> true;
-both_non_empty(_, _) -> false.   
+both_singleton(#xqSeqType{occur = one}, #xqSeqType{occur = one}) -> true;
+both_singleton(_, _) -> false.   
    
 % TODO make this a foldr to wrap up chained calls and get correct return type
 handle_predicates(State, []) -> 
@@ -3556,7 +3481,40 @@ handle_predicates(State, Predicates) ->
 %%                                    end, [],Predicates),
    set_statement_and_type(State, PredStatements,OutType).
 
-   
+handle_predicate(State, 
+                 {predicate,
+                  [#xqComparisonExpr{comp = '=',
+                                     lhs = {'function-call',
+                                            {qname,?FN,_,<<"position">>},0,[]},
+                                     rhs = Rhs}]}) ->
+   % positional predicate in list, allow this through.
+   State0 = set_in_predicate(State, true),
+   PreFilterType = get_statement_type(State),
+   PostFilterType = maybe_zero_type(PreFilterType), 
+   ContextType = (get_statement_type(State))#xqSeqType{occur = one},
+   State1 = State0#state{context_item_type = ContextType},
+   SimExpr = handle_node(State1, Rhs),
+   SimSt0 = get_statement(SimExpr),
+   SimSt = case SimSt0 of
+              L when is_list(L) ->
+                 {sequence,L};
+              _ ->
+                 SimSt0
+           end,
+   Type = get_statement_type(SimExpr),
+   IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric',
+                                             occur = zero_or_many}),
+   % numericas are position filters, all else mean no return
+   if IsNum -> 
+         set_statement_and_type(State, 
+                                {positional_predicate, SimSt}, 
+                                 PostFilterType);
+      true ->
+         set_statement_and_type(State, 
+                                #xqAtomicValue{type = 'xs:boolean',
+                                               value = false}, ?boolone)
+   end;
+
 handle_predicate(State, {predicate, Expr}) ->
    State0 = set_in_predicate(State, true),
    PreFilterType = get_statement_type(State),
@@ -3564,7 +3522,7 @@ handle_predicate(State, {predicate, Expr}) ->
    ContextType = (get_statement_type(State))#xqSeqType{occur = one},
    State1 = State0#state{context_item_type = ContextType},
 %?dbg("ContextType",ContextType),
-   %?dbg("Expr",Expr),
+%?dbg("Expr",Expr),
    SimExpr = handle_node(State1, Expr),
    SimSt0 = get_statement(SimExpr),
    SimSt = case SimSt0 of
@@ -3656,6 +3614,7 @@ handle_internal_var_node(State,#xqVar{id = Id,
    State0 = add_inscope_variable(State, NewVar0),
    VarState = handle_node(State0, Expr),
    VarType = get_statement_type(VarState),
+   IsDB = get_is_db(VarState),
    Type = if Type0 == undefined ->
                 VarType;
              true ->
@@ -3668,7 +3627,15 @@ handle_internal_var_node(State,#xqVar{id = Id,
       _ ->
          ok
    end,
-   NewVar  = {Name,VarType,[],ErlVarName},
+   External = case is_static_literal(VarStmt) of
+              true ->
+                 {false, VarStmt};
+              _ when IsDB ->
+                 {false, true};
+              _ ->
+                 false
+           end,
+   NewVar  = {Name,VarType,[],ErlVarName, External},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = #xqVar{id = Id,
                          name = Name, 
@@ -3683,6 +3650,7 @@ handle_internal_var_node(State,#xqVar{id = Id,
    ErlVarName = local_variable_name(Id),
    VarState = handle_node(State, Expr),
    VarType = get_statement_type(VarState),
+   IsDB = get_is_db(VarState),
    Type = if Type0 == undefined ->
                 VarType;
              true ->
@@ -3695,7 +3663,15 @@ handle_internal_var_node(State,#xqVar{id = Id,
       _ ->
          ok
    end,
-   NewVar  = {Name,VarType,[],ErlVarName},
+   External = case is_static_literal(VarStmt) of
+              true ->
+                 {false, VarStmt};
+              _ when IsDB ->
+                 {false, true};
+              _ ->
+                 false
+           end,
+   NewVar  = {Name,VarType,[],ErlVarName, External},
    State1 = add_inscope_variable(State, NewVar),
    NewStatement = #xqVar{id = Id,
                          name = Name, 
@@ -5008,6 +4984,11 @@ check_fun_arg_type(State, Arg, TargetType) ->
 
 type_ensure(_,#xqSeqType{type = item, occur = zero_or_many},Statement) ->
    Statement;
+type_ensure(#xqSeqType{type = AT, occur = Oc}, 
+            #xqSeqType{type = 'xs:anyAtomicType', occur = zero_or_one},
+            Statement) 
+  when ?xs_anyAtomicType(AT) andalso (Oc == one orelse Oc == zero_or_one) ->
+   Statement;
 type_ensure(ActType,TargType,Statement) ->
   %?dbg("ActType,TargType",{ActType,TargType,Statement}),
    if ActType#xqSeqType.occur =/= TargType#xqSeqType.occur ->
@@ -5571,6 +5552,20 @@ get_static_count(#state{context = #context{static_count = StaticCount}}) ->
 get_static_count({'EXIT',_}) -> 
    0.
 
+%% both_one_or_zero(State1, State2) ->
+%%    C1 = get_static_count(State1),
+%%    C2 = get_static_count(State2),
+%%    T1 = ((get_statement_type(State1))#xqSeqType.type),
+%%    T2 = ((get_statement_type(State2))#xqSeqType.type),
+%%    ?dbg("T1, T2", {T1, T2}),
+%%    case {C1, C2} of
+%%       {0,0} -> true;
+%%       {1,0} -> true;
+%%       {0,1} -> true;
+%%       {1,1} -> true;
+%%       _ -> false
+%% end.
+
 set_updating(State, Upd) ->
    Copy = is_updating(State) == copy,
    if Copy ->
@@ -5712,6 +5707,7 @@ get_variable_static_value(#state{inscope_vars = Vars}, {variable, VarAtom}) ->
       [O] ->
          O;
       [] ->
+         %?dbg("VarAtom", {VarAtom, Vars}),
          undefined
    end.
 
@@ -5810,157 +5806,157 @@ static_operator_type(Op, 'xs:untypedAtomic', T) ->
 static_operator_type(Op, T, 'xs:untypedAtomic') -> 
    static_operator_type(Op, T, 'xs:double');
 
-static_operator_type('add', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('add', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
-static_operator_type('add', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
-static_operator_type('add', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
-static_operator_type('add', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('add', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('add', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('add', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('add', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('add', 'xs:double',  'xs:double')  -> 'xs:double';
+static_operator_type('+', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('+', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('+', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('+', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('+', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('+', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('+', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('+', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('+', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
+static_operator_type('+', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('+', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('+', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('+', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
+static_operator_type('+', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('+', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('+', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('add', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
-static_operator_type('add', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:date') -> 'xs:date';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration';
-static_operator_type('add', 'xs:dayTimeDuration', 'xs:time') -> 'xs:time';
-static_operator_type('add', 'xs:duration', 'xs:date') -> 'xs:date';
-static_operator_type('add', 'xs:duration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
-static_operator_type('add', 'xs:duration', 'xs:time') -> 'xs:time';
-static_operator_type('add', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
-static_operator_type('add', 'xs:time', 'xs:duration') -> 'xs:time';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:date') -> 'xs:date';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:duration') -> 'xs:duration';
-static_operator_type('add', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+static_operator_type('+', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
+static_operator_type('+', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
+static_operator_type('+', 'xs:dayTimeDuration', 'xs:date') -> 'xs:date';
+static_operator_type('+', 'xs:dayTimeDuration', 'xs:dateTime') -> 'xs:dateTime';
+static_operator_type('+', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
+static_operator_type('+', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration';
+static_operator_type('+', 'xs:dayTimeDuration', 'xs:time') -> 'xs:time';
+static_operator_type('+', 'xs:duration', 'xs:date') -> 'xs:date';
+static_operator_type('+', 'xs:duration', 'xs:dateTime') -> 'xs:dateTime';
+static_operator_type('+', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
+static_operator_type('+', 'xs:duration', 'xs:time') -> 'xs:time';
+static_operator_type('+', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
+static_operator_type('+', 'xs:time', 'xs:duration') -> 'xs:time';
+static_operator_type('+', 'xs:yearMonthDuration', 'xs:date') -> 'xs:date';
+static_operator_type('+', 'xs:yearMonthDuration', 'xs:dateTime') -> 'xs:dateTime';
+static_operator_type('+', 'xs:yearMonthDuration', 'xs:duration') -> 'xs:duration';
+static_operator_type('+', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
 
 
-static_operator_type('divide', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('divide', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
-static_operator_type('divide', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
-static_operator_type('divide', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
-static_operator_type('divide', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('divide', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('divide', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('divide', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('divide', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('divide', 'xs:double',  'xs:double')  -> 'xs:double';
+static_operator_type('div', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('div', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('div', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('div', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('div', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('div', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('div', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('div', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('div', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
+static_operator_type('div', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('div', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('div', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('div', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
+static_operator_type('div', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('div', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('div', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('divide', D, Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
-static_operator_type('divide', D, 'xs:decimal')when ?xs_duration(D) -> D;
-static_operator_type('divide', D, 'xs:float')  when ?xs_duration(D) -> D;
-static_operator_type('divide', D, 'xs:double') when ?xs_duration(D) -> D;
-static_operator_type('divide', D, D) when ?xs_duration(D) -> 'xs:decimal';
-static_operator_type('divide', 'xs:duration', D) when ?xs_duration(D) -> 'xs:decimal';
-static_operator_type('divide', D, 'xs:duration') when ?xs_duration(D) -> 'xs:decimal';
+static_operator_type('div', D, Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
+static_operator_type('div', D, 'xs:decimal')when ?xs_duration(D) -> D;
+static_operator_type('div', D, 'xs:float')  when ?xs_duration(D) -> D;
+static_operator_type('div', D, 'xs:double') when ?xs_duration(D) -> D;
+static_operator_type('div', D, D) when ?xs_duration(D) -> 'xs:decimal';
+static_operator_type('div', 'xs:duration', D) when ?xs_duration(D) -> 'xs:decimal';
+static_operator_type('div', D, 'xs:duration') when ?xs_duration(D) -> 'xs:decimal';
 
-static_operator_type('idivide', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', 'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:decimal') -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:float')   -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  'xs:double')  -> 'xs:integer';
+static_operator_type('idiv', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('idiv', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idiv', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idiv', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idiv', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('idiv', 'xs:decimal', 'xs:decimal') -> 'xs:integer';
+static_operator_type('idiv', 'xs:decimal', 'xs:float')   -> 'xs:integer';
+static_operator_type('idiv', 'xs:decimal', 'xs:double')  -> 'xs:integer';
+static_operator_type('idiv', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('idiv', 'xs:float',   'xs:decimal') -> 'xs:integer';
+static_operator_type('idiv', 'xs:float',   'xs:float')   -> 'xs:integer';
+static_operator_type('idiv', 'xs:float',   'xs:double')  -> 'xs:integer';
+static_operator_type('idiv', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('idiv', 'xs:double',  'xs:decimal') -> 'xs:integer';
+static_operator_type('idiv', 'xs:double',  'xs:float')   -> 'xs:integer';
+static_operator_type('idiv', 'xs:double',  'xs:double')  -> 'xs:integer';
 
-static_operator_type('modulo', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('modulo', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
-static_operator_type('modulo', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
-static_operator_type('modulo', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
-static_operator_type('modulo', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('modulo', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('modulo', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('modulo', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('modulo', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  'xs:double')  -> 'xs:double';
+static_operator_type('mod', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('mod', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('mod', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('mod', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('mod', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('mod', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('mod', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('mod', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('mod', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
+static_operator_type('mod', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('mod', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('mod', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('mod', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
+static_operator_type('mod', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('mod', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('mod', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('multiply', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('multiply', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
-static_operator_type('multiply', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
-static_operator_type('multiply', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
-static_operator_type('multiply', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('multiply', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('multiply', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('multiply', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('multiply', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  'xs:double')  -> 'xs:double';
+static_operator_type('*', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('*', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('*', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('*', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('*', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('*', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('*', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('*', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('*', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
+static_operator_type('*', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('*', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('*', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('*', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
+static_operator_type('*', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('*', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('*', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('multiply'  ,Int1, D  ) when ?xs_integer(Int1), ?xs_duration(D) -> D;
-static_operator_type('multiply'  ,'xs:decimal', D  ) when ?xs_duration(D) -> D;
-static_operator_type('multiply'  ,'xs:float'  , D  ) when ?xs_duration(D) -> D;
-static_operator_type('multiply'  ,'xs:double' , D  ) when ?xs_duration(D) -> D;
+static_operator_type('*'  ,Int1, D  ) when ?xs_integer(Int1), ?xs_duration(D) -> D;
+static_operator_type('*'  ,'xs:decimal', D  ) when ?xs_duration(D) -> D;
+static_operator_type('*'  ,'xs:float'  , D  ) when ?xs_duration(D) -> D;
+static_operator_type('*'  ,'xs:double' , D  ) when ?xs_duration(D) -> D;
 
-static_operator_type('multiply', D,  Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
-static_operator_type('multiply', D,  'xs:decimal') when ?xs_duration(D) -> D;
-static_operator_type('multiply', D,  'xs:float')   when ?xs_duration(D) -> D;
-static_operator_type('multiply', D,  'xs:double')  when ?xs_duration(D) -> D;
+static_operator_type('*', D,  Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
+static_operator_type('*', D,  'xs:decimal') when ?xs_duration(D) -> D;
+static_operator_type('*', D,  'xs:float')   when ?xs_duration(D) -> D;
+static_operator_type('*', D,  'xs:double')  when ?xs_duration(D) -> D;
 
-static_operator_type('subtract', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
-static_operator_type('subtract', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
-static_operator_type('subtract', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
-static_operator_type('subtract', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
-static_operator_type('subtract', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
-static_operator_type('subtract', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
-static_operator_type('subtract', 'xs:decimal', 'xs:float')   -> 'xs:float';
-static_operator_type('subtract', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:decimal') -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:float')   -> 'xs:float';
-static_operator_type('subtract', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:decimal') -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:float')   -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  'xs:double')  -> 'xs:double';
+static_operator_type('-', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('-', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('-', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('-', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('-', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('-', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
+static_operator_type('-', 'xs:decimal', 'xs:float')   -> 'xs:float';
+static_operator_type('-', 'xs:decimal', 'xs:double')  -> 'xs:double';
+static_operator_type('-', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
+static_operator_type('-', 'xs:float',   'xs:decimal') -> 'xs:float';
+static_operator_type('-', 'xs:float',   'xs:float')   -> 'xs:float';
+static_operator_type('-', 'xs:float',   'xs:double')  -> 'xs:double';
+static_operator_type('-', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
+static_operator_type('-', 'xs:double',  'xs:decimal') -> 'xs:double';
+static_operator_type('-', 'xs:double',  'xs:float')   -> 'xs:double';
+static_operator_type('-', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('subtract', 'xs:date', 'xs:date') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
-static_operator_type('subtract', 'xs:dateTime', 'xs:dateTime') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
-static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration';
-static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
-static_operator_type('subtract', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
-static_operator_type('subtract', 'xs:time', 'xs:duration') -> 'xs:time';
-static_operator_type('subtract', 'xs:time', 'xs:time') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:yearMonthDuration', 'xs:duration') -> 'xs:duration';
-static_operator_type('subtract', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
+static_operator_type('-', 'xs:date', 'xs:date') -> 'xs:dayTimeDuration';
+static_operator_type('-', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
+static_operator_type('-', 'xs:dateTime', 'xs:dateTime') -> 'xs:dayTimeDuration';
+static_operator_type('-', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
+static_operator_type('-', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration';
+static_operator_type('-', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
+static_operator_type('-', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
+static_operator_type('-', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
+static_operator_type('-', 'xs:time', 'xs:duration') -> 'xs:time';
+static_operator_type('-', 'xs:time', 'xs:time') -> 'xs:dayTimeDuration';
+static_operator_type('-', 'xs:yearMonthDuration', 'xs:duration') -> 'xs:duration';
+static_operator_type('-', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
 
 static_operator_type(_,'empty-sequence',_) -> 'empty-sequence';
 static_operator_type(_,_,'empty-sequence') -> 'empty-sequence';
@@ -6013,7 +6009,7 @@ param_prefix() -> "__Param__var_".
 flatten_concat({'concat', Expr1, {'concat', _, _} = C}) ->
    [Expr1|flatten_concat(C)];
 flatten_concat({'concat', Expr1, Expr2}) ->
-  [Expr1, Expr2].
+   [Expr1, Expr2].
 
 resolve_kind_type(State, KType) ->
    case KType of

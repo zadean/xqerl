@@ -134,9 +134,10 @@ Left     99  'NCName'.
 Left     101 'PrefixedName'.
 Left     102 'UnprefixedName'.
 
-Nonassoc 2200 ':' ' :' ': '.
 
 Nonassoc  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
+%Left 201 'array' 'attribute' 'comment' 'document-node' 'element' 'empty-sequence' 'function' 'item' 'map' 'namespace-node' 'node' 'processing-instruction' 'schema-attribute' 'schema-element' 'text'.
+Left  202   '{'.
 Left  300   'or'.
 Left  400   'and'.
 Nonassoc  500   'eq' 'ne' 'lt' 'le' 'gt' 'ge' '=' '!=' '<' '<=' '>' '>=' 'is' '<<' '>>'.
@@ -156,9 +157,9 @@ Left  1800  '!'.
 Left  1900  'lone-slash' '/' '//'.
 Left  2000  '[' ']' '?'.
 Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'.
+Nonassoc 2200 ':' ' :' ': '.
 
 %Left 99 'maybeNCName'.
-%Nonassoc 201 'array' 'attribute' 'comment' 'document-node' 'element' 'empty-sequence' 'function' 'item' 'map' 'namespace-node' 'node' 'processing-instruction' 'schema-attribute' 'schema-element' 'text'.
 
 
 %Right 9999 'NCName'.
@@ -719,19 +720,42 @@ end.
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % [83]  
-'OrExprs'                -> 'AndExpr' 'or' 'OrExprs' : {'or', '$1', '$3'}.
+'OrExprs'                -> 'AndExpr' 'or' 'OrExprs' : 
+   #xqLogicalExpr{id = next_id(),
+                  comp = 'or',
+                  lhs = '$1',
+                  rhs = '$3',
+                  anno = line('$2')}.
 'OrExprs'                -> 'AndExpr' : '$1'.
 'OrExpr'                 -> 'OrExprs' : '$1'.
 % [84]  
 'AndExprs'               -> 'ComparisonExpr' : '$1'.
-'AndExprs'               -> 'ComparisonExpr' 'and' 'AndExprs' : {'and', '$1', '$3'}.
+'AndExprs'               -> 'ComparisonExpr' 'and' 'AndExprs' :
+   #xqLogicalExpr{id = next_id(),
+                  comp = 'and',
+                  lhs = '$1',
+                  rhs = '$3',
+                  anno = line('$2')}.
 'AndExpr'                -> 'AndExprs' : '$1'.
 % [85]  
 'ComparisonExpr'         -> 'StringConcatExpr' 'ValueComp'   'StringConcatExpr' : 
-   {'$2', maybe_atomize_path('$1'), maybe_atomize_path('$3')}.
+   #xqComparisonExpr{id = next_id(), 
+                     comp = value_of('$2'), 
+                     lhs = maybe_atomize_path('$1'), 
+                     rhs = maybe_atomize_path('$3'), 
+                     anno = line('$2')}.
 'ComparisonExpr'         -> 'StringConcatExpr' 'GeneralComp' 'StringConcatExpr' : 
-   {'$2', maybe_atomize_path('$1'), maybe_atomize_path('$3')}.
-'ComparisonExpr'         -> 'StringConcatExpr' 'NodeComp'    'StringConcatExpr' : {'$2', '$1', '$3'}.
+   #xqComparisonExpr{id = next_id(), 
+                     comp = value_of('$2'), 
+                     lhs = maybe_atomize_path('$1'), 
+                     rhs = maybe_atomize_path('$3'), 
+                     anno = line('$2')}.
+'ComparisonExpr'         -> 'StringConcatExpr' 'NodeComp'    'StringConcatExpr' :
+   #xqComparisonExpr{id = next_id(), 
+                     comp = value_of('$2'), 
+                     lhs = maybe_atomize_path('$1'), 
+                     rhs = maybe_atomize_path('$3'), 
+                     anno = line('$2')}.
 'ComparisonExpr'         -> 'StringConcatExpr' : '$1'.
 % [86]
 'StringConcatExpr'       -> 'RangeExpr' '||' 'StringConcatExpr' : {'concat', '$1', '$3'}.
@@ -741,14 +765,44 @@ end.
 'RangeExpr'              -> 'AdditiveExpr' 'to' 'AdditiveExpr' : {'range', '$1', '$3'}.
 'RangeExpr'              -> 'AdditiveExpr' : '$1'.
 % [88]   
-'AdditiveExpr'          -> 'AdditiveExpr' '+' 'MultiplicativeExpr' : {'add', '$1', '$3'}.
-'AdditiveExpr'          -> 'AdditiveExpr' '-' 'MultiplicativeExpr' : {'subtract', '$1', '$3'}.
+'AdditiveExpr'          -> 'AdditiveExpr' '+' 'MultiplicativeExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = '+',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
+'AdditiveExpr'          -> 'AdditiveExpr' '-' 'MultiplicativeExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = '-',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
 'AdditiveExpr'          -> 'MultiplicativeExpr' : '$1'.
 % [89]  
-'MultiplicativeExpr'    -> 'MultiplicativeExpr' '*'    'UnionExpr' : {'multiply', '$1', '$3'}.
-'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'div'  'UnionExpr' : {'divide', '$1', '$3'}.
-'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'idiv' 'UnionExpr' : {'integer-divide', '$1', '$3'}.
-'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'mod'  'UnionExpr' : {'modulo', '$1', '$3'}.
+'MultiplicativeExpr'    -> 'MultiplicativeExpr' '*'    'UnionExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = '*',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
+'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'div'  'UnionExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = 'div',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
+'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'idiv' 'UnionExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = 'idiv',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
+'MultiplicativeExpr'    -> 'MultiplicativeExpr' 'mod'  'UnionExpr' : 
+   #xqArithExpr{id = next_id(), 
+                op = 'mod',
+                lhs = '$1',
+                rhs = '$3',
+                anno = line('$2')}.
 'MultiplicativeExpr'    -> 'UnionExpr'  : '$1'.
 % [90]   
 'UnionExprs'             -> 'IntersectExceptExpr' 'union' 'UnionExprs' : 
@@ -827,23 +881,23 @@ end.
 'ValueExpr'              -> 'ExtensionExpr'  : '$1'.
 'ValueExpr'              -> 'SimpleMapExpr'  : '$1'.
 % [99]     GeneralComp    ::=      "=" | "!=" | "<" | "<=" | ">" | ">="   
-'GeneralComp'            -> '='  : value_of('$1').
-'GeneralComp'            -> '!=' : value_of('$1').
-'GeneralComp'            -> '<'  : value_of('$1').
-'GeneralComp'            -> '<=' : value_of('$1').
-'GeneralComp'            -> '>'  : value_of('$1').
-'GeneralComp'            -> '>=' : value_of('$1').
+'GeneralComp'            -> '='  : '$1'.
+'GeneralComp'            -> '!=' : '$1'.
+'GeneralComp'            -> '<'  : '$1'.
+'GeneralComp'            -> '<=' : '$1'.
+'GeneralComp'            -> '>'  : '$1'.
+'GeneralComp'            -> '>=' : '$1'.
 % [100]    ValueComp      ::=      "eq" | "ne" | "lt" | "le" | "gt" | "ge"   
-'ValueComp'              -> 'eq' : value_of('$1'). 
-'ValueComp'              -> 'ne' : value_of('$1').
-'ValueComp'              -> 'lt' : value_of('$1').
-'ValueComp'              -> 'le' : value_of('$1').
-'ValueComp'              -> 'gt' : value_of('$1').
-'ValueComp'              -> 'ge' : value_of('$1').
+'ValueComp'              -> 'eq' : '$1'. 
+'ValueComp'              -> 'ne' : '$1'.
+'ValueComp'              -> 'lt' : '$1'.
+'ValueComp'              -> 'le' : '$1'.
+'ValueComp'              -> 'gt' : '$1'.
+'ValueComp'              -> 'ge' : '$1'.
 % [101]    NodeComp    ::=      "is" | "<<" | ">>"   
-'NodeComp'               -> 'is' : value_of('$1').
-'NodeComp'               -> '<<' : value_of('$1').
-'NodeComp'               -> '>>' : value_of('$1').
+'NodeComp'               -> 'is' : '$1'.
+'NodeComp'               -> '<<' : '$1'.
+'NodeComp'               -> '>>' : '$1'.
 % [102]    ValidateExpr      ::=      "validate" (ValidationMode | ("type" TypeName))? "{" Expr "}"
 'ValidateExpr'           -> 'validate' 'ValidationMode'  '{' 'Expr' '}' : {validate, {'mode', '$2'}, '$4'}.
 'ValidateExpr'           -> 'validate' 'type' 'TypeName' '{' 'Expr' '}' : {validate, {'type', '$3'}, '$5'}. 
@@ -1210,6 +1264,8 @@ end.
 'CompDocConstructor'     -> 'document' 'EnclosedExpr' : 
    #xqDocumentNode{identity = next_id(), content = {content_expr, '$2'}}.
 % [157]    CompElemConstructor     ::=      "element" (EQName | ("{" Expr "}")) EnclosedContentExpr  
+'CompElemConstructor'    -> 'element'    'return'    'EnclosedContentExpr' : 
+   #xqElementNode{identity = next_id(), name = qname(other,to_NCName('$2')), content = '$3'}. 
 'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : 
    #xqElementNode{identity = next_id(), name = qname(other,'$2'), content = '$3'}. 
 'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : 
@@ -1217,6 +1273,8 @@ end.
 % [158]    EnclosedContentExpr     ::=      EnclosedExpr
 'EnclosedContentExpr'    -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [159]    CompAttrConstructor     ::=      "attribute" (EQName | ("{" Expr "}")) EnclosedExpr 
+'CompAttrConstructor'    -> 'attribute'    'return'    'EnclosedExpr' : 
+   #xqAttributeNode{identity = next_id(), name = qname(other,to_NCName('$2')), string_value = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : 
    #xqAttributeNode{identity = next_id(), name = qname(other,'$2'), string_value = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : 
@@ -1476,6 +1534,7 @@ end.
 'NCName' -> 'maybeNCName' : '$1'.
 'NCName' -> 'NaN' : to_NCName('$1').
 'NCName' -> 'after' : to_NCName('$1').
+'NCName' -> 'allowing' : to_NCName('$1').
 'NCName' -> 'ancestor' : to_NCName('$1').
 'NCName' -> 'ancestor-or-self' : to_NCName('$1').
 'NCName' -> 'and' : to_NCName('$1').
@@ -1678,6 +1737,13 @@ qname_to_atom(Q) ->
 xqAtomicValue(Type,Value) ->
    {xqAtomicValue, Type,Value}.
 
+qname(func, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
+   try
+      Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
+      {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,Ns,undefined,Ln}
+   end;
 qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
    try
       Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
@@ -1979,10 +2045,10 @@ sort_grouping(Groups, Id) ->
    Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
    Lets ++ [{group_by, Id, Vars}].
 
-split_where_statement({'and',A,B}) ->
+split_where_statement(#xqLogicalExpr{comp = 'and', lhs = A, rhs = B}) ->
    split_where_statement(A) ++ split_where_statement(B);
 split_where_statement(A) ->
-   [{'where', next_id(),A}].
+   [{'where', next_id(), A}].
 
 check_schema_prefix_namespace(<<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
 check_schema_prefix_namespace(<<"xml">>,_) -> ?err('XQST0070');
@@ -2016,14 +2082,15 @@ name_to_kind_test({Axis, Test}) ->
 name_to_kind_test({Axis, Test, Ln}) ->
    {Axis, Test, Ln}.
 
-maybe_atomize_path({path_expr, Id, Exprs}) ->
-   P1 = case lists:reverse(Exprs) of
-      [#xqAxisStep{} = H|T] ->
-         H1 = {'function-call', {qname,<<"http://www.w3.org/2005/xpath-functions">>,<<"fn">>,<<"data">>},0, []},
-         lists:reverse([H1,H|T]);
-      _ ->
-         Exprs
-   end,
-   {path_expr, Id, P1};
+%% maybe_atomize_path({path_expr, Id, Exprs}) ->
+%%    P1 = case lists:reverse(Exprs) of
+%%       [#xqAxisStep{} = H|T] ->
+%%          H1 = {'function-call', {qname,<<"http://www.w3.org/2005/xpath-functions">>,<<"fn">>,<<"data">>},0, []},
+%%          lists:reverse([H1,H|T]);
+%%       _ ->
+%%          Exprs
+%%    end,
+%%    {path_expr, Id, P1};
+% do this during static evaluation, can cast as double if needed there.
 maybe_atomize_path(Other) -> Other.
 

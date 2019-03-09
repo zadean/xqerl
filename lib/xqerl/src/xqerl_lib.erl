@@ -555,7 +555,7 @@ format_stacktrace(L) ->
     V <- format_stacktrace_(L)].
 
 format_stacktrace_([]) -> [];
-format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) ->
+format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) when is_integer(Ary) ->
    ModB = atom_to_binary(Mod, utf8),
    FunB = atom_to_binary(Fun, utf8),
    AryB = integer_to_binary(Ary),
@@ -629,30 +629,26 @@ lnew() ->
    ok.
 
 lget(Key) ->
-   case erlang:get(Key) of
-      undefined ->
-         [];
-      Val ->
-         Val
-   end.
+   erlang:get(Key).
 
 lget(Tab,Key) ->
    case ets:lookup(Tab, Key) of
       [{_,Val}] ->
          Val;
       _ ->
-         []
+         undefined
    end.
 
+%% put this value in the process dictionary and return Val
 lput(Key,Val) ->
    %?dbg("Putting: ",{Key,Val}),
    %ets:insert(local_data, {Key, Val}),
    _ = erlang:put(Key, Val),
-   ok.
+   Val.
 
 lput(Tab,Key,Val) ->
    ets:insert(Tab, {Key, Val}),
-   ok.
+   Val.
 
 %% creates a new namespace prefix
 next_comp_prefix(Namespaces) ->

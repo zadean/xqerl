@@ -102,8 +102,8 @@ read_inf_tags(Bin,#{meta := #{up_to_date := UpToDate}} = Map) ->
    end.
 
 % counts can be off if the DB is not up-to-date
--spec read_names(Bin::binary()) ->
-   {[name_rec()], Rest::binary()}.
+%% -spec read_names(Bin::binary()) ->
+%%    {[name_rec()], Rest::binary()}.
 read_names(Bin) ->
    {#{keys := Keys, size := Size},Rest1} = read_token_set(Bin),
    F = fun(_,{0,A,B}) ->
@@ -121,7 +121,7 @@ read_names(Bin) ->
 -spec read_namespaces(Bin::binary()) ->
    {#{prefixes => [{non_neg_integer(),binary()}],
       uris     => [{non_neg_integer(),binary()}],
-      index    => [namespace_idx()]},
+      index    => [term()]},
     Rest::binary()}.
 
 read_namespaces(Bin) -> % TODO similar iterator as gb_trees

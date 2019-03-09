@@ -28,6 +28,8 @@
 
 -export([merge/2]).
 
+-export([get_db/1]).
+
 -export([init/1]).
 -export([init/0]).
 -export([destroy/1]).
@@ -223,7 +225,7 @@ init() -> init(self()).
 init(parser) ->
    add_default_static_values(parser);
 init(_) ->
-   Tab = ets:new(?MODULE, [public, {read_concurrency,true}]),
+   Tab = ets:new(?MODULE, [public, {read_concurrency,true}, {write_concurrency,true}]),
    %?dbg("Tab",Tab),
    Now = erlang:timestamp(),
    add_default_static_values(Tab, Now).
@@ -875,3 +877,24 @@ get(Tab,Key) ->
       [] ->
          undefined
    end.
+
+get_db(DbPid) ->
+   DbKey = {'$_db', DbPid},
+   case xqerl_lib:lget(DbKey) of
+      undefined ->
+         #{names     := NamesPid,
+           namespaces:= NmspPid,
+           paths     := PathPid 
+          } = DB1 = xqldb_db:database(DbPid),
+         Names = xqldb_name_table:id_map(NamesPid),
+         Nmsps = xqldb_name_table:id_map(NmspPid),
+         New = DB1#{names     := Names,
+                    namespaces:= Nmsps,
+                    uri       => xqldb_path_table:uri(PathPid)},
+         xqerl_lib:lput(DbKey, New);
+      EDb ->
+         EDb
+   end.
+   
+
+

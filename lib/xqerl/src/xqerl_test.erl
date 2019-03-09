@@ -155,10 +155,7 @@ assert_xml(Result, QueryString0) ->
                                             %value = <<"<x>",QueryString/binary,"</x>">>})
                  of
                  {'EXIT',#xqError{}} ->
-                    Mod = xqerl_code_server:compile("xqerl_main", unicode:characters_to_list(<<"document{ ",QueryString/binary," }">>)),
-                    R = Mod:main(#{}),
-                    ?dbg("fallback to run",R),
-                    R;
+                    xqerl:run(unicode:characters_to_list(<<"document{ ",QueryString/binary," }">>));
                  Other ->
                     Other
               end,
@@ -252,7 +249,7 @@ assert_permutation(Result, PermuteString) ->
          if Rest == [] ->
                true;
             true ->
-               {false, {assert_permutation,Rest,PermuteString}}
+               {false, {assert_permutation,Rest,PermuteString, Result}}
          end
    end.
 %% assert_count           (: fn:count(result) == cnt :)
@@ -342,9 +339,7 @@ normalize_lines(<<>>, Acc) -> Acc.
 
 
 string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
-   NewList = lists:map(fun(I) ->
-                             xqerl_seq3:singleton(I)
-                       end, List),
+   NewList = lists:map(fun xqerl_seq3:singleton/1, List),
    Seq = xqerl_seq3:from_list(NewList),
    xqerl_types:string_value(Seq);
 string_value(Seq) when is_binary(Seq) ->
@@ -882,7 +877,10 @@ handle_environment(List) ->
                                   Other ->
                                      Other
                                end,
+               
+               % collection test cannot be done in parallel
                _ = xqldb_dml:delete_collection(CollectionUri),
+               
                case CList of
                   [{query,Base,Q}] ->
                      Opts = 
@@ -984,15 +982,11 @@ handle_environment(List) ->
    
    % these can be complex queries, so compile/run instead of just exec
    Params1 = lists:foldl(fun({Name,"",Value},Map) ->
-                               Mod = xqerl_code_server:compile("param", Value),
-                               Out = Map#{?LB(Name) => Mod:main(#{})},
-                               code:purge(Mod), code:delete(Mod), code:purge(Mod),
-                               Out;
+                               Val = xqerl:run(Value),
+                               Map#{?LB(Name) => Val};
                           ({Name,As,Value},Map) ->
-                             Mod = xqerl_code_server:compile("param", Value++" cast as "++As),
-                             Out = Map#{?LB(Name) => Mod:main(#{})},
-                             code:purge(Mod), code:delete(Mod), code:purge(Mod),
-                             Out                             
+                             Val = xqerl:run("param", Value++" cast as "++As),
+                             Map#{?LB(Name) => Val}          
                        end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
                                    Ns = maps:get(namespaces, Map, []),

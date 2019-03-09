@@ -84,8 +84,14 @@ is_date_type(_Type) -> false.
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
-atomize(#{nk := Nk} = Node) ->
-   Str = xqldb_mem_nodes:string_value(Node),
+atomize(#{nk := Nk,
+          id := Id} = Node) ->
+   Str = case Id of
+            {_,_} ->
+               xqldb_mem_nodes:string_value(Node);
+            {_,_,_} ->
+               xqldb_nodes:string_value(Node)
+         end,
    if Nk =:= comment;
       Nk =:= namespace;
       Nk =:= 'processing-instruction' ->
@@ -1085,36 +1091,50 @@ instance_of1(#{nk := document} = Node,
       _ ->
          true
    end;
-instance_of1(#{nk := element} = Node, 
+instance_of1(#{nk := element,
+               nn := {Ns, _, Ln}} = _Node, 
              #xqKindTest{kind = element, 
                          name = Qn,
                          type = Ty}) ->
-   Norm = norm_name_type(Qn, Ty),
-   case xqldb_xpath:self_element(Node, {Norm, []}) of
-      [] ->
-         false;
-      _ ->
-         true
+   case norm_name_type(Qn, Ty) of
+      {'_', '_', '_'} -> true;
+      {'_', '_', 'xs:untyped'} -> true;
+      {'_', Ln, '_'} -> true;
+      {'_', Ln, 'xs:untyped'} -> true;
+      {Ns, '_', '_'} -> true;
+      {Ns, '_', 'xs:untyped'} -> true;
+      {Ns, Ln, '_'} -> true;
+      {Ns, Ln, 'xs:untyped'} -> true;
+      %_ when is_map_key(tn, Node) -> 
+      %   maps:get(tn, Node) == Ty;      
+      _ -> false
    end;
-instance_of1(#{nk := attribute} = Node, 
+instance_of1(#{nk := attribute,
+               nn := {Ns, _, Ln}} = Node, 
              #xqKindTest{kind = attribute, 
                          name = Qn,
                          type = Ty}) ->
-   Norm = norm_name_type(Qn, Ty),
-   case xqldb_xpath:self_attribute(Node, {Norm, []}) of
-      [] ->
-         false;
-      _ ->
-         true
+   case norm_name_type(Qn, Ty) of
+      {'_', '_', '_'} -> true;
+      {'_', '_', 'xs:untypedAtomic'} -> true;
+      {'_', Ln, '_'} -> true;
+      {'_', Ln, 'xs:untypedAtomic'} -> true;
+      {Ns, '_', '_'} -> true;
+      {Ns, '_', 'xs:untypedAtomic'} -> true;
+      {Ns, Ln, '_'} -> true;
+      {Ns, Ln, 'xs:untypedAtomic'} -> true;
+      _ when is_map_key(tn, Node) -> 
+         maps:get(tn, Node) == Ty;      
+      _ -> false
    end;
-instance_of1(#{nk := 'processing-instruction'} = Node, 
+instance_of1(#{nk := 'processing-instruction',
+               nn := {_,_,NLn}}, 
              #xqKindTest{kind = 'processing-instruction', 
                          name = #qname{local_name = Ln}}) ->
-   case xqldb_xpath:self_processing_instruction(Node, {{Ln}, []}) of
-      [] ->
-         false;
-      _ ->
-         true
+   case {NLn, Ln} of
+      {Ln,Ln} -> true;
+      {Ln,<<"*">>} -> true;
+      _ -> false
    end;
 instance_of1(#{nk := 'processing-instruction'}, 
              #xqKindTest{kind = 'processing-instruction'}) ->
@@ -1211,7 +1231,7 @@ instance_of1(Seq, Type) ->
       true ->
          Key = {?MODULE,?FUNCTION_NAME,IType,TType},
          case xqerl_lib:lget(Key) of
-            [] ->
+            undefined ->
                BIType = xqerl_btypes:get_type(IType),
                BTType = xqerl_btypes:get_type(TType),
                Resp = xqerl_btypes:can_substitute(BIType, BTType),
@@ -2387,35 +2407,34 @@ is_known_type('empty-sequence')            -> true;
 is_known_type(_)                           -> false.
 
 
-norm_name_type(undefined,undefined) -> {any, any, any};
+norm_name_type(undefined,undefined) -> {'_', '_', '_'};
 norm_name_type(#qname{namespace = 'no-namespace'} = N, T) ->
    norm_name_type(N#qname{namespace = <<>>}, T);
 norm_name_type(Name,#xqSeqType{type = 'xs:anyType'}) -> 
    norm_name_type(Name,undefined);
 norm_name_type(Name,#xqSeqType{type = 'xs:anyAtomicType'}) -> 
    norm_name_type(Name,undefined);
-norm_name_type(undefined,#xqSeqType{type = Atom}) -> {any, any, Atom};
+norm_name_type(undefined,#xqSeqType{type = Atom}) -> {'_', '_', Atom};
 norm_name_type(#qname{namespace = <<"*">>,
-                      local_name = <<"*">>},undefined) -> {any, any, any};
+                      local_name = <<"*">>},undefined) -> {'_', '_', '_'};
 norm_name_type(#qname{namespace = <<"*">>,
                       local_name = <<"*">>},#xqSeqType{type = Atom}) -> 
-   {any, any, Atom};
+   {'_', '_', Atom};
 norm_name_type(#qname{namespace = Ns,
-                      local_name = <<"*">>},undefined) -> {Ns, any, any};
+                      local_name = <<"*">>},undefined) -> {Ns, '_', '_'};
 norm_name_type(#qname{namespace = Ns,
                       local_name = <<"*">>},#xqSeqType{type = Atom}) -> 
-   {Ns, any, Atom};
+   {Ns, '_', Atom};
 norm_name_type(#qname{namespace = <<"*">>,
-                      local_name = Ln},undefined) -> {any, Ln, any};
+                      local_name = Ln},undefined) -> {'_', Ln, '_'};
 norm_name_type(#qname{namespace = <<"*">>,
                       local_name = Ln},#xqSeqType{type = Atom}) -> 
-   {any, Ln, Atom};
+   {'_', Ln, Atom};
 norm_name_type(#qname{namespace = Ns,
-                      local_name = Ln},undefined) -> {Ns, Ln, any};
+                      local_name = Ln},undefined) -> {Ns, Ln, '_'};
 norm_name_type(#qname{namespace = Ns,
                       local_name = Ln},#xqSeqType{type = Atom}) -> 
    {Ns, Ln, Atom}.
-   
 
 has_name(undefined, _) ->
    true;

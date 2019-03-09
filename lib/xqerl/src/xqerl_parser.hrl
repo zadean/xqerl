@@ -148,3 +148,34 @@
    catches :: [any()],
    anno    :: undefined | integer()
 }).
+
+-type(valueComp() :: 'eq' | 'ne' | 'lt' | 'le' | 'gt' | 'gt').
+-type(generalComp() :: '=' | '!=' | '<' | '<=' | '>' | '>=').
+-type(nodeComp() :: 'is' | '<<' | '>>').
+
+-record(xqComparisonExpr, {
+   id   :: integer(),
+   comp :: valueComp() | generalComp() | nodeComp(),
+   lhs  :: term() | [term()],
+   rhs  :: term() | [term()],
+   anno :: undefined | integer()
+}).
+
+-record(xqLogicalExpr, {
+   id   :: integer(),
+   comp :: 'and' | 'or',
+   lhs  :: term() | [term()],
+   rhs  :: term() | [term()],
+   anno :: undefined | integer()
+}).
+
+-type(arithOp() :: '+' | '-' | '*' | 'div' | 'idiv' | 'mod').
+-record(xqArithExpr, {
+   id   :: integer(),
+   op   :: arithOp(),
+   lhs  :: term() | [term()],
+   rhs  :: term() | [term()],
+   anno :: undefined | integer()
+}).
+
+

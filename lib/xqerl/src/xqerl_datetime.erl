@@ -407,7 +407,7 @@ date_dur_fmt(_,_,_) ->
 
 build_string_from_format(F) ->
    case xqerl_lib:lget({build_string_from_format,F}) of
-      [] ->
+      undefined ->
          V1 = build_string_from_format_1(F),
          xqerl_lib:lput({build_string_from_format,F}, V1),
          V1;

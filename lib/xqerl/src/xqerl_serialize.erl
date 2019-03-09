@@ -154,6 +154,11 @@ norm_s4([]) -> [].
 %% 5. For each item in S4, if the item is a document node, copy its children 
 %%    to the new sequence; otherwise, copy the item to the new sequence. 
 %%    The new sequence is S5.
+%% also, if this is a DB node, do deep copy for serialization
+norm_s5([#{id := {_,_,_},
+           nk := _} = H|T]) ->
+   H1 = xqldb_nodes:deep_copy_node(H),
+   norm_s5([H1|T]);
 norm_s5([#{nk := document, ch := []}|T]) ->
    norm_s5(T);
 norm_s5([#{nk := document} = H|T]) ->

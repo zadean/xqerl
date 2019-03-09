@@ -463,7 +463,11 @@ scan_token("validate" ++ T, _A) -> maybe_token("validate", T);
 scan_token("updating" ++ T, _A) -> maybe_token("updating", T); % update facility
 scan_token("unordered" ++ T, _A) -> maybe_token("unordered", T);
 scan_token("union" ++ T, _A) -> maybe_token("union", T);
-scan_token("typeswitch" ++ T, _A) -> maybe_token("typeswitch", T);
+scan_token("typeswitch" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("typeswitch", T);
+      false -> scan_name(Str)
+   end;
 scan_token("type" ++ T, _A) -> maybe_token("type", T);
 scan_token("tumbling" ++ T, _A) -> maybe_token("tumbling", T);
 scan_token("try" ++ T, _A) -> maybe_token("try", T);
@@ -471,8 +475,16 @@ scan_token("treat" ++ T, _A) -> maybe_token("treat", T);
 scan_token("transform" ++ T, _A) -> maybe_token("transform", T); % update facility
 scan_token("to" ++ T, _A) -> maybe_token("to", T);
 scan_token("then" ++ T, _A) -> maybe_token("then", T);
-scan_token("text" ++ T, _A) -> maybe_token("text", T);
-scan_token("switch" ++ T, _A) -> maybe_token("switch", T);
+scan_token("text" ++ T = Str, _A) -> % reserved function names
+   case lookforward_is_paren_or_curly(T) of
+      true -> maybe_token("text", T);
+      false -> scan_name(Str)
+   end;
+scan_token("switch" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("switch", T);
+      false -> scan_name(Str)
+   end;
 scan_token("strip" ++ T, _A) -> maybe_token("strip", T);
 scan_token("strict" ++ T, _A) -> maybe_token("strict", T);
 scan_token("start" ++ T, _A) -> maybe_token("start", T);
@@ -480,16 +492,42 @@ scan_token("stable" ++ T, _A) -> maybe_token("stable", T);
 scan_token("some" ++ T, _A) -> maybe_token("some", T);
 scan_token("sliding" ++ T, _A) -> maybe_token("sliding", T);
 scan_token("skip" ++ T, _A) -> maybe_token("skip", T); % ??
-scan_token("self" ++ T, _A) -> maybe_token("self", T);
-scan_token("schema-element" ++ T, _A) -> maybe_token("schema-element", T);
-scan_token("schema-attribute" ++ T, _A) -> maybe_token("schema-attribute", T);
+scan_token("self" ++ T = Str, _A) -> 
+   case lookforward_is_axis(T) of
+      true -> maybe_token("self", T); % is only keyword in axis
+      false -> scan_name(Str)
+   end;
+scan_token("schema-element" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("schema-element", T);
+      false -> scan_name(Str)
+   end;
+scan_token("schema-attribute" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("schema-attribute", T);
+      false -> scan_name(Str)
+   end;
 scan_token("schema" ++ T, _A) -> maybe_token("schema", T);
 scan_token("satisfies" ++ T, _A) -> maybe_token("satisfies", T);
 scan_token("revalidation" ++ T, _A) -> maybe_token("revalidation", T); % update facility
-scan_token("return" ++ T, _A) -> maybe_token("return", T);
+scan_token("return" ++ T = Str, A) -> 
+   % check if back is constructor and forward a curly
+   case lookback_is_named_constructor(A) andalso 
+          lookforward_is_curly(T) of
+      true -> scan_name(Str);
+      false ->
+         maybe_token("return", T)
+   end;
 scan_token("replace" ++ T, _A) -> maybe_token("replace", T); % update facility
 scan_token("rename" ++ T, _A) -> maybe_token("rename", T); % update facility
-scan_token("processing-instruction" ++ T, _A) -> maybe_token("processing-instruction", T);
+scan_token("processing-instruction" ++ T = Str, A) -> % reserved function names 
+   case (lookforward_is_paren_or_curly(T) andalso not lookback_is_named_constructor(A)) orelse
+          lookforward_is_whitespace_name_curly(T) orelse
+          (lookforward_is_whitespace_name_start(T) andalso lookback_not_iter(A)) 
+   of
+      true -> maybe_token("processing-instruction", T);
+      false -> scan_name(Str)
+   end;
 scan_token("previous" ++ T, _A) -> maybe_token("previous", T);
 scan_token("preserve" ++ T, _A) -> maybe_token("preserve", T);
 scan_token("preceding-sibling" ++ T, _A) -> maybe_token("preceding-sibling", T);
@@ -506,25 +544,47 @@ scan_token("option" ++ T, _A) -> maybe_token("option", T);
 scan_token("only" ++ T, _A) -> maybe_token("only", T);
 scan_token("of" ++ T, _A) -> maybe_token("of", T);
 scan_token("nodes" ++ T, _A) -> maybe_token("nodes", T); % update facility
-scan_token("node" ++ T, _A) -> maybe_token("node", T);
+scan_token("node" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("node", T);
+      false -> scan_name(Str)
+   end;
 scan_token("no-preserve" ++ T, _A) -> maybe_token("no-preserve", T);
 scan_token("no-inherit" ++ T, _A) -> maybe_token("no-inherit", T);
 scan_token("next" ++ T, _A) -> maybe_token("next", T);
 scan_token("ne" ++ T, _A) -> maybe_token("ne", T);
-scan_token("namespace-node" ++ T, _A) -> maybe_token("namespace-node", T);
-scan_token("namespace" ++ T, _A) -> maybe_token("namespace", T);
+scan_token("namespace-node" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("namespace-node", T);
+      false -> scan_name(Str)
+   end;
+scan_token("namespace" ++ T = Str, A) -> 
+   case (lookforward_is_curly(T) andalso not lookback_is_named_constructor(A)) orelse
+      lookforward_is_whitespace_name_start(T) of
+      %lookforward_is_whitespace_name_curly(T) of
+      true -> maybe_token("namespace", T);
+      false -> scan_name(Str)
+   end;
 scan_token("module" ++ T, _A) -> maybe_token("module", T);
 scan_token("modify" ++ T, _A) -> maybe_token("modify", T);
 scan_token("mod" ++ T, _A) -> maybe_token("mod", T);
 scan_token("minus-sign" ++ T, _A) -> maybe_token("minus-sign", T);
-scan_token("map" ++ T, _A) -> maybe_token("map", T);
+scan_token("map" ++ T = Str, _A) ->  % reserved function names
+   case lookforward_is_paren_or_curly(T) of
+      true -> maybe_token("map", T);
+      false -> scan_name(Str)
+   end;
 scan_token("lt" ++ T, _A) -> maybe_token("lt", T);
 scan_token("let" ++ T, _A) -> maybe_token("let", T);
 scan_token("least" ++ T, _A) -> maybe_token("least", T);
 scan_token("le" ++ T, _A) -> maybe_token("le", T);
 scan_token("lax" ++ T, _A) -> maybe_token("lax", T);
 scan_token("last" ++ T, _A) -> maybe_token("last", T); % update facility
-scan_token("item" ++ T, _A) -> maybe_token("item", T);
+scan_token("item" ++ T = Str, A) -> % reserved function names
+   case lookforward_is_paren(T) orelse lookback(A) == 'context' of
+      true -> maybe_token("item", T);
+      false -> scan_name(Str)
+   end;
 scan_token("is" ++ T, _A) -> maybe_token("is", T);
 scan_token("invoke" ++ T, _A) -> maybe_token("invoke", T); % update facility
 scan_token("into" ++ T, _A) -> maybe_token("into", T); % update facility
@@ -542,14 +602,25 @@ scan_token(Str = "import" ++ T, _A) ->
       _ ->
          scan_name(Str)
    end;
-scan_token("if" ++ T, _A) -> maybe_token("if", T);
+scan_token("if" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("if", T);
+      false -> scan_name(Str)
+   end;
 scan_token("idiv" ++ T, _A) -> maybe_token("idiv", T);
 scan_token("gt" ++ T, _A) -> maybe_token("gt", T);
 scan_token("grouping-separator" ++ T, _A) -> maybe_token("grouping-separator", T);
 scan_token("group" ++ T, _A) -> maybe_token("group", T);
 scan_token("greatest" ++ T, _A) -> maybe_token("greatest", T);
 scan_token("ge" ++ T, _A) -> maybe_token("ge", T);
-scan_token("function" ++ T, _A) -> maybe_token("function", T);
+scan_token("function" ++ T = Str, A) -> % reserved function names 
+   case (lookforward_is_paren_or_curly(T) orelse
+           lookforward_is_whitespace_name_start(T)) andalso
+          lookback(A) =/= [] orelse lookforward_is_paren_or_curly(T)
+      of
+      true -> maybe_token("function", T);
+      false -> scan_name(Str)
+   end;
 scan_token("for" ++ T, _A) -> maybe_token("for", T);
 scan_token("following-sibling" ++ T, _A) -> maybe_token("following-sibling", T);
 scan_token("following" ++ T, _A) -> maybe_token("following", T);
@@ -561,11 +632,26 @@ scan_token("every" ++ T, _A) -> maybe_token("every", T);
 scan_token("eq" ++ T, _A) -> maybe_token("eq", T);
 scan_token("end" ++ T, _A) -> maybe_token("end", T);
 scan_token("encoding" ++ T, _A) -> maybe_token("encoding", T);
-scan_token("empty-sequence" ++ T, _A) -> maybe_token("empty-sequence", T);
+scan_token("empty-sequence" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("empty-sequence", T);
+      false -> scan_name(Str)
+   end;
 scan_token("empty" ++ T, _A) -> maybe_token("empty", T);
 scan_token("else" ++ T, _A) -> maybe_token("else", T);
-scan_token("element" ++ T, _A) -> maybe_token("element", T);
-scan_token("document-node" ++ T, _A) -> maybe_token("document-node", T);
+scan_token("element" ++ T = Str, A) -> % reserved function names 
+   case (lookforward_is_paren_or_curly(T) andalso  
+           not lookback_is_named_constructor(A)) orelse
+          lookforward_is_whitespace_name_curly(T) orelse
+          lookback_is_default(A) of
+      true -> maybe_token("element", T);
+      false -> scan_name(Str)
+   end;
+scan_token("document-node" ++ T = Str, _A) -> % reserved function names 
+   case lookforward_is_paren(T) of
+      true -> maybe_token("document-node", T);
+      false -> scan_name(Str)
+   end;
 scan_token("document" ++ T, _A) -> maybe_token("document", T);
 scan_token("div" ++ T, _A) -> maybe_token("div", T);
 scan_token("digit" ++ T, _A) -> maybe_token("digit", T);
@@ -589,7 +675,11 @@ scan_token("copy-namespaces" ++ T, _A) -> maybe_token("copy-namespaces", T);
 scan_token("copy" ++ T, _A) -> maybe_token("copy", T); % update facility
 scan_token("context" ++ T, _A) -> maybe_token("context", T);
 scan_token("construction" ++ T, _A) -> maybe_token("construction", T);
-scan_token("comment" ++ T, _A) -> maybe_token("comment", T);
+scan_token("comment" ++ T = Str, _A) ->  % reserved function names 
+   case lookforward_is_paren_or_curly(T) of
+      true -> maybe_token("comment", T);
+      false -> scan_name(Str)
+   end;
 scan_token("collation" ++ T, _A) -> maybe_token("collation", T);
 scan_token("child" ++ T, _A) -> maybe_token("child", T);
 scan_token("cdata-contents" ++ T, _A) -> maybe_token("cdata-contents", T); % ??
@@ -601,11 +691,21 @@ scan_token("by" ++ T, _A) -> maybe_token("by", T);
 scan_token("boundary-space" ++ T, _A) -> maybe_token("boundary-space", T);
 scan_token("before" ++ T, _A) -> maybe_token("before", T);
 scan_token("base-uri" ++ T, _A) -> maybe_token("base-uri", T);
-scan_token("attribute" ++ T, _A) -> maybe_token("attribute", T);
+scan_token("attribute" ++ T = Str, A) -> % reserved function names 
+   case (lookforward_is_paren_or_curly(T) andalso not lookback_is_named_constructor(A)) orelse
+          (lookforward_is_whitespace_name_curly(T)) orelse
+          lookforward_is_axis(T) of
+      true -> maybe_token("attribute", T);
+      false -> scan_name(Str)
+   end;
 scan_token("at" ++ T, _A) -> maybe_token("at", T);
 scan_token("ascending" ++ T, _A) -> maybe_token("ascending", T);
 scan_token("as" ++ T, _A) -> maybe_token("as", T);
-scan_token("array" ++ T, _A) -> maybe_token("array", T);
+scan_token("array" ++ T = Str, _A) -> % reserved function names
+   case lookforward_is_paren_or_curly(T) of
+      true -> maybe_token("array", T);
+      false -> scan_name(Str)
+   end;
 scan_token("and" ++ T, _A) -> maybe_token("and", T);
 scan_token("ancestor-or-self" ++ T, _A) -> maybe_token("ancestor-or-self", T);
 scan_token("ancestor" ++ T, _A) -> maybe_token("ancestor", T);
@@ -723,8 +823,8 @@ scan_token("/" ++ T, A) ->
                      {{'/', ?L, '/'}, T};
                   'IntegerLiteral' ->
                      xqerl_error:error('XPTY0019'); % path on number
-                  B ->
-                     ?dbg("B",B),
+                  _B ->
+                     %?dbg("B",B),
                      {{'lone-slash', ?L, 'lone-slash'}, T}
                end
          end
@@ -815,6 +915,8 @@ scan_token(T, _A) ->
    scan_name(T).
 
 
+maybe_token(TokenPart, []) ->
+   scan_name(TokenPart); % not ending a query with keyword...
 maybe_token(TokenPart, Rest = [H|_]) ->
    case xmerl_lib:is_namechar(H)
       orelse H == 895
@@ -867,8 +969,16 @@ scan_integer([H|T], Acc) when H == $. ->
 scan_integer(Str = [H|_], Acc) when H == $e;
                                     H == $E ->
    scan_decimal(Str, "0."++Acc);
-scan_integer(T, Acc) ->
-   {{integer, ?L, list_to_integer(lists:reverse(Acc))}, T}.
+scan_integer([H|_] = Str, Acc) ->
+   case xmerl_lib:is_letter(H) 
+      orelse H == 895 
+      orelse H == 383 
+   of
+      true ->
+         ?err('XPST0003');
+      false ->
+         {{integer, ?L, list_to_integer(lists:reverse(Acc))}, Str}
+   end.
 
 scan_decimal([], Acc) ->
    {{decimal, ?L, 
@@ -1152,17 +1262,95 @@ lookback(_) -> [].
 %% lookforward_is_ws(_) ->
 %%    false.
 
-%% lookforward_is_axis(T) ->
-%%    case trim_ws(T) of
-%%       "::" ++ _ -> true;
-%%       _ -> false
-%%    end.
 
 %% lookforward_is_return(T) ->
 %%    case trim_ws(T) of
 %%       "return" ++ _ -> true;
 %%       _ -> false
 %%    end.
+
+lookback_is_default(A) ->
+   case lookback(A) of
+      'default' -> true;
+      _ ->
+         false
+   end.
+
+lookback_is_named_constructor(A) ->
+   case lookback(A) of
+      'attribute' -> true;
+      'element' -> true;
+      'namespace' -> true;
+      'processing-instruction' -> true;
+      _ ->
+         false
+   end.
+
+lookback_not_iter(A) ->
+   case lookback(A) of
+      [] -> false;
+      '/' -> false;
+      'in' -> true;
+      _ ->
+         true
+   end.
+
+lookforward_is_axis(T) ->
+   case trim_ws(T) of
+      "::" ++ _ -> true;
+      _ -> false
+   end.
+
+% check if there is a space followed by a name start char
+% used for node constructors
+lookforward_is_whitespace_name_start([H|T]) when ?whitespace(H) ->
+   case trim_ws(T) of
+      [H1|_] ->
+         is_name_start(H1);
+      _ ->
+         false
+   end;
+lookforward_is_whitespace_name_start("(:" ++ _ = Str) ->
+   case trim_ws(Str) of
+      [H1|_] ->
+         is_name_start(H1);
+      _ ->
+         false
+   end;
+lookforward_is_whitespace_name_start(_) -> false.
+
+
+lookforward_is_whitespace_name_curly([H|T]) when ?whitespace(H) ->
+   try
+      case trim_ws(T) of
+         [H1|_] = Str ->
+            case is_name_start(H1) of
+               true ->
+                  {_, Str1} = scan_name(Str),
+                  lookforward_is_curly(Str1);
+               _ ->
+                  false
+            end;
+         _ ->
+            false
+      end
+   catch
+      _:_ ->
+         false
+   end;
+lookforward_is_whitespace_name_curly(_) -> false.
+
+is_name_start(H1) ->
+   case xmerl_lib:is_letter(H1)
+      orelse H1 == $_
+      orelse H1 == $'
+      orelse H1 == $"
+      orelse H1 == 895 orelse H1 == 383 of
+      true ->
+         true;
+      false ->
+         false
+   end.   
 
 lookforward_is_number([]) -> false;
 lookforward_is_number([H|_]) ->
@@ -1230,18 +1418,24 @@ lookforward_is_number([H|_]) ->
 %%       _ -> false
 %%    end.
 
-%% lookforward_is_paren(T) ->
-%%    case trim_ws(T) of
-%%       "(" ++ _ -> true;
-%%       _ -> false
-%%    end.
+lookforward_is_paren(T) ->
+   case trim_ws(T) of
+      "(" ++ _ -> true;
+      _ -> false
+   end.
 
-%% lookforward_is_paren_or_curly(T) ->
-%%    case trim_ws(T) of
-%%       "(" ++ _ -> true;
-%%       "{" ++ _ -> true;
-%%       _ -> false
-%%    end.
+lookforward_is_curly(T) ->
+   case trim_ws(T) of
+      "{" ++ _ -> true;
+      _ -> false
+   end.
+
+lookforward_is_paren_or_curly(T) ->
+   case trim_ws(T) of
+      "(" ++ _ -> true;
+      "{" ++ _ -> true;
+      _ -> false
+   end.
 
 %% keyword `declare` must not be an NCName 
 is_keyword_declare(Str) ->
@@ -1488,7 +1682,9 @@ normalize_lines([13|T]) ->
    [10|normalize_lines(T)];
 normalize_lines([H|T]) ->
    [H|normalize_lines(T)];
-normalize_lines([]) -> [].
+normalize_lines([]) -> [];
+normalize_lines(BullShit) -> 
+   io:format("! ~p~n", [BullShit]).
 
 % remove all xquery comments, they can be nested
 trim_comment_no_incr(Str) ->

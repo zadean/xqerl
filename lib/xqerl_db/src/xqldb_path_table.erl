@@ -41,6 +41,7 @@
 %% ====================================================================
 -export([start_link/4,
          stop/1,
+         uri/1,
          new_document_id/1,
          insert/2,
          lookup/2,
@@ -73,10 +74,16 @@ stop(Pid) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
 %% Insert new value
+-spec uri(server()) -> binary().
+
+uri(Pid) when is_pid(Pid) ->
+   gen_server:call(Pid, uri).
+
+%% Insert new value
 -spec insert(server(), {Name :: binary(), 
                         Type :: res_type(),
-                        Pos :: non_neg_integer(), 
-                        Size :: non_neg_integer()}) -> ok.
+                        {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+                       }) -> ok.
 
 insert(Pid, {_,_,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
@@ -91,7 +98,7 @@ delete(Pid, {_,_} = Req) when is_pid(Pid) ->
 
 %% Returns [{Pos, Size}] values for the given Name and Type.
 -spec lookup(server(), {Name :: binary(), Type :: res_type() | res_or_link}) -> 
-         [{Pos :: non_neg_integer(), Size :: non_neg_integer()}].
+         [{Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()].
 
 lookup(Pid, {_,_} = Req) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Req}).
@@ -100,7 +107,7 @@ lookup(Pid, {_,_} = Req) when is_pid(Pid) ->
 -spec lookup_record(server(), {NPos :: non_neg_integer(), 
                                Type :: res_type() | res_or_link}) -> 
          [{Name :: binary(), Type :: res_type() | res_or_link, 
-           Pos :: non_neg_integer(), Size :: non_neg_integer()}].
+           {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}].
 
 lookup_record(Pid, PosType) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, PosType}).
@@ -108,8 +115,8 @@ lookup_record(Pid, PosType) when is_pid(Pid) ->
 %% Returns all names in the table.
 -spec all(server()) -> [{Name :: binary(), 
                          Type :: res_type(),
-                         Pos :: non_neg_integer(), 
-                         Size :: non_neg_integer()}].
+                         {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+                        }].
 
 all(Pid) when is_pid(Pid) ->
    gen_server:call(Pid, all).
@@ -141,7 +148,8 @@ new(DBDirectory, TableName) when is_binary(DBDirectory) ->
 new(DBDirectory, TableName) ->
    HeapName = filename:absname_join(DBDirectory, TableName ++ ".heap"),
    % new heap
-   {ok,HeapFile} = dets:open_file(HeapName, [{type, bag}]),
+   {ok,HeapFile} = dets:open_file(HeapName, [{type, set}]),
+   %{ok,HeapFile} = dets:open_file(HeapName, [{type, bag}]),
    #{tab  => HeapFile}.
 
 %% Opens an existing name table in the DBDirectory
@@ -172,6 +180,9 @@ terminate(_Reason,#{tab  := HeapFile}) ->
    ok = dets:close(HeapFile),
    ok.
 
+handle_call(uri, _From, #{uri := Uri} = State) ->
+   {reply, Uri, State, ?CLOSE_TIMEOUT};
+
 handle_call({insert, {Name, Type, DocId}}, 
             _From, #{tab  := HeapFile} = State) ->
    ok = dets:insert(HeapFile, {Name, {Type, DocId}}),
@@ -201,18 +212,18 @@ handle_call({delete, {Name, Type, DocId}}, _From, #{tab  := HeapFile} = State) -
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call({lookup, {Name, res_or_link}}, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{Name,{'$1','$2','$3'}},[{'=:=','$1',res}],[{{'$2','$3'}}]},
-                {{Name,{'$1','$2','$3'}},[{'=:=','$1',link}],[{{'$2','$3'}}]}],
+   MatchSpec = [{{Name,{'$1',{'$2','$3'}}},[{'=:=','$1',res}],[{{'$2','$3'}}]},
+                {{Name,{'$1',{'$2','$3'}}},[{'=:=','$1',link}],[{{'$2','$3'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
-handle_call({lookup, {Pos, Type}}, _From, #{tab  := HeapFile} = State) 
-  when is_integer(Pos) ->
-   MatchSpec = [{{'$1',{Type,'$2','$3'}}, 
-                 [{'>=',Pos,'$2'},{'=<',Pos,{'+','$3','$2'}}],['$_']}],
-   Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
+%% handle_call({lookup, {Pos, Type}}, _From, #{tab  := HeapFile} = State) 
+%%   when is_integer(Pos) ->
+%%    MatchSpec = [{{'$1',{Type,'$2','$3'}}, 
+%%                  [{'>=',Pos,'$2'},{'=<',Pos,{'+','$3','$2'}}],['$_']}],
+%%    Got = dets:select(HeapFile, MatchSpec),
+%%    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
 handle_call({lookup, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{Name,{Type,'$1','$2'}},[],[{{'$1','$2'}}]}],
+   MatchSpec = [{{Name,{Type,'$1'}},[],['$1']}],
    Got = dets:select(HeapFile, MatchSpec),
    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT}.
 

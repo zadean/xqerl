@@ -582,7 +582,7 @@ fold_changes(#xqFlwor{} = FL, G) ->
    
    {B6,F6} = maybe_lift_where_clause(F5a, G),
    {B7,F7} = where_clause_as_predicate(F6, G),
-   {B8,F8} = positional_where_clause_as_predicate(F7, G),
+   {B8,F8} = maybe_split_comparisons_in_where_clause(F7, G),
    B = B0 orelse B0a orelse B1 orelse B2 orelse B2a orelse B3 orelse 
        B4 orelse B5 orelse B5a orelse B6 orelse B7 orelse B8, 
    {B,F8}.
@@ -614,13 +614,17 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
    case Fors of
       [] ->
          {false,FL};
-%      [_] ->
-%         {false,FL};
+%%       [_] -> % single for not split... maybe take this out
+%%          {false,FL};
       _ ->
          F = fun({for,#xqVar{id = Id0,
                              expr = Ex,
                              empty = false} = FV,AType} = V) 
-                  when Id0 < 10000, is_tuple(Ex), element(1, Ex) =/= pragma;
+                  when Id0 < 10000 andalso 
+                         is_tuple(Ex) andalso 
+                         element(1, Ex) =/= pragma andalso 
+                         element(1, Ex) =/= db_path_expr andalso 
+                         element(1, Ex) =/= path_expr;
                        Id0 < 10000, not is_tuple(Ex) ->
                    D = fun(O) ->
                              not relies_on(V, O, G) orelse length(Fors) == 1
@@ -684,9 +688,13 @@ maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G) ->
 do_lift_let({P,Let},All,G) ->
    Seq = lists:reverse(lists:seq(1, P - 1)),
    Pred = fun(Pos) ->
-                {_,Val} = lists:keyfind(Pos, 1, All),
-                (not relies_on(Let, Val, G)) andalso
-                  element(2,vertex_name(Let)) =/= element(2,vertex_name(Val)) 
+                case lists:keyfind(Pos, 1, All) of
+                   {_,{group_by,_,_}} ->
+                      false;
+                   {_,Val} ->
+                      (not relies_on(Let, Val, G)) andalso
+                        element(2,vertex_name(Let)) =/= element(2,vertex_name(Val))
+                end
           end,
    Skip = [lists:keyfind(A, 1, All) || A <- lists:takewhile(Pred, Seq)],
    case get_first_for_window(Skip) of
@@ -949,15 +957,15 @@ merge_for_where([{for,#xqVar{name = FName,
    case relies_on_for_no_pos(Where, For, G) of
       true ->
          % relies on for variable, so replace with 'context-item'
-         ?dbg("Lifting where into for as predicate",WExpr),
+         %?dbg("Lifting where into for as predicate",WExpr),
          FVarRef = #xqVarRef{name = FName},
-         ?dbg("removing where clause",WName),
-         digraph:add_edge(G, WName, FVName),
+         %?dbg("removing where clause",WName),
          case catch replace_var_with_context_item(FVarRef, WExpr) of
-            {error,E} -> % caused by predicates and other axis steps
-               ?dbg("ERROR removing where clause", E),
+            {error, _E} -> % caused by predicates and other axis steps
+               %?dbg("ERROR removing where clause", E),
                [For,Where|merge_for_where(T, G)];
             WExpr2 ->
+               digraph:add_edge(G, WName, FVName),
                ?dbg("removed where clause",{FVarRef,WExpr2}),
                [{for,
                  FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr2)}]}},
@@ -1001,15 +1009,83 @@ replace_var_with_context_item(_, WExpr) ->
    WExpr.
 
 %% STEP 2.8
-%% 'where' clauses using positional variables from 'for' clauses 
-%% become positional-predicates 
+%% Splits comparison operators in a `where` into two `let` expressions, one
+%% for each side. These `let` expressions can then be possibly lifted
+%% so they are only executed once and not for every iteration. 
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
-%% TODO: implement 
--spec positional_where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
+-spec maybe_split_comparisons_in_where_clause(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-positional_where_clause_as_predicate(#xqFlwor{id = _Id, loop = _Clauses, 
-                                 return = _Return} = FL, _G) ->
-   {false,FL}.
+maybe_split_comparisons_in_where_clause(#xqFlwor{id = _Id, loop = Clauses, 
+                                 return = _Return} = FL, G) ->
+   NewClauses = split_where_comparisons(Clauses, G),
+   if Clauses == NewClauses ->
+         {false, FL};
+      true ->
+         {true, FL#xqFlwor{loop = NewClauses}}
+   end.
+%xqComparisonExpr
+split_where_comparisons([{'where', WId,
+                          #xqComparisonExpr{id = CId,
+                                            lhs = Lhs,
+                                            rhs = Rhs} = WExpr} = Where|T], G) ->
+   
+   LNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
+                local_name = <<"~lhs_", (integer_to_binary(CId))/binary>>},
+   RNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
+                local_name = <<"~rhs_", (integer_to_binary(CId))/binary>>},
+   LLetVar = #xqVar{name = LNm,
+                    type = #xqSeqType{},
+                    id = CId + 10000,
+                    expr = Lhs},
+   RLetVar = #xqVar{name = RNm,
+                    type = #xqSeqType{},
+                    id = CId + 20000,
+                    expr = Rhs},
+   WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
+                                   rhs = #xqVarRef{name = RNm}},
+   WExpr2 = WExpr#xqComparisonExpr{lhs = Lhs,
+                                   rhs = #xqVarRef{name = RNm}},
+   WExpr3 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
+                                   rhs = Rhs},
+   LLet = {'let', LLetVar, #xqSeqType{}},
+   RLet = {'let', RLetVar, #xqSeqType{}},
+   Where1 = {'where', WId, WExpr1},
+   Where2 = {'where', WId, WExpr2},
+   Where3 = {'where', WId, WExpr3},
+   LVx = vertex_name(LLet),
+   RVx = vertex_name(RLet),
+   
+   if is_record(Lhs, xqVarRef),
+      is_record(Rhs, xqVarRef) ->
+         [Where|split_where_comparisons(T, G)];
+      is_record(Lhs, xqVarRef) ->
+         digraph:add_vertex(G, RVx),
+         WName = {CId, comp_right},
+         replace_variable_dependancies(G, WName, RVx),
+         digraph:add_edge(G, RVx, WName),
+         [RLet, Where2] ++ split_where_comparisons(T, G);
+      is_record(Rhs, xqVarRef) ->
+         digraph:add_vertex(G, LVx),
+         WName = {CId, comp_left},
+         replace_variable_dependancies(G, WName, LVx),
+         digraph:add_edge(G, LVx, WName),
+         [LLet, Where3] ++ split_where_comparisons(T, G);
+      true ->
+         digraph:add_vertex(G, LVx),
+         digraph:add_vertex(G, RVx),
+         WNameL = {CId, comp_left},
+         WNameR = {CId, comp_right},
+         replace_variable_dependancies(G, WNameL, LVx),
+         replace_variable_dependancies(G, WNameR, RVx),
+         digraph:add_edge(G, LVx, WNameL),
+         digraph:add_edge(G, RVx, WNameR),
+         [LLet, RLet, Where1] ++ split_where_comparisons(T, G)
+   end;
+split_where_comparisons([H|T], G) ->
+   [H|split_where_comparisons(T, G)];
+split_where_comparisons([],_) ->
+   [].
+
 
 %% STEP 3
 %% replace empty FLWOR with its return 
@@ -1198,7 +1274,10 @@ maybe_lift_lets_in_return(FL, _) ->
 combine_wheres([]) -> 
    [];
 combine_wheres([{where, I, A},{where, J, B}|T]) ->
-   NewA = {where, erlang:min(I, J), {'and', A, B}},
+   NewA = {where, erlang:min(I, J), #xqLogicalExpr{comp = 'and',
+                                                   id = I,
+                                                   lhs = A,
+                                                   rhs = B}},
    combine_wheres([NewA|T]);
 combine_wheres([H|T]) ->
    [H|combine_wheres(T)].
@@ -1235,6 +1314,8 @@ vertex_name({T, #xqVar{id = I, name = N},_}) when T == 'for';
    {I,sim_name(N)};
 vertex_name({T, #xqVar{id = I, name = N}}) when T == 'count' ->
    {I,sim_name(N)};
+vertex_name(#xqComparisonExpr{id = Id}) ->
+   {Id, xqComparisonExpr};
 vertex_name({Type,I,_}) when is_atom(Type) ->
    {I,Type}.
   
@@ -1401,18 +1482,33 @@ remove_dependancies(G, Vertex) ->
    %?dbg("Out   ",Out),
    true.
 
-%% replace_variable_dependancies(G, OldVertex, NewVertex) ->
-%%    Ins = digraph:in_neighbours(G, OldVertex),
-%%    Out = digraph:out_neighbours(G, OldVertex),
-%%    [digraph:add_edge(G, I, NewVertex) ||
-%%     I <- Ins],
-%%    [digraph:add_edge(G, NewVertex, O) ||
-%%     O <- Out],
-%%    digraph:del_vertex(G, OldVertex),
-%%    ?dbg("Vertex",OldVertex),
-%%    ?dbg("Ins   ",Ins),
-%%    ?dbg("Out   ",Out),
-%%    true.
+replace_variable_dependancies(G, OldVertex, NewVertex) ->
+   Ins = digraph:in_neighbours(G, OldVertex),
+   Out = digraph:out_neighbours(G, OldVertex),
+   [begin
+       digraph:add_edge(G, I, NewVertex),
+       delete_edges(G, I, OldVertex)
+    end || I <- Ins],
+   [begin
+       digraph:add_edge(G, NewVertex, O),
+       delete_edges(G, OldVertex, O)
+    end || O <- Out],
+%   ?dbg("Vertex",OldVertex),
+%   ?dbg("Ins   ",Ins),
+%   ?dbg("Out   ",Out),
+   
+%   ?dbg("nVertex",NewVertex),
+%   ?dbg("nIns   ",digraph:in_neighbours(G, NewVertex)),
+%   ?dbg("nOut   ",digraph:out_neighbours(G, NewVertex)),
+   true.
+
+delete_edges(G, V1, V2) ->
+   [digraph:del_edge(G, E) ||
+    Ed <- digraph:edges(G, V1),
+    {_,_,V3,_} = E <- [digraph:edge(G, Ed)],
+    V3 == V2].
+
+  
 
 print_digraph(G) -> ok.
 %%   [?dbg("D",E) ||
