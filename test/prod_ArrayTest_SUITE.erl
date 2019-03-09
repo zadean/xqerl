@@ -1,8 +1,11 @@
 -module('prod_ArrayTest_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ArrayTest-028'/1]).
 -export(['ArrayTest-029'/1]).
@@ -31,7 +34,10 @@
 -export(['ArrayTest-052'/1]).
 -export(['ArrayTest-053'/1]).
 -export(['ArrayTest-054'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ArrayTest-028', 
-'ArrayTest-029', 
-'ArrayTest-030', 
-'ArrayTest-031', 
-'ArrayTest-032', 
-'ArrayTest-033', 
-'ArrayTest-034', 
-'ArrayTest-035', 
-'ArrayTest-036', 
-'ArrayTest-037', 
-'ArrayTest-038', 
-'ArrayTest-039', 
-'ArrayTest-040', 
-'ArrayTest-041', 
-'ArrayTest-042', 
-'ArrayTest-043', 
-'ArrayTest-044', 
-'ArrayTest-045', 
-'ArrayTest-046', 
-'ArrayTest-047', 
-'ArrayTest-048', 
-'ArrayTest-049', 
-'ArrayTest-050', 
-'ArrayTest-051', 
-'ArrayTest-052', 
-'ArrayTest-053', 
-'ArrayTest-054'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ArrayTest-028', 
+    'ArrayTest-029', 
+    'ArrayTest-030', 
+    'ArrayTest-031', 
+    'ArrayTest-032', 
+    'ArrayTest-033', 
+    'ArrayTest-034', 
+    'ArrayTest-035', 
+    'ArrayTest-036', 
+    'ArrayTest-037', 
+    'ArrayTest-038', 
+    'ArrayTest-039', 
+    'ArrayTest-040', 
+    'ArrayTest-041', 
+    'ArrayTest-042', 
+    'ArrayTest-043', 
+    'ArrayTest-044', 
+    'ArrayTest-045', 
+    'ArrayTest-046', 
+    'ArrayTest-047', 
+    'ArrayTest-048', 
+    'ArrayTest-049', 
+    'ArrayTest-050']}, 
+   {group_1, [parallel], [
+    'ArrayTest-051', 
+    'ArrayTest-052', 
+    'ArrayTest-053', 
+    'ArrayTest-054']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

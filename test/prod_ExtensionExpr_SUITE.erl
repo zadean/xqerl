@@ -1,8 +1,11 @@
 -module('prod_ExtensionExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['extexpr-1'/1]).
 -export(['extexpr-2'/1]).
@@ -61,7 +64,10 @@
 -export(['pragma-no-namespace-003'/1]).
 -export(['pragma-no-namespace-004'/1]).
 -export(['pragma-no-namespace-005'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -72,64 +78,71 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'extexpr-1', 
-'extexpr-2', 
-'extexpr-3', 
-'extexpr-4', 
-'extexpr-5', 
-'extexpr-6', 
-'extexpr-7', 
-'extexpr-8', 
-'extexpr-9', 
-'extexpr-10', 
-'extexpr-11', 
-'extexpr-12', 
-'extexpr-13', 
-'extexpr-14', 
-'extexpr-15', 
-'extexpr-16', 
-'extexpr-17', 
-'extexpr-18', 
-'extexpr-19', 
-'extexpr-20', 
-'extexpr-21', 
-'extexpr-22', 
-'extexpr-23', 
-'extexpr-24', 
-'extexpr-25', 
-'extexpr-26', 
-'K-ExtensionExpression-1', 
-'K-ExtensionExpression-2', 
-'K-ExtensionExpression-3', 
-'K-ExtensionExpression-4', 
-'K-ExtensionExpression-4a', 
-'K-ExtensionExpression-5', 
-'K-ExtensionExpression-6', 
-'K-ExtensionExpression-7', 
-'K-ExtensionExpression-8', 
-'K2-ExtensionExpression-1', 
-'K2-ExtensionExpression-2', 
-'K2-ExtensionExpression-3', 
-'K2-ExtensionExpression-4', 
-'K2-ExtensionExpression-5', 
-'K2-ExtensionExpression-6', 
-'K2-ExtensionExpression-7', 
-'K2-ExtensionExpression-8', 
-'K2-ExtensionExpression-9', 
-'K2-ExtensionExpression-10', 
-'K2-ExtensionExpression-11', 
-'K2-ExtensionExpression-12', 
-'K2-ExtensionExpression-13', 
-'K2-ExtensionExpression-14', 
-'K2-ExtensionExpression-15', 
-'K2-ExtensionExpression-16', 
-'K2-ExtensionExpression-17', 
-'pragma-no-namespace-001', 
-'pragma-no-namespace-002', 
-'pragma-no-namespace-003', 
-'pragma-no-namespace-004', 
-'pragma-no-namespace-005'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'extexpr-1', 
+    'extexpr-2', 
+    'extexpr-3', 
+    'extexpr-4', 
+    'extexpr-5', 
+    'extexpr-6', 
+    'extexpr-7', 
+    'extexpr-8', 
+    'extexpr-9', 
+    'extexpr-10', 
+    'extexpr-11', 
+    'extexpr-12', 
+    'extexpr-13', 
+    'extexpr-14', 
+    'extexpr-15', 
+    'extexpr-16', 
+    'extexpr-17', 
+    'extexpr-18', 
+    'extexpr-19', 
+    'extexpr-20', 
+    'extexpr-21', 
+    'extexpr-22', 
+    'extexpr-23']}, 
+   {group_1, [parallel], [
+    'extexpr-24', 
+    'extexpr-25', 
+    'extexpr-26', 
+    'K-ExtensionExpression-1', 
+    'K-ExtensionExpression-2', 
+    'K-ExtensionExpression-3', 
+    'K-ExtensionExpression-4', 
+    'K-ExtensionExpression-4a', 
+    'K-ExtensionExpression-5', 
+    'K-ExtensionExpression-6', 
+    'K-ExtensionExpression-7', 
+    'K-ExtensionExpression-8', 
+    'K2-ExtensionExpression-1', 
+    'K2-ExtensionExpression-2', 
+    'K2-ExtensionExpression-3', 
+    'K2-ExtensionExpression-4', 
+    'K2-ExtensionExpression-5', 
+    'K2-ExtensionExpression-6', 
+    'K2-ExtensionExpression-7', 
+    'K2-ExtensionExpression-8', 
+    'K2-ExtensionExpression-9', 
+    'K2-ExtensionExpression-10', 
+    'K2-ExtensionExpression-11', 
+    'K2-ExtensionExpression-12']}, 
+   {group_2, [parallel], [
+    'K2-ExtensionExpression-13', 
+    'K2-ExtensionExpression-14', 
+    'K2-ExtensionExpression-15', 
+    'K2-ExtensionExpression-16', 
+    'K2-ExtensionExpression-17', 
+    'pragma-no-namespace-001', 
+    'pragma-no-namespace-002', 
+    'pragma-no-namespace-003', 
+    'pragma-no-namespace-004', 
+    'pragma-no-namespace-005']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

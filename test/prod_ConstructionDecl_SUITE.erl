@@ -1,8 +1,11 @@
 -module('prod_ConstructionDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['constprolog-1'/1]).
 -export(['constprolog-2'/1]).
@@ -30,7 +33,10 @@
 -export(['K-ConstructionProlog-3'/1]).
 -export(['K-ConstructionProlog-4'/1]).
 -export(['K2-ConstructionProlog-1'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -41,33 +47,38 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'constprolog-1', 
-'constprolog-2', 
-'constprolog-3', 
-'constprolog-4', 
-'constprolog-5', 
-'constprolog-6', 
-'constprolog-7', 
-'constprolog-8', 
-'constprolog-9', 
-'constprolog-10', 
-'constprolog-11', 
-'constprolog-12', 
-'constprolog-13', 
-'constprolog-14', 
-'constprolog-15', 
-'constprolog-16', 
-'constprolog-17', 
-'constprolog-18', 
-'constprolog-19', 
-'constprolog-20', 
-'constprolog-21', 
-'K-ConstructionProlog-1', 
-'K-ConstructionProlog-2', 
-'K-ConstructionProlog-3', 
-'K-ConstructionProlog-4', 
-'K2-ConstructionProlog-1'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'constprolog-1', 
+    'constprolog-2', 
+    'constprolog-3', 
+    'constprolog-4', 
+    'constprolog-5', 
+    'constprolog-6', 
+    'constprolog-7', 
+    'constprolog-8', 
+    'constprolog-9', 
+    'constprolog-10', 
+    'constprolog-11', 
+    'constprolog-12', 
+    'constprolog-13', 
+    'constprolog-14', 
+    'constprolog-15', 
+    'constprolog-16', 
+    'constprolog-17', 
+    'constprolog-18', 
+    'constprolog-19', 
+    'constprolog-20', 
+    'constprolog-21', 
+    'K-ConstructionProlog-1', 
+    'K-ConstructionProlog-2']}, 
+   {group_1, [parallel], [
+    'K-ConstructionProlog-3', 
+    'K-ConstructionProlog-4', 
+    'K2-ConstructionProlog-1']}].
 
 'constprolog-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

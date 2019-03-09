@@ -1,8 +1,11 @@
 -module('map_for_each_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-for-each-001'/1]).
 -export(['map-for-each-002'/1]).
@@ -21,7 +24,10 @@
 -export(['map-for-each-015'/1]).
 -export(['map-for-each-016'/1]).
 -export(['map-for-each-017'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -32,24 +38,27 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-for-each-001', 
-'map-for-each-002', 
-'map-for-each-003', 
-'map-for-each-004', 
-'map-for-each-005', 
-'map-for-each-006', 
-'map-for-each-007', 
-'map-for-each-008', 
-'map-for-each-009', 
-'map-for-each-010', 
-'map-for-each-011', 
-'map-for-each-012', 
-'map-for-each-013', 
-'map-for-each-014', 
-'map-for-each-015', 
-'map-for-each-016', 
-'map-for-each-017'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-for-each-001', 
+    'map-for-each-002', 
+    'map-for-each-003', 
+    'map-for-each-004', 
+    'map-for-each-005', 
+    'map-for-each-006', 
+    'map-for-each-007', 
+    'map-for-each-008', 
+    'map-for-each-009', 
+    'map-for-each-010', 
+    'map-for-each-011', 
+    'map-for-each-012', 
+    'map-for-each-013', 
+    'map-for-each-014', 
+    'map-for-each-015', 
+    'map-for-each-016', 
+    'map-for-each-017']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

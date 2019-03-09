@@ -1,8 +1,11 @@
 -module('fn_unparsed_text_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-unparsed-text-001'/1]).
 -export(['fn-unparsed-text-002'/1]).
@@ -58,7 +61,10 @@
 -export(['fn-unparsed-text-052'/1]).
 -export(['fn-unparsed-text-053'/1]).
 -export(['fn-unparsed-text-054'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-unparsed-text-001', 
-'fn-unparsed-text-002', 
-'fn-unparsed-text-003', 
-'fn-unparsed-text-004', 
-'fn-unparsed-text-005', 
-'fn-unparsed-text-006', 
-'fn-unparsed-text-007', 
-'fn-unparsed-text-008', 
-'fn-unparsed-text-009', 
-'fn-unparsed-text-010', 
-'fn-unparsed-text-011', 
-'fn-unparsed-text-012', 
-'fn-unparsed-text-013', 
-'fn-unparsed-text-014', 
-'fn-unparsed-text-015', 
-'fn-unparsed-text-016', 
-'fn-unparsed-text-017', 
-'fn-unparsed-text-018', 
-'fn-unparsed-text-019', 
-'fn-unparsed-text-020', 
-'fn-unparsed-text-021', 
-'fn-unparsed-text-022', 
-'fn-unparsed-text-023', 
-'fn-unparsed-text-024', 
-'fn-unparsed-text-025', 
-'fn-unparsed-text-026', 
-'fn-unparsed-text-027', 
-'fn-unparsed-text-028', 
-'fn-unparsed-text-029', 
-'fn-unparsed-text-030', 
-'fn-unparsed-text-031', 
-'fn-unparsed-text-032', 
-'fn-unparsed-text-033', 
-'fn-unparsed-text-034', 
-'fn-unparsed-text-035', 
-'fn-unparsed-text-036', 
-'fn-unparsed-text-037', 
-'fn-unparsed-text-038', 
-'fn-unparsed-text-039', 
-'fn-unparsed-text-040', 
-'fn-unparsed-text-041', 
-'fn-unparsed-text-042', 
-'fn-unparsed-text-043', 
-'fn-unparsed-text-044', 
-'fn-unparsed-text-045', 
-'fn-unparsed-text-046', 
-'fn-unparsed-text-047', 
-'fn-unparsed-text-048', 
-'fn-unparsed-text-049', 
-'fn-unparsed-text-050', 
-'fn-unparsed-text-051', 
-'fn-unparsed-text-052', 
-'fn-unparsed-text-053', 
-'fn-unparsed-text-054'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-unparsed-text-001', 
+    'fn-unparsed-text-002', 
+    'fn-unparsed-text-003', 
+    'fn-unparsed-text-004', 
+    'fn-unparsed-text-005', 
+    'fn-unparsed-text-006', 
+    'fn-unparsed-text-007', 
+    'fn-unparsed-text-008', 
+    'fn-unparsed-text-009', 
+    'fn-unparsed-text-010', 
+    'fn-unparsed-text-011', 
+    'fn-unparsed-text-012', 
+    'fn-unparsed-text-013', 
+    'fn-unparsed-text-014', 
+    'fn-unparsed-text-015', 
+    'fn-unparsed-text-016', 
+    'fn-unparsed-text-017', 
+    'fn-unparsed-text-018', 
+    'fn-unparsed-text-019', 
+    'fn-unparsed-text-020', 
+    'fn-unparsed-text-021', 
+    'fn-unparsed-text-022', 
+    'fn-unparsed-text-023']}, 
+   {group_1, [parallel], [
+    'fn-unparsed-text-024', 
+    'fn-unparsed-text-025', 
+    'fn-unparsed-text-026', 
+    'fn-unparsed-text-027', 
+    'fn-unparsed-text-028', 
+    'fn-unparsed-text-029', 
+    'fn-unparsed-text-030', 
+    'fn-unparsed-text-031', 
+    'fn-unparsed-text-032', 
+    'fn-unparsed-text-033', 
+    'fn-unparsed-text-034', 
+    'fn-unparsed-text-035', 
+    'fn-unparsed-text-036', 
+    'fn-unparsed-text-037', 
+    'fn-unparsed-text-038', 
+    'fn-unparsed-text-039', 
+    'fn-unparsed-text-040', 
+    'fn-unparsed-text-041', 
+    'fn-unparsed-text-042', 
+    'fn-unparsed-text-043', 
+    'fn-unparsed-text-044', 
+    'fn-unparsed-text-045', 
+    'fn-unparsed-text-046', 
+    'fn-unparsed-text-047']}, 
+   {group_2, [parallel], [
+    'fn-unparsed-text-048', 
+    'fn-unparsed-text-049', 
+    'fn-unparsed-text-050', 
+    'fn-unparsed-text-051', 
+    'fn-unparsed-text-052', 
+    'fn-unparsed-text-053', 
+    'fn-unparsed-text-054']}].
 environment('unparsed-text',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

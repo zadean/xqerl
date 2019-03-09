@@ -1,8 +1,11 @@
 -module('fn_name_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-name-1'/1]).
 -export(['fn-name-2'/1]).
@@ -38,7 +41,10 @@
 -export(['K-NameFunc-1'/1]).
 -export(['K-NameFunc-2'/1]).
 -export(['K-NameFunc-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-name-1', 
-'fn-name-2', 
-'fn-name-3', 
-'fn-name-4', 
-'fn-name-5', 
-'fn-name-6', 
-'fn-name-7', 
-'fn-name-8', 
-'fn-name-9', 
-'fn-name-10', 
-'fn-name-11', 
-'fn-name-12', 
-'fn-name-13', 
-'fn-name-14', 
-'fn-name-15', 
-'fn-name-16', 
-'fn-name-17', 
-'fn-name-18', 
-'fn-name-19', 
-'fn-name-20', 
-'fn-name-21', 
-'fn-name-22', 
-'fn-name-23', 
-'fn-name-24', 
-'fn-name-25', 
-'fn-name-26', 
-'fn-name-27', 
-'fn-name-28', 
-'fn-name-29', 
-'fn-name-30', 
-'fn-name-31', 
-'K-NameFunc-1', 
-'K-NameFunc-2', 
-'K-NameFunc-3'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-name-1', 
+    'fn-name-2', 
+    'fn-name-3', 
+    'fn-name-4', 
+    'fn-name-5', 
+    'fn-name-6', 
+    'fn-name-7', 
+    'fn-name-8', 
+    'fn-name-9', 
+    'fn-name-10', 
+    'fn-name-11', 
+    'fn-name-12', 
+    'fn-name-13', 
+    'fn-name-14', 
+    'fn-name-15', 
+    'fn-name-16', 
+    'fn-name-17', 
+    'fn-name-18', 
+    'fn-name-19', 
+    'fn-name-20', 
+    'fn-name-21', 
+    'fn-name-22', 
+    'fn-name-23']}, 
+   {group_1, [parallel], [
+    'fn-name-24', 
+    'fn-name-25', 
+    'fn-name-26', 
+    'fn-name-27', 
+    'fn-name-28', 
+    'fn-name-29', 
+    'fn-name-30', 
+    'fn-name-31', 
+    'K-NameFunc-1', 
+    'K-NameFunc-2', 
+    'K-NameFunc-3']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

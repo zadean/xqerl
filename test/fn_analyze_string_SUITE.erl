@@ -1,8 +1,11 @@
 -module('fn_analyze_string_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['analyzeString-001'/1]).
 -export(['analyzeString-002'/1]).
@@ -38,7 +41,10 @@
 -export(['analyzeString-901'/1]).
 -export(['analyzeString-902'/1]).
 -export(['analyzeString-903'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'analyzeString-001', 
-'analyzeString-002', 
-'analyzeString-002a', 
-'analyzeString-003', 
-'analyzeString-004', 
-'analyzeString-005', 
-'analyzeString-006', 
-'analyzeString-007', 
-'analyzeString-008', 
-'analyzeString-009', 
-'analyzeString-010', 
-'analyzeString-011', 
-'analyzeString-012', 
-'analyzeString-013', 
-'analyzeString-014', 
-'analyzeString-015', 
-'analyzeString-016', 
-'analyzeString-017', 
-'analyzeString-017a', 
-'analyzeString-018', 
-'analyzeString-019', 
-'analyzeString-020', 
-'analyzeString-021', 
-'analyzeString-022', 
-'analyzeString-023', 
-'analyzeString-024', 
-'analyzeString-025', 
-'analyzeString-026', 
-'analyzeString-027', 
-'analyzeString-028', 
-'analyzeString-029', 
-'analyzeString-901', 
-'analyzeString-902', 
-'analyzeString-903'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'analyzeString-001', 
+    'analyzeString-002', 
+    'analyzeString-002a', 
+    'analyzeString-003', 
+    'analyzeString-004', 
+    'analyzeString-005', 
+    'analyzeString-006', 
+    'analyzeString-007', 
+    'analyzeString-008', 
+    'analyzeString-009', 
+    'analyzeString-010', 
+    'analyzeString-011', 
+    'analyzeString-012', 
+    'analyzeString-013', 
+    'analyzeString-014', 
+    'analyzeString-015', 
+    'analyzeString-016', 
+    'analyzeString-017', 
+    'analyzeString-017a', 
+    'analyzeString-018', 
+    'analyzeString-019', 
+    'analyzeString-020', 
+    'analyzeString-021']}, 
+   {group_1, [parallel], [
+    'analyzeString-022', 
+    'analyzeString-023', 
+    'analyzeString-024', 
+    'analyzeString-025', 
+    'analyzeString-026', 
+    'analyzeString-027', 
+    'analyzeString-028', 
+    'analyzeString-029', 
+    'analyzeString-901', 
+    'analyzeString-902', 
+    'analyzeString-903']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

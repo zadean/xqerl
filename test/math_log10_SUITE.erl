@@ -1,8 +1,11 @@
 -module('math_log10_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['math-log10-001'/1]).
 -export(['math-log10-002'/1]).
@@ -13,7 +16,10 @@
 -export(['math-log10-007'/1]).
 -export(['math-log10-008'/1]).
 -export(['math-log10-009'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -24,16 +30,19 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "math"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'math-log10-001', 
-'math-log10-002', 
-'math-log10-003', 
-'math-log10-004', 
-'math-log10-005', 
-'math-log10-006', 
-'math-log10-007', 
-'math-log10-008', 
-'math-log10-009'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'math-log10-001', 
+    'math-log10-002', 
+    'math-log10-003', 
+    'math-log10-004', 
+    'math-log10-005', 
+    'math-log10-006', 
+    'math-log10-007', 
+    'math-log10-008', 
+    'math-log10-009']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

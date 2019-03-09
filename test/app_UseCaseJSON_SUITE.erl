@@ -1,8 +1,11 @@
 -module('app_UseCaseJSON_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['UseCaseJSON-001'/1]).
 -export(['UseCaseJSON-002'/1]).
@@ -17,7 +20,10 @@
 -export(['UseCaseJSON-011'/1]).
 -export(['UseCaseJSON-012'/1]).
 -export(['UseCaseJSON-014'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -28,20 +34,23 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'UseCaseJSON-001', 
-'UseCaseJSON-002', 
-'UseCaseJSON-003', 
-'UseCaseJSON-004', 
-'UseCaseJSON-005', 
-'UseCaseJSON-006', 
-'UseCaseJSON-007', 
-'UseCaseJSON-008', 
-'UseCaseJSON-009', 
-'UseCaseJSON-010', 
-'UseCaseJSON-011', 
-'UseCaseJSON-012', 
-'UseCaseJSON-014'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'UseCaseJSON-001', 
+    'UseCaseJSON-002', 
+    'UseCaseJSON-003', 
+    'UseCaseJSON-004', 
+    'UseCaseJSON-005', 
+    'UseCaseJSON-006', 
+    'UseCaseJSON-007', 
+    'UseCaseJSON-008', 
+    'UseCaseJSON-009', 
+    'UseCaseJSON-010', 
+    'UseCaseJSON-011', 
+    'UseCaseJSON-012', 
+    'UseCaseJSON-014']}].
 environment('mildred.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

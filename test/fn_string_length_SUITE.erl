@@ -1,8 +1,11 @@
 -module('fn_string_length_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-string-length1args-1'/1]).
 -export(['fn-string-length1args-2'/1]).
@@ -40,7 +43,10 @@
 -export(['K-StringLengthFunc-6'/1]).
 -export(['K-StringLengthFunc-7'/1]).
 -export(['K-StringLengthFunc-8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -51,43 +57,48 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-string-length1args-1', 
-'fn-string-length1args-2', 
-'fn-string-length1args-3', 
-'fn-string-length-1', 
-'fn-string-length-2', 
-'fn-string-length-3', 
-'fn-string-length-4', 
-'fn-string-length-5', 
-'fn-string-length-6', 
-'fn-string-length-7', 
-'fn-string-length-8', 
-'fn-string-length-9', 
-'fn-string-length-10', 
-'fn-string-length-11', 
-'fn-string-length-12', 
-'fn-string-length-13', 
-'fn-string-length-14', 
-'fn-string-length-15', 
-'fn-string-length-16', 
-'fn-string-length-17', 
-'fn-string-length-18', 
-'fn-string-length-19', 
-'fn-string-length-20', 
-'fn-string-length-21', 
-'fn-string-length-22', 
-'fn-string-length-23', 
-'fn-string-length-24', 
-'fn-string-length-25', 
-'K-StringLengthFunc-1', 
-'K-StringLengthFunc-2', 
-'K-StringLengthFunc-3', 
-'K-StringLengthFunc-4', 
-'K-StringLengthFunc-5', 
-'K-StringLengthFunc-6', 
-'K-StringLengthFunc-7', 
-'K-StringLengthFunc-8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-string-length1args-1', 
+    'fn-string-length1args-2', 
+    'fn-string-length1args-3', 
+    'fn-string-length-1', 
+    'fn-string-length-2', 
+    'fn-string-length-3', 
+    'fn-string-length-4', 
+    'fn-string-length-5', 
+    'fn-string-length-6', 
+    'fn-string-length-7', 
+    'fn-string-length-8', 
+    'fn-string-length-9', 
+    'fn-string-length-10', 
+    'fn-string-length-11', 
+    'fn-string-length-12', 
+    'fn-string-length-13', 
+    'fn-string-length-14', 
+    'fn-string-length-15', 
+    'fn-string-length-16', 
+    'fn-string-length-17', 
+    'fn-string-length-18', 
+    'fn-string-length-19', 
+    'fn-string-length-20']}, 
+   {group_1, [parallel], [
+    'fn-string-length-21', 
+    'fn-string-length-22', 
+    'fn-string-length-23', 
+    'fn-string-length-24', 
+    'fn-string-length-25', 
+    'K-StringLengthFunc-1', 
+    'K-StringLengthFunc-2', 
+    'K-StringLengthFunc-3', 
+    'K-StringLengthFunc-4', 
+    'K-StringLengthFunc-5', 
+    'K-StringLengthFunc-6', 
+    'K-StringLengthFunc-7', 
+    'K-StringLengthFunc-8']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

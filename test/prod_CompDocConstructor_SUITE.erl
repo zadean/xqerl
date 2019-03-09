@@ -1,8 +1,11 @@
 -module('prod_CompDocConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Constr-docnode-adjtext-1'/1]).
 -export(['Constr-docnode-adjtext-2'/1]).
@@ -62,7 +65,10 @@
 -export(['K2-ConDocNode-30'/1]).
 -export(['K2-ConDocNode-31'/1]).
 -export(['K2-ConDocNode-32'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Constr-docnode-adjtext-1', 
-'Constr-docnode-adjtext-2', 
-'Constr-docnode-adjtext-3', 
-'Constr-docnode-nested-1', 
-'Constr-docnode-nested-2', 
-'Constr-docnode-nested-3', 
-'Constr-docnode-nested-4', 
-'Constr-docnode-enclexpr-1', 
-'Constr-docnode-enclexpr-2', 
-'Constr-docnode-enclexpr-3', 
-'Constr-docnode-enclexpr-4', 
-'Constr-docnode-nodeid-1', 
-'Constr-docnode-nodeid-3', 
-'Constr-docnode-nodeid-4', 
-'Constr-docnode-nodeid-5', 
-'Constr-docnode-constrmod-1', 
-'Constr-docnode-constrmod-2', 
-'Constr-docnode-constrmod-3', 
-'Constr-docnode-constrmod-4', 
-'Constr-docnode-doc-1', 
-'Constr-docnode-parent-1', 
-'Constr-docnode-string-1', 
-'Constr-docnode-data-1', 
-'Constr-docnode-attr-1', 
-'Constr-docnode-attr-2', 
-'Constr-docnode-attr-3', 
-'K2-ConDocNode-1', 
-'K2-ConDocNode-2', 
-'K2-ConDocNode-3', 
-'K2-ConDocNode-4', 
-'K2-ConDocNode-5', 
-'K2-ConDocNode-6', 
-'K2-ConDocNode-7', 
-'K2-ConDocNode-8', 
-'K2-ConDocNode-9', 
-'K2-ConDocNode-10', 
-'K2-ConDocNode-11', 
-'K2-ConDocNode-12', 
-'K2-ConDocNode-13', 
-'K2-ConDocNode-14', 
-'K2-ConDocNode-15', 
-'K2-ConDocNode-16', 
-'K2-ConDocNode-17', 
-'K2-ConDocNode-18', 
-'K2-ConDocNode-19', 
-'K2-ConDocNode-20', 
-'K2-ConDocNode-21', 
-'K2-ConDocNode-22', 
-'K2-ConDocNode-23', 
-'K2-ConDocNode-24', 
-'K2-ConDocNode-25', 
-'K2-ConDocNode-26', 
-'K2-ConDocNode-27', 
-'K2-ConDocNode-28', 
-'K2-ConDocNode-29', 
-'K2-ConDocNode-30', 
-'K2-ConDocNode-31', 
-'K2-ConDocNode-32'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Constr-docnode-adjtext-1', 
+    'Constr-docnode-adjtext-2', 
+    'Constr-docnode-adjtext-3', 
+    'Constr-docnode-nested-1', 
+    'Constr-docnode-nested-2', 
+    'Constr-docnode-nested-3', 
+    'Constr-docnode-nested-4', 
+    'Constr-docnode-enclexpr-1', 
+    'Constr-docnode-enclexpr-2', 
+    'Constr-docnode-enclexpr-3', 
+    'Constr-docnode-enclexpr-4', 
+    'Constr-docnode-nodeid-1', 
+    'Constr-docnode-nodeid-3', 
+    'Constr-docnode-nodeid-4', 
+    'Constr-docnode-nodeid-5', 
+    'Constr-docnode-constrmod-1', 
+    'Constr-docnode-constrmod-2', 
+    'Constr-docnode-constrmod-3', 
+    'Constr-docnode-constrmod-4', 
+    'Constr-docnode-doc-1', 
+    'Constr-docnode-parent-1', 
+    'Constr-docnode-string-1', 
+    'Constr-docnode-data-1']}, 
+   {group_1, [parallel], [
+    'Constr-docnode-attr-1', 
+    'Constr-docnode-attr-2', 
+    'Constr-docnode-attr-3', 
+    'K2-ConDocNode-1', 
+    'K2-ConDocNode-2', 
+    'K2-ConDocNode-3', 
+    'K2-ConDocNode-4', 
+    'K2-ConDocNode-5', 
+    'K2-ConDocNode-6', 
+    'K2-ConDocNode-7', 
+    'K2-ConDocNode-8', 
+    'K2-ConDocNode-9', 
+    'K2-ConDocNode-10', 
+    'K2-ConDocNode-11', 
+    'K2-ConDocNode-12', 
+    'K2-ConDocNode-13', 
+    'K2-ConDocNode-14', 
+    'K2-ConDocNode-15', 
+    'K2-ConDocNode-16', 
+    'K2-ConDocNode-17', 
+    'K2-ConDocNode-18', 
+    'K2-ConDocNode-19', 
+    'K2-ConDocNode-20', 
+    'K2-ConDocNode-21']}, 
+   {group_2, [parallel], [
+    'K2-ConDocNode-22', 
+    'K2-ConDocNode-23', 
+    'K2-ConDocNode-24', 
+    'K2-ConDocNode-25', 
+    'K2-ConDocNode-26', 
+    'K2-ConDocNode-27', 
+    'K2-ConDocNode-28', 
+    'K2-ConDocNode-29', 
+    'K2-ConDocNode-30', 
+    'K2-ConDocNode-31', 
+    'K2-ConDocNode-32']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 

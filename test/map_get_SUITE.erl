@@ -1,8 +1,11 @@
 -module('map_get_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-get-001'/1]).
 -export(['map-get-002'/1]).
@@ -36,7 +39,10 @@
 -export(['map-get-904'/1]).
 -export(['map-get-905'/1]).
 -export(['map-get-906'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -47,39 +53,44 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-get-001', 
-'map-get-002', 
-'map-get-003', 
-'map-get-004', 
-'map-get-005', 
-'map-get-006', 
-'map-get-007', 
-'map-get-008', 
-'map-get-009', 
-'map-get-010', 
-'map-get-011', 
-'map-get-012', 
-'map-get-013', 
-'map-get-014', 
-'map-get-015', 
-'map-get-016', 
-'map-get-017', 
-'map-get-018', 
-'map-get-019', 
-'map-get-020', 
-'map-get-021', 
-'map-get-022', 
-'map-get-023', 
-'map-get-024', 
-'map-get-025', 
-'map-get-100', 
-'map-get-901', 
-'map-get-902', 
-'map-get-903', 
-'map-get-904', 
-'map-get-905', 
-'map-get-906'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-get-001', 
+    'map-get-002', 
+    'map-get-003', 
+    'map-get-004', 
+    'map-get-005', 
+    'map-get-006', 
+    'map-get-007', 
+    'map-get-008', 
+    'map-get-009', 
+    'map-get-010', 
+    'map-get-011', 
+    'map-get-012', 
+    'map-get-013', 
+    'map-get-014', 
+    'map-get-015', 
+    'map-get-016', 
+    'map-get-017', 
+    'map-get-018', 
+    'map-get-019', 
+    'map-get-020', 
+    'map-get-021', 
+    'map-get-022', 
+    'map-get-023']}, 
+   {group_1, [parallel], [
+    'map-get-024', 
+    'map-get-025', 
+    'map-get-100', 
+    'map-get-901', 
+    'map-get-902', 
+    'map-get-903', 
+    'map-get-904', 
+    'map-get-905', 
+    'map-get-906']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

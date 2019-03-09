@@ -1,8 +1,11 @@
 -module('fn_root_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-root-1'/1]).
 -export(['fn-root-2'/1]).
@@ -40,7 +43,10 @@
 -export(['K2-NodeRootFunc-6'/1]).
 -export(['K2-NodeRootFunc-7'/1]).
 -export(['K2-NodeRootFunc-8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -51,43 +57,48 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-root-1', 
-'fn-root-2', 
-'fn-root-3', 
-'fn-root-4', 
-'fn-root-5', 
-'fn-root-6', 
-'fn-root-7', 
-'fn-root-8', 
-'fn-root-9', 
-'fn-root-10', 
-'fn-root-11', 
-'fn-root-12', 
-'fn-root-13', 
-'fn-root-14', 
-'fn-root-15', 
-'fn-root-16', 
-'fn-root-17', 
-'fn-root-18', 
-'fn-root-19', 
-'fn-root-20', 
-'fn-root-21', 
-'fn-root-22', 
-'fn-root-23', 
-'fn-root-24', 
-'K-NodeRootFunc-1', 
-'K-NodeRootFunc-2', 
-'K-NodeRootFunc-3', 
-'K-NodeRootFunc-4', 
-'K2-NodeRootFunc-1', 
-'K2-NodeRootFunc-2', 
-'K2-NodeRootFunc-3', 
-'K2-NodeRootFunc-4', 
-'K2-NodeRootFunc-5', 
-'K2-NodeRootFunc-6', 
-'K2-NodeRootFunc-7', 
-'K2-NodeRootFunc-8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-root-1', 
+    'fn-root-2', 
+    'fn-root-3', 
+    'fn-root-4', 
+    'fn-root-5', 
+    'fn-root-6', 
+    'fn-root-7', 
+    'fn-root-8', 
+    'fn-root-9', 
+    'fn-root-10', 
+    'fn-root-11', 
+    'fn-root-12', 
+    'fn-root-13', 
+    'fn-root-14', 
+    'fn-root-15', 
+    'fn-root-16', 
+    'fn-root-17', 
+    'fn-root-18', 
+    'fn-root-19', 
+    'fn-root-20', 
+    'fn-root-21', 
+    'fn-root-22', 
+    'fn-root-23']}, 
+   {group_1, [parallel], [
+    'fn-root-24', 
+    'K-NodeRootFunc-1', 
+    'K-NodeRootFunc-2', 
+    'K-NodeRootFunc-3', 
+    'K-NodeRootFunc-4', 
+    'K2-NodeRootFunc-1', 
+    'K2-NodeRootFunc-2', 
+    'K2-NodeRootFunc-3', 
+    'K2-NodeRootFunc-4', 
+    'K2-NodeRootFunc-5', 
+    'K2-NodeRootFunc-6', 
+    'K2-NodeRootFunc-7', 
+    'K2-NodeRootFunc-8']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

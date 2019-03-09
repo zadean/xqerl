@@ -1,8 +1,11 @@
 -module('fn_filter_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['filter-001'/1]).
 -export(['filter-002'/1]).
@@ -37,7 +40,10 @@
 -export(['fn-filter-021'/1]).
 -export(['fn-filter-022'/1]).
 -export(['fn-filter-023'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -48,40 +54,45 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'filter-001', 
-'filter-002', 
-'filter-003', 
-'filter-004', 
-'filter-005', 
-'filter-006', 
-'filter-901', 
-'filter-902', 
-'filter-903', 
-'filter-904', 
-'fn-filter-001', 
-'fn-filter-002', 
-'fn-filter-003', 
-'fn-filter-004', 
-'fn-filter-005', 
-'fn-filter-006', 
-'fn-filter-007', 
-'fn-filter-008', 
-'fn-filter-009', 
-'fn-filter-010', 
-'fn-filter-011', 
-'fn-filter-012', 
-'fn-filter-013', 
-'fn-filter-014', 
-'fn-filter-015', 
-'fn-filter-016', 
-'fn-filter-017', 
-'fn-filter-018', 
-'fn-filter-019', 
-'fn-filter-020', 
-'fn-filter-021', 
-'fn-filter-022', 
-'fn-filter-023'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'filter-001', 
+    'filter-002', 
+    'filter-003', 
+    'filter-004', 
+    'filter-005', 
+    'filter-006', 
+    'filter-901', 
+    'filter-902', 
+    'filter-903', 
+    'filter-904', 
+    'fn-filter-001', 
+    'fn-filter-002', 
+    'fn-filter-003', 
+    'fn-filter-004', 
+    'fn-filter-005', 
+    'fn-filter-006', 
+    'fn-filter-007', 
+    'fn-filter-008', 
+    'fn-filter-009', 
+    'fn-filter-010', 
+    'fn-filter-011', 
+    'fn-filter-012', 
+    'fn-filter-013']}, 
+   {group_1, [parallel], [
+    'fn-filter-014', 
+    'fn-filter-015', 
+    'fn-filter-016', 
+    'fn-filter-017', 
+    'fn-filter-018', 
+    'fn-filter-019', 
+    'fn-filter-020', 
+    'fn-filter-021', 
+    'fn-filter-022', 
+    'fn-filter-023']}].
 
 'filter-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

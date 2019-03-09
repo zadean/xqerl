@@ -1,8 +1,11 @@
 -module('fn_timezone_from_time_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-timezone-from-time-1'/1]).
 -export(['fn-timezone-from-time-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-TimezoneFromTimeFunc-5'/1]).
 -export(['K-TimezoneFromTimeFunc-6'/1]).
 -export(['K-TimezoneFromTimeFunc-7'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-timezone-from-time-1', 
-'fn-timezone-from-time-2', 
-'fn-timezone-from-time-3', 
-'fn-timezone-from-time-4', 
-'fn-timezone-from-time-5', 
-'fn-timezone-from-time-6', 
-'fn-timezone-from-time-7', 
-'fn-timezone-from-time-8', 
-'fn-timezone-from-time-9', 
-'fn-timezone-from-time-10', 
-'fn-timezone-from-time-11', 
-'fn-timezone-from-time-12', 
-'fn-timezone-from-time-13', 
-'fn-timezone-from-time-14', 
-'fn-timezone-from-time-15', 
-'fn-timezone-from-time-16', 
-'fn-timezone-from-time-17', 
-'fn-timezone-from-time-18', 
-'fn-timezone-from-time-19', 
-'fn-timezone-from-time-20', 
-'K-TimezoneFromTimeFunc-1', 
-'K-TimezoneFromTimeFunc-2', 
-'K-TimezoneFromTimeFunc-3', 
-'K-TimezoneFromTimeFunc-4', 
-'K-TimezoneFromTimeFunc-5', 
-'K-TimezoneFromTimeFunc-6', 
-'K-TimezoneFromTimeFunc-7'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-timezone-from-time-1', 
+    'fn-timezone-from-time-2', 
+    'fn-timezone-from-time-3', 
+    'fn-timezone-from-time-4', 
+    'fn-timezone-from-time-5', 
+    'fn-timezone-from-time-6', 
+    'fn-timezone-from-time-7', 
+    'fn-timezone-from-time-8', 
+    'fn-timezone-from-time-9', 
+    'fn-timezone-from-time-10', 
+    'fn-timezone-from-time-11', 
+    'fn-timezone-from-time-12', 
+    'fn-timezone-from-time-13', 
+    'fn-timezone-from-time-14', 
+    'fn-timezone-from-time-15', 
+    'fn-timezone-from-time-16', 
+    'fn-timezone-from-time-17', 
+    'fn-timezone-from-time-18', 
+    'fn-timezone-from-time-19', 
+    'fn-timezone-from-time-20', 
+    'K-TimezoneFromTimeFunc-1', 
+    'K-TimezoneFromTimeFunc-2', 
+    'K-TimezoneFromTimeFunc-3']}, 
+   {group_1, [parallel], [
+    'K-TimezoneFromTimeFunc-4', 
+    'K-TimezoneFromTimeFunc-5', 
+    'K-TimezoneFromTimeFunc-6', 
+    'K-TimezoneFromTimeFunc-7']}].
 
 'fn-timezone-from-time-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

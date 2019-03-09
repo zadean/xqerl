@@ -1,8 +1,11 @@
 -module('prod_SquareArrayConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['SquareArray-001'/1]).
 -export(['SquareArray-003'/1]).
@@ -10,7 +13,10 @@
 -export(['SquareArray-007'/1]).
 -export(['SquareArray-009'/1]).
 -export(['SquareArray-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -21,13 +27,16 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'SquareArray-001', 
-'SquareArray-003', 
-'SquareArray-005', 
-'SquareArray-007', 
-'SquareArray-009', 
-'SquareArray-010'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'SquareArray-001', 
+    'SquareArray-003', 
+    'SquareArray-005', 
+    'SquareArray-007', 
+    'SquareArray-009', 
+    'SquareArray-010']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('array_subarray_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-subarray-301'/1]).
 -export(['array-subarray-302'/1]).
@@ -22,7 +25,10 @@
 -export(['array-subarray-316'/1]).
 -export(['array-subarray-317'/1]).
 -export(['array-subarray-318'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -33,25 +39,28 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-subarray-301', 
-'array-subarray-302', 
-'array-subarray-303', 
-'array-subarray-304', 
-'array-subarray-305', 
-'array-subarray-306', 
-'array-subarray-307', 
-'array-subarray-308', 
-'array-subarray-309', 
-'array-subarray-310', 
-'array-subarray-311', 
-'array-subarray-312', 
-'array-subarray-313', 
-'array-subarray-314', 
-'array-subarray-315', 
-'array-subarray-316', 
-'array-subarray-317', 
-'array-subarray-318'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-subarray-301', 
+    'array-subarray-302', 
+    'array-subarray-303', 
+    'array-subarray-304', 
+    'array-subarray-305', 
+    'array-subarray-306', 
+    'array-subarray-307', 
+    'array-subarray-308', 
+    'array-subarray-309', 
+    'array-subarray-310', 
+    'array-subarray-311', 
+    'array-subarray-312', 
+    'array-subarray-313', 
+    'array-subarray-314', 
+    'array-subarray-315', 
+    'array-subarray-316', 
+    'array-subarray-317', 
+    'array-subarray-318']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('fn_day_from_date_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-day-from-date1args-1'/1]).
 -export(['fn-day-from-date1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-DayFromDateFunc-3'/1]).
 -export(['K-DayFromDateFunc-4'/1]).
 -export(['K-DayFromDateFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-day-from-date1args-1', 
-'fn-day-from-date1args-2', 
-'fn-day-from-date1args-3', 
-'fn-day-from-date-1', 
-'fn-day-from-date-2', 
-'fn-day-from-date-3', 
-'fn-day-from-date-4', 
-'fn-day-from-date-5', 
-'fn-day-from-date-6', 
-'fn-day-from-date-7', 
-'fn-day-from-date-8', 
-'fn-day-from-date-9', 
-'fn-day-from-date-10', 
-'fn-day-from-date-11', 
-'fn-day-from-date-12', 
-'fn-day-from-date-13', 
-'fn-day-from-date-14', 
-'fn-day-from-date-15', 
-'fn-day-from-date-16', 
-'fn-day-from-date-17', 
-'fn-day-from-date-18', 
-'fn-day-from-date-19', 
-'K-DayFromDateFunc-1', 
-'K-DayFromDateFunc-2', 
-'K-DayFromDateFunc-3', 
-'K-DayFromDateFunc-4', 
-'K-DayFromDateFunc-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-day-from-date1args-1', 
+    'fn-day-from-date1args-2', 
+    'fn-day-from-date1args-3', 
+    'fn-day-from-date-1', 
+    'fn-day-from-date-2', 
+    'fn-day-from-date-3', 
+    'fn-day-from-date-4', 
+    'fn-day-from-date-5', 
+    'fn-day-from-date-6', 
+    'fn-day-from-date-7', 
+    'fn-day-from-date-8', 
+    'fn-day-from-date-9', 
+    'fn-day-from-date-10', 
+    'fn-day-from-date-11', 
+    'fn-day-from-date-12', 
+    'fn-day-from-date-13', 
+    'fn-day-from-date-14', 
+    'fn-day-from-date-15', 
+    'fn-day-from-date-16', 
+    'fn-day-from-date-17', 
+    'fn-day-from-date-18', 
+    'fn-day-from-date-19', 
+    'K-DayFromDateFunc-1']}, 
+   {group_1, [parallel], [
+    'K-DayFromDateFunc-2', 
+    'K-DayFromDateFunc-3', 
+    'K-DayFromDateFunc-4', 
+    'K-DayFromDateFunc-5']}].
 
 'fn-day-from-date1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

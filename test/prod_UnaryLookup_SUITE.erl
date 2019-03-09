@@ -1,8 +1,11 @@
 -module('prod_UnaryLookup_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['UnaryLookup-001'/1]).
 -export(['UnaryLookup-002'/1]).
@@ -38,7 +41,10 @@
 -export(['UnaryLookup-046'/1]).
 -export(['UnaryLookup-047'/1]).
 -export(['UnaryLookup-048'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'UnaryLookup-001', 
-'UnaryLookup-002', 
-'UnaryLookup-003', 
-'UnaryLookup-004', 
-'UnaryLookup-005', 
-'UnaryLookup-006', 
-'UnaryLookup-007', 
-'UnaryLookup-008', 
-'UnaryLookup-009', 
-'UnaryLookup-010', 
-'UnaryLookup-011', 
-'UnaryLookup-012', 
-'UnaryLookup-013', 
-'UnaryLookup-014', 
-'UnaryLookup-015', 
-'UnaryLookup-016', 
-'UnaryLookup-017', 
-'UnaryLookup-018', 
-'UnaryLookup-019', 
-'UnaryLookup-020', 
-'UnaryLookup-021', 
-'UnaryLookup-022', 
-'UnaryLookup-023', 
-'UnaryLookup-024', 
-'UnaryLookup-025', 
-'UnaryLookup-040', 
-'UnaryLookup-041', 
-'UnaryLookup-042', 
-'UnaryLookup-043', 
-'UnaryLookup-044', 
-'UnaryLookup-045', 
-'UnaryLookup-046', 
-'UnaryLookup-047', 
-'UnaryLookup-048'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'UnaryLookup-001', 
+    'UnaryLookup-002', 
+    'UnaryLookup-003', 
+    'UnaryLookup-004', 
+    'UnaryLookup-005', 
+    'UnaryLookup-006', 
+    'UnaryLookup-007', 
+    'UnaryLookup-008', 
+    'UnaryLookup-009', 
+    'UnaryLookup-010', 
+    'UnaryLookup-011', 
+    'UnaryLookup-012', 
+    'UnaryLookup-013', 
+    'UnaryLookup-014', 
+    'UnaryLookup-015', 
+    'UnaryLookup-016', 
+    'UnaryLookup-017', 
+    'UnaryLookup-018', 
+    'UnaryLookup-019', 
+    'UnaryLookup-020', 
+    'UnaryLookup-021', 
+    'UnaryLookup-022', 
+    'UnaryLookup-023']}, 
+   {group_1, [parallel], [
+    'UnaryLookup-024', 
+    'UnaryLookup-025', 
+    'UnaryLookup-040', 
+    'UnaryLookup-041', 
+    'UnaryLookup-042', 
+    'UnaryLookup-043', 
+    'UnaryLookup-044', 
+    'UnaryLookup-045', 
+    'UnaryLookup-046', 
+    'UnaryLookup-047', 
+    'UnaryLookup-048']}].
 
 'UnaryLookup-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

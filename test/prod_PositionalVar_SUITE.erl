@@ -1,8 +1,11 @@
 -module('prod_PositionalVar_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K-ForExprPositionalVar-1'/1]).
 -export(['K-ForExprPositionalVar-2'/1]).
@@ -38,7 +41,10 @@
 -export(['K2-ForExprPositionalVar-2'/1]).
 -export(['K2-ForExprPositionalVar-3'/1]).
 -export(['K2-ForExprPositionalVar-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K-ForExprPositionalVar-1', 
-'K-ForExprPositionalVar-2', 
-'K-ForExprPositionalVar-3', 
-'K-ForExprPositionalVar-4', 
-'K-ForExprPositionalVar-5', 
-'K-ForExprPositionalVar-6', 
-'K-ForExprPositionalVar-7', 
-'K-ForExprPositionalVar-8', 
-'K-ForExprPositionalVar-9', 
-'K-ForExprPositionalVar-10', 
-'K-ForExprPositionalVar-11', 
-'K-ForExprPositionalVar-12', 
-'K-ForExprPositionalVar-13', 
-'K-ForExprPositionalVar-14', 
-'K-ForExprPositionalVar-15', 
-'K-ForExprPositionalVar-16', 
-'K-ForExprPositionalVar-17', 
-'K-ForExprPositionalVar-18', 
-'K-ForExprPositionalVar-19', 
-'K-ForExprPositionalVar-20', 
-'K-ForExprPositionalVar-21', 
-'K-ForExprPositionalVar-22', 
-'K-ForExprPositionalVar-23', 
-'K-ForExprPositionalVar-24', 
-'K-ForExprPositionalVar-25', 
-'K-ForExprPositionalVar-26', 
-'K-ForExprPositionalVar-27', 
-'K-ForExprPositionalVar-28', 
-'K-ForExprPositionalVar-29', 
-'K-ForExprPositionalVar-30', 
-'K2-ForExprPositionalVar-1', 
-'K2-ForExprPositionalVar-2', 
-'K2-ForExprPositionalVar-3', 
-'K2-ForExprPositionalVar-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K-ForExprPositionalVar-1', 
+    'K-ForExprPositionalVar-2', 
+    'K-ForExprPositionalVar-3', 
+    'K-ForExprPositionalVar-4', 
+    'K-ForExprPositionalVar-5', 
+    'K-ForExprPositionalVar-6', 
+    'K-ForExprPositionalVar-7', 
+    'K-ForExprPositionalVar-8', 
+    'K-ForExprPositionalVar-9', 
+    'K-ForExprPositionalVar-10', 
+    'K-ForExprPositionalVar-11', 
+    'K-ForExprPositionalVar-12', 
+    'K-ForExprPositionalVar-13', 
+    'K-ForExprPositionalVar-14', 
+    'K-ForExprPositionalVar-15', 
+    'K-ForExprPositionalVar-16', 
+    'K-ForExprPositionalVar-17', 
+    'K-ForExprPositionalVar-18', 
+    'K-ForExprPositionalVar-19', 
+    'K-ForExprPositionalVar-20', 
+    'K-ForExprPositionalVar-21', 
+    'K-ForExprPositionalVar-22', 
+    'K-ForExprPositionalVar-23']}, 
+   {group_1, [parallel], [
+    'K-ForExprPositionalVar-24', 
+    'K-ForExprPositionalVar-25', 
+    'K-ForExprPositionalVar-26', 
+    'K-ForExprPositionalVar-27', 
+    'K-ForExprPositionalVar-28', 
+    'K-ForExprPositionalVar-29', 
+    'K-ForExprPositionalVar-30', 
+    'K2-ForExprPositionalVar-1', 
+    'K2-ForExprPositionalVar-2', 
+    'K2-ForExprPositionalVar-3', 
+    'K2-ForExprPositionalVar-4']}].
 
 'K-ForExprPositionalVar-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

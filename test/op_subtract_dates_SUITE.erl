@@ -1,8 +1,11 @@
 -module('op_subtract_dates_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-subtract-dates-yielding-DTD-1'/1]).
 -export(['op-subtract-dates-yielding-DTD-2'/1]).
@@ -34,7 +37,10 @@
 -export(['cbcl-subtract-dates-002'/1]).
 -export(['cbcl-subtract-dates-003'/1]).
 -export(['cbcl-subtract-dates-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -45,37 +51,42 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-subtract-dates-yielding-DTD-1', 
-'op-subtract-dates-yielding-DTD-2', 
-'op-subtract-dates-yielding-DTD-3', 
-'op-subtract-dates-yielding-DTD-4', 
-'op-subtract-dates-yielding-DTD-5', 
-'op-subtract-dates-yielding-DTD-6', 
-'op-subtract-dates-yielding-DTD-7', 
-'op-subtract-dates-yielding-DTD-8', 
-'op-subtract-dates-yielding-DTD-9', 
-'op-subtract-dates-yielding-DTD-10', 
-'op-subtract-dates-yielding-DTD-11', 
-'op-subtract-dates-yielding-DTD-12', 
-'op-subtract-dates-yielding-DTD-13', 
-'op-subtract-dates-yielding-DTD-14', 
-'op-subtract-dates-yielding-DTD-15', 
-'op-subtract-dates-yielding-DTD-16', 
-'op-subtract-dates-yielding-DTD-17', 
-'op-subtract-dates-yielding-DTD-18', 
-'op-subtract-dates-yielding-DTD-19', 
-'op-subtract-dates-yielding-DTD-20', 
-'K-DatesSubtract-1', 
-'K-DatesSubtract-2', 
-'K-DatesSubtract-3', 
-'K-DatesSubtract-4', 
-'K-DatesSubtract-5', 
-'K-DatesSubtract-6', 
-'cbcl-subtract-dates-001', 
-'cbcl-subtract-dates-002', 
-'cbcl-subtract-dates-003', 
-'cbcl-subtract-dates-004'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-subtract-dates-yielding-DTD-1', 
+    'op-subtract-dates-yielding-DTD-2', 
+    'op-subtract-dates-yielding-DTD-3', 
+    'op-subtract-dates-yielding-DTD-4', 
+    'op-subtract-dates-yielding-DTD-5', 
+    'op-subtract-dates-yielding-DTD-6', 
+    'op-subtract-dates-yielding-DTD-7', 
+    'op-subtract-dates-yielding-DTD-8', 
+    'op-subtract-dates-yielding-DTD-9', 
+    'op-subtract-dates-yielding-DTD-10', 
+    'op-subtract-dates-yielding-DTD-11', 
+    'op-subtract-dates-yielding-DTD-12', 
+    'op-subtract-dates-yielding-DTD-13', 
+    'op-subtract-dates-yielding-DTD-14', 
+    'op-subtract-dates-yielding-DTD-15', 
+    'op-subtract-dates-yielding-DTD-16', 
+    'op-subtract-dates-yielding-DTD-17', 
+    'op-subtract-dates-yielding-DTD-18', 
+    'op-subtract-dates-yielding-DTD-19', 
+    'op-subtract-dates-yielding-DTD-20', 
+    'K-DatesSubtract-1', 
+    'K-DatesSubtract-2', 
+    'K-DatesSubtract-3']}, 
+   {group_1, [parallel], [
+    'K-DatesSubtract-4', 
+    'K-DatesSubtract-5', 
+    'K-DatesSubtract-6', 
+    'cbcl-subtract-dates-001', 
+    'cbcl-subtract-dates-002', 
+    'cbcl-subtract-dates-003', 
+    'cbcl-subtract-dates-004']}].
 
 'op-subtract-dates-yielding-DTD-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

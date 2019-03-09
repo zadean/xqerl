@@ -1,8 +1,11 @@
 -module('prod_BoundarySpaceDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['boundary-space-001'/1]).
 -export(['boundary-space-002'/1]).
@@ -32,7 +35,10 @@
 -export(['K-BoundarySpaceProlog-3'/1]).
 -export(['K-BoundarySpaceProlog-4'/1]).
 -export(['K2-BoundarySpaceProlog-1'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'boundary-space-001', 
-'boundary-space-002', 
-'boundary-space-003', 
-'boundary-space-004', 
-'boundary-space-005', 
-'boundary-space-006', 
-'boundary-space-007', 
-'boundary-space-008', 
-'boundary-space-009', 
-'boundary-space-010', 
-'boundary-space-011', 
-'boundary-space-012', 
-'boundary-space-013', 
-'boundary-space-014', 
-'boundary-space-015', 
-'boundary-space-016', 
-'boundary-space-017', 
-'boundary-space-018', 
-'boundary-space-019', 
-'boundary-space-020', 
-'boundary-space-021', 
-'boundary-space-022', 
-'boundaryspacedeclerr-1', 
-'K-BoundarySpaceProlog-1', 
-'K-BoundarySpaceProlog-2', 
-'K-BoundarySpaceProlog-3', 
-'K-BoundarySpaceProlog-4', 
-'K2-BoundarySpaceProlog-1'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'boundary-space-001', 
+    'boundary-space-002', 
+    'boundary-space-003', 
+    'boundary-space-004', 
+    'boundary-space-005', 
+    'boundary-space-006', 
+    'boundary-space-007', 
+    'boundary-space-008', 
+    'boundary-space-009', 
+    'boundary-space-010', 
+    'boundary-space-011', 
+    'boundary-space-012', 
+    'boundary-space-013', 
+    'boundary-space-014', 
+    'boundary-space-015', 
+    'boundary-space-016', 
+    'boundary-space-017', 
+    'boundary-space-018', 
+    'boundary-space-019', 
+    'boundary-space-020', 
+    'boundary-space-021', 
+    'boundary-space-022', 
+    'boundaryspacedeclerr-1']}, 
+   {group_1, [parallel], [
+    'K-BoundarySpaceProlog-1', 
+    'K-BoundarySpaceProlog-2', 
+    'K-BoundarySpaceProlog-3', 
+    'K-BoundarySpaceProlog-4', 
+    'K2-BoundarySpaceProlog-1']}].
 
 'boundary-space-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

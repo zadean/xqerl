@@ -1,8 +1,11 @@
 -module('op_QName_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-qname-equal-1'/1]).
 -export(['op-qname-equal-2'/1]).
@@ -42,7 +45,10 @@
 -export(['K-QNameEQ-10'/1]).
 -export(['cbcl-QName-equal-001'/1]).
 -export(['cbcl-QName-equal-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -53,45 +59,50 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-qname-equal-1', 
-'op-qname-equal-2', 
-'op-qname-equal-3', 
-'op-qname-equal-4', 
-'op-qname-equal-5', 
-'op-qname-equal-6', 
-'op-qname-equal-7', 
-'op-qname-equal-8', 
-'op-qname-equal-9', 
-'op-qname-equal-10', 
-'op-qname-equal-11', 
-'op-qname-equal-12', 
-'op-qname-equal-13', 
-'op-qname-equal-14', 
-'op-qname-equal-15', 
-'op-qname-equal-16', 
-'op-qname-equal-17', 
-'op-qname-equal-18', 
-'op-qname-equal-19', 
-'op-qname-equal-20', 
-'op-qname-equal-21', 
-'op-qname-equal-22', 
-'op-qname-equal-23', 
-'op-qname-equal-24', 
-'value-comparison-1', 
-'value-comparison-2', 
-'K-QNameEQ-1', 
-'K-QNameEQ-2', 
-'K-QNameEQ-3', 
-'K-QNameEQ-4', 
-'K-QNameEQ-5', 
-'K-QNameEQ-6', 
-'K-QNameEQ-7', 
-'K-QNameEQ-8', 
-'K-QNameEQ-9', 
-'K-QNameEQ-10', 
-'cbcl-QName-equal-001', 
-'cbcl-QName-equal-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-qname-equal-1', 
+    'op-qname-equal-2', 
+    'op-qname-equal-3', 
+    'op-qname-equal-4', 
+    'op-qname-equal-5', 
+    'op-qname-equal-6', 
+    'op-qname-equal-7', 
+    'op-qname-equal-8', 
+    'op-qname-equal-9', 
+    'op-qname-equal-10', 
+    'op-qname-equal-11', 
+    'op-qname-equal-12', 
+    'op-qname-equal-13', 
+    'op-qname-equal-14', 
+    'op-qname-equal-15', 
+    'op-qname-equal-16', 
+    'op-qname-equal-17', 
+    'op-qname-equal-18', 
+    'op-qname-equal-19', 
+    'op-qname-equal-20', 
+    'op-qname-equal-21', 
+    'op-qname-equal-22', 
+    'op-qname-equal-23']}, 
+   {group_1, [parallel], [
+    'op-qname-equal-24', 
+    'value-comparison-1', 
+    'value-comparison-2', 
+    'K-QNameEQ-1', 
+    'K-QNameEQ-2', 
+    'K-QNameEQ-3', 
+    'K-QNameEQ-4', 
+    'K-QNameEQ-5', 
+    'K-QNameEQ-6', 
+    'K-QNameEQ-7', 
+    'K-QNameEQ-8', 
+    'K-QNameEQ-9', 
+    'K-QNameEQ-10', 
+    'cbcl-QName-equal-001', 
+    'cbcl-QName-equal-002']}].
 
 'op-qname-equal-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

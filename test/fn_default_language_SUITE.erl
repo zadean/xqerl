@@ -1,8 +1,11 @@
 -module('fn_default_language_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['default-language-001'/1]).
 -export(['default-language-002'/1]).
@@ -10,7 +13,10 @@
 -export(['default-language-004'/1]).
 -export(['default-language-005'/1]).
 -export(['default-language-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -21,13 +27,16 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'default-language-001', 
-'default-language-002', 
-'default-language-003', 
-'default-language-004', 
-'default-language-005', 
-'default-language-006'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'default-language-001', 
+    'default-language-002', 
+    'default-language-003', 
+    'default-language-004', 
+    'default-language-005', 
+    'default-language-006']}].
 
 'default-language-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

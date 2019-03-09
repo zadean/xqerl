@@ -1,8 +1,11 @@
 -module('fn_doc_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-doc-1'/1]).
 -export(['fn-doc-2'/1]).
@@ -49,7 +52,10 @@
 -export(['K2-SeqDocFunc-11'/1]).
 -export(['K2-SeqDocFunc-12'/1]).
 -export(['K2-SeqDocFunc-13'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -60,52 +66,57 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-doc-1', 
-'fn-doc-2', 
-'fn-doc-3', 
-'fn-doc-4', 
-'fn-doc-5', 
-'fn-doc-6', 
-'fn-doc-7', 
-'fn-doc-15', 
-'fn-doc-16', 
-'fn-doc-17', 
-'fn-doc-18', 
-'fn-doc-19', 
-'fn-doc-20', 
-'fn-doc-21', 
-'fn-doc-22', 
-'fn-doc-24', 
-'fn-doc-25', 
-'fn-doc-26', 
-'fn-doc-27', 
-'fn-doc-28', 
-'fn-doc-29', 
-'fn-doc-30', 
-'fn-doc-31', 
-'K2-SeqDocFunc-14', 
-'fn-doc-32', 
-'fn-doc-33', 
-'fn-doc-34', 
-'fn-doc-35', 
-'fn-doc-36', 
-'fn-doc-37', 
-'fn-doc-38', 
-'fn-doc-39', 
-'K2-SeqDocFunc-1', 
-'K2-SeqDocFunc-2', 
-'K2-SeqDocFunc-3', 
-'K2-SeqDocFunc-4', 
-'K2-SeqDocFunc-5', 
-'K2-SeqDocFunc-6', 
-'K2-SeqDocFunc-7', 
-'K2-SeqDocFunc-8', 
-'K2-SeqDocFunc-9', 
-'K2-SeqDocFunc-10', 
-'K2-SeqDocFunc-11', 
-'K2-SeqDocFunc-12', 
-'K2-SeqDocFunc-13'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-doc-1', 
+    'fn-doc-2', 
+    'fn-doc-3', 
+    'fn-doc-4', 
+    'fn-doc-5', 
+    'fn-doc-6', 
+    'fn-doc-7', 
+    'fn-doc-15', 
+    'fn-doc-16', 
+    'fn-doc-17', 
+    'fn-doc-18', 
+    'fn-doc-19', 
+    'fn-doc-20', 
+    'fn-doc-21', 
+    'fn-doc-22', 
+    'fn-doc-24', 
+    'fn-doc-25', 
+    'fn-doc-26', 
+    'fn-doc-27', 
+    'fn-doc-28', 
+    'fn-doc-29', 
+    'fn-doc-30', 
+    'fn-doc-31']}, 
+   {group_1, [parallel], [
+    'K2-SeqDocFunc-14', 
+    'fn-doc-32', 
+    'fn-doc-33', 
+    'fn-doc-34', 
+    'fn-doc-35', 
+    'fn-doc-36', 
+    'fn-doc-37', 
+    'fn-doc-38', 
+    'fn-doc-39', 
+    'K2-SeqDocFunc-1', 
+    'K2-SeqDocFunc-2', 
+    'K2-SeqDocFunc-3', 
+    'K2-SeqDocFunc-4', 
+    'K2-SeqDocFunc-5', 
+    'K2-SeqDocFunc-6', 
+    'K2-SeqDocFunc-7', 
+    'K2-SeqDocFunc-8', 
+    'K2-SeqDocFunc-9', 
+    'K2-SeqDocFunc-10', 
+    'K2-SeqDocFunc-11', 
+    'K2-SeqDocFunc-12', 
+    'K2-SeqDocFunc-13']}].
 environment('works-mod-uri',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]}, 

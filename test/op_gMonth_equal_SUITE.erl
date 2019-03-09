@@ -1,8 +1,11 @@
 -module('op_gMonth_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-gMonth-equal2args-1'/1]).
 -export(['op-gMonth-equal2args-2'/1]).
@@ -49,7 +52,10 @@
 -export(['cbcl-gMonth-equal-012'/1]).
 -export(['cbcl-gMonth-equal-013'/1]).
 -export(['cbcl-gMonth-equal-014'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -60,52 +66,57 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-gMonth-equal2args-1', 
-'op-gMonth-equal2args-2', 
-'op-gMonth-equal2args-3', 
-'op-gMonth-equal2args-4', 
-'op-gMonth-equal2args-5', 
-'op-gMonth-equal2args-6', 
-'op-gMonth-equal2args-7', 
-'op-gMonth-equal2args-8', 
-'op-gMonth-equal2args-9', 
-'op-gMonth-equal2args-10', 
-'op-gMonth-equal-2', 
-'op-gMonth-equal-3', 
-'op-gMonth-equal-4', 
-'op-gMonth-equal-5', 
-'op-gMonth-equal-6', 
-'op-gMonth-equal-7', 
-'op-gMonth-equal-8', 
-'op-gMonth-equal-9', 
-'op-gMonth-equal-10', 
-'op-gMonth-equal-11', 
-'op-gMonth-equal-12', 
-'op-gMonth-equal-13', 
-'op-gMonth-equal-14', 
-'K-gMonthEQ-1', 
-'K-gMonthEQ-2', 
-'K-gMonthEQ-3', 
-'K-gMonthEQ-4', 
-'K-gMonthEQ-5', 
-'K-gMonthEQ-6', 
-'K-gMonthEQ-7', 
-'K-gMonthEQ-8', 
-'cbcl-gMonth-equal-001', 
-'cbcl-gMonth-equal-002', 
-'cbcl-gMonth-equal-003', 
-'cbcl-gMonth-equal-004', 
-'cbcl-gMonth-equal-005', 
-'cbcl-gMonth-equal-006', 
-'cbcl-gMonth-equal-007', 
-'cbcl-gMonth-equal-008', 
-'cbcl-gMonth-equal-009', 
-'cbcl-gMonth-equal-010', 
-'cbcl-gMonth-equal-011', 
-'cbcl-gMonth-equal-012', 
-'cbcl-gMonth-equal-013', 
-'cbcl-gMonth-equal-014'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-gMonth-equal2args-1', 
+    'op-gMonth-equal2args-2', 
+    'op-gMonth-equal2args-3', 
+    'op-gMonth-equal2args-4', 
+    'op-gMonth-equal2args-5', 
+    'op-gMonth-equal2args-6', 
+    'op-gMonth-equal2args-7', 
+    'op-gMonth-equal2args-8', 
+    'op-gMonth-equal2args-9', 
+    'op-gMonth-equal2args-10', 
+    'op-gMonth-equal-2', 
+    'op-gMonth-equal-3', 
+    'op-gMonth-equal-4', 
+    'op-gMonth-equal-5', 
+    'op-gMonth-equal-6', 
+    'op-gMonth-equal-7', 
+    'op-gMonth-equal-8', 
+    'op-gMonth-equal-9', 
+    'op-gMonth-equal-10', 
+    'op-gMonth-equal-11', 
+    'op-gMonth-equal-12', 
+    'op-gMonth-equal-13', 
+    'op-gMonth-equal-14']}, 
+   {group_1, [parallel], [
+    'K-gMonthEQ-1', 
+    'K-gMonthEQ-2', 
+    'K-gMonthEQ-3', 
+    'K-gMonthEQ-4', 
+    'K-gMonthEQ-5', 
+    'K-gMonthEQ-6', 
+    'K-gMonthEQ-7', 
+    'K-gMonthEQ-8', 
+    'cbcl-gMonth-equal-001', 
+    'cbcl-gMonth-equal-002', 
+    'cbcl-gMonth-equal-003', 
+    'cbcl-gMonth-equal-004', 
+    'cbcl-gMonth-equal-005', 
+    'cbcl-gMonth-equal-006', 
+    'cbcl-gMonth-equal-007', 
+    'cbcl-gMonth-equal-008', 
+    'cbcl-gMonth-equal-009', 
+    'cbcl-gMonth-equal-010', 
+    'cbcl-gMonth-equal-011', 
+    'cbcl-gMonth-equal-012', 
+    'cbcl-gMonth-equal-013', 
+    'cbcl-gMonth-equal-014']}].
 
 'op-gMonth-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

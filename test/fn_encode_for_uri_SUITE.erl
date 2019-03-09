@@ -1,8 +1,11 @@
 -module('fn_encode_for_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-encode-for-uri1args-1'/1]).
 -export(['fn-encode-for-uri1args-2'/1]).
@@ -33,7 +36,10 @@
 -export(['K-EncodeURIfunc-4'/1]).
 -export(['K-EncodeURIfunc-5'/1]).
 -export(['K-EncodeURIfunc-6'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-encode-for-uri1args-1', 
-'fn-encode-for-uri1args-2', 
-'fn-encode-for-uri1args-3', 
-'fn-encode-for-uri1args-4', 
-'fn-encode-for-uri1args-5', 
-'fn-encode-for-uri1args-6', 
-'fn-encode-for-uri1args-7', 
-'fn-encode-for-uri-1', 
-'fn-encode-for-uri-2', 
-'fn-encode-for-uri-3', 
-'fn-encode-for-uri-4', 
-'fn-encode-for-uri-5', 
-'fn-encode-for-uri-6', 
-'fn-encode-for-uri-7', 
-'fn-encode-for-uri-8', 
-'fn-encode-for-uri-9', 
-'fn-encode-for-uri-10', 
-'fn-encode-for-uri-11', 
-'fn-encode-for-uri-12', 
-'fn-encode-for-uri-13', 
-'fn-encode-for-uri-14', 
-'fn-encode-for-uri-15', 
-'fn-encode-for-uri-16', 
-'K-EncodeURIfunc-1', 
-'K-EncodeURIfunc-2', 
-'K-EncodeURIfunc-3', 
-'K-EncodeURIfunc-4', 
-'K-EncodeURIfunc-5', 
-'K-EncodeURIfunc-6'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-encode-for-uri1args-1', 
+    'fn-encode-for-uri1args-2', 
+    'fn-encode-for-uri1args-3', 
+    'fn-encode-for-uri1args-4', 
+    'fn-encode-for-uri1args-5', 
+    'fn-encode-for-uri1args-6', 
+    'fn-encode-for-uri1args-7', 
+    'fn-encode-for-uri-1', 
+    'fn-encode-for-uri-2', 
+    'fn-encode-for-uri-3', 
+    'fn-encode-for-uri-4', 
+    'fn-encode-for-uri-5', 
+    'fn-encode-for-uri-6', 
+    'fn-encode-for-uri-7', 
+    'fn-encode-for-uri-8', 
+    'fn-encode-for-uri-9', 
+    'fn-encode-for-uri-10', 
+    'fn-encode-for-uri-11', 
+    'fn-encode-for-uri-12', 
+    'fn-encode-for-uri-13', 
+    'fn-encode-for-uri-14', 
+    'fn-encode-for-uri-15', 
+    'fn-encode-for-uri-16']}, 
+   {group_1, [parallel], [
+    'K-EncodeURIfunc-1', 
+    'K-EncodeURIfunc-2', 
+    'K-EncodeURIfunc-3', 
+    'K-EncodeURIfunc-4', 
+    'K-EncodeURIfunc-5', 
+    'K-EncodeURIfunc-6']}].
 
 'fn-encode-for-uri1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

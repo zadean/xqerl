@@ -1,8 +1,11 @@
 -module('fn_true_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-true-1'/1]).
 -export(['fn-true-2'/1]).
@@ -29,7 +32,10 @@
 -export(['K-TrueFunc-1'/1]).
 -export(['K-TrueFunc-2'/1]).
 -export(['K-TrueFunc-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-true-1', 
-'fn-true-2', 
-'fn-true-3', 
-'fn-true-4', 
-'fn-true-5', 
-'fn-true-6', 
-'fn-true-7', 
-'fn-true-8', 
-'fn-true-9', 
-'fn-true-10', 
-'fn-true-11', 
-'fn-true-12', 
-'fn-true-13', 
-'fn-true-14', 
-'fn-true-15', 
-'fn-true-16', 
-'fn-true-17', 
-'fn-true-18', 
-'fn-true-19', 
-'fn-true-20', 
-'fn-true-21', 
-'fn-true-22', 
-'K-TrueFunc-1', 
-'K-TrueFunc-2', 
-'K-TrueFunc-3'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-true-1', 
+    'fn-true-2', 
+    'fn-true-3', 
+    'fn-true-4', 
+    'fn-true-5', 
+    'fn-true-6', 
+    'fn-true-7', 
+    'fn-true-8', 
+    'fn-true-9', 
+    'fn-true-10', 
+    'fn-true-11', 
+    'fn-true-12', 
+    'fn-true-13', 
+    'fn-true-14', 
+    'fn-true-15', 
+    'fn-true-16', 
+    'fn-true-17', 
+    'fn-true-18', 
+    'fn-true-19', 
+    'fn-true-20', 
+    'fn-true-21', 
+    'fn-true-22', 
+    'K-TrueFunc-1']}, 
+   {group_1, [parallel], [
+    'K-TrueFunc-2', 
+    'K-TrueFunc-3']}].
 
 'fn-true-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

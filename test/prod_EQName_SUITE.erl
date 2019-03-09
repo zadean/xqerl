@@ -1,8 +1,11 @@
 -module('prod_EQName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['eqname-001'/1]).
 -export(['eqname-002'/1]).
@@ -53,7 +56,10 @@
 -export(['eqname-911'/1]).
 -export(['eqname-912'/1]).
 -export(['eqname-913'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -64,56 +70,63 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'eqname-001', 
-'eqname-002', 
-'eqname-003', 
-'eqname-004', 
-'eqname-005', 
-'eqname-006', 
-'eqname-007', 
-'eqname-008', 
-'eqname-009', 
-'eqname-010', 
-'eqname-011', 
-'eqname-012', 
-'eqname-013', 
-'eqname-014', 
-'eqname-015', 
-'eqname-016', 
-'eqname-017', 
-'eqname-018', 
-'eqname-019', 
-'eqname-020', 
-'eqname-021', 
-'eqname-022', 
-'eqname-023', 
-'eqname-024', 
-'eqname-025', 
-'eqname-026', 
-'eqname-027', 
-'eqname-028', 
-'eqname-029', 
-'eqname-029p', 
-'eqname-030', 
-'eqname-031', 
-'eqname-032', 
-'eqname-033', 
-'eqname-034', 
-'eqname-901', 
-'eqname-902', 
-'eqname-903', 
-'eqname-904', 
-'eqname-905', 
-'eqname-906', 
-'eqname-907', 
-'eqname-908', 
-'eqname-909', 
-'eqname-909p', 
-'eqname-910', 
-'eqname-911', 
-'eqname-912', 
-'eqname-913'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'eqname-001', 
+    'eqname-002', 
+    'eqname-003', 
+    'eqname-004', 
+    'eqname-005', 
+    'eqname-006', 
+    'eqname-007', 
+    'eqname-008', 
+    'eqname-009', 
+    'eqname-010', 
+    'eqname-011', 
+    'eqname-012', 
+    'eqname-013', 
+    'eqname-014', 
+    'eqname-015', 
+    'eqname-016', 
+    'eqname-017', 
+    'eqname-018', 
+    'eqname-019', 
+    'eqname-020', 
+    'eqname-021', 
+    'eqname-022', 
+    'eqname-023']}, 
+   {group_1, [parallel], [
+    'eqname-024', 
+    'eqname-025', 
+    'eqname-026', 
+    'eqname-027', 
+    'eqname-028', 
+    'eqname-029', 
+    'eqname-029p', 
+    'eqname-030', 
+    'eqname-031', 
+    'eqname-032', 
+    'eqname-033', 
+    'eqname-034', 
+    'eqname-901', 
+    'eqname-902', 
+    'eqname-903', 
+    'eqname-904', 
+    'eqname-905', 
+    'eqname-906', 
+    'eqname-907', 
+    'eqname-908', 
+    'eqname-909', 
+    'eqname-909p', 
+    'eqname-910', 
+    'eqname-911']}, 
+   {group_2, [parallel], [
+    'eqname-912', 
+    'eqname-913']}].
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 

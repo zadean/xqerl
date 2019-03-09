@@ -1,8 +1,11 @@
 -module('prod_CompTextConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Constr-text-enclexpr-1'/1]).
 -export(['Constr-text-enclexpr-2'/1]).
@@ -40,7 +43,10 @@
 -export(['K2-ConText-13'/1]).
 -export(['K2-ConText-14'/1]).
 -export(['K2-ConText-15'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -51,43 +57,48 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Constr-text-enclexpr-1', 
-'Constr-text-enclexpr-2', 
-'Constr-text-enclexpr-3', 
-'Constr-text-enclexpr-4', 
-'Constr-text-enclexpr-5', 
-'Constr-text-doc-1', 
-'Constr-text-parent-1', 
-'Constr-text-string-1', 
-'Constr-text-data-1', 
-'Constr-text-count-1', 
-'Constr-text-count-2', 
-'Constr-text-count-3', 
-'Constr-text-count-4', 
-'Constr-text-count-5', 
-'Constr-text-count-6', 
-'Constr-text-adjtext-1', 
-'Constr-text-adjtext-2', 
-'Constr-text-nested-1', 
-'Constr-text-nested-2', 
-'Constr-text-nested-3', 
-'K2-ConText-1', 
-'K2-ConText-2', 
-'K2-ConText-3', 
-'K2-ConText-4', 
-'K2-ConText-5', 
-'K2-ConText-5a', 
-'K2-ConText-6', 
-'K2-ConText-7', 
-'K2-ConText-8', 
-'K2-ConText-9', 
-'K2-ConText-10', 
-'K2-ConText-11', 
-'K2-ConText-12', 
-'K2-ConText-13', 
-'K2-ConText-14', 
-'K2-ConText-15'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Constr-text-enclexpr-1', 
+    'Constr-text-enclexpr-2', 
+    'Constr-text-enclexpr-3', 
+    'Constr-text-enclexpr-4', 
+    'Constr-text-enclexpr-5', 
+    'Constr-text-doc-1', 
+    'Constr-text-parent-1', 
+    'Constr-text-string-1', 
+    'Constr-text-data-1', 
+    'Constr-text-count-1', 
+    'Constr-text-count-2', 
+    'Constr-text-count-3', 
+    'Constr-text-count-4', 
+    'Constr-text-count-5', 
+    'Constr-text-count-6', 
+    'Constr-text-adjtext-1', 
+    'Constr-text-adjtext-2', 
+    'Constr-text-nested-1', 
+    'Constr-text-nested-2', 
+    'Constr-text-nested-3', 
+    'K2-ConText-1', 
+    'K2-ConText-2', 
+    'K2-ConText-3']}, 
+   {group_1, [parallel], [
+    'K2-ConText-4', 
+    'K2-ConText-5', 
+    'K2-ConText-5a', 
+    'K2-ConText-6', 
+    'K2-ConText-7', 
+    'K2-ConText-8', 
+    'K2-ConText-9', 
+    'K2-ConText-10', 
+    'K2-ConText-11', 
+    'K2-ConText-12', 
+    'K2-ConText-13', 
+    'K2-ConText-14', 
+    'K2-ConText-15']}].
 environment('DupNode',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "CompAttrConstructor/DupNode.xml"), ".",[]}]}, 

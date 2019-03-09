@@ -1,8 +1,11 @@
 -module('prod_CompPIConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Constr-comppi-name-1'/1]).
 -export(['Constr-comppi-name-2'/1]).
@@ -61,7 +64,10 @@
 -export(['K2-ComputeConPI-11'/1]).
 -export(['cbcl-constr-comppi-001'/1]).
 -export(['cbcl-constr-comppi-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -72,64 +78,71 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Constr-comppi-name-1', 
-'Constr-comppi-name-2', 
-'Constr-comppi-compname-1', 
-'Constr-comppi-compname-2', 
-'Constr-comppi-compname-3', 
-'Constr-comppi-compname-4', 
-'Constr-comppi-compname-5', 
-'Constr-comppi-compname-6', 
-'Constr-comppi-compname-7', 
-'Constr-comppi-compname-8', 
-'Constr-comppi-compname-9', 
-'Constr-comppi-compname-10', 
-'Constr-comppi-compname-11', 
-'Constr-comppi-compname-12', 
-'Constr-comppi-compname-13', 
-'Constr-comppi-compname-15', 
-'Constr-comppi-compname-16', 
-'Constr-comppi-compname-18', 
-'Constr-comppi-compname-19', 
-'Constr-comppi-compname-20', 
-'Constr-comppi-compname-21', 
-'Constr-comppi-compname-22', 
-'Constr-comppi-doc-1', 
-'Constr-comppi-parent-1', 
-'Constr-comppi-string-1', 
-'Constr-comppi-data-1', 
-'Constr-comppi-enclexpr-1', 
-'Constr-comppi-enclexpr-2', 
-'Constr-comppi-enclexpr-3', 
-'Constr-comppi-enclexpr-4', 
-'Constr-comppi-enclexpr-5', 
-'Constr-comppi-namexml-1', 
-'Constr-comppi-namexml-2', 
-'Constr-comppi-namexml-3', 
-'Constr-comppi-namexml-4', 
-'Constr-comppi-invalid-1', 
-'Constr-comppi-invalid-2', 
-'Constr-comppi-invalid-3', 
-'Constr-comppi-space-1', 
-'Constr-comppi-space-2', 
-'Constr-comppi-space-3', 
-'Constr-comppi-space-4', 
-'Constr-comppi-empty-1', 
-'Constr-comppi-empty-2', 
-'K2-ComputeConPI-1', 
-'K2-ComputeConPI-2', 
-'K2-ComputeConPI-3', 
-'K2-ComputeConPI-4', 
-'K2-ComputeConPI-5', 
-'K2-ComputeConPI-6', 
-'K2-ComputeConPI-7', 
-'K2-ComputeConPI-8', 
-'K2-ComputeConPI-9', 
-'K2-ComputeConPI-10', 
-'K2-ComputeConPI-11', 
-'cbcl-constr-comppi-001', 
-'cbcl-constr-comppi-002'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Constr-comppi-name-1', 
+    'Constr-comppi-name-2', 
+    'Constr-comppi-compname-1', 
+    'Constr-comppi-compname-2', 
+    'Constr-comppi-compname-3', 
+    'Constr-comppi-compname-4', 
+    'Constr-comppi-compname-5', 
+    'Constr-comppi-compname-6', 
+    'Constr-comppi-compname-7', 
+    'Constr-comppi-compname-8', 
+    'Constr-comppi-compname-9', 
+    'Constr-comppi-compname-10', 
+    'Constr-comppi-compname-11', 
+    'Constr-comppi-compname-12', 
+    'Constr-comppi-compname-13', 
+    'Constr-comppi-compname-15', 
+    'Constr-comppi-compname-16', 
+    'Constr-comppi-compname-18', 
+    'Constr-comppi-compname-19', 
+    'Constr-comppi-compname-20', 
+    'Constr-comppi-compname-21', 
+    'Constr-comppi-compname-22', 
+    'Constr-comppi-doc-1']}, 
+   {group_1, [parallel], [
+    'Constr-comppi-parent-1', 
+    'Constr-comppi-string-1', 
+    'Constr-comppi-data-1', 
+    'Constr-comppi-enclexpr-1', 
+    'Constr-comppi-enclexpr-2', 
+    'Constr-comppi-enclexpr-3', 
+    'Constr-comppi-enclexpr-4', 
+    'Constr-comppi-enclexpr-5', 
+    'Constr-comppi-namexml-1', 
+    'Constr-comppi-namexml-2', 
+    'Constr-comppi-namexml-3', 
+    'Constr-comppi-namexml-4', 
+    'Constr-comppi-invalid-1', 
+    'Constr-comppi-invalid-2', 
+    'Constr-comppi-invalid-3', 
+    'Constr-comppi-space-1', 
+    'Constr-comppi-space-2', 
+    'Constr-comppi-space-3', 
+    'Constr-comppi-space-4', 
+    'Constr-comppi-empty-1', 
+    'Constr-comppi-empty-2', 
+    'K2-ComputeConPI-1', 
+    'K2-ComputeConPI-2', 
+    'K2-ComputeConPI-3']}, 
+   {group_2, [parallel], [
+    'K2-ComputeConPI-4', 
+    'K2-ComputeConPI-5', 
+    'K2-ComputeConPI-6', 
+    'K2-ComputeConPI-7', 
+    'K2-ComputeConPI-8', 
+    'K2-ComputeConPI-9', 
+    'K2-ComputeConPI-10', 
+    'K2-ComputeConPI-11', 
+    'cbcl-constr-comppi-001', 
+    'cbcl-constr-comppi-002']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 

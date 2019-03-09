@@ -1,8 +1,11 @@
 -module('math_sqrt_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['math-sqrt-001'/1]).
 -export(['math-sqrt-002'/1]).
@@ -13,7 +16,10 @@
 -export(['math-sqrt-007'/1]).
 -export(['math-sqrt-008'/1]).
 -export(['math-sqrt-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -24,16 +30,19 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "math"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'math-sqrt-001', 
-'math-sqrt-002', 
-'math-sqrt-003', 
-'math-sqrt-004', 
-'math-sqrt-005', 
-'math-sqrt-006', 
-'math-sqrt-007', 
-'math-sqrt-008', 
-'math-sqrt-010'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'math-sqrt-001', 
+    'math-sqrt-002', 
+    'math-sqrt-003', 
+    'math-sqrt-004', 
+    'math-sqrt-005', 
+    'math-sqrt-006', 
+    'math-sqrt-007', 
+    'math-sqrt-008', 
+    'math-sqrt-010']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

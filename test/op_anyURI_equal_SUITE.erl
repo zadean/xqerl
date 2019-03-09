@@ -1,8 +1,11 @@
 -module('op_anyURI_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K-AnyURIEqual-1'/1]).
 -export(['K-AnyURIEqual-2'/1]).
@@ -26,7 +29,10 @@
 -export(['K2-AnyURIEqual-10'/1]).
 -export(['K2-AnyURIEqual-11'/1]).
 -export(['K2-AnyURIEqual-12'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -37,29 +43,32 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K-AnyURIEqual-1', 
-'K-AnyURIEqual-2', 
-'K-AnyURIEqual-3', 
-'K-AnyURIEqual-4', 
-'K-AnyURIEqual-5', 
-'K-AnyURIEqual-6', 
-'K-AnyURIEqual-7', 
-'K-AnyURIEqual-8', 
-'K-AnyURIEqual-9', 
-'K-AnyURIEqual-10', 
-'K2-AnyURIEqual-1', 
-'K2-AnyURIEqual-2', 
-'K2-AnyURIEqual-3', 
-'K2-AnyURIEqual-4', 
-'K2-AnyURIEqual-5', 
-'K2-AnyURIEqual-6', 
-'K2-AnyURIEqual-7', 
-'K2-AnyURIEqual-8', 
-'K2-AnyURIEqual-9', 
-'K2-AnyURIEqual-10', 
-'K2-AnyURIEqual-11', 
-'K2-AnyURIEqual-12'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K-AnyURIEqual-1', 
+    'K-AnyURIEqual-2', 
+    'K-AnyURIEqual-3', 
+    'K-AnyURIEqual-4', 
+    'K-AnyURIEqual-5', 
+    'K-AnyURIEqual-6', 
+    'K-AnyURIEqual-7', 
+    'K-AnyURIEqual-8', 
+    'K-AnyURIEqual-9', 
+    'K-AnyURIEqual-10', 
+    'K2-AnyURIEqual-1', 
+    'K2-AnyURIEqual-2', 
+    'K2-AnyURIEqual-3', 
+    'K2-AnyURIEqual-4', 
+    'K2-AnyURIEqual-5', 
+    'K2-AnyURIEqual-6', 
+    'K2-AnyURIEqual-7', 
+    'K2-AnyURIEqual-8', 
+    'K2-AnyURIEqual-9', 
+    'K2-AnyURIEqual-10', 
+    'K2-AnyURIEqual-11', 
+    'K2-AnyURIEqual-12']}].
 
 'K-AnyURIEqual-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

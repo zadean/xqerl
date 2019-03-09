@@ -1,8 +1,11 @@
 -module('fn_QName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ExpandedQNameConstructFunc001'/1]).
 -export(['ExpandedQNameConstructFunc002'/1]).
@@ -38,7 +41,10 @@
 -export(['K-ExpandedQNameConstructFunc-10'/1]).
 -export(['K2-ExpandedQNameConstructFunc-1'/1]).
 -export(['cbcl-qname-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ExpandedQNameConstructFunc001', 
-'ExpandedQNameConstructFunc002', 
-'ExpandedQNameConstructFunc003', 
-'ExpandedQNameConstructFunc004', 
-'ExpandedQNameConstructFunc005', 
-'ExpandedQNameConstructFunc006', 
-'ExpandedQNameConstructFunc007', 
-'ExpandedQNameConstructFunc008', 
-'ExpandedQNameConstructFunc009', 
-'ExpandedQNameConstructFunc010', 
-'ExpandedQNameConstructFunc011', 
-'ExpandedQNameConstructFunc012', 
-'ExpandedQNameConstructFunc013', 
-'ExpandedQNameConstructFunc014', 
-'ExpandedQNameConstructFunc015', 
-'ExpandedQNameConstructFunc016', 
-'ExpandedQNameConstructFunc017', 
-'ExpandedQNameConstructFunc018', 
-'ExpandedQNameConstructFunc019', 
-'ExpandedQNameConstructFunc020', 
-'ExpandedQNameConstructFunc021', 
-'qName-1', 
-'K-ExpandedQNameConstructFunc-1', 
-'K-ExpandedQNameConstructFunc-2', 
-'K-ExpandedQNameConstructFunc-3', 
-'K-ExpandedQNameConstructFunc-4', 
-'K-ExpandedQNameConstructFunc-5', 
-'K-ExpandedQNameConstructFunc-6', 
-'K-ExpandedQNameConstructFunc-7', 
-'K-ExpandedQNameConstructFunc-8', 
-'K-ExpandedQNameConstructFunc-9', 
-'K-ExpandedQNameConstructFunc-10', 
-'K2-ExpandedQNameConstructFunc-1', 
-'cbcl-qname-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ExpandedQNameConstructFunc001', 
+    'ExpandedQNameConstructFunc002', 
+    'ExpandedQNameConstructFunc003', 
+    'ExpandedQNameConstructFunc004', 
+    'ExpandedQNameConstructFunc005', 
+    'ExpandedQNameConstructFunc006', 
+    'ExpandedQNameConstructFunc007', 
+    'ExpandedQNameConstructFunc008', 
+    'ExpandedQNameConstructFunc009', 
+    'ExpandedQNameConstructFunc010', 
+    'ExpandedQNameConstructFunc011', 
+    'ExpandedQNameConstructFunc012', 
+    'ExpandedQNameConstructFunc013', 
+    'ExpandedQNameConstructFunc014', 
+    'ExpandedQNameConstructFunc015', 
+    'ExpandedQNameConstructFunc016', 
+    'ExpandedQNameConstructFunc017', 
+    'ExpandedQNameConstructFunc018', 
+    'ExpandedQNameConstructFunc019', 
+    'ExpandedQNameConstructFunc020', 
+    'ExpandedQNameConstructFunc021', 
+    'qName-1', 
+    'K-ExpandedQNameConstructFunc-1']}, 
+   {group_1, [parallel], [
+    'K-ExpandedQNameConstructFunc-2', 
+    'K-ExpandedQNameConstructFunc-3', 
+    'K-ExpandedQNameConstructFunc-4', 
+    'K-ExpandedQNameConstructFunc-5', 
+    'K-ExpandedQNameConstructFunc-6', 
+    'K-ExpandedQNameConstructFunc-7', 
+    'K-ExpandedQNameConstructFunc-8', 
+    'K-ExpandedQNameConstructFunc-9', 
+    'K-ExpandedQNameConstructFunc-10', 
+    'K2-ExpandedQNameConstructFunc-1', 
+    'cbcl-qname-001']}].
 environment('fsx',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../prod/ForClause/fsx.xml"), ".",[]}]}, 

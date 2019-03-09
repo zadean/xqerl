@@ -1,8 +1,11 @@
 -module('op_string_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K-StringGT-1'/1]).
 -export(['K-StringGT-2'/1]).
@@ -13,7 +16,10 @@
 -export(['cbcl-string-greater-than-002'/1]).
 -export(['cbcl-string-greater-than-003'/1]).
 -export(['cbcl-string-greater-than-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -24,16 +30,19 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K-StringGT-1', 
-'K-StringGT-2', 
-'K-StringGT-3', 
-'K-StringGT-4', 
-'K-StringGT-5', 
-'cbcl-string-greater-than-001', 
-'cbcl-string-greater-than-002', 
-'cbcl-string-greater-than-003', 
-'cbcl-string-greater-than-004'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K-StringGT-1', 
+    'K-StringGT-2', 
+    'K-StringGT-3', 
+    'K-StringGT-4', 
+    'K-StringGT-5', 
+    'cbcl-string-greater-than-001', 
+    'cbcl-string-greater-than-002', 
+    'cbcl-string-greater-than-003', 
+    'cbcl-string-greater-than-004']}].
 
 'K-StringGT-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

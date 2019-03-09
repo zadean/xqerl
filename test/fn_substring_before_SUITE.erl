@@ -1,8 +1,11 @@
 -module('fn_substring_before_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-substring-before-1'/1]).
 -export(['fn-substring-before-2'/1]).
@@ -58,7 +61,10 @@
 -export(['K-SubstringBeforeFunc-9'/1]).
 -export(['K-SubstringBeforeFunc-10'/1]).
 -export(['cbcl-substring-before-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-substring-before-1', 
-'fn-substring-before-2', 
-'fn-substring-before-3', 
-'fn-substring-before-4', 
-'fn-substring-before-5', 
-'fn-substring-before-6', 
-'fn-substring-before-7', 
-'fn-substring-before-8', 
-'fn-substring-before-9', 
-'fn-substring-before-10', 
-'fn-substring-before-11', 
-'fn-substring-before-12', 
-'fn-substring-before-13', 
-'fn-substring-before-14', 
-'fn-substring-before-15', 
-'fn-substring-before-16', 
-'fn-substring-before-17', 
-'fn-substring-before-18', 
-'fn-substring-before-19', 
-'fn-substring-before-20', 
-'fn-substring-before-21', 
-'fn-substring-before-22', 
-'fn-substring-before-23', 
-'fn-substring-before-24', 
-'fn-substring-before-25', 
-'fn-substring-before-26', 
-'fn-substring-before-27', 
-'fn-substring-before-28', 
-'fn-substring-before-29', 
-'fn-substring-before-30', 
-'fn-substring-before-31', 
-'fn-substring-before-32', 
-'fn-substring-before-33', 
-'fn-substring-before-34', 
-'fn-substring-before-35', 
-'fn-substring-before-36', 
-'fn-substring-before-37', 
-'fn-substring-before-38', 
-'fn-substring-before-39', 
-'fn-substring-before-40', 
-'fn-substring-before-41', 
-'fn-substring-before-42', 
-'fn-substring-before-43', 
-'K-SubstringBeforeFunc-1', 
-'K-SubstringBeforeFunc-2', 
-'K-SubstringBeforeFunc-3', 
-'K-SubstringBeforeFunc-4', 
-'K-SubstringBeforeFunc-5', 
-'K-SubstringBeforeFunc-6', 
-'K-SubstringBeforeFunc-7', 
-'K-SubstringBeforeFunc-8', 
-'K-SubstringBeforeFunc-9', 
-'K-SubstringBeforeFunc-10', 
-'cbcl-substring-before-001'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-substring-before-1', 
+    'fn-substring-before-2', 
+    'fn-substring-before-3', 
+    'fn-substring-before-4', 
+    'fn-substring-before-5', 
+    'fn-substring-before-6', 
+    'fn-substring-before-7', 
+    'fn-substring-before-8', 
+    'fn-substring-before-9', 
+    'fn-substring-before-10', 
+    'fn-substring-before-11', 
+    'fn-substring-before-12', 
+    'fn-substring-before-13', 
+    'fn-substring-before-14', 
+    'fn-substring-before-15', 
+    'fn-substring-before-16', 
+    'fn-substring-before-17', 
+    'fn-substring-before-18', 
+    'fn-substring-before-19', 
+    'fn-substring-before-20', 
+    'fn-substring-before-21', 
+    'fn-substring-before-22', 
+    'fn-substring-before-23']}, 
+   {group_1, [parallel], [
+    'fn-substring-before-24', 
+    'fn-substring-before-25', 
+    'fn-substring-before-26', 
+    'fn-substring-before-27', 
+    'fn-substring-before-28', 
+    'fn-substring-before-29', 
+    'fn-substring-before-30', 
+    'fn-substring-before-31', 
+    'fn-substring-before-32', 
+    'fn-substring-before-33', 
+    'fn-substring-before-34', 
+    'fn-substring-before-35', 
+    'fn-substring-before-36', 
+    'fn-substring-before-37', 
+    'fn-substring-before-38', 
+    'fn-substring-before-39', 
+    'fn-substring-before-40', 
+    'fn-substring-before-41', 
+    'fn-substring-before-42', 
+    'fn-substring-before-43', 
+    'K-SubstringBeforeFunc-1', 
+    'K-SubstringBeforeFunc-2', 
+    'K-SubstringBeforeFunc-3', 
+    'K-SubstringBeforeFunc-4']}, 
+   {group_2, [parallel], [
+    'K-SubstringBeforeFunc-5', 
+    'K-SubstringBeforeFunc-6', 
+    'K-SubstringBeforeFunc-7', 
+    'K-SubstringBeforeFunc-8', 
+    'K-SubstringBeforeFunc-9', 
+    'K-SubstringBeforeFunc-10', 
+    'cbcl-substring-before-001']}].
 
 'fn-substring-before-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('math_atan2_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['math-atan2-001'/1]).
 -export(['math-atan2-002'/1]).
@@ -14,7 +17,10 @@
 -export(['math-atan2-008'/1]).
 -export(['math-atan2-009'/1]).
 -export(['math-atan2-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -25,17 +31,20 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "math"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'math-atan2-001', 
-'math-atan2-002', 
-'math-atan2-003', 
-'math-atan2-004', 
-'math-atan2-005', 
-'math-atan2-006', 
-'math-atan2-007', 
-'math-atan2-008', 
-'math-atan2-009', 
-'math-atan2-010'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'math-atan2-001', 
+    'math-atan2-002', 
+    'math-atan2-003', 
+    'math-atan2-004', 
+    'math-atan2-005', 
+    'math-atan2-006', 
+    'math-atan2-007', 
+    'math-atan2-008', 
+    'math-atan2-009', 
+    'math-atan2-010']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

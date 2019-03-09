@@ -1,8 +1,11 @@
 -module('prod_GroupByClause_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['group-001'/1]).
 -export(['group-001a'/1]).
@@ -35,7 +38,10 @@
 -export(['use-case-groupby-Q6'/1]).
 -export(['use-case-groupby-Q7'/1]).
 -export(['use-case-groupby-Q8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'group-001', 
-'group-001a', 
-'group-002', 
-'group-002a', 
-'group-003', 
-'group-003a', 
-'group-004', 
-'group-005', 
-'group-006', 
-'group-007', 
-'group-008', 
-'group-009', 
-'group-009a', 
-'group-010', 
-'group-011', 
-'group-012', 
-'group-013', 
-'group-014', 
-'group-015', 
-'group-016', 
-'group-017', 
-'group-018', 
-'group-019', 
-'use-case-groupby-Q1', 
-'use-case-groupby-Q2', 
-'use-case-groupby-Q3', 
-'use-case-groupby-Q4', 
-'use-case-groupby-Q5', 
-'use-case-groupby-Q6', 
-'use-case-groupby-Q7', 
-'use-case-groupby-Q8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'group-001', 
+    'group-001a', 
+    'group-002', 
+    'group-002a', 
+    'group-003', 
+    'group-003a', 
+    'group-004', 
+    'group-005', 
+    'group-006', 
+    'group-007', 
+    'group-008', 
+    'group-009', 
+    'group-009a', 
+    'group-010', 
+    'group-011', 
+    'group-012', 
+    'group-013', 
+    'group-014', 
+    'group-015', 
+    'group-016', 
+    'group-017', 
+    'group-018', 
+    'group-019']}, 
+   {group_1, [parallel], [
+    'use-case-groupby-Q1', 
+    'use-case-groupby-Q2', 
+    'use-case-groupby-Q3', 
+    'use-case-groupby-Q4', 
+    'use-case-groupby-Q5', 
+    'use-case-groupby-Q6', 
+    'use-case-groupby-Q7', 
+    'use-case-groupby-Q8']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

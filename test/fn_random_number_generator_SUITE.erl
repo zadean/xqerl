@@ -1,8 +1,11 @@
 -module('fn_random_number_generator_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-random-number-generator-1'/1]).
 -export(['fn-random-number-generator-2'/1]).
@@ -48,7 +51,10 @@
 -export(['fn-random-number-generator-42'/1]).
 -export(['fn-random-number-generator-43'/1]).
 -export(['fn-random-number-generator-44'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-random-number-generator-1', 
-'fn-random-number-generator-2', 
-'fn-random-number-generator-3', 
-'fn-random-number-generator-4', 
-'fn-random-number-generator-5', 
-'fn-random-number-generator-6', 
-'fn-random-number-generator-7', 
-'fn-random-number-generator-8', 
-'fn-random-number-generator-9', 
-'fn-random-number-generator-10', 
-'fn-random-number-generator-11', 
-'fn-random-number-generator-12', 
-'fn-random-number-generator-13', 
-'fn-random-number-generator-14', 
-'fn-random-number-generator-15', 
-'fn-random-number-generator-16', 
-'fn-random-number-generator-17', 
-'fn-random-number-generator-18', 
-'fn-random-number-generator-19', 
-'fn-random-number-generator-20', 
-'fn-random-number-generator-21', 
-'fn-random-number-generator-22', 
-'fn-random-number-generator-23', 
-'fn-random-number-generator-24', 
-'fn-random-number-generator-25', 
-'fn-random-number-generator-26', 
-'fn-random-number-generator-27', 
-'fn-random-number-generator-28', 
-'fn-random-number-generator-29', 
-'fn-random-number-generator-30', 
-'fn-random-number-generator-31', 
-'fn-random-number-generator-32', 
-'fn-random-number-generator-33', 
-'fn-random-number-generator-34', 
-'fn-random-number-generator-35', 
-'fn-random-number-generator-36', 
-'fn-random-number-generator-37', 
-'fn-random-number-generator-38', 
-'fn-random-number-generator-39', 
-'fn-random-number-generator-40', 
-'fn-random-number-generator-41', 
-'fn-random-number-generator-42', 
-'fn-random-number-generator-43', 
-'fn-random-number-generator-44'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-random-number-generator-1', 
+    'fn-random-number-generator-2', 
+    'fn-random-number-generator-3', 
+    'fn-random-number-generator-4', 
+    'fn-random-number-generator-5', 
+    'fn-random-number-generator-6', 
+    'fn-random-number-generator-7', 
+    'fn-random-number-generator-8', 
+    'fn-random-number-generator-9', 
+    'fn-random-number-generator-10', 
+    'fn-random-number-generator-11', 
+    'fn-random-number-generator-12', 
+    'fn-random-number-generator-13', 
+    'fn-random-number-generator-14', 
+    'fn-random-number-generator-15', 
+    'fn-random-number-generator-16', 
+    'fn-random-number-generator-17', 
+    'fn-random-number-generator-18', 
+    'fn-random-number-generator-19', 
+    'fn-random-number-generator-20', 
+    'fn-random-number-generator-21', 
+    'fn-random-number-generator-22', 
+    'fn-random-number-generator-23']}, 
+   {group_1, [parallel], [
+    'fn-random-number-generator-24', 
+    'fn-random-number-generator-25', 
+    'fn-random-number-generator-26', 
+    'fn-random-number-generator-27', 
+    'fn-random-number-generator-28', 
+    'fn-random-number-generator-29', 
+    'fn-random-number-generator-30', 
+    'fn-random-number-generator-31', 
+    'fn-random-number-generator-32', 
+    'fn-random-number-generator-33', 
+    'fn-random-number-generator-34', 
+    'fn-random-number-generator-35', 
+    'fn-random-number-generator-36', 
+    'fn-random-number-generator-37', 
+    'fn-random-number-generator-38', 
+    'fn-random-number-generator-39', 
+    'fn-random-number-generator-40', 
+    'fn-random-number-generator-41', 
+    'fn-random-number-generator-42', 
+    'fn-random-number-generator-43', 
+    'fn-random-number-generator-44']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

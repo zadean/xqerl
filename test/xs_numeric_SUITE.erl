@@ -1,8 +1,11 @@
 -module('xs_numeric_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['xs-numeric-001'/1]).
 -export(['xs-numeric-002'/1]).
@@ -26,7 +29,10 @@
 -export(['xs-numeric-020'/1]).
 -export(['xs-numeric-021'/1]).
 -export(['xs-numeric-022'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -37,29 +43,32 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "xs"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'xs-numeric-001', 
-'xs-numeric-002', 
-'xs-numeric-003', 
-'xs-numeric-004', 
-'xs-numeric-005', 
-'xs-numeric-006', 
-'xs-numeric-007', 
-'xs-numeric-008', 
-'xs-numeric-009', 
-'xs-numeric-010', 
-'xs-numeric-011', 
-'xs-numeric-012', 
-'xs-numeric-013', 
-'xs-numeric-014', 
-'xs-numeric-015', 
-'xs-numeric-016', 
-'xs-numeric-017', 
-'xs-numeric-018', 
-'xs-numeric-019', 
-'xs-numeric-020', 
-'xs-numeric-021', 
-'xs-numeric-022'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'xs-numeric-001', 
+    'xs-numeric-002', 
+    'xs-numeric-003', 
+    'xs-numeric-004', 
+    'xs-numeric-005', 
+    'xs-numeric-006', 
+    'xs-numeric-007', 
+    'xs-numeric-008', 
+    'xs-numeric-009', 
+    'xs-numeric-010', 
+    'xs-numeric-011', 
+    'xs-numeric-012', 
+    'xs-numeric-013', 
+    'xs-numeric-014', 
+    'xs-numeric-015', 
+    'xs-numeric-016', 
+    'xs-numeric-017', 
+    'xs-numeric-018', 
+    'xs-numeric-019', 
+    'xs-numeric-020', 
+    'xs-numeric-021', 
+    'xs-numeric-022']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 

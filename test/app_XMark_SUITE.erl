@@ -1,8 +1,11 @@
 -module('app_XMark_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['XMark-Q1'/1]).
 -export(['XMark-Q2'/1]).
@@ -25,7 +28,10 @@
 -export(['XMark-Q19'/1]).
 -export(['XMark-Q20'/1]).
 -export(['XMark-All'/1]).
-suite() -> [{timetrap,{seconds, 60}}].
+suite() -> [{timetrap,{seconds, 240}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -36,28 +42,31 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'XMark-Q1', 
-'XMark-Q2', 
-'XMark-Q3', 
-'XMark-Q4', 
-'XMark-Q5', 
-'XMark-Q6', 
-'XMark-Q7', 
-'XMark-Q8', 
-'XMark-Q9', 
-'XMark-Q10', 
-'XMark-Q11', 
-'XMark-Q12', 
-'XMark-Q13', 
-'XMark-Q14', 
-'XMark-Q15', 
-'XMark-Q16', 
-'XMark-Q17', 
-'XMark-Q18', 
-'XMark-Q19', 
-'XMark-Q20', 
-'XMark-All'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'XMark-Q1', 
+    'XMark-Q2', 
+    'XMark-Q3', 
+    'XMark-Q4', 
+    'XMark-Q5', 
+    'XMark-Q6', 
+    'XMark-Q7', 
+    'XMark-Q8', 
+    'XMark-Q9', 
+    'XMark-Q10', 
+    'XMark-Q11', 
+    'XMark-Q12', 
+    'XMark-Q13', 
+    'XMark-Q14', 
+    'XMark-Q15', 
+    'XMark-Q16', 
+    'XMark-Q17', 
+    'XMark-Q18', 
+    'XMark-Q19', 
+    'XMark-Q20', 
+    'XMark-All']}].
 environment('XMarkAuction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "XMark/XMarkAuction.xml"), ".",[]}]}, 

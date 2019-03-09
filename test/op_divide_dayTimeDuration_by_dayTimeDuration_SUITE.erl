@@ -1,8 +1,11 @@
 -module('op_divide_dayTimeDuration_by_dayTimeDuration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-divide-dayTimeDuration-by-dayTimeDuration2args-1'/1]).
 -export(['op-divide-dayTimeDuration-by-dayTimeDuration2args-2'/1]).
@@ -29,7 +32,10 @@
 -export(['cbcl-divide-dayTimeDuration-by-dayTimeDuration-001'/1]).
 -export(['cbcl-divide-dayTimeDuration-by-dayTimeDuration-002'/1]).
 -export(['cbcl-divide-dayTimeDuration-by-dayTimeDuration-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-divide-dayTimeDuration-by-dayTimeDuration2args-1', 
-'op-divide-dayTimeDuration-by-dayTimeDuration2args-2', 
-'op-divide-dayTimeDuration-by-dayTimeDuration2args-3', 
-'op-divide-dayTimeDuration-by-dayTimeDuration2args-4', 
-'op-divide-dayTimeDuration-by-dayTimeDuration2args-5', 
-'op-divide-dayTimeDuration-by-dTD-1', 
-'op-divide-dayTimeDuration-by-dTD-2', 
-'op-divide-dayTimeDuration-by-dTD-3', 
-'op-divide-dayTimeDuration-by-dTD-4', 
-'op-divide-dayTimeDuration-by-dTD-5', 
-'op-divide-dayTimeDuration-by-dTD-6', 
-'op-divide-dayTimeDuration-by-dTD-7', 
-'op-divide-dayTimeDuration-by-dTD-8', 
-'op-divide-dayTimeDuration-by-dTD-9', 
-'op-divide-dayTimeDuration-by-dTD-10', 
-'op-divide-dayTimeDuration-by-dTD-11', 
-'op-divide-dayTimeDuration-by-dTD-12', 
-'op-divide-dayTimeDuration-by-dTD-13', 
-'op-divide-dayTimeDuration-by-dTD-14', 
-'op-divide-dayTimeDuration-by-dTD-15', 
-'op-divide-dayTimeDuration-by-dTD-16', 
-'K-DayTimeDurationDivideDTD-1', 
-'cbcl-divide-dayTimeDuration-by-dayTimeDuration-001', 
-'cbcl-divide-dayTimeDuration-by-dayTimeDuration-002', 
-'cbcl-divide-dayTimeDuration-by-dayTimeDuration-003'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-divide-dayTimeDuration-by-dayTimeDuration2args-1', 
+    'op-divide-dayTimeDuration-by-dayTimeDuration2args-2', 
+    'op-divide-dayTimeDuration-by-dayTimeDuration2args-3', 
+    'op-divide-dayTimeDuration-by-dayTimeDuration2args-4', 
+    'op-divide-dayTimeDuration-by-dayTimeDuration2args-5', 
+    'op-divide-dayTimeDuration-by-dTD-1', 
+    'op-divide-dayTimeDuration-by-dTD-2', 
+    'op-divide-dayTimeDuration-by-dTD-3', 
+    'op-divide-dayTimeDuration-by-dTD-4', 
+    'op-divide-dayTimeDuration-by-dTD-5', 
+    'op-divide-dayTimeDuration-by-dTD-6', 
+    'op-divide-dayTimeDuration-by-dTD-7', 
+    'op-divide-dayTimeDuration-by-dTD-8', 
+    'op-divide-dayTimeDuration-by-dTD-9', 
+    'op-divide-dayTimeDuration-by-dTD-10', 
+    'op-divide-dayTimeDuration-by-dTD-11', 
+    'op-divide-dayTimeDuration-by-dTD-12', 
+    'op-divide-dayTimeDuration-by-dTD-13', 
+    'op-divide-dayTimeDuration-by-dTD-14', 
+    'op-divide-dayTimeDuration-by-dTD-15', 
+    'op-divide-dayTimeDuration-by-dTD-16', 
+    'K-DayTimeDurationDivideDTD-1', 
+    'cbcl-divide-dayTimeDuration-by-dayTimeDuration-001']}, 
+   {group_1, [parallel], [
+    'cbcl-divide-dayTimeDuration-by-dayTimeDuration-002', 
+    'cbcl-divide-dayTimeDuration-by-dayTimeDuration-003']}].
 
 'op-divide-dayTimeDuration-by-dayTimeDuration2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

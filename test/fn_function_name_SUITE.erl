@@ -1,8 +1,11 @@
 -module('fn_function_name_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-function-name-001'/1]).
 -export(['fn-function-name-002'/1]).
@@ -28,7 +31,10 @@
 -export(['fn-function-name-022'/1]).
 -export(['fn-function-name-023'/1]).
 -export(['fn-function-name-024'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -39,31 +45,36 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-function-name-001', 
-'fn-function-name-002', 
-'fn-function-name-003', 
-'fn-function-name-004', 
-'fn-function-name-005', 
-'fn-function-name-006', 
-'fn-function-name-007', 
-'fn-function-name-008', 
-'fn-function-name-009', 
-'fn-function-name-010', 
-'fn-function-name-011', 
-'fn-function-name-012', 
-'fn-function-name-013', 
-'fn-function-name-014', 
-'fn-function-name-015', 
-'fn-function-name-016', 
-'fn-function-name-017', 
-'fn-function-name-018', 
-'fn-function-name-019', 
-'fn-function-name-020', 
-'fn-function-name-021', 
-'fn-function-name-022', 
-'fn-function-name-023', 
-'fn-function-name-024'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-function-name-001', 
+    'fn-function-name-002', 
+    'fn-function-name-003', 
+    'fn-function-name-004', 
+    'fn-function-name-005', 
+    'fn-function-name-006', 
+    'fn-function-name-007', 
+    'fn-function-name-008', 
+    'fn-function-name-009', 
+    'fn-function-name-010', 
+    'fn-function-name-011', 
+    'fn-function-name-012', 
+    'fn-function-name-013', 
+    'fn-function-name-014', 
+    'fn-function-name-015', 
+    'fn-function-name-016', 
+    'fn-function-name-017', 
+    'fn-function-name-018', 
+    'fn-function-name-019', 
+    'fn-function-name-020', 
+    'fn-function-name-021', 
+    'fn-function-name-022', 
+    'fn-function-name-023']}, 
+   {group_1, [parallel], [
+    'fn-function-name-024']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

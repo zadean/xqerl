@@ -1,8 +1,11 @@
 -module('op_boolean_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-boolean-less-than2args-1'/1]).
 -export(['op-boolean-less-than2args-2'/1]).
@@ -53,7 +56,10 @@
 -export(['cbcl-boolean-less-than-008'/1]).
 -export(['cbcl-boolean-less-than-009'/1]).
 -export(['cbcl-boolean-less-than-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -64,56 +70,63 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-boolean-less-than2args-1', 
-'op-boolean-less-than2args-2', 
-'op-boolean-less-than2args-3', 
-'op-boolean-less-than2args-4', 
-'op-boolean-less-than2args-5', 
-'op-boolean-less-than2args-6', 
-'op-boolean-less-than2args-7', 
-'op-boolean-less-than2args-8', 
-'op-boolean-less-than2args-9', 
-'op-boolean-less-than2args-10', 
-'op-boolean-less-than-1', 
-'op-boolean-less-than-2', 
-'op-boolean-less-than-3', 
-'op-boolean-less-than-4', 
-'op-boolean-less-than-5', 
-'op-boolean-less-than-6', 
-'op-boolean-less-than-7', 
-'op-boolean-less-than-8', 
-'op-boolean-less-than-9', 
-'op-boolean-less-than-10', 
-'op-boolean-less-than-11', 
-'op-boolean-less-than-12', 
-'op-boolean-less-than-more-args-001', 
-'op-boolean-less-than-more-args-002', 
-'op-boolean-less-than-more-args-003', 
-'op-boolean-less-than-more-args-004', 
-'op-boolean-less-than-more-args-005', 
-'op-boolean-less-than-more-args-006', 
-'op-boolean-less-than-more-args-007', 
-'op-boolean-less-than-more-args-008', 
-'op-boolean-less-than-more-args-009', 
-'op-boolean-less-than-more-args-010', 
-'op-boolean-less-than-more-args-011', 
-'op-boolean-less-than-more-args-012', 
-'op-boolean-less-than-more-args-013', 
-'op-boolean-less-than-more-args-014', 
-'K-BooleanLT-1', 
-'K-BooleanLT-2', 
-'K-BooleanLT-3', 
-'cbcl-boolean-less-than-001', 
-'cbcl-boolean-less-than-002', 
-'cbcl-boolean-less-than-003', 
-'cbcl-boolean-less-than-004', 
-'cbcl-boolean-less-than-005', 
-'cbcl-boolean-less-than-006', 
-'cbcl-boolean-less-than-007', 
-'cbcl-boolean-less-than-008', 
-'cbcl-boolean-less-than-009', 
-'cbcl-boolean-less-than-010'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-boolean-less-than2args-1', 
+    'op-boolean-less-than2args-2', 
+    'op-boolean-less-than2args-3', 
+    'op-boolean-less-than2args-4', 
+    'op-boolean-less-than2args-5', 
+    'op-boolean-less-than2args-6', 
+    'op-boolean-less-than2args-7', 
+    'op-boolean-less-than2args-8', 
+    'op-boolean-less-than2args-9', 
+    'op-boolean-less-than2args-10', 
+    'op-boolean-less-than-1', 
+    'op-boolean-less-than-2', 
+    'op-boolean-less-than-3', 
+    'op-boolean-less-than-4', 
+    'op-boolean-less-than-5', 
+    'op-boolean-less-than-6', 
+    'op-boolean-less-than-7', 
+    'op-boolean-less-than-8', 
+    'op-boolean-less-than-9', 
+    'op-boolean-less-than-10', 
+    'op-boolean-less-than-11', 
+    'op-boolean-less-than-12', 
+    'op-boolean-less-than-more-args-001']}, 
+   {group_1, [parallel], [
+    'op-boolean-less-than-more-args-002', 
+    'op-boolean-less-than-more-args-003', 
+    'op-boolean-less-than-more-args-004', 
+    'op-boolean-less-than-more-args-005', 
+    'op-boolean-less-than-more-args-006', 
+    'op-boolean-less-than-more-args-007', 
+    'op-boolean-less-than-more-args-008', 
+    'op-boolean-less-than-more-args-009', 
+    'op-boolean-less-than-more-args-010', 
+    'op-boolean-less-than-more-args-011', 
+    'op-boolean-less-than-more-args-012', 
+    'op-boolean-less-than-more-args-013', 
+    'op-boolean-less-than-more-args-014', 
+    'K-BooleanLT-1', 
+    'K-BooleanLT-2', 
+    'K-BooleanLT-3', 
+    'cbcl-boolean-less-than-001', 
+    'cbcl-boolean-less-than-002', 
+    'cbcl-boolean-less-than-003', 
+    'cbcl-boolean-less-than-004', 
+    'cbcl-boolean-less-than-005', 
+    'cbcl-boolean-less-than-006', 
+    'cbcl-boolean-less-than-007', 
+    'cbcl-boolean-less-than-008']}, 
+   {group_2, [parallel], [
+    'cbcl-boolean-less-than-009', 
+    'cbcl-boolean-less-than-010']}].
 
 'op-boolean-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

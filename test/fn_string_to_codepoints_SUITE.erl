@@ -1,8 +1,11 @@
 -module('fn_string_to_codepoints_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-string-to-codepoints1args-1'/1]).
 -export(['fn-string-to-codepoints1args-2'/1]).
@@ -48,7 +51,10 @@
 -export(['K-StringToCodepointFunc-19'/1]).
 -export(['K-StringToCodepointFunc-20'/1]).
 -export(['K-StringToCodepointFunc-21'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-string-to-codepoints1args-1', 
-'fn-string-to-codepoints1args-2', 
-'fn-string-to-codepoints1args-3', 
-'fn-string-to-codepoints1args-4', 
-'fn-string-to-codepoints1args-5', 
-'fn-string-to-codepoints1args-6', 
-'fn-string-to-codepoints1args-7', 
-'fn-string-to-codepoints1args-8', 
-'fn-string-to-codepoints-1', 
-'fn-string-to-codepoints-2', 
-'fn-string-to-codepoints-3', 
-'fn-string-to-codepoints-4', 
-'fn-string-to-codepoints-5', 
-'fn-string-to-codepoints-6', 
-'fn-string-to-codepoints-7', 
-'fn-string-to-codepoints-8', 
-'fn-string-to-codepoints-9', 
-'fn-string-to-codepoints-10', 
-'fn-string-to-codepoints-11', 
-'fn-string-to-codepoints-12', 
-'fn-string-to-codepoints-13', 
-'fn-string-to-codepoints-14', 
-'fn-string-to-codepoints-15', 
-'K-StringToCodepointFunc-1', 
-'K-StringToCodepointFunc-2', 
-'K-StringToCodepointFunc-3', 
-'K-StringToCodepointFunc-4', 
-'K-StringToCodepointFunc-5', 
-'K-StringToCodepointFunc-6', 
-'K-StringToCodepointFunc-7', 
-'K-StringToCodepointFunc-8', 
-'K-StringToCodepointFunc-9', 
-'K-StringToCodepointFunc-10', 
-'K-StringToCodepointFunc-11', 
-'K-StringToCodepointFunc-12', 
-'K-StringToCodepointFunc-13', 
-'K-StringToCodepointFunc-14', 
-'K-StringToCodepointFunc-15', 
-'K-StringToCodepointFunc-16', 
-'K-StringToCodepointFunc-17', 
-'K-StringToCodepointFunc-18', 
-'K-StringToCodepointFunc-19', 
-'K-StringToCodepointFunc-20', 
-'K-StringToCodepointFunc-21'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-string-to-codepoints1args-1', 
+    'fn-string-to-codepoints1args-2', 
+    'fn-string-to-codepoints1args-3', 
+    'fn-string-to-codepoints1args-4', 
+    'fn-string-to-codepoints1args-5', 
+    'fn-string-to-codepoints1args-6', 
+    'fn-string-to-codepoints1args-7', 
+    'fn-string-to-codepoints1args-8', 
+    'fn-string-to-codepoints-1', 
+    'fn-string-to-codepoints-2', 
+    'fn-string-to-codepoints-3', 
+    'fn-string-to-codepoints-4', 
+    'fn-string-to-codepoints-5', 
+    'fn-string-to-codepoints-6', 
+    'fn-string-to-codepoints-7', 
+    'fn-string-to-codepoints-8', 
+    'fn-string-to-codepoints-9', 
+    'fn-string-to-codepoints-10', 
+    'fn-string-to-codepoints-11', 
+    'fn-string-to-codepoints-12', 
+    'fn-string-to-codepoints-13', 
+    'fn-string-to-codepoints-14', 
+    'fn-string-to-codepoints-15']}, 
+   {group_1, [parallel], [
+    'K-StringToCodepointFunc-1', 
+    'K-StringToCodepointFunc-2', 
+    'K-StringToCodepointFunc-3', 
+    'K-StringToCodepointFunc-4', 
+    'K-StringToCodepointFunc-5', 
+    'K-StringToCodepointFunc-6', 
+    'K-StringToCodepointFunc-7', 
+    'K-StringToCodepointFunc-8', 
+    'K-StringToCodepointFunc-9', 
+    'K-StringToCodepointFunc-10', 
+    'K-StringToCodepointFunc-11', 
+    'K-StringToCodepointFunc-12', 
+    'K-StringToCodepointFunc-13', 
+    'K-StringToCodepointFunc-14', 
+    'K-StringToCodepointFunc-15', 
+    'K-StringToCodepointFunc-16', 
+    'K-StringToCodepointFunc-17', 
+    'K-StringToCodepointFunc-18', 
+    'K-StringToCodepointFunc-19', 
+    'K-StringToCodepointFunc-20', 
+    'K-StringToCodepointFunc-21']}].
 
 'fn-string-to-codepoints1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

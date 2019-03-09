@@ -1,8 +1,11 @@
 -module('fn_lower_case_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-lower-case1args-1'/1]).
 -export(['fn-lower-case1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-LowerCaseFunc-2'/1]).
 -export(['K-LowerCaseFunc-3'/1]).
 -export(['K-LowerCaseFunc-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-lower-case1args-1', 
-'fn-lower-case1args-2', 
-'fn-lower-case1args-3', 
-'fn-lower-case-1', 
-'fn-lower-case-2', 
-'fn-lower-case-3', 
-'fn-lower-case-4', 
-'fn-lower-case-5', 
-'fn-lower-case-6', 
-'fn-lower-case-7', 
-'fn-lower-case-8', 
-'fn-lower-case-9', 
-'fn-lower-case-10', 
-'fn-lower-case-11', 
-'fn-lower-case-12', 
-'fn-lower-case-13', 
-'fn-lower-case-14', 
-'fn-lower-case-15', 
-'fn-lower-case-16', 
-'fn-lower-case-17', 
-'fn-lower-case-18', 
-'fn-lower-case-19', 
-'fn-lower-case-20', 
-'K-LowerCaseFunc-1', 
-'K-LowerCaseFunc-2', 
-'K-LowerCaseFunc-3', 
-'K-LowerCaseFunc-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-lower-case1args-1', 
+    'fn-lower-case1args-2', 
+    'fn-lower-case1args-3', 
+    'fn-lower-case-1', 
+    'fn-lower-case-2', 
+    'fn-lower-case-3', 
+    'fn-lower-case-4', 
+    'fn-lower-case-5', 
+    'fn-lower-case-6', 
+    'fn-lower-case-7', 
+    'fn-lower-case-8', 
+    'fn-lower-case-9', 
+    'fn-lower-case-10', 
+    'fn-lower-case-11', 
+    'fn-lower-case-12', 
+    'fn-lower-case-13', 
+    'fn-lower-case-14', 
+    'fn-lower-case-15', 
+    'fn-lower-case-16', 
+    'fn-lower-case-17', 
+    'fn-lower-case-18', 
+    'fn-lower-case-19', 
+    'fn-lower-case-20']}, 
+   {group_1, [parallel], [
+    'K-LowerCaseFunc-1', 
+    'K-LowerCaseFunc-2', 
+    'K-LowerCaseFunc-3', 
+    'K-LowerCaseFunc-4']}].
 
 'fn-lower-case1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

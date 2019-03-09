@@ -1,8 +1,11 @@
 -module('op_string_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K-StringLT-1'/1]).
 -export(['K-StringLT-2'/1]).
@@ -14,7 +17,10 @@
 -export(['cbcl-string-less-than-002'/1]).
 -export(['cbcl-string-less-than-003'/1]).
 -export(['cbcl-string-less-than-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -25,17 +31,20 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K-StringLT-1', 
-'K-StringLT-2', 
-'K-StringLT-3', 
-'K-StringLT-4', 
-'K-StringLT-5', 
-'K2-StringLT-1', 
-'cbcl-string-less-than-001', 
-'cbcl-string-less-than-002', 
-'cbcl-string-less-than-003', 
-'cbcl-string-less-than-004'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K-StringLT-1', 
+    'K-StringLT-2', 
+    'K-StringLT-3', 
+    'K-StringLT-4', 
+    'K-StringLT-5', 
+    'K2-StringLT-1', 
+    'cbcl-string-less-than-001', 
+    'cbcl-string-less-than-002', 
+    'cbcl-string-less-than-003', 
+    'cbcl-string-less-than-004']}].
 
 'K-StringLT-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

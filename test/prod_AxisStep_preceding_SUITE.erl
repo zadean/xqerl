@@ -1,8 +1,11 @@
 -module('prod_AxisStep_preceding_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['preceding-1'/1]).
 -export(['preceding-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K2-precedingAxis-6'/1]).
 -export(['K2-precedingAxis-7'/1]).
 -export(['K2-precedingAxis-8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'preceding-1', 
-'preceding-2', 
-'preceding-3', 
-'preceding-4', 
-'preceding-5', 
-'preceding-6', 
-'preceding-7', 
-'preceding-8', 
-'preceding-9', 
-'preceding-10', 
-'preceding-11', 
-'preceding-12', 
-'preceding-13', 
-'preceding-14', 
-'preceding-15', 
-'preceding-16', 
-'preceding-17', 
-'preceding-18', 
-'preceding-19', 
-'preceding-20', 
-'preceding-21', 
-'preceding-22', 
-'preceding-23', 
-'K2-precedingAxis-1', 
-'K2-precedingAxis-2', 
-'K2-precedingAxis-3', 
-'K2-precedingAxis-4', 
-'K2-precedingAxis-5', 
-'K2-precedingAxis-6', 
-'K2-precedingAxis-7', 
-'K2-precedingAxis-8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'preceding-1', 
+    'preceding-2', 
+    'preceding-3', 
+    'preceding-4', 
+    'preceding-5', 
+    'preceding-6', 
+    'preceding-7', 
+    'preceding-8', 
+    'preceding-9', 
+    'preceding-10', 
+    'preceding-11', 
+    'preceding-12', 
+    'preceding-13', 
+    'preceding-14', 
+    'preceding-15', 
+    'preceding-16', 
+    'preceding-17', 
+    'preceding-18', 
+    'preceding-19', 
+    'preceding-20', 
+    'preceding-21', 
+    'preceding-22', 
+    'preceding-23']}, 
+   {group_1, [parallel], [
+    'K2-precedingAxis-1', 
+    'K2-precedingAxis-2', 
+    'K2-precedingAxis-3', 
+    'K2-precedingAxis-4', 
+    'K2-precedingAxis-5', 
+    'K2-precedingAxis-6', 
+    'K2-precedingAxis-7', 
+    'K2-precedingAxis-8']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

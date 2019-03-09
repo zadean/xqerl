@@ -1,8 +1,11 @@
 -module('fn_insert_before_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-insert-before-mix-args-001'/1]).
 -export(['fn-insert-before-mix-args-002'/1]).
@@ -47,7 +50,10 @@
 -export(['K-SeqInsertBeforeFunc-21'/1]).
 -export(['cbcl-fn-insert-before-001'/1]).
 -export(['cbcl-fn-insert-before-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -58,50 +64,55 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-insert-before-mix-args-001', 
-'fn-insert-before-mix-args-002', 
-'fn-insert-before-mix-args-003', 
-'fn-insert-before-mix-args-004', 
-'fn-insert-before-mix-args-005', 
-'fn-insert-before-mix-args-006', 
-'fn-insert-before-mix-args-007', 
-'fn-insert-before-mix-args-008', 
-'fn-insert-before-mix-args-009', 
-'fn-insert-before-mix-args-010', 
-'fn-insert-before-mix-args-011', 
-'fn-insert-before-mix-args-012', 
-'fn-insert-before-mix-args-013', 
-'fn-insert-before-mix-args-014', 
-'fn-insert-before-mix-args-015', 
-'fn-insert-before-mix-args-016', 
-'fn-insert-before-mix-args-017', 
-'fn-insert-before-mix-args-018', 
-'fn-insert-before-mix-args-019', 
-'fn-insert-before-mix-args-020', 
-'K-SeqInsertBeforeFunc-1', 
-'K-SeqInsertBeforeFunc-2', 
-'K-SeqInsertBeforeFunc-3', 
-'K-SeqInsertBeforeFunc-4', 
-'K-SeqInsertBeforeFunc-5', 
-'K-SeqInsertBeforeFunc-6', 
-'K-SeqInsertBeforeFunc-7', 
-'K-SeqInsertBeforeFunc-8', 
-'K-SeqInsertBeforeFunc-9', 
-'K-SeqInsertBeforeFunc-10', 
-'K-SeqInsertBeforeFunc-11', 
-'K-SeqInsertBeforeFunc-12', 
-'K-SeqInsertBeforeFunc-13', 
-'K-SeqInsertBeforeFunc-14', 
-'K-SeqInsertBeforeFunc-15', 
-'K-SeqInsertBeforeFunc-16', 
-'K-SeqInsertBeforeFunc-17', 
-'K-SeqInsertBeforeFunc-18', 
-'K-SeqInsertBeforeFunc-19', 
-'K-SeqInsertBeforeFunc-20', 
-'K-SeqInsertBeforeFunc-21', 
-'cbcl-fn-insert-before-001', 
-'cbcl-fn-insert-before-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-insert-before-mix-args-001', 
+    'fn-insert-before-mix-args-002', 
+    'fn-insert-before-mix-args-003', 
+    'fn-insert-before-mix-args-004', 
+    'fn-insert-before-mix-args-005', 
+    'fn-insert-before-mix-args-006', 
+    'fn-insert-before-mix-args-007', 
+    'fn-insert-before-mix-args-008', 
+    'fn-insert-before-mix-args-009', 
+    'fn-insert-before-mix-args-010', 
+    'fn-insert-before-mix-args-011', 
+    'fn-insert-before-mix-args-012', 
+    'fn-insert-before-mix-args-013', 
+    'fn-insert-before-mix-args-014', 
+    'fn-insert-before-mix-args-015', 
+    'fn-insert-before-mix-args-016', 
+    'fn-insert-before-mix-args-017', 
+    'fn-insert-before-mix-args-018', 
+    'fn-insert-before-mix-args-019', 
+    'fn-insert-before-mix-args-020', 
+    'K-SeqInsertBeforeFunc-1', 
+    'K-SeqInsertBeforeFunc-2', 
+    'K-SeqInsertBeforeFunc-3']}, 
+   {group_1, [parallel], [
+    'K-SeqInsertBeforeFunc-4', 
+    'K-SeqInsertBeforeFunc-5', 
+    'K-SeqInsertBeforeFunc-6', 
+    'K-SeqInsertBeforeFunc-7', 
+    'K-SeqInsertBeforeFunc-8', 
+    'K-SeqInsertBeforeFunc-9', 
+    'K-SeqInsertBeforeFunc-10', 
+    'K-SeqInsertBeforeFunc-11', 
+    'K-SeqInsertBeforeFunc-12', 
+    'K-SeqInsertBeforeFunc-13', 
+    'K-SeqInsertBeforeFunc-14', 
+    'K-SeqInsertBeforeFunc-15', 
+    'K-SeqInsertBeforeFunc-16', 
+    'K-SeqInsertBeforeFunc-17', 
+    'K-SeqInsertBeforeFunc-18', 
+    'K-SeqInsertBeforeFunc-19', 
+    'K-SeqInsertBeforeFunc-20', 
+    'K-SeqInsertBeforeFunc-21', 
+    'cbcl-fn-insert-before-001', 
+    'cbcl-fn-insert-before-002']}].
 
 'fn-insert-before-mix-args-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

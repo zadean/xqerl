@@ -1,8 +1,11 @@
 -module('prod_AxisStep_unabbr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['unabbreviatedSyntax-1'/1]).
 -export(['unabbreviatedSyntax-2'/1]).
@@ -30,7 +33,10 @@
 -export(['unabbreviatedSyntax-31'/1]).
 -export(['unabbreviatedSyntax-32'/1]).
 -export(['unabbreviatedSyntax-33'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -41,33 +47,38 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'unabbreviatedSyntax-1', 
-'unabbreviatedSyntax-2', 
-'unabbreviatedSyntax-3', 
-'unabbreviatedSyntax-4', 
-'unabbreviatedSyntax-5', 
-'unabbreviatedSyntax-8', 
-'unabbreviatedSyntax-9', 
-'unabbreviatedSyntax-12', 
-'unabbreviatedSyntax-13', 
-'unabbreviatedSyntax-14', 
-'unabbreviatedSyntax-15', 
-'unabbreviatedSyntax-16', 
-'unabbreviatedSyntax-18', 
-'unabbreviatedSyntax-19', 
-'unabbreviatedSyntax-20', 
-'unabbreviatedSyntax-21', 
-'unabbreviatedSyntax-22', 
-'unabbreviatedSyntax-23', 
-'unabbreviatedSyntax-26', 
-'unabbreviatedSyntax-27', 
-'unabbreviatedSyntax-28', 
-'unabbreviatedSyntax-29', 
-'unabbreviatedSyntax-30', 
-'unabbreviatedSyntax-31', 
-'unabbreviatedSyntax-32', 
-'unabbreviatedSyntax-33'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'unabbreviatedSyntax-1', 
+    'unabbreviatedSyntax-2', 
+    'unabbreviatedSyntax-3', 
+    'unabbreviatedSyntax-4', 
+    'unabbreviatedSyntax-5', 
+    'unabbreviatedSyntax-8', 
+    'unabbreviatedSyntax-9', 
+    'unabbreviatedSyntax-12', 
+    'unabbreviatedSyntax-13', 
+    'unabbreviatedSyntax-14', 
+    'unabbreviatedSyntax-15', 
+    'unabbreviatedSyntax-16', 
+    'unabbreviatedSyntax-18', 
+    'unabbreviatedSyntax-19', 
+    'unabbreviatedSyntax-20', 
+    'unabbreviatedSyntax-21', 
+    'unabbreviatedSyntax-22', 
+    'unabbreviatedSyntax-23', 
+    'unabbreviatedSyntax-26', 
+    'unabbreviatedSyntax-27', 
+    'unabbreviatedSyntax-28', 
+    'unabbreviatedSyntax-29', 
+    'unabbreviatedSyntax-30']}, 
+   {group_1, [parallel], [
+    'unabbreviatedSyntax-31', 
+    'unabbreviatedSyntax-32', 
+    'unabbreviatedSyntax-33']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

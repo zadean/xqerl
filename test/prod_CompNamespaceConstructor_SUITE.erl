@@ -1,8 +1,11 @@
 -module('prod_CompNamespaceConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['nscons-001'/1]).
 -export(['nscons-002'/1]).
@@ -48,7 +51,10 @@
 -export(['nscons-042'/1]).
 -export(['nscons-043'/1]).
 -export(['nscons-044'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'nscons-001', 
-'nscons-002', 
-'nscons-003', 
-'nscons-004', 
-'nscons-005', 
-'nscons-006', 
-'nscons-007', 
-'nscons-008', 
-'nscons-009', 
-'nscons-010', 
-'nscons-011', 
-'nscons-012', 
-'nscons-013', 
-'nscons-014', 
-'nscons-015', 
-'nscons-016', 
-'nscons-017', 
-'nscons-018', 
-'nscons-019', 
-'nscons-020', 
-'nscons-021', 
-'nscons-022', 
-'nscons-023', 
-'nscons-024', 
-'nscons-025', 
-'nscons-026', 
-'nscons-027', 
-'nscons-028', 
-'nscons-029', 
-'nscons-030', 
-'nscons-031', 
-'nscons-032', 
-'nscons-033', 
-'nscons-034', 
-'nscons-035', 
-'nscons-036', 
-'nscons-037', 
-'nscons-038', 
-'nscons-039', 
-'nscons-040', 
-'nscons-041', 
-'nscons-042', 
-'nscons-043', 
-'nscons-044'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'nscons-001', 
+    'nscons-002', 
+    'nscons-003', 
+    'nscons-004', 
+    'nscons-005', 
+    'nscons-006', 
+    'nscons-007', 
+    'nscons-008', 
+    'nscons-009', 
+    'nscons-010', 
+    'nscons-011', 
+    'nscons-012', 
+    'nscons-013', 
+    'nscons-014', 
+    'nscons-015', 
+    'nscons-016', 
+    'nscons-017', 
+    'nscons-018', 
+    'nscons-019', 
+    'nscons-020', 
+    'nscons-021', 
+    'nscons-022', 
+    'nscons-023']}, 
+   {group_1, [parallel], [
+    'nscons-024', 
+    'nscons-025', 
+    'nscons-026', 
+    'nscons-027', 
+    'nscons-028', 
+    'nscons-029', 
+    'nscons-030', 
+    'nscons-031', 
+    'nscons-032', 
+    'nscons-033', 
+    'nscons-034', 
+    'nscons-035', 
+    'nscons-036', 
+    'nscons-037', 
+    'nscons-038', 
+    'nscons-039', 
+    'nscons-040', 
+    'nscons-041', 
+    'nscons-042', 
+    'nscons-043', 
+    'nscons-044']}].
 environment('cnc-schema',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

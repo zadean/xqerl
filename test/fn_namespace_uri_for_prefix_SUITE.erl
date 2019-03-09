@@ -1,8 +1,11 @@
 -module('fn_namespace_uri_for_prefix_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-namespace-uri-for-prefix-1'/1]).
 -export(['fn-namespace-uri-for-prefix-2'/1]).
@@ -33,7 +36,10 @@
 -export(['K2-NamespaceURIForPrefixFunc-2'/1]).
 -export(['K2-NamespaceURIForPrefixFunc-3'/1]).
 -export(['cbcl-namespace-uri-for-prefix-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-namespace-uri-for-prefix-1', 
-'fn-namespace-uri-for-prefix-2', 
-'fn-namespace-uri-for-prefix-3', 
-'fn-namespace-uri-for-prefix-4', 
-'fn-namespace-uri-for-prefix-5', 
-'fn-namespace-uri-for-prefix-6', 
-'fn-namespace-uri-for-prefix-7', 
-'fn-namespace-uri-for-prefix-8', 
-'fn-namespace-uri-for-prefix-9', 
-'fn-namespace-uri-for-prefix-10', 
-'fn-namespace-uri-for-prefix-11', 
-'fn-namespace-uri-for-prefix-12', 
-'fn-namespace-uri-for-prefix-13', 
-'fn-namespace-uri-for-prefix-14', 
-'fn-namespace-uri-for-prefix-15', 
-'fn-namespace-uri-for-prefix-16', 
-'fn-namespace-uri-for-prefix-17', 
-'fn-namespace-uri-for-prefix-18', 
-'fn-namespace-uri-for-prefix-19', 
-'fn-namespace-uri-for-prefix-20', 
-'fn-namespace-uri-for-prefix-21', 
-'fn-namespace-uri-for-prefix-22', 
-'fn-namespace-uri-for-prefix-23', 
-'K-NamespaceURIForPrefixFunc-1', 
-'K-NamespaceURIForPrefixFunc-2', 
-'K2-NamespaceURIForPrefixFunc-1', 
-'K2-NamespaceURIForPrefixFunc-2', 
-'K2-NamespaceURIForPrefixFunc-3', 
-'cbcl-namespace-uri-for-prefix-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-namespace-uri-for-prefix-1', 
+    'fn-namespace-uri-for-prefix-2', 
+    'fn-namespace-uri-for-prefix-3', 
+    'fn-namespace-uri-for-prefix-4', 
+    'fn-namespace-uri-for-prefix-5', 
+    'fn-namespace-uri-for-prefix-6', 
+    'fn-namespace-uri-for-prefix-7', 
+    'fn-namespace-uri-for-prefix-8', 
+    'fn-namespace-uri-for-prefix-9', 
+    'fn-namespace-uri-for-prefix-10', 
+    'fn-namespace-uri-for-prefix-11', 
+    'fn-namespace-uri-for-prefix-12', 
+    'fn-namespace-uri-for-prefix-13', 
+    'fn-namespace-uri-for-prefix-14', 
+    'fn-namespace-uri-for-prefix-15', 
+    'fn-namespace-uri-for-prefix-16', 
+    'fn-namespace-uri-for-prefix-17', 
+    'fn-namespace-uri-for-prefix-18', 
+    'fn-namespace-uri-for-prefix-19', 
+    'fn-namespace-uri-for-prefix-20', 
+    'fn-namespace-uri-for-prefix-21', 
+    'fn-namespace-uri-for-prefix-22', 
+    'fn-namespace-uri-for-prefix-23']}, 
+   {group_1, [parallel], [
+    'K-NamespaceURIForPrefixFunc-1', 
+    'K-NamespaceURIForPrefixFunc-2', 
+    'K2-NamespaceURIForPrefixFunc-1', 
+    'K2-NamespaceURIForPrefixFunc-2', 
+    'K2-NamespaceURIForPrefixFunc-3', 
+    'cbcl-namespace-uri-for-prefix-001']}].
 
 'fn-namespace-uri-for-prefix-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

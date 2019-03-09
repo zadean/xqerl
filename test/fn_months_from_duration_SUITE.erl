@@ -1,8 +1,11 @@
 -module('fn_months_from_duration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-months-from-duration1args-1'/1]).
 -export(['fn-months-from-duration1args-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K-MonthsFromDurationFunc-6'/1]).
 -export(['K-MonthsFromDurationFunc-7'/1]).
 -export(['cbcl-months-from-duration-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-months-from-duration1args-1', 
-'fn-months-from-duration1args-2', 
-'fn-months-from-duration1args-3', 
-'fn-months-from-duration-1', 
-'fn-months-from-duration-2', 
-'fn-months-from-duration-3', 
-'fn-months-from-duration-4', 
-'fn-months-from-duration-5', 
-'fn-months-from-duration-6', 
-'fn-months-from-duration-7', 
-'fn-months-from-duration-8', 
-'fn-months-from-duration-9', 
-'fn-months-from-duration-10', 
-'fn-months-from-duration-11', 
-'fn-months-from-duration-12', 
-'fn-months-from-duration-13', 
-'fn-months-from-duration-14', 
-'fn-months-from-duration-15', 
-'fn-months-from-duration-16', 
-'fn-months-from-duration-17', 
-'fn-months-from-duration-18', 
-'fn-months-from-duration-19', 
-'fn-months-from-duration-20', 
-'K-MonthsFromDurationFunc-1', 
-'K-MonthsFromDurationFunc-2', 
-'K-MonthsFromDurationFunc-3', 
-'K-MonthsFromDurationFunc-4', 
-'K-MonthsFromDurationFunc-5', 
-'K-MonthsFromDurationFunc-6', 
-'K-MonthsFromDurationFunc-7', 
-'cbcl-months-from-duration-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-months-from-duration1args-1', 
+    'fn-months-from-duration1args-2', 
+    'fn-months-from-duration1args-3', 
+    'fn-months-from-duration-1', 
+    'fn-months-from-duration-2', 
+    'fn-months-from-duration-3', 
+    'fn-months-from-duration-4', 
+    'fn-months-from-duration-5', 
+    'fn-months-from-duration-6', 
+    'fn-months-from-duration-7', 
+    'fn-months-from-duration-8', 
+    'fn-months-from-duration-9', 
+    'fn-months-from-duration-10', 
+    'fn-months-from-duration-11', 
+    'fn-months-from-duration-12', 
+    'fn-months-from-duration-13', 
+    'fn-months-from-duration-14', 
+    'fn-months-from-duration-15', 
+    'fn-months-from-duration-16', 
+    'fn-months-from-duration-17', 
+    'fn-months-from-duration-18', 
+    'fn-months-from-duration-19', 
+    'fn-months-from-duration-20']}, 
+   {group_1, [parallel], [
+    'K-MonthsFromDurationFunc-1', 
+    'K-MonthsFromDurationFunc-2', 
+    'K-MonthsFromDurationFunc-3', 
+    'K-MonthsFromDurationFunc-4', 
+    'K-MonthsFromDurationFunc-5', 
+    'K-MonthsFromDurationFunc-6', 
+    'K-MonthsFromDurationFunc-7', 
+    'cbcl-months-from-duration-001']}].
 
 'fn-months-from-duration1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

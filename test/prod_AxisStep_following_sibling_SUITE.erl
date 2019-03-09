@@ -1,8 +1,11 @@
 -module('prod_AxisStep_following_sibling_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['followingsibling-1'/1]).
 -export(['followingsibling-2'/1]).
@@ -37,7 +40,10 @@
 -export(['K2-following-siblingAxis-9'/1]).
 -export(['K2-following-siblingAxis-10'/1]).
 -export(['following-sibling-attr'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -48,40 +54,45 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'followingsibling-1', 
-'followingsibling-2', 
-'followingsibling-3', 
-'followingsibling-4', 
-'followingsibling-5', 
-'followingsibling-6', 
-'followingsibling-7', 
-'followingsibling-8', 
-'followingsibling-9', 
-'followingsibling-10', 
-'followingsibling-11', 
-'followingsibling-12', 
-'followingsibling-13', 
-'followingsibling-14', 
-'followingsibling-15', 
-'followingsibling-16', 
-'followingsibling-17', 
-'followingsibling-18', 
-'followingsibling-19', 
-'followingsibling-20', 
-'followingsibling-21', 
-'unabbreviatedSyntax-24', 
-'K2-following-siblingAxis-1', 
-'K2-following-siblingAxis-2', 
-'K2-following-siblingAxis-3', 
-'K2-following-siblingAxis-4', 
-'K2-following-siblingAxis-5', 
-'K2-following-siblingAxis-6', 
-'K2-following-siblingAxis-7', 
-'K2-following-siblingAxis-8', 
-'K2-following-siblingAxis-9', 
-'K2-following-siblingAxis-10', 
-'following-sibling-attr'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'followingsibling-1', 
+    'followingsibling-2', 
+    'followingsibling-3', 
+    'followingsibling-4', 
+    'followingsibling-5', 
+    'followingsibling-6', 
+    'followingsibling-7', 
+    'followingsibling-8', 
+    'followingsibling-9', 
+    'followingsibling-10', 
+    'followingsibling-11', 
+    'followingsibling-12', 
+    'followingsibling-13', 
+    'followingsibling-14', 
+    'followingsibling-15', 
+    'followingsibling-16', 
+    'followingsibling-17', 
+    'followingsibling-18', 
+    'followingsibling-19', 
+    'followingsibling-20', 
+    'followingsibling-21', 
+    'unabbreviatedSyntax-24', 
+    'K2-following-siblingAxis-1']}, 
+   {group_1, [parallel], [
+    'K2-following-siblingAxis-2', 
+    'K2-following-siblingAxis-3', 
+    'K2-following-siblingAxis-4', 
+    'K2-following-siblingAxis-5', 
+    'K2-following-siblingAxis-6', 
+    'K2-following-siblingAxis-7', 
+    'K2-following-siblingAxis-8', 
+    'K2-following-siblingAxis-9', 
+    'K2-following-siblingAxis-10', 
+    'following-sibling-attr']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

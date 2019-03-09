@@ -1,8 +1,11 @@
 -module('fn_has_children_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-has-children-001'/1]).
 -export(['fn-has-children-002'/1]).
@@ -41,7 +44,10 @@
 -export(['fn-has-children-035'/1]).
 -export(['fn-has-children-036'/1]).
 -export(['fn-has-children-037'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -52,44 +58,49 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-has-children-001', 
-'fn-has-children-002', 
-'fn-has-children-003', 
-'fn-has-children-004', 
-'fn-has-children-005', 
-'fn-has-children-006', 
-'fn-has-children-007', 
-'fn-has-children-008', 
-'fn-has-children-009', 
-'fn-has-children-010', 
-'fn-has-children-011', 
-'fn-has-children-012', 
-'fn-has-children-013', 
-'fn-has-children-014', 
-'fn-has-children-015', 
-'fn-has-children-016', 
-'fn-has-children-017', 
-'fn-has-children-018', 
-'fn-has-children-019', 
-'fn-has-children-020', 
-'fn-has-children-021', 
-'fn-has-children-022', 
-'fn-has-children-023', 
-'fn-has-children-024', 
-'fn-has-children-025', 
-'fn-has-children-026', 
-'fn-has-children-027', 
-'fn-has-children-028', 
-'fn-has-children-029', 
-'fn-has-children-030', 
-'fn-has-children-031', 
-'fn-has-children-032', 
-'fn-has-children-033', 
-'fn-has-children-034', 
-'fn-has-children-035', 
-'fn-has-children-036', 
-'fn-has-children-037'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-has-children-001', 
+    'fn-has-children-002', 
+    'fn-has-children-003', 
+    'fn-has-children-004', 
+    'fn-has-children-005', 
+    'fn-has-children-006', 
+    'fn-has-children-007', 
+    'fn-has-children-008', 
+    'fn-has-children-009', 
+    'fn-has-children-010', 
+    'fn-has-children-011', 
+    'fn-has-children-012', 
+    'fn-has-children-013', 
+    'fn-has-children-014', 
+    'fn-has-children-015', 
+    'fn-has-children-016', 
+    'fn-has-children-017', 
+    'fn-has-children-018', 
+    'fn-has-children-019', 
+    'fn-has-children-020', 
+    'fn-has-children-021', 
+    'fn-has-children-022', 
+    'fn-has-children-023']}, 
+   {group_1, [parallel], [
+    'fn-has-children-024', 
+    'fn-has-children-025', 
+    'fn-has-children-026', 
+    'fn-has-children-027', 
+    'fn-has-children-028', 
+    'fn-has-children-029', 
+    'fn-has-children-030', 
+    'fn-has-children-031', 
+    'fn-has-children-032', 
+    'fn-has-children-033', 
+    'fn-has-children-034', 
+    'fn-has-children-035', 
+    'fn-has-children-036', 
+    'fn-has-children-037']}].
 environment('has-children',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "has-children/has-children.xml"), ".",[]}]}, 

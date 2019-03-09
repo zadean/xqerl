@@ -1,8 +1,11 @@
 -module('prod_ContextItemDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['contextDecl-014'/1]).
 -export(['contextDecl-015'/1]).
@@ -45,7 +48,10 @@
 -export(['contextDecl-056'/1]).
 -export(['contextDecl-057'/1]).
 -export(['contextDecl-058'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -56,48 +62,53 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'contextDecl-014', 
-'contextDecl-015', 
-'contextDecl-016', 
-'contextDecl-017', 
-'contextDecl-018', 
-'contextDecl-019', 
-'contextDecl-020', 
-'contextDecl-021', 
-'contextDecl-022', 
-'contextDecl-023', 
-'contextDecl-028', 
-'contextDecl-029', 
-'contextDecl-030', 
-'contextDecl-031', 
-'contextDecl-032', 
-'contextDecl-033', 
-'contextDecl-034', 
-'contextDecl-035', 
-'contextDecl-036', 
-'contextDecl-037', 
-'contextDecl-038', 
-'contextDecl-039', 
-'contextDecl-040', 
-'contextDecl-041', 
-'contextDecl-042', 
-'contextDecl-043', 
-'contextDecl-044', 
-'contextDecl-045', 
-'contextDecl-046', 
-'contextDecl-047', 
-'contextDecl-048', 
-'contextDecl-049', 
-'contextDecl-050', 
-'contextDecl-051', 
-'contextDecl-052', 
-'contextDecl-053', 
-'contextDecl-054', 
-'contextDecl-055', 
-'contextDecl-056', 
-'contextDecl-057', 
-'contextDecl-058'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'contextDecl-014', 
+    'contextDecl-015', 
+    'contextDecl-016', 
+    'contextDecl-017', 
+    'contextDecl-018', 
+    'contextDecl-019', 
+    'contextDecl-020', 
+    'contextDecl-021', 
+    'contextDecl-022', 
+    'contextDecl-023', 
+    'contextDecl-028', 
+    'contextDecl-029', 
+    'contextDecl-030', 
+    'contextDecl-031', 
+    'contextDecl-032', 
+    'contextDecl-033', 
+    'contextDecl-034', 
+    'contextDecl-035', 
+    'contextDecl-036', 
+    'contextDecl-037', 
+    'contextDecl-038', 
+    'contextDecl-039', 
+    'contextDecl-040']}, 
+   {group_1, [parallel], [
+    'contextDecl-041', 
+    'contextDecl-042', 
+    'contextDecl-043', 
+    'contextDecl-044', 
+    'contextDecl-045', 
+    'contextDecl-046', 
+    'contextDecl-047', 
+    'contextDecl-048', 
+    'contextDecl-049', 
+    'contextDecl-050', 
+    'contextDecl-051', 
+    'contextDecl-052', 
+    'contextDecl-053', 
+    'contextDecl-054', 
+    'contextDecl-055', 
+    'contextDecl-056', 
+    'contextDecl-057', 
+    'contextDecl-058']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

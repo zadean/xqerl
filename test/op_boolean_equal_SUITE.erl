@@ -1,8 +1,11 @@
 -module('op_boolean_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-boolean-equal2args-1'/1]).
 -export(['op-boolean-equal2args-2'/1]).
@@ -61,7 +64,10 @@
 -export(['cbcl-boolean-equal-004'/1]).
 -export(['cbcl-boolean-equal-005'/1]).
 -export(['cbcl-boolean-equal-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -72,64 +78,71 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-boolean-equal2args-1', 
-'op-boolean-equal2args-2', 
-'op-boolean-equal2args-3', 
-'op-boolean-equal2args-4', 
-'op-boolean-equal2args-5', 
-'op-boolean-equal-1', 
-'op-boolean-equal-2', 
-'op-boolean-equal-3', 
-'op-boolean-equal-4', 
-'op-boolean-equal-5', 
-'op-boolean-equal-6', 
-'op-boolean-equal-7', 
-'op-boolean-equal-8', 
-'op-boolean-equal-9', 
-'op-boolean-equal-10', 
-'op-boolean-equal-11', 
-'op-boolean-equal-12', 
-'op-boolean-equal-13', 
-'op-boolean-equal-14', 
-'op-boolean-equal-15', 
-'op-boolean-equal-16', 
-'op-boolean-equal-17', 
-'op-boolean-equal-18', 
-'op-boolean-equal-19', 
-'op-boolean-equal-more-args-001', 
-'op-boolean-equal-more-args-002', 
-'op-boolean-equal-more-args-003', 
-'op-boolean-equal-more-args-004', 
-'op-boolean-equal-more-args-005', 
-'op-boolean-equal-more-args-006', 
-'op-boolean-equal-more-args-007', 
-'op-boolean-equal-more-args-008', 
-'op-boolean-equal-more-args-009', 
-'op-boolean-equal-more-args-010', 
-'op-boolean-equal-more-args-011', 
-'op-boolean-equal-more-args-012', 
-'op-boolean-equal-more-args-013', 
-'op-boolean-equal-more-args-014', 
-'op-boolean-equal-more-args-015', 
-'op-boolean-equal-more-args-016', 
-'op-boolean-equal-more-args-017', 
-'op-boolean-equal-more-args-018', 
-'op-boolean-equal-more-args-019', 
-'K-BooleanEqual-1', 
-'K-BooleanEqual-2', 
-'K-BooleanEqual-3', 
-'K-BooleanEqual-4', 
-'K-BooleanEqual-5', 
-'K2-BooleanEqual-1', 
-'K2-BooleanEqual-2', 
-'K2-BooleanEqual-3', 
-'cbcl-boolean-equal-001', 
-'cbcl-boolean-equal-002', 
-'cbcl-boolean-equal-003', 
-'cbcl-boolean-equal-004', 
-'cbcl-boolean-equal-005', 
-'cbcl-boolean-equal-006'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-boolean-equal2args-1', 
+    'op-boolean-equal2args-2', 
+    'op-boolean-equal2args-3', 
+    'op-boolean-equal2args-4', 
+    'op-boolean-equal2args-5', 
+    'op-boolean-equal-1', 
+    'op-boolean-equal-2', 
+    'op-boolean-equal-3', 
+    'op-boolean-equal-4', 
+    'op-boolean-equal-5', 
+    'op-boolean-equal-6', 
+    'op-boolean-equal-7', 
+    'op-boolean-equal-8', 
+    'op-boolean-equal-9', 
+    'op-boolean-equal-10', 
+    'op-boolean-equal-11', 
+    'op-boolean-equal-12', 
+    'op-boolean-equal-13', 
+    'op-boolean-equal-14', 
+    'op-boolean-equal-15', 
+    'op-boolean-equal-16', 
+    'op-boolean-equal-17', 
+    'op-boolean-equal-18']}, 
+   {group_1, [parallel], [
+    'op-boolean-equal-19', 
+    'op-boolean-equal-more-args-001', 
+    'op-boolean-equal-more-args-002', 
+    'op-boolean-equal-more-args-003', 
+    'op-boolean-equal-more-args-004', 
+    'op-boolean-equal-more-args-005', 
+    'op-boolean-equal-more-args-006', 
+    'op-boolean-equal-more-args-007', 
+    'op-boolean-equal-more-args-008', 
+    'op-boolean-equal-more-args-009', 
+    'op-boolean-equal-more-args-010', 
+    'op-boolean-equal-more-args-011', 
+    'op-boolean-equal-more-args-012', 
+    'op-boolean-equal-more-args-013', 
+    'op-boolean-equal-more-args-014', 
+    'op-boolean-equal-more-args-015', 
+    'op-boolean-equal-more-args-016', 
+    'op-boolean-equal-more-args-017', 
+    'op-boolean-equal-more-args-018', 
+    'op-boolean-equal-more-args-019', 
+    'K-BooleanEqual-1', 
+    'K-BooleanEqual-2', 
+    'K-BooleanEqual-3', 
+    'K-BooleanEqual-4']}, 
+   {group_2, [parallel], [
+    'K-BooleanEqual-5', 
+    'K2-BooleanEqual-1', 
+    'K2-BooleanEqual-2', 
+    'K2-BooleanEqual-3', 
+    'cbcl-boolean-equal-001', 
+    'cbcl-boolean-equal-002', 
+    'cbcl-boolean-equal-003', 
+    'cbcl-boolean-equal-004', 
+    'cbcl-boolean-equal-005', 
+    'cbcl-boolean-equal-006']}].
 
 'op-boolean-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

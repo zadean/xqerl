@@ -1,8 +1,11 @@
 -module('app_UseCaseR_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['rdb-queries-results-q1'/1]).
 -export(['rdb-queries-results-q2'/1]).
@@ -22,7 +25,10 @@
 -export(['rdb-queries-results-q16'/1]).
 -export(['rdb-queries-results-q17'/1]).
 -export(['rdb-queries-results-q18'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -33,25 +39,28 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'rdb-queries-results-q1', 
-'rdb-queries-results-q2', 
-'rdb-queries-results-q3', 
-'rdb-queries-results-q4', 
-'rdb-queries-results-q5', 
-'rdb-queries-results-q6', 
-'rdb-queries-results-q7', 
-'rdb-queries-results-q8', 
-'rdb-queries-results-q9', 
-'rdb-queries-results-q10', 
-'rdb-queries-results-q11', 
-'rdb-queries-results-q12', 
-'rdb-queries-results-q13', 
-'rdb-queries-results-q14', 
-'rdb-queries-results-q15', 
-'rdb-queries-results-q16', 
-'rdb-queries-results-q17', 
-'rdb-queries-results-q18'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'rdb-queries-results-q1', 
+    'rdb-queries-results-q2', 
+    'rdb-queries-results-q3', 
+    'rdb-queries-results-q4', 
+    'rdb-queries-results-q5', 
+    'rdb-queries-results-q6', 
+    'rdb-queries-results-q7', 
+    'rdb-queries-results-q8', 
+    'rdb-queries-results-q9', 
+    'rdb-queries-results-q10', 
+    'rdb-queries-results-q11', 
+    'rdb-queries-results-q12', 
+    'rdb-queries-results-q13', 
+    'rdb-queries-results-q14', 
+    'rdb-queries-results-q15', 
+    'rdb-queries-results-q16', 
+    'rdb-queries-results-q17', 
+    'rdb-queries-results-q18']}].
 environment('users-items-bids',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/users.xml"), "$users",[]}, 

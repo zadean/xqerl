@@ -1,8 +1,11 @@
 -module('op_subtract_dayTimeDuration_from_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-subtract-dayTimeDuration-from-dateTime2args-1'/1]).
 -export(['op-subtract-dayTimeDuration-from-dateTime2args-2'/1]).
@@ -26,7 +29,10 @@
 -export(['op-subtract-dayTimeDuration-from-dateTime-16'/1]).
 -export(['cbcl-subtract-dayTimeDuration-from-dateTime-001'/1]).
 -export(['cbcl-subtract-dayTimeDuration-from-dateTime-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -37,29 +43,32 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-subtract-dayTimeDuration-from-dateTime2args-1', 
-'op-subtract-dayTimeDuration-from-dateTime2args-2', 
-'op-subtract-dayTimeDuration-from-dateTime2args-3', 
-'op-subtract-dayTimeDuration-from-dateTime2args-4', 
-'op-subtract-dayTimeDuration-from-dateTime2args-5', 
-'op-subtract-dayTimeDuration-from-dateTime-1', 
-'op-subtract-dayTimeDuration-from-dateTime-2', 
-'op-subtract-dayTimeDuration-from-dateTime-3', 
-'op-subtract-dayTimeDuration-from-dateTime-4', 
-'op-subtract-dayTimeDuration-from-dateTime-5', 
-'op-subtract-dayTimeDuration-from-dateTime-6', 
-'op-subtract-dayTimeDuration-from-dateTime-7', 
-'op-subtract-dayTimeDuration-from-dateTime-8', 
-'op-subtract-dayTimeDuration-from-dateTime-9', 
-'op-subtract-dayTimeDuration-from-dateTime-10', 
-'op-subtract-dayTimeDuration-from-dateTime-12', 
-'op-subtract-dayTimeDuration-from-dateTime-13', 
-'op-subtract-dayTimeDuration-from-dateTime-14', 
-'op-subtract-dayTimeDuration-from-dateTime-15', 
-'op-subtract-dayTimeDuration-from-dateTime-16', 
-'cbcl-subtract-dayTimeDuration-from-dateTime-001', 
-'cbcl-subtract-dayTimeDuration-from-dateTime-002'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-subtract-dayTimeDuration-from-dateTime2args-1', 
+    'op-subtract-dayTimeDuration-from-dateTime2args-2', 
+    'op-subtract-dayTimeDuration-from-dateTime2args-3', 
+    'op-subtract-dayTimeDuration-from-dateTime2args-4', 
+    'op-subtract-dayTimeDuration-from-dateTime2args-5', 
+    'op-subtract-dayTimeDuration-from-dateTime-1', 
+    'op-subtract-dayTimeDuration-from-dateTime-2', 
+    'op-subtract-dayTimeDuration-from-dateTime-3', 
+    'op-subtract-dayTimeDuration-from-dateTime-4', 
+    'op-subtract-dayTimeDuration-from-dateTime-5', 
+    'op-subtract-dayTimeDuration-from-dateTime-6', 
+    'op-subtract-dayTimeDuration-from-dateTime-7', 
+    'op-subtract-dayTimeDuration-from-dateTime-8', 
+    'op-subtract-dayTimeDuration-from-dateTime-9', 
+    'op-subtract-dayTimeDuration-from-dateTime-10', 
+    'op-subtract-dayTimeDuration-from-dateTime-12', 
+    'op-subtract-dayTimeDuration-from-dateTime-13', 
+    'op-subtract-dayTimeDuration-from-dateTime-14', 
+    'op-subtract-dayTimeDuration-from-dateTime-15', 
+    'op-subtract-dayTimeDuration-from-dateTime-16', 
+    'cbcl-subtract-dayTimeDuration-from-dateTime-001', 
+    'cbcl-subtract-dayTimeDuration-from-dateTime-002']}].
 
 'op-subtract-dayTimeDuration-from-dateTime2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

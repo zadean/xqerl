@@ -1,8 +1,11 @@
 -module('op_node_after_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['nodeexpression33'/1]).
 -export(['nodeexpression34'/1]).
@@ -39,7 +42,10 @@
 -export(['K-NodeAfter-11'/1]).
 -export(['cbcl-node-after-001'/1]).
 -export(['cbcl-node-after-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -50,42 +56,47 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'nodeexpression33', 
-'nodeexpression34', 
-'nodeexpression35', 
-'nodeexpression36', 
-'nodeexpression37', 
-'nodeexpression38', 
-'nodeexpression39', 
-'nodeexpression40', 
-'nodeexpression41', 
-'nodeexpression42', 
-'nodeexpression43', 
-'nodeexpression44', 
-'nodeexpression45', 
-'nodeexpression46', 
-'nodeexpression47', 
-'nodeexpression48', 
-'nodeexpressionhc11', 
-'nodeexpressionhc12', 
-'nodeexpressionhc13', 
-'nodeexpressionhc14', 
-'nodeexpressionhc15', 
-'nodecomparisonerr-3', 
-'K-NodeAfter-1', 
-'K-NodeAfter-2', 
-'K-NodeAfter-3', 
-'K-NodeAfter-4', 
-'K-NodeAfter-5', 
-'K-NodeAfter-6', 
-'K-NodeAfter-7', 
-'K-NodeAfter-8', 
-'K-NodeAfter-9', 
-'K-NodeAfter-10', 
-'K-NodeAfter-11', 
-'cbcl-node-after-001', 
-'cbcl-node-after-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'nodeexpression33', 
+    'nodeexpression34', 
+    'nodeexpression35', 
+    'nodeexpression36', 
+    'nodeexpression37', 
+    'nodeexpression38', 
+    'nodeexpression39', 
+    'nodeexpression40', 
+    'nodeexpression41', 
+    'nodeexpression42', 
+    'nodeexpression43', 
+    'nodeexpression44', 
+    'nodeexpression45', 
+    'nodeexpression46', 
+    'nodeexpression47', 
+    'nodeexpression48', 
+    'nodeexpressionhc11', 
+    'nodeexpressionhc12', 
+    'nodeexpressionhc13', 
+    'nodeexpressionhc14', 
+    'nodeexpressionhc15', 
+    'nodecomparisonerr-3', 
+    'K-NodeAfter-1']}, 
+   {group_1, [parallel], [
+    'K-NodeAfter-2', 
+    'K-NodeAfter-3', 
+    'K-NodeAfter-4', 
+    'K-NodeAfter-5', 
+    'K-NodeAfter-6', 
+    'K-NodeAfter-7', 
+    'K-NodeAfter-8', 
+    'K-NodeAfter-9', 
+    'K-NodeAfter-10', 
+    'K-NodeAfter-11', 
+    'cbcl-node-after-001', 
+    'cbcl-node-after-002']}].
 environment('works',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 

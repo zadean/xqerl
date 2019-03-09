@@ -1,8 +1,11 @@
 -module('method_text_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Serialization-text-1'/1]).
 -export(['Serialization-text-2'/1]).
@@ -25,7 +28,10 @@
 -export(['Serialization-text-18'/1]).
 -export(['Serialization-text-19'/1]).
 -export(['Serialization-text-20'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -36,28 +42,31 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "ser"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Serialization-text-1', 
-'Serialization-text-2', 
-'Serialization-text-3', 
-'Serialization-text-4', 
-'Serialization-text-5', 
-'Serialization-text-6', 
-'Serialization-text-7', 
-'Serialization-text-7a', 
-'Serialization-text-8', 
-'Serialization-text-8a', 
-'Serialization-text-9', 
-'Serialization-text-10', 
-'Serialization-text-11', 
-'Serialization-text-13', 
-'Serialization-text-14', 
-'Serialization-text-15', 
-'Serialization-text-16', 
-'Serialization-text-17', 
-'Serialization-text-18', 
-'Serialization-text-19', 
-'Serialization-text-20'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Serialization-text-1', 
+    'Serialization-text-2', 
+    'Serialization-text-3', 
+    'Serialization-text-4', 
+    'Serialization-text-5', 
+    'Serialization-text-6', 
+    'Serialization-text-7', 
+    'Serialization-text-7a', 
+    'Serialization-text-8', 
+    'Serialization-text-8a', 
+    'Serialization-text-9', 
+    'Serialization-text-10', 
+    'Serialization-text-11', 
+    'Serialization-text-13', 
+    'Serialization-text-14', 
+    'Serialization-text-15', 
+    'Serialization-text-16', 
+    'Serialization-text-17', 
+    'Serialization-text-18', 
+    'Serialization-text-19', 
+    'Serialization-text-20']}].
 
 'Serialization-text-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('map_keys_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-keys-001'/1]).
 -export(['map-keys-002'/1]).
@@ -18,7 +21,10 @@
 -export(['map-keys-012'/1]).
 -export(['map-keys-013'/1]).
 -export(['map-keys-014'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -29,21 +35,24 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-keys-001', 
-'map-keys-002', 
-'map-keys-003', 
-'map-keys-004', 
-'map-keys-005', 
-'map-keys-006', 
-'map-keys-007', 
-'map-keys-008', 
-'map-keys-009', 
-'map-keys-010', 
-'map-keys-011', 
-'map-keys-012', 
-'map-keys-013', 
-'map-keys-014'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-keys-001', 
+    'map-keys-002', 
+    'map-keys-003', 
+    'map-keys-004', 
+    'map-keys-005', 
+    'map-keys-006', 
+    'map-keys-007', 
+    'map-keys-008', 
+    'map-keys-009', 
+    'map-keys-010', 
+    'map-keys-011', 
+    'map-keys-012', 
+    'map-keys-013', 
+    'map-keys-014']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

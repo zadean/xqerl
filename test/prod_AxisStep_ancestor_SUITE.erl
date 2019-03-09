@@ -1,8 +1,11 @@
 -module('prod_AxisStep_ancestor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ancestor-1'/1]).
 -export(['ancestor-2'/1]).
@@ -47,7 +50,10 @@
 -export(['K2-ancestorAxis-19'/1]).
 -export(['K2-ancestorAxis-20'/1]).
 -export(['K2-ancestorAxis-21'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -58,50 +64,55 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ancestor-1', 
-'ancestor-2', 
-'ancestor-3', 
-'ancestor-4', 
-'ancestor-5', 
-'ancestor-6', 
-'ancestor-7', 
-'ancestor-8', 
-'ancestor-9', 
-'ancestor-10', 
-'ancestor-11', 
-'ancestor-12', 
-'ancestor-13', 
-'ancestor-14', 
-'ancestor-15', 
-'ancestor-16', 
-'ancestor-17', 
-'ancestor-18', 
-'ancestor-19', 
-'ancestor-20', 
-'ancestor-21', 
-'unabbreviatedSyntax-10', 
-'K2-ancestorAxis-1', 
-'K2-ancestorAxis-2', 
-'K2-ancestorAxis-3', 
-'K2-ancestorAxis-4', 
-'K2-ancestorAxis-5', 
-'K2-ancestorAxis-6', 
-'K2-ancestorAxis-7', 
-'K2-ancestorAxis-8', 
-'K2-ancestorAxis-9', 
-'K2-ancestorAxis-10', 
-'K2-ancestorAxis-11', 
-'K2-ancestorAxis-12', 
-'K2-ancestorAxis-13', 
-'K2-ancestorAxis-14', 
-'K2-ancestorAxis-15', 
-'K2-ancestorAxis-16', 
-'K2-ancestorAxis-17', 
-'K2-ancestorAxis-18', 
-'K2-ancestorAxis-19', 
-'K2-ancestorAxis-20', 
-'K2-ancestorAxis-21'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ancestor-1', 
+    'ancestor-2', 
+    'ancestor-3', 
+    'ancestor-4', 
+    'ancestor-5', 
+    'ancestor-6', 
+    'ancestor-7', 
+    'ancestor-8', 
+    'ancestor-9', 
+    'ancestor-10', 
+    'ancestor-11', 
+    'ancestor-12', 
+    'ancestor-13', 
+    'ancestor-14', 
+    'ancestor-15', 
+    'ancestor-16', 
+    'ancestor-17', 
+    'ancestor-18', 
+    'ancestor-19', 
+    'ancestor-20', 
+    'ancestor-21', 
+    'unabbreviatedSyntax-10', 
+    'K2-ancestorAxis-1']}, 
+   {group_1, [parallel], [
+    'K2-ancestorAxis-2', 
+    'K2-ancestorAxis-3', 
+    'K2-ancestorAxis-4', 
+    'K2-ancestorAxis-5', 
+    'K2-ancestorAxis-6', 
+    'K2-ancestorAxis-7', 
+    'K2-ancestorAxis-8', 
+    'K2-ancestorAxis-9', 
+    'K2-ancestorAxis-10', 
+    'K2-ancestorAxis-11', 
+    'K2-ancestorAxis-12', 
+    'K2-ancestorAxis-13', 
+    'K2-ancestorAxis-14', 
+    'K2-ancestorAxis-15', 
+    'K2-ancestorAxis-16', 
+    'K2-ancestorAxis-17', 
+    'K2-ancestorAxis-18', 
+    'K2-ancestorAxis-19', 
+    'K2-ancestorAxis-20', 
+    'K2-ancestorAxis-21']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

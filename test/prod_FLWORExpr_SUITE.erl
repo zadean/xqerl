@@ -1,8 +1,11 @@
 -module('prod_FLWORExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ForExprType010'/1]).
 -export(['ForExprType025'/1]).
@@ -25,7 +28,10 @@
 -export(['step-expr-si-1'/1]).
 -export(['step-expr-si-2'/1]).
 -export(['step-expr-si-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -36,28 +42,31 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ForExprType010', 
-'ForExprType025', 
-'ForExprType026', 
-'ForExprType027', 
-'ForExprType037', 
-'ForExprType038', 
-'ForExprType039', 
-'ForExprType040', 
-'ForExprType041', 
-'ForExprType042', 
-'ForExprType043', 
-'ForExprType044', 
-'ForExprType048', 
-'ForExprType049', 
-'ForExprType050', 
-'ForExprType051', 
-'ForExprType052', 
-'ForExprType053', 
-'step-expr-si-1', 
-'step-expr-si-2', 
-'step-expr-si-3'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ForExprType010', 
+    'ForExprType025', 
+    'ForExprType026', 
+    'ForExprType027', 
+    'ForExprType037', 
+    'ForExprType038', 
+    'ForExprType039', 
+    'ForExprType040', 
+    'ForExprType041', 
+    'ForExprType042', 
+    'ForExprType043', 
+    'ForExprType044', 
+    'ForExprType048', 
+    'ForExprType049', 
+    'ForExprType050', 
+    'ForExprType051', 
+    'ForExprType052', 
+    'ForExprType053', 
+    'step-expr-si-1', 
+    'step-expr-si-2', 
+    'step-expr-si-3']}].
 environment('SpecialTypes',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "ForClause/SpecialTypes.xml"), ".",[]}]}, 

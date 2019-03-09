@@ -1,8 +1,11 @@
 -module('fn_namespace_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-namespace-uri-1'/1]).
 -export(['fn-namespace-uri-2'/1]).
@@ -37,7 +40,10 @@
 -export(['K2-NodeNamespaceURIFunc-2'/1]).
 -export(['K2-NodeNamespaceURIFunc-3'/1]).
 -export(['cbcl-namespace-uri-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -48,40 +54,45 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-namespace-uri-1', 
-'fn-namespace-uri-2', 
-'fn-namespace-uri-3', 
-'fn-namespace-uri-4', 
-'fn-namespace-uri-5', 
-'fn-namespace-uri-6', 
-'fn-namespace-uri-7', 
-'fn-namespace-uri-8', 
-'fn-namespace-uri-9', 
-'fn-namespace-uri-10', 
-'fn-namespace-uri-11', 
-'fn-namespace-uri-12', 
-'fn-namespace-uri-13', 
-'fn-namespace-uri-14', 
-'fn-namespace-uri-15', 
-'fn-namespace-uri-16', 
-'fn-namespace-uri-17', 
-'fn-namespace-uri-18', 
-'fn-namespace-uri-19', 
-'fn-namespace-uri-20', 
-'fn-namespace-uri-21', 
-'fn-namespace-uri-22', 
-'fn-namespace-uri-23', 
-'fn-namespace-uri-24', 
-'fn-namespace-uri-25', 
-'fn-namespace-uri-26', 
-'K-NodeNamespaceURIFunc-1', 
-'K-NodeNamespaceURIFunc-2', 
-'K-NodeNamespaceURIFunc-3', 
-'K2-NodeNamespaceURIFunc-1', 
-'K2-NodeNamespaceURIFunc-2', 
-'K2-NodeNamespaceURIFunc-3', 
-'cbcl-namespace-uri-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-namespace-uri-1', 
+    'fn-namespace-uri-2', 
+    'fn-namespace-uri-3', 
+    'fn-namespace-uri-4', 
+    'fn-namespace-uri-5', 
+    'fn-namespace-uri-6', 
+    'fn-namespace-uri-7', 
+    'fn-namespace-uri-8', 
+    'fn-namespace-uri-9', 
+    'fn-namespace-uri-10', 
+    'fn-namespace-uri-11', 
+    'fn-namespace-uri-12', 
+    'fn-namespace-uri-13', 
+    'fn-namespace-uri-14', 
+    'fn-namespace-uri-15', 
+    'fn-namespace-uri-16', 
+    'fn-namespace-uri-17', 
+    'fn-namespace-uri-18', 
+    'fn-namespace-uri-19', 
+    'fn-namespace-uri-20', 
+    'fn-namespace-uri-21', 
+    'fn-namespace-uri-22', 
+    'fn-namespace-uri-23']}, 
+   {group_1, [parallel], [
+    'fn-namespace-uri-24', 
+    'fn-namespace-uri-25', 
+    'fn-namespace-uri-26', 
+    'K-NodeNamespaceURIFunc-1', 
+    'K-NodeNamespaceURIFunc-2', 
+    'K-NodeNamespaceURIFunc-3', 
+    'K2-NodeNamespaceURIFunc-1', 
+    'K2-NodeNamespaceURIFunc-2', 
+    'K2-NodeNamespaceURIFunc-3', 
+    'cbcl-namespace-uri-001']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

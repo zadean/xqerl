@@ -1,8 +1,11 @@
 -module('misc_Surrogates_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['surrogates01'/1]).
 -export(['surrogates02'/1]).
@@ -36,7 +39,10 @@
 -export(['surrogates14a'/1]).
 -export(['surrogates15a'/1]).
 -export(['surrogates16a'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -47,39 +53,44 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "misc"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'surrogates01', 
-'surrogates02', 
-'surrogates03', 
-'surrogates04', 
-'surrogates05', 
-'surrogates06', 
-'surrogates07', 
-'surrogates08', 
-'surrogates09', 
-'surrogates10', 
-'surrogates11', 
-'surrogates12', 
-'surrogates13', 
-'surrogates14', 
-'surrogates15', 
-'surrogates16', 
-'surrogates01a', 
-'surrogates02a', 
-'surrogates03a', 
-'surrogates04a', 
-'surrogates05a', 
-'surrogates06a', 
-'surrogates07a', 
-'surrogates08a', 
-'surrogates09a', 
-'surrogates10a', 
-'surrogates11a', 
-'surrogates12a', 
-'surrogates13a', 
-'surrogates14a', 
-'surrogates15a', 
-'surrogates16a'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'surrogates01', 
+    'surrogates02', 
+    'surrogates03', 
+    'surrogates04', 
+    'surrogates05', 
+    'surrogates06', 
+    'surrogates07', 
+    'surrogates08', 
+    'surrogates09', 
+    'surrogates10', 
+    'surrogates11', 
+    'surrogates12', 
+    'surrogates13', 
+    'surrogates14', 
+    'surrogates15', 
+    'surrogates16', 
+    'surrogates01a', 
+    'surrogates02a', 
+    'surrogates03a', 
+    'surrogates04a', 
+    'surrogates05a', 
+    'surrogates06a', 
+    'surrogates07a']}, 
+   {group_1, [parallel], [
+    'surrogates08a', 
+    'surrogates09a', 
+    'surrogates10a', 
+    'surrogates11a', 
+    'surrogates12a', 
+    'surrogates13a', 
+    'surrogates14a', 
+    'surrogates15a', 
+    'surrogates16a']}].
 
 'surrogates01'(Config) ->
    __BaseDir = ?config(base_dir, Config),

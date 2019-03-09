@@ -1,8 +1,11 @@
 -module('fn_node_name_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-node-name-1'/1]).
 -export(['fn-node-name-2'/1]).
@@ -48,7 +51,10 @@
 -export(['K3-NodeNameFunc-3'/1]).
 -export(['K3-NodeNameFunc-4'/1]).
 -export(['cbcl-node-name-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-node-name-1', 
-'fn-node-name-2', 
-'fn-node-name-3', 
-'fn-node-name-4', 
-'fn-node-name-5', 
-'fn-node-name-6', 
-'fn-node-name-7', 
-'fn-node-name-8', 
-'fn-node-name-9', 
-'fn-node-name-10', 
-'fn-node-name-11', 
-'fn-node-name-12', 
-'fn-node-name-13', 
-'fn-node-name-14', 
-'fn-node-name-15', 
-'fn-node-name-16', 
-'fn-node-name-17', 
-'fn-node-name-18', 
-'fn-node-name-19', 
-'fn-node-name-20', 
-'fn-node-name-21', 
-'fn-node-name-22', 
-'fn-node-name-23', 
-'fn-node-name-24', 
-'fn-node-name-25', 
-'fn-node-name-26', 
-'fn-node-name-27', 
-'fn-node-name-28', 
-'fn-node-name-29', 
-'fn-node-name-30', 
-'fn-node-name-31', 
-'fn-node-name-32', 
-'K-NodeNameFunc-1', 
-'K-NodeNameFunc-1a', 
-'K-NodeNameFunc-2', 
-'K-NodeNameFunc-3', 
-'K2-NodeNameFunc-1', 
-'K2-NodeNameFunc-2', 
-'K2-NodeNameFunc-3', 
-'K3-NodeNameFunc-1', 
-'K3-NodeNameFunc-2', 
-'K3-NodeNameFunc-3', 
-'K3-NodeNameFunc-4', 
-'cbcl-node-name-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-node-name-1', 
+    'fn-node-name-2', 
+    'fn-node-name-3', 
+    'fn-node-name-4', 
+    'fn-node-name-5', 
+    'fn-node-name-6', 
+    'fn-node-name-7', 
+    'fn-node-name-8', 
+    'fn-node-name-9', 
+    'fn-node-name-10', 
+    'fn-node-name-11', 
+    'fn-node-name-12', 
+    'fn-node-name-13', 
+    'fn-node-name-14', 
+    'fn-node-name-15', 
+    'fn-node-name-16', 
+    'fn-node-name-17', 
+    'fn-node-name-18', 
+    'fn-node-name-19', 
+    'fn-node-name-20', 
+    'fn-node-name-21', 
+    'fn-node-name-22', 
+    'fn-node-name-23']}, 
+   {group_1, [parallel], [
+    'fn-node-name-24', 
+    'fn-node-name-25', 
+    'fn-node-name-26', 
+    'fn-node-name-27', 
+    'fn-node-name-28', 
+    'fn-node-name-29', 
+    'fn-node-name-30', 
+    'fn-node-name-31', 
+    'fn-node-name-32', 
+    'K-NodeNameFunc-1', 
+    'K-NodeNameFunc-1a', 
+    'K-NodeNameFunc-2', 
+    'K-NodeNameFunc-3', 
+    'K2-NodeNameFunc-1', 
+    'K2-NodeNameFunc-2', 
+    'K2-NodeNameFunc-3', 
+    'K3-NodeNameFunc-1', 
+    'K3-NodeNameFunc-2', 
+    'K3-NodeNameFunc-3', 
+    'K3-NodeNameFunc-4', 
+    'cbcl-node-name-001']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

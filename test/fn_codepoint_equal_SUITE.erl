@@ -1,8 +1,11 @@
 -module('fn_codepoint_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-codepoint-equal-1'/1]).
 -export(['fn-codepoint-equal-2'/1]).
@@ -40,7 +43,10 @@
 -export(['cbcl-codepoint-equal-004'/1]).
 -export(['cbcl-codepoint-equal-005'/1]).
 -export(['cbcl-codepoint-equal-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -51,43 +57,48 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-codepoint-equal-1', 
-'fn-codepoint-equal-2', 
-'fn-codepoint-equal-2a', 
-'fn-codepoint-equal-2b', 
-'fn-codepoint-equal-3', 
-'fn-codepoint-equal-4', 
-'fn-codepoint-equal-5', 
-'fn-codepoint-equal-6', 
-'fn-codepoint-equal-7', 
-'fn-codepoint-equal-8', 
-'fn-codepoint-equal-9', 
-'fn-codepoint-equal-10', 
-'fn-codepoint-equal-11', 
-'fn-codepoint-equal-12', 
-'fn-codepoint-equal-13', 
-'fn-codepoint-equal-14', 
-'fn-codepoint-equal-15', 
-'fn-codepoint-equal-16', 
-'fn-codepoint-equal-17', 
-'fn-codepoint-equal-18', 
-'fn-codepoint-equal-19', 
-'fn-codepoint-equal-20', 
-'fn-codepoint-equal-21', 
-'fn-codepoint-equal-22', 
-'K2-CodepointEqual-1', 
-'K2-CodepointEqual-2', 
-'K2-CodepointEqual-3', 
-'K2-CodepointEqual-4', 
-'K2-CodepointEqual-5', 
-'K2-CodepointEqual-6', 
-'cbcl-codepoint-equal-001', 
-'cbcl-codepoint-equal-002', 
-'cbcl-codepoint-equal-003', 
-'cbcl-codepoint-equal-004', 
-'cbcl-codepoint-equal-005', 
-'cbcl-codepoint-equal-006'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-codepoint-equal-1', 
+    'fn-codepoint-equal-2', 
+    'fn-codepoint-equal-2a', 
+    'fn-codepoint-equal-2b', 
+    'fn-codepoint-equal-3', 
+    'fn-codepoint-equal-4', 
+    'fn-codepoint-equal-5', 
+    'fn-codepoint-equal-6', 
+    'fn-codepoint-equal-7', 
+    'fn-codepoint-equal-8', 
+    'fn-codepoint-equal-9', 
+    'fn-codepoint-equal-10', 
+    'fn-codepoint-equal-11', 
+    'fn-codepoint-equal-12', 
+    'fn-codepoint-equal-13', 
+    'fn-codepoint-equal-14', 
+    'fn-codepoint-equal-15', 
+    'fn-codepoint-equal-16', 
+    'fn-codepoint-equal-17', 
+    'fn-codepoint-equal-18', 
+    'fn-codepoint-equal-19', 
+    'fn-codepoint-equal-20', 
+    'fn-codepoint-equal-21']}, 
+   {group_1, [parallel], [
+    'fn-codepoint-equal-22', 
+    'K2-CodepointEqual-1', 
+    'K2-CodepointEqual-2', 
+    'K2-CodepointEqual-3', 
+    'K2-CodepointEqual-4', 
+    'K2-CodepointEqual-5', 
+    'K2-CodepointEqual-6', 
+    'cbcl-codepoint-equal-001', 
+    'cbcl-codepoint-equal-002', 
+    'cbcl-codepoint-equal-003', 
+    'cbcl-codepoint-equal-004', 
+    'cbcl-codepoint-equal-005', 
+    'cbcl-codepoint-equal-006']}].
 
 'fn-codepoint-equal-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('fn_contains_token_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-contains-token-09'/1]).
 -export(['fn-contains-token-10'/1]).
@@ -41,7 +44,10 @@
 -export(['fn-contains-token-70'/1]).
 -export(['fn-contains-token-71'/1]).
 -export(['fn-contains-token-72'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -52,44 +58,49 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-contains-token-09', 
-'fn-contains-token-10', 
-'fn-contains-token-11', 
-'fn-contains-token-12', 
-'fn-contains-token-13', 
-'fn-contains-token-14', 
-'fn-contains-token-15', 
-'fn-contains-token-16', 
-'fn-contains-token-17', 
-'fn-contains-token-18', 
-'fn-contains-token-19', 
-'fn-contains-token-20', 
-'fn-contains-token-21', 
-'fn-contains-token-22', 
-'fn-contains-token-39', 
-'fn-contains-token-40', 
-'fn-contains-token-41', 
-'fn-contains-token-42', 
-'fn-contains-token-43', 
-'fn-contains-token-44', 
-'fn-contains-token-45', 
-'fn-contains-token-46', 
-'fn-contains-token-47', 
-'fn-contains-token-48', 
-'fn-contains-token-49', 
-'fn-contains-token-50', 
-'fn-contains-token-51', 
-'fn-contains-token-52', 
-'fn-contains-token-60', 
-'fn-contains-token-61', 
-'fn-contains-token-62', 
-'fn-contains-token-63', 
-'fn-contains-token-64', 
-'fn-contains-token-65', 
-'fn-contains-token-70', 
-'fn-contains-token-71', 
-'fn-contains-token-72'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-contains-token-09', 
+    'fn-contains-token-10', 
+    'fn-contains-token-11', 
+    'fn-contains-token-12', 
+    'fn-contains-token-13', 
+    'fn-contains-token-14', 
+    'fn-contains-token-15', 
+    'fn-contains-token-16', 
+    'fn-contains-token-17', 
+    'fn-contains-token-18', 
+    'fn-contains-token-19', 
+    'fn-contains-token-20', 
+    'fn-contains-token-21', 
+    'fn-contains-token-22', 
+    'fn-contains-token-39', 
+    'fn-contains-token-40', 
+    'fn-contains-token-41', 
+    'fn-contains-token-42', 
+    'fn-contains-token-43', 
+    'fn-contains-token-44', 
+    'fn-contains-token-45', 
+    'fn-contains-token-46', 
+    'fn-contains-token-47']}, 
+   {group_1, [parallel], [
+    'fn-contains-token-48', 
+    'fn-contains-token-49', 
+    'fn-contains-token-50', 
+    'fn-contains-token-51', 
+    'fn-contains-token-52', 
+    'fn-contains-token-60', 
+    'fn-contains-token-61', 
+    'fn-contains-token-62', 
+    'fn-contains-token-63', 
+    'fn-contains-token-64', 
+    'fn-contains-token-65', 
+    'fn-contains-token-70', 
+    'fn-contains-token-71', 
+    'fn-contains-token-72']}].
 
 'fn-contains-token-09'(Config) ->
    __BaseDir = ?config(base_dir, Config),

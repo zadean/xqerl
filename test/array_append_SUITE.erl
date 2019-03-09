@@ -1,8 +1,11 @@
 -module('array_append_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-append-101'/1]).
 -export(['array-append-102'/1]).
@@ -12,7 +15,10 @@
 -export(['array-append-106'/1]).
 -export(['array-append-107'/1]).
 -export(['array-append-108'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -23,15 +29,18 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-append-101', 
-'array-append-102', 
-'array-append-103', 
-'array-append-104', 
-'array-append-105', 
-'array-append-106', 
-'array-append-107', 
-'array-append-108'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-append-101', 
+    'array-append-102', 
+    'array-append-103', 
+    'array-append-104', 
+    'array-append-105', 
+    'array-append-106', 
+    'array-append-107', 
+    'array-append-108']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

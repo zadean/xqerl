@@ -1,8 +1,11 @@
 -module('prod_CopyNamespacesDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['copynamespace-1'/1]).
 -export(['copynamespace-2'/1]).
@@ -40,7 +43,10 @@
 -export(['K2-CopyNamespacesProlog-7'/1]).
 -export(['K2-CopyNamespacesProlog-8'/1]).
 -export(['K2-CopyNamespacesProlog-9'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -51,43 +57,48 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'copynamespace-1', 
-'copynamespace-2', 
-'copynamespace-3', 
-'copynamespace-4', 
-'copynamespace-5', 
-'copynamespace-6', 
-'copynamespace-7', 
-'copynamespace-8', 
-'copynamespace-9', 
-'copynamespace-10', 
-'copynamespace-11', 
-'copynamespace-12', 
-'copynamespace-13', 
-'copynamespace-14', 
-'copynamespace-15', 
-'copynamespace-16', 
-'copynamespace-17', 
-'copynamespace-18', 
-'copynamespace-19', 
-'copynamespace-20', 
-'copynamespace-21', 
-'copynamespace-22', 
-'K-CopyNamespacesProlog-1', 
-'K-CopyNamespacesProlog-2', 
-'K-CopyNamespacesProlog-3', 
-'K-CopyNamespacesProlog-4', 
-'K-CopyNamespacesProlog-5', 
-'K2-CopyNamespacesProlog-1', 
-'K2-CopyNamespacesProlog-2', 
-'K2-CopyNamespacesProlog-3', 
-'K2-CopyNamespacesProlog-4', 
-'K2-CopyNamespacesProlog-5', 
-'K2-CopyNamespacesProlog-6', 
-'K2-CopyNamespacesProlog-7', 
-'K2-CopyNamespacesProlog-8', 
-'K2-CopyNamespacesProlog-9'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'copynamespace-1', 
+    'copynamespace-2', 
+    'copynamespace-3', 
+    'copynamespace-4', 
+    'copynamespace-5', 
+    'copynamespace-6', 
+    'copynamespace-7', 
+    'copynamespace-8', 
+    'copynamespace-9', 
+    'copynamespace-10', 
+    'copynamespace-11', 
+    'copynamespace-12', 
+    'copynamespace-13', 
+    'copynamespace-14', 
+    'copynamespace-15', 
+    'copynamespace-16', 
+    'copynamespace-17', 
+    'copynamespace-18', 
+    'copynamespace-19', 
+    'copynamespace-20', 
+    'copynamespace-21', 
+    'copynamespace-22', 
+    'K-CopyNamespacesProlog-1']}, 
+   {group_1, [parallel], [
+    'K-CopyNamespacesProlog-2', 
+    'K-CopyNamespacesProlog-3', 
+    'K-CopyNamespacesProlog-4', 
+    'K-CopyNamespacesProlog-5', 
+    'K2-CopyNamespacesProlog-1', 
+    'K2-CopyNamespacesProlog-2', 
+    'K2-CopyNamespacesProlog-3', 
+    'K2-CopyNamespacesProlog-4', 
+    'K2-CopyNamespacesProlog-5', 
+    'K2-CopyNamespacesProlog-6', 
+    'K2-CopyNamespacesProlog-7', 
+    'K2-CopyNamespacesProlog-8', 
+    'K2-CopyNamespacesProlog-9']}].
 
 'copynamespace-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

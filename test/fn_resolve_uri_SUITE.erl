@@ -1,8 +1,11 @@
 -module('fn_resolve_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-resolve-uri-1'/1]).
 -export(['fn-resolve-uri-2'/1]).
@@ -42,7 +45,10 @@
 -export(['K-ResolveURIFunc-5'/1]).
 -export(['K-ResolveURIFunc-6'/1]).
 -export(['cbcl-fn-resolve-uri-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -53,45 +59,50 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-resolve-uri-1', 
-'fn-resolve-uri-2', 
-'fn-resolve-uri-3', 
-'fn-resolve-uri-4', 
-'fn-resolve-uri-5', 
-'fn-resolve-uri-6', 
-'fn-resolve-uri-7', 
-'fn-resolve-uri-8', 
-'fn-resolve-uri-9', 
-'fn-resolve-uri-10', 
-'fn-resolve-uri-11', 
-'fn-resolve-uri-12', 
-'fn-resolve-uri-13', 
-'fn-resolve-uri-14', 
-'fn-resolve-uri-15', 
-'fn-resolve-uri-16', 
-'fn-resolve-uri-17', 
-'fn-resolve-uri-18', 
-'fn-resolve-uri-19', 
-'fn-resolve-uri-20', 
-'fn-resolve-uri-21', 
-'fn-resolve-uri-22', 
-'fn-resolve-uri-23', 
-'fn-resolve-uri-24', 
-'fn-resolve-uri-25', 
-'fn-resolve-uri-26', 
-'fn-resolve-uri-27', 
-'fn-resolve-uri-29', 
-'fn-resolve-uri-30', 
-'fn-resolve-uri-31', 
-'fn-resolve-uri-32', 
-'K-ResolveURIFunc-1', 
-'K-ResolveURIFunc-2', 
-'K-ResolveURIFunc-3', 
-'K-ResolveURIFunc-4', 
-'K-ResolveURIFunc-5', 
-'K-ResolveURIFunc-6', 
-'cbcl-fn-resolve-uri-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-resolve-uri-1', 
+    'fn-resolve-uri-2', 
+    'fn-resolve-uri-3', 
+    'fn-resolve-uri-4', 
+    'fn-resolve-uri-5', 
+    'fn-resolve-uri-6', 
+    'fn-resolve-uri-7', 
+    'fn-resolve-uri-8', 
+    'fn-resolve-uri-9', 
+    'fn-resolve-uri-10', 
+    'fn-resolve-uri-11', 
+    'fn-resolve-uri-12', 
+    'fn-resolve-uri-13', 
+    'fn-resolve-uri-14', 
+    'fn-resolve-uri-15', 
+    'fn-resolve-uri-16', 
+    'fn-resolve-uri-17', 
+    'fn-resolve-uri-18', 
+    'fn-resolve-uri-19', 
+    'fn-resolve-uri-20', 
+    'fn-resolve-uri-21', 
+    'fn-resolve-uri-22', 
+    'fn-resolve-uri-23']}, 
+   {group_1, [parallel], [
+    'fn-resolve-uri-24', 
+    'fn-resolve-uri-25', 
+    'fn-resolve-uri-26', 
+    'fn-resolve-uri-27', 
+    'fn-resolve-uri-29', 
+    'fn-resolve-uri-30', 
+    'fn-resolve-uri-31', 
+    'fn-resolve-uri-32', 
+    'K-ResolveURIFunc-1', 
+    'K-ResolveURIFunc-2', 
+    'K-ResolveURIFunc-3', 
+    'K-ResolveURIFunc-4', 
+    'K-ResolveURIFunc-5', 
+    'K-ResolveURIFunc-6', 
+    'cbcl-fn-resolve-uri-001']}].
 
 'fn-resolve-uri-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

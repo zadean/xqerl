@@ -1,8 +1,11 @@
 -module('fn_parse_xml_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['parse-xml-001'/1]).
 -export(['parse-xml-002'/1]).
@@ -19,7 +22,10 @@
 -export(['parse-xml-013'/1]).
 -export(['parse-xml-014'/1]).
 -export(['parse-xml-015'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -30,22 +36,25 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'parse-xml-001', 
-'parse-xml-002', 
-'parse-xml-003', 
-'parse-xml-004', 
-'parse-xml-005', 
-'parse-xml-006', 
-'parse-xml-007', 
-'parse-xml-008', 
-'parse-xml-009', 
-'parse-xml-010', 
-'parse-xml-011', 
-'parse-xml-012', 
-'parse-xml-013', 
-'parse-xml-014', 
-'parse-xml-015'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'parse-xml-001', 
+    'parse-xml-002', 
+    'parse-xml-003', 
+    'parse-xml-004', 
+    'parse-xml-005', 
+    'parse-xml-006', 
+    'parse-xml-007', 
+    'parse-xml-008', 
+    'parse-xml-009', 
+    'parse-xml-010', 
+    'parse-xml-011', 
+    'parse-xml-012', 
+    'parse-xml-013', 
+    'parse-xml-014', 
+    'parse-xml-015']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

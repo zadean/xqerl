@@ -1,8 +1,11 @@
 -module('prod_PathExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['PathExprErr-2'/1]).
 -export(['PathExpr-1'/1]).
@@ -25,7 +28,10 @@
 -export(['PathExpr-14'/1]).
 -export(['PathExpr-15'/1]).
 -export(['PathExpr-16'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -36,28 +42,31 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'PathExprErr-2', 
-'PathExpr-1', 
-'PathExpr-2', 
-'PathExpr-3', 
-'PathExpr-4', 
-'PathExpr-5', 
-'PathExpr-5p', 
-'PathExpr-6', 
-'PathExpr-7', 
-'PathExpr-7p', 
-'PathExpr-8', 
-'PathExpr-8p', 
-'PathExpr-9', 
-'PathExpr-9p', 
-'PathExpr-10', 
-'PathExpr-11', 
-'PathExpr-12', 
-'PathExpr-13', 
-'PathExpr-14', 
-'PathExpr-15', 
-'PathExpr-16'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'PathExprErr-2', 
+    'PathExpr-1', 
+    'PathExpr-2', 
+    'PathExpr-3', 
+    'PathExpr-4', 
+    'PathExpr-5', 
+    'PathExpr-5p', 
+    'PathExpr-6', 
+    'PathExpr-7', 
+    'PathExpr-7p', 
+    'PathExpr-8', 
+    'PathExpr-8p', 
+    'PathExpr-9', 
+    'PathExpr-9p', 
+    'PathExpr-10', 
+    'PathExpr-11', 
+    'PathExpr-12', 
+    'PathExpr-13', 
+    'PathExpr-14', 
+    'PathExpr-15', 
+    'PathExpr-16']}].
 environment('OneTopElement',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "PathExpr/OneTopElement.xml"), ".",[]}]}, 

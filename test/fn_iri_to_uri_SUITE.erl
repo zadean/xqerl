@@ -1,8 +1,11 @@
 -module('fn_iri_to_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-iri-to-uri1args-1'/1]).
 -export(['fn-iri-to-uri1args-2'/1]).
@@ -51,7 +54,10 @@
 -export(['K2-IRIToURIfunc-8'/1]).
 -export(['K2-IRIToURIfunc-9'/1]).
 -export(['K2-IRIToURIfunc-10'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -62,54 +68,59 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-iri-to-uri1args-1', 
-'fn-iri-to-uri1args-2', 
-'fn-iri-to-uri1args-3', 
-'fn-iri-to-uri1args-4', 
-'fn-iri-to-uri1args-5', 
-'fn-iri-to-uri1args-6', 
-'fn-iri-to-uri-1', 
-'fn-iri-to-uri-2', 
-'fn-iri-to-uri-3', 
-'fn-iri-to-uri-4', 
-'fn-iri-to-uri-5', 
-'fn-iri-to-uri-6', 
-'fn-iri-to-uri-7', 
-'fn-iri-to-uri-8', 
-'fn-iri-to-uri-9', 
-'fn-iri-to-uri-10', 
-'fn-iri-to-uri-11', 
-'fn-iri-to-uri-12', 
-'fn-iri-to-uri-13', 
-'fn-iri-to-uri-14', 
-'fn-iri-to-uri-15', 
-'fn-iri-to-uri-16', 
-'fn-iri-to-uri-17', 
-'fn-iri-to-uri-18', 
-'fn-iri-to-uri-18A', 
-'fn-iri-to-uri-19', 
-'fn-iri-to-uri-20', 
-'fn-iri-to-uri-21', 
-'fn-iri-to-uri-22', 
-'fn-iri-to-uri-23', 
-'fn-iri-to-uri-24', 
-'fn-iri-to-uri-25', 
-'fn-iri-to-uri-26', 
-'K-IRIToURIfunc-1', 
-'K-IRIToURIfunc-2', 
-'K-IRIToURIfunc-3', 
-'K-IRIToURIfunc-4', 
-'K2-IRIToURIfunc-1', 
-'K2-IRIToURIfunc-2', 
-'K2-IRIToURIfunc-3', 
-'K2-IRIToURIfunc-4', 
-'K2-IRIToURIfunc-5', 
-'K2-IRIToURIfunc-6', 
-'K2-IRIToURIfunc-7', 
-'K2-IRIToURIfunc-8', 
-'K2-IRIToURIfunc-9', 
-'K2-IRIToURIfunc-10'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-iri-to-uri1args-1', 
+    'fn-iri-to-uri1args-2', 
+    'fn-iri-to-uri1args-3', 
+    'fn-iri-to-uri1args-4', 
+    'fn-iri-to-uri1args-5', 
+    'fn-iri-to-uri1args-6', 
+    'fn-iri-to-uri-1', 
+    'fn-iri-to-uri-2', 
+    'fn-iri-to-uri-3', 
+    'fn-iri-to-uri-4', 
+    'fn-iri-to-uri-5', 
+    'fn-iri-to-uri-6', 
+    'fn-iri-to-uri-7', 
+    'fn-iri-to-uri-8', 
+    'fn-iri-to-uri-9', 
+    'fn-iri-to-uri-10', 
+    'fn-iri-to-uri-11', 
+    'fn-iri-to-uri-12', 
+    'fn-iri-to-uri-13', 
+    'fn-iri-to-uri-14', 
+    'fn-iri-to-uri-15', 
+    'fn-iri-to-uri-16', 
+    'fn-iri-to-uri-17']}, 
+   {group_1, [parallel], [
+    'fn-iri-to-uri-18', 
+    'fn-iri-to-uri-18A', 
+    'fn-iri-to-uri-19', 
+    'fn-iri-to-uri-20', 
+    'fn-iri-to-uri-21', 
+    'fn-iri-to-uri-22', 
+    'fn-iri-to-uri-23', 
+    'fn-iri-to-uri-24', 
+    'fn-iri-to-uri-25', 
+    'fn-iri-to-uri-26', 
+    'K-IRIToURIfunc-1', 
+    'K-IRIToURIfunc-2', 
+    'K-IRIToURIfunc-3', 
+    'K-IRIToURIfunc-4', 
+    'K2-IRIToURIfunc-1', 
+    'K2-IRIToURIfunc-2', 
+    'K2-IRIToURIfunc-3', 
+    'K2-IRIToURIfunc-4', 
+    'K2-IRIToURIfunc-5', 
+    'K2-IRIToURIfunc-6', 
+    'K2-IRIToURIfunc-7', 
+    'K2-IRIToURIfunc-8', 
+    'K2-IRIToURIfunc-9', 
+    'K2-IRIToURIfunc-10']}].
 
 'fn-iri-to-uri1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('array_remove_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-remove-401'/1]).
 -export(['array-remove-402'/1]).
@@ -20,7 +23,10 @@
 -export(['array-remove-415'/1]).
 -export(['array-remove-416'/1]).
 -export(['array-remove-417'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -31,23 +37,26 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-remove-401', 
-'array-remove-402', 
-'array-remove-403', 
-'array-remove-404', 
-'array-remove-405', 
-'array-remove-406', 
-'array-remove-407', 
-'array-remove-408', 
-'array-remove-409', 
-'array-remove-410', 
-'array-remove-412', 
-'array-remove-413', 
-'array-remove-414', 
-'array-remove-415', 
-'array-remove-416', 
-'array-remove-417'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-remove-401', 
+    'array-remove-402', 
+    'array-remove-403', 
+    'array-remove-404', 
+    'array-remove-405', 
+    'array-remove-406', 
+    'array-remove-407', 
+    'array-remove-408', 
+    'array-remove-409', 
+    'array-remove-410', 
+    'array-remove-412', 
+    'array-remove-413', 
+    'array-remove-414', 
+    'array-remove-415', 
+    'array-remove-416', 
+    'array-remove-417']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

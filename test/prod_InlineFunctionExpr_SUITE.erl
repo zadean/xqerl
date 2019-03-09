@@ -1,8 +1,11 @@
 -module('prod_InlineFunctionExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['inline-fn-001'/1]).
 -export(['inline-fn-002'/1]).
@@ -41,7 +44,10 @@
 -export(['inline-fn-034'/1]).
 -export(['inline-fn-035'/1]).
 -export(['inline-fn-036'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -52,44 +58,49 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'inline-fn-001', 
-'inline-fn-002', 
-'inline-fn-003', 
-'inline-fn-004', 
-'inline-fn-005', 
-'inline-fn-006', 
-'inline-fn-007', 
-'inline-fn-008', 
-'inline-fn-009', 
-'inline-fn-010', 
-'inline-fn-011', 
-'inline-fn-012', 
-'inline-fn-012a', 
-'inline-fn-013', 
-'inline-fn-014', 
-'inline-fn-015', 
-'inline-fn-016', 
-'inline-fn-017', 
-'inline-fn-018', 
-'inline-fn-019', 
-'inline-fn-020', 
-'inline-fn-021', 
-'inline-fn-022', 
-'inline-fn-023', 
-'inline-fn-024', 
-'inline-fn-025', 
-'inline-fn-026', 
-'inline-fn-027', 
-'inline-fn-028', 
-'inline-fn-029', 
-'inline-fn-030', 
-'inline-fn-031', 
-'inline-fn-032', 
-'inline-fn-033', 
-'inline-fn-034', 
-'inline-fn-035', 
-'inline-fn-036'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'inline-fn-001', 
+    'inline-fn-002', 
+    'inline-fn-003', 
+    'inline-fn-004', 
+    'inline-fn-005', 
+    'inline-fn-006', 
+    'inline-fn-007', 
+    'inline-fn-008', 
+    'inline-fn-009', 
+    'inline-fn-010', 
+    'inline-fn-011', 
+    'inline-fn-012', 
+    'inline-fn-012a', 
+    'inline-fn-013', 
+    'inline-fn-014', 
+    'inline-fn-015', 
+    'inline-fn-016', 
+    'inline-fn-017', 
+    'inline-fn-018', 
+    'inline-fn-019', 
+    'inline-fn-020', 
+    'inline-fn-021', 
+    'inline-fn-022']}, 
+   {group_1, [parallel], [
+    'inline-fn-023', 
+    'inline-fn-024', 
+    'inline-fn-025', 
+    'inline-fn-026', 
+    'inline-fn-027', 
+    'inline-fn-028', 
+    'inline-fn-029', 
+    'inline-fn-030', 
+    'inline-fn-031', 
+    'inline-fn-032', 
+    'inline-fn-033', 
+    'inline-fn-034', 
+    'inline-fn-035', 
+    'inline-fn-036']}].
 
 'inline-fn-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

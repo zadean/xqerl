@@ -1,8 +1,11 @@
 -module('fn_upper_case_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-upper-case1args-1'/1]).
 -export(['fn-upper-case1args-2'/1]).
@@ -33,7 +36,10 @@
 -export(['K-UpperCaseFunc-2'/1]).
 -export(['K-UpperCaseFunc-3'/1]).
 -export(['K-UpperCaseFunc-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-upper-case1args-1', 
-'fn-upper-case1args-2', 
-'fn-upper-case1args-3', 
-'fn-upper-case-1', 
-'fn-upper-case-2', 
-'fn-upper-case-3', 
-'fn-upper-case-4', 
-'fn-upper-case-5', 
-'fn-upper-case-6', 
-'fn-upper-case-7', 
-'fn-upper-case-8', 
-'fn-upper-case-9', 
-'fn-upper-case-10', 
-'fn-upper-case-11', 
-'fn-upper-case-12', 
-'fn-upper-case-13', 
-'fn-upper-case-14', 
-'fn-upper-case-15', 
-'fn-upper-case-16', 
-'fn-upper-case-17', 
-'fn-upper-case-18', 
-'fn-upper-case-19', 
-'fn-upper-case-20', 
-'fn-upper-case-21', 
-'fn-upper-case-22', 
-'K-UpperCaseFunc-1', 
-'K-UpperCaseFunc-2', 
-'K-UpperCaseFunc-3', 
-'K-UpperCaseFunc-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-upper-case1args-1', 
+    'fn-upper-case1args-2', 
+    'fn-upper-case1args-3', 
+    'fn-upper-case-1', 
+    'fn-upper-case-2', 
+    'fn-upper-case-3', 
+    'fn-upper-case-4', 
+    'fn-upper-case-5', 
+    'fn-upper-case-6', 
+    'fn-upper-case-7', 
+    'fn-upper-case-8', 
+    'fn-upper-case-9', 
+    'fn-upper-case-10', 
+    'fn-upper-case-11', 
+    'fn-upper-case-12', 
+    'fn-upper-case-13', 
+    'fn-upper-case-14', 
+    'fn-upper-case-15', 
+    'fn-upper-case-16', 
+    'fn-upper-case-17', 
+    'fn-upper-case-18', 
+    'fn-upper-case-19', 
+    'fn-upper-case-20']}, 
+   {group_1, [parallel], [
+    'fn-upper-case-21', 
+    'fn-upper-case-22', 
+    'K-UpperCaseFunc-1', 
+    'K-UpperCaseFunc-2', 
+    'K-UpperCaseFunc-3', 
+    'K-UpperCaseFunc-4']}].
 
 'fn-upper-case1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

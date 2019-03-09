@@ -1,8 +1,11 @@
 -module('fn_one_or_more_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-one-or-moreint1args-1'/1]).
 -export(['fn-one-or-moreint1args-2'/1]).
@@ -60,7 +63,10 @@
 -export(['cbcl-one-or-more-005'/1]).
 -export(['cbcl-one-or-more-006'/1]).
 -export(['cbcl-one-or-more-007'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -71,63 +77,70 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-one-or-moreint1args-1', 
-'fn-one-or-moreint1args-2', 
-'fn-one-or-moreint1args-3', 
-'fn-one-or-moreintg1args-1', 
-'fn-one-or-moreintg1args-2', 
-'fn-one-or-moreintg1args-3', 
-'fn-one-or-moredec1args-1', 
-'fn-one-or-moredec1args-2', 
-'fn-one-or-moredec1args-3', 
-'fn-one-or-moredbl1args-1', 
-'fn-one-or-moredbl1args-2', 
-'fn-one-or-moredbl1args-3', 
-'fn-one-or-moreflt1args-1', 
-'fn-one-or-moreflt1args-2', 
-'fn-one-or-moreflt1args-3', 
-'fn-one-or-morelng1args-1', 
-'fn-one-or-morelng1args-2', 
-'fn-one-or-morelng1args-3', 
-'fn-one-or-moreusht1args-1', 
-'fn-one-or-moreusht1args-2', 
-'fn-one-or-moreusht1args-3', 
-'fn-one-or-morenint1args-1', 
-'fn-one-or-morenint1args-2', 
-'fn-one-or-morenint1args-3', 
-'fn-one-or-morepint1args-1', 
-'fn-one-or-morepint1args-2', 
-'fn-one-or-morepint1args-3', 
-'fn-one-or-moreulng1args-1', 
-'fn-one-or-moreulng1args-2', 
-'fn-one-or-moreulng1args-3', 
-'fn-one-or-morenpi1args-1', 
-'fn-one-or-morenpi1args-2', 
-'fn-one-or-morenpi1args-3', 
-'fn-one-or-morenni1args-1', 
-'fn-one-or-morenni1args-2', 
-'fn-one-or-morenni1args-3', 
-'fn-one-or-moresht1args-1', 
-'fn-one-or-moresht1args-2', 
-'fn-one-or-moresht1args-3', 
-'fn-one-or-more-1', 
-'K-SeqOneOrMoreFunc-1', 
-'K-SeqOneOrMoreFunc-2', 
-'K-SeqOneOrMoreFunc-3', 
-'K-SeqOneOrMoreFunc-4', 
-'K-SeqOneOrMoreFunc-5', 
-'K-SeqOneOrMoreFunc-6', 
-'K-SeqOneOrMoreFunc-7', 
-'K-SeqOneOrMoreFunc-8', 
-'K2-SeqOneOrMoreFunc-1', 
-'cbcl-one-or-more-001', 
-'cbcl-one-or-more-002', 
-'cbcl-one-or-more-003', 
-'cbcl-one-or-more-004', 
-'cbcl-one-or-more-005', 
-'cbcl-one-or-more-006', 
-'cbcl-one-or-more-007'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-one-or-moreint1args-1', 
+    'fn-one-or-moreint1args-2', 
+    'fn-one-or-moreint1args-3', 
+    'fn-one-or-moreintg1args-1', 
+    'fn-one-or-moreintg1args-2', 
+    'fn-one-or-moreintg1args-3', 
+    'fn-one-or-moredec1args-1', 
+    'fn-one-or-moredec1args-2', 
+    'fn-one-or-moredec1args-3', 
+    'fn-one-or-moredbl1args-1', 
+    'fn-one-or-moredbl1args-2', 
+    'fn-one-or-moredbl1args-3', 
+    'fn-one-or-moreflt1args-1', 
+    'fn-one-or-moreflt1args-2', 
+    'fn-one-or-moreflt1args-3', 
+    'fn-one-or-morelng1args-1', 
+    'fn-one-or-morelng1args-2', 
+    'fn-one-or-morelng1args-3', 
+    'fn-one-or-moreusht1args-1', 
+    'fn-one-or-moreusht1args-2', 
+    'fn-one-or-moreusht1args-3', 
+    'fn-one-or-morenint1args-1', 
+    'fn-one-or-morenint1args-2']}, 
+   {group_1, [parallel], [
+    'fn-one-or-morenint1args-3', 
+    'fn-one-or-morepint1args-1', 
+    'fn-one-or-morepint1args-2', 
+    'fn-one-or-morepint1args-3', 
+    'fn-one-or-moreulng1args-1', 
+    'fn-one-or-moreulng1args-2', 
+    'fn-one-or-moreulng1args-3', 
+    'fn-one-or-morenpi1args-1', 
+    'fn-one-or-morenpi1args-2', 
+    'fn-one-or-morenpi1args-3', 
+    'fn-one-or-morenni1args-1', 
+    'fn-one-or-morenni1args-2', 
+    'fn-one-or-morenni1args-3', 
+    'fn-one-or-moresht1args-1', 
+    'fn-one-or-moresht1args-2', 
+    'fn-one-or-moresht1args-3', 
+    'fn-one-or-more-1', 
+    'K-SeqOneOrMoreFunc-1', 
+    'K-SeqOneOrMoreFunc-2', 
+    'K-SeqOneOrMoreFunc-3', 
+    'K-SeqOneOrMoreFunc-4', 
+    'K-SeqOneOrMoreFunc-5', 
+    'K-SeqOneOrMoreFunc-6', 
+    'K-SeqOneOrMoreFunc-7']}, 
+   {group_2, [parallel], [
+    'K-SeqOneOrMoreFunc-8', 
+    'K2-SeqOneOrMoreFunc-1', 
+    'cbcl-one-or-more-001', 
+    'cbcl-one-or-more-002', 
+    'cbcl-one-or-more-003', 
+    'cbcl-one-or-more-004', 
+    'cbcl-one-or-more-005', 
+    'cbcl-one-or-more-006', 
+    'cbcl-one-or-more-007']}].
 
 'fn-one-or-moreint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

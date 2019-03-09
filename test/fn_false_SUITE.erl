@@ -1,8 +1,11 @@
 -module('fn_false_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-false-1'/1]).
 -export(['fn-false-2'/1]).
@@ -29,7 +32,10 @@
 -export(['K-FalseFunc-1'/1]).
 -export(['K-FalseFunc-2'/1]).
 -export(['K-FalseFunc-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-false-1', 
-'fn-false-2', 
-'fn-false-3', 
-'fn-false-4', 
-'fn-false-5', 
-'fn-false-6', 
-'fn-false-7', 
-'fn-false-8', 
-'fn-false-9', 
-'fn-false-10', 
-'fn-false-11', 
-'fn-false-12', 
-'fn-false-13', 
-'fn-false-14', 
-'fn-false-15', 
-'fn-false-16', 
-'fn-false-17', 
-'fn-false-18', 
-'fn-false-19', 
-'fn-false-20', 
-'fn-false-21', 
-'fn-false-22', 
-'K-FalseFunc-1', 
-'K-FalseFunc-2', 
-'K-FalseFunc-3'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-false-1', 
+    'fn-false-2', 
+    'fn-false-3', 
+    'fn-false-4', 
+    'fn-false-5', 
+    'fn-false-6', 
+    'fn-false-7', 
+    'fn-false-8', 
+    'fn-false-9', 
+    'fn-false-10', 
+    'fn-false-11', 
+    'fn-false-12', 
+    'fn-false-13', 
+    'fn-false-14', 
+    'fn-false-15', 
+    'fn-false-16', 
+    'fn-false-17', 
+    'fn-false-18', 
+    'fn-false-19', 
+    'fn-false-20', 
+    'fn-false-21', 
+    'fn-false-22', 
+    'K-FalseFunc-1']}, 
+   {group_1, [parallel], [
+    'K-FalseFunc-2', 
+    'K-FalseFunc-3']}].
 
 'fn-false-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

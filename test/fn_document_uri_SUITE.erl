@@ -1,8 +1,11 @@
 -module('fn_document_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-document-uri-1'/1]).
 -export(['fn-document-uri-2'/1]).
@@ -58,7 +61,10 @@
 -export(['K2-DocumentURIFunc-10'/1]).
 -export(['K2-DocumentURIFunc-11'/1]).
 -export(['fn-document-uri-0-ok'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-document-uri-1', 
-'fn-document-uri-2', 
-'fn-document-uri-3', 
-'fn-document-uri-4', 
-'fn-document-uri-5', 
-'fn-document-uri-6', 
-'fn-document-uri-7', 
-'fn-document-uri-8', 
-'fn-document-uri-9', 
-'fn-document-uri-10', 
-'fn-document-uri-11', 
-'fn-document-uri-12', 
-'fn-document-uri-13', 
-'fn-document-uri-14', 
-'fn-document-uri-15', 
-'fn-document-uri-16', 
-'fn-document-uri-17', 
-'fn-document-uri-18', 
-'fn-document-uri-19', 
-'fn-document-uri-20', 
-'fn-document-uri-21', 
-'fn-document-uri-22', 
-'fn-document-uri-23', 
-'fn-document-uri-24', 
-'fn-document-uri-25', 
-'fn-document-uri-26', 
-'fn-document-uri-27', 
-'fn-document-uri-28', 
-'fn-document-uri-29', 
-'fn-document-uri-30', 
-'fn-document-uri-31', 
-'fn-document-uri-32', 
-'fn-document-uri-33', 
-'fn-document-uri-34', 
-'fn-document-uri-35', 
-'fn-document-uri-36', 
-'fn-document-uri-37', 
-'K-DocumentURIFunc-1', 
-'K-DocumentURIFunc-2', 
-'K-DocumentURIFunc-2a', 
-'K-DocumentURIFunc-2b', 
-'K-DocumentURIFunc-3', 
-'K2-DocumentURIFunc-1', 
-'K2-DocumentURIFunc-2', 
-'K2-DocumentURIFunc-3', 
-'K2-DocumentURIFunc-4', 
-'K2-DocumentURIFunc-5', 
-'K2-DocumentURIFunc-6', 
-'K2-DocumentURIFunc-7', 
-'K2-DocumentURIFunc-8', 
-'K2-DocumentURIFunc-9', 
-'K2-DocumentURIFunc-10', 
-'K2-DocumentURIFunc-11', 
-'fn-document-uri-0-ok'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-document-uri-1', 
+    'fn-document-uri-2', 
+    'fn-document-uri-3', 
+    'fn-document-uri-4', 
+    'fn-document-uri-5', 
+    'fn-document-uri-6', 
+    'fn-document-uri-7', 
+    'fn-document-uri-8', 
+    'fn-document-uri-9', 
+    'fn-document-uri-10', 
+    'fn-document-uri-11', 
+    'fn-document-uri-12', 
+    'fn-document-uri-13', 
+    'fn-document-uri-14', 
+    'fn-document-uri-15', 
+    'fn-document-uri-16', 
+    'fn-document-uri-17', 
+    'fn-document-uri-18', 
+    'fn-document-uri-19', 
+    'fn-document-uri-20', 
+    'fn-document-uri-21', 
+    'fn-document-uri-22', 
+    'fn-document-uri-23']}, 
+   {group_1, [parallel], [
+    'fn-document-uri-24', 
+    'fn-document-uri-25', 
+    'fn-document-uri-26', 
+    'fn-document-uri-27', 
+    'fn-document-uri-28', 
+    'fn-document-uri-29', 
+    'fn-document-uri-30', 
+    'fn-document-uri-31', 
+    'fn-document-uri-32', 
+    'fn-document-uri-33', 
+    'fn-document-uri-34', 
+    'fn-document-uri-35', 
+    'fn-document-uri-36', 
+    'fn-document-uri-37', 
+    'K-DocumentURIFunc-1', 
+    'K-DocumentURIFunc-2', 
+    'K-DocumentURIFunc-2a', 
+    'K-DocumentURIFunc-2b', 
+    'K-DocumentURIFunc-3', 
+    'K2-DocumentURIFunc-1', 
+    'K2-DocumentURIFunc-2', 
+    'K2-DocumentURIFunc-3', 
+    'K2-DocumentURIFunc-4', 
+    'K2-DocumentURIFunc-5']}, 
+   {group_2, [parallel], [
+    'K2-DocumentURIFunc-6', 
+    'K2-DocumentURIFunc-7', 
+    'K2-DocumentURIFunc-8', 
+    'K2-DocumentURIFunc-9', 
+    'K2-DocumentURIFunc-10', 
+    'K2-DocumentURIFunc-11', 
+    'fn-document-uri-0-ok']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

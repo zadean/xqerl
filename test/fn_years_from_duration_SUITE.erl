@@ -1,8 +1,11 @@
 -module('fn_years_from_duration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-years-from-duration1args-1'/1]).
 -export(['fn-years-from-duration1args-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K-YearsFromDurationFunc-6'/1]).
 -export(['K-YearsFromDurationFunc-7'/1]).
 -export(['cbcl-years-from-duration-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-years-from-duration1args-1', 
-'fn-years-from-duration1args-2', 
-'fn-years-from-duration1args-3', 
-'fn-years-from-duration-1', 
-'fn-years-from-duration-2', 
-'fn-years-from-duration-3', 
-'fn-years-from-duration-4', 
-'fn-years-from-duration-5', 
-'fn-years-from-duration-6', 
-'fn-years-from-duration-7', 
-'fn-years-from-duration-8', 
-'fn-years-from-duration-9', 
-'fn-years-from-duration-10', 
-'fn-years-from-duration-11', 
-'fn-years-from-duration-12', 
-'fn-years-from-duration-13', 
-'fn-years-from-duration-14', 
-'fn-years-from-duration-15', 
-'fn-years-from-duration-16', 
-'fn-years-from-duration-17', 
-'fn-years-from-duration-18', 
-'fn-years-from-duration-19', 
-'fn-years-from-duration-20', 
-'K-YearsFromDurationFunc-1', 
-'K-YearsFromDurationFunc-2', 
-'K-YearsFromDurationFunc-3', 
-'K-YearsFromDurationFunc-4', 
-'K-YearsFromDurationFunc-5', 
-'K-YearsFromDurationFunc-6', 
-'K-YearsFromDurationFunc-7', 
-'cbcl-years-from-duration-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-years-from-duration1args-1', 
+    'fn-years-from-duration1args-2', 
+    'fn-years-from-duration1args-3', 
+    'fn-years-from-duration-1', 
+    'fn-years-from-duration-2', 
+    'fn-years-from-duration-3', 
+    'fn-years-from-duration-4', 
+    'fn-years-from-duration-5', 
+    'fn-years-from-duration-6', 
+    'fn-years-from-duration-7', 
+    'fn-years-from-duration-8', 
+    'fn-years-from-duration-9', 
+    'fn-years-from-duration-10', 
+    'fn-years-from-duration-11', 
+    'fn-years-from-duration-12', 
+    'fn-years-from-duration-13', 
+    'fn-years-from-duration-14', 
+    'fn-years-from-duration-15', 
+    'fn-years-from-duration-16', 
+    'fn-years-from-duration-17', 
+    'fn-years-from-duration-18', 
+    'fn-years-from-duration-19', 
+    'fn-years-from-duration-20']}, 
+   {group_1, [parallel], [
+    'K-YearsFromDurationFunc-1', 
+    'K-YearsFromDurationFunc-2', 
+    'K-YearsFromDurationFunc-3', 
+    'K-YearsFromDurationFunc-4', 
+    'K-YearsFromDurationFunc-5', 
+    'K-YearsFromDurationFunc-6', 
+    'K-YearsFromDurationFunc-7', 
+    'cbcl-years-from-duration-001']}].
 
 'fn-years-from-duration1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

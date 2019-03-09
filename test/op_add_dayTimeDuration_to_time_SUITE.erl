@@ -1,8 +1,11 @@
 -module('op_add_dayTimeDuration_to_time_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-add-dayTimeDuration-to-time2args-1'/1]).
 -export(['op-add-dayTimeDuration-to-time2args-2'/1]).
@@ -30,7 +33,10 @@
 -export(['K2-TimeAddDTD-1'/1]).
 -export(['cbcl-add-dayTimeDuration-to-time-001'/1]).
 -export(['cbcl-add-dayTimeDuration-to-time-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -41,33 +47,38 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-add-dayTimeDuration-to-time2args-1', 
-'op-add-dayTimeDuration-to-time2args-2', 
-'op-add-dayTimeDuration-to-time2args-3', 
-'op-add-dayTimeDuration-to-time2args-4', 
-'op-add-dayTimeDuration-to-time2args-5', 
-'op-add-dayTimeDuration-to-time-1', 
-'op-add-dayTimeDuration-to-time-2', 
-'op-add-dayTimeDuration-to-time-3', 
-'op-add-dayTimeDuration-to-time-4', 
-'op-add-dayTimeDuration-to-time-5', 
-'op-add-dayTimeDuration-to-time-6', 
-'op-add-dayTimeDuration-to-time-7', 
-'op-add-dayTimeDuration-to-time-8', 
-'op-add-dayTimeDuration-to-time-9', 
-'op-add-dayTimeDuration-to-time-10', 
-'op-add-dayTimeDuration-to-timealt-12', 
-'op-add-dayTimeDuration-to-time-13', 
-'op-add-dayTimeDuration-to-time-14', 
-'op-add-dayTimeDuration-to-time-15', 
-'op-add-dayTimeDuration-to-time-16', 
-'op-add-dayTimeDuration-to-time-17', 
-'K-TimeAddDTD-1', 
-'K-TimeAddDTD-2', 
-'K2-TimeAddDTD-1', 
-'cbcl-add-dayTimeDuration-to-time-001', 
-'cbcl-add-dayTimeDuration-to-time-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-add-dayTimeDuration-to-time2args-1', 
+    'op-add-dayTimeDuration-to-time2args-2', 
+    'op-add-dayTimeDuration-to-time2args-3', 
+    'op-add-dayTimeDuration-to-time2args-4', 
+    'op-add-dayTimeDuration-to-time2args-5', 
+    'op-add-dayTimeDuration-to-time-1', 
+    'op-add-dayTimeDuration-to-time-2', 
+    'op-add-dayTimeDuration-to-time-3', 
+    'op-add-dayTimeDuration-to-time-4', 
+    'op-add-dayTimeDuration-to-time-5', 
+    'op-add-dayTimeDuration-to-time-6', 
+    'op-add-dayTimeDuration-to-time-7', 
+    'op-add-dayTimeDuration-to-time-8', 
+    'op-add-dayTimeDuration-to-time-9', 
+    'op-add-dayTimeDuration-to-time-10', 
+    'op-add-dayTimeDuration-to-timealt-12', 
+    'op-add-dayTimeDuration-to-time-13', 
+    'op-add-dayTimeDuration-to-time-14', 
+    'op-add-dayTimeDuration-to-time-15', 
+    'op-add-dayTimeDuration-to-time-16', 
+    'op-add-dayTimeDuration-to-time-17', 
+    'K-TimeAddDTD-1', 
+    'K-TimeAddDTD-2']}, 
+   {group_1, [parallel], [
+    'K2-TimeAddDTD-1', 
+    'cbcl-add-dayTimeDuration-to-time-001', 
+    'cbcl-add-dayTimeDuration-to-time-002']}].
 
 'op-add-dayTimeDuration-to-time2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

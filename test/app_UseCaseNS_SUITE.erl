@@ -1,8 +1,11 @@
 -module('app_UseCaseNS_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ns-queries-results-q1'/1]).
 -export(['ns-queries-results-q2'/1]).
@@ -12,7 +15,10 @@
 -export(['ns-queries-results-q6'/1]).
 -export(['ns-queries-results-q7'/1]).
 -export(['ns-queries-results-q8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -23,15 +29,18 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ns-queries-results-q1', 
-'ns-queries-results-q2', 
-'ns-queries-results-q3', 
-'ns-queries-results-q4', 
-'ns-queries-results-q5', 
-'ns-queries-results-q6', 
-'ns-queries-results-q7', 
-'ns-queries-results-q8'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ns-queries-results-q1', 
+    'ns-queries-results-q2', 
+    'ns-queries-results-q3', 
+    'ns-queries-results-q4', 
+    'ns-queries-results-q5', 
+    'ns-queries-results-q6', 
+    'ns-queries-results-q7', 
+    'ns-queries-results-q8']}].
 environment('auction-xq',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 

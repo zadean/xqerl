@@ -1,8 +1,11 @@
 -module('op_divide_yearMonthDuration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-divide-yearMonthDuration2args-1'/1]).
 -export(['op-divide-yearMonthDuration2args-2'/1]).
@@ -35,7 +38,10 @@
 -export(['cbcl-divide-yearMonthDuration-001'/1]).
 -export(['cbcl-divide-yearMonthDuration-002'/1]).
 -export(['cbcl-divide-yearMonthDuration-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-divide-yearMonthDuration2args-1', 
-'op-divide-yearMonthDuration2args-2', 
-'op-divide-yearMonthDuration2args-3', 
-'op-divide-yearMonthDuration2args-4', 
-'op-divide-yearMonthDuration2args-5', 
-'op-divide-yearMonthDuration-1', 
-'op-divide-yearMonthDuration-2', 
-'op-divide-yearMonthDuration-3', 
-'op-divide-yearMonthDuration-4', 
-'op-divide-yearMonthDuration-5', 
-'op-divide-yearMonthDuration-6', 
-'op-divide-yearMonthDuration-7', 
-'op-divide-yearMonthDuration-8', 
-'op-divide-yearMonthDuration-9', 
-'op-divide-yearMonthDuration-10', 
-'op-divide-yearMonthDuration-11', 
-'op-divide-yearMonthDuration-12', 
-'op-divide-yearMonthDuration-13', 
-'op-divide-yearMonthDuration-14', 
-'op-divide-yearMonthDuration-15', 
-'op-divide-yearMonthDuration-16', 
-'op-divide-yearMonthDuration-17', 
-'K-YearMonthDurationDivide-1', 
-'K-YearMonthDurationDivide-2', 
-'K-YearMonthDurationDivide-3', 
-'K-YearMonthDurationDivide-4', 
-'K-YearMonthDurationDivide-5', 
-'K-YearMonthDurationDivide-6', 
-'cbcl-divide-yearMonthDuration-001', 
-'cbcl-divide-yearMonthDuration-002', 
-'cbcl-divide-yearMonthDuration-003'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-divide-yearMonthDuration2args-1', 
+    'op-divide-yearMonthDuration2args-2', 
+    'op-divide-yearMonthDuration2args-3', 
+    'op-divide-yearMonthDuration2args-4', 
+    'op-divide-yearMonthDuration2args-5', 
+    'op-divide-yearMonthDuration-1', 
+    'op-divide-yearMonthDuration-2', 
+    'op-divide-yearMonthDuration-3', 
+    'op-divide-yearMonthDuration-4', 
+    'op-divide-yearMonthDuration-5', 
+    'op-divide-yearMonthDuration-6', 
+    'op-divide-yearMonthDuration-7', 
+    'op-divide-yearMonthDuration-8', 
+    'op-divide-yearMonthDuration-9', 
+    'op-divide-yearMonthDuration-10', 
+    'op-divide-yearMonthDuration-11', 
+    'op-divide-yearMonthDuration-12', 
+    'op-divide-yearMonthDuration-13', 
+    'op-divide-yearMonthDuration-14', 
+    'op-divide-yearMonthDuration-15', 
+    'op-divide-yearMonthDuration-16', 
+    'op-divide-yearMonthDuration-17', 
+    'K-YearMonthDurationDivide-1']}, 
+   {group_1, [parallel], [
+    'K-YearMonthDurationDivide-2', 
+    'K-YearMonthDurationDivide-3', 
+    'K-YearMonthDurationDivide-4', 
+    'K-YearMonthDurationDivide-5', 
+    'K-YearMonthDurationDivide-6', 
+    'cbcl-divide-yearMonthDuration-001', 
+    'cbcl-divide-yearMonthDuration-002', 
+    'cbcl-divide-yearMonthDuration-003']}].
 
 'op-divide-yearMonthDuration2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

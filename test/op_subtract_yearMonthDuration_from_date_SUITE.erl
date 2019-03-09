@@ -1,8 +1,11 @@
 -module('op_subtract_yearMonthDuration_from_date_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-subtract-yearMonthDuration-from-date2args-1'/1]).
 -export(['op-subtract-yearMonthDuration-from-date2args-2'/1]).
@@ -29,7 +32,10 @@
 -export(['K-DateSubtractYMD-1'/1]).
 -export(['cbcl-subtract-yearMonthDuration-from-date-001'/1]).
 -export(['cbcl-subtract-yearMonthDuration-from-date-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-subtract-yearMonthDuration-from-date2args-1', 
-'op-subtract-yearMonthDuration-from-date2args-2', 
-'op-subtract-yearMonthDuration-from-date2args-3', 
-'op-subtract-yearMonthDuration-from-date2args-4', 
-'op-subtract-yearMonthDuration-from-date2args-5', 
-'op-subtract-yearMonthDuration-from-date-1', 
-'op-subtract-yearMonthDuration-from-date-2', 
-'op-subtract-yearMonthDuration-from-date-3', 
-'op-subtract-yearMonthDuration-from-date-4', 
-'op-subtract-yearMonthDuration-from-date-5', 
-'op-subtract-yearMonthDuration-from-date-6', 
-'op-subtract-yearMonthDuration-from-date-7', 
-'op-subtract-yearMonthDuration-from-date-8', 
-'op-subtract-yearMonthDuration-from-date-9', 
-'op-subtract-yearMonthDuration-from-date-10', 
-'op-subtract-yearMonthDuration-from-date-12', 
-'op-subtract-yearMonthDuration-from-date-13', 
-'op-subtract-yearMonthDuration-from-date-14', 
-'op-subtract-yearMonthDuration-from-date-15', 
-'op-subtract-yearMonthDuration-from-date-16', 
-'op-subtract-yearMonthDuration-from-date-17', 
-'op-subtract-yearMonthDuration-from-date-18', 
-'K-DateSubtractYMD-1', 
-'cbcl-subtract-yearMonthDuration-from-date-001', 
-'cbcl-subtract-yearMonthDuration-from-date-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-subtract-yearMonthDuration-from-date2args-1', 
+    'op-subtract-yearMonthDuration-from-date2args-2', 
+    'op-subtract-yearMonthDuration-from-date2args-3', 
+    'op-subtract-yearMonthDuration-from-date2args-4', 
+    'op-subtract-yearMonthDuration-from-date2args-5', 
+    'op-subtract-yearMonthDuration-from-date-1', 
+    'op-subtract-yearMonthDuration-from-date-2', 
+    'op-subtract-yearMonthDuration-from-date-3', 
+    'op-subtract-yearMonthDuration-from-date-4', 
+    'op-subtract-yearMonthDuration-from-date-5', 
+    'op-subtract-yearMonthDuration-from-date-6', 
+    'op-subtract-yearMonthDuration-from-date-7', 
+    'op-subtract-yearMonthDuration-from-date-8', 
+    'op-subtract-yearMonthDuration-from-date-9', 
+    'op-subtract-yearMonthDuration-from-date-10', 
+    'op-subtract-yearMonthDuration-from-date-12', 
+    'op-subtract-yearMonthDuration-from-date-13', 
+    'op-subtract-yearMonthDuration-from-date-14', 
+    'op-subtract-yearMonthDuration-from-date-15', 
+    'op-subtract-yearMonthDuration-from-date-16', 
+    'op-subtract-yearMonthDuration-from-date-17', 
+    'op-subtract-yearMonthDuration-from-date-18', 
+    'K-DateSubtractYMD-1']}, 
+   {group_1, [parallel], [
+    'cbcl-subtract-yearMonthDuration-from-date-001', 
+    'cbcl-subtract-yearMonthDuration-from-date-002']}].
 
 'op-subtract-yearMonthDuration-from-date2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

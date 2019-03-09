@@ -1,8 +1,11 @@
 -module('prod_Annotation_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['annotation-1'/1]).
 -export(['annotation-2'/1]).
@@ -62,7 +65,10 @@
 -export(['annotation-assertion-18'/1]).
 -export(['annotation-assertion-19'/1]).
 -export(['annotation-assertion-20'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'annotation-1', 
-'annotation-2', 
-'annotation-3', 
-'annotation-4', 
-'annotation-5', 
-'annotation-6', 
-'annotation-7', 
-'annotation-8', 
-'annotation-9', 
-'annotation-10', 
-'annotation-11', 
-'annotation-12', 
-'annotation-13', 
-'annotation-14', 
-'annotation-15', 
-'annotation-16', 
-'annotation-17', 
-'annotation-18', 
-'annotation-19', 
-'annotation-20', 
-'annotation-21', 
-'annotation-22', 
-'annotation-23', 
-'annotation-24', 
-'annotation-25', 
-'annotation-26', 
-'annotation-27', 
-'annotation-28', 
-'annotation-29', 
-'annotation-30', 
-'annotation-31', 
-'annotation-32', 
-'annotation-33', 
-'annotation-34', 
-'annotation-35', 
-'annotation-36', 
-'annotation-37', 
-'annotation-38', 
-'annotation-assertion-1', 
-'annotation-assertion-2', 
-'annotation-assertion-3', 
-'annotation-assertion-4', 
-'annotation-assertion-5', 
-'annotation-assertion-6', 
-'annotation-assertion-7', 
-'annotation-assertion-8', 
-'annotation-assertion-9', 
-'annotation-assertion-10', 
-'annotation-assertion-11', 
-'annotation-assertion-12', 
-'annotation-assertion-13', 
-'annotation-assertion-14', 
-'annotation-assertion-15', 
-'annotation-assertion-16', 
-'annotation-assertion-17', 
-'annotation-assertion-18', 
-'annotation-assertion-19', 
-'annotation-assertion-20'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'annotation-1', 
+    'annotation-2', 
+    'annotation-3', 
+    'annotation-4', 
+    'annotation-5', 
+    'annotation-6', 
+    'annotation-7', 
+    'annotation-8', 
+    'annotation-9', 
+    'annotation-10', 
+    'annotation-11', 
+    'annotation-12', 
+    'annotation-13', 
+    'annotation-14', 
+    'annotation-15', 
+    'annotation-16', 
+    'annotation-17', 
+    'annotation-18', 
+    'annotation-19', 
+    'annotation-20', 
+    'annotation-21', 
+    'annotation-22', 
+    'annotation-23']}, 
+   {group_1, [parallel], [
+    'annotation-24', 
+    'annotation-25', 
+    'annotation-26', 
+    'annotation-27', 
+    'annotation-28', 
+    'annotation-29', 
+    'annotation-30', 
+    'annotation-31', 
+    'annotation-32', 
+    'annotation-33', 
+    'annotation-34', 
+    'annotation-35', 
+    'annotation-36', 
+    'annotation-37', 
+    'annotation-38', 
+    'annotation-assertion-1', 
+    'annotation-assertion-2', 
+    'annotation-assertion-3', 
+    'annotation-assertion-4', 
+    'annotation-assertion-5', 
+    'annotation-assertion-6', 
+    'annotation-assertion-7', 
+    'annotation-assertion-8', 
+    'annotation-assertion-9']}, 
+   {group_2, [parallel], [
+    'annotation-assertion-10', 
+    'annotation-assertion-11', 
+    'annotation-assertion-12', 
+    'annotation-assertion-13', 
+    'annotation-assertion-14', 
+    'annotation-assertion-15', 
+    'annotation-assertion-16', 
+    'annotation-assertion-17', 
+    'annotation-assertion-18', 
+    'annotation-assertion-19', 
+    'annotation-assertion-20']}].
 
 'annotation-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

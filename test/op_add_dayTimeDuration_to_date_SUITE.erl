@@ -1,8 +1,11 @@
 -module('op_add_dayTimeDuration_to_date_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-add-dayTimeDuration-to-date2args-1'/1]).
 -export(['op-add-dayTimeDuration-to-date2args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['cbcl-add-dayTimeDuration-to-date-003'/1]).
 -export(['Add-UnionType-36'/1]).
 -export(['Add-UnionType-37'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-add-dayTimeDuration-to-date2args-1', 
-'op-add-dayTimeDuration-to-date2args-2', 
-'op-add-dayTimeDuration-to-date2args-3', 
-'op-add-dayTimeDuration-to-date2args-4', 
-'op-add-dayTimeDuration-to-date2args-5', 
-'op-add-dayTimeDuration-to-date-1', 
-'op-add-dayTimeDuration-to-datealt-2', 
-'op-add-dayTimeDuration-to-date-3', 
-'op-add-dayTimeDuration-to-date-4', 
-'op-add-dayTimeDuration-to-date-5', 
-'op-add-dayTimeDuration-to-date-6', 
-'op-add-dayTimeDuration-to-date-7', 
-'op-add-dayTimeDuration-to-date-8', 
-'op-add-dayTimeDuration-to-date-9', 
-'op-add-dayTimeDuration-to-date-10', 
-'op-add-dayTimeDuration-to-date-12', 
-'op-add-dayTimeDuration-to-date-13', 
-'op-add-dayTimeDuration-to-date-14', 
-'op-add-dayTimeDuration-to-date-15', 
-'op-add-dayTimeDuration-to-date-16', 
-'K-DateAddDTD-1', 
-'K-DateAddDTD-2', 
-'cbcl-add-dayTimeDuration-to-date-001', 
-'cbcl-add-dayTimeDuration-to-date-002', 
-'cbcl-add-dayTimeDuration-to-date-003', 
-'Add-UnionType-36', 
-'Add-UnionType-37'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-add-dayTimeDuration-to-date2args-1', 
+    'op-add-dayTimeDuration-to-date2args-2', 
+    'op-add-dayTimeDuration-to-date2args-3', 
+    'op-add-dayTimeDuration-to-date2args-4', 
+    'op-add-dayTimeDuration-to-date2args-5', 
+    'op-add-dayTimeDuration-to-date-1', 
+    'op-add-dayTimeDuration-to-datealt-2', 
+    'op-add-dayTimeDuration-to-date-3', 
+    'op-add-dayTimeDuration-to-date-4', 
+    'op-add-dayTimeDuration-to-date-5', 
+    'op-add-dayTimeDuration-to-date-6', 
+    'op-add-dayTimeDuration-to-date-7', 
+    'op-add-dayTimeDuration-to-date-8', 
+    'op-add-dayTimeDuration-to-date-9', 
+    'op-add-dayTimeDuration-to-date-10', 
+    'op-add-dayTimeDuration-to-date-12', 
+    'op-add-dayTimeDuration-to-date-13', 
+    'op-add-dayTimeDuration-to-date-14', 
+    'op-add-dayTimeDuration-to-date-15', 
+    'op-add-dayTimeDuration-to-date-16', 
+    'K-DateAddDTD-1', 
+    'K-DateAddDTD-2', 
+    'cbcl-add-dayTimeDuration-to-date-001']}, 
+   {group_1, [parallel], [
+    'cbcl-add-dayTimeDuration-to-date-002', 
+    'cbcl-add-dayTimeDuration-to-date-003', 
+    'Add-UnionType-36', 
+    'Add-UnionType-37']}].
 environment('union-List-defined-Types',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

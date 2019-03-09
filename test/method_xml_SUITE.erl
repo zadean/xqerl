@@ -1,8 +1,11 @@
 -module('method_xml_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K2-Serialization-1'/1]).
 -export(['K2-Serialization-2'/1]).
@@ -46,7 +49,10 @@
 -export(['K2-Serialization-39'/1]).
 -export(['Serialization-xml-01'/1]).
 -export(['Serialization-xml-02'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -57,49 +63,54 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "ser"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K2-Serialization-1', 
-'K2-Serialization-2', 
-'K2-Serialization-3', 
-'K2-Serialization-4', 
-'K2-Serialization-5', 
-'K2-Serialization-6', 
-'K2-Serialization-7', 
-'K2-Serialization-7a', 
-'K2-Serialization-8', 
-'K2-Serialization-8a', 
-'K2-Serialization-9', 
-'K2-Serialization-10', 
-'K2-Serialization-11', 
-'K2-Serialization-12', 
-'K2-Serialization-13', 
-'K2-Serialization-14', 
-'K2-Serialization-15', 
-'K2-Serialization-16', 
-'K2-Serialization-17', 
-'K2-Serialization-18', 
-'K2-Serialization-20', 
-'K2-Serialization-21', 
-'K2-Serialization-22', 
-'K2-Serialization-23', 
-'K2-Serialization-24', 
-'K2-Serialization-25', 
-'K2-Serialization-26', 
-'K2-Serialization-27', 
-'K2-Serialization-28', 
-'K2-Serialization-29', 
-'K2-Serialization-30', 
-'K2-Serialization-31', 
-'K2-Serialization-32', 
-'K2-Serialization-33', 
-'K2-Serialization-34', 
-'K2-Serialization-35', 
-'K2-Serialization-36', 
-'K2-Serialization-37', 
-'K2-Serialization-38', 
-'K2-Serialization-39', 
-'Serialization-xml-01', 
-'Serialization-xml-02'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K2-Serialization-1', 
+    'K2-Serialization-2', 
+    'K2-Serialization-3', 
+    'K2-Serialization-4', 
+    'K2-Serialization-5', 
+    'K2-Serialization-6', 
+    'K2-Serialization-7', 
+    'K2-Serialization-7a', 
+    'K2-Serialization-8', 
+    'K2-Serialization-8a', 
+    'K2-Serialization-9', 
+    'K2-Serialization-10', 
+    'K2-Serialization-11', 
+    'K2-Serialization-12', 
+    'K2-Serialization-13', 
+    'K2-Serialization-14', 
+    'K2-Serialization-15', 
+    'K2-Serialization-16', 
+    'K2-Serialization-17', 
+    'K2-Serialization-18', 
+    'K2-Serialization-20', 
+    'K2-Serialization-21', 
+    'K2-Serialization-22']}, 
+   {group_1, [parallel], [
+    'K2-Serialization-23', 
+    'K2-Serialization-24', 
+    'K2-Serialization-25', 
+    'K2-Serialization-26', 
+    'K2-Serialization-27', 
+    'K2-Serialization-28', 
+    'K2-Serialization-29', 
+    'K2-Serialization-30', 
+    'K2-Serialization-31', 
+    'K2-Serialization-32', 
+    'K2-Serialization-33', 
+    'K2-Serialization-34', 
+    'K2-Serialization-35', 
+    'K2-Serialization-36', 
+    'K2-Serialization-37', 
+    'K2-Serialization-38', 
+    'K2-Serialization-39', 
+    'Serialization-xml-01', 
+    'Serialization-xml-02']}].
 
 'K2-Serialization-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

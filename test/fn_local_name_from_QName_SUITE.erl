@@ -1,8 +1,11 @@
 -module('fn_local_name_from_QName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['LocalNameFromQNameFunc001'/1]).
 -export(['LocalNameFromQNameFunc002'/1]).
@@ -32,7 +35,10 @@
 -export(['K-LocalNameFromQNameFunc-2'/1]).
 -export(['K-LocalNameFromQNameFunc-3'/1]).
 -export(['K-LocalNameFromQNameFunc-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'LocalNameFromQNameFunc001', 
-'LocalNameFromQNameFunc002', 
-'LocalNameFromQNameFunc003', 
-'LocalNameFromQNameFunc004', 
-'LocalNameFromQNameFunc005', 
-'LocalNameFromQNameFunc006', 
-'LocalNameFromQNameFunc007', 
-'LocalNameFromQNameFunc009', 
-'LocalNameFromQNameFunc010', 
-'LocalNameFromQNameFunc011', 
-'LocalNameFromQNameFunc012', 
-'LocalNameFromQNameFunc013', 
-'LocalNameFromQNameFunc014', 
-'LocalNameFromQNameFunc015', 
-'LocalNameFromQNameFunc015a', 
-'LocalNameFromQNameFunc016', 
-'LocalNameFromQNameFunc017', 
-'LocalNameFromQNameFunc018', 
-'LocalNameFromQNameFunc019', 
-'LocalNameFromQNameFunc020', 
-'LocalNameFromQNameFunc021', 
-'fn-local-name-from-qname-022', 
-'fn-local-name-from-qname-023', 
-'fn-local-name-from-qname-024', 
-'K-LocalNameFromQNameFunc-1', 
-'K-LocalNameFromQNameFunc-2', 
-'K-LocalNameFromQNameFunc-3', 
-'K-LocalNameFromQNameFunc-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'LocalNameFromQNameFunc001', 
+    'LocalNameFromQNameFunc002', 
+    'LocalNameFromQNameFunc003', 
+    'LocalNameFromQNameFunc004', 
+    'LocalNameFromQNameFunc005', 
+    'LocalNameFromQNameFunc006', 
+    'LocalNameFromQNameFunc007', 
+    'LocalNameFromQNameFunc009', 
+    'LocalNameFromQNameFunc010', 
+    'LocalNameFromQNameFunc011', 
+    'LocalNameFromQNameFunc012', 
+    'LocalNameFromQNameFunc013', 
+    'LocalNameFromQNameFunc014', 
+    'LocalNameFromQNameFunc015', 
+    'LocalNameFromQNameFunc015a', 
+    'LocalNameFromQNameFunc016', 
+    'LocalNameFromQNameFunc017', 
+    'LocalNameFromQNameFunc018', 
+    'LocalNameFromQNameFunc019', 
+    'LocalNameFromQNameFunc020', 
+    'LocalNameFromQNameFunc021', 
+    'fn-local-name-from-qname-022', 
+    'fn-local-name-from-qname-023']}, 
+   {group_1, [parallel], [
+    'fn-local-name-from-qname-024', 
+    'K-LocalNameFromQNameFunc-1', 
+    'K-LocalNameFromQNameFunc-2', 
+    'K-LocalNameFromQNameFunc-3', 
+    'K-LocalNameFromQNameFunc-4']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 

@@ -1,8 +1,11 @@
 -module('fn_outermost_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-outermost-001'/1]).
 -export(['fn-outermost-002'/1]).
@@ -62,7 +65,10 @@
 -export(['fn-outermost-056'/1]).
 -export(['fn-outermost-057'/1]).
 -export(['fn-outermost-058'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-outermost-001', 
-'fn-outermost-002', 
-'fn-outermost-003', 
-'fn-outermost-004', 
-'fn-outermost-005', 
-'fn-outermost-006', 
-'fn-outermost-007', 
-'fn-outermost-008', 
-'fn-outermost-009', 
-'fn-outermost-010', 
-'fn-outermost-011', 
-'fn-outermost-012', 
-'fn-outermost-013', 
-'fn-outermost-014', 
-'fn-outermost-015', 
-'fn-outermost-016', 
-'fn-outermost-017', 
-'fn-outermost-018', 
-'fn-outermost-019', 
-'fn-outermost-020', 
-'fn-outermost-021', 
-'fn-outermost-022', 
-'fn-outermost-023', 
-'fn-outermost-024', 
-'fn-outermost-025', 
-'fn-outermost-026', 
-'fn-outermost-027', 
-'fn-outermost-028', 
-'fn-outermost-029', 
-'fn-outermost-030', 
-'fn-outermost-031', 
-'fn-outermost-032', 
-'fn-outermost-033', 
-'fn-outermost-034', 
-'fn-outermost-035', 
-'fn-outermost-036', 
-'fn-outermost-037', 
-'fn-outermost-038', 
-'fn-outermost-039', 
-'fn-outermost-040', 
-'fn-outermost-041', 
-'fn-outermost-042', 
-'fn-outermost-043', 
-'fn-outermost-044', 
-'fn-outermost-045', 
-'fn-outermost-046', 
-'fn-outermost-047', 
-'fn-outermost-048', 
-'fn-outermost-049', 
-'fn-outermost-050', 
-'fn-outermost-051', 
-'fn-outermost-052', 
-'fn-outermost-053', 
-'fn-outermost-054', 
-'fn-outermost-055', 
-'fn-outermost-056', 
-'fn-outermost-057', 
-'fn-outermost-058'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-outermost-001', 
+    'fn-outermost-002', 
+    'fn-outermost-003', 
+    'fn-outermost-004', 
+    'fn-outermost-005', 
+    'fn-outermost-006', 
+    'fn-outermost-007', 
+    'fn-outermost-008', 
+    'fn-outermost-009', 
+    'fn-outermost-010', 
+    'fn-outermost-011', 
+    'fn-outermost-012', 
+    'fn-outermost-013', 
+    'fn-outermost-014', 
+    'fn-outermost-015', 
+    'fn-outermost-016', 
+    'fn-outermost-017', 
+    'fn-outermost-018', 
+    'fn-outermost-019', 
+    'fn-outermost-020', 
+    'fn-outermost-021', 
+    'fn-outermost-022', 
+    'fn-outermost-023']}, 
+   {group_1, [parallel], [
+    'fn-outermost-024', 
+    'fn-outermost-025', 
+    'fn-outermost-026', 
+    'fn-outermost-027', 
+    'fn-outermost-028', 
+    'fn-outermost-029', 
+    'fn-outermost-030', 
+    'fn-outermost-031', 
+    'fn-outermost-032', 
+    'fn-outermost-033', 
+    'fn-outermost-034', 
+    'fn-outermost-035', 
+    'fn-outermost-036', 
+    'fn-outermost-037', 
+    'fn-outermost-038', 
+    'fn-outermost-039', 
+    'fn-outermost-040', 
+    'fn-outermost-041', 
+    'fn-outermost-042', 
+    'fn-outermost-043', 
+    'fn-outermost-044', 
+    'fn-outermost-045', 
+    'fn-outermost-046', 
+    'fn-outermost-047']}, 
+   {group_2, [parallel], [
+    'fn-outermost-048', 
+    'fn-outermost-049', 
+    'fn-outermost-050', 
+    'fn-outermost-051', 
+    'fn-outermost-052', 
+    'fn-outermost-053', 
+    'fn-outermost-054', 
+    'fn-outermost-055', 
+    'fn-outermost-056', 
+    'fn-outermost-057', 
+    'fn-outermost-058']}].
 environment('outermost',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "innermost/innermost.xml"), ".",[]}, 

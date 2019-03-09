@@ -1,8 +1,11 @@
 -module('fn_unordered_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-unordered-mix-args-001'/1]).
 -export(['fn-unordered-mix-args-002'/1]).
@@ -47,7 +50,10 @@
 -export(['fn-unordered-107'/1]).
 -export(['fn-unordered-108'/1]).
 -export(['fn-unordered-109'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -58,50 +64,55 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-unordered-mix-args-001', 
-'fn-unordered-mix-args-002', 
-'fn-unordered-mix-args-003', 
-'fn-unordered-mix-args-004', 
-'fn-unordered-mix-args-005', 
-'fn-unordered-mix-args-006', 
-'fn-unordered-mix-args-007', 
-'fn-unordered-mix-args-008', 
-'fn-unordered-mix-args-009', 
-'fn-unordered-mix-args-010', 
-'fn-unordered-mix-args-011', 
-'fn-unordered-mix-args-012', 
-'fn-unordered-mix-args-013', 
-'fn-unordered-mix-args-014', 
-'fn-unordered-mix-args-015', 
-'fn-unordered-mix-args-016', 
-'fn-unordered-mix-args-017', 
-'fn-unordered-mix-args-018', 
-'fn-unordered-mix-args-019', 
-'fn-unordered-mix-args-020', 
-'fn-unordered-mix-args-021', 
-'fn-unordered-mix-args-022', 
-'fn-unordered-mix-args-023', 
-'K-SeqUnorderedFunc-1', 
-'K-SeqUnorderedFunc-2', 
-'K-SeqUnorderedFunc-3', 
-'K-SeqUnorderedFunc-4', 
-'K-SeqUnorderedFunc-5', 
-'K-SeqUnorderedFunc-6', 
-'K-SeqUnorderedFunc-7', 
-'K-SeqUnorderedFunc-8', 
-'cbcl-fn-unordered-001', 
-'cbcl-fn-unordered-002', 
-'cbcl-fn-unordered-003', 
-'fn-unordered-101', 
-'fn-unordered-102', 
-'fn-unordered-103', 
-'fn-unordered-104', 
-'fn-unordered-105', 
-'fn-unordered-106', 
-'fn-unordered-107', 
-'fn-unordered-108', 
-'fn-unordered-109'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-unordered-mix-args-001', 
+    'fn-unordered-mix-args-002', 
+    'fn-unordered-mix-args-003', 
+    'fn-unordered-mix-args-004', 
+    'fn-unordered-mix-args-005', 
+    'fn-unordered-mix-args-006', 
+    'fn-unordered-mix-args-007', 
+    'fn-unordered-mix-args-008', 
+    'fn-unordered-mix-args-009', 
+    'fn-unordered-mix-args-010', 
+    'fn-unordered-mix-args-011', 
+    'fn-unordered-mix-args-012', 
+    'fn-unordered-mix-args-013', 
+    'fn-unordered-mix-args-014', 
+    'fn-unordered-mix-args-015', 
+    'fn-unordered-mix-args-016', 
+    'fn-unordered-mix-args-017', 
+    'fn-unordered-mix-args-018', 
+    'fn-unordered-mix-args-019', 
+    'fn-unordered-mix-args-020', 
+    'fn-unordered-mix-args-021', 
+    'fn-unordered-mix-args-022', 
+    'fn-unordered-mix-args-023']}, 
+   {group_1, [parallel], [
+    'K-SeqUnorderedFunc-1', 
+    'K-SeqUnorderedFunc-2', 
+    'K-SeqUnorderedFunc-3', 
+    'K-SeqUnorderedFunc-4', 
+    'K-SeqUnorderedFunc-5', 
+    'K-SeqUnorderedFunc-6', 
+    'K-SeqUnorderedFunc-7', 
+    'K-SeqUnorderedFunc-8', 
+    'cbcl-fn-unordered-001', 
+    'cbcl-fn-unordered-002', 
+    'cbcl-fn-unordered-003', 
+    'fn-unordered-101', 
+    'fn-unordered-102', 
+    'fn-unordered-103', 
+    'fn-unordered-104', 
+    'fn-unordered-105', 
+    'fn-unordered-106', 
+    'fn-unordered-107', 
+    'fn-unordered-108', 
+    'fn-unordered-109']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

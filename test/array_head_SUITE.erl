@@ -1,8 +1,11 @@
 -module('array_head_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-head-601'/1]).
 -export(['array-head-602'/1]).
@@ -13,7 +16,10 @@
 -export(['array-head-607'/1]).
 -export(['array-head-608'/1]).
 -export(['array-head-609'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -24,16 +30,19 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-head-601', 
-'array-head-602', 
-'array-head-603', 
-'array-head-604', 
-'array-head-605', 
-'array-head-606', 
-'array-head-607', 
-'array-head-608', 
-'array-head-609'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-head-601', 
+    'array-head-602', 
+    'array-head-603', 
+    'array-head-604', 
+    'array-head-605', 
+    'array-head-606', 
+    'array-head-607', 
+    'array-head-608', 
+    'array-head-609']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

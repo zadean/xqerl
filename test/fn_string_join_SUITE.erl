@@ -1,8 +1,11 @@
 -module('fn_string_join_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-string-join2args-1'/1]).
 -export(['fn-string-join2args-2'/1]).
@@ -50,7 +53,10 @@
 -export(['K-StringJoinFunc-6'/1]).
 -export(['K-StringJoinFunc-7'/1]).
 -export(['cbcl-fn-string-join-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -61,53 +67,58 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-string-join2args-1', 
-'fn-string-join2args-2', 
-'fn-string-join2args-3', 
-'fn-string-join2args-4', 
-'fn-string-join2args-5', 
-'fn-string-join-1', 
-'fn-string-join-2', 
-'fn-string-join-3', 
-'fn-string-join-4', 
-'fn-string-join-5', 
-'fn-string-join-6', 
-'fn-string-join-7', 
-'fn-string-join-8', 
-'fn-string-join-9', 
-'fn-string-join-10', 
-'fn-string-join-11', 
-'fn-string-join-12', 
-'fn-string-join-13', 
-'fn-string-join-14', 
-'fn-string-join-15', 
-'fn-string-join-16', 
-'fn-string-join-17', 
-'fn-string-join-18', 
-'fn-string-join-19', 
-'fn-string-join-20', 
-'fn-string-join-21', 
-'fn-string-join-22', 
-'fn-string-join-23', 
-'fn-string-join-24', 
-'fn-string-join-25', 
-'fn-string-join-26', 
-'fn-string-join-27', 
-'fn-string-join-28', 
-'fn-string-join-29', 
-'fn-string-join-30', 
-'fn-string-join-31', 
-'fn-string-join-32', 
-'K-StringJoinFunc-1', 
-'K-StringJoinFunc-1a', 
-'K-StringJoinFunc-2', 
-'K-StringJoinFunc-3', 
-'K-StringJoinFunc-4', 
-'K-StringJoinFunc-5', 
-'K-StringJoinFunc-6', 
-'K-StringJoinFunc-7', 
-'cbcl-fn-string-join-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-string-join2args-1', 
+    'fn-string-join2args-2', 
+    'fn-string-join2args-3', 
+    'fn-string-join2args-4', 
+    'fn-string-join2args-5', 
+    'fn-string-join-1', 
+    'fn-string-join-2', 
+    'fn-string-join-3', 
+    'fn-string-join-4', 
+    'fn-string-join-5', 
+    'fn-string-join-6', 
+    'fn-string-join-7', 
+    'fn-string-join-8', 
+    'fn-string-join-9', 
+    'fn-string-join-10', 
+    'fn-string-join-11', 
+    'fn-string-join-12', 
+    'fn-string-join-13', 
+    'fn-string-join-14', 
+    'fn-string-join-15', 
+    'fn-string-join-16', 
+    'fn-string-join-17', 
+    'fn-string-join-18']}, 
+   {group_1, [parallel], [
+    'fn-string-join-19', 
+    'fn-string-join-20', 
+    'fn-string-join-21', 
+    'fn-string-join-22', 
+    'fn-string-join-23', 
+    'fn-string-join-24', 
+    'fn-string-join-25', 
+    'fn-string-join-26', 
+    'fn-string-join-27', 
+    'fn-string-join-28', 
+    'fn-string-join-29', 
+    'fn-string-join-30', 
+    'fn-string-join-31', 
+    'fn-string-join-32', 
+    'K-StringJoinFunc-1', 
+    'K-StringJoinFunc-1a', 
+    'K-StringJoinFunc-2', 
+    'K-StringJoinFunc-3', 
+    'K-StringJoinFunc-4', 
+    'K-StringJoinFunc-5', 
+    'K-StringJoinFunc-6', 
+    'K-StringJoinFunc-7', 
+    'cbcl-fn-string-join-001']}].
 
 'fn-string-join2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

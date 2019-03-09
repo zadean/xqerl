@@ -1,8 +1,11 @@
 -module('prod_SwitchExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['switch-001'/1]).
 -export(['switch-002'/1]).
@@ -31,7 +34,10 @@
 -export(['switch-907'/1]).
 -export(['switch-908'/1]).
 -export(['switch-909'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'switch-001', 
-'switch-002', 
-'switch-003', 
-'switch-004', 
-'switch-005', 
-'switch-006', 
-'switch-007', 
-'switch-008', 
-'switch-009', 
-'switch-010', 
-'switch-011', 
-'switch-012', 
-'switch-013', 
-'switch-014', 
-'switch-015', 
-'switch-016', 
-'switch-017', 
-'switch-018', 
-'switch-901', 
-'switch-902', 
-'switch-903', 
-'switch-904', 
-'switch-905', 
-'switch-906', 
-'switch-907', 
-'switch-908', 
-'switch-909'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'switch-001', 
+    'switch-002', 
+    'switch-003', 
+    'switch-004', 
+    'switch-005', 
+    'switch-006', 
+    'switch-007', 
+    'switch-008', 
+    'switch-009', 
+    'switch-010', 
+    'switch-011', 
+    'switch-012', 
+    'switch-013', 
+    'switch-014', 
+    'switch-015', 
+    'switch-016', 
+    'switch-017', 
+    'switch-018', 
+    'switch-901', 
+    'switch-902', 
+    'switch-903', 
+    'switch-904', 
+    'switch-905']}, 
+   {group_1, [parallel], [
+    'switch-906', 
+    'switch-907', 
+    'switch-908', 
+    'switch-909']}].
 
 'switch-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

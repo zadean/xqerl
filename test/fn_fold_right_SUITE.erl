@@ -1,8 +1,11 @@
 -module('fn_fold_right_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fold-right-001'/1]).
 -export(['fold-right-002'/1]).
@@ -29,7 +32,10 @@
 -export(['fold-right-103'/1]).
 -export(['fold-right-104'/1]).
 -export(['fold-right-105'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fold-right-001', 
-'fold-right-002', 
-'fold-right-003', 
-'fold-right-004', 
-'fold-right-005', 
-'fold-right-006', 
-'fold-right-007', 
-'fold-right-008', 
-'fold-right-009', 
-'fold-right-010', 
-'fold-right-011', 
-'fold-right-012', 
-'fold-right-013', 
-'fold-right-014', 
-'fold-right-015', 
-'fold-right-016', 
-'fold-right-017', 
-'fold-right-018', 
-'fold-right-019', 
-'fold-right-020', 
-'fold-right-101', 
-'fold-right-102', 
-'fold-right-103', 
-'fold-right-104', 
-'fold-right-105'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fold-right-001', 
+    'fold-right-002', 
+    'fold-right-003', 
+    'fold-right-004', 
+    'fold-right-005', 
+    'fold-right-006', 
+    'fold-right-007', 
+    'fold-right-008', 
+    'fold-right-009', 
+    'fold-right-010', 
+    'fold-right-011', 
+    'fold-right-012', 
+    'fold-right-013', 
+    'fold-right-014', 
+    'fold-right-015', 
+    'fold-right-016', 
+    'fold-right-017', 
+    'fold-right-018', 
+    'fold-right-019', 
+    'fold-right-020', 
+    'fold-right-101', 
+    'fold-right-102', 
+    'fold-right-103']}, 
+   {group_1, [parallel], [
+    'fold-right-104', 
+    'fold-right-105']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

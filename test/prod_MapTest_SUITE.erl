@@ -1,8 +1,11 @@
 -module('prod_MapTest_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['MapTest-001'/1]).
 -export(['MapTest-002'/1]).
@@ -37,7 +40,10 @@
 -export(['MapTest-054'/1]).
 -export(['MapTest-055'/1]).
 -export(['MapTest-057'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -48,40 +54,45 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'MapTest-001', 
-'MapTest-002', 
-'MapTest-003', 
-'MapTest-004', 
-'MapTest-005', 
-'MapTest-006', 
-'MapTest-007', 
-'MapTest-008', 
-'MapTest-009', 
-'MapTest-010', 
-'MapTest-011', 
-'MapTest-012', 
-'MapTest-013', 
-'MapTest-014', 
-'MapTest-015', 
-'MapTest-016', 
-'MapTest-017', 
-'MapTest-018', 
-'MapTest-019', 
-'MapTest-020', 
-'MapTest-040', 
-'MapTest-041', 
-'MapTest-042', 
-'MapTest-043', 
-'MapTest-044', 
-'MapTest-045', 
-'MapTest-050', 
-'MapTest-051', 
-'MapTest-052', 
-'MapTest-053', 
-'MapTest-054', 
-'MapTest-055', 
-'MapTest-057'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'MapTest-001', 
+    'MapTest-002', 
+    'MapTest-003', 
+    'MapTest-004', 
+    'MapTest-005', 
+    'MapTest-006', 
+    'MapTest-007', 
+    'MapTest-008', 
+    'MapTest-009', 
+    'MapTest-010', 
+    'MapTest-011', 
+    'MapTest-012', 
+    'MapTest-013', 
+    'MapTest-014', 
+    'MapTest-015', 
+    'MapTest-016', 
+    'MapTest-017', 
+    'MapTest-018', 
+    'MapTest-019', 
+    'MapTest-020', 
+    'MapTest-040', 
+    'MapTest-041', 
+    'MapTest-042']}, 
+   {group_1, [parallel], [
+    'MapTest-043', 
+    'MapTest-044', 
+    'MapTest-045', 
+    'MapTest-050', 
+    'MapTest-051', 
+    'MapTest-052', 
+    'MapTest-053', 
+    'MapTest-054', 
+    'MapTest-055', 
+    'MapTest-057']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

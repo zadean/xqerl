@@ -1,8 +1,11 @@
 -module('op_date_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-date-greater-than2args-1'/1]).
 -export(['op-date-greater-than2args-2'/1]).
@@ -52,7 +55,10 @@
 -export(['cbcl-date-greater-than-014'/1]).
 -export(['cbcl-date-greater-than-015'/1]).
 -export(['cbcl-date-greater-than-016'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -63,55 +69,62 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-date-greater-than2args-1', 
-'op-date-greater-than2args-2', 
-'op-date-greater-than2args-3', 
-'op-date-greater-than2args-4', 
-'op-date-greater-than2args-5', 
-'op-date-greater-than2args-6', 
-'op-date-greater-than2args-7', 
-'op-date-greater-than2args-8', 
-'op-date-greater-than2args-9', 
-'op-date-greater-than2args-10', 
-'op-date-greater-than-1', 
-'op-date-greater-than-2', 
-'op-date-greater-than-3', 
-'op-date-greater-than-4', 
-'op-date-greater-than-5', 
-'op-date-greater-than-6', 
-'op-date-greater-than-7', 
-'op-date-greater-than-8', 
-'op-date-greater-than-9', 
-'op-date-greater-than-10', 
-'op-date-greater-than-11', 
-'op-date-greater-than-12', 
-'op-date-greater-than-13', 
-'op-date-greater-than-14', 
-'K-DateGT-1', 
-'K-DateGT-2', 
-'K-DateGT-3', 
-'K-DateGT-4', 
-'K-DateGT-5', 
-'K-DateGT-6', 
-'cbcl-date-gt-001', 
-'cbcl-date-le-001', 
-'cbcl-date-greater-equal-001', 
-'cbcl-date-greater-equal-002', 
-'cbcl-date-greater-equal-003', 
-'cbcl-date-greater-equal-004', 
-'cbcl-date-greater-equal-005', 
-'cbcl-date-greater-equal-006', 
-'cbcl-date-greater-equal-007', 
-'cbcl-date-greater-equal-008', 
-'cbcl-date-greater-equal-009', 
-'cbcl-date-greater-equal-010', 
-'cbcl-date-greater-than-011', 
-'cbcl-date-greater-than-012', 
-'cbcl-date-greater-than-013', 
-'cbcl-date-greater-than-014', 
-'cbcl-date-greater-than-015', 
-'cbcl-date-greater-than-016'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-date-greater-than2args-1', 
+    'op-date-greater-than2args-2', 
+    'op-date-greater-than2args-3', 
+    'op-date-greater-than2args-4', 
+    'op-date-greater-than2args-5', 
+    'op-date-greater-than2args-6', 
+    'op-date-greater-than2args-7', 
+    'op-date-greater-than2args-8', 
+    'op-date-greater-than2args-9', 
+    'op-date-greater-than2args-10', 
+    'op-date-greater-than-1', 
+    'op-date-greater-than-2', 
+    'op-date-greater-than-3', 
+    'op-date-greater-than-4', 
+    'op-date-greater-than-5', 
+    'op-date-greater-than-6', 
+    'op-date-greater-than-7', 
+    'op-date-greater-than-8', 
+    'op-date-greater-than-9', 
+    'op-date-greater-than-10', 
+    'op-date-greater-than-11', 
+    'op-date-greater-than-12', 
+    'op-date-greater-than-13']}, 
+   {group_1, [parallel], [
+    'op-date-greater-than-14', 
+    'K-DateGT-1', 
+    'K-DateGT-2', 
+    'K-DateGT-3', 
+    'K-DateGT-4', 
+    'K-DateGT-5', 
+    'K-DateGT-6', 
+    'cbcl-date-gt-001', 
+    'cbcl-date-le-001', 
+    'cbcl-date-greater-equal-001', 
+    'cbcl-date-greater-equal-002', 
+    'cbcl-date-greater-equal-003', 
+    'cbcl-date-greater-equal-004', 
+    'cbcl-date-greater-equal-005', 
+    'cbcl-date-greater-equal-006', 
+    'cbcl-date-greater-equal-007', 
+    'cbcl-date-greater-equal-008', 
+    'cbcl-date-greater-equal-009', 
+    'cbcl-date-greater-equal-010', 
+    'cbcl-date-greater-than-011', 
+    'cbcl-date-greater-than-012', 
+    'cbcl-date-greater-than-013', 
+    'cbcl-date-greater-than-014', 
+    'cbcl-date-greater-than-015']}, 
+   {group_2, [parallel], [
+    'cbcl-date-greater-than-016']}].
 
 'op-date-greater-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

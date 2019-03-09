@@ -1,8 +1,11 @@
 -module('fn_prefix_from_QName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-prefix-from-qname-1'/1]).
 -export(['fn-prefix-from-qname-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-PrefixFromQName-2'/1]).
 -export(['K-PrefixFromQName-3'/1]).
 -export(['K-PrefixFromQName-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-prefix-from-qname-1', 
-'fn-prefix-from-qname-2', 
-'fn-prefix-from-qname-3', 
-'fn-prefix-from-qname-4', 
-'fn-prefix-from-qname-5', 
-'fn-prefix-from-qname-6', 
-'fn-prefix-from-qname-7', 
-'fn-prefix-from-qname-8', 
-'fn-prefix-from-qname-9', 
-'fn-prefix-from-qname-10', 
-'fn-prefix-from-qname-11', 
-'fn-prefix-from-qname-12', 
-'fn-prefix-from-qname-13', 
-'fn-prefix-from-qname-14', 
-'fn-prefix-from-qname-15', 
-'fn-prefix-from-qname-16', 
-'fn-prefix-from-qname-17', 
-'fn-prefix-from-qname-18', 
-'fn-prefix-from-qname-19', 
-'fn-prefix-from-qname-20', 
-'fn-prefix-from-qname-21', 
-'fn-prefix-from-qname-22', 
-'fn-prefix-from-qname-23', 
-'K-PrefixFromQName-1', 
-'K-PrefixFromQName-2', 
-'K-PrefixFromQName-3', 
-'K-PrefixFromQName-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-prefix-from-qname-1', 
+    'fn-prefix-from-qname-2', 
+    'fn-prefix-from-qname-3', 
+    'fn-prefix-from-qname-4', 
+    'fn-prefix-from-qname-5', 
+    'fn-prefix-from-qname-6', 
+    'fn-prefix-from-qname-7', 
+    'fn-prefix-from-qname-8', 
+    'fn-prefix-from-qname-9', 
+    'fn-prefix-from-qname-10', 
+    'fn-prefix-from-qname-11', 
+    'fn-prefix-from-qname-12', 
+    'fn-prefix-from-qname-13', 
+    'fn-prefix-from-qname-14', 
+    'fn-prefix-from-qname-15', 
+    'fn-prefix-from-qname-16', 
+    'fn-prefix-from-qname-17', 
+    'fn-prefix-from-qname-18', 
+    'fn-prefix-from-qname-19', 
+    'fn-prefix-from-qname-20', 
+    'fn-prefix-from-qname-21', 
+    'fn-prefix-from-qname-22', 
+    'fn-prefix-from-qname-23']}, 
+   {group_1, [parallel], [
+    'K-PrefixFromQName-1', 
+    'K-PrefixFromQName-2', 
+    'K-PrefixFromQName-3', 
+    'K-PrefixFromQName-4']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 

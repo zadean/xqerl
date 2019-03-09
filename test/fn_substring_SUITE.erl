@@ -1,8 +1,11 @@
 -module('fn_substring_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-substring-1'/1]).
 -export(['fn-substring-2'/1]).
@@ -52,7 +55,10 @@
 -export(['K-SubstringFunc-15'/1]).
 -export(['cbcl-substring-001'/1]).
 -export(['cbcl-substring-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -63,55 +69,62 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-substring-1', 
-'fn-substring-2', 
-'fn-substring-3', 
-'fn-substring-4', 
-'fn-substring-5', 
-'fn-substring-6', 
-'fn-substring-7', 
-'fn-substring-8', 
-'fn-substring-9', 
-'fn-substring-10', 
-'fn-substring-11', 
-'fn-substring-12', 
-'fn-substring-13', 
-'fn-substring-14', 
-'fn-substring-15', 
-'fn-substring-16', 
-'fn-substring-17', 
-'fn-substring-18', 
-'fn-substring-19', 
-'fn-substring-20', 
-'fn-substring-21', 
-'fn-substring-22', 
-'fn-substring-23', 
-'fn-substring-24', 
-'fn-substring-25', 
-'fn-substring-26', 
-'fn-substring-27', 
-'fn-substring-28', 
-'fn-substring-29', 
-'fn-substring-30', 
-'fn-substring-31', 
-'K-SubstringFunc-1', 
-'K-SubstringFunc-2', 
-'K-SubstringFunc-3', 
-'K-SubstringFunc-4', 
-'K-SubstringFunc-5', 
-'K-SubstringFunc-6', 
-'K-SubstringFunc-7', 
-'K-SubstringFunc-8', 
-'K-SubstringFunc-9', 
-'K-SubstringFunc-10', 
-'K-SubstringFunc-11', 
-'K-SubstringFunc-12', 
-'K-SubstringFunc-13', 
-'K-SubstringFunc-14', 
-'K-SubstringFunc-15', 
-'cbcl-substring-001', 
-'cbcl-substring-002'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-substring-1', 
+    'fn-substring-2', 
+    'fn-substring-3', 
+    'fn-substring-4', 
+    'fn-substring-5', 
+    'fn-substring-6', 
+    'fn-substring-7', 
+    'fn-substring-8', 
+    'fn-substring-9', 
+    'fn-substring-10', 
+    'fn-substring-11', 
+    'fn-substring-12', 
+    'fn-substring-13', 
+    'fn-substring-14', 
+    'fn-substring-15', 
+    'fn-substring-16', 
+    'fn-substring-17', 
+    'fn-substring-18', 
+    'fn-substring-19', 
+    'fn-substring-20', 
+    'fn-substring-21', 
+    'fn-substring-22', 
+    'fn-substring-23']}, 
+   {group_1, [parallel], [
+    'fn-substring-24', 
+    'fn-substring-25', 
+    'fn-substring-26', 
+    'fn-substring-27', 
+    'fn-substring-28', 
+    'fn-substring-29', 
+    'fn-substring-30', 
+    'fn-substring-31', 
+    'K-SubstringFunc-1', 
+    'K-SubstringFunc-2', 
+    'K-SubstringFunc-3', 
+    'K-SubstringFunc-4', 
+    'K-SubstringFunc-5', 
+    'K-SubstringFunc-6', 
+    'K-SubstringFunc-7', 
+    'K-SubstringFunc-8', 
+    'K-SubstringFunc-9', 
+    'K-SubstringFunc-10', 
+    'K-SubstringFunc-11', 
+    'K-SubstringFunc-12', 
+    'K-SubstringFunc-13', 
+    'K-SubstringFunc-14', 
+    'K-SubstringFunc-15', 
+    'cbcl-substring-001']}, 
+   {group_2, [parallel], [
+    'cbcl-substring-002']}].
 environment('concepts',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "substring/concepts.xml"), ".",[]}]}, 

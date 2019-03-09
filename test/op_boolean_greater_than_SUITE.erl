@@ -1,8 +1,11 @@
 -module('op_boolean_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-boolean-greater-than2args-1'/1]).
 -export(['op-boolean-greater-than2args-2'/1]).
@@ -53,7 +56,10 @@
 -export(['cbcl-boolean-greater-than-008'/1]).
 -export(['cbcl-boolean-greater-than-009'/1]).
 -export(['cbcl-boolean-greater-than-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -64,56 +70,63 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-boolean-greater-than2args-1', 
-'op-boolean-greater-than2args-2', 
-'op-boolean-greater-than2args-3', 
-'op-boolean-greater-than2args-4', 
-'op-boolean-greater-than2args-5', 
-'op-boolean-greater-than2args-6', 
-'op-boolean-greater-than2args-7', 
-'op-boolean-greater-than2args-8', 
-'op-boolean-greater-than2args-9', 
-'op-boolean-greater-than2args-10', 
-'op-boolean-greater-than-1', 
-'op-boolean-greater-than-2', 
-'op-boolean-greater-than-3', 
-'op-boolean-greater-than-4', 
-'op-boolean-greater-than-5', 
-'op-boolean-greater-than-6', 
-'op-boolean-greater-than-7', 
-'op-boolean-greater-than-8', 
-'op-boolean-greater-than-9', 
-'op-boolean-greater-than-10', 
-'op-boolean-greater-than-11', 
-'op-boolean-greater-than-12', 
-'op-boolean-greater-than-more-args-001', 
-'op-boolean-greater-than-more-args-002', 
-'op-boolean-greater-than-more-args-003', 
-'op-boolean-greater-than-more-args-004', 
-'op-boolean-greater-than-more-args-005', 
-'op-boolean-greater-than-more-args-006', 
-'op-boolean-greater-than-more-args-007', 
-'op-boolean-greater-than-more-args-008', 
-'op-boolean-greater-than-more-args-009', 
-'op-boolean-greater-than-more-args-010', 
-'op-boolean-greater-than-more-args-011', 
-'op-boolean-greater-than-more-args-012', 
-'op-boolean-greater-than-more-args-013', 
-'op-boolean-greater-than-more-args-014', 
-'K-BooleanGT-1', 
-'K-BooleanGT-2', 
-'K-BooleanGT-3', 
-'cbcl-boolean-greater-than-001', 
-'cbcl-boolean-greater-than-002', 
-'cbcl-boolean-greater-than-003', 
-'cbcl-boolean-greater-than-004', 
-'cbcl-boolean-greater-than-005', 
-'cbcl-boolean-greater-than-006', 
-'cbcl-boolean-greater-than-007', 
-'cbcl-boolean-greater-than-008', 
-'cbcl-boolean-greater-than-009', 
-'cbcl-boolean-greater-than-010'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-boolean-greater-than2args-1', 
+    'op-boolean-greater-than2args-2', 
+    'op-boolean-greater-than2args-3', 
+    'op-boolean-greater-than2args-4', 
+    'op-boolean-greater-than2args-5', 
+    'op-boolean-greater-than2args-6', 
+    'op-boolean-greater-than2args-7', 
+    'op-boolean-greater-than2args-8', 
+    'op-boolean-greater-than2args-9', 
+    'op-boolean-greater-than2args-10', 
+    'op-boolean-greater-than-1', 
+    'op-boolean-greater-than-2', 
+    'op-boolean-greater-than-3', 
+    'op-boolean-greater-than-4', 
+    'op-boolean-greater-than-5', 
+    'op-boolean-greater-than-6', 
+    'op-boolean-greater-than-7', 
+    'op-boolean-greater-than-8', 
+    'op-boolean-greater-than-9', 
+    'op-boolean-greater-than-10', 
+    'op-boolean-greater-than-11', 
+    'op-boolean-greater-than-12', 
+    'op-boolean-greater-than-more-args-001']}, 
+   {group_1, [parallel], [
+    'op-boolean-greater-than-more-args-002', 
+    'op-boolean-greater-than-more-args-003', 
+    'op-boolean-greater-than-more-args-004', 
+    'op-boolean-greater-than-more-args-005', 
+    'op-boolean-greater-than-more-args-006', 
+    'op-boolean-greater-than-more-args-007', 
+    'op-boolean-greater-than-more-args-008', 
+    'op-boolean-greater-than-more-args-009', 
+    'op-boolean-greater-than-more-args-010', 
+    'op-boolean-greater-than-more-args-011', 
+    'op-boolean-greater-than-more-args-012', 
+    'op-boolean-greater-than-more-args-013', 
+    'op-boolean-greater-than-more-args-014', 
+    'K-BooleanGT-1', 
+    'K-BooleanGT-2', 
+    'K-BooleanGT-3', 
+    'cbcl-boolean-greater-than-001', 
+    'cbcl-boolean-greater-than-002', 
+    'cbcl-boolean-greater-than-003', 
+    'cbcl-boolean-greater-than-004', 
+    'cbcl-boolean-greater-than-005', 
+    'cbcl-boolean-greater-than-006', 
+    'cbcl-boolean-greater-than-007', 
+    'cbcl-boolean-greater-than-008']}, 
+   {group_2, [parallel], [
+    'cbcl-boolean-greater-than-009', 
+    'cbcl-boolean-greater-than-010']}].
 
 'op-boolean-greater-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('prod_AxisStep_abbr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['abbreviatedSyntax-1'/1]).
 -export(['abbreviatedSyntax-2'/1]).
@@ -27,7 +30,10 @@
 -export(['abbreviatedSyntax-25'/1]).
 -export(['abbreviatedSyntax-26'/1]).
 -export(['K2-AbbrAxes-1'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -38,30 +44,33 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'abbreviatedSyntax-1', 
-'abbreviatedSyntax-2', 
-'abbreviatedSyntax-3', 
-'abbreviatedSyntax-5', 
-'abbreviatedSyntax-6', 
-'abbreviatedSyntax-7', 
-'abbreviatedSyntax-8', 
-'abbreviatedSyntax-9', 
-'abbreviatedSyntax-10', 
-'abbreviatedSyntax-12', 
-'abbreviatedSyntax-13', 
-'abbreviatedSyntax-14', 
-'abbreviatedSyntax-16', 
-'abbreviatedSyntax-17', 
-'abbreviatedSyntax-18', 
-'abbreviatedSyntax-19', 
-'abbreviatedSyntax-20', 
-'abbreviatedSyntax-21', 
-'abbreviatedSyntax-22', 
-'abbreviatedSyntax-24', 
-'abbreviatedSyntax-25', 
-'abbreviatedSyntax-26', 
-'K2-AbbrAxes-1'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'abbreviatedSyntax-1', 
+    'abbreviatedSyntax-2', 
+    'abbreviatedSyntax-3', 
+    'abbreviatedSyntax-5', 
+    'abbreviatedSyntax-6', 
+    'abbreviatedSyntax-7', 
+    'abbreviatedSyntax-8', 
+    'abbreviatedSyntax-9', 
+    'abbreviatedSyntax-10', 
+    'abbreviatedSyntax-12', 
+    'abbreviatedSyntax-13', 
+    'abbreviatedSyntax-14', 
+    'abbreviatedSyntax-16', 
+    'abbreviatedSyntax-17', 
+    'abbreviatedSyntax-18', 
+    'abbreviatedSyntax-19', 
+    'abbreviatedSyntax-20', 
+    'abbreviatedSyntax-21', 
+    'abbreviatedSyntax-22', 
+    'abbreviatedSyntax-24', 
+    'abbreviatedSyntax-25', 
+    'abbreviatedSyntax-26', 
+    'K2-AbbrAxes-1']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

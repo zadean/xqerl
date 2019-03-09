@@ -1,8 +1,11 @@
 -module('fn_ends_with_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-ends-with2args-1'/1]).
 -export(['fn-ends-with2args-2'/1]).
@@ -59,7 +62,10 @@
 -export(['K2-EndsWithFunc-5'/1]).
 -export(['K2-EndsWithFunc-6'/1]).
 -export(['cbcl-ends-with-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -70,62 +76,69 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-ends-with2args-1', 
-'fn-ends-with2args-2', 
-'fn-ends-with2args-3', 
-'fn-ends-with2args-4', 
-'fn-ends-with2args-5', 
-'fn-ends-with-1', 
-'fn-ends-with-2', 
-'fn-ends-with-3', 
-'fn-ends-with-4', 
-'fn-ends-with-5', 
-'fn-ends-with-6', 
-'fn-ends-with-7', 
-'fn-ends-with-8', 
-'fn-ends-with-9', 
-'fn-ends-with-10', 
-'fn-ends-with-11', 
-'fn-ends-with-12', 
-'fn-ends-with-13', 
-'fn-ends-with-14', 
-'fn-ends-with-15', 
-'fn-ends-with-16', 
-'fn-ends-with-17', 
-'fn-ends-with-18', 
-'fn-ends-with-19', 
-'fn-ends-with-20', 
-'fn-ends-with-21', 
-'fn-ends-with-22', 
-'fn-ends-with-23', 
-'fn-ends-with-24', 
-'fn-ends-with-25', 
-'fn-ends-with-26', 
-'fn-ends-with-27', 
-'fn-ends-with-28', 
-'fn-ends-with-29', 
-'fn-ends-with-30', 
-'fn-ends-with-31', 
-'fn-ends-with-32', 
-'fn-ends-with-33', 
-'K-EndsWithFunc-1', 
-'K-EndsWithFunc-2', 
-'K-EndsWithFunc-3', 
-'K-EndsWithFunc-4', 
-'K-EndsWithFunc-5', 
-'K-EndsWithFunc-6', 
-'K-EndsWithFunc-7', 
-'K-EndsWithFunc-8', 
-'K-EndsWithFunc-9', 
-'K-EndsWithFunc-10', 
-'K2-EndsWithFunc-1', 
-'K2-EndsWithFunc-2', 
-'K2-EndsWithFunc-3', 
-'K2-EndsWithFunc-4', 
-'K2-EndsWithFunc-5', 
-'K2-EndsWithFunc-6', 
-'cbcl-ends-with-001'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-ends-with2args-1', 
+    'fn-ends-with2args-2', 
+    'fn-ends-with2args-3', 
+    'fn-ends-with2args-4', 
+    'fn-ends-with2args-5', 
+    'fn-ends-with-1', 
+    'fn-ends-with-2', 
+    'fn-ends-with-3', 
+    'fn-ends-with-4', 
+    'fn-ends-with-5', 
+    'fn-ends-with-6', 
+    'fn-ends-with-7', 
+    'fn-ends-with-8', 
+    'fn-ends-with-9', 
+    'fn-ends-with-10', 
+    'fn-ends-with-11', 
+    'fn-ends-with-12', 
+    'fn-ends-with-13', 
+    'fn-ends-with-14', 
+    'fn-ends-with-15', 
+    'fn-ends-with-16', 
+    'fn-ends-with-17', 
+    'fn-ends-with-18']}, 
+   {group_1, [parallel], [
+    'fn-ends-with-19', 
+    'fn-ends-with-20', 
+    'fn-ends-with-21', 
+    'fn-ends-with-22', 
+    'fn-ends-with-23', 
+    'fn-ends-with-24', 
+    'fn-ends-with-25', 
+    'fn-ends-with-26', 
+    'fn-ends-with-27', 
+    'fn-ends-with-28', 
+    'fn-ends-with-29', 
+    'fn-ends-with-30', 
+    'fn-ends-with-31', 
+    'fn-ends-with-32', 
+    'fn-ends-with-33', 
+    'K-EndsWithFunc-1', 
+    'K-EndsWithFunc-2', 
+    'K-EndsWithFunc-3', 
+    'K-EndsWithFunc-4', 
+    'K-EndsWithFunc-5', 
+    'K-EndsWithFunc-6', 
+    'K-EndsWithFunc-7', 
+    'K-EndsWithFunc-8', 
+    'K-EndsWithFunc-9']}, 
+   {group_2, [parallel], [
+    'K-EndsWithFunc-10', 
+    'K2-EndsWithFunc-1', 
+    'K2-EndsWithFunc-2', 
+    'K2-EndsWithFunc-3', 
+    'K2-EndsWithFunc-4', 
+    'K2-EndsWithFunc-5', 
+    'K2-EndsWithFunc-6', 
+    'cbcl-ends-with-001']}].
 
 'fn-ends-with2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

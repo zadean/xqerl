@@ -1,8 +1,11 @@
 -module('op_base64Binary_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['base64Binary-gt-1'/1]).
 -export(['base64Binary-gt-2'/1]).
@@ -36,7 +39,10 @@
 -export(['base64Binary-gt-30'/1]).
 -export(['base64Binary-gt-31'/1]).
 -export(['base64Binary-gt-32'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -47,39 +53,44 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'base64Binary-gt-1', 
-'base64Binary-gt-2', 
-'base64Binary-gt-3', 
-'base64Binary-gt-4', 
-'base64Binary-gt-5', 
-'base64Binary-gt-6', 
-'base64Binary-gt-7', 
-'base64Binary-gt-8', 
-'base64Binary-gt-9', 
-'base64Binary-gt-10', 
-'base64Binary-gt-11', 
-'base64Binary-gt-12', 
-'base64Binary-gt-13', 
-'base64Binary-gt-14', 
-'base64Binary-gt-15', 
-'base64Binary-gt-16', 
-'base64Binary-gt-17', 
-'base64Binary-gt-18', 
-'base64Binary-gt-19', 
-'base64Binary-gt-20', 
-'base64Binary-gt-21', 
-'base64Binary-gt-22', 
-'base64Binary-gt-23', 
-'base64Binary-gt-24', 
-'base64Binary-gt-25', 
-'base64Binary-gt-26', 
-'base64Binary-ge-27', 
-'base64Binary-ge-28', 
-'base64Binary-ge-29', 
-'base64Binary-gt-30', 
-'base64Binary-gt-31', 
-'base64Binary-gt-32'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'base64Binary-gt-1', 
+    'base64Binary-gt-2', 
+    'base64Binary-gt-3', 
+    'base64Binary-gt-4', 
+    'base64Binary-gt-5', 
+    'base64Binary-gt-6', 
+    'base64Binary-gt-7', 
+    'base64Binary-gt-8', 
+    'base64Binary-gt-9', 
+    'base64Binary-gt-10', 
+    'base64Binary-gt-11', 
+    'base64Binary-gt-12', 
+    'base64Binary-gt-13', 
+    'base64Binary-gt-14', 
+    'base64Binary-gt-15', 
+    'base64Binary-gt-16', 
+    'base64Binary-gt-17', 
+    'base64Binary-gt-18', 
+    'base64Binary-gt-19', 
+    'base64Binary-gt-20', 
+    'base64Binary-gt-21', 
+    'base64Binary-gt-22', 
+    'base64Binary-gt-23']}, 
+   {group_1, [parallel], [
+    'base64Binary-gt-24', 
+    'base64Binary-gt-25', 
+    'base64Binary-gt-26', 
+    'base64Binary-ge-27', 
+    'base64Binary-ge-28', 
+    'base64Binary-ge-29', 
+    'base64Binary-gt-30', 
+    'base64Binary-gt-31', 
+    'base64Binary-gt-32']}].
 
 'base64Binary-gt-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

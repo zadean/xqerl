@@ -1,8 +1,11 @@
 -module('fn_sort_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-sort-1'/1]).
 -export(['fn-sort-2'/1]).
@@ -47,7 +50,10 @@
 -export(['fn-sort-collation-6'/1]).
 -export(['fn-sort-collation-7'/1]).
 -export(['fn-sort-collation-8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -58,50 +64,55 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-sort-1', 
-'fn-sort-2', 
-'fn-sort-3', 
-'fn-sort-4', 
-'fn-sort-5', 
-'fn-sort-6', 
-'fn-sort-7', 
-'fn-sort-8', 
-'fn-sort-9', 
-'fn-sort-10', 
-'fn-sort-11', 
-'fn-sort-12', 
-'fn-sort-13', 
-'fn-sort-14', 
-'fn-sort-15', 
-'fn-sort-16', 
-'fn-sort-17', 
-'fn-sort-18', 
-'fn-sort-19', 
-'fn-sort-20', 
-'fn-sort-21', 
-'fn-sort-22', 
-'fn-sort-frac-1', 
-'fn-sort-str-1', 
-'fn-sort2-str-1', 
-'fn-sort2-str-2', 
-'fn-sort-error-1', 
-'fn-sort-error-2', 
-'fn-sort-error-3', 
-'fn-sort-error-4', 
-'fn-sort-spec-1', 
-'fn-sort-spec-1b', 
-'fn-sort-spec-2', 
-'fn-sort-spec-4', 
-'fn-sort-spec-5', 
-'fn-sort-collation-1', 
-'fn-sort-collation-2', 
-'fn-sort-collation-3', 
-'fn-sort-collation-4', 
-'fn-sort-collation-5', 
-'fn-sort-collation-6', 
-'fn-sort-collation-7', 
-'fn-sort-collation-8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-sort-1', 
+    'fn-sort-2', 
+    'fn-sort-3', 
+    'fn-sort-4', 
+    'fn-sort-5', 
+    'fn-sort-6', 
+    'fn-sort-7', 
+    'fn-sort-8', 
+    'fn-sort-9', 
+    'fn-sort-10', 
+    'fn-sort-11', 
+    'fn-sort-12', 
+    'fn-sort-13', 
+    'fn-sort-14', 
+    'fn-sort-15', 
+    'fn-sort-16', 
+    'fn-sort-17', 
+    'fn-sort-18', 
+    'fn-sort-19', 
+    'fn-sort-20', 
+    'fn-sort-21', 
+    'fn-sort-22', 
+    'fn-sort-frac-1']}, 
+   {group_1, [parallel], [
+    'fn-sort-str-1', 
+    'fn-sort2-str-1', 
+    'fn-sort2-str-2', 
+    'fn-sort-error-1', 
+    'fn-sort-error-2', 
+    'fn-sort-error-3', 
+    'fn-sort-error-4', 
+    'fn-sort-spec-1', 
+    'fn-sort-spec-1b', 
+    'fn-sort-spec-2', 
+    'fn-sort-spec-4', 
+    'fn-sort-spec-5', 
+    'fn-sort-collation-1', 
+    'fn-sort-collation-2', 
+    'fn-sort-collation-3', 
+    'fn-sort-collation-4', 
+    'fn-sort-collation-5', 
+    'fn-sort-collation-6', 
+    'fn-sort-collation-7', 
+    'fn-sort-collation-8']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

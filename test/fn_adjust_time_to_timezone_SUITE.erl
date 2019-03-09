@@ -1,8 +1,11 @@
 -module('fn_adjust_time_to_timezone_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-adjust-time-to-timezone1args-1'/1]).
 -export(['fn-adjust-time-to-timezone1args-2'/1]).
@@ -46,7 +49,10 @@
 -export(['K-AdjTimeToTimezoneFunc-16'/1]).
 -export(['cbcl-adjust-time-to-timezone-001'/1]).
 -export(['cbcl-adjust-time-to-timezone-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -57,49 +63,54 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-adjust-time-to-timezone1args-1', 
-'fn-adjust-time-to-timezone1args-2', 
-'fn-adjust-time-to-timezone1args-3', 
-'fn-adjust-time-to-timezone-1', 
-'fn-adjust-time-to-timezone-2', 
-'fn-adjust-time-to-timezone-3', 
-'fn-adjust-time-to-timezone-4', 
-'fn-adjust-time-to-timezone-5', 
-'fn-adjust-time-to-timezone-6', 
-'fn-adjust-time-to-timezone-7', 
-'fn-adjust-time-to-timezone-8', 
-'fn-adjust-time-to-timezone-9', 
-'fn-adjust-time-to-timezone-10', 
-'fn-adjust-time-to-timezone-11', 
-'fn-adjust-time-to-timezone-12', 
-'fn-adjust-time-to-timezone-13', 
-'fn-adjust-time-to-timezone-14', 
-'fn-adjust-time-to-timezone-15', 
-'fn-adjust-time-to-timezone-16', 
-'fn-adjust-time-to-timezone-17', 
-'fn-adjust-time-to-timezone-18', 
-'fn-adjust-time-to-timezone-19', 
-'fn-adjust-time-to-timezone-20', 
-'fn-adjust-time-to-timezone-21', 
-'K-AdjTimeToTimezoneFunc-1', 
-'K-AdjTimeToTimezoneFunc-2', 
-'K-AdjTimeToTimezoneFunc-3', 
-'K-AdjTimeToTimezoneFunc-4', 
-'K-AdjTimeToTimezoneFunc-5', 
-'K-AdjTimeToTimezoneFunc-6', 
-'K-AdjTimeToTimezoneFunc-7', 
-'K-AdjTimeToTimezoneFunc-8', 
-'K-AdjTimeToTimezoneFunc-9', 
-'K-AdjTimeToTimezoneFunc-10', 
-'K-AdjTimeToTimezoneFunc-11', 
-'K-AdjTimeToTimezoneFunc-12', 
-'K-AdjTimeToTimezoneFunc-13', 
-'K-AdjTimeToTimezoneFunc-14', 
-'K-AdjTimeToTimezoneFunc-15', 
-'K-AdjTimeToTimezoneFunc-16', 
-'cbcl-adjust-time-to-timezone-001', 
-'cbcl-adjust-time-to-timezone-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-adjust-time-to-timezone1args-1', 
+    'fn-adjust-time-to-timezone1args-2', 
+    'fn-adjust-time-to-timezone1args-3', 
+    'fn-adjust-time-to-timezone-1', 
+    'fn-adjust-time-to-timezone-2', 
+    'fn-adjust-time-to-timezone-3', 
+    'fn-adjust-time-to-timezone-4', 
+    'fn-adjust-time-to-timezone-5', 
+    'fn-adjust-time-to-timezone-6', 
+    'fn-adjust-time-to-timezone-7', 
+    'fn-adjust-time-to-timezone-8', 
+    'fn-adjust-time-to-timezone-9', 
+    'fn-adjust-time-to-timezone-10', 
+    'fn-adjust-time-to-timezone-11', 
+    'fn-adjust-time-to-timezone-12', 
+    'fn-adjust-time-to-timezone-13', 
+    'fn-adjust-time-to-timezone-14', 
+    'fn-adjust-time-to-timezone-15', 
+    'fn-adjust-time-to-timezone-16', 
+    'fn-adjust-time-to-timezone-17', 
+    'fn-adjust-time-to-timezone-18', 
+    'fn-adjust-time-to-timezone-19', 
+    'fn-adjust-time-to-timezone-20']}, 
+   {group_1, [parallel], [
+    'fn-adjust-time-to-timezone-21', 
+    'K-AdjTimeToTimezoneFunc-1', 
+    'K-AdjTimeToTimezoneFunc-2', 
+    'K-AdjTimeToTimezoneFunc-3', 
+    'K-AdjTimeToTimezoneFunc-4', 
+    'K-AdjTimeToTimezoneFunc-5', 
+    'K-AdjTimeToTimezoneFunc-6', 
+    'K-AdjTimeToTimezoneFunc-7', 
+    'K-AdjTimeToTimezoneFunc-8', 
+    'K-AdjTimeToTimezoneFunc-9', 
+    'K-AdjTimeToTimezoneFunc-10', 
+    'K-AdjTimeToTimezoneFunc-11', 
+    'K-AdjTimeToTimezoneFunc-12', 
+    'K-AdjTimeToTimezoneFunc-13', 
+    'K-AdjTimeToTimezoneFunc-14', 
+    'K-AdjTimeToTimezoneFunc-15', 
+    'K-AdjTimeToTimezoneFunc-16', 
+    'cbcl-adjust-time-to-timezone-001', 
+    'cbcl-adjust-time-to-timezone-002']}].
 
 'fn-adjust-time-to-timezone1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('fn_hours_from_duration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-hours-from-duration1args-1'/1]).
 -export(['fn-hours-from-duration1args-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K-HoursFromDurationFunc-6'/1]).
 -export(['K-HoursFromDurationFunc-7'/1]).
 -export(['cbcl-hours-from-duration-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-hours-from-duration1args-1', 
-'fn-hours-from-duration1args-2', 
-'fn-hours-from-duration1args-3', 
-'fn-hours-from-duration-1', 
-'fn-hours-from-duration-2', 
-'fn-hours-from-duration-3', 
-'fn-hours-from-duration-4', 
-'fn-hours-from-duration-5', 
-'fn-hours-from-duration-6', 
-'fn-hours-from-duration-7', 
-'fn-hours-from-duration-8', 
-'fn-hours-from-duration-9', 
-'fn-hours-from-duration-10', 
-'fn-hours-from-duration-11', 
-'fn-hours-from-duration-12', 
-'fn-hours-from-duration-13', 
-'fn-hours-from-duration-14', 
-'fn-hours-from-duration-15', 
-'fn-hours-from-duration-16', 
-'fn-hours-from-duration-17', 
-'fn-hours-from-duration-18', 
-'fn-hours-from-duration-19', 
-'fn-hours-from-duration-20', 
-'K-HoursFromDurationFunc-1', 
-'K-HoursFromDurationFunc-2', 
-'K-HoursFromDurationFunc-3', 
-'K-HoursFromDurationFunc-4', 
-'K-HoursFromDurationFunc-5', 
-'K-HoursFromDurationFunc-6', 
-'K-HoursFromDurationFunc-7', 
-'cbcl-hours-from-duration-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-hours-from-duration1args-1', 
+    'fn-hours-from-duration1args-2', 
+    'fn-hours-from-duration1args-3', 
+    'fn-hours-from-duration-1', 
+    'fn-hours-from-duration-2', 
+    'fn-hours-from-duration-3', 
+    'fn-hours-from-duration-4', 
+    'fn-hours-from-duration-5', 
+    'fn-hours-from-duration-6', 
+    'fn-hours-from-duration-7', 
+    'fn-hours-from-duration-8', 
+    'fn-hours-from-duration-9', 
+    'fn-hours-from-duration-10', 
+    'fn-hours-from-duration-11', 
+    'fn-hours-from-duration-12', 
+    'fn-hours-from-duration-13', 
+    'fn-hours-from-duration-14', 
+    'fn-hours-from-duration-15', 
+    'fn-hours-from-duration-16', 
+    'fn-hours-from-duration-17', 
+    'fn-hours-from-duration-18', 
+    'fn-hours-from-duration-19', 
+    'fn-hours-from-duration-20']}, 
+   {group_1, [parallel], [
+    'K-HoursFromDurationFunc-1', 
+    'K-HoursFromDurationFunc-2', 
+    'K-HoursFromDurationFunc-3', 
+    'K-HoursFromDurationFunc-4', 
+    'K-HoursFromDurationFunc-5', 
+    'K-HoursFromDurationFunc-6', 
+    'K-HoursFromDurationFunc-7', 
+    'cbcl-hours-from-duration-001']}].
 
 'fn-hours-from-duration1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

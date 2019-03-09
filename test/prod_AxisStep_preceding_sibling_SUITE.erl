@@ -1,8 +1,11 @@
 -module('prod_AxisStep_preceding_sibling_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['preceding-sibling-1'/1]).
 -export(['preceding-sibling-2'/1]).
@@ -32,7 +35,10 @@
 -export(['K2-preceding-siblingAxis-4'/1]).
 -export(['K2-preceding-siblingAxis-5'/1]).
 -export(['preceding-sibling-attr'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'preceding-sibling-1', 
-'preceding-sibling-2', 
-'preceding-sibling-3', 
-'preceding-sibling-4', 
-'preceding-sibling-5', 
-'preceding-sibling-6', 
-'preceding-sibling-7', 
-'preceding-sibling-8', 
-'preceding-sibling-9', 
-'preceding-sibling-10', 
-'preceding-sibling-11', 
-'preceding-sibling-12', 
-'preceding-sibling-13', 
-'preceding-sibling-14', 
-'preceding-sibling-15', 
-'preceding-sibling-16', 
-'preceding-sibling-17', 
-'preceding-sibling-18', 
-'preceding-sibling-19', 
-'preceding-sibling-20', 
-'preceding-sibling-21', 
-'unabbreviatedSyntax-25', 
-'K2-preceding-siblingAxis-1', 
-'K2-preceding-siblingAxis-2', 
-'K2-preceding-siblingAxis-3', 
-'K2-preceding-siblingAxis-4', 
-'K2-preceding-siblingAxis-5', 
-'preceding-sibling-attr'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'preceding-sibling-1', 
+    'preceding-sibling-2', 
+    'preceding-sibling-3', 
+    'preceding-sibling-4', 
+    'preceding-sibling-5', 
+    'preceding-sibling-6', 
+    'preceding-sibling-7', 
+    'preceding-sibling-8', 
+    'preceding-sibling-9', 
+    'preceding-sibling-10', 
+    'preceding-sibling-11', 
+    'preceding-sibling-12', 
+    'preceding-sibling-13', 
+    'preceding-sibling-14', 
+    'preceding-sibling-15', 
+    'preceding-sibling-16', 
+    'preceding-sibling-17', 
+    'preceding-sibling-18', 
+    'preceding-sibling-19', 
+    'preceding-sibling-20', 
+    'preceding-sibling-21', 
+    'unabbreviatedSyntax-25', 
+    'K2-preceding-siblingAxis-1']}, 
+   {group_1, [parallel], [
+    'K2-preceding-siblingAxis-2', 
+    'K2-preceding-siblingAxis-3', 
+    'K2-preceding-siblingAxis-4', 
+    'K2-preceding-siblingAxis-5', 
+    'preceding-sibling-attr']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

@@ -1,8 +1,11 @@
 -module('fn_id_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-id-1'/1]).
 -export(['fn-id-2'/1]).
@@ -63,7 +66,10 @@
 -export(['cbcl-id-001'/1]).
 -export(['cbcl-id-002'/1]).
 -export(['cbcl-id-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -74,66 +80,73 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-id-1', 
-'fn-id-2', 
-'fn-id-3', 
-'fn-id-4', 
-'fn-id-5', 
-'fn-id-6', 
-'fn-id-7', 
-'fn-id-8', 
-'fn-id-9', 
-'fn-id-10', 
-'fn-id-11', 
-'fn-id-12', 
-'fn-id-13', 
-'fn-id-14', 
-'fn-id-15', 
-'fn-id-16', 
-'fn-id-17', 
-'fn-id-18', 
-'fn-id-19', 
-'fn-id-20', 
-'fn-id-21', 
-'fn-id-23', 
-'fn-id-dtd-5', 
-'fn-id-dtd-6', 
-'fn-id-dtd-7', 
-'fn-id-dtd-8', 
-'fn-id-dtd-9', 
-'fn-id-dtd-10', 
-'fn-id-dtd-11', 
-'fn-id-dtd-12', 
-'fn-id-dtd-13', 
-'fn-id-dtd-14', 
-'fn-id-dtd-15', 
-'fn-id-dtd-16', 
-'fn-id-dtd-17', 
-'fn-id-dtd-18', 
-'fn-id-dtd-19', 
-'fn-id-dtd-20', 
-'fn-id-dtd-21', 
-'fn-id-22', 
-'fn-id-dtd-23', 
-'K2-SeqIDFunc-1', 
-'K2-SeqIDFunc-2', 
-'K2-SeqIDFunc-3', 
-'K2-SeqIDFunc-4', 
-'K2-SeqIDFunc-5', 
-'K2-SeqIDFunc-6', 
-'K2-SeqIDFunc-7', 
-'K2-SeqIDFunc-8', 
-'K2-SeqIDFunc-9', 
-'K2-SeqIDFunc-10', 
-'K2-SeqIDFunc-11', 
-'K2-SeqIDFunc-12', 
-'K2-SeqIDFunc-13', 
-'K2-SeqIDFunc-14', 
-'K2-SeqIDFunc-15', 
-'cbcl-id-001', 
-'cbcl-id-002', 
-'cbcl-id-003'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-id-1', 
+    'fn-id-2', 
+    'fn-id-3', 
+    'fn-id-4', 
+    'fn-id-5', 
+    'fn-id-6', 
+    'fn-id-7', 
+    'fn-id-8', 
+    'fn-id-9', 
+    'fn-id-10', 
+    'fn-id-11', 
+    'fn-id-12', 
+    'fn-id-13', 
+    'fn-id-14', 
+    'fn-id-15', 
+    'fn-id-16', 
+    'fn-id-17', 
+    'fn-id-18', 
+    'fn-id-19', 
+    'fn-id-20', 
+    'fn-id-21', 
+    'fn-id-23', 
+    'fn-id-dtd-5']}, 
+   {group_1, [parallel], [
+    'fn-id-dtd-6', 
+    'fn-id-dtd-7', 
+    'fn-id-dtd-8', 
+    'fn-id-dtd-9', 
+    'fn-id-dtd-10', 
+    'fn-id-dtd-11', 
+    'fn-id-dtd-12', 
+    'fn-id-dtd-13', 
+    'fn-id-dtd-14', 
+    'fn-id-dtd-15', 
+    'fn-id-dtd-16', 
+    'fn-id-dtd-17', 
+    'fn-id-dtd-18', 
+    'fn-id-dtd-19', 
+    'fn-id-dtd-20', 
+    'fn-id-dtd-21', 
+    'fn-id-22', 
+    'fn-id-dtd-23', 
+    'K2-SeqIDFunc-1', 
+    'K2-SeqIDFunc-2', 
+    'K2-SeqIDFunc-3', 
+    'K2-SeqIDFunc-4', 
+    'K2-SeqIDFunc-5', 
+    'K2-SeqIDFunc-6']}, 
+   {group_2, [parallel], [
+    'K2-SeqIDFunc-7', 
+    'K2-SeqIDFunc-8', 
+    'K2-SeqIDFunc-9', 
+    'K2-SeqIDFunc-10', 
+    'K2-SeqIDFunc-11', 
+    'K2-SeqIDFunc-12', 
+    'K2-SeqIDFunc-13', 
+    'K2-SeqIDFunc-14', 
+    'K2-SeqIDFunc-15', 
+    'cbcl-id-001', 
+    'cbcl-id-002', 
+    'cbcl-id-003']}].
 environment('id-idref-dtd',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "id/iddtd.xml"), ".",[]}]}, 

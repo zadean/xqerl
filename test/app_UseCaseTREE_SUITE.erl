@@ -1,8 +1,11 @@
 -module('app_UseCaseTREE_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['tree-queries-results-q1'/1]).
 -export(['tree-queries-results-q2'/1]).
@@ -10,7 +13,10 @@
 -export(['tree-queries-results-q4'/1]).
 -export(['tree-queries-results-q5'/1]).
 -export(['tree-queries-results-q6'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -21,13 +27,16 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'tree-queries-results-q1', 
-'tree-queries-results-q2', 
-'tree-queries-results-q3', 
-'tree-queries-results-q4', 
-'tree-queries-results-q5', 
-'tree-queries-results-q6'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'tree-queries-results-q1', 
+    'tree-queries-results-q2', 
+    'tree-queries-results-q3', 
+    'tree-queries-results-q4', 
+    'tree-queries-results-q5', 
+    'tree-queries-results-q6']}].
 environment('book',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/book.xml"), ".",[]}]}, 

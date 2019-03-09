@@ -1,8 +1,11 @@
 -module('map_merge_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-merge-001'/1]).
 -export(['map-merge-002'/1]).
@@ -33,7 +36,10 @@
 -export(['map-merge-023'/1]).
 -export(['map-merge-024-hof'/1]).
 -export(['map-merge-024'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-merge-001', 
-'map-merge-002', 
-'map-merge-003-hof', 
-'map-merge-003', 
-'map-merge-004', 
-'map-merge-005', 
-'map-merge-006', 
-'map-merge-006b', 
-'map-merge-006c', 
-'map-merge-006d', 
-'map-merge-006e', 
-'map-merge-006f', 
-'map-merge-007', 
-'map-merge-008', 
-'map-merge-009', 
-'map-merge-010', 
-'map-merge-011', 
-'map-merge-012', 
-'map-merge-013', 
-'map-merge-016', 
-'map-merge-017', 
-'map-merge-018', 
-'map-merge-019', 
-'map-merge-020', 
-'map-merge-021', 
-'map-merge-022', 
-'map-merge-023', 
-'map-merge-024-hof', 
-'map-merge-024'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-merge-001', 
+    'map-merge-002', 
+    'map-merge-003-hof', 
+    'map-merge-003', 
+    'map-merge-004', 
+    'map-merge-005', 
+    'map-merge-006', 
+    'map-merge-006b', 
+    'map-merge-006c', 
+    'map-merge-006d', 
+    'map-merge-006e', 
+    'map-merge-006f', 
+    'map-merge-007', 
+    'map-merge-008', 
+    'map-merge-009', 
+    'map-merge-010', 
+    'map-merge-011', 
+    'map-merge-012', 
+    'map-merge-013', 
+    'map-merge-016', 
+    'map-merge-017', 
+    'map-merge-018', 
+    'map-merge-019']}, 
+   {group_1, [parallel], [
+    'map-merge-020', 
+    'map-merge-021', 
+    'map-merge-022', 
+    'map-merge-023', 
+    'map-merge-024-hof', 
+    'map-merge-024']}].
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 

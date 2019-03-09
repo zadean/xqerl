@@ -1,8 +1,11 @@
 -module('op_gMonthDay_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-gMonthDay-equal2args-1'/1]).
 -export(['op-gMonthDay-equal2args-2'/1]).
@@ -55,7 +58,10 @@
 -export(['cbcl-gMonthDay-equal-018'/1]).
 -export(['cbcl-gMonthDay-equal-019'/1]).
 -export(['cbcl-gMonthDay-equal-020'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -66,58 +72,65 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-gMonthDay-equal2args-1', 
-'op-gMonthDay-equal2args-2', 
-'op-gMonthDay-equal2args-3', 
-'op-gMonthDay-equal2args-4', 
-'op-gMonthDay-equal2args-5', 
-'op-gMonthDay-equal2args-6', 
-'op-gMonthDay-equal2args-7', 
-'op-gMonthDay-equal2args-8', 
-'op-gMonthDay-equal2args-9', 
-'op-gMonthDay-equal2args-10', 
-'op-gMonthDay-equal-2', 
-'op-gMonthDay-equal-3', 
-'op-gMonthDay-equal-4', 
-'op-gMonthDay-equal-5', 
-'op-gMonthDay-equal-6', 
-'op-gMonthDay-equal-7', 
-'op-gMonthDay-equal-8', 
-'op-gMonthDay-equal-9', 
-'op-gMonthDay-equal-10', 
-'op-gMonthDay-equal-11', 
-'op-gMonthDay-equal-12', 
-'op-gMonthDay-equal-13', 
-'op-gMonthDay-equal-14', 
-'K-gMonthDayEQ-1', 
-'K-gMonthDayEQ-2', 
-'K-gMonthDayEQ-3', 
-'K-gMonthDayEQ-4', 
-'K-gMonthDayEQ-5', 
-'K-gMonthDayEQ-6', 
-'K-gMonthDayEQ-7', 
-'K-gMonthDayEQ-8', 
-'cbcl-gMonthDay-equal-001', 
-'cbcl-gMonthDay-equal-002', 
-'cbcl-gMonthDay-equal-003', 
-'cbcl-gMonthDay-equal-004', 
-'cbcl-gMonthDay-equal-005', 
-'cbcl-gMonthDay-equal-006', 
-'cbcl-gMonthDay-equal-007', 
-'cbcl-gMonthDay-equal-008', 
-'cbcl-gMonthDay-equal-009', 
-'cbcl-gMonthDay-equal-010', 
-'cbcl-gMonthDay-equal-011', 
-'cbcl-gMonthDay-equal-012', 
-'cbcl-gMonthDay-equal-013', 
-'cbcl-gMonthDay-equal-014', 
-'cbcl-gMonthDay-equal-015', 
-'cbcl-gMonthDay-equal-016', 
-'cbcl-gMonthDay-equal-017', 
-'cbcl-gMonthDay-equal-018', 
-'cbcl-gMonthDay-equal-019', 
-'cbcl-gMonthDay-equal-020'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-gMonthDay-equal2args-1', 
+    'op-gMonthDay-equal2args-2', 
+    'op-gMonthDay-equal2args-3', 
+    'op-gMonthDay-equal2args-4', 
+    'op-gMonthDay-equal2args-5', 
+    'op-gMonthDay-equal2args-6', 
+    'op-gMonthDay-equal2args-7', 
+    'op-gMonthDay-equal2args-8', 
+    'op-gMonthDay-equal2args-9', 
+    'op-gMonthDay-equal2args-10', 
+    'op-gMonthDay-equal-2', 
+    'op-gMonthDay-equal-3', 
+    'op-gMonthDay-equal-4', 
+    'op-gMonthDay-equal-5', 
+    'op-gMonthDay-equal-6', 
+    'op-gMonthDay-equal-7', 
+    'op-gMonthDay-equal-8', 
+    'op-gMonthDay-equal-9', 
+    'op-gMonthDay-equal-10', 
+    'op-gMonthDay-equal-11', 
+    'op-gMonthDay-equal-12', 
+    'op-gMonthDay-equal-13', 
+    'op-gMonthDay-equal-14']}, 
+   {group_1, [parallel], [
+    'K-gMonthDayEQ-1', 
+    'K-gMonthDayEQ-2', 
+    'K-gMonthDayEQ-3', 
+    'K-gMonthDayEQ-4', 
+    'K-gMonthDayEQ-5', 
+    'K-gMonthDayEQ-6', 
+    'K-gMonthDayEQ-7', 
+    'K-gMonthDayEQ-8', 
+    'cbcl-gMonthDay-equal-001', 
+    'cbcl-gMonthDay-equal-002', 
+    'cbcl-gMonthDay-equal-003', 
+    'cbcl-gMonthDay-equal-004', 
+    'cbcl-gMonthDay-equal-005', 
+    'cbcl-gMonthDay-equal-006', 
+    'cbcl-gMonthDay-equal-007', 
+    'cbcl-gMonthDay-equal-008', 
+    'cbcl-gMonthDay-equal-009', 
+    'cbcl-gMonthDay-equal-010', 
+    'cbcl-gMonthDay-equal-011', 
+    'cbcl-gMonthDay-equal-012', 
+    'cbcl-gMonthDay-equal-013', 
+    'cbcl-gMonthDay-equal-014', 
+    'cbcl-gMonthDay-equal-015', 
+    'cbcl-gMonthDay-equal-016']}, 
+   {group_2, [parallel], [
+    'cbcl-gMonthDay-equal-017', 
+    'cbcl-gMonthDay-equal-018', 
+    'cbcl-gMonthDay-equal-019', 
+    'cbcl-gMonthDay-equal-020']}].
 
 'op-gMonthDay-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

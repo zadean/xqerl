@@ -1,8 +1,11 @@
 -module('fn_static_base_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-static-base-1'/1]).
 -export(['fn-static-base-2'/1]).
@@ -22,7 +25,10 @@
 -export(['K-StaticBaseURIFunc-1'/1]).
 -export(['K-StaticBaseURIFunc-2'/1]).
 -export(['K-StaticBaseURIFunc-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -33,25 +39,28 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-static-base-1', 
-'fn-static-base-2', 
-'fn-static-base-3', 
-'fn-static-base-4', 
-'fn-static-base-5', 
-'fn-static-base-6', 
-'fn-static-base-7', 
-'fn-static-base-8', 
-'fn-static-base-9', 
-'fn-static-base-10', 
-'fn-static-base-11', 
-'fn-static-base-12', 
-'fn-static-base-13', 
-'fn-static-base-14', 
-'fn-static-base-15', 
-'K-StaticBaseURIFunc-1', 
-'K-StaticBaseURIFunc-2', 
-'K-StaticBaseURIFunc-3'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-static-base-1', 
+    'fn-static-base-2', 
+    'fn-static-base-3', 
+    'fn-static-base-4', 
+    'fn-static-base-5', 
+    'fn-static-base-6', 
+    'fn-static-base-7', 
+    'fn-static-base-8', 
+    'fn-static-base-9', 
+    'fn-static-base-10', 
+    'fn-static-base-11', 
+    'fn-static-base-12', 
+    'fn-static-base-13', 
+    'fn-static-base-14', 
+    'fn-static-base-15', 
+    'K-StaticBaseURIFunc-1', 
+    'K-StaticBaseURIFunc-2', 
+    'K-StaticBaseURIFunc-3']}].
 
 'fn-static-base-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

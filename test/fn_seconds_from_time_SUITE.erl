@@ -1,8 +1,11 @@
 -module('fn_seconds_from_time_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-seconds-from-time1args-1'/1]).
 -export(['fn-seconds-from-time1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-SecondsFromTimeFunc-3'/1]).
 -export(['K-SecondsFromTimeFunc-4'/1]).
 -export(['K-SecondsFromTimeFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-seconds-from-time1args-1', 
-'fn-seconds-from-time1args-2', 
-'fn-seconds-from-time1args-3', 
-'fn-seconds-from-time-1', 
-'fn-seconds-from-time-2', 
-'fn-seconds-from-time-3', 
-'fn-seconds-from-time-4', 
-'fn-seconds-from-time-5', 
-'fn-seconds-from-time-6', 
-'fn-seconds-from-time-7', 
-'fn-seconds-from-time-8', 
-'fn-seconds-from-time-9', 
-'fn-seconds-from-time-10', 
-'fn-seconds-from-time-11', 
-'fn-seconds-from-time-12', 
-'fn-seconds-from-time-13', 
-'fn-seconds-from-time-14', 
-'fn-seconds-from-time-15', 
-'fn-seconds-from-time-16', 
-'fn-seconds-from-time-17', 
-'fn-seconds-from-time-18', 
-'fn-seconds-from-time-19', 
-'K-SecondsFromTimeFunc-1', 
-'K-SecondsFromTimeFunc-2', 
-'K-SecondsFromTimeFunc-3', 
-'K-SecondsFromTimeFunc-4', 
-'K-SecondsFromTimeFunc-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-seconds-from-time1args-1', 
+    'fn-seconds-from-time1args-2', 
+    'fn-seconds-from-time1args-3', 
+    'fn-seconds-from-time-1', 
+    'fn-seconds-from-time-2', 
+    'fn-seconds-from-time-3', 
+    'fn-seconds-from-time-4', 
+    'fn-seconds-from-time-5', 
+    'fn-seconds-from-time-6', 
+    'fn-seconds-from-time-7', 
+    'fn-seconds-from-time-8', 
+    'fn-seconds-from-time-9', 
+    'fn-seconds-from-time-10', 
+    'fn-seconds-from-time-11', 
+    'fn-seconds-from-time-12', 
+    'fn-seconds-from-time-13', 
+    'fn-seconds-from-time-14', 
+    'fn-seconds-from-time-15', 
+    'fn-seconds-from-time-16', 
+    'fn-seconds-from-time-17', 
+    'fn-seconds-from-time-18', 
+    'fn-seconds-from-time-19', 
+    'K-SecondsFromTimeFunc-1']}, 
+   {group_1, [parallel], [
+    'K-SecondsFromTimeFunc-2', 
+    'K-SecondsFromTimeFunc-3', 
+    'K-SecondsFromTimeFunc-4', 
+    'K-SecondsFromTimeFunc-5']}].
 
 'fn-seconds-from-time1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

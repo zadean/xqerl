@@ -1,8 +1,11 @@
 -module('fn_for_each_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['for-each-001'/1]).
 -export(['for-each-002'/1]).
@@ -19,7 +22,10 @@
 -export(['for-each-901'/1]).
 -export(['for-each-902'/1]).
 -export(['for-each-903'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -30,22 +36,25 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'for-each-001', 
-'for-each-002', 
-'for-each-003', 
-'for-each-004', 
-'for-each-005', 
-'for-each-006', 
-'for-each-007', 
-'for-each-008', 
-'for-each-009', 
-'for-each-010', 
-'for-each-011', 
-'for-each-012', 
-'for-each-901', 
-'for-each-902', 
-'for-each-903'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'for-each-001', 
+    'for-each-002', 
+    'for-each-003', 
+    'for-each-004', 
+    'for-each-005', 
+    'for-each-006', 
+    'for-each-007', 
+    'for-each-008', 
+    'for-each-009', 
+    'for-each-010', 
+    'for-each-011', 
+    'for-each-012', 
+    'for-each-901', 
+    'for-each-902', 
+    'for-each-903']}].
 environment('names',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "higherOrder/names.xml"), "",[]}]}, 

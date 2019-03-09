@@ -1,8 +1,11 @@
 -module('op_is_same_node_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['nodeexpression1'/1]).
 -export(['nodeexpression2'/1]).
@@ -42,7 +45,10 @@
 -export(['cbcl-node-same-002'/1]).
 -export(['cbcl-is-same-node-001'/1]).
 -export(['cbcl-is-same-node-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -53,45 +59,50 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'nodeexpression1', 
-'nodeexpression2', 
-'nodeexpression3', 
-'nodeexpression4', 
-'nodeexpression5', 
-'nodeexpression6', 
-'nodeexpression7', 
-'nodeexpression8', 
-'nodeexpression9', 
-'nodeexpression10', 
-'nodeexpression11', 
-'nodeexpression12', 
-'nodeexpression13', 
-'nodeexpression14', 
-'nodeexpression15', 
-'nodeexpression16', 
-'nodeexpressionhc1', 
-'nodeexpressionhc2', 
-'nodeexpressionhc3', 
-'nodeexpressionhc4', 
-'nodeexpressionhc5', 
-'nodecomparisonerr-1', 
-'K-NodeSame-1', 
-'K-NodeSame-2', 
-'K-NodeSame-3', 
-'K-NodeSame-4', 
-'K-NodeSame-5', 
-'K-NodeSame-6', 
-'K2-NodeSame-1', 
-'K2-NodeSame-2', 
-'K2-NodeSame-3', 
-'K2-NodeSame-4', 
-'K2-NodeSame-5', 
-'K2-NodeSame-6', 
-'cbcl-node-same-001', 
-'cbcl-node-same-002', 
-'cbcl-is-same-node-001', 
-'cbcl-is-same-node-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'nodeexpression1', 
+    'nodeexpression2', 
+    'nodeexpression3', 
+    'nodeexpression4', 
+    'nodeexpression5', 
+    'nodeexpression6', 
+    'nodeexpression7', 
+    'nodeexpression8', 
+    'nodeexpression9', 
+    'nodeexpression10', 
+    'nodeexpression11', 
+    'nodeexpression12', 
+    'nodeexpression13', 
+    'nodeexpression14', 
+    'nodeexpression15', 
+    'nodeexpression16', 
+    'nodeexpressionhc1', 
+    'nodeexpressionhc2', 
+    'nodeexpressionhc3', 
+    'nodeexpressionhc4', 
+    'nodeexpressionhc5', 
+    'nodecomparisonerr-1', 
+    'K-NodeSame-1']}, 
+   {group_1, [parallel], [
+    'K-NodeSame-2', 
+    'K-NodeSame-3', 
+    'K-NodeSame-4', 
+    'K-NodeSame-5', 
+    'K-NodeSame-6', 
+    'K2-NodeSame-1', 
+    'K2-NodeSame-2', 
+    'K2-NodeSame-3', 
+    'K2-NodeSame-4', 
+    'K2-NodeSame-5', 
+    'K2-NodeSame-6', 
+    'cbcl-node-same-001', 
+    'cbcl-node-same-002', 
+    'cbcl-is-same-node-001', 
+    'cbcl-is-same-node-002']}].
 environment('works',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 

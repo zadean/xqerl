@@ -1,8 +1,11 @@
 -module('xs_anyURI_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['cbcl-anyURI-001'/1]).
 -export(['cbcl-anyURI-002'/1]).
@@ -21,7 +24,10 @@
 -export(['cbcl-anyURI-012'/1]).
 -export(['cbcl-anyURI-012b'/1]).
 -export(['cbcl-anyURI-013'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -32,24 +38,27 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "xs"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'cbcl-anyURI-001', 
-'cbcl-anyURI-002', 
-'cbcl-anyURI-003', 
-'cbcl-anyURI-004', 
-'cbcl-anyURI-004b', 
-'cbcl-anyURI-005', 
-'cbcl-anyURI-006', 
-'cbcl-anyURI-006b', 
-'cbcl-anyURI-007', 
-'cbcl-anyURI-008', 
-'cbcl-anyURI-009', 
-'cbcl-anyURI-009b', 
-'cbcl-anyURI-010', 
-'cbcl-anyURI-011', 
-'cbcl-anyURI-012', 
-'cbcl-anyURI-012b', 
-'cbcl-anyURI-013'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'cbcl-anyURI-001', 
+    'cbcl-anyURI-002', 
+    'cbcl-anyURI-003', 
+    'cbcl-anyURI-004', 
+    'cbcl-anyURI-004b', 
+    'cbcl-anyURI-005', 
+    'cbcl-anyURI-006', 
+    'cbcl-anyURI-006b', 
+    'cbcl-anyURI-007', 
+    'cbcl-anyURI-008', 
+    'cbcl-anyURI-009', 
+    'cbcl-anyURI-009b', 
+    'cbcl-anyURI-010', 
+    'cbcl-anyURI-011', 
+    'cbcl-anyURI-012', 
+    'cbcl-anyURI-012b', 
+    'cbcl-anyURI-013']}].
 
 'cbcl-anyURI-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

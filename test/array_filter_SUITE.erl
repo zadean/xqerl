@@ -1,8 +1,11 @@
 -module('array_filter_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-filter-001'/1]).
 -export(['array-filter-002'/1]).
@@ -14,7 +17,10 @@
 -export(['array-filter-008'/1]).
 -export(['array-filter-009'/1]).
 -export(['array-filter-010'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -25,17 +31,20 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-filter-001', 
-'array-filter-002', 
-'array-filter-003', 
-'array-filter-004', 
-'array-filter-005', 
-'array-filter-006', 
-'array-filter-007', 
-'array-filter-008', 
-'array-filter-009', 
-'array-filter-010'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-filter-001', 
+    'array-filter-002', 
+    'array-filter-003', 
+    'array-filter-004', 
+    'array-filter-005', 
+    'array-filter-006', 
+    'array-filter-007', 
+    'array-filter-008', 
+    'array-filter-009', 
+    'array-filter-010']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

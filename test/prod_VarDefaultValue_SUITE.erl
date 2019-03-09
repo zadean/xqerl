@@ -1,8 +1,11 @@
 -module('prod_VarDefaultValue_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['extvardef-001'/1]).
 -export(['extvardef-001a'/1]).
@@ -41,7 +44,10 @@
 -export(['extvardef-025'/1]).
 -export(['extvardef-026'/1]).
 -export(['extvardef-027'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -52,44 +58,49 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'extvardef-001', 
-'extvardef-001a', 
-'extvardef-002', 
-'extvardef-002a', 
-'extvardef-002b', 
-'extvardef-003', 
-'extvardef-003a', 
-'extvardef-003b', 
-'extvardef-004', 
-'extvardef-005', 
-'extvardef-006', 
-'extvardef-006a', 
-'extvardef-006b', 
-'extvardef-007', 
-'extvardef-008', 
-'extvardef-009', 
-'extvardef-010', 
-'extvardef-010a', 
-'extvardef-011', 
-'extvardef-011a', 
-'extvardef-012', 
-'extvardef-013', 
-'extvardef-014', 
-'extvardef-015', 
-'extvardef-016a', 
-'extvardef-016b', 
-'extvardef-017', 
-'extvardef-018', 
-'extvardef-019', 
-'extvardef-020', 
-'extvardef-021', 
-'extvardef-022', 
-'extvardef-023', 
-'extvardef-024', 
-'extvardef-025', 
-'extvardef-026', 
-'extvardef-027'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'extvardef-001', 
+    'extvardef-001a', 
+    'extvardef-002', 
+    'extvardef-002a', 
+    'extvardef-002b', 
+    'extvardef-003', 
+    'extvardef-003a', 
+    'extvardef-003b', 
+    'extvardef-004', 
+    'extvardef-005', 
+    'extvardef-006', 
+    'extvardef-006a', 
+    'extvardef-006b', 
+    'extvardef-007', 
+    'extvardef-008', 
+    'extvardef-009', 
+    'extvardef-010', 
+    'extvardef-010a', 
+    'extvardef-011', 
+    'extvardef-011a', 
+    'extvardef-012', 
+    'extvardef-013', 
+    'extvardef-014']}, 
+   {group_1, [parallel], [
+    'extvardef-015', 
+    'extvardef-016a', 
+    'extvardef-016b', 
+    'extvardef-017', 
+    'extvardef-018', 
+    'extvardef-019', 
+    'extvardef-020', 
+    'extvardef-021', 
+    'extvardef-022', 
+    'extvardef-023', 
+    'extvardef-024', 
+    'extvardef-025', 
+    'extvardef-026', 
+    'extvardef-027']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

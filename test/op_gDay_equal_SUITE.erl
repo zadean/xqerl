@@ -1,8 +1,11 @@
 -module('op_gDay_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-gDay-equal2args-1'/1]).
 -export(['op-gDay-equal2args-2'/1]).
@@ -55,7 +58,10 @@
 -export(['cbcl-gDay-equal-018'/1]).
 -export(['cbcl-gDay-equal-019'/1]).
 -export(['cbcl-gDay-equal-020'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -66,58 +72,65 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-gDay-equal2args-1', 
-'op-gDay-equal2args-2', 
-'op-gDay-equal2args-3', 
-'op-gDay-equal2args-4', 
-'op-gDay-equal2args-5', 
-'op-gDay-equal2args-6', 
-'op-gDay-equal2args-7', 
-'op-gDay-equal2args-8', 
-'op-gDay-equal2args-9', 
-'op-gDay-equal2args-10', 
-'op-gDay-equal-2', 
-'op-gDay-equal-3', 
-'op-gDay-equal-4', 
-'op-gDay-equal-5', 
-'op-gDay-equal-6', 
-'op-gDay-equal-7', 
-'op-gDay-equal-8', 
-'op-gDay-equal-9', 
-'op-gDay-equal-10', 
-'op-gDay-equal-11', 
-'op-gDay-equal-12', 
-'op-gDay-equal-13', 
-'op-gDay-equal-14', 
-'K-gDayEQ-1', 
-'K-gDayEQ-2', 
-'K-gDayEQ-3', 
-'K-gDayEQ-4', 
-'K-gDayEQ-5', 
-'K-gDayEQ-6', 
-'K-gDayEQ-7', 
-'K-gDayEQ-8', 
-'cbcl-gDay-equal-001', 
-'cbcl-gDay-equal-002', 
-'cbcl-gDay-equal-003', 
-'cbcl-gDay-equal-004', 
-'cbcl-gDay-equal-005', 
-'cbcl-gDay-equal-006', 
-'cbcl-gDay-equal-007', 
-'cbcl-gDay-equal-008', 
-'cbcl-gDay-equal-009', 
-'cbcl-gDay-equal-010', 
-'cbcl-gDay-equal-011', 
-'cbcl-gDay-equal-012', 
-'cbcl-gDay-equal-013', 
-'cbcl-gDay-equal-014', 
-'cbcl-gDay-equal-015', 
-'cbcl-gDay-equal-016', 
-'cbcl-gDay-equal-017', 
-'cbcl-gDay-equal-018', 
-'cbcl-gDay-equal-019', 
-'cbcl-gDay-equal-020'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-gDay-equal2args-1', 
+    'op-gDay-equal2args-2', 
+    'op-gDay-equal2args-3', 
+    'op-gDay-equal2args-4', 
+    'op-gDay-equal2args-5', 
+    'op-gDay-equal2args-6', 
+    'op-gDay-equal2args-7', 
+    'op-gDay-equal2args-8', 
+    'op-gDay-equal2args-9', 
+    'op-gDay-equal2args-10', 
+    'op-gDay-equal-2', 
+    'op-gDay-equal-3', 
+    'op-gDay-equal-4', 
+    'op-gDay-equal-5', 
+    'op-gDay-equal-6', 
+    'op-gDay-equal-7', 
+    'op-gDay-equal-8', 
+    'op-gDay-equal-9', 
+    'op-gDay-equal-10', 
+    'op-gDay-equal-11', 
+    'op-gDay-equal-12', 
+    'op-gDay-equal-13', 
+    'op-gDay-equal-14']}, 
+   {group_1, [parallel], [
+    'K-gDayEQ-1', 
+    'K-gDayEQ-2', 
+    'K-gDayEQ-3', 
+    'K-gDayEQ-4', 
+    'K-gDayEQ-5', 
+    'K-gDayEQ-6', 
+    'K-gDayEQ-7', 
+    'K-gDayEQ-8', 
+    'cbcl-gDay-equal-001', 
+    'cbcl-gDay-equal-002', 
+    'cbcl-gDay-equal-003', 
+    'cbcl-gDay-equal-004', 
+    'cbcl-gDay-equal-005', 
+    'cbcl-gDay-equal-006', 
+    'cbcl-gDay-equal-007', 
+    'cbcl-gDay-equal-008', 
+    'cbcl-gDay-equal-009', 
+    'cbcl-gDay-equal-010', 
+    'cbcl-gDay-equal-011', 
+    'cbcl-gDay-equal-012', 
+    'cbcl-gDay-equal-013', 
+    'cbcl-gDay-equal-014', 
+    'cbcl-gDay-equal-015', 
+    'cbcl-gDay-equal-016']}, 
+   {group_2, [parallel], [
+    'cbcl-gDay-equal-017', 
+    'cbcl-gDay-equal-018', 
+    'cbcl-gDay-equal-019', 
+    'cbcl-gDay-equal-020']}].
 
 'op-gDay-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

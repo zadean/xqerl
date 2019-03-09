@@ -1,8 +1,11 @@
 -module('map_put_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-put-002-hof'/1]).
 -export(['map-put-002'/1]).
@@ -23,7 +26,10 @@
 -export(['map-put-021'/1]).
 -export(['map-put-022'/1]).
 -export(['map-put-023'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -34,26 +40,29 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-put-002-hof', 
-'map-put-002', 
-'map-put-003-hof', 
-'map-put-003', 
-'map-put-004', 
-'map-put-006', 
-'map-put-007', 
-'map-put-008', 
-'map-put-010', 
-'map-put-011', 
-'map-put-012', 
-'map-put-013', 
-'map-put-017', 
-'map-put-018', 
-'map-put-019', 
-'map-put-020', 
-'map-put-021', 
-'map-put-022', 
-'map-put-023'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-put-002-hof', 
+    'map-put-002', 
+    'map-put-003-hof', 
+    'map-put-003', 
+    'map-put-004', 
+    'map-put-006', 
+    'map-put-007', 
+    'map-put-008', 
+    'map-put-010', 
+    'map-put-011', 
+    'map-put-012', 
+    'map-put-013', 
+    'map-put-017', 
+    'map-put-018', 
+    'map-put-019', 
+    'map-put-020', 
+    'map-put-021', 
+    'map-put-022', 
+    'map-put-023']}].
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 

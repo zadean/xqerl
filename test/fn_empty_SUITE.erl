@@ -1,8 +1,11 @@
 -module('fn_empty_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-emptyint1args-1'/1]).
 -export(['fn-emptyint1args-2'/1]).
@@ -58,7 +61,10 @@
 -export(['cbcl-empty-func-004'/1]).
 -export(['cbcl-empty-func-005'/1]).
 -export(['cbcl-empty-func-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-emptyint1args-1', 
-'fn-emptyint1args-2', 
-'fn-emptyint1args-3', 
-'fn-emptyintg1args-1', 
-'fn-emptyintg1args-2', 
-'fn-emptyintg1args-3', 
-'fn-emptydec1args-1', 
-'fn-emptydec1args-2', 
-'fn-emptydec1args-3', 
-'fn-emptydbl1args-1', 
-'fn-emptydbl1args-2', 
-'fn-emptydbl1args-3', 
-'fn-emptyflt1args-1', 
-'fn-emptyflt1args-2', 
-'fn-emptyflt1args-3', 
-'fn-emptylng1args-1', 
-'fn-emptylng1args-2', 
-'fn-emptylng1args-3', 
-'fn-emptyusht1args-1', 
-'fn-emptyusht1args-2', 
-'fn-emptyusht1args-3', 
-'fn-emptynint1args-1', 
-'fn-emptynint1args-2', 
-'fn-emptynint1args-3', 
-'fn-emptypint1args-1', 
-'fn-emptypint1args-2', 
-'fn-emptypint1args-3', 
-'fn-emptyulng1args-1', 
-'fn-emptyulng1args-2', 
-'fn-emptyulng1args-3', 
-'fn-emptynpi1args-1', 
-'fn-emptynpi1args-2', 
-'fn-emptynpi1args-3', 
-'fn-emptynni1args-1', 
-'fn-emptynni1args-2', 
-'fn-emptynni1args-3', 
-'fn-emptysht1args-1', 
-'fn-emptysht1args-2', 
-'fn-emptysht1args-3', 
-'K-SeqEmptyFunc-1', 
-'K-SeqEmptyFunc-2', 
-'K-SeqEmptyFunc-3', 
-'K-SeqEmptyFunc-4', 
-'K-SeqEmptyFunc-5', 
-'K-SeqEmptyFunc-6', 
-'K-SeqEmptyFunc-7', 
-'K-SeqEmptyFunc-8', 
-'K-SeqEmptyFunc-9', 
-'cbcl-empty-func-001', 
-'cbcl-empty-func-002', 
-'cbcl-empty-func-003', 
-'cbcl-empty-func-004', 
-'cbcl-empty-func-005', 
-'cbcl-empty-func-006'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-emptyint1args-1', 
+    'fn-emptyint1args-2', 
+    'fn-emptyint1args-3', 
+    'fn-emptyintg1args-1', 
+    'fn-emptyintg1args-2', 
+    'fn-emptyintg1args-3', 
+    'fn-emptydec1args-1', 
+    'fn-emptydec1args-2', 
+    'fn-emptydec1args-3', 
+    'fn-emptydbl1args-1', 
+    'fn-emptydbl1args-2', 
+    'fn-emptydbl1args-3', 
+    'fn-emptyflt1args-1', 
+    'fn-emptyflt1args-2', 
+    'fn-emptyflt1args-3', 
+    'fn-emptylng1args-1', 
+    'fn-emptylng1args-2', 
+    'fn-emptylng1args-3', 
+    'fn-emptyusht1args-1', 
+    'fn-emptyusht1args-2', 
+    'fn-emptyusht1args-3', 
+    'fn-emptynint1args-1', 
+    'fn-emptynint1args-2']}, 
+   {group_1, [parallel], [
+    'fn-emptynint1args-3', 
+    'fn-emptypint1args-1', 
+    'fn-emptypint1args-2', 
+    'fn-emptypint1args-3', 
+    'fn-emptyulng1args-1', 
+    'fn-emptyulng1args-2', 
+    'fn-emptyulng1args-3', 
+    'fn-emptynpi1args-1', 
+    'fn-emptynpi1args-2', 
+    'fn-emptynpi1args-3', 
+    'fn-emptynni1args-1', 
+    'fn-emptynni1args-2', 
+    'fn-emptynni1args-3', 
+    'fn-emptysht1args-1', 
+    'fn-emptysht1args-2', 
+    'fn-emptysht1args-3', 
+    'K-SeqEmptyFunc-1', 
+    'K-SeqEmptyFunc-2', 
+    'K-SeqEmptyFunc-3', 
+    'K-SeqEmptyFunc-4', 
+    'K-SeqEmptyFunc-5', 
+    'K-SeqEmptyFunc-6', 
+    'K-SeqEmptyFunc-7', 
+    'K-SeqEmptyFunc-8']}, 
+   {group_2, [parallel], [
+    'K-SeqEmptyFunc-9', 
+    'cbcl-empty-func-001', 
+    'cbcl-empty-func-002', 
+    'cbcl-empty-func-003', 
+    'cbcl-empty-func-004', 
+    'cbcl-empty-func-005', 
+    'cbcl-empty-func-006']}].
 
 'fn-emptyint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

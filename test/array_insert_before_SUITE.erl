@@ -1,8 +1,11 @@
 -module('array_insert_before_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-insert-before-501'/1]).
 -export(['array-insert-before-502'/1]).
@@ -15,7 +18,10 @@
 -export(['array-insert-before-509'/1]).
 -export(['array-insert-before-510'/1]).
 -export(['array-insert-before-511'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -26,18 +32,21 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-insert-before-501', 
-'array-insert-before-502', 
-'array-insert-before-503', 
-'array-insert-before-504', 
-'array-insert-before-505', 
-'array-insert-before-506', 
-'array-insert-before-507', 
-'array-insert-before-508', 
-'array-insert-before-509', 
-'array-insert-before-510', 
-'array-insert-before-511'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-insert-before-501', 
+    'array-insert-before-502', 
+    'array-insert-before-503', 
+    'array-insert-before-504', 
+    'array-insert-before-505', 
+    'array-insert-before-506', 
+    'array-insert-before-507', 
+    'array-insert-before-508', 
+    'array-insert-before-509', 
+    'array-insert-before-510', 
+    'array-insert-before-511']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

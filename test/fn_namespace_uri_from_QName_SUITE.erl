@@ -1,8 +1,11 @@
 -module('fn_namespace_uri_from_QName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['NamespaceURIFromQNameFunc001'/1]).
 -export(['NamespaceURIFromQNameFunc002'/1]).
@@ -34,7 +37,10 @@
 -export(['K2-NamespaceURIFromQNameFunc-2'/1]).
 -export(['K2-NamespaceURIFromQNameFunc-3'/1]).
 -export(['K2-NamespaceURIFromQNameFunc-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -45,37 +51,42 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'NamespaceURIFromQNameFunc001', 
-'NamespaceURIFromQNameFunc002', 
-'NamespaceURIFromQNameFunc003', 
-'NamespaceURIFromQNameFunc004', 
-'NamespaceURIFromQNameFunc005', 
-'NamespaceURIFromQNameFunc006', 
-'NamespaceURIFromQNameFunc007', 
-'NamespaceURIFromQNameFunc009', 
-'NamespaceURIFromQNameFunc010', 
-'NamespaceURIFromQNameFunc011', 
-'NamespaceURIFromQNameFunc012', 
-'NamespaceURIFromQNameFunc013', 
-'NamespaceURIFromQNameFunc014', 
-'NamespaceURIFromQNameFunc015', 
-'NamespaceURIFromQNameFunc015a', 
-'NamespaceURIFromQNameFunc016', 
-'NamespaceURIFromQNameFunc017', 
-'NamespaceURIFromQNameFunc018', 
-'NamespaceURIFromQNameFunc019', 
-'NamespaceURIFromQNameFunc020', 
-'NamespaceURIFromQNameFunc021', 
-'K-NamespaceURIFromQNameFunc-1', 
-'K-NamespaceURIFromQNameFunc-2', 
-'K-NamespaceURIFromQNameFunc-3', 
-'K-NamespaceURIFromQNameFunc-4', 
-'K-NamespaceURIFromQNameFunc-5', 
-'K2-NamespaceURIFromQNameFunc-1', 
-'K2-NamespaceURIFromQNameFunc-2', 
-'K2-NamespaceURIFromQNameFunc-3', 
-'K2-NamespaceURIFromQNameFunc-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'NamespaceURIFromQNameFunc001', 
+    'NamespaceURIFromQNameFunc002', 
+    'NamespaceURIFromQNameFunc003', 
+    'NamespaceURIFromQNameFunc004', 
+    'NamespaceURIFromQNameFunc005', 
+    'NamespaceURIFromQNameFunc006', 
+    'NamespaceURIFromQNameFunc007', 
+    'NamespaceURIFromQNameFunc009', 
+    'NamespaceURIFromQNameFunc010', 
+    'NamespaceURIFromQNameFunc011', 
+    'NamespaceURIFromQNameFunc012', 
+    'NamespaceURIFromQNameFunc013', 
+    'NamespaceURIFromQNameFunc014', 
+    'NamespaceURIFromQNameFunc015', 
+    'NamespaceURIFromQNameFunc015a', 
+    'NamespaceURIFromQNameFunc016', 
+    'NamespaceURIFromQNameFunc017', 
+    'NamespaceURIFromQNameFunc018', 
+    'NamespaceURIFromQNameFunc019', 
+    'NamespaceURIFromQNameFunc020', 
+    'NamespaceURIFromQNameFunc021', 
+    'K-NamespaceURIFromQNameFunc-1', 
+    'K-NamespaceURIFromQNameFunc-2']}, 
+   {group_1, [parallel], [
+    'K-NamespaceURIFromQNameFunc-3', 
+    'K-NamespaceURIFromQNameFunc-4', 
+    'K-NamespaceURIFromQNameFunc-5', 
+    'K2-NamespaceURIFromQNameFunc-1', 
+    'K2-NamespaceURIFromQNameFunc-2', 
+    'K2-NamespaceURIFromQNameFunc-3', 
+    'K2-NamespaceURIFromQNameFunc-4']}].
 environment('qname',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 

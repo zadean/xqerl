@@ -1,8 +1,11 @@
 -module('prod_IfExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['CondExpr002'/1]).
 -export(['CondExpr003'/1]).
@@ -46,7 +49,10 @@
 -export(['K2-CondExpr-7'/1]).
 -export(['cbcl-condexpr-001'/1]).
 -export(['cbcl-condexpr-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -57,49 +63,54 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'CondExpr002', 
-'CondExpr003', 
-'CondExpr004', 
-'CondExpr005', 
-'CondExpr006', 
-'CondExpr007', 
-'CondExpr008', 
-'CondExpr009', 
-'CondExpr010', 
-'CondExpr011', 
-'CondExpr012', 
-'CondExpr013', 
-'CondExpr014', 
-'CondExpr015', 
-'CondExpr016', 
-'CondExpr017', 
-'CondExpr018', 
-'CondExpr019', 
-'CondExpr20', 
-'CondExpr21', 
-'CondExpr022', 
-'K-CondExpr-1', 
-'K-CondExpr-2', 
-'K-CondExpr-3', 
-'K-CondExpr-4', 
-'K-CondExpr-5', 
-'K-CondExpr-6', 
-'K-CondExpr-7', 
-'K-CondExpr-8', 
-'K-CondExpr-9', 
-'K-CondExpr-10', 
-'K-CondExpr-11', 
-'K-CondExpr-12', 
-'K2-CondExpr-1', 
-'K2-CondExpr-2', 
-'K2-CondExpr-3', 
-'K2-CondExpr-4', 
-'K2-CondExpr-5', 
-'K2-CondExpr-6', 
-'K2-CondExpr-7', 
-'cbcl-condexpr-001', 
-'cbcl-condexpr-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'CondExpr002', 
+    'CondExpr003', 
+    'CondExpr004', 
+    'CondExpr005', 
+    'CondExpr006', 
+    'CondExpr007', 
+    'CondExpr008', 
+    'CondExpr009', 
+    'CondExpr010', 
+    'CondExpr011', 
+    'CondExpr012', 
+    'CondExpr013', 
+    'CondExpr014', 
+    'CondExpr015', 
+    'CondExpr016', 
+    'CondExpr017', 
+    'CondExpr018', 
+    'CondExpr019', 
+    'CondExpr20', 
+    'CondExpr21', 
+    'CondExpr022', 
+    'K-CondExpr-1', 
+    'K-CondExpr-2']}, 
+   {group_1, [parallel], [
+    'K-CondExpr-3', 
+    'K-CondExpr-4', 
+    'K-CondExpr-5', 
+    'K-CondExpr-6', 
+    'K-CondExpr-7', 
+    'K-CondExpr-8', 
+    'K-CondExpr-9', 
+    'K-CondExpr-10', 
+    'K-CondExpr-11', 
+    'K-CondExpr-12', 
+    'K2-CondExpr-1', 
+    'K2-CondExpr-2', 
+    'K2-CondExpr-3', 
+    'K2-CondExpr-4', 
+    'K2-CondExpr-5', 
+    'K2-CondExpr-6', 
+    'K2-CondExpr-7', 
+    'cbcl-condexpr-001', 
+    'cbcl-condexpr-002']}].
 environment('fsx',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "ForClause/fsx.xml"), ".",[]}]}, 

@@ -1,8 +1,11 @@
 -module('op_date_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-date-equal2args-1'/1]).
 -export(['op-date-equal2args-2'/1]).
@@ -51,7 +54,10 @@
 -export(['cbcl-date-equal-014'/1]).
 -export(['cbcl-date-equal-015'/1]).
 -export(['cbcl-date-equal-016'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -62,54 +68,59 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-date-equal2args-1', 
-'op-date-equal2args-2', 
-'op-date-equal2args-3', 
-'op-date-equal2args-4', 
-'op-date-equal2args-5', 
-'op-date-equal2args-6', 
-'op-date-equal2args-7', 
-'op-date-equal2args-8', 
-'op-date-equal2args-9', 
-'op-date-equal2args-10', 
-'op-date-equal2args-11', 
-'op-date-equal2args-12', 
-'op-date-equal2args-13', 
-'op-date-equal2args-14', 
-'op-date-equal2args-15', 
-'op-date-equal2args-16', 
-'op-date-equal2args-17', 
-'op-date-equal2args-18', 
-'op-date-equal2args-19', 
-'op-date-equal2args-20', 
-'K-DateEQ-1', 
-'K-DateEQ-2', 
-'K-DateEQ-3', 
-'K-DateEQ-4', 
-'K-DateEQ-5', 
-'K-DateEQ-6', 
-'K-DateEQ-7', 
-'K-DateEQ-8', 
-'K2-DateEQ-1', 
-'cbcl-date-eq-001', 
-'cbcl-date-ne-001', 
-'cbcl-date-equal-001', 
-'cbcl-date-equal-002', 
-'cbcl-date-equal-003', 
-'cbcl-date-equal-004', 
-'cbcl-date-equal-005', 
-'cbcl-date-equal-006', 
-'cbcl-date-equal-007', 
-'cbcl-date-equal-008', 
-'cbcl-date-equal-009', 
-'cbcl-date-equal-010', 
-'cbcl-date-equal-011', 
-'cbcl-date-equal-012', 
-'cbcl-date-equal-013', 
-'cbcl-date-equal-014', 
-'cbcl-date-equal-015', 
-'cbcl-date-equal-016'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-date-equal2args-1', 
+    'op-date-equal2args-2', 
+    'op-date-equal2args-3', 
+    'op-date-equal2args-4', 
+    'op-date-equal2args-5', 
+    'op-date-equal2args-6', 
+    'op-date-equal2args-7', 
+    'op-date-equal2args-8', 
+    'op-date-equal2args-9', 
+    'op-date-equal2args-10', 
+    'op-date-equal2args-11', 
+    'op-date-equal2args-12', 
+    'op-date-equal2args-13', 
+    'op-date-equal2args-14', 
+    'op-date-equal2args-15', 
+    'op-date-equal2args-16', 
+    'op-date-equal2args-17', 
+    'op-date-equal2args-18', 
+    'op-date-equal2args-19', 
+    'op-date-equal2args-20', 
+    'K-DateEQ-1', 
+    'K-DateEQ-2', 
+    'K-DateEQ-3']}, 
+   {group_1, [parallel], [
+    'K-DateEQ-4', 
+    'K-DateEQ-5', 
+    'K-DateEQ-6', 
+    'K-DateEQ-7', 
+    'K-DateEQ-8', 
+    'K2-DateEQ-1', 
+    'cbcl-date-eq-001', 
+    'cbcl-date-ne-001', 
+    'cbcl-date-equal-001', 
+    'cbcl-date-equal-002', 
+    'cbcl-date-equal-003', 
+    'cbcl-date-equal-004', 
+    'cbcl-date-equal-005', 
+    'cbcl-date-equal-006', 
+    'cbcl-date-equal-007', 
+    'cbcl-date-equal-008', 
+    'cbcl-date-equal-009', 
+    'cbcl-date-equal-010', 
+    'cbcl-date-equal-011', 
+    'cbcl-date-equal-012', 
+    'cbcl-date-equal-013', 
+    'cbcl-date-equal-014', 
+    'cbcl-date-equal-015', 
+    'cbcl-date-equal-016']}].
 
 'op-date-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

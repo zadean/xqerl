@@ -1,8 +1,11 @@
 -module('fn_zero_or_one_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-zero-or-oneint1args-1'/1]).
 -export(['fn-zero-or-oneint1args-2'/1]).
@@ -55,7 +58,10 @@
 -export(['cbcl-if-not-empty-001'/1]).
 -export(['cbcl-zero-or-one-001'/1]).
 -export(['cbcl-zero-or-one-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -66,58 +72,65 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-zero-or-oneint1args-1', 
-'fn-zero-or-oneint1args-2', 
-'fn-zero-or-oneint1args-3', 
-'fn-zero-or-oneintg1args-1', 
-'fn-zero-or-oneintg1args-2', 
-'fn-zero-or-oneintg1args-3', 
-'fn-zero-or-onedec1args-1', 
-'fn-zero-or-onedec1args-2', 
-'fn-zero-or-onedec1args-3', 
-'fn-zero-or-onedbl1args-1', 
-'fn-zero-or-onedbl1args-2', 
-'fn-zero-or-onedbl1args-3', 
-'fn-zero-or-oneflt1args-1', 
-'fn-zero-or-oneflt1args-2', 
-'fn-zero-or-oneflt1args-3', 
-'fn-zero-or-onelng1args-1', 
-'fn-zero-or-onelng1args-2', 
-'fn-zero-or-onelng1args-3', 
-'fn-zero-or-oneusht1args-1', 
-'fn-zero-or-oneusht1args-2', 
-'fn-zero-or-oneusht1args-3', 
-'fn-zero-or-onenint1args-1', 
-'fn-zero-or-onenint1args-2', 
-'fn-zero-or-onenint1args-3', 
-'fn-zero-or-onepint1args-1', 
-'fn-zero-or-onepint1args-2', 
-'fn-zero-or-onepint1args-3', 
-'fn-zero-or-oneulng1args-1', 
-'fn-zero-or-oneulng1args-2', 
-'fn-zero-or-oneulng1args-3', 
-'fn-zero-or-onenpi1args-1', 
-'fn-zero-or-onenpi1args-2', 
-'fn-zero-or-onenpi1args-3', 
-'fn-zero-or-onenni1args-1', 
-'fn-zero-or-onenni1args-2', 
-'fn-zero-or-onenni1args-3', 
-'fn-zero-or-onesht1args-1', 
-'fn-zero-or-onesht1args-2', 
-'fn-zero-or-onesht1args-3', 
-'fn-zero-or-one-1', 
-'K-SeqZeroOrOneFunc-1', 
-'K-SeqZeroOrOneFunc-2', 
-'K-SeqZeroOrOneFunc-3', 
-'K-SeqZeroOrOneFunc-4', 
-'K-SeqZeroOrOneFunc-5', 
-'K-SeqZeroOrOneFunc-6', 
-'K-SeqZeroOrOneFunc-7', 
-'K-SeqZeroOrOneFunc-8', 
-'cbcl-if-not-empty-001', 
-'cbcl-zero-or-one-001', 
-'cbcl-zero-or-one-002'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-zero-or-oneint1args-1', 
+    'fn-zero-or-oneint1args-2', 
+    'fn-zero-or-oneint1args-3', 
+    'fn-zero-or-oneintg1args-1', 
+    'fn-zero-or-oneintg1args-2', 
+    'fn-zero-or-oneintg1args-3', 
+    'fn-zero-or-onedec1args-1', 
+    'fn-zero-or-onedec1args-2', 
+    'fn-zero-or-onedec1args-3', 
+    'fn-zero-or-onedbl1args-1', 
+    'fn-zero-or-onedbl1args-2', 
+    'fn-zero-or-onedbl1args-3', 
+    'fn-zero-or-oneflt1args-1', 
+    'fn-zero-or-oneflt1args-2', 
+    'fn-zero-or-oneflt1args-3', 
+    'fn-zero-or-onelng1args-1', 
+    'fn-zero-or-onelng1args-2', 
+    'fn-zero-or-onelng1args-3', 
+    'fn-zero-or-oneusht1args-1', 
+    'fn-zero-or-oneusht1args-2', 
+    'fn-zero-or-oneusht1args-3', 
+    'fn-zero-or-onenint1args-1', 
+    'fn-zero-or-onenint1args-2']}, 
+   {group_1, [parallel], [
+    'fn-zero-or-onenint1args-3', 
+    'fn-zero-or-onepint1args-1', 
+    'fn-zero-or-onepint1args-2', 
+    'fn-zero-or-onepint1args-3', 
+    'fn-zero-or-oneulng1args-1', 
+    'fn-zero-or-oneulng1args-2', 
+    'fn-zero-or-oneulng1args-3', 
+    'fn-zero-or-onenpi1args-1', 
+    'fn-zero-or-onenpi1args-2', 
+    'fn-zero-or-onenpi1args-3', 
+    'fn-zero-or-onenni1args-1', 
+    'fn-zero-or-onenni1args-2', 
+    'fn-zero-or-onenni1args-3', 
+    'fn-zero-or-onesht1args-1', 
+    'fn-zero-or-onesht1args-2', 
+    'fn-zero-or-onesht1args-3', 
+    'fn-zero-or-one-1', 
+    'K-SeqZeroOrOneFunc-1', 
+    'K-SeqZeroOrOneFunc-2', 
+    'K-SeqZeroOrOneFunc-3', 
+    'K-SeqZeroOrOneFunc-4', 
+    'K-SeqZeroOrOneFunc-5', 
+    'K-SeqZeroOrOneFunc-6', 
+    'K-SeqZeroOrOneFunc-7']}, 
+   {group_2, [parallel], [
+    'K-SeqZeroOrOneFunc-8', 
+    'cbcl-if-not-empty-001', 
+    'cbcl-zero-or-one-001', 
+    'cbcl-zero-or-one-002']}].
 
 'fn-zero-or-oneint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

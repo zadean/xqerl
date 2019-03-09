@@ -1,8 +1,11 @@
 -module('prod_StepExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['K2-Steps-1'/1]).
 -export(['K2-Steps-2'/1]).
@@ -62,7 +65,10 @@
 -export(['Steps-leading-lone-slash-15'/1]).
 -export(['Steps-leading-lone-slash-16'/1]).
 -export(['Steps-leading-lone-slash-17'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'K2-Steps-1', 
-'K2-Steps-2', 
-'K2-Steps-3', 
-'K2-Steps-4', 
-'K2-Steps-5', 
-'K2-Steps-6', 
-'K2-Steps-7', 
-'K2-Steps-8', 
-'K2-Steps-9', 
-'K2-Steps-10', 
-'K2-Steps-11', 
-'K2-Steps-12', 
-'K2-Steps-13', 
-'K2-Steps-14', 
-'K2-Steps-15', 
-'K2-Steps-16', 
-'K2-Steps-17', 
-'K2-Steps-18', 
-'K2-Steps-19', 
-'K2-Steps-20', 
-'K2-Steps-21', 
-'K2-Steps-22', 
-'K2-Steps-23', 
-'K2-Steps-24', 
-'K2-Steps-25', 
-'K2-Steps-26', 
-'K2-Steps-27', 
-'K2-Steps-28', 
-'K2-Steps-29', 
-'K2-Steps-30', 
-'K2-Steps-31', 
-'K2-Steps-32', 
-'K2-Steps-33', 
-'K2-Steps-34', 
-'K2-Steps-35', 
-'Steps-leading-lone-slash-1', 
-'Steps-leading-lone-slash-1a', 
-'Steps-leading-lone-slash-2', 
-'Steps-leading-lone-slash-2a', 
-'Steps-leading-lone-slash-3', 
-'Steps-leading-lone-slash-3a', 
-'Steps-leading-lone-slash-4', 
-'Steps-leading-lone-slash-5', 
-'Steps-leading-lone-slash-5a', 
-'Steps-leading-lone-slash-6', 
-'Steps-leading-lone-slash-7', 
-'Steps-leading-lone-slash-7a', 
-'Steps-leading-lone-slash-8', 
-'Steps-leading-lone-slash-8a', 
-'Steps-leading-lone-slash-9', 
-'Steps-leading-lone-slash-10', 
-'Steps-leading-lone-slash-11', 
-'Steps-leading-lone-slash-12', 
-'Steps-leading-lone-slash-13', 
-'Steps-leading-lone-slash-14', 
-'Steps-leading-lone-slash-15', 
-'Steps-leading-lone-slash-16', 
-'Steps-leading-lone-slash-17'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'K2-Steps-1', 
+    'K2-Steps-2', 
+    'K2-Steps-3', 
+    'K2-Steps-4', 
+    'K2-Steps-5', 
+    'K2-Steps-6', 
+    'K2-Steps-7', 
+    'K2-Steps-8', 
+    'K2-Steps-9', 
+    'K2-Steps-10', 
+    'K2-Steps-11', 
+    'K2-Steps-12', 
+    'K2-Steps-13', 
+    'K2-Steps-14', 
+    'K2-Steps-15', 
+    'K2-Steps-16', 
+    'K2-Steps-17', 
+    'K2-Steps-18', 
+    'K2-Steps-19', 
+    'K2-Steps-20', 
+    'K2-Steps-21', 
+    'K2-Steps-22', 
+    'K2-Steps-23']}, 
+   {group_1, [parallel], [
+    'K2-Steps-24', 
+    'K2-Steps-25', 
+    'K2-Steps-26', 
+    'K2-Steps-27', 
+    'K2-Steps-28', 
+    'K2-Steps-29', 
+    'K2-Steps-30', 
+    'K2-Steps-31', 
+    'K2-Steps-32', 
+    'K2-Steps-33', 
+    'K2-Steps-34', 
+    'K2-Steps-35', 
+    'Steps-leading-lone-slash-1', 
+    'Steps-leading-lone-slash-1a', 
+    'Steps-leading-lone-slash-2', 
+    'Steps-leading-lone-slash-2a', 
+    'Steps-leading-lone-slash-3', 
+    'Steps-leading-lone-slash-3a', 
+    'Steps-leading-lone-slash-4', 
+    'Steps-leading-lone-slash-5', 
+    'Steps-leading-lone-slash-5a', 
+    'Steps-leading-lone-slash-6', 
+    'Steps-leading-lone-slash-7', 
+    'Steps-leading-lone-slash-7a']}, 
+   {group_2, [parallel], [
+    'Steps-leading-lone-slash-8', 
+    'Steps-leading-lone-slash-8a', 
+    'Steps-leading-lone-slash-9', 
+    'Steps-leading-lone-slash-10', 
+    'Steps-leading-lone-slash-11', 
+    'Steps-leading-lone-slash-12', 
+    'Steps-leading-lone-slash-13', 
+    'Steps-leading-lone-slash-14', 
+    'Steps-leading-lone-slash-15', 
+    'Steps-leading-lone-slash-16', 
+    'Steps-leading-lone-slash-17']}].
 
 'K2-Steps-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

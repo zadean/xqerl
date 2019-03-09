@@ -1,8 +1,11 @@
 -module('fn_translate_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-translate3args-1'/1]).
 -export(['fn-translate3args-2'/1]).
@@ -48,7 +51,10 @@
 -export(['K2-TranslateFunc-2'/1]).
 -export(['cbcl-fn-translate-001'/1]).
 -export(['cbcl-fn-translate-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-translate3args-1', 
-'fn-translate3args-2', 
-'fn-translate3args-3', 
-'fn-translate3args-4', 
-'fn-translate3args-5', 
-'fn-translate3args-6', 
-'fn-translate3args-7', 
-'fn-translate3args-8', 
-'fn-translate-1', 
-'fn-translate-2', 
-'fn-translate-3', 
-'fn-translate-4', 
-'fn-translate-5', 
-'fn-translate-6', 
-'fn-translate-7', 
-'fn-translate-8', 
-'fn-translate-9', 
-'fn-translate-10', 
-'fn-translate-11', 
-'fn-translate-12', 
-'fn-translate-13', 
-'fn-translate-14', 
-'fn-translate-15', 
-'fn-translate-16', 
-'fn-translate-17', 
-'fn-translate-18', 
-'fn-translate-19', 
-'fn-translate-20', 
-'fn-translate-21', 
-'fn-translate-22', 
-'K-TranslateFunc-1', 
-'K-TranslateFunc-2', 
-'K-TranslateFunc-3', 
-'K-TranslateFunc-4', 
-'K-TranslateFunc-5', 
-'K-TranslateFunc-6', 
-'K-TranslateFunc-7', 
-'K-TranslateFunc-8', 
-'K-TranslateFunc-9', 
-'K-TranslateFunc-10', 
-'K2-TranslateFunc-1', 
-'K2-TranslateFunc-2', 
-'cbcl-fn-translate-001', 
-'cbcl-fn-translate-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-translate3args-1', 
+    'fn-translate3args-2', 
+    'fn-translate3args-3', 
+    'fn-translate3args-4', 
+    'fn-translate3args-5', 
+    'fn-translate3args-6', 
+    'fn-translate3args-7', 
+    'fn-translate3args-8', 
+    'fn-translate-1', 
+    'fn-translate-2', 
+    'fn-translate-3', 
+    'fn-translate-4', 
+    'fn-translate-5', 
+    'fn-translate-6', 
+    'fn-translate-7', 
+    'fn-translate-8', 
+    'fn-translate-9', 
+    'fn-translate-10', 
+    'fn-translate-11', 
+    'fn-translate-12', 
+    'fn-translate-13', 
+    'fn-translate-14', 
+    'fn-translate-15']}, 
+   {group_1, [parallel], [
+    'fn-translate-16', 
+    'fn-translate-17', 
+    'fn-translate-18', 
+    'fn-translate-19', 
+    'fn-translate-20', 
+    'fn-translate-21', 
+    'fn-translate-22', 
+    'K-TranslateFunc-1', 
+    'K-TranslateFunc-2', 
+    'K-TranslateFunc-3', 
+    'K-TranslateFunc-4', 
+    'K-TranslateFunc-5', 
+    'K-TranslateFunc-6', 
+    'K-TranslateFunc-7', 
+    'K-TranslateFunc-8', 
+    'K-TranslateFunc-9', 
+    'K-TranslateFunc-10', 
+    'K2-TranslateFunc-1', 
+    'K2-TranslateFunc-2', 
+    'cbcl-fn-translate-001', 
+    'cbcl-fn-translate-002']}].
 
 'fn-translate3args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

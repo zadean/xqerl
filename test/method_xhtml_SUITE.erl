@@ -1,8 +1,11 @@
 -module('method_xhtml_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Serialization-xhtml-1'/1]).
 -export(['Serialization-xhtml-1a'/1]).
@@ -42,7 +45,10 @@
 -export(['Serialization-xhtml-50'/1]).
 -export(['Serialization-xhtml-51'/1]).
 -export(['Serialization-xhtml-52'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -53,45 +59,50 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "ser"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Serialization-xhtml-1', 
-'Serialization-xhtml-1a', 
-'Serialization-xhtml-2', 
-'Serialization-xhtml-3', 
-'Serialization-xhtml-4', 
-'Serialization-xhtml-18', 
-'Serialization-xhtml-19a', 
-'Serialization-xhtml-19b', 
-'Serialization-xhtml-19c', 
-'Serialization-xhtml-20', 
-'Serialization-xhtml-21', 
-'Serialization-xhtml-22', 
-'Serialization-xhtml-23', 
-'Serialization-xhtml-24', 
-'Serialization-xhtml-25', 
-'Serialization-xhtml-26', 
-'Serialization-xhtml-27', 
-'Serialization-xhtml-27a', 
-'Serialization-xhtml-28', 
-'Serialization-xhtml-29', 
-'Serialization-xhtml-30', 
-'Serialization-xhtml-31', 
-'Serialization-xhtml-32', 
-'Serialization-xhtml-33', 
-'Serialization-xhtml-34', 
-'Serialization-xhtml-35', 
-'Serialization-xhtml-36', 
-'Serialization-xhtml-36a', 
-'Serialization-xhtml-37', 
-'Serialization-xhtml-37a', 
-'Serialization-xhtml-38', 
-'Serialization-xhtml-39', 
-'Serialization-xhtml-40', 
-'Serialization-xhtml-41', 
-'Serialization-xhtml-42', 
-'Serialization-xhtml-50', 
-'Serialization-xhtml-51', 
-'Serialization-xhtml-52'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Serialization-xhtml-1', 
+    'Serialization-xhtml-1a', 
+    'Serialization-xhtml-2', 
+    'Serialization-xhtml-3', 
+    'Serialization-xhtml-4', 
+    'Serialization-xhtml-18', 
+    'Serialization-xhtml-19a', 
+    'Serialization-xhtml-19b', 
+    'Serialization-xhtml-19c', 
+    'Serialization-xhtml-20', 
+    'Serialization-xhtml-21', 
+    'Serialization-xhtml-22', 
+    'Serialization-xhtml-23', 
+    'Serialization-xhtml-24', 
+    'Serialization-xhtml-25', 
+    'Serialization-xhtml-26', 
+    'Serialization-xhtml-27', 
+    'Serialization-xhtml-27a', 
+    'Serialization-xhtml-28', 
+    'Serialization-xhtml-29', 
+    'Serialization-xhtml-30', 
+    'Serialization-xhtml-31', 
+    'Serialization-xhtml-32']}, 
+   {group_1, [parallel], [
+    'Serialization-xhtml-33', 
+    'Serialization-xhtml-34', 
+    'Serialization-xhtml-35', 
+    'Serialization-xhtml-36', 
+    'Serialization-xhtml-36a', 
+    'Serialization-xhtml-37', 
+    'Serialization-xhtml-37a', 
+    'Serialization-xhtml-38', 
+    'Serialization-xhtml-39', 
+    'Serialization-xhtml-40', 
+    'Serialization-xhtml-41', 
+    'Serialization-xhtml-42', 
+    'Serialization-xhtml-50', 
+    'Serialization-xhtml-51', 
+    'Serialization-xhtml-52']}].
 
 'Serialization-xhtml-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

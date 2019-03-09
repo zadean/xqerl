@@ -1,8 +1,11 @@
 -module('fn_days_from_duration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-days-from-duration1args-1'/1]).
 -export(['fn-days-from-duration1args-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K-DaysFromDurationFunc-6'/1]).
 -export(['K-DaysFromDurationFunc-7'/1]).
 -export(['cbcl-days-from-duration-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-days-from-duration1args-1', 
-'fn-days-from-duration1args-2', 
-'fn-days-from-duration1args-3', 
-'fn-days-from-duration-1', 
-'fn-days-from-duration-2', 
-'fn-days-from-duration-3', 
-'fn-days-from-duration-4', 
-'fn-days-from-duration-5', 
-'fn-days-from-duration-6', 
-'fn-days-from-duration-7', 
-'fn-days-from-duration-8', 
-'fn-days-from-duration-9', 
-'fn-days-from-duration-10', 
-'fn-days-from-duration-11', 
-'fn-days-from-duration-12', 
-'fn-days-from-duration-13', 
-'fn-days-from-duration-14', 
-'fn-days-from-duration-15', 
-'fn-days-from-duration-16', 
-'fn-days-from-duration-17', 
-'fn-days-from-duration-18', 
-'fn-days-from-duration-19', 
-'fn-days-from-duration-20', 
-'K-DaysFromDurationFunc-1', 
-'K-DaysFromDurationFunc-2', 
-'K-DaysFromDurationFunc-3', 
-'K-DaysFromDurationFunc-4', 
-'K-DaysFromDurationFunc-5', 
-'K-DaysFromDurationFunc-6', 
-'K-DaysFromDurationFunc-7', 
-'cbcl-days-from-duration-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-days-from-duration1args-1', 
+    'fn-days-from-duration1args-2', 
+    'fn-days-from-duration1args-3', 
+    'fn-days-from-duration-1', 
+    'fn-days-from-duration-2', 
+    'fn-days-from-duration-3', 
+    'fn-days-from-duration-4', 
+    'fn-days-from-duration-5', 
+    'fn-days-from-duration-6', 
+    'fn-days-from-duration-7', 
+    'fn-days-from-duration-8', 
+    'fn-days-from-duration-9', 
+    'fn-days-from-duration-10', 
+    'fn-days-from-duration-11', 
+    'fn-days-from-duration-12', 
+    'fn-days-from-duration-13', 
+    'fn-days-from-duration-14', 
+    'fn-days-from-duration-15', 
+    'fn-days-from-duration-16', 
+    'fn-days-from-duration-17', 
+    'fn-days-from-duration-18', 
+    'fn-days-from-duration-19', 
+    'fn-days-from-duration-20']}, 
+   {group_1, [parallel], [
+    'K-DaysFromDurationFunc-1', 
+    'K-DaysFromDurationFunc-2', 
+    'K-DaysFromDurationFunc-3', 
+    'K-DaysFromDurationFunc-4', 
+    'K-DaysFromDurationFunc-5', 
+    'K-DaysFromDurationFunc-6', 
+    'K-DaysFromDurationFunc-7', 
+    'cbcl-days-from-duration-001']}].
 
 'fn-days-from-duration1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

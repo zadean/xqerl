@@ -1,8 +1,11 @@
 -module('prod_FLWORExpr_static_typing_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['statictyping-21'/1]).
 -export(['statictyping-22'/1]).
@@ -32,7 +35,10 @@
 -export(['statictyping-20'/1]).
 -export(['ST-PITest-01'/1]).
 -export(['ST-PITest-02'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'statictyping-21', 
-'statictyping-22', 
-'statictyping-23', 
-'statictyping-24', 
-'ST-WhereExpr001', 
-'ST-WhereExpr002', 
-'statictyping-1', 
-'statictyping-2', 
-'statictyping-3', 
-'statictyping-4', 
-'statictyping-5', 
-'statictyping-6', 
-'statictyping-7', 
-'statictyping-8', 
-'statictyping-9', 
-'statictyping-10', 
-'statictyping-11', 
-'statictyping-12', 
-'statictyping-13', 
-'statictyping-14', 
-'statictyping-15', 
-'statictyping-16', 
-'statictyping-17', 
-'statictyping-18', 
-'statictyping-19', 
-'statictyping-20', 
-'ST-PITest-01', 
-'ST-PITest-02'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'statictyping-21', 
+    'statictyping-22', 
+    'statictyping-23', 
+    'statictyping-24', 
+    'ST-WhereExpr001', 
+    'ST-WhereExpr002', 
+    'statictyping-1', 
+    'statictyping-2', 
+    'statictyping-3', 
+    'statictyping-4', 
+    'statictyping-5', 
+    'statictyping-6', 
+    'statictyping-7', 
+    'statictyping-8', 
+    'statictyping-9', 
+    'statictyping-10', 
+    'statictyping-11', 
+    'statictyping-12', 
+    'statictyping-13', 
+    'statictyping-14', 
+    'statictyping-15', 
+    'statictyping-16', 
+    'statictyping-17']}, 
+   {group_1, [parallel], [
+    'statictyping-18', 
+    'statictyping-19', 
+    'statictyping-20', 
+    'ST-PITest-01', 
+    'ST-PITest-02']}].
 environment('fsx',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "ForClause/fsx.xml"), ".",[]}]}, 

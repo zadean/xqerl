@@ -1,8 +1,11 @@
 -module('fn_for_each_pair_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['for-each-pair-001'/1]).
 -export(['for-each-pair-002'/1]).
@@ -51,7 +54,10 @@
 -export(['fn-for-each-pair-035'/1]).
 -export(['fn-for-each-pair-036'/1]).
 -export(['fn-for-each-pair-037'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -62,54 +68,59 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'for-each-pair-001', 
-'for-each-pair-002', 
-'for-each-pair-003', 
-'for-each-pair-004', 
-'for-each-pair-005', 
-'for-each-pair-006', 
-'for-each-pair-007', 
-'for-each-pair-008', 
-'for-each-pair-901', 
-'for-each-pair-902', 
-'fn-for-each-pair-001', 
-'fn-for-each-pair-002', 
-'fn-for-each-pair-003', 
-'fn-for-each-pair-004', 
-'fn-for-each-pair-005', 
-'fn-for-each-pair-006', 
-'fn-for-each-pair-007', 
-'fn-for-each-pair-008', 
-'fn-for-each-pair-009', 
-'fn-for-each-pair-010', 
-'fn-for-each-pair-011', 
-'fn-for-each-pair-012', 
-'fn-for-each-pair-013', 
-'fn-for-each-pair-014', 
-'fn-for-each-pair-015', 
-'fn-for-each-pair-016', 
-'fn-for-each-pair-017', 
-'fn-for-each-pair-018', 
-'fn-for-each-pair-019', 
-'fn-for-each-pair-020', 
-'fn-for-each-pair-021', 
-'fn-for-each-pair-022', 
-'fn-for-each-pair-023', 
-'fn-for-each-pair-024', 
-'fn-for-each-pair-025', 
-'fn-for-each-pair-026', 
-'fn-for-each-pair-027', 
-'fn-for-each-pair-028', 
-'fn-for-each-pair-029', 
-'fn-for-each-pair-030', 
-'fn-for-each-pair-031', 
-'fn-for-each-pair-032', 
-'fn-for-each-pair-033', 
-'fn-for-each-pair-034', 
-'fn-for-each-pair-035', 
-'fn-for-each-pair-036', 
-'fn-for-each-pair-037'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'for-each-pair-001', 
+    'for-each-pair-002', 
+    'for-each-pair-003', 
+    'for-each-pair-004', 
+    'for-each-pair-005', 
+    'for-each-pair-006', 
+    'for-each-pair-007', 
+    'for-each-pair-008', 
+    'for-each-pair-901', 
+    'for-each-pair-902', 
+    'fn-for-each-pair-001', 
+    'fn-for-each-pair-002', 
+    'fn-for-each-pair-003', 
+    'fn-for-each-pair-004', 
+    'fn-for-each-pair-005', 
+    'fn-for-each-pair-006', 
+    'fn-for-each-pair-007', 
+    'fn-for-each-pair-008', 
+    'fn-for-each-pair-009', 
+    'fn-for-each-pair-010', 
+    'fn-for-each-pair-011', 
+    'fn-for-each-pair-012', 
+    'fn-for-each-pair-013']}, 
+   {group_1, [parallel], [
+    'fn-for-each-pair-014', 
+    'fn-for-each-pair-015', 
+    'fn-for-each-pair-016', 
+    'fn-for-each-pair-017', 
+    'fn-for-each-pair-018', 
+    'fn-for-each-pair-019', 
+    'fn-for-each-pair-020', 
+    'fn-for-each-pair-021', 
+    'fn-for-each-pair-022', 
+    'fn-for-each-pair-023', 
+    'fn-for-each-pair-024', 
+    'fn-for-each-pair-025', 
+    'fn-for-each-pair-026', 
+    'fn-for-each-pair-027', 
+    'fn-for-each-pair-028', 
+    'fn-for-each-pair-029', 
+    'fn-for-each-pair-030', 
+    'fn-for-each-pair-031', 
+    'fn-for-each-pair-032', 
+    'fn-for-each-pair-033', 
+    'fn-for-each-pair-034', 
+    'fn-for-each-pair-035', 
+    'fn-for-each-pair-036', 
+    'fn-for-each-pair-037']}].
 
 'for-each-pair-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

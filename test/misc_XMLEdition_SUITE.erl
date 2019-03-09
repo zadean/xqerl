@@ -1,8 +1,11 @@
 -module('misc_XMLEdition_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['XML10-3ed-Mixed-content'/1]).
 -export(['XML10-4ed-Excluded-char-1'/1]).
@@ -23,7 +26,10 @@
 -export(['line-ending-Q009'/1]).
 -export(['line-ending-P002'/1]).
 -export(['XML11-c0-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -34,26 +40,29 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "misc"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'XML10-3ed-Mixed-content', 
-'XML10-4ed-Excluded-char-1', 
-'XML10-4ed-Excluded-char-1-new', 
-'XML10-4ed-Excluded-char-2', 
-'XML10-5ed-Included-char-1', 
-'XML10-5ed-Included-char-1-new', 
-'XML11-1ed-Included-char-1', 
-'XML11-1ed-Included-char-1-new', 
-'line-ending-Q001', 
-'line-ending-Q002', 
-'line-ending-Q003', 
-'line-ending-Q004', 
-'line-ending-Q005', 
-'line-ending-Q006', 
-'line-ending-Q007', 
-'line-ending-Q008', 
-'line-ending-Q009', 
-'line-ending-P002', 
-'XML11-c0-001'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'XML10-3ed-Mixed-content', 
+    'XML10-4ed-Excluded-char-1', 
+    'XML10-4ed-Excluded-char-1-new', 
+    'XML10-4ed-Excluded-char-2', 
+    'XML10-5ed-Included-char-1', 
+    'XML10-5ed-Included-char-1-new', 
+    'XML11-1ed-Included-char-1', 
+    'XML11-1ed-Included-char-1-new', 
+    'line-ending-Q001', 
+    'line-ending-Q002', 
+    'line-ending-Q003', 
+    'line-ending-Q004', 
+    'line-ending-Q005', 
+    'line-ending-Q006', 
+    'line-ending-Q007', 
+    'line-ending-Q008', 
+    'line-ending-Q009', 
+    'line-ending-P002', 
+    'XML11-c0-001']}].
 
 'XML10-3ed-Mixed-content'(Config) ->
    __BaseDir = ?config(base_dir, Config),

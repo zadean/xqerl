@@ -1,8 +1,11 @@
 -module('map_remove_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-remove-001'/1]).
 -export(['map-remove-002'/1]).
@@ -22,7 +25,10 @@
 -export(['map-remove-017'/1]).
 -export(['map-remove-018'/1]).
 -export(['map-remove-019'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -33,25 +39,28 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-remove-001', 
-'map-remove-002', 
-'map-remove-003', 
-'map-remove-005', 
-'map-remove-006', 
-'map-remove-007', 
-'map-remove-008', 
-'map-remove-009', 
-'map-remove-010', 
-'map-remove-011', 
-'map-remove-012', 
-'map-remove-013', 
-'map-remove-014', 
-'map-remove-015', 
-'map-remove-016', 
-'map-remove-017', 
-'map-remove-018', 
-'map-remove-019'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-remove-001', 
+    'map-remove-002', 
+    'map-remove-003', 
+    'map-remove-005', 
+    'map-remove-006', 
+    'map-remove-007', 
+    'map-remove-008', 
+    'map-remove-009', 
+    'map-remove-010', 
+    'map-remove-011', 
+    'map-remove-012', 
+    'map-remove-013', 
+    'map-remove-014', 
+    'map-remove-015', 
+    'map-remove-016', 
+    'map-remove-017', 
+    'map-remove-018', 
+    'map-remove-019']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

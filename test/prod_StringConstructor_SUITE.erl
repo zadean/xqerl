@@ -1,8 +1,11 @@
 -module('prod_StringConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['string-constructor-001'/1]).
 -export(['string-constructor-002'/1]).
@@ -48,7 +51,10 @@
 -export(['string-constructor-916'/1]).
 -export(['string-constructor-917'/1]).
 -export(['string-constructor-918'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'string-constructor-001', 
-'string-constructor-002', 
-'string-constructor-003', 
-'string-constructor-004', 
-'string-constructor-005', 
-'string-constructor-006', 
-'string-constructor-007', 
-'string-constructor-008', 
-'string-constructor-009', 
-'string-constructor-010', 
-'string-constructor-011', 
-'string-constructor-012', 
-'string-constructor-013', 
-'string-constructor-014', 
-'string-constructor-015', 
-'string-constructor-016', 
-'string-constructor-017', 
-'string-constructor-018', 
-'string-constructor-019', 
-'string-constructor-020', 
-'string-constructor-021', 
-'string-constructor-022', 
-'string-constructor-023', 
-'string-constructor-024', 
-'string-constructor-025', 
-'string-constructor-026', 
-'string-constructor-901', 
-'string-constructor-902', 
-'string-constructor-903', 
-'string-constructor-904', 
-'string-constructor-905', 
-'string-constructor-906', 
-'string-constructor-907', 
-'string-constructor-908', 
-'string-constructor-909', 
-'string-constructor-910', 
-'string-constructor-911', 
-'string-constructor-912', 
-'string-constructor-913', 
-'string-constructor-914', 
-'string-constructor-915', 
-'string-constructor-916', 
-'string-constructor-917', 
-'string-constructor-918'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'string-constructor-001', 
+    'string-constructor-002', 
+    'string-constructor-003', 
+    'string-constructor-004', 
+    'string-constructor-005', 
+    'string-constructor-006', 
+    'string-constructor-007', 
+    'string-constructor-008', 
+    'string-constructor-009', 
+    'string-constructor-010', 
+    'string-constructor-011', 
+    'string-constructor-012', 
+    'string-constructor-013', 
+    'string-constructor-014', 
+    'string-constructor-015', 
+    'string-constructor-016', 
+    'string-constructor-017', 
+    'string-constructor-018', 
+    'string-constructor-019', 
+    'string-constructor-020', 
+    'string-constructor-021', 
+    'string-constructor-022', 
+    'string-constructor-023']}, 
+   {group_1, [parallel], [
+    'string-constructor-024', 
+    'string-constructor-025', 
+    'string-constructor-026', 
+    'string-constructor-901', 
+    'string-constructor-902', 
+    'string-constructor-903', 
+    'string-constructor-904', 
+    'string-constructor-905', 
+    'string-constructor-906', 
+    'string-constructor-907', 
+    'string-constructor-908', 
+    'string-constructor-909', 
+    'string-constructor-910', 
+    'string-constructor-911', 
+    'string-constructor-912', 
+    'string-constructor-913', 
+    'string-constructor-914', 
+    'string-constructor-915', 
+    'string-constructor-916', 
+    'string-constructor-917', 
+    'string-constructor-918']}].
 
 'string-constructor-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

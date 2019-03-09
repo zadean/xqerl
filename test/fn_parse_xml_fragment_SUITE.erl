@@ -1,8 +1,11 @@
 -module('fn_parse_xml_fragment_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['parse-xml-fragment-001'/1]).
 -export(['parse-xml-fragment-002'/1]).
@@ -28,7 +31,10 @@
 -export(['parse-xml-fragment-022'/1]).
 -export(['parse-xml-fragment-022-st'/1]).
 -export(['parse-xml-fragment-023'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -39,31 +45,36 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'parse-xml-fragment-001', 
-'parse-xml-fragment-002', 
-'parse-xml-fragment-003', 
-'parse-xml-fragment-004', 
-'parse-xml-fragment-005', 
-'parse-xml-fragment-006', 
-'parse-xml-fragment-007', 
-'parse-xml-fragment-008', 
-'parse-xml-fragment-009', 
-'parse-xml-fragment-010', 
-'parse-xml-fragment-011', 
-'parse-xml-fragment-012', 
-'parse-xml-fragment-013', 
-'parse-xml-fragment-014', 
-'parse-xml-fragment-015', 
-'parse-xml-fragment-016', 
-'parse-xml-fragment-017', 
-'parse-xml-fragment-018', 
-'parse-xml-fragment-019', 
-'parse-xml-fragment-020', 
-'parse-xml-fragment-021', 
-'parse-xml-fragment-022', 
-'parse-xml-fragment-022-st', 
-'parse-xml-fragment-023'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'parse-xml-fragment-001', 
+    'parse-xml-fragment-002', 
+    'parse-xml-fragment-003', 
+    'parse-xml-fragment-004', 
+    'parse-xml-fragment-005', 
+    'parse-xml-fragment-006', 
+    'parse-xml-fragment-007', 
+    'parse-xml-fragment-008', 
+    'parse-xml-fragment-009', 
+    'parse-xml-fragment-010', 
+    'parse-xml-fragment-011', 
+    'parse-xml-fragment-012', 
+    'parse-xml-fragment-013', 
+    'parse-xml-fragment-014', 
+    'parse-xml-fragment-015', 
+    'parse-xml-fragment-016', 
+    'parse-xml-fragment-017', 
+    'parse-xml-fragment-018', 
+    'parse-xml-fragment-019', 
+    'parse-xml-fragment-020', 
+    'parse-xml-fragment-021', 
+    'parse-xml-fragment-022', 
+    'parse-xml-fragment-022-st']}, 
+   {group_1, [parallel], [
+    'parse-xml-fragment-023']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

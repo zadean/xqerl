@@ -1,8 +1,11 @@
 -module('op_subtract_times_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-subtract-times2args-1'/1]).
 -export(['op-subtract-times2args-2'/1]).
@@ -37,7 +40,10 @@
 -export(['cbcl-subtract-times-002'/1]).
 -export(['cbcl-subtract-times-003'/1]).
 -export(['cbcl-subtract-times-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -48,40 +54,45 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-subtract-times2args-1', 
-'op-subtract-times2args-2', 
-'op-subtract-times2args-3', 
-'op-subtract-times2args-4', 
-'op-subtract-times2args-5', 
-'op-subtract-times-1', 
-'op-subtract-times-2', 
-'op-subtract-times-3', 
-'op-subtract-times-4', 
-'op-subtract-times-5', 
-'op-subtract-times-6', 
-'op-subtract-times-7', 
-'op-subtract-times-8', 
-'op-subtract-times-9', 
-'op-subtract-times-10', 
-'op-subtract-times-11', 
-'op-subtract-times-12', 
-'op-subtract-times-13', 
-'op-subtract-times-14', 
-'op-subtract-times-15', 
-'op-subtract-times-16', 
-'K-TimeSubtract-1', 
-'K-TimeSubtract-2', 
-'K-TimeSubtract-3', 
-'K-TimeSubtract-4', 
-'K-TimeSubtract-5', 
-'K-TimeSubtract-6', 
-'K-TimeSubtract-7', 
-'K-TimeSubtract-8', 
-'cbcl-subtract-times-001', 
-'cbcl-subtract-times-002', 
-'cbcl-subtract-times-003', 
-'cbcl-subtract-times-004'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-subtract-times2args-1', 
+    'op-subtract-times2args-2', 
+    'op-subtract-times2args-3', 
+    'op-subtract-times2args-4', 
+    'op-subtract-times2args-5', 
+    'op-subtract-times-1', 
+    'op-subtract-times-2', 
+    'op-subtract-times-3', 
+    'op-subtract-times-4', 
+    'op-subtract-times-5', 
+    'op-subtract-times-6', 
+    'op-subtract-times-7', 
+    'op-subtract-times-8', 
+    'op-subtract-times-9', 
+    'op-subtract-times-10', 
+    'op-subtract-times-11', 
+    'op-subtract-times-12', 
+    'op-subtract-times-13', 
+    'op-subtract-times-14', 
+    'op-subtract-times-15', 
+    'op-subtract-times-16', 
+    'K-TimeSubtract-1', 
+    'K-TimeSubtract-2']}, 
+   {group_1, [parallel], [
+    'K-TimeSubtract-3', 
+    'K-TimeSubtract-4', 
+    'K-TimeSubtract-5', 
+    'K-TimeSubtract-6', 
+    'K-TimeSubtract-7', 
+    'K-TimeSubtract-8', 
+    'cbcl-subtract-times-001', 
+    'cbcl-subtract-times-002', 
+    'cbcl-subtract-times-003', 
+    'cbcl-subtract-times-004']}].
 
 'op-subtract-times2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

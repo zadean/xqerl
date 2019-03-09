@@ -1,8 +1,11 @@
 -module('prod_CompCommentConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Constr-compcomment-enclexpr-1'/1]).
 -export(['Constr-compcomment-enclexpr-2'/1]).
@@ -33,7 +36,10 @@
 -export(['K2-ComputeConComment-5'/1]).
 -export(['cbcl-constr-compcomment-001'/1]).
 -export(['cbcl-constr-compcomment-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Constr-compcomment-enclexpr-1', 
-'Constr-compcomment-enclexpr-2', 
-'Constr-compcomment-enclexpr-3', 
-'Constr-compcomment-enclexpr-4', 
-'Constr-compcomment-enclexpr-5', 
-'Constr-compcomment-doc-1', 
-'Constr-compcomment-parent-1', 
-'Constr-compcomment-string-1', 
-'Constr-compcomment-data-1', 
-'Constr-compcomment-nested-1', 
-'Constr-compcomment-nested-2', 
-'Constr-compcomment-nested-3', 
-'Constr-compcomment-dash-1', 
-'Constr-compcomment-dash-2', 
-'Constr-compcomment-dash-3', 
-'Constr-compcomment-dash-4', 
-'Constr-compcomment-doubledash-1', 
-'Constr-compcomment-doubledash-2', 
-'Constr-compcomment-doubledash-3', 
-'Constr-compcomment-doubledash-4', 
-'Constr-compcomment-doubledash-5', 
-'K2-ComputeConComment-1', 
-'K2-ComputeConComment-2', 
-'K2-ComputeConComment-3', 
-'K2-ComputeConComment-4', 
-'K2-ComputeConComment-4a', 
-'K2-ComputeConComment-5', 
-'cbcl-constr-compcomment-001', 
-'cbcl-constr-compcomment-002'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Constr-compcomment-enclexpr-1', 
+    'Constr-compcomment-enclexpr-2', 
+    'Constr-compcomment-enclexpr-3', 
+    'Constr-compcomment-enclexpr-4', 
+    'Constr-compcomment-enclexpr-5', 
+    'Constr-compcomment-doc-1', 
+    'Constr-compcomment-parent-1', 
+    'Constr-compcomment-string-1', 
+    'Constr-compcomment-data-1', 
+    'Constr-compcomment-nested-1', 
+    'Constr-compcomment-nested-2', 
+    'Constr-compcomment-nested-3', 
+    'Constr-compcomment-dash-1', 
+    'Constr-compcomment-dash-2', 
+    'Constr-compcomment-dash-3', 
+    'Constr-compcomment-dash-4', 
+    'Constr-compcomment-doubledash-1', 
+    'Constr-compcomment-doubledash-2', 
+    'Constr-compcomment-doubledash-3', 
+    'Constr-compcomment-doubledash-4', 
+    'Constr-compcomment-doubledash-5', 
+    'K2-ComputeConComment-1', 
+    'K2-ComputeConComment-2']}, 
+   {group_1, [parallel], [
+    'K2-ComputeConComment-3', 
+    'K2-ComputeConComment-4', 
+    'K2-ComputeConComment-4a', 
+    'K2-ComputeConComment-5', 
+    'cbcl-constr-compcomment-001', 
+    'cbcl-constr-compcomment-002']}].
 environment('DupNode',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "CompAttrConstructor/DupNode.xml"), ".",[]}]}, 

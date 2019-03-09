@@ -1,8 +1,11 @@
 -module('fn_head_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['head-001'/1]).
 -export(['head-002'/1]).
@@ -12,7 +15,10 @@
 -export(['head-006'/1]).
 -export(['head-007'/1]).
 -export(['head-008'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -23,15 +29,18 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'head-001', 
-'head-002', 
-'head-003', 
-'head-004', 
-'head-005', 
-'head-006', 
-'head-007', 
-'head-008'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'head-001', 
+    'head-002', 
+    'head-003', 
+    'head-004', 
+    'head-005', 
+    'head-006', 
+    'head-007', 
+    'head-008']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

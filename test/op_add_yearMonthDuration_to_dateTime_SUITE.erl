@@ -1,8 +1,11 @@
 -module('op_add_yearMonthDuration_to_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-add-yearMonthDuration-to-dateTime2args-1'/1]).
 -export(['op-add-yearMonthDuration-to-dateTime2args-2'/1]).
@@ -33,7 +36,10 @@
 -export(['cbcl-add-yearMonthDuration-to-dateTime-001'/1]).
 -export(['cbcl-add-yearMonthDuration-to-dateTime-002'/1]).
 -export(['cbcl-add-yearMonthDuration-to-dateTime-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-add-yearMonthDuration-to-dateTime2args-1', 
-'op-add-yearMonthDuration-to-dateTime2args-2', 
-'op-add-yearMonthDuration-to-dateTime2args-3', 
-'op-add-yearMonthDuration-to-dateTime2args-4', 
-'op-add-yearMonthDuration-to-dateTime2args-5', 
-'op-add-yearMonthDuration-to-dateTime-1', 
-'op-add-yearMonthDuration-to-dateTime-2', 
-'op-add-yearMonthDuration-to-dateTime-3', 
-'op-add-yearMonthDuration-to-dateTime-4', 
-'op-add-yearMonthDuration-to-dateTimealt-5', 
-'op-add-yearMonthDuration-to-dateTime-6', 
-'op-add-yearMonthDuration-to-dateTime-7', 
-'op-add-yearMonthDuration-to-dateTime-8', 
-'op-add-yearMonthDuration-to-dateTime-9', 
-'op-add-yearMonthDuration-to-dateTime-10', 
-'op-add-yearMonthDuration-to-dateTime-12', 
-'op-add-yearMonthDuration-to-dateTime-13', 
-'op-add-yearMonthDuration-to-dateTime-14', 
-'op-add-yearMonthDuration-to-dateTime-15', 
-'op-add-yearMonthDuration-to-dateTime-16', 
-'K-YearMonthDurationAddDT-1', 
-'K-YearMonthDurationAddDT-2', 
-'K-YearMonthDurationAddDT-3', 
-'K-YearMonthDurationAddDT-4', 
-'K-YearMonthDurationAddDT-5', 
-'K-YearMonthDurationAddDT-6', 
-'cbcl-add-yearMonthDuration-to-dateTime-001', 
-'cbcl-add-yearMonthDuration-to-dateTime-002', 
-'cbcl-add-yearMonthDuration-to-dateTime-003'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-add-yearMonthDuration-to-dateTime2args-1', 
+    'op-add-yearMonthDuration-to-dateTime2args-2', 
+    'op-add-yearMonthDuration-to-dateTime2args-3', 
+    'op-add-yearMonthDuration-to-dateTime2args-4', 
+    'op-add-yearMonthDuration-to-dateTime2args-5', 
+    'op-add-yearMonthDuration-to-dateTime-1', 
+    'op-add-yearMonthDuration-to-dateTime-2', 
+    'op-add-yearMonthDuration-to-dateTime-3', 
+    'op-add-yearMonthDuration-to-dateTime-4', 
+    'op-add-yearMonthDuration-to-dateTimealt-5', 
+    'op-add-yearMonthDuration-to-dateTime-6', 
+    'op-add-yearMonthDuration-to-dateTime-7', 
+    'op-add-yearMonthDuration-to-dateTime-8', 
+    'op-add-yearMonthDuration-to-dateTime-9', 
+    'op-add-yearMonthDuration-to-dateTime-10', 
+    'op-add-yearMonthDuration-to-dateTime-12', 
+    'op-add-yearMonthDuration-to-dateTime-13', 
+    'op-add-yearMonthDuration-to-dateTime-14', 
+    'op-add-yearMonthDuration-to-dateTime-15', 
+    'op-add-yearMonthDuration-to-dateTime-16', 
+    'K-YearMonthDurationAddDT-1', 
+    'K-YearMonthDurationAddDT-2', 
+    'K-YearMonthDurationAddDT-3']}, 
+   {group_1, [parallel], [
+    'K-YearMonthDurationAddDT-4', 
+    'K-YearMonthDurationAddDT-5', 
+    'K-YearMonthDurationAddDT-6', 
+    'cbcl-add-yearMonthDuration-to-dateTime-001', 
+    'cbcl-add-yearMonthDuration-to-dateTime-002', 
+    'cbcl-add-yearMonthDuration-to-dateTime-003']}].
 
 'op-add-yearMonthDuration-to-dateTime2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

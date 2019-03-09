@@ -1,8 +1,11 @@
 -module('prod_AxisStep_following_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['following-1'/1]).
 -export(['following-2'/1]).
@@ -29,7 +32,10 @@
 -export(['K2-followingAxis-2'/1]).
 -export(['K2-followingAxis-3'/1]).
 -export(['K2-followingAxis-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'following-1', 
-'following-2', 
-'following-3', 
-'following-4', 
-'following-5', 
-'following-6', 
-'following-7', 
-'following-8', 
-'following-9', 
-'following-10', 
-'following-11', 
-'following-12', 
-'following-13', 
-'following-14', 
-'following-15', 
-'following-16', 
-'following-17', 
-'following-18', 
-'following-19', 
-'following-20', 
-'following-21', 
-'K2-followingAxis-1', 
-'K2-followingAxis-2', 
-'K2-followingAxis-3', 
-'K2-followingAxis-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'following-1', 
+    'following-2', 
+    'following-3', 
+    'following-4', 
+    'following-5', 
+    'following-6', 
+    'following-7', 
+    'following-8', 
+    'following-9', 
+    'following-10', 
+    'following-11', 
+    'following-12', 
+    'following-13', 
+    'following-14', 
+    'following-15', 
+    'following-16', 
+    'following-17', 
+    'following-18', 
+    'following-19', 
+    'following-20', 
+    'following-21', 
+    'K2-followingAxis-1', 
+    'K2-followingAxis-2']}, 
+   {group_1, [parallel], [
+    'K2-followingAxis-3', 
+    'K2-followingAxis-4']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

@@ -1,8 +1,11 @@
 -module('prod_VersionDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['version_declaration-009'/1]).
 -export(['version_declaration-020'/1]).
@@ -54,7 +57,10 @@
 -export(['K2-VersionProlog-4'/1]).
 -export(['K2-VersionProlog-5'/1]).
 -export(['K2-VersionProlog-6'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -65,57 +71,64 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'version_declaration-009', 
-'version_declaration-020', 
-'K2-VersionProlog-3', 
-'K2-VersionProlog-3-v3', 
-'version_declaration-022-v1', 
-'version_declaration-022-v3', 
-'version_declaration-023-v1', 
-'K-VersionProlog-1', 
-'version_declaration-002', 
-'version_declaration-001', 
-'version_declaration-007', 
-'version_declaration-008', 
-'version_declaration-021', 
-'VersionDecl-v1-processor-and-v3-query', 
-'VersionDecl-v3-processor-and-v1-query', 
-'version_declaration-010', 
-'version_declaration-010-v3', 
-'K-VersionProlog-3', 
-'K-VersionProlog-3-v3', 
-'K-VersionProlog-4', 
-'K-VersionProlog-4-v3', 
-'K-VersionProlog-2', 
-'K-VersionProlog-2-v3', 
-'K-VersionProlog-2-v31', 
-'prolog-version-4', 
-'prolog-version-4-v3', 
-'prolog-version-4-v31', 
-'prolog-version-5', 
-'prolog-version-5-v3', 
-'prolog-version-5-v31', 
-'prolog-version-6', 
-'prolog-version-6-v3', 
-'prolog-version-6-v31', 
-'prolog-version-7', 
-'prolog-version-7-v3', 
-'prolog-version-7-v31', 
-'version_declaration-005', 
-'prolog-version-1', 
-'prolog-version-1-v3', 
-'prolog-version-3', 
-'prolog-version-3-v3', 
-'K-VersionProlog-5', 
-'K-VersionProlog-5-v3', 
-'version_declaration-023-v3', 
-'K2-VersionProlog-1', 
-'K2-VersionProlog-2', 
-'K2-VersionProlog-3-v4', 
-'K2-VersionProlog-4', 
-'K2-VersionProlog-5', 
-'K2-VersionProlog-6'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'version_declaration-009', 
+    'version_declaration-020', 
+    'K2-VersionProlog-3', 
+    'K2-VersionProlog-3-v3', 
+    'version_declaration-022-v1', 
+    'version_declaration-022-v3', 
+    'version_declaration-023-v1', 
+    'K-VersionProlog-1', 
+    'version_declaration-002', 
+    'version_declaration-001', 
+    'version_declaration-007', 
+    'version_declaration-008', 
+    'version_declaration-021', 
+    'VersionDecl-v1-processor-and-v3-query', 
+    'VersionDecl-v3-processor-and-v1-query', 
+    'version_declaration-010', 
+    'version_declaration-010-v3', 
+    'K-VersionProlog-3', 
+    'K-VersionProlog-3-v3', 
+    'K-VersionProlog-4', 
+    'K-VersionProlog-4-v3', 
+    'K-VersionProlog-2', 
+    'K-VersionProlog-2-v3']}, 
+   {group_1, [parallel], [
+    'K-VersionProlog-2-v31', 
+    'prolog-version-4', 
+    'prolog-version-4-v3', 
+    'prolog-version-4-v31', 
+    'prolog-version-5', 
+    'prolog-version-5-v3', 
+    'prolog-version-5-v31', 
+    'prolog-version-6', 
+    'prolog-version-6-v3', 
+    'prolog-version-6-v31', 
+    'prolog-version-7', 
+    'prolog-version-7-v3', 
+    'prolog-version-7-v31', 
+    'version_declaration-005', 
+    'prolog-version-1', 
+    'prolog-version-1-v3', 
+    'prolog-version-3', 
+    'prolog-version-3-v3', 
+    'K-VersionProlog-5', 
+    'K-VersionProlog-5-v3', 
+    'version_declaration-023-v3', 
+    'K2-VersionProlog-1', 
+    'K2-VersionProlog-2', 
+    'K2-VersionProlog-3-v4']}, 
+   {group_2, [parallel], [
+    'K2-VersionProlog-4', 
+    'K2-VersionProlog-5', 
+    'K2-VersionProlog-6']}].
 environment('bib2',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../op/union/bib2.xml"), ".",[]}]}, 

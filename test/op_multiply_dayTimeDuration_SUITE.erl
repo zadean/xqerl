@@ -1,8 +1,11 @@
 -module('op_multiply_dayTimeDuration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-multiply-dayTimeDuration2args-1'/1]).
 -export(['op-multiply-dayTimeDuration2args-2'/1]).
@@ -50,7 +53,10 @@
 -export(['cbcl-times-006'/1]).
 -export(['cbcl-times-007'/1]).
 -export(['cbcl-times-008'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -61,53 +67,58 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-multiply-dayTimeDuration2args-1', 
-'op-multiply-dayTimeDuration2args-2', 
-'op-multiply-dayTimeDuration2args-3', 
-'op-multiply-dayTimeDuration2args-4', 
-'op-multiply-dayTimeDuration2args-5', 
-'op-multiply-dayTimeDuration-1', 
-'op-multiply-dayTimeDuration-2', 
-'op-multiply-dayTimeDuration-3', 
-'op-multiply-dayTimeDuration-4', 
-'op-multiply-dayTimeDuration-5', 
-'op-multiply-dayTimeDuration-6', 
-'op-multiply-dayTimeDuration-7', 
-'op-multiply-dayTimeDuration-8', 
-'op-multiply-dayTimeDuration-9', 
-'op-multiply-dayTimeDuration-10', 
-'op-multiply-dayTimeDuration-11', 
-'op-multiply-dayTimeDuration-12', 
-'op-multiply-dayTimeDuration-13', 
-'op-multiply-dayTimeDuration-14', 
-'op-multiply-dayTimeDuration-15', 
-'op-multiply-dayTimeDuration-16', 
-'op-multiply-dayTimeDuration-17', 
-'op-multiply-dayTimeDuration-18', 
-'K-DayTimeDurationMultiply-1', 
-'K-DayTimeDurationMultiply-2', 
-'K-DayTimeDurationMultiply-3', 
-'K-DayTimeDurationMultiply-4', 
-'K-DayTimeDurationMultiply-5', 
-'K-DayTimeDurationMultiply-6', 
-'K-DayTimeDurationMultiply-7', 
-'K-DayTimeDurationMultiply-8', 
-'K-DayTimeDurationMultiply-9', 
-'cbcl-multiply-dayTimeDuration-001', 
-'cbcl-multiply-dayTimeDuration-002', 
-'cbcl-multiply-dayTimeDuration-003', 
-'cbcl-multiply-dayTimeDuration-004', 
-'cbcl-multiply-dayTimeDuration-005', 
-'cbcl-multiply-dayTimeDuration-006', 
-'cbcl-times-001', 
-'cbcl-times-002', 
-'cbcl-times-003', 
-'cbcl-times-004', 
-'cbcl-times-005', 
-'cbcl-times-006', 
-'cbcl-times-007', 
-'cbcl-times-008'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-multiply-dayTimeDuration2args-1', 
+    'op-multiply-dayTimeDuration2args-2', 
+    'op-multiply-dayTimeDuration2args-3', 
+    'op-multiply-dayTimeDuration2args-4', 
+    'op-multiply-dayTimeDuration2args-5', 
+    'op-multiply-dayTimeDuration-1', 
+    'op-multiply-dayTimeDuration-2', 
+    'op-multiply-dayTimeDuration-3', 
+    'op-multiply-dayTimeDuration-4', 
+    'op-multiply-dayTimeDuration-5', 
+    'op-multiply-dayTimeDuration-6', 
+    'op-multiply-dayTimeDuration-7', 
+    'op-multiply-dayTimeDuration-8', 
+    'op-multiply-dayTimeDuration-9', 
+    'op-multiply-dayTimeDuration-10', 
+    'op-multiply-dayTimeDuration-11', 
+    'op-multiply-dayTimeDuration-12', 
+    'op-multiply-dayTimeDuration-13', 
+    'op-multiply-dayTimeDuration-14', 
+    'op-multiply-dayTimeDuration-15', 
+    'op-multiply-dayTimeDuration-16', 
+    'op-multiply-dayTimeDuration-17', 
+    'op-multiply-dayTimeDuration-18']}, 
+   {group_1, [parallel], [
+    'K-DayTimeDurationMultiply-1', 
+    'K-DayTimeDurationMultiply-2', 
+    'K-DayTimeDurationMultiply-3', 
+    'K-DayTimeDurationMultiply-4', 
+    'K-DayTimeDurationMultiply-5', 
+    'K-DayTimeDurationMultiply-6', 
+    'K-DayTimeDurationMultiply-7', 
+    'K-DayTimeDurationMultiply-8', 
+    'K-DayTimeDurationMultiply-9', 
+    'cbcl-multiply-dayTimeDuration-001', 
+    'cbcl-multiply-dayTimeDuration-002', 
+    'cbcl-multiply-dayTimeDuration-003', 
+    'cbcl-multiply-dayTimeDuration-004', 
+    'cbcl-multiply-dayTimeDuration-005', 
+    'cbcl-multiply-dayTimeDuration-006', 
+    'cbcl-times-001', 
+    'cbcl-times-002', 
+    'cbcl-times-003', 
+    'cbcl-times-004', 
+    'cbcl-times-005', 
+    'cbcl-times-006', 
+    'cbcl-times-007', 
+    'cbcl-times-008']}].
 
 'op-multiply-dayTimeDuration2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

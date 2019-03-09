@@ -1,8 +1,11 @@
 -module('prod_ArrowPostfix_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['ArrowPostfix-001'/1]).
 -export(['ArrowPostfix-002'/1]).
@@ -43,7 +46,10 @@
 -export(['ArrowPostfix-105'/1]).
 -export(['ArrowPostfix-106'/1]).
 -export(['ArrowPostfix-107'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -54,46 +60,51 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'ArrowPostfix-001', 
-'ArrowPostfix-002', 
-'ArrowPostfix-003', 
-'ArrowPostfix-004', 
-'ArrowPostfix-005', 
-'ArrowPostfix-006', 
-'ArrowPostfix-007', 
-'ArrowPostfix-008', 
-'ArrowPostfix-009', 
-'ArrowPostfix-010', 
-'ArrowPostfix-011', 
-'ArrowPostfix-012', 
-'ArrowPostfix-013', 
-'ArrowPostfix-014', 
-'ArrowPostfix-015', 
-'ArrowPostfix-016', 
-'ArrowPostfix-017', 
-'ArrowPostfix-018', 
-'ArrowPostfix-019', 
-'ArrowPostfix-020', 
-'ArrowPostfix-021', 
-'ArrowPostfix-022', 
-'ArrowPostfix-023', 
-'ArrowPostfix-024', 
-'ArrowPostfix-025', 
-'ArrowPostfix-026', 
-'ArrowPostfix-027', 
-'ArrowPostfix-028', 
-'ArrowPostfix-029', 
-'ArrowPostfix-030', 
-'ArrowPostfix-031', 
-'ArrowPostfix-032', 
-'ArrowPostfix-101', 
-'ArrowPostfix-102', 
-'ArrowPostfix-103', 
-'ArrowPostfix-104', 
-'ArrowPostfix-105', 
-'ArrowPostfix-106', 
-'ArrowPostfix-107'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'ArrowPostfix-001', 
+    'ArrowPostfix-002', 
+    'ArrowPostfix-003', 
+    'ArrowPostfix-004', 
+    'ArrowPostfix-005', 
+    'ArrowPostfix-006', 
+    'ArrowPostfix-007', 
+    'ArrowPostfix-008', 
+    'ArrowPostfix-009', 
+    'ArrowPostfix-010', 
+    'ArrowPostfix-011', 
+    'ArrowPostfix-012', 
+    'ArrowPostfix-013', 
+    'ArrowPostfix-014', 
+    'ArrowPostfix-015', 
+    'ArrowPostfix-016', 
+    'ArrowPostfix-017', 
+    'ArrowPostfix-018', 
+    'ArrowPostfix-019', 
+    'ArrowPostfix-020', 
+    'ArrowPostfix-021', 
+    'ArrowPostfix-022', 
+    'ArrowPostfix-023']}, 
+   {group_1, [parallel], [
+    'ArrowPostfix-024', 
+    'ArrowPostfix-025', 
+    'ArrowPostfix-026', 
+    'ArrowPostfix-027', 
+    'ArrowPostfix-028', 
+    'ArrowPostfix-029', 
+    'ArrowPostfix-030', 
+    'ArrowPostfix-031', 
+    'ArrowPostfix-032', 
+    'ArrowPostfix-101', 
+    'ArrowPostfix-102', 
+    'ArrowPostfix-103', 
+    'ArrowPostfix-104', 
+    'ArrowPostfix-105', 
+    'ArrowPostfix-106', 
+    'ArrowPostfix-107']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

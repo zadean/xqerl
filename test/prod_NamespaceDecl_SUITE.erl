@@ -1,8 +1,11 @@
 -module('prod_NamespaceDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['namespaceDecl-1'/1]).
 -export(['namespaceDecl-2'/1]).
@@ -48,7 +51,10 @@
 -export(['K2-NamespaceProlog-15'/1]).
 -export(['K2-NamespaceProlog-16'/1]).
 -export(['cbcl-declare-namespace-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'namespaceDecl-1', 
-'namespaceDecl-2', 
-'namespaceDecl-3', 
-'namespaceDecl-4', 
-'namespaceDecl-5', 
-'namespaceDecl-6', 
-'namespaceDecl-7', 
-'namespaceDecl-8', 
-'namespaceDecl-9', 
-'namespaceDecl-10', 
-'namespaceDecl-11', 
-'namespaceDecl-12', 
-'namespaceDecl-13', 
-'namespaceDecl-14', 
-'namespaceDecl-15', 
-'namespaceDecl-16', 
-'namespaceDecl-17', 
-'namespaceDecl-18', 
-'namespaceDecl-19', 
-'namespaceDecl-20', 
-'namespaceDecl-21', 
-'namespaceDecl-22', 
-'namespaceDecl-23', 
-'namespaceDecl-24', 
-'K-NamespaceProlog-1', 
-'K-NamespaceProlog-2', 
-'K-NamespaceProlog-3', 
-'K2-NamespaceProlog-1', 
-'K2-NamespaceProlog-2', 
-'K2-NamespaceProlog-3', 
-'K2-NamespaceProlog-4', 
-'K2-NamespaceProlog-5', 
-'K2-NamespaceProlog-6', 
-'K2-NamespaceProlog-7', 
-'K2-NamespaceProlog-8', 
-'K2-NamespaceProlog-9', 
-'K2-NamespaceProlog-10', 
-'K2-NamespaceProlog-11', 
-'K2-NamespaceProlog-12', 
-'K2-NamespaceProlog-13', 
-'K2-NamespaceProlog-14', 
-'K2-NamespaceProlog-15', 
-'K2-NamespaceProlog-16', 
-'cbcl-declare-namespace-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'namespaceDecl-1', 
+    'namespaceDecl-2', 
+    'namespaceDecl-3', 
+    'namespaceDecl-4', 
+    'namespaceDecl-5', 
+    'namespaceDecl-6', 
+    'namespaceDecl-7', 
+    'namespaceDecl-8', 
+    'namespaceDecl-9', 
+    'namespaceDecl-10', 
+    'namespaceDecl-11', 
+    'namespaceDecl-12', 
+    'namespaceDecl-13', 
+    'namespaceDecl-14', 
+    'namespaceDecl-15', 
+    'namespaceDecl-16', 
+    'namespaceDecl-17', 
+    'namespaceDecl-18', 
+    'namespaceDecl-19', 
+    'namespaceDecl-20', 
+    'namespaceDecl-21', 
+    'namespaceDecl-22', 
+    'namespaceDecl-23']}, 
+   {group_1, [parallel], [
+    'namespaceDecl-24', 
+    'K-NamespaceProlog-1', 
+    'K-NamespaceProlog-2', 
+    'K-NamespaceProlog-3', 
+    'K2-NamespaceProlog-1', 
+    'K2-NamespaceProlog-2', 
+    'K2-NamespaceProlog-3', 
+    'K2-NamespaceProlog-4', 
+    'K2-NamespaceProlog-5', 
+    'K2-NamespaceProlog-6', 
+    'K2-NamespaceProlog-7', 
+    'K2-NamespaceProlog-8', 
+    'K2-NamespaceProlog-9', 
+    'K2-NamespaceProlog-10', 
+    'K2-NamespaceProlog-11', 
+    'K2-NamespaceProlog-12', 
+    'K2-NamespaceProlog-13', 
+    'K2-NamespaceProlog-14', 
+    'K2-NamespaceProlog-15', 
+    'K2-NamespaceProlog-16', 
+    'cbcl-declare-namespace-001']}].
 
 'namespaceDecl-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

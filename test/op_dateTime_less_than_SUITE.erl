@@ -1,8 +1,11 @@
 -module('op_dateTime_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-dateTime-less-than2args-1'/1]).
 -export(['op-dateTime-less-than2args-2'/1]).
@@ -48,7 +51,10 @@
 -export(['cbcl-dateTime-less-than-014'/1]).
 -export(['cbcl-dateTime-less-than-015'/1]).
 -export(['cbcl-dateTime-less-than-016'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-dateTime-less-than2args-1', 
-'op-dateTime-less-than2args-2', 
-'op-dateTime-less-than2args-3', 
-'op-dateTime-less-than2args-4', 
-'op-dateTime-less-than2args-5', 
-'op-dateTime-less-than2args-6', 
-'op-dateTime-less-than2args-7', 
-'op-dateTime-less-than2args-8', 
-'op-dateTime-less-than2args-9', 
-'op-dateTime-less-than2args-10', 
-'op-dateTime-less-than-3', 
-'op-dateTime-less-than-4', 
-'op-dateTime-less-than-5', 
-'op-dateTime-less-than-6', 
-'op-dateTime-less-than-7', 
-'op-dateTime-less-than-8', 
-'op-dateTime-less-than-9', 
-'op-dateTime-less-than-10', 
-'op-dateTime-less-than-11', 
-'op-dateTime-less-than-12', 
-'op-dateTime-less-than-13', 
-'op-dateTime-less-than-14', 
-'K-DateTimeLT-1', 
-'K-DateTimeLT-2', 
-'K-DateTimeLT-3', 
-'K-DateTimeLT-4', 
-'K-DateTimeLT-5', 
-'K-DateTimeLT-6', 
-'cbcl-dateTime-less-than-001', 
-'cbcl-dateTime-less-than-002', 
-'cbcl-dateTime-less-than-003', 
-'cbcl-dateTime-less-than-004', 
-'cbcl-dateTime-less-than-005', 
-'cbcl-dateTime-less-than-006', 
-'cbcl-dateTime-less-than-007', 
-'cbcl-dateTime-less-than-008', 
-'cbcl-dateTime-less-than-009', 
-'cbcl-dateTime-less-than-010', 
-'cbcl-dateTime-less-than-011', 
-'cbcl-dateTime-less-than-012', 
-'cbcl-dateTime-less-than-013', 
-'cbcl-dateTime-less-than-014', 
-'cbcl-dateTime-less-than-015', 
-'cbcl-dateTime-less-than-016'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-dateTime-less-than2args-1', 
+    'op-dateTime-less-than2args-2', 
+    'op-dateTime-less-than2args-3', 
+    'op-dateTime-less-than2args-4', 
+    'op-dateTime-less-than2args-5', 
+    'op-dateTime-less-than2args-6', 
+    'op-dateTime-less-than2args-7', 
+    'op-dateTime-less-than2args-8', 
+    'op-dateTime-less-than2args-9', 
+    'op-dateTime-less-than2args-10', 
+    'op-dateTime-less-than-3', 
+    'op-dateTime-less-than-4', 
+    'op-dateTime-less-than-5', 
+    'op-dateTime-less-than-6', 
+    'op-dateTime-less-than-7', 
+    'op-dateTime-less-than-8', 
+    'op-dateTime-less-than-9', 
+    'op-dateTime-less-than-10', 
+    'op-dateTime-less-than-11', 
+    'op-dateTime-less-than-12', 
+    'op-dateTime-less-than-13', 
+    'op-dateTime-less-than-14', 
+    'K-DateTimeLT-1']}, 
+   {group_1, [parallel], [
+    'K-DateTimeLT-2', 
+    'K-DateTimeLT-3', 
+    'K-DateTimeLT-4', 
+    'K-DateTimeLT-5', 
+    'K-DateTimeLT-6', 
+    'cbcl-dateTime-less-than-001', 
+    'cbcl-dateTime-less-than-002', 
+    'cbcl-dateTime-less-than-003', 
+    'cbcl-dateTime-less-than-004', 
+    'cbcl-dateTime-less-than-005', 
+    'cbcl-dateTime-less-than-006', 
+    'cbcl-dateTime-less-than-007', 
+    'cbcl-dateTime-less-than-008', 
+    'cbcl-dateTime-less-than-009', 
+    'cbcl-dateTime-less-than-010', 
+    'cbcl-dateTime-less-than-011', 
+    'cbcl-dateTime-less-than-012', 
+    'cbcl-dateTime-less-than-013', 
+    'cbcl-dateTime-less-than-014', 
+    'cbcl-dateTime-less-than-015', 
+    'cbcl-dateTime-less-than-016']}].
 
 'op-dateTime-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

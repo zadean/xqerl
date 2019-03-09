@@ -1,8 +1,11 @@
 -module('op_base64Binary_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-base64Binary-equal2args-1'/1]).
 -export(['op-base64Binary-equal2args-2'/1]).
@@ -34,7 +37,10 @@
 -export(['cbcl-base64Binary-equal-001'/1]).
 -export(['cbcl-base64Binary-equal-002'/1]).
 -export(['cbcl-base64Binary-equal-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -45,37 +51,42 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-base64Binary-equal2args-1', 
-'op-base64Binary-equal2args-2', 
-'op-base64Binary-equal2args-3', 
-'op-base64Binary-equal2args-4', 
-'op-base64Binary-equal2args-5', 
-'op-base64Binary-equal2args-6', 
-'op-base64Binary-equal2args-7', 
-'op-base64Binary-equal2args-8', 
-'op-base64Binary-equal2args-9', 
-'op-base64Binary-equal2args-10', 
-'base64BinaryEqual-1', 
-'base64BinaryEqual-2', 
-'base64BinaryEqual-3', 
-'base64BinaryEqual-4', 
-'base64binaryequal-5', 
-'base64BinaryEqual-6', 
-'base64BinaryEqual-7', 
-'base64BinaryEqual-8', 
-'base64BinaryEqual-9', 
-'base64BinaryEqual-10', 
-'base64BinaryEqual-11', 
-'base64BinaryEqual-12', 
-'base64BinaryEqual-13', 
-'base64BinaryEqual-14', 
-'K-Base64BinaryEQ-1', 
-'K-Base64BinaryEQ-2', 
-'K-Base64BinaryEQ-3', 
-'cbcl-base64Binary-equal-001', 
-'cbcl-base64Binary-equal-002', 
-'cbcl-base64Binary-equal-003'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-base64Binary-equal2args-1', 
+    'op-base64Binary-equal2args-2', 
+    'op-base64Binary-equal2args-3', 
+    'op-base64Binary-equal2args-4', 
+    'op-base64Binary-equal2args-5', 
+    'op-base64Binary-equal2args-6', 
+    'op-base64Binary-equal2args-7', 
+    'op-base64Binary-equal2args-8', 
+    'op-base64Binary-equal2args-9', 
+    'op-base64Binary-equal2args-10', 
+    'base64BinaryEqual-1', 
+    'base64BinaryEqual-2', 
+    'base64BinaryEqual-3', 
+    'base64BinaryEqual-4', 
+    'base64binaryequal-5', 
+    'base64BinaryEqual-6', 
+    'base64BinaryEqual-7', 
+    'base64BinaryEqual-8', 
+    'base64BinaryEqual-9', 
+    'base64BinaryEqual-10', 
+    'base64BinaryEqual-11', 
+    'base64BinaryEqual-12', 
+    'base64BinaryEqual-13']}, 
+   {group_1, [parallel], [
+    'base64BinaryEqual-14', 
+    'K-Base64BinaryEQ-1', 
+    'K-Base64BinaryEQ-2', 
+    'K-Base64BinaryEQ-3', 
+    'cbcl-base64Binary-equal-001', 
+    'cbcl-base64Binary-equal-002', 
+    'cbcl-base64Binary-equal-003']}].
 
 'op-base64Binary-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('array_put_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-put-001'/1]).
 -export(['array-put-002'/1]).
@@ -17,7 +20,10 @@
 -export(['array-put-011'/1]).
 -export(['array-put-012'/1]).
 -export(['array-put-013'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -28,20 +34,23 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-put-001', 
-'array-put-002', 
-'array-put-003', 
-'array-put-004', 
-'array-put-005', 
-'array-put-006', 
-'array-put-007', 
-'array-put-008', 
-'array-put-009', 
-'array-put-010', 
-'array-put-011', 
-'array-put-012', 
-'array-put-013'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-put-001', 
+    'array-put-002', 
+    'array-put-003', 
+    'array-put-004', 
+    'array-put-005', 
+    'array-put-006', 
+    'array-put-007', 
+    'array-put-008', 
+    'array-put-009', 
+    'array-put-010', 
+    'array-put-011', 
+    'array-put-012', 
+    'array-put-013']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('op_hexBinary_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['hexBinary-gt-1'/1]).
 -export(['hexBinary-gt-2'/1]).
@@ -36,7 +39,10 @@
 -export(['hexBinary-gt-30'/1]).
 -export(['hexBinary-gt-31'/1]).
 -export(['hexBinary-gt-32'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -47,39 +53,44 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'hexBinary-gt-1', 
-'hexBinary-gt-2', 
-'hexBinary-gt-3', 
-'hexBinary-gt-4', 
-'hexBinary-gt-5', 
-'hexBinary-gt-6', 
-'hexBinary-gt-7', 
-'hexBinary-gt-8', 
-'hexBinary-gt-9', 
-'hexBinary-gt-10', 
-'hexBinary-gt-11', 
-'hexBinary-gt-12', 
-'hexBinary-gt-13', 
-'hexBinary-gt-14', 
-'hexBinary-gt-15', 
-'hexBinary-gt-16', 
-'hexBinary-gt-17', 
-'hexBinary-gt-18', 
-'hexBinary-gt-19', 
-'hexBinary-gt-20', 
-'hexBinary-gt-21', 
-'hexBinary-gt-22', 
-'hexBinary-gt-23', 
-'hexBinary-gt-24', 
-'hexBinary-gt-25', 
-'hexBinary-gt-26', 
-'hexBinary-ge-27', 
-'hexBinary-ge-28', 
-'hexBinary-ge-29', 
-'hexBinary-gt-30', 
-'hexBinary-gt-31', 
-'hexBinary-gt-32'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'hexBinary-gt-1', 
+    'hexBinary-gt-2', 
+    'hexBinary-gt-3', 
+    'hexBinary-gt-4', 
+    'hexBinary-gt-5', 
+    'hexBinary-gt-6', 
+    'hexBinary-gt-7', 
+    'hexBinary-gt-8', 
+    'hexBinary-gt-9', 
+    'hexBinary-gt-10', 
+    'hexBinary-gt-11', 
+    'hexBinary-gt-12', 
+    'hexBinary-gt-13', 
+    'hexBinary-gt-14', 
+    'hexBinary-gt-15', 
+    'hexBinary-gt-16', 
+    'hexBinary-gt-17', 
+    'hexBinary-gt-18', 
+    'hexBinary-gt-19', 
+    'hexBinary-gt-20', 
+    'hexBinary-gt-21', 
+    'hexBinary-gt-22', 
+    'hexBinary-gt-23']}, 
+   {group_1, [parallel], [
+    'hexBinary-gt-24', 
+    'hexBinary-gt-25', 
+    'hexBinary-gt-26', 
+    'hexBinary-ge-27', 
+    'hexBinary-ge-28', 
+    'hexBinary-ge-29', 
+    'hexBinary-gt-30', 
+    'hexBinary-gt-31', 
+    'hexBinary-gt-32']}].
 
 'hexBinary-gt-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

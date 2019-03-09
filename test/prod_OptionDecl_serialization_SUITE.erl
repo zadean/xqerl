@@ -1,8 +1,11 @@
 -module('prod_OptionDecl_serialization_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Serialization-001'/1]).
 -export(['Serialization-002'/1]).
@@ -43,7 +46,10 @@
 -export(['Serialization-035'/1]).
 -export(['Serialization-036'/1]).
 -export(['Serialization-037'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -54,46 +60,51 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Serialization-001', 
-'Serialization-002', 
-'Serialization-003', 
-'Serialization-004', 
-'Serialization-005', 
-'Serialization-006', 
-'Serialization-007', 
-'Serialization-008', 
-'Serialization-009', 
-'Serialization-010', 
-'Serialization-011', 
-'Serialization-012', 
-'Serialization-013', 
-'Serialization-014', 
-'Serialization-015', 
-'Serialization-016', 
-'Serialization-017', 
-'Serialization-018', 
-'Serialization-019', 
-'Serialization-020', 
-'Serialization-021', 
-'Serialization-022', 
-'Serialization-023', 
-'Serialization-024', 
-'Serialization-025', 
-'Serialization-026', 
-'Serialization-026a', 
-'Serialization-027', 
-'Serialization-027a', 
-'Serialization-028', 
-'Serialization-029', 
-'Serialization-030', 
-'Serialization-031', 
-'Serialization-032', 
-'Serialization-033', 
-'Serialization-034', 
-'Serialization-035', 
-'Serialization-036', 
-'Serialization-037'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Serialization-001', 
+    'Serialization-002', 
+    'Serialization-003', 
+    'Serialization-004', 
+    'Serialization-005', 
+    'Serialization-006', 
+    'Serialization-007', 
+    'Serialization-008', 
+    'Serialization-009', 
+    'Serialization-010', 
+    'Serialization-011', 
+    'Serialization-012', 
+    'Serialization-013', 
+    'Serialization-014', 
+    'Serialization-015', 
+    'Serialization-016', 
+    'Serialization-017', 
+    'Serialization-018', 
+    'Serialization-019', 
+    'Serialization-020', 
+    'Serialization-021', 
+    'Serialization-022', 
+    'Serialization-023']}, 
+   {group_1, [parallel], [
+    'Serialization-024', 
+    'Serialization-025', 
+    'Serialization-026', 
+    'Serialization-026a', 
+    'Serialization-027', 
+    'Serialization-027a', 
+    'Serialization-028', 
+    'Serialization-029', 
+    'Serialization-030', 
+    'Serialization-031', 
+    'Serialization-032', 
+    'Serialization-033', 
+    'Serialization-034', 
+    'Serialization-035', 
+    'Serialization-036', 
+    'Serialization-037']}].
 
 'Serialization-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

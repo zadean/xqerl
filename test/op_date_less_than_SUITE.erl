@@ -1,8 +1,11 @@
 -module('op_date_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-date-less-than2args-1'/1]).
 -export(['op-date-less-than2args-2'/1]).
@@ -52,7 +55,10 @@
 -export(['cbcl-date-less-than-014'/1]).
 -export(['cbcl-date-less-than-015'/1]).
 -export(['cbcl-date-less-than-016'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -63,55 +69,62 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-date-less-than2args-1', 
-'op-date-less-than2args-2', 
-'op-date-less-than2args-3', 
-'op-date-less-than2args-4', 
-'op-date-less-than2args-5', 
-'op-date-less-than2args-6', 
-'op-date-less-than2args-7', 
-'op-date-less-than2args-8', 
-'op-date-less-than2args-9', 
-'op-date-less-than2args-10', 
-'op-date-less-than-1', 
-'op-date-less-than-2', 
-'op-date-less-than-3', 
-'op-date-less-than-4', 
-'op-date-less-than-5', 
-'op-date-less-than-6', 
-'op-date-less-than-7', 
-'op-date-less-than-8', 
-'op-date-less-than-9', 
-'op-date-less-than-10', 
-'op-date-less-than-11', 
-'op-date-less-than-12', 
-'op-date-less-than-13', 
-'op-date-less-than-14', 
-'K-DateLT-1', 
-'K-DateLT-2', 
-'K-DateLT-3', 
-'K-DateLT-4', 
-'K-DateLT-5', 
-'K-DateLT-6', 
-'cbcl-date-ge-001', 
-'cbcl-date-lt-001', 
-'cbcl-date-less-than-001', 
-'cbcl-date-less-than-002', 
-'cbcl-date-less-than-003', 
-'cbcl-date-less-than-004', 
-'cbcl-date-less-than-005', 
-'cbcl-date-less-than-006', 
-'cbcl-date-less-than-007', 
-'cbcl-date-less-than-008', 
-'cbcl-date-less-than-009', 
-'cbcl-date-less-than-010', 
-'cbcl-date-less-than-011', 
-'cbcl-date-less-than-012', 
-'cbcl-date-less-than-013', 
-'cbcl-date-less-than-014', 
-'cbcl-date-less-than-015', 
-'cbcl-date-less-than-016'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-date-less-than2args-1', 
+    'op-date-less-than2args-2', 
+    'op-date-less-than2args-3', 
+    'op-date-less-than2args-4', 
+    'op-date-less-than2args-5', 
+    'op-date-less-than2args-6', 
+    'op-date-less-than2args-7', 
+    'op-date-less-than2args-8', 
+    'op-date-less-than2args-9', 
+    'op-date-less-than2args-10', 
+    'op-date-less-than-1', 
+    'op-date-less-than-2', 
+    'op-date-less-than-3', 
+    'op-date-less-than-4', 
+    'op-date-less-than-5', 
+    'op-date-less-than-6', 
+    'op-date-less-than-7', 
+    'op-date-less-than-8', 
+    'op-date-less-than-9', 
+    'op-date-less-than-10', 
+    'op-date-less-than-11', 
+    'op-date-less-than-12', 
+    'op-date-less-than-13']}, 
+   {group_1, [parallel], [
+    'op-date-less-than-14', 
+    'K-DateLT-1', 
+    'K-DateLT-2', 
+    'K-DateLT-3', 
+    'K-DateLT-4', 
+    'K-DateLT-5', 
+    'K-DateLT-6', 
+    'cbcl-date-ge-001', 
+    'cbcl-date-lt-001', 
+    'cbcl-date-less-than-001', 
+    'cbcl-date-less-than-002', 
+    'cbcl-date-less-than-003', 
+    'cbcl-date-less-than-004', 
+    'cbcl-date-less-than-005', 
+    'cbcl-date-less-than-006', 
+    'cbcl-date-less-than-007', 
+    'cbcl-date-less-than-008', 
+    'cbcl-date-less-than-009', 
+    'cbcl-date-less-than-010', 
+    'cbcl-date-less-than-011', 
+    'cbcl-date-less-than-012', 
+    'cbcl-date-less-than-013', 
+    'cbcl-date-less-than-014', 
+    'cbcl-date-less-than-015']}, 
+   {group_2, [parallel], [
+    'cbcl-date-less-than-016']}].
 
 'op-date-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

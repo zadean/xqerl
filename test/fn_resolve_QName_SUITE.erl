@@ -1,8 +1,11 @@
 -module('fn_resolve_QName_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-resolve-qname-1'/1]).
 -export(['fn-resolve-qname-2'/1]).
@@ -35,7 +38,10 @@
 -export(['K-ResolveQNameConstructFunc-3'/1]).
 -export(['K-ResolveQNameConstructFunc-4'/1]).
 -export(['cbcl-fn-resolve-qname-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -46,38 +52,43 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-resolve-qname-1', 
-'fn-resolve-qname-2', 
-'fn-resolve-qname-3', 
-'fn-resolve-qname-4', 
-'fn-resolve-qname-5', 
-'fn-resolve-qname-6', 
-'fn-resolve-qname-7', 
-'fn-resolve-qname-8', 
-'fn-resolve-qname-9', 
-'fn-resolve-qname-10', 
-'fn-resolve-qname-11', 
-'fn-resolve-qname-12', 
-'fn-resolve-qname-13', 
-'fn-resolve-qname-14', 
-'fn-resolve-qname-15', 
-'fn-resolve-qname-16', 
-'fn-resolve-qname-17', 
-'fn-resolve-qname-18', 
-'fn-resolve-qname-19', 
-'fn-resolve-qname-20', 
-'fn-resolve-qname-21', 
-'fn-resolve-qname-22', 
-'fn-resolve-qname-23', 
-'fn-resolve-qname-24', 
-'fn-resolve-qname-25', 
-'fn-resolve-qname-26', 
-'K-ResolveQNameConstructFunc-1', 
-'K-ResolveQNameConstructFunc-2', 
-'K-ResolveQNameConstructFunc-3', 
-'K-ResolveQNameConstructFunc-4', 
-'cbcl-fn-resolve-qname-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-resolve-qname-1', 
+    'fn-resolve-qname-2', 
+    'fn-resolve-qname-3', 
+    'fn-resolve-qname-4', 
+    'fn-resolve-qname-5', 
+    'fn-resolve-qname-6', 
+    'fn-resolve-qname-7', 
+    'fn-resolve-qname-8', 
+    'fn-resolve-qname-9', 
+    'fn-resolve-qname-10', 
+    'fn-resolve-qname-11', 
+    'fn-resolve-qname-12', 
+    'fn-resolve-qname-13', 
+    'fn-resolve-qname-14', 
+    'fn-resolve-qname-15', 
+    'fn-resolve-qname-16', 
+    'fn-resolve-qname-17', 
+    'fn-resolve-qname-18', 
+    'fn-resolve-qname-19', 
+    'fn-resolve-qname-20', 
+    'fn-resolve-qname-21', 
+    'fn-resolve-qname-22', 
+    'fn-resolve-qname-23']}, 
+   {group_1, [parallel], [
+    'fn-resolve-qname-24', 
+    'fn-resolve-qname-25', 
+    'fn-resolve-qname-26', 
+    'K-ResolveQNameConstructFunc-1', 
+    'K-ResolveQNameConstructFunc-2', 
+    'K-ResolveQNameConstructFunc-3', 
+    'K-ResolveQNameConstructFunc-4', 
+    'cbcl-fn-resolve-qname-001']}].
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 

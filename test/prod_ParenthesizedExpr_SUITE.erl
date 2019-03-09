@@ -1,8 +1,11 @@
 -module('prod_ParenthesizedExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Parenexpr-1'/1]).
 -export(['Parenexpr-2'/1]).
@@ -24,7 +27,10 @@
 -export(['Parenexpr-18'/1]).
 -export(['Parenexpr-19'/1]).
 -export(['Parenexpr-20'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -35,27 +41,30 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Parenexpr-1', 
-'Parenexpr-2', 
-'Parenexpr-3', 
-'Parenexpr-4', 
-'Parenexpr-5', 
-'Parenexpr-6', 
-'Parenexpr-7', 
-'Parenexpr-8', 
-'Parenexpr-9', 
-'Parenexpr-10', 
-'Parenexpr-11', 
-'Parenexpr-12', 
-'Parenexpr-13', 
-'Parenexpr-14', 
-'Parenexpr-15', 
-'Parenexpr-16', 
-'Parenexpr-17', 
-'Parenexpr-18', 
-'Parenexpr-19', 
-'Parenexpr-20'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Parenexpr-1', 
+    'Parenexpr-2', 
+    'Parenexpr-3', 
+    'Parenexpr-4', 
+    'Parenexpr-5', 
+    'Parenexpr-6', 
+    'Parenexpr-7', 
+    'Parenexpr-8', 
+    'Parenexpr-9', 
+    'Parenexpr-10', 
+    'Parenexpr-11', 
+    'Parenexpr-12', 
+    'Parenexpr-13', 
+    'Parenexpr-14', 
+    'Parenexpr-15', 
+    'Parenexpr-16', 
+    'Parenexpr-17', 
+    'Parenexpr-18', 
+    'Parenexpr-19', 
+    'Parenexpr-20']}].
 environment('Tree1Child',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "AxisStep/Tree1Child.xml"), ".",[]}]}, 

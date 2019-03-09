@@ -1,8 +1,11 @@
 -module('fn_collation_key_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['collation-key-001'/1]).
 -export(['collation-key-002'/1]).
@@ -32,7 +35,10 @@
 -export(['collation-key-205'/1]).
 -export(['collation-key-206'/1]).
 -export(['collation-key-901'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'collation-key-001', 
-'collation-key-002', 
-'collation-key-003', 
-'collation-key-004', 
-'collation-key-005', 
-'collation-key-006', 
-'collation-key-007', 
-'collation-key-008', 
-'collation-key-009u', 
-'collation-key-009l', 
-'collation-key-010', 
-'collation-key-011', 
-'collation-key-012', 
-'collation-key-013', 
-'collation-key-014', 
-'collation-key-015', 
-'collation-key-101', 
-'collation-key-102', 
-'collation-key-103', 
-'collation-key-104', 
-'collation-key-105', 
-'collation-key-201', 
-'collation-key-202', 
-'collation-key-203', 
-'collation-key-204', 
-'collation-key-205', 
-'collation-key-206', 
-'collation-key-901'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'collation-key-001', 
+    'collation-key-002', 
+    'collation-key-003', 
+    'collation-key-004', 
+    'collation-key-005', 
+    'collation-key-006', 
+    'collation-key-007', 
+    'collation-key-008', 
+    'collation-key-009u', 
+    'collation-key-009l', 
+    'collation-key-010', 
+    'collation-key-011', 
+    'collation-key-012', 
+    'collation-key-013', 
+    'collation-key-014', 
+    'collation-key-015', 
+    'collation-key-101', 
+    'collation-key-102', 
+    'collation-key-103', 
+    'collation-key-104', 
+    'collation-key-105', 
+    'collation-key-201', 
+    'collation-key-202']}, 
+   {group_1, [parallel], [
+    'collation-key-203', 
+    'collation-key-204', 
+    'collation-key-205', 
+    'collation-key-206', 
+    'collation-key-901']}].
 environment('html5',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

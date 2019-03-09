@@ -1,8 +1,11 @@
 -module('fn_normalize_unicode_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-normalize-unicode1args-1'/1]).
 -export(['fn-normalize-unicode1args-2'/1]).
@@ -52,7 +55,10 @@
 -export(['cbcl-fn-normalize-unicode-005'/1]).
 -export(['cbcl-fn-normalize-unicode-006'/1]).
 -export(['cbcl-fn-normalize-unicode-006a'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -63,55 +69,62 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-normalize-unicode1args-1', 
-'fn-normalize-unicode1args-2', 
-'fn-normalize-unicode1args-3', 
-'fn-normalize-unicode1args-4', 
-'fn-normalize-unicode1args-5', 
-'fn-normalize-unicode1args-6', 
-'fn-normalize-unicode1args-7', 
-'fn-normalize-unicode1args-8', 
-'fn-normalize-unicode2args-1', 
-'fn-normalize-unicode2args-2', 
-'fn-normalize-unicode2args-3', 
-'fn-normalize-unicode2args-4', 
-'fn-normalize-unicode2args-5', 
-'fn-normalize-unicode2args-6', 
-'fn-normalize-unicode-1', 
-'fn-normalize-unicode-2', 
-'fn-normalize-unicode-3', 
-'fn-normalize-unicode-4', 
-'fn-normalize-unicode-5', 
-'fn-normalize-unicode-6', 
-'fn-normalize-unicode-7', 
-'fn-normalize-unicode-8', 
-'fn-normalize-unicode-9', 
-'fn-normalize-unicode-10', 
-'fn-normalize-unicode-11', 
-'fn-normalize-unicode-11-6-0', 
-'fn-normalize-unicode-11-6-2', 
-'K-NormalizeUnicodeFunc-1', 
-'K-NormalizeUnicodeFunc-2', 
-'K-NormalizeUnicodeFunc-3', 
-'K-NormalizeUnicodeFunc-4', 
-'K-NormalizeUnicodeFunc-5', 
-'K-NormalizeUnicodeFunc-6', 
-'K-NormalizeUnicodeFunc-7', 
-'K-NormalizeUnicodeFunc-8', 
-'K-NormalizeUnicodeFunc-9', 
-'K-NormalizeUnicodeFunc-10', 
-'K-NormalizeUnicodeFunc-11', 
-'K-NormalizeUnicodeFunc-12', 
-'K-NormalizeUnicodeFunc-13', 
-'cbcl-fn-normalize-unicode-001', 
-'cbcl-fn-normalize-unicode-001a', 
-'cbcl-fn-normalize-unicode-002', 
-'cbcl-fn-normalize-unicode-003', 
-'cbcl-fn-normalize-unicode-004', 
-'cbcl-fn-normalize-unicode-005', 
-'cbcl-fn-normalize-unicode-006', 
-'cbcl-fn-normalize-unicode-006a'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-normalize-unicode1args-1', 
+    'fn-normalize-unicode1args-2', 
+    'fn-normalize-unicode1args-3', 
+    'fn-normalize-unicode1args-4', 
+    'fn-normalize-unicode1args-5', 
+    'fn-normalize-unicode1args-6', 
+    'fn-normalize-unicode1args-7', 
+    'fn-normalize-unicode1args-8', 
+    'fn-normalize-unicode2args-1', 
+    'fn-normalize-unicode2args-2', 
+    'fn-normalize-unicode2args-3', 
+    'fn-normalize-unicode2args-4', 
+    'fn-normalize-unicode2args-5', 
+    'fn-normalize-unicode2args-6', 
+    'fn-normalize-unicode-1', 
+    'fn-normalize-unicode-2', 
+    'fn-normalize-unicode-3', 
+    'fn-normalize-unicode-4', 
+    'fn-normalize-unicode-5', 
+    'fn-normalize-unicode-6', 
+    'fn-normalize-unicode-7', 
+    'fn-normalize-unicode-8', 
+    'fn-normalize-unicode-9']}, 
+   {group_1, [parallel], [
+    'fn-normalize-unicode-10', 
+    'fn-normalize-unicode-11', 
+    'fn-normalize-unicode-11-6-0', 
+    'fn-normalize-unicode-11-6-2', 
+    'K-NormalizeUnicodeFunc-1', 
+    'K-NormalizeUnicodeFunc-2', 
+    'K-NormalizeUnicodeFunc-3', 
+    'K-NormalizeUnicodeFunc-4', 
+    'K-NormalizeUnicodeFunc-5', 
+    'K-NormalizeUnicodeFunc-6', 
+    'K-NormalizeUnicodeFunc-7', 
+    'K-NormalizeUnicodeFunc-8', 
+    'K-NormalizeUnicodeFunc-9', 
+    'K-NormalizeUnicodeFunc-10', 
+    'K-NormalizeUnicodeFunc-11', 
+    'K-NormalizeUnicodeFunc-12', 
+    'K-NormalizeUnicodeFunc-13', 
+    'cbcl-fn-normalize-unicode-001', 
+    'cbcl-fn-normalize-unicode-001a', 
+    'cbcl-fn-normalize-unicode-002', 
+    'cbcl-fn-normalize-unicode-003', 
+    'cbcl-fn-normalize-unicode-004', 
+    'cbcl-fn-normalize-unicode-005', 
+    'cbcl-fn-normalize-unicode-006']}, 
+   {group_2, [parallel], [
+    'cbcl-fn-normalize-unicode-006a']}].
 
 'fn-normalize-unicode1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

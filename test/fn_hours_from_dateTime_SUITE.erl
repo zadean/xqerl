@@ -1,8 +1,11 @@
 -module('fn_hours_from_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-hours-from-dateTime1args-1'/1]).
 -export(['fn-hours-from-dateTime1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-HoursFromDateTimeFunc-3'/1]).
 -export(['K-HoursFromDateTimeFunc-4'/1]).
 -export(['K-HoursFromDateTimeFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-hours-from-dateTime1args-1', 
-'fn-hours-from-dateTime1args-2', 
-'fn-hours-from-dateTime1args-3', 
-'fn-hours-from-dateTime-1', 
-'fn-hours-from-dateTime-2', 
-'fn-hours-from-dateTime-3', 
-'fn-hours-from-dateTime-4', 
-'fn-hours-from-dateTime-5', 
-'fn-hours-from-dateTime-6', 
-'fn-hours-from-dateTime-7', 
-'fn-hours-from-dateTime-8', 
-'fn-hours-from-dateTime-9', 
-'fn-hours-from-dateTime-10', 
-'fn-hours-from-dateTime-11', 
-'fn-hours-from-dateTime-12', 
-'fn-hours-from-dateTime-13', 
-'fn-hours-from-dateTime-14', 
-'fn-hours-from-dateTime-15', 
-'fn-hours-from-dateTime-16', 
-'fn-hours-from-dateTime-17', 
-'fn-hours-from-dateTime-18', 
-'fn-hours-from-dateTime-19', 
-'K-HoursFromDateTimeFunc-1', 
-'K-HoursFromDateTimeFunc-2', 
-'K-HoursFromDateTimeFunc-3', 
-'K-HoursFromDateTimeFunc-4', 
-'K-HoursFromDateTimeFunc-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-hours-from-dateTime1args-1', 
+    'fn-hours-from-dateTime1args-2', 
+    'fn-hours-from-dateTime1args-3', 
+    'fn-hours-from-dateTime-1', 
+    'fn-hours-from-dateTime-2', 
+    'fn-hours-from-dateTime-3', 
+    'fn-hours-from-dateTime-4', 
+    'fn-hours-from-dateTime-5', 
+    'fn-hours-from-dateTime-6', 
+    'fn-hours-from-dateTime-7', 
+    'fn-hours-from-dateTime-8', 
+    'fn-hours-from-dateTime-9', 
+    'fn-hours-from-dateTime-10', 
+    'fn-hours-from-dateTime-11', 
+    'fn-hours-from-dateTime-12', 
+    'fn-hours-from-dateTime-13', 
+    'fn-hours-from-dateTime-14', 
+    'fn-hours-from-dateTime-15', 
+    'fn-hours-from-dateTime-16', 
+    'fn-hours-from-dateTime-17', 
+    'fn-hours-from-dateTime-18', 
+    'fn-hours-from-dateTime-19', 
+    'K-HoursFromDateTimeFunc-1']}, 
+   {group_1, [parallel], [
+    'K-HoursFromDateTimeFunc-2', 
+    'K-HoursFromDateTimeFunc-3', 
+    'K-HoursFromDateTimeFunc-4', 
+    'K-HoursFromDateTimeFunc-5']}].
 
 'fn-hours-from-dateTime1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

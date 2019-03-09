@@ -1,8 +1,11 @@
 -module('op_divide_dayTimeDuration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-divide-dayTimeDuration2args-1'/1]).
 -export(['op-divide-dayTimeDuration2args-2'/1]).
@@ -59,7 +62,10 @@
 -export(['cbcl-div-014'/1]).
 -export(['cbcl-div-015'/1]).
 -export(['cbcl-div-016'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -70,62 +76,69 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-divide-dayTimeDuration2args-1', 
-'op-divide-dayTimeDuration2args-2', 
-'op-divide-dayTimeDuration2args-3', 
-'op-divide-dayTimeDuration2args-4', 
-'op-divide-dayTimeDuration2args-5', 
-'op-divide-dayTimeDuration-2', 
-'op-divide-dayTimeDuration-3', 
-'op-divide-dayTimeDuration-4', 
-'op-divide-dayTimeDuration-5', 
-'op-divide-dayTimeDuration-6', 
-'op-divide-dayTimeDuration-7', 
-'op-divide-dayTimeDuration-8', 
-'op-divide-dayTimeDuration-9', 
-'op-divide-dayTimeDuration-10', 
-'op-divide-dayTimeDuration-11', 
-'op-divide-dayTimeDuration-12', 
-'op-divide-dayTimeDuration-13', 
-'op-divide-dayTimeDuration-14', 
-'op-divide-dayTimeDuration-15', 
-'op-divide-dayTimeDuration-16', 
-'K-DayTimeDurationDivide-1', 
-'K-DayTimeDurationDivide-2', 
-'K-DayTimeDurationDivide-3', 
-'K-DayTimeDurationDivide-4', 
-'K-DayTimeDurationDivide-5', 
-'K-DayTimeDurationDivide-6', 
-'K-DayTimeDurationDivide-7', 
-'K-DayTimeDurationDivide-8', 
-'K-DayTimeDurationDivide-9', 
-'K-DayTimeDurationDivide-10', 
-'K-DayTimeDurationDivide-11', 
-'K-DayTimeDurationDivide-12', 
-'K-DayTimeDurationDivide-13', 
-'K-DayTimeDurationDivide-14', 
-'K-DayTimeDurationDivide-15', 
-'K-DayTimeDurationDivide-16', 
-'cbcl-divide-dayTimeDuration-001', 
-'cbcl-divide-dayTimeDuration-002', 
-'cbcl-divide-dayTimeDuration-003', 
-'cbcl-div-001', 
-'cbcl-div-002', 
-'cbcl-div-003', 
-'cbcl-div-004', 
-'cbcl-div-005', 
-'cbcl-div-006', 
-'cbcl-div-007', 
-'cbcl-div-008', 
-'cbcl-div-009', 
-'cbcl-div-010', 
-'cbcl-div-011', 
-'cbcl-div-012', 
-'cbcl-div-013', 
-'cbcl-div-014', 
-'cbcl-div-015', 
-'cbcl-div-016'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-divide-dayTimeDuration2args-1', 
+    'op-divide-dayTimeDuration2args-2', 
+    'op-divide-dayTimeDuration2args-3', 
+    'op-divide-dayTimeDuration2args-4', 
+    'op-divide-dayTimeDuration2args-5', 
+    'op-divide-dayTimeDuration-2', 
+    'op-divide-dayTimeDuration-3', 
+    'op-divide-dayTimeDuration-4', 
+    'op-divide-dayTimeDuration-5', 
+    'op-divide-dayTimeDuration-6', 
+    'op-divide-dayTimeDuration-7', 
+    'op-divide-dayTimeDuration-8', 
+    'op-divide-dayTimeDuration-9', 
+    'op-divide-dayTimeDuration-10', 
+    'op-divide-dayTimeDuration-11', 
+    'op-divide-dayTimeDuration-12', 
+    'op-divide-dayTimeDuration-13', 
+    'op-divide-dayTimeDuration-14', 
+    'op-divide-dayTimeDuration-15', 
+    'op-divide-dayTimeDuration-16', 
+    'K-DayTimeDurationDivide-1', 
+    'K-DayTimeDurationDivide-2', 
+    'K-DayTimeDurationDivide-3']}, 
+   {group_1, [parallel], [
+    'K-DayTimeDurationDivide-4', 
+    'K-DayTimeDurationDivide-5', 
+    'K-DayTimeDurationDivide-6', 
+    'K-DayTimeDurationDivide-7', 
+    'K-DayTimeDurationDivide-8', 
+    'K-DayTimeDurationDivide-9', 
+    'K-DayTimeDurationDivide-10', 
+    'K-DayTimeDurationDivide-11', 
+    'K-DayTimeDurationDivide-12', 
+    'K-DayTimeDurationDivide-13', 
+    'K-DayTimeDurationDivide-14', 
+    'K-DayTimeDurationDivide-15', 
+    'K-DayTimeDurationDivide-16', 
+    'cbcl-divide-dayTimeDuration-001', 
+    'cbcl-divide-dayTimeDuration-002', 
+    'cbcl-divide-dayTimeDuration-003', 
+    'cbcl-div-001', 
+    'cbcl-div-002', 
+    'cbcl-div-003', 
+    'cbcl-div-004', 
+    'cbcl-div-005', 
+    'cbcl-div-006', 
+    'cbcl-div-007', 
+    'cbcl-div-008']}, 
+   {group_2, [parallel], [
+    'cbcl-div-009', 
+    'cbcl-div-010', 
+    'cbcl-div-011', 
+    'cbcl-div-012', 
+    'cbcl-div-013', 
+    'cbcl-div-014', 
+    'cbcl-div-015', 
+    'cbcl-div-016']}].
 
 'op-divide-dayTimeDuration2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('fn_adjust_date_to_timezone_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-adjust-date-to-timezone1args-1'/1]).
 -export(['fn-adjust-date-to-timezone1args-2'/1]).
@@ -45,7 +48,10 @@
 -export(['cbcl-adjust-date-to-timezone-002'/1]).
 -export(['cbcl-adjust-date-to-timezone-003'/1]).
 -export(['cbcl-adjust-date-to-timezone-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -56,48 +62,53 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-adjust-date-to-timezone1args-1', 
-'fn-adjust-date-to-timezone1args-2', 
-'fn-adjust-date-to-timezone1args-3', 
-'fn-adjust-date-to-timezone-1', 
-'fn-adjust-date-to-timezone-2', 
-'fn-adjust-date-to-timezone-3', 
-'fn-adjust-date-to-timezone-4', 
-'fn-adjust-date-to-timezone-5', 
-'fn-adjust-date-to-timezone-6', 
-'fn-adjust-date-to-timezone-7', 
-'fn-adjust-date-to-timezone-9', 
-'fn-adjust-date-to-timezone-10', 
-'fn-adjust-date-to-timezone-11', 
-'fn-adjust-date-to-timezone-12', 
-'fn-adjust-date-to-timezone-13', 
-'fn-adjust-date-to-timezone-14', 
-'fn-adjust-date-to-timezone-15', 
-'fn-adjust-date-to-timezone-16', 
-'fn-adjust-date-to-timezone-17', 
-'fn-adjust-date-to-timezone-18', 
-'fn-adjust-date-to-timezone-19', 
-'fn-adjust-date-to-timezone-20', 
-'fn-adjust-date-to-timezone-21', 
-'K-AdjDateToTimezoneFunc-1', 
-'K-AdjDateToTimezoneFunc-2', 
-'K-AdjDateToTimezoneFunc-3', 
-'K-AdjDateToTimezoneFunc-4', 
-'K-AdjDateToTimezoneFunc-5', 
-'K-AdjDateToTimezoneFunc-6', 
-'K-AdjDateToTimezoneFunc-7', 
-'K-AdjDateToTimezoneFunc-8', 
-'K-AdjDateToTimezoneFunc-9', 
-'K-AdjDateToTimezoneFunc-10', 
-'K-AdjDateToTimezoneFunc-11', 
-'K-AdjDateToTimezoneFunc-12', 
-'K-AdjDateToTimezoneFunc-13', 
-'K-AdjDateToTimezoneFunc-14', 
-'cbcl-adjust-date-to-timezone-001', 
-'cbcl-adjust-date-to-timezone-002', 
-'cbcl-adjust-date-to-timezone-003', 
-'cbcl-adjust-date-to-timezone-004'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-adjust-date-to-timezone1args-1', 
+    'fn-adjust-date-to-timezone1args-2', 
+    'fn-adjust-date-to-timezone1args-3', 
+    'fn-adjust-date-to-timezone-1', 
+    'fn-adjust-date-to-timezone-2', 
+    'fn-adjust-date-to-timezone-3', 
+    'fn-adjust-date-to-timezone-4', 
+    'fn-adjust-date-to-timezone-5', 
+    'fn-adjust-date-to-timezone-6', 
+    'fn-adjust-date-to-timezone-7', 
+    'fn-adjust-date-to-timezone-9', 
+    'fn-adjust-date-to-timezone-10', 
+    'fn-adjust-date-to-timezone-11', 
+    'fn-adjust-date-to-timezone-12', 
+    'fn-adjust-date-to-timezone-13', 
+    'fn-adjust-date-to-timezone-14', 
+    'fn-adjust-date-to-timezone-15', 
+    'fn-adjust-date-to-timezone-16', 
+    'fn-adjust-date-to-timezone-17', 
+    'fn-adjust-date-to-timezone-18', 
+    'fn-adjust-date-to-timezone-19', 
+    'fn-adjust-date-to-timezone-20', 
+    'fn-adjust-date-to-timezone-21']}, 
+   {group_1, [parallel], [
+    'K-AdjDateToTimezoneFunc-1', 
+    'K-AdjDateToTimezoneFunc-2', 
+    'K-AdjDateToTimezoneFunc-3', 
+    'K-AdjDateToTimezoneFunc-4', 
+    'K-AdjDateToTimezoneFunc-5', 
+    'K-AdjDateToTimezoneFunc-6', 
+    'K-AdjDateToTimezoneFunc-7', 
+    'K-AdjDateToTimezoneFunc-8', 
+    'K-AdjDateToTimezoneFunc-9', 
+    'K-AdjDateToTimezoneFunc-10', 
+    'K-AdjDateToTimezoneFunc-11', 
+    'K-AdjDateToTimezoneFunc-12', 
+    'K-AdjDateToTimezoneFunc-13', 
+    'K-AdjDateToTimezoneFunc-14', 
+    'cbcl-adjust-date-to-timezone-001', 
+    'cbcl-adjust-date-to-timezone-002', 
+    'cbcl-adjust-date-to-timezone-003', 
+    'cbcl-adjust-date-to-timezone-004']}].
 
 'fn-adjust-date-to-timezone1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

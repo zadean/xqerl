@@ -1,8 +1,11 @@
 -module('fn_adjust_dateTime_to_timezone_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-adjust-dateTime-to-timezone1args-1'/1]).
 -export(['fn-adjust-dateTime-to-timezone1args-2'/1]).
@@ -52,7 +55,10 @@
 -export(['cbcl-adjust-dateTime-to-timezone-002'/1]).
 -export(['cbcl-adjust-dateTime-to-timezone-003'/1]).
 -export(['cbcl-adjust-dateTime-to-timezone-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -63,55 +69,62 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-adjust-dateTime-to-timezone1args-1', 
-'fn-adjust-dateTime-to-timezone1args-2', 
-'fn-adjust-dateTime-to-timezone1args-3', 
-'fn-adjust-dateTime-to-timezone-1', 
-'fn-adjust-dateTime-to-timezone-2', 
-'fn-adjust-dateTime-to-timezone-3', 
-'fn-adjust-dateTime-to-timezone-4', 
-'fn-adjust-dateTime-to-timezone-5', 
-'fn-adjust-dateTime-to-timezone-6', 
-'fn-adjust-dateTime-to-timezone-7', 
-'fn-adjust-dateTime-to-timezone-8', 
-'fn-adjust-dateTime-to-timezone-9', 
-'fn-adjust-dateTime-to-timezone-10', 
-'fn-adjust-dateTime-to-timezone-11', 
-'fn-adjust-dateTime-to-timezone-12', 
-'fn-adjust-dateTime-to-timezone-13', 
-'fn-adjust-dateTime-to-timezone-14', 
-'fn-adjust-dateTime-to-timezone-15', 
-'fn-adjust-dateTime-to-timezone-16', 
-'fn-adjust-dateTime-to-timezone-17', 
-'fn-adjust-dateTime-to-timezone-18', 
-'fn-adjust-dateTime-to-timezone-19', 
-'fn-adjust-dateTime-to-timezone-20', 
-'fn-adjust-dateTime-to-timezone-21', 
-'fn-adjust-dateTime-to-timezone-22', 
-'fn-adjust-dateTime-to-timezone-23', 
-'fn-adjust-dateTime-to-timezone-24', 
-'K-AdjDateTimeToTimezoneFunc-1', 
-'K-AdjDateTimeToTimezoneFunc-2', 
-'K-AdjDateTimeToTimezoneFunc-3', 
-'K-AdjDateTimeToTimezoneFunc-4', 
-'K-AdjDateTimeToTimezoneFunc-5', 
-'K-AdjDateTimeToTimezoneFunc-6', 
-'K-AdjDateTimeToTimezoneFunc-7', 
-'K-AdjDateTimeToTimezoneFunc-8', 
-'K-AdjDateTimeToTimezoneFunc-9', 
-'K-AdjDateTimeToTimezoneFunc-10', 
-'K-AdjDateTimeToTimezoneFunc-11', 
-'K-AdjDateTimeToTimezoneFunc-12', 
-'K-AdjDateTimeToTimezoneFunc-13', 
-'K-AdjDateTimeToTimezoneFunc-14', 
-'K-AdjDateTimeToTimezoneFunc-15', 
-'K-AdjDateTimeToTimezoneFunc-16', 
-'K2-AdjDateTimeToTimezoneFunc-1', 
-'cbcl-adjust-dateTime-to-timezone-001', 
-'cbcl-adjust-dateTime-to-timezone-002', 
-'cbcl-adjust-dateTime-to-timezone-003', 
-'cbcl-adjust-dateTime-to-timezone-004'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-adjust-dateTime-to-timezone1args-1', 
+    'fn-adjust-dateTime-to-timezone1args-2', 
+    'fn-adjust-dateTime-to-timezone1args-3', 
+    'fn-adjust-dateTime-to-timezone-1', 
+    'fn-adjust-dateTime-to-timezone-2', 
+    'fn-adjust-dateTime-to-timezone-3', 
+    'fn-adjust-dateTime-to-timezone-4', 
+    'fn-adjust-dateTime-to-timezone-5', 
+    'fn-adjust-dateTime-to-timezone-6', 
+    'fn-adjust-dateTime-to-timezone-7', 
+    'fn-adjust-dateTime-to-timezone-8', 
+    'fn-adjust-dateTime-to-timezone-9', 
+    'fn-adjust-dateTime-to-timezone-10', 
+    'fn-adjust-dateTime-to-timezone-11', 
+    'fn-adjust-dateTime-to-timezone-12', 
+    'fn-adjust-dateTime-to-timezone-13', 
+    'fn-adjust-dateTime-to-timezone-14', 
+    'fn-adjust-dateTime-to-timezone-15', 
+    'fn-adjust-dateTime-to-timezone-16', 
+    'fn-adjust-dateTime-to-timezone-17', 
+    'fn-adjust-dateTime-to-timezone-18', 
+    'fn-adjust-dateTime-to-timezone-19', 
+    'fn-adjust-dateTime-to-timezone-20']}, 
+   {group_1, [parallel], [
+    'fn-adjust-dateTime-to-timezone-21', 
+    'fn-adjust-dateTime-to-timezone-22', 
+    'fn-adjust-dateTime-to-timezone-23', 
+    'fn-adjust-dateTime-to-timezone-24', 
+    'K-AdjDateTimeToTimezoneFunc-1', 
+    'K-AdjDateTimeToTimezoneFunc-2', 
+    'K-AdjDateTimeToTimezoneFunc-3', 
+    'K-AdjDateTimeToTimezoneFunc-4', 
+    'K-AdjDateTimeToTimezoneFunc-5', 
+    'K-AdjDateTimeToTimezoneFunc-6', 
+    'K-AdjDateTimeToTimezoneFunc-7', 
+    'K-AdjDateTimeToTimezoneFunc-8', 
+    'K-AdjDateTimeToTimezoneFunc-9', 
+    'K-AdjDateTimeToTimezoneFunc-10', 
+    'K-AdjDateTimeToTimezoneFunc-11', 
+    'K-AdjDateTimeToTimezoneFunc-12', 
+    'K-AdjDateTimeToTimezoneFunc-13', 
+    'K-AdjDateTimeToTimezoneFunc-14', 
+    'K-AdjDateTimeToTimezoneFunc-15', 
+    'K-AdjDateTimeToTimezoneFunc-16', 
+    'K2-AdjDateTimeToTimezoneFunc-1', 
+    'cbcl-adjust-dateTime-to-timezone-001', 
+    'cbcl-adjust-dateTime-to-timezone-002', 
+    'cbcl-adjust-dateTime-to-timezone-003']}, 
+   {group_2, [parallel], [
+    'cbcl-adjust-dateTime-to-timezone-004']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

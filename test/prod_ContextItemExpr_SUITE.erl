@@ -1,8 +1,11 @@
 -module('prod_ContextItemExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['externalcontextitem-1'/1]).
 -export(['externalcontextitem-2'/1]).
@@ -49,7 +52,10 @@
 -export(['internalcontextitem-19'/1]).
 -export(['internalcontextitem-20'/1]).
 -export(['internalcontextitem-21'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -60,52 +66,57 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'externalcontextitem-1', 
-'externalcontextitem-2', 
-'externalcontextitem-3', 
-'externalcontextitem-4', 
-'externalcontextitem-5', 
-'externalcontextitem-6', 
-'externalcontextitem-7', 
-'externalcontextitem-8', 
-'externalcontextitem-9', 
-'externalcontextitem-10', 
-'externalcontextitem-11', 
-'externalcontextitem-12', 
-'externalcontextitem-13', 
-'externalcontextitem-14', 
-'externalcontextitem-15', 
-'externalcontextitem-16', 
-'externalcontextitem-17', 
-'externalcontextitem-18', 
-'externalcontextitem-19', 
-'externalcontextitem-20', 
-'externalcontextitem-21', 
-'externalcontextitem-22', 
-'externalcontextitem-23', 
-'externalcontextitem-24', 
-'internalcontextitem-1', 
-'internalcontextitem-2', 
-'internalcontextitem-3', 
-'internalcontextitem-4', 
-'internalcontextitem-5', 
-'internalcontextitem-6', 
-'internalcontextitem-7', 
-'internalcontextitem-8', 
-'internalcontextitem-9', 
-'internalcontextitem-10', 
-'internalcontextitem-11', 
-'internalcontextitem-12', 
-'internalcontextitem-13', 
-'internalcontextitem-14', 
-'internalcontextitem-15', 
-'internalcontextitem-16', 
-'internalcontextitem-17', 
-'internalcontextitem-18', 
-'internalcontextitem-19', 
-'internalcontextitem-20', 
-'internalcontextitem-21'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'externalcontextitem-1', 
+    'externalcontextitem-2', 
+    'externalcontextitem-3', 
+    'externalcontextitem-4', 
+    'externalcontextitem-5', 
+    'externalcontextitem-6', 
+    'externalcontextitem-7', 
+    'externalcontextitem-8', 
+    'externalcontextitem-9', 
+    'externalcontextitem-10', 
+    'externalcontextitem-11', 
+    'externalcontextitem-12', 
+    'externalcontextitem-13', 
+    'externalcontextitem-14', 
+    'externalcontextitem-15', 
+    'externalcontextitem-16', 
+    'externalcontextitem-17', 
+    'externalcontextitem-18', 
+    'externalcontextitem-19', 
+    'externalcontextitem-20', 
+    'externalcontextitem-21', 
+    'externalcontextitem-22', 
+    'externalcontextitem-23']}, 
+   {group_1, [parallel], [
+    'externalcontextitem-24', 
+    'internalcontextitem-1', 
+    'internalcontextitem-2', 
+    'internalcontextitem-3', 
+    'internalcontextitem-4', 
+    'internalcontextitem-5', 
+    'internalcontextitem-6', 
+    'internalcontextitem-7', 
+    'internalcontextitem-8', 
+    'internalcontextitem-9', 
+    'internalcontextitem-10', 
+    'internalcontextitem-11', 
+    'internalcontextitem-12', 
+    'internalcontextitem-13', 
+    'internalcontextitem-14', 
+    'internalcontextitem-15', 
+    'internalcontextitem-16', 
+    'internalcontextitem-17', 
+    'internalcontextitem-18', 
+    'internalcontextitem-19', 
+    'internalcontextitem-20', 
+    'internalcontextitem-21']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('fn_implicit_timezone_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-implicit-timezone-1'/1]).
 -export(['fn-implicit-timezone-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-ContextImplicitTimezoneFunc-1'/1]).
 -export(['K-ContextImplicitTimezoneFunc-2'/1]).
 -export(['K-ContextImplicitTimezoneFunc-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-implicit-timezone-1', 
-'fn-implicit-timezone-2', 
-'fn-implicit-timezone-3', 
-'fn-implicit-timezone-4', 
-'fn-implicit-timezone-5', 
-'fn-implicit-timezone-6', 
-'fn-implicit-timezone-7', 
-'fn-implicit-timezone-8', 
-'fn-implicit-timezone-9', 
-'fn-implicit-timezone-10', 
-'fn-implicit-timezone-11', 
-'fn-implicit-timezone-12', 
-'fn-implicit-timezone-13', 
-'fn-implicit-timezone-14', 
-'fn-implicit-timezone-15', 
-'fn-implicit-timezone-16', 
-'fn-implicit-timezone-17', 
-'fn-implicit-timezone-18', 
-'fn-implicit-timezone-19', 
-'fn-implicit-timezone-20', 
-'fn-implicit-timezone-21', 
-'fn-implicit-timezone-22', 
-'fn-implicit-timezone-23', 
-'fn-implicit-timezone-24', 
-'K-ContextImplicitTimezoneFunc-1', 
-'K-ContextImplicitTimezoneFunc-2', 
-'K-ContextImplicitTimezoneFunc-3'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-implicit-timezone-1', 
+    'fn-implicit-timezone-2', 
+    'fn-implicit-timezone-3', 
+    'fn-implicit-timezone-4', 
+    'fn-implicit-timezone-5', 
+    'fn-implicit-timezone-6', 
+    'fn-implicit-timezone-7', 
+    'fn-implicit-timezone-8', 
+    'fn-implicit-timezone-9', 
+    'fn-implicit-timezone-10', 
+    'fn-implicit-timezone-11', 
+    'fn-implicit-timezone-12', 
+    'fn-implicit-timezone-13', 
+    'fn-implicit-timezone-14', 
+    'fn-implicit-timezone-15', 
+    'fn-implicit-timezone-16', 
+    'fn-implicit-timezone-17', 
+    'fn-implicit-timezone-18', 
+    'fn-implicit-timezone-19', 
+    'fn-implicit-timezone-20', 
+    'fn-implicit-timezone-21', 
+    'fn-implicit-timezone-22', 
+    'fn-implicit-timezone-23']}, 
+   {group_1, [parallel], [
+    'fn-implicit-timezone-24', 
+    'K-ContextImplicitTimezoneFunc-1', 
+    'K-ContextImplicitTimezoneFunc-2', 
+    'K-ContextImplicitTimezoneFunc-3']}].
 
 'fn-implicit-timezone-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

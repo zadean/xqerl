@@ -1,8 +1,11 @@
 -module('map_contains_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-contains-001'/1]).
 -export(['map-contains-002'/1]).
@@ -30,7 +33,10 @@
 -export(['map-contains-904'/1]).
 -export(['map-contains-905'/1]).
 -export(['map-contains-906'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -41,33 +47,38 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-contains-001', 
-'map-contains-002', 
-'map-contains-003', 
-'map-contains-004', 
-'map-contains-005', 
-'map-contains-006', 
-'map-contains-007', 
-'map-contains-008', 
-'map-contains-009', 
-'map-contains-010', 
-'map-contains-011', 
-'map-contains-012', 
-'map-contains-013', 
-'map-contains-014', 
-'map-contains-015', 
-'map-contains-016', 
-'map-contains-017', 
-'map-contains-018', 
-'map-contains-019', 
-'map-contains-020', 
-'map-contains-901', 
-'map-contains-902', 
-'map-contains-903', 
-'map-contains-904', 
-'map-contains-905', 
-'map-contains-906'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-contains-001', 
+    'map-contains-002', 
+    'map-contains-003', 
+    'map-contains-004', 
+    'map-contains-005', 
+    'map-contains-006', 
+    'map-contains-007', 
+    'map-contains-008', 
+    'map-contains-009', 
+    'map-contains-010', 
+    'map-contains-011', 
+    'map-contains-012', 
+    'map-contains-013', 
+    'map-contains-014', 
+    'map-contains-015', 
+    'map-contains-016', 
+    'map-contains-017', 
+    'map-contains-018', 
+    'map-contains-019', 
+    'map-contains-020', 
+    'map-contains-901', 
+    'map-contains-902', 
+    'map-contains-903']}, 
+   {group_1, [parallel], [
+    'map-contains-904', 
+    'map-contains-905', 
+    'map-contains-906']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

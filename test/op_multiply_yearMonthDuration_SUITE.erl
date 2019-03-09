@@ -1,8 +1,11 @@
 -module('op_multiply_yearMonthDuration_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-multiply-yearMonthDuration2args-1'/1]).
 -export(['op-multiply-yearMonthDuration2args-2'/1]).
@@ -48,7 +51,10 @@
 -export(['cbcl-multiply-yearMonthDuration-004'/1]).
 -export(['cbcl-multiply-yearMonthDuration-005'/1]).
 -export(['cbcl-multiply-yearMonthDuration-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-multiply-yearMonthDuration2args-1', 
-'op-multiply-yearMonthDuration2args-2', 
-'op-multiply-yearMonthDuration2args-3', 
-'op-multiply-yearMonthDuration2args-4', 
-'op-multiply-yearMonthDuration2args-5', 
-'op-multiply-yearMonthDuration-1', 
-'op-multiply-yearMonthDuration-2', 
-'op-multiply-yearMonthDuration-3', 
-'op-multiply-yearMonthDuration-4', 
-'op-multiply-yearMonthDuration-5', 
-'op-multiply-yearMonthDuration-6', 
-'op-multiply-yearMonthDuration-7', 
-'op-multiply-yearMonthDuration-8', 
-'op-multiply-yearMonthDuration-9', 
-'op-multiply-yearMonthDuration-10', 
-'op-multiply-yearMonthDuration-11', 
-'op-multiply-yearMonthDuration-12', 
-'op-multiply-yearMonthDuration-13', 
-'op-multiply-yearMonthDuration-14', 
-'op-multiply-yearMonthDuration-15', 
-'op-multiply-yearMonthDuration-16', 
-'op-multiply-yearMonthDuration-17', 
-'op-multiply-yearMonthDuration-18', 
-'op-multiply-yearMonthDuration-19', 
-'op-multiply-yearMonthDuration-20', 
-'K-YearMonthDurationMultiply-1', 
-'K-YearMonthDurationMultiply-2', 
-'K-YearMonthDurationMultiply-3', 
-'K-YearMonthDurationMultiply-4', 
-'K-YearMonthDurationMultiply-5', 
-'K-YearMonthDurationMultiply-6', 
-'K-YearMonthDurationMultiply-7', 
-'K-YearMonthDurationMultiply-8', 
-'K-YearMonthDurationMultiply-9', 
-'K-YearMonthDurationMultiply-10', 
-'K-YearMonthDurationMultiply-11', 
-'K-YearMonthDurationMultiply-12', 
-'K-YearMonthDurationMultiply-13', 
-'cbcl-multiply-yearMonthDuration-001', 
-'cbcl-multiply-yearMonthDuration-002', 
-'cbcl-multiply-yearMonthDuration-003', 
-'cbcl-multiply-yearMonthDuration-004', 
-'cbcl-multiply-yearMonthDuration-005', 
-'cbcl-multiply-yearMonthDuration-006'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-multiply-yearMonthDuration2args-1', 
+    'op-multiply-yearMonthDuration2args-2', 
+    'op-multiply-yearMonthDuration2args-3', 
+    'op-multiply-yearMonthDuration2args-4', 
+    'op-multiply-yearMonthDuration2args-5', 
+    'op-multiply-yearMonthDuration-1', 
+    'op-multiply-yearMonthDuration-2', 
+    'op-multiply-yearMonthDuration-3', 
+    'op-multiply-yearMonthDuration-4', 
+    'op-multiply-yearMonthDuration-5', 
+    'op-multiply-yearMonthDuration-6', 
+    'op-multiply-yearMonthDuration-7', 
+    'op-multiply-yearMonthDuration-8', 
+    'op-multiply-yearMonthDuration-9', 
+    'op-multiply-yearMonthDuration-10', 
+    'op-multiply-yearMonthDuration-11', 
+    'op-multiply-yearMonthDuration-12', 
+    'op-multiply-yearMonthDuration-13', 
+    'op-multiply-yearMonthDuration-14', 
+    'op-multiply-yearMonthDuration-15', 
+    'op-multiply-yearMonthDuration-16', 
+    'op-multiply-yearMonthDuration-17', 
+    'op-multiply-yearMonthDuration-18']}, 
+   {group_1, [parallel], [
+    'op-multiply-yearMonthDuration-19', 
+    'op-multiply-yearMonthDuration-20', 
+    'K-YearMonthDurationMultiply-1', 
+    'K-YearMonthDurationMultiply-2', 
+    'K-YearMonthDurationMultiply-3', 
+    'K-YearMonthDurationMultiply-4', 
+    'K-YearMonthDurationMultiply-5', 
+    'K-YearMonthDurationMultiply-6', 
+    'K-YearMonthDurationMultiply-7', 
+    'K-YearMonthDurationMultiply-8', 
+    'K-YearMonthDurationMultiply-9', 
+    'K-YearMonthDurationMultiply-10', 
+    'K-YearMonthDurationMultiply-11', 
+    'K-YearMonthDurationMultiply-12', 
+    'K-YearMonthDurationMultiply-13', 
+    'cbcl-multiply-yearMonthDuration-001', 
+    'cbcl-multiply-yearMonthDuration-002', 
+    'cbcl-multiply-yearMonthDuration-003', 
+    'cbcl-multiply-yearMonthDuration-004', 
+    'cbcl-multiply-yearMonthDuration-005', 
+    'cbcl-multiply-yearMonthDuration-006']}].
 
 'op-multiply-yearMonthDuration2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

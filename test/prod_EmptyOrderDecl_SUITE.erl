@@ -1,8 +1,11 @@
 -module('prod_EmptyOrderDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['emptyorderdecl-1'/1]).
 -export(['emptyorderdecl-2'/1]).
@@ -36,7 +39,10 @@
 -export(['K-EmptyOrderProlog-1'/1]).
 -export(['K-EmptyOrderProlog-2'/1]).
 -export(['K-EmptyOrderProlog-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -47,39 +53,44 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'emptyorderdecl-1', 
-'emptyorderdecl-2', 
-'emptyorderdecl-3', 
-'emptyorderdecl-4', 
-'emptyorderdecl-5', 
-'emptyorderdecl-6', 
-'emptyorderdecl-7', 
-'emptyorderdecl-8', 
-'emptyorderdecl-9', 
-'emptyorderdecl-10', 
-'emptyorderdecl-11', 
-'emptyorderdecl-12', 
-'emptyorderdecl-13', 
-'emptyorderdecl-14', 
-'emptyorderdecl-15', 
-'emptyorderdecl-16', 
-'emptyorderdecl-17', 
-'emptyorderdecl-18', 
-'emptyorderdecl-19', 
-'emptyorderdecl-20', 
-'emptyorderdecl-21', 
-'emptyorderdecl-22', 
-'emptyorderdecl-23', 
-'emptyorderdecl-24', 
-'emptyorderdecl-25', 
-'emptyorderdecl-26', 
-'emptyorderdecl-27', 
-'emptyorderdecl-28', 
-'emptyorderdecl-29', 
-'K-EmptyOrderProlog-1', 
-'K-EmptyOrderProlog-2', 
-'K-EmptyOrderProlog-3'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'emptyorderdecl-1', 
+    'emptyorderdecl-2', 
+    'emptyorderdecl-3', 
+    'emptyorderdecl-4', 
+    'emptyorderdecl-5', 
+    'emptyorderdecl-6', 
+    'emptyorderdecl-7', 
+    'emptyorderdecl-8', 
+    'emptyorderdecl-9', 
+    'emptyorderdecl-10', 
+    'emptyorderdecl-11', 
+    'emptyorderdecl-12', 
+    'emptyorderdecl-13', 
+    'emptyorderdecl-14', 
+    'emptyorderdecl-15', 
+    'emptyorderdecl-16', 
+    'emptyorderdecl-17', 
+    'emptyorderdecl-18', 
+    'emptyorderdecl-19', 
+    'emptyorderdecl-20', 
+    'emptyorderdecl-21', 
+    'emptyorderdecl-22', 
+    'emptyorderdecl-23']}, 
+   {group_1, [parallel], [
+    'emptyorderdecl-24', 
+    'emptyorderdecl-25', 
+    'emptyorderdecl-26', 
+    'emptyorderdecl-27', 
+    'emptyorderdecl-28', 
+    'emptyorderdecl-29', 
+    'K-EmptyOrderProlog-1', 
+    'K-EmptyOrderProlog-2', 
+    'K-EmptyOrderProlog-3']}].
 
 'emptyorderdecl-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

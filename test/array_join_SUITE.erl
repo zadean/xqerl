@@ -1,8 +1,11 @@
 -module('array_join_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-join-201'/1]).
 -export(['array-join-202'/1]).
@@ -15,7 +18,10 @@
 -export(['array-join-209'/1]).
 -export(['array-join-210'/1]).
 -export(['array-join-211'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -26,18 +32,21 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-join-201', 
-'array-join-202', 
-'array-join-203', 
-'array-join-204', 
-'array-join-205', 
-'array-join-206', 
-'array-join-207', 
-'array-join-208', 
-'array-join-209', 
-'array-join-210', 
-'array-join-211'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-join-201', 
+    'array-join-202', 
+    'array-join-203', 
+    'array-join-204', 
+    'array-join-205', 
+    'array-join-206', 
+    'array-join-207', 
+    'array-join-208', 
+    'array-join-209', 
+    'array-join-210', 
+    'array-join-211']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

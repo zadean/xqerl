@@ -1,8 +1,11 @@
 -module('fn_unparsed_text_lines_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-unparsed-text-lines-001'/1]).
 -export(['fn-unparsed-text-lines-002'/1]).
@@ -59,7 +62,10 @@
 -export(['fn-unparsed-text-lines-053'/1]).
 -export(['fn-unparsed-text-lines-054'/1]).
 -export(['fn-unparsed-text-lines-055'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -70,62 +76,69 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-unparsed-text-lines-001', 
-'fn-unparsed-text-lines-002', 
-'fn-unparsed-text-lines-003', 
-'fn-unparsed-text-lines-004', 
-'fn-unparsed-text-lines-005', 
-'fn-unparsed-text-lines-006', 
-'fn-unparsed-text-lines-007', 
-'fn-unparsed-text-lines-008', 
-'fn-unparsed-text-lines-009', 
-'fn-unparsed-text-lines-010', 
-'fn-unparsed-text-lines-011', 
-'fn-unparsed-text-lines-012', 
-'fn-unparsed-text-lines-013', 
-'fn-unparsed-text-lines-014', 
-'fn-unparsed-text-lines-015', 
-'fn-unparsed-text-lines-016', 
-'fn-unparsed-text-lines-017', 
-'fn-unparsed-text-lines-018', 
-'fn-unparsed-text-lines-019', 
-'fn-unparsed-text-lines-020', 
-'fn-unparsed-text-lines-021', 
-'fn-unparsed-text-lines-022', 
-'fn-unparsed-text-lines-023', 
-'fn-unparsed-text-lines-024', 
-'fn-unparsed-text-lines-025', 
-'fn-unparsed-text-lines-026', 
-'fn-unparsed-text-lines-027', 
-'fn-unparsed-text-lines-028', 
-'fn-unparsed-text-lines-029', 
-'fn-unparsed-text-lines-030', 
-'fn-unparsed-text-lines-031', 
-'fn-unparsed-text-lines-032', 
-'fn-unparsed-text-lines-033', 
-'fn-unparsed-text-lines-034', 
-'fn-unparsed-text-lines-035', 
-'fn-unparsed-text-lines-036', 
-'fn-unparsed-text-lines-037', 
-'fn-unparsed-text-lines-038', 
-'fn-unparsed-text-lines-039', 
-'fn-unparsed-text-lines-040', 
-'fn-unparsed-text-lines-041', 
-'fn-unparsed-text-lines-042', 
-'fn-unparsed-text-lines-043', 
-'fn-unparsed-text-lines-044', 
-'fn-unparsed-text-lines-045', 
-'fn-unparsed-text-lines-046', 
-'fn-unparsed-text-lines-047', 
-'fn-unparsed-text-lines-048', 
-'fn-unparsed-text-lines-049', 
-'fn-unparsed-text-lines-050', 
-'fn-unparsed-text-lines-051', 
-'fn-unparsed-text-lines-052', 
-'fn-unparsed-text-lines-053', 
-'fn-unparsed-text-lines-054', 
-'fn-unparsed-text-lines-055'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-unparsed-text-lines-001', 
+    'fn-unparsed-text-lines-002', 
+    'fn-unparsed-text-lines-003', 
+    'fn-unparsed-text-lines-004', 
+    'fn-unparsed-text-lines-005', 
+    'fn-unparsed-text-lines-006', 
+    'fn-unparsed-text-lines-007', 
+    'fn-unparsed-text-lines-008', 
+    'fn-unparsed-text-lines-009', 
+    'fn-unparsed-text-lines-010', 
+    'fn-unparsed-text-lines-011', 
+    'fn-unparsed-text-lines-012', 
+    'fn-unparsed-text-lines-013', 
+    'fn-unparsed-text-lines-014', 
+    'fn-unparsed-text-lines-015', 
+    'fn-unparsed-text-lines-016', 
+    'fn-unparsed-text-lines-017', 
+    'fn-unparsed-text-lines-018', 
+    'fn-unparsed-text-lines-019', 
+    'fn-unparsed-text-lines-020', 
+    'fn-unparsed-text-lines-021', 
+    'fn-unparsed-text-lines-022', 
+    'fn-unparsed-text-lines-023']}, 
+   {group_1, [parallel], [
+    'fn-unparsed-text-lines-024', 
+    'fn-unparsed-text-lines-025', 
+    'fn-unparsed-text-lines-026', 
+    'fn-unparsed-text-lines-027', 
+    'fn-unparsed-text-lines-028', 
+    'fn-unparsed-text-lines-029', 
+    'fn-unparsed-text-lines-030', 
+    'fn-unparsed-text-lines-031', 
+    'fn-unparsed-text-lines-032', 
+    'fn-unparsed-text-lines-033', 
+    'fn-unparsed-text-lines-034', 
+    'fn-unparsed-text-lines-035', 
+    'fn-unparsed-text-lines-036', 
+    'fn-unparsed-text-lines-037', 
+    'fn-unparsed-text-lines-038', 
+    'fn-unparsed-text-lines-039', 
+    'fn-unparsed-text-lines-040', 
+    'fn-unparsed-text-lines-041', 
+    'fn-unparsed-text-lines-042', 
+    'fn-unparsed-text-lines-043', 
+    'fn-unparsed-text-lines-044', 
+    'fn-unparsed-text-lines-045', 
+    'fn-unparsed-text-lines-046', 
+    'fn-unparsed-text-lines-047']}, 
+   {group_2, [parallel], [
+    'fn-unparsed-text-lines-048', 
+    'fn-unparsed-text-lines-049', 
+    'fn-unparsed-text-lines-050', 
+    'fn-unparsed-text-lines-051', 
+    'fn-unparsed-text-lines-052', 
+    'fn-unparsed-text-lines-053', 
+    'fn-unparsed-text-lines-054', 
+    'fn-unparsed-text-lines-055']}].
 environment('unparsed-text-lines',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('fn_innermost_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-innermost-001'/1]).
 -export(['fn-innermost-002'/1]).
@@ -62,7 +65,10 @@
 -export(['fn-innermost-056'/1]).
 -export(['fn-innermost-057'/1]).
 -export(['fn-innermost-058'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-innermost-001', 
-'fn-innermost-002', 
-'fn-innermost-003', 
-'fn-innermost-004', 
-'fn-innermost-005', 
-'fn-innermost-006', 
-'fn-innermost-007', 
-'fn-innermost-008', 
-'fn-innermost-009', 
-'fn-innermost-010', 
-'fn-innermost-011', 
-'fn-innermost-012', 
-'fn-innermost-013', 
-'fn-innermost-014', 
-'fn-innermost-015', 
-'fn-innermost-016', 
-'fn-innermost-017', 
-'fn-innermost-018', 
-'fn-innermost-019', 
-'fn-innermost-020', 
-'fn-innermost-021', 
-'fn-innermost-022', 
-'fn-innermost-023', 
-'fn-innermost-024', 
-'fn-innermost-025', 
-'fn-innermost-026', 
-'fn-innermost-027', 
-'fn-innermost-028', 
-'fn-innermost-029', 
-'fn-innermost-030', 
-'fn-innermost-031', 
-'fn-innermost-032', 
-'fn-innermost-033', 
-'fn-innermost-034', 
-'fn-innermost-035', 
-'fn-innermost-036', 
-'fn-innermost-037', 
-'fn-innermost-038', 
-'fn-innermost-039', 
-'fn-innermost-040', 
-'fn-innermost-041', 
-'fn-innermost-042', 
-'fn-innermost-043', 
-'fn-innermost-044', 
-'fn-innermost-045', 
-'fn-innermost-046', 
-'fn-innermost-047', 
-'fn-innermost-048', 
-'fn-innermost-049', 
-'fn-innermost-050', 
-'fn-innermost-051', 
-'fn-innermost-052', 
-'fn-innermost-053', 
-'fn-innermost-054', 
-'fn-innermost-055', 
-'fn-innermost-056', 
-'fn-innermost-057', 
-'fn-innermost-058'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-innermost-001', 
+    'fn-innermost-002', 
+    'fn-innermost-003', 
+    'fn-innermost-004', 
+    'fn-innermost-005', 
+    'fn-innermost-006', 
+    'fn-innermost-007', 
+    'fn-innermost-008', 
+    'fn-innermost-009', 
+    'fn-innermost-010', 
+    'fn-innermost-011', 
+    'fn-innermost-012', 
+    'fn-innermost-013', 
+    'fn-innermost-014', 
+    'fn-innermost-015', 
+    'fn-innermost-016', 
+    'fn-innermost-017', 
+    'fn-innermost-018', 
+    'fn-innermost-019', 
+    'fn-innermost-020', 
+    'fn-innermost-021', 
+    'fn-innermost-022', 
+    'fn-innermost-023']}, 
+   {group_1, [parallel], [
+    'fn-innermost-024', 
+    'fn-innermost-025', 
+    'fn-innermost-026', 
+    'fn-innermost-027', 
+    'fn-innermost-028', 
+    'fn-innermost-029', 
+    'fn-innermost-030', 
+    'fn-innermost-031', 
+    'fn-innermost-032', 
+    'fn-innermost-033', 
+    'fn-innermost-034', 
+    'fn-innermost-035', 
+    'fn-innermost-036', 
+    'fn-innermost-037', 
+    'fn-innermost-038', 
+    'fn-innermost-039', 
+    'fn-innermost-040', 
+    'fn-innermost-041', 
+    'fn-innermost-042', 
+    'fn-innermost-043', 
+    'fn-innermost-044', 
+    'fn-innermost-045', 
+    'fn-innermost-046', 
+    'fn-innermost-047']}, 
+   {group_2, [parallel], [
+    'fn-innermost-048', 
+    'fn-innermost-049', 
+    'fn-innermost-050', 
+    'fn-innermost-051', 
+    'fn-innermost-052', 
+    'fn-innermost-053', 
+    'fn-innermost-054', 
+    'fn-innermost-055', 
+    'fn-innermost-056', 
+    'fn-innermost-057', 
+    'fn-innermost-058']}].
 environment('innermost',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "innermost/innermost.xml"), ".",[]}, 

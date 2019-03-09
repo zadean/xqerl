@@ -1,8 +1,11 @@
 -module('fn_lang_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-lang1args-1'/1]).
 -export(['fn-lang1args-2'/1]).
@@ -50,7 +53,10 @@
 -export(['K2-NodeLangFunc-5'/1]).
 -export(['K2-NodeLangFunc-6'/1]).
 -export(['cbcl-fn-lang-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -61,53 +67,58 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-lang1args-1', 
-'fn-lang1args-2', 
-'fn-lang1args-3', 
-'fn-lang-1', 
-'fn-lang-2', 
-'fn-lang-3', 
-'fn-lang-4', 
-'fn-lang-5', 
-'fn-lang-6', 
-'fn-lang-7', 
-'fn-lang-8', 
-'fn-lang-9', 
-'fn-lang-10', 
-'fn-lang-11', 
-'fn-lang-12', 
-'fn-lang-13', 
-'fn-lang-14', 
-'fn-lang-15', 
-'fn-lang-16', 
-'fn-lang-17', 
-'fn-lang-18', 
-'fn-lang-19', 
-'fn-lang-20', 
-'fn-lang-21', 
-'fn-lang-22', 
-'fn-lang-23', 
-'fn-lang-24', 
-'fn-lang-25', 
-'fn-lang-26', 
-'fn-lang-27', 
-'fn-lang-28', 
-'fn-lang-29', 
-'fn-lang-30', 
-'fn-lang-31', 
-'fn-lang-32', 
-'K-NodeLangFunc-1', 
-'K-NodeLangFunc-2', 
-'K-NodeLangFunc-3', 
-'K-NodeLangFunc-4', 
-'K2-NodeLangFunc-1', 
-'K2-NodeLangFunc-2', 
-'K2-NodeLangFunc-3', 
-'K2-NodeLangFunc-4', 
-'K2-NodeLangFunc-5', 
-'K2-NodeLangFunc-6', 
-'cbcl-fn-lang-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-lang1args-1', 
+    'fn-lang1args-2', 
+    'fn-lang1args-3', 
+    'fn-lang-1', 
+    'fn-lang-2', 
+    'fn-lang-3', 
+    'fn-lang-4', 
+    'fn-lang-5', 
+    'fn-lang-6', 
+    'fn-lang-7', 
+    'fn-lang-8', 
+    'fn-lang-9', 
+    'fn-lang-10', 
+    'fn-lang-11', 
+    'fn-lang-12', 
+    'fn-lang-13', 
+    'fn-lang-14', 
+    'fn-lang-15', 
+    'fn-lang-16', 
+    'fn-lang-17', 
+    'fn-lang-18', 
+    'fn-lang-19', 
+    'fn-lang-20']}, 
+   {group_1, [parallel], [
+    'fn-lang-21', 
+    'fn-lang-22', 
+    'fn-lang-23', 
+    'fn-lang-24', 
+    'fn-lang-25', 
+    'fn-lang-26', 
+    'fn-lang-27', 
+    'fn-lang-28', 
+    'fn-lang-29', 
+    'fn-lang-30', 
+    'fn-lang-31', 
+    'fn-lang-32', 
+    'K-NodeLangFunc-1', 
+    'K-NodeLangFunc-2', 
+    'K-NodeLangFunc-3', 
+    'K-NodeLangFunc-4', 
+    'K2-NodeLangFunc-1', 
+    'K2-NodeLangFunc-2', 
+    'K2-NodeLangFunc-3', 
+    'K2-NodeLangFunc-4', 
+    'K2-NodeLangFunc-5', 
+    'K2-NodeLangFunc-6', 
+    'cbcl-fn-lang-001']}].
 environment('emptydoc',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

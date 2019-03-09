@@ -1,8 +1,11 @@
 -module('array_fold_left_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-fold-left-101'/1]).
 -export(['array-fold-left-102'/1]).
@@ -12,7 +15,10 @@
 -export(['array-fold-left-107'/1]).
 -export(['array-fold-left-108'/1]).
 -export(['array-fold-left-109'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -23,15 +29,18 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-fold-left-101', 
-'array-fold-left-102', 
-'array-fold-left-103', 
-'array-fold-left-104', 
-'array-fold-left-105', 
-'array-fold-left-107', 
-'array-fold-left-108', 
-'array-fold-left-109'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-fold-left-101', 
+    'array-fold-left-102', 
+    'array-fold-left-103', 
+    'array-fold-left-104', 
+    'array-fold-left-105', 
+    'array-fold-left-107', 
+    'array-fold-left-108', 
+    'array-fold-left-109']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

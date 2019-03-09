@@ -1,8 +1,11 @@
 -module('prod_Comment_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['XQueryComment001'/1]).
 -export(['XQueryComment002'/1]).
@@ -49,7 +52,10 @@
 -export(['K2-XQueryComment-3'/1]).
 -export(['K2-XQueryComment-4'/1]).
 -export(['K2-XQueryComment-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -60,52 +66,57 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'XQueryComment001', 
-'XQueryComment002', 
-'XQueryComment003', 
-'XQueryComment004', 
-'XQueryComment005', 
-'XQueryComment006', 
-'XQueryComment007', 
-'XQueryComment008', 
-'XQueryComment009', 
-'XQueryComment010', 
-'XQueryComment011', 
-'XQueryComment012', 
-'XQueryComment013', 
-'XQueryComment014', 
-'XQueryComment015', 
-'XQueryComment016', 
-'XQueryComment017', 
-'XQueryComment018', 
-'XQueryComment019', 
-'XQueryComment020', 
-'K-XQueryComment-1', 
-'K-XQueryComment-2', 
-'K-XQueryComment-3', 
-'K-XQueryComment-4', 
-'K-XQueryComment-5', 
-'K-XQueryComment-6', 
-'K-XQueryComment-7', 
-'K-XQueryComment-8', 
-'K-XQueryComment-9', 
-'K-XQueryComment-10', 
-'K-XQueryComment-11', 
-'K-XQueryComment-12', 
-'K-XQueryComment-13', 
-'K-XQueryComment-14', 
-'K-XQueryComment-15', 
-'K-XQueryComment-16', 
-'K-XQueryComment-17', 
-'K-XQueryComment-18', 
-'K-XQueryComment-19', 
-'K-XQueryComment-20', 
-'K2-XQueryComment-1', 
-'K2-XQueryComment-2', 
-'K2-XQueryComment-3', 
-'K2-XQueryComment-4', 
-'K2-XQueryComment-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'XQueryComment001', 
+    'XQueryComment002', 
+    'XQueryComment003', 
+    'XQueryComment004', 
+    'XQueryComment005', 
+    'XQueryComment006', 
+    'XQueryComment007', 
+    'XQueryComment008', 
+    'XQueryComment009', 
+    'XQueryComment010', 
+    'XQueryComment011', 
+    'XQueryComment012', 
+    'XQueryComment013', 
+    'XQueryComment014', 
+    'XQueryComment015', 
+    'XQueryComment016', 
+    'XQueryComment017', 
+    'XQueryComment018', 
+    'XQueryComment019', 
+    'XQueryComment020', 
+    'K-XQueryComment-1', 
+    'K-XQueryComment-2', 
+    'K-XQueryComment-3']}, 
+   {group_1, [parallel], [
+    'K-XQueryComment-4', 
+    'K-XQueryComment-5', 
+    'K-XQueryComment-6', 
+    'K-XQueryComment-7', 
+    'K-XQueryComment-8', 
+    'K-XQueryComment-9', 
+    'K-XQueryComment-10', 
+    'K-XQueryComment-11', 
+    'K-XQueryComment-12', 
+    'K-XQueryComment-13', 
+    'K-XQueryComment-14', 
+    'K-XQueryComment-15', 
+    'K-XQueryComment-16', 
+    'K-XQueryComment-17', 
+    'K-XQueryComment-18', 
+    'K-XQueryComment-19', 
+    'K-XQueryComment-20', 
+    'K2-XQueryComment-1', 
+    'K2-XQueryComment-2', 
+    'K2-XQueryComment-3', 
+    'K2-XQueryComment-4', 
+    'K2-XQueryComment-5']}].
 environment('fsx_NS',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "ForClause/fsx_NS.xml"), ".",[]}]}, 

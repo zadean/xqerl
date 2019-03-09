@@ -1,8 +1,11 @@
 -module('math_tan_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['math-tan-001'/1]).
 -export(['math-tan-002'/1]).
@@ -15,7 +18,10 @@
 -export(['math-tan-009'/1]).
 -export(['math-tan-010'/1]).
 -export(['math-tan-011'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -26,18 +32,21 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "math"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'math-tan-001', 
-'math-tan-002', 
-'math-tan-003', 
-'math-tan-004', 
-'math-tan-005', 
-'math-tan-006', 
-'math-tan-007', 
-'math-tan-008', 
-'math-tan-009', 
-'math-tan-010', 
-'math-tan-011'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'math-tan-001', 
+    'math-tan-002', 
+    'math-tan-003', 
+    'math-tan-004', 
+    'math-tan-005', 
+    'math-tan-006', 
+    'math-tan-007', 
+    'math-tan-008', 
+    'math-tan-009', 
+    'math-tan-010', 
+    'math-tan-011']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

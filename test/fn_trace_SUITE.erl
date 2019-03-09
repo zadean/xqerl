@@ -1,8 +1,11 @@
 -module('fn_trace_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-trace-1'/1]).
 -export(['fn-trace-2'/1]).
@@ -34,7 +37,10 @@
 -export(['K-TraceFunc-4'/1]).
 -export(['K-TraceFunc-5'/1]).
 -export(['K-TraceFunc-6'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -45,37 +51,42 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-trace-1', 
-'fn-trace-2', 
-'fn-trace-3', 
-'fn-trace-4', 
-'fn-trace-5', 
-'fn-trace-6', 
-'fn-trace-7', 
-'fn-trace-8', 
-'fn-trace-9', 
-'fn-trace-10', 
-'fn-trace-11', 
-'fn-trace-12', 
-'fn-trace-13', 
-'fn-trace-14', 
-'fn-trace-15', 
-'fn-trace-16', 
-'fn-trace-17', 
-'fn-trace-18', 
-'fn-trace-19', 
-'fn-trace-20', 
-'fn-trace-21', 
-'fn-trace-22', 
-'fn-trace-23', 
-'fn-trace-24', 
-'K-TraceFunc-1', 
-'K-TraceFunc-2', 
-'K-TraceFunc-3', 
-'K-TraceFunc-4', 
-'K-TraceFunc-5', 
-'K-TraceFunc-6'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-trace-1', 
+    'fn-trace-2', 
+    'fn-trace-3', 
+    'fn-trace-4', 
+    'fn-trace-5', 
+    'fn-trace-6', 
+    'fn-trace-7', 
+    'fn-trace-8', 
+    'fn-trace-9', 
+    'fn-trace-10', 
+    'fn-trace-11', 
+    'fn-trace-12', 
+    'fn-trace-13', 
+    'fn-trace-14', 
+    'fn-trace-15', 
+    'fn-trace-16', 
+    'fn-trace-17', 
+    'fn-trace-18', 
+    'fn-trace-19', 
+    'fn-trace-20', 
+    'fn-trace-21', 
+    'fn-trace-22', 
+    'fn-trace-23']}, 
+   {group_1, [parallel], [
+    'fn-trace-24', 
+    'K-TraceFunc-1', 
+    'K-TraceFunc-2', 
+    'K-TraceFunc-3', 
+    'K-TraceFunc-4', 
+    'K-TraceFunc-5', 
+    'K-TraceFunc-6']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

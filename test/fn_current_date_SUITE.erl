@@ -1,8 +1,11 @@
 -module('fn_current_date_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-current-date-1'/1]).
 -export(['fn-current-date-2'/1]).
@@ -30,7 +33,10 @@
 -export(['fn-current-time-24'/1]).
 -export(['K-ContextCurrentDateFunc-1'/1]).
 -export(['K-ContextCurrentDateFunc-2'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -41,33 +47,38 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-current-date-1', 
-'fn-current-date-2', 
-'fn-current-date-3', 
-'fn-current-date-4', 
-'fn-current-date-5', 
-'fn-current-date-6', 
-'fn-current-date-7', 
-'fn-current-date-8', 
-'fn-current-date-9', 
-'fn-current-date-10', 
-'fn-current-date-11', 
-'fn-current-date-12', 
-'fn-current-date-13', 
-'fn-current-date-14', 
-'fn-current-date-15', 
-'fn-current-date-16', 
-'fn-current-date-17', 
-'fn-current-date-18', 
-'fn-current-date-19', 
-'fn-current-date-20', 
-'fn-current-date-21', 
-'fn-current-date-22', 
-'fn-current-date-23', 
-'fn-current-time-24', 
-'K-ContextCurrentDateFunc-1', 
-'K-ContextCurrentDateFunc-2'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-current-date-1', 
+    'fn-current-date-2', 
+    'fn-current-date-3', 
+    'fn-current-date-4', 
+    'fn-current-date-5', 
+    'fn-current-date-6', 
+    'fn-current-date-7', 
+    'fn-current-date-8', 
+    'fn-current-date-9', 
+    'fn-current-date-10', 
+    'fn-current-date-11', 
+    'fn-current-date-12', 
+    'fn-current-date-13', 
+    'fn-current-date-14', 
+    'fn-current-date-15', 
+    'fn-current-date-16', 
+    'fn-current-date-17', 
+    'fn-current-date-18', 
+    'fn-current-date-19', 
+    'fn-current-date-20', 
+    'fn-current-date-21', 
+    'fn-current-date-22', 
+    'fn-current-date-23']}, 
+   {group_1, [parallel], [
+    'fn-current-time-24', 
+    'K-ContextCurrentDateFunc-1', 
+    'K-ContextCurrentDateFunc-2']}].
 
 'fn-current-date-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

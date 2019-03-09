@@ -1,8 +1,11 @@
 -module('array_sort_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['array-sort-001'/1]).
 -export(['array-sort-002'/1]).
@@ -39,7 +42,10 @@
 -export(['array-sort-collation-6'/1]).
 -export(['array-sort-collation-7'/1]).
 -export(['array-sort-collation-8'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -50,42 +56,47 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "array"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'array-sort-001', 
-'array-sort-002', 
-'array-sort-003', 
-'array-sort-004', 
-'array-sort-005', 
-'array-sort-006', 
-'array-sort-007', 
-'array-sort-008', 
-'array-sort-009', 
-'array-sort-010', 
-'array-sort-011', 
-'array-sort-012', 
-'array-sort-012a', 
-'array-sort-013', 
-'array-sort-014', 
-'array-sort-015', 
-'array-sort-016', 
-'array-sort-017', 
-'array-sort-018', 
-'array-sort-019', 
-'array-sort-020', 
-'array-sort-021', 
-'array-sort-022', 
-'array-sort-023', 
-'array-sort-024', 
-'array-sort-025', 
-'array-sort-026', 
-'array-sort-collation-1', 
-'array-sort-collation-2', 
-'array-sort-collation-3', 
-'array-sort-collation-4', 
-'array-sort-collation-5', 
-'array-sort-collation-6', 
-'array-sort-collation-7', 
-'array-sort-collation-8'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'array-sort-001', 
+    'array-sort-002', 
+    'array-sort-003', 
+    'array-sort-004', 
+    'array-sort-005', 
+    'array-sort-006', 
+    'array-sort-007', 
+    'array-sort-008', 
+    'array-sort-009', 
+    'array-sort-010', 
+    'array-sort-011', 
+    'array-sort-012', 
+    'array-sort-012a', 
+    'array-sort-013', 
+    'array-sort-014', 
+    'array-sort-015', 
+    'array-sort-016', 
+    'array-sort-017', 
+    'array-sort-018', 
+    'array-sort-019', 
+    'array-sort-020', 
+    'array-sort-021', 
+    'array-sort-022']}, 
+   {group_1, [parallel], [
+    'array-sort-023', 
+    'array-sort-024', 
+    'array-sort-025', 
+    'array-sort-026', 
+    'array-sort-collation-1', 
+    'array-sort-collation-2', 
+    'array-sort-collation-3', 
+    'array-sort-collation-4', 
+    'array-sort-collation-5', 
+    'array-sort-collation-6', 
+    'array-sort-collation-7', 
+    'array-sort-collation-8']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

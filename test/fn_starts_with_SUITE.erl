@@ -1,8 +1,11 @@
 -module('fn_starts_with_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-starts-with2args-1'/1]).
 -export(['fn-starts-with2args-2'/1]).
@@ -60,7 +63,10 @@
 -export(['K2-StartsWithFunc-5'/1]).
 -export(['K2-StartsWithFunc-6'/1]).
 -export(['cbcl-starts-with-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -71,63 +77,70 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-starts-with2args-1', 
-'fn-starts-with2args-2', 
-'fn-starts-with2args-3', 
-'fn-starts-with2args-4', 
-'fn-starts-with2args-5', 
-'fn-starts-with-1', 
-'fn-starts-with-2', 
-'fn-starts-with-3', 
-'fn-starts-with-4', 
-'fn-starts-with-5', 
-'fn-starts-with-6', 
-'fn-starts-with-7', 
-'fn-starts-with-8', 
-'fn-starts-with-9', 
-'fn-starts-with-10', 
-'fn-starts-with-11', 
-'fn-starts-with-12', 
-'fn-starts-with-13', 
-'fn-starts-with-14', 
-'fn-starts-with-15', 
-'fn-starts-with-16', 
-'fn-starts-with-17', 
-'fn-starts-with-18', 
-'fn-starts-with-19', 
-'fn-starts-with-20', 
-'fn-starts-with-21', 
-'fn-starts-with-22', 
-'fn-starts-with-23', 
-'fn-starts-with-24', 
-'fn-starts-with-25', 
-'fn-starts-with-26', 
-'fn-starts-with-27', 
-'fn-starts-with-28', 
-'fn-starts-with-29', 
-'fn-starts-with-30', 
-'fn-starts-with-31', 
-'fn-starts-with-32', 
-'fn-starts-with-33', 
-'K-StartsWithFunc-1', 
-'K-StartsWithFunc-2', 
-'K-StartsWithFunc-3', 
-'K-StartsWithFunc-4', 
-'K-StartsWithFunc-5', 
-'K-StartsWithFunc-6', 
-'K-StartsWithFunc-7', 
-'K-StartsWithFunc-8', 
-'K-StartsWithFunc-9', 
-'K-StartsWithFunc-10', 
-'K-StartsWithFunc-11', 
-'K2-StartsWithFunc-1', 
-'K2-StartsWithFunc-2', 
-'K2-StartsWithFunc-3', 
-'K2-StartsWithFunc-4', 
-'K2-StartsWithFunc-5', 
-'K2-StartsWithFunc-6', 
-'cbcl-starts-with-001'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-starts-with2args-1', 
+    'fn-starts-with2args-2', 
+    'fn-starts-with2args-3', 
+    'fn-starts-with2args-4', 
+    'fn-starts-with2args-5', 
+    'fn-starts-with-1', 
+    'fn-starts-with-2', 
+    'fn-starts-with-3', 
+    'fn-starts-with-4', 
+    'fn-starts-with-5', 
+    'fn-starts-with-6', 
+    'fn-starts-with-7', 
+    'fn-starts-with-8', 
+    'fn-starts-with-9', 
+    'fn-starts-with-10', 
+    'fn-starts-with-11', 
+    'fn-starts-with-12', 
+    'fn-starts-with-13', 
+    'fn-starts-with-14', 
+    'fn-starts-with-15', 
+    'fn-starts-with-16', 
+    'fn-starts-with-17', 
+    'fn-starts-with-18']}, 
+   {group_1, [parallel], [
+    'fn-starts-with-19', 
+    'fn-starts-with-20', 
+    'fn-starts-with-21', 
+    'fn-starts-with-22', 
+    'fn-starts-with-23', 
+    'fn-starts-with-24', 
+    'fn-starts-with-25', 
+    'fn-starts-with-26', 
+    'fn-starts-with-27', 
+    'fn-starts-with-28', 
+    'fn-starts-with-29', 
+    'fn-starts-with-30', 
+    'fn-starts-with-31', 
+    'fn-starts-with-32', 
+    'fn-starts-with-33', 
+    'K-StartsWithFunc-1', 
+    'K-StartsWithFunc-2', 
+    'K-StartsWithFunc-3', 
+    'K-StartsWithFunc-4', 
+    'K-StartsWithFunc-5', 
+    'K-StartsWithFunc-6', 
+    'K-StartsWithFunc-7', 
+    'K-StartsWithFunc-8', 
+    'K-StartsWithFunc-9']}, 
+   {group_2, [parallel], [
+    'K-StartsWithFunc-10', 
+    'K-StartsWithFunc-11', 
+    'K2-StartsWithFunc-1', 
+    'K2-StartsWithFunc-2', 
+    'K2-StartsWithFunc-3', 
+    'K2-StartsWithFunc-4', 
+    'K2-StartsWithFunc-5', 
+    'K2-StartsWithFunc-6', 
+    'cbcl-starts-with-001']}].
 
 'fn-starts-with2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

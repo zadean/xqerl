@@ -1,8 +1,11 @@
 -module('op_add_dayTimeDurations_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-add-dayTimeDurations2args-1'/1]).
 -export(['op-add-dayTimeDurations2args-2'/1]).
@@ -65,7 +68,10 @@
 -export(['cbcl-plus-032'/1]).
 -export(['cbcl-plus-033'/1]).
 -export(['cbcl-plus-034'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -76,68 +82,75 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-add-dayTimeDurations2args-1', 
-'op-add-dayTimeDurations2args-2', 
-'op-add-dayTimeDurations2args-3', 
-'op-add-dayTimeDurations2args-4', 
-'op-add-dayTimeDurations2args-5', 
-'op-add-dayTimeDurations-1', 
-'op-add-dayTimeDurations-2', 
-'op-add-dayTimeDurations-3', 
-'op-add-dayTimeDurations-4', 
-'op-add-dayTimeDurations-5', 
-'op-add-dayTimeDurations-6', 
-'op-add-dayTimeDurations-7', 
-'op-add-dayTimeDurations-8', 
-'op-add-dayTimeDurations-9', 
-'op-add-dayTimeDurations-10', 
-'op-add-dayTimeDurations-11', 
-'op-add-dayTimeDurations-12', 
-'op-add-dayTimeDurations-13', 
-'op-add-dayTimeDurations-14', 
-'op-add-dayTimeDurations-15', 
-'op-add-dayTimeDurations-16', 
-'K-DayTimeDurationAdd-1', 
-'K-DayTimeDurationAdd-2', 
-'K-DayTimeDurationAdd-3', 
-'cbcl-add-dayTimeDurations-001', 
-'cbcl-add-dayTimeDurations-002', 
-'cbcl-add-dayTimeDurations-003', 
-'cbcl-plus-001', 
-'cbcl-plus-002', 
-'cbcl-plus-003', 
-'cbcl-plus-004', 
-'cbcl-plus-005', 
-'cbcl-plus-006', 
-'cbcl-plus-007', 
-'cbcl-plus-008', 
-'cbcl-plus-009', 
-'cbcl-plus-010', 
-'cbcl-plus-011', 
-'cbcl-plus-012', 
-'cbcl-plus-013', 
-'cbcl-plus-014', 
-'cbcl-plus-015', 
-'cbcl-plus-016', 
-'cbcl-plus-017', 
-'cbcl-plus-018', 
-'cbcl-plus-019', 
-'cbcl-plus-020', 
-'cbcl-plus-021', 
-'cbcl-plus-022', 
-'cbcl-plus-023', 
-'cbcl-plus-024', 
-'cbcl-plus-025', 
-'cbcl-plus-026', 
-'cbcl-plus-027', 
-'cbcl-plus-028', 
-'cbcl-plus-029', 
-'cbcl-plus-030', 
-'cbcl-plus-031', 
-'cbcl-plus-032', 
-'cbcl-plus-033', 
-'cbcl-plus-034'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-add-dayTimeDurations2args-1', 
+    'op-add-dayTimeDurations2args-2', 
+    'op-add-dayTimeDurations2args-3', 
+    'op-add-dayTimeDurations2args-4', 
+    'op-add-dayTimeDurations2args-5', 
+    'op-add-dayTimeDurations-1', 
+    'op-add-dayTimeDurations-2', 
+    'op-add-dayTimeDurations-3', 
+    'op-add-dayTimeDurations-4', 
+    'op-add-dayTimeDurations-5', 
+    'op-add-dayTimeDurations-6', 
+    'op-add-dayTimeDurations-7', 
+    'op-add-dayTimeDurations-8', 
+    'op-add-dayTimeDurations-9', 
+    'op-add-dayTimeDurations-10', 
+    'op-add-dayTimeDurations-11', 
+    'op-add-dayTimeDurations-12', 
+    'op-add-dayTimeDurations-13', 
+    'op-add-dayTimeDurations-14', 
+    'op-add-dayTimeDurations-15', 
+    'op-add-dayTimeDurations-16', 
+    'K-DayTimeDurationAdd-1', 
+    'K-DayTimeDurationAdd-2']}, 
+   {group_1, [parallel], [
+    'K-DayTimeDurationAdd-3', 
+    'cbcl-add-dayTimeDurations-001', 
+    'cbcl-add-dayTimeDurations-002', 
+    'cbcl-add-dayTimeDurations-003', 
+    'cbcl-plus-001', 
+    'cbcl-plus-002', 
+    'cbcl-plus-003', 
+    'cbcl-plus-004', 
+    'cbcl-plus-005', 
+    'cbcl-plus-006', 
+    'cbcl-plus-007', 
+    'cbcl-plus-008', 
+    'cbcl-plus-009', 
+    'cbcl-plus-010', 
+    'cbcl-plus-011', 
+    'cbcl-plus-012', 
+    'cbcl-plus-013', 
+    'cbcl-plus-014', 
+    'cbcl-plus-015', 
+    'cbcl-plus-016', 
+    'cbcl-plus-017', 
+    'cbcl-plus-018', 
+    'cbcl-plus-019', 
+    'cbcl-plus-020']}, 
+   {group_2, [parallel], [
+    'cbcl-plus-021', 
+    'cbcl-plus-022', 
+    'cbcl-plus-023', 
+    'cbcl-plus-024', 
+    'cbcl-plus-025', 
+    'cbcl-plus-026', 
+    'cbcl-plus-027', 
+    'cbcl-plus-028', 
+    'cbcl-plus-029', 
+    'cbcl-plus-030', 
+    'cbcl-plus-031', 
+    'cbcl-plus-032', 
+    'cbcl-plus-033', 
+    'cbcl-plus-034']}].
 
 'op-add-dayTimeDurations2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

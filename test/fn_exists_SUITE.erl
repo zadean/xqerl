@@ -1,8 +1,11 @@
 -module('fn_exists_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-existsint1args-1'/1]).
 -export(['fn-existsint1args-2'/1]).
@@ -62,7 +65,10 @@
 -export(['cbcl-exists-003'/1]).
 -export(['cbcl-exists-004'/1]).
 -export(['cbcl-exists-005'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-existsint1args-1', 
-'fn-existsint1args-2', 
-'fn-existsint1args-3', 
-'fn-existsintg1args-1', 
-'fn-existsintg1args-2', 
-'fn-existsintg1args-3', 
-'fn-existsdec1args-1', 
-'fn-existsdec1args-2', 
-'fn-existsdec1args-3', 
-'fn-existsdbl1args-1', 
-'fn-existsdbl1args-2', 
-'fn-existsdbl1args-3', 
-'fn-existsflt1args-1', 
-'fn-existsflt1args-2', 
-'fn-existsflt1args-3', 
-'fn-existslng1args-1', 
-'fn-existslng1args-2', 
-'fn-existslng1args-3', 
-'fn-existsusht1args-1', 
-'fn-existsusht1args-2', 
-'fn-existsusht1args-3', 
-'fn-existsnint1args-1', 
-'fn-existsnint1args-2', 
-'fn-existsnint1args-3', 
-'fn-existspint1args-1', 
-'fn-existspint1args-2', 
-'fn-existspint1args-3', 
-'fn-existsulng1args-1', 
-'fn-existsulng1args-2', 
-'fn-existsulng1args-3', 
-'fn-existsnpi1args-1', 
-'fn-existsnpi1args-2', 
-'fn-existsnpi1args-3', 
-'fn-existsnni1args-1', 
-'fn-existsnni1args-2', 
-'fn-existsnni1args-3', 
-'fn-existssht1args-1', 
-'fn-existssht1args-2', 
-'fn-existssht1args-3', 
-'K-SeqExistsFunc-1', 
-'K-SeqExistsFunc-2', 
-'K-SeqExistsFunc-3', 
-'K-SeqExistsFunc-4', 
-'K-SeqExistsFunc-5', 
-'K-SeqExistsFunc-6', 
-'K-SeqExistsFunc-7', 
-'K-SeqExistsFunc-8', 
-'K-SeqExistsFunc-9', 
-'K-SeqExistsFunc-10', 
-'K-SeqExistsFunc-11', 
-'K-SeqExistsFunc-12', 
-'K-SeqExistsFunc-13', 
-'K-SeqExistsFunc-14', 
-'cbcl-exists-001', 
-'cbcl-exists-002', 
-'cbcl-exists-003', 
-'cbcl-exists-004', 
-'cbcl-exists-005'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-existsint1args-1', 
+    'fn-existsint1args-2', 
+    'fn-existsint1args-3', 
+    'fn-existsintg1args-1', 
+    'fn-existsintg1args-2', 
+    'fn-existsintg1args-3', 
+    'fn-existsdec1args-1', 
+    'fn-existsdec1args-2', 
+    'fn-existsdec1args-3', 
+    'fn-existsdbl1args-1', 
+    'fn-existsdbl1args-2', 
+    'fn-existsdbl1args-3', 
+    'fn-existsflt1args-1', 
+    'fn-existsflt1args-2', 
+    'fn-existsflt1args-3', 
+    'fn-existslng1args-1', 
+    'fn-existslng1args-2', 
+    'fn-existslng1args-3', 
+    'fn-existsusht1args-1', 
+    'fn-existsusht1args-2', 
+    'fn-existsusht1args-3', 
+    'fn-existsnint1args-1', 
+    'fn-existsnint1args-2']}, 
+   {group_1, [parallel], [
+    'fn-existsnint1args-3', 
+    'fn-existspint1args-1', 
+    'fn-existspint1args-2', 
+    'fn-existspint1args-3', 
+    'fn-existsulng1args-1', 
+    'fn-existsulng1args-2', 
+    'fn-existsulng1args-3', 
+    'fn-existsnpi1args-1', 
+    'fn-existsnpi1args-2', 
+    'fn-existsnpi1args-3', 
+    'fn-existsnni1args-1', 
+    'fn-existsnni1args-2', 
+    'fn-existsnni1args-3', 
+    'fn-existssht1args-1', 
+    'fn-existssht1args-2', 
+    'fn-existssht1args-3', 
+    'K-SeqExistsFunc-1', 
+    'K-SeqExistsFunc-2', 
+    'K-SeqExistsFunc-3', 
+    'K-SeqExistsFunc-4', 
+    'K-SeqExistsFunc-5', 
+    'K-SeqExistsFunc-6', 
+    'K-SeqExistsFunc-7', 
+    'K-SeqExistsFunc-8']}, 
+   {group_2, [parallel], [
+    'K-SeqExistsFunc-9', 
+    'K-SeqExistsFunc-10', 
+    'K-SeqExistsFunc-11', 
+    'K-SeqExistsFunc-12', 
+    'K-SeqExistsFunc-13', 
+    'K-SeqExistsFunc-14', 
+    'cbcl-exists-001', 
+    'cbcl-exists-002', 
+    'cbcl-exists-003', 
+    'cbcl-exists-004', 
+    'cbcl-exists-005']}].
 
 'fn-existsint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

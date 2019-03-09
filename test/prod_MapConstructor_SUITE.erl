@@ -1,8 +1,11 @@
 -module('prod_MapConstructor_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['MapConstructor-001'/1]).
 -export(['MapConstructor-002'/1]).
@@ -46,7 +49,10 @@
 -export(['MapConstructor-040'/1]).
 -export(['MapConstructor-041'/1]).
 -export(['MapConstructor-042'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -57,49 +63,54 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'MapConstructor-001', 
-'MapConstructor-002', 
-'MapConstructor-003', 
-'MapConstructor-004', 
-'MapConstructor-005', 
-'MapConstructor-006', 
-'MapConstructor-007', 
-'MapConstructor-008', 
-'MapConstructor-009', 
-'MapConstructor-010', 
-'MapConstructor-011', 
-'MapConstructor-012', 
-'MapConstructor-013', 
-'MapConstructor-014', 
-'MapConstructor-015', 
-'MapConstructor-016', 
-'MapConstructor-017', 
-'MapConstructor-018', 
-'MapConstructor-019', 
-'MapConstructor-020', 
-'MapConstructor-021', 
-'MapConstructor-022', 
-'MapConstructor-023', 
-'MapConstructor-024', 
-'MapConstructor-025', 
-'MapConstructor-026', 
-'MapConstructor-027', 
-'MapConstructor-028', 
-'MapConstructor-029', 
-'MapConstructor-030', 
-'MapConstructor-031', 
-'MapConstructor-032', 
-'MapConstructor-033', 
-'MapConstructor-034', 
-'MapConstructor-035', 
-'MapConstructor-036', 
-'MapConstructor-037', 
-'MapConstructor-038', 
-'MapConstructor-039', 
-'MapConstructor-040', 
-'MapConstructor-041', 
-'MapConstructor-042'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'MapConstructor-001', 
+    'MapConstructor-002', 
+    'MapConstructor-003', 
+    'MapConstructor-004', 
+    'MapConstructor-005', 
+    'MapConstructor-006', 
+    'MapConstructor-007', 
+    'MapConstructor-008', 
+    'MapConstructor-009', 
+    'MapConstructor-010', 
+    'MapConstructor-011', 
+    'MapConstructor-012', 
+    'MapConstructor-013', 
+    'MapConstructor-014', 
+    'MapConstructor-015', 
+    'MapConstructor-016', 
+    'MapConstructor-017', 
+    'MapConstructor-018', 
+    'MapConstructor-019', 
+    'MapConstructor-020', 
+    'MapConstructor-021', 
+    'MapConstructor-022', 
+    'MapConstructor-023']}, 
+   {group_1, [parallel], [
+    'MapConstructor-024', 
+    'MapConstructor-025', 
+    'MapConstructor-026', 
+    'MapConstructor-027', 
+    'MapConstructor-028', 
+    'MapConstructor-029', 
+    'MapConstructor-030', 
+    'MapConstructor-031', 
+    'MapConstructor-032', 
+    'MapConstructor-033', 
+    'MapConstructor-034', 
+    'MapConstructor-035', 
+    'MapConstructor-036', 
+    'MapConstructor-037', 
+    'MapConstructor-038', 
+    'MapConstructor-039', 
+    'MapConstructor-040', 
+    'MapConstructor-041', 
+    'MapConstructor-042']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

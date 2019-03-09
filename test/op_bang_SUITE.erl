@@ -1,8 +1,11 @@
 -module('op_bang_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['bang-1'/1]).
 -export(['bang-2'/1]).
@@ -18,7 +21,10 @@
 -export(['bang-12'/1]).
 -export(['bang-13'/1]).
 -export(['bang-14'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -29,21 +35,24 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'bang-1', 
-'bang-2', 
-'bang-3', 
-'bang-4', 
-'bang-5', 
-'bang-6', 
-'bang-7', 
-'bang-8', 
-'bang-9', 
-'bang-10', 
-'bang-11', 
-'bang-12', 
-'bang-13', 
-'bang-14'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'bang-1', 
+    'bang-2', 
+    'bang-3', 
+    'bang-4', 
+    'bang-5', 
+    'bang-6', 
+    'bang-7', 
+    'bang-8', 
+    'bang-9', 
+    'bang-10', 
+    'bang-11', 
+    'bang-12', 
+    'bang-13', 
+    'bang-14']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

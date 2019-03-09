@@ -1,8 +1,11 @@
 -module('prod_DecimalFormatDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['decimal-format-01'/1]).
 -export(['decimal-format-02'/1]).
@@ -45,7 +48,10 @@
 -export(['decimal-format-910err'/1]).
 -export(['decimal-format-911err'/1]).
 -export(['decimal-format-912err'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -56,48 +62,53 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'decimal-format-01', 
-'decimal-format-02', 
-'decimal-format-03', 
-'decimal-format-04', 
-'decimal-format-05', 
-'decimal-format-06', 
-'decimal-format-07', 
-'decimal-format-09', 
-'decimal-format-11', 
-'decimal-format-12', 
-'decimal-format-13', 
-'decimal-format-14', 
-'decimal-format-15', 
-'decimal-format-16', 
-'decimal-format-17', 
-'decimal-format-18', 
-'decimal-format-19', 
-'decimal-format-20', 
-'decimal-format-21', 
-'decimal-format-31', 
-'decimal-format-32', 
-'decimal-format-33', 
-'decimal-format-34', 
-'decimal-format-35', 
-'decimal-format-36', 
-'decimal-format-37', 
-'decimal-format-38', 
-'decimal-format-39', 
-'decimal-format-40', 
-'decimal-format-901err', 
-'decimal-format-902err', 
-'decimal-format-903err', 
-'decimal-format-904err', 
-'decimal-format-905err', 
-'decimal-format-906err', 
-'decimal-format-907err', 
-'decimal-format-908err', 
-'decimal-format-909err', 
-'decimal-format-910err', 
-'decimal-format-911err', 
-'decimal-format-912err'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'decimal-format-01', 
+    'decimal-format-02', 
+    'decimal-format-03', 
+    'decimal-format-04', 
+    'decimal-format-05', 
+    'decimal-format-06', 
+    'decimal-format-07', 
+    'decimal-format-09', 
+    'decimal-format-11', 
+    'decimal-format-12', 
+    'decimal-format-13', 
+    'decimal-format-14', 
+    'decimal-format-15', 
+    'decimal-format-16', 
+    'decimal-format-17', 
+    'decimal-format-18', 
+    'decimal-format-19', 
+    'decimal-format-20', 
+    'decimal-format-21', 
+    'decimal-format-31', 
+    'decimal-format-32', 
+    'decimal-format-33', 
+    'decimal-format-34']}, 
+   {group_1, [parallel], [
+    'decimal-format-35', 
+    'decimal-format-36', 
+    'decimal-format-37', 
+    'decimal-format-38', 
+    'decimal-format-39', 
+    'decimal-format-40', 
+    'decimal-format-901err', 
+    'decimal-format-902err', 
+    'decimal-format-903err', 
+    'decimal-format-904err', 
+    'decimal-format-905err', 
+    'decimal-format-906err', 
+    'decimal-format-907err', 
+    'decimal-format-908err', 
+    'decimal-format-909err', 
+    'decimal-format-910err', 
+    'decimal-format-911err', 
+    'decimal-format-912err']}].
 
 'decimal-format-01'(Config) ->
    __BaseDir = ?config(base_dir, Config),

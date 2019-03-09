@@ -1,8 +1,11 @@
 -module('op_dayTimeDuration_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-dayTimeDuration-greater-than2args-1'/1]).
 -export(['op-dayTimeDuration-greater-than2args-2'/1]).
@@ -62,7 +65,10 @@
 -export(['cbcl-value-greater-than-010'/1]).
 -export(['cbcl-value-greater-than-011'/1]).
 -export(['cbcl-value-greater-than-012'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-dayTimeDuration-greater-than2args-1', 
-'op-dayTimeDuration-greater-than2args-2', 
-'op-dayTimeDuration-greater-than2args-3', 
-'op-dayTimeDuration-greater-than2args-4', 
-'op-dayTimeDuration-greater-than2args-5', 
-'op-dayTimeDuration-greater-than2args-6', 
-'op-dayTimeDuration-greater-than2args-7', 
-'op-dayTimeDuration-greater-than2args-8', 
-'op-dayTimeDuration-greater-than2args-9', 
-'op-dayTimeDuration-greater-than2args-10', 
-'op-dayTimeDuration-greater-than-3', 
-'op-dayTimeDuration-greater-than-4', 
-'op-dayTimeDuration-greater-than-5', 
-'op-dayTimeDuration-greater-than-6', 
-'op-dayTimeDuration-greater-than-7', 
-'op-dayTimeDuration-greater-than-8', 
-'op-dayTimeDuration-greater-than-9', 
-'op-dayTimeDuration-greater-than-10', 
-'op-dayTimeDuration-greater-than-11', 
-'op-dayTimeDuration-greater-than-12', 
-'op-dayTimeDuration-greater-than-13', 
-'op-dayTimeDuration-greater-than-14', 
-'K-DayTimeDurationGT-1', 
-'K-DayTimeDurationGT-2', 
-'K-DayTimeDurationGT-3', 
-'K-DayTimeDurationGT-4', 
-'K-DayTimeDurationGT-5', 
-'K-DayTimeDurationGT-6', 
-'cbcl-dayTimeDuration-greater-than-001', 
-'cbcl-dayTimeDuration-greater-than-002', 
-'cbcl-dayTimeDuration-greater-than-003', 
-'cbcl-dayTimeDuration-greater-than-004', 
-'cbcl-dayTimeDuration-greater-than-005', 
-'cbcl-dayTimeDuration-greater-than-006', 
-'cbcl-value-greater-equal-001', 
-'cbcl-value-greater-equal-002', 
-'cbcl-value-greater-equal-003', 
-'cbcl-value-greater-equal-004', 
-'cbcl-value-greater-equal-005', 
-'cbcl-value-greater-equal-006', 
-'cbcl-value-greater-equal-007', 
-'cbcl-value-greater-equal-008', 
-'cbcl-value-greater-equal-009', 
-'cbcl-value-greater-equal-010', 
-'cbcl-value-greater-equal-011', 
-'cbcl-value-greater-equal-012', 
-'cbcl-value-greater-than-001', 
-'cbcl-value-greater-than-002', 
-'cbcl-value-greater-than-003', 
-'cbcl-value-greater-than-004', 
-'cbcl-value-greater-than-005', 
-'cbcl-value-greater-than-006', 
-'cbcl-value-greater-than-007', 
-'cbcl-value-greater-than-008', 
-'cbcl-value-greater-than-009', 
-'cbcl-value-greater-than-010', 
-'cbcl-value-greater-than-011', 
-'cbcl-value-greater-than-012'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-dayTimeDuration-greater-than2args-1', 
+    'op-dayTimeDuration-greater-than2args-2', 
+    'op-dayTimeDuration-greater-than2args-3', 
+    'op-dayTimeDuration-greater-than2args-4', 
+    'op-dayTimeDuration-greater-than2args-5', 
+    'op-dayTimeDuration-greater-than2args-6', 
+    'op-dayTimeDuration-greater-than2args-7', 
+    'op-dayTimeDuration-greater-than2args-8', 
+    'op-dayTimeDuration-greater-than2args-9', 
+    'op-dayTimeDuration-greater-than2args-10', 
+    'op-dayTimeDuration-greater-than-3', 
+    'op-dayTimeDuration-greater-than-4', 
+    'op-dayTimeDuration-greater-than-5', 
+    'op-dayTimeDuration-greater-than-6', 
+    'op-dayTimeDuration-greater-than-7', 
+    'op-dayTimeDuration-greater-than-8', 
+    'op-dayTimeDuration-greater-than-9', 
+    'op-dayTimeDuration-greater-than-10', 
+    'op-dayTimeDuration-greater-than-11', 
+    'op-dayTimeDuration-greater-than-12', 
+    'op-dayTimeDuration-greater-than-13', 
+    'op-dayTimeDuration-greater-than-14', 
+    'K-DayTimeDurationGT-1']}, 
+   {group_1, [parallel], [
+    'K-DayTimeDurationGT-2', 
+    'K-DayTimeDurationGT-3', 
+    'K-DayTimeDurationGT-4', 
+    'K-DayTimeDurationGT-5', 
+    'K-DayTimeDurationGT-6', 
+    'cbcl-dayTimeDuration-greater-than-001', 
+    'cbcl-dayTimeDuration-greater-than-002', 
+    'cbcl-dayTimeDuration-greater-than-003', 
+    'cbcl-dayTimeDuration-greater-than-004', 
+    'cbcl-dayTimeDuration-greater-than-005', 
+    'cbcl-dayTimeDuration-greater-than-006', 
+    'cbcl-value-greater-equal-001', 
+    'cbcl-value-greater-equal-002', 
+    'cbcl-value-greater-equal-003', 
+    'cbcl-value-greater-equal-004', 
+    'cbcl-value-greater-equal-005', 
+    'cbcl-value-greater-equal-006', 
+    'cbcl-value-greater-equal-007', 
+    'cbcl-value-greater-equal-008', 
+    'cbcl-value-greater-equal-009', 
+    'cbcl-value-greater-equal-010', 
+    'cbcl-value-greater-equal-011', 
+    'cbcl-value-greater-equal-012', 
+    'cbcl-value-greater-than-001']}, 
+   {group_2, [parallel], [
+    'cbcl-value-greater-than-002', 
+    'cbcl-value-greater-than-003', 
+    'cbcl-value-greater-than-004', 
+    'cbcl-value-greater-than-005', 
+    'cbcl-value-greater-than-006', 
+    'cbcl-value-greater-than-007', 
+    'cbcl-value-greater-than-008', 
+    'cbcl-value-greater-than-009', 
+    'cbcl-value-greater-than-010', 
+    'cbcl-value-greater-than-011', 
+    'cbcl-value-greater-than-012']}].
 
 'op-dayTimeDuration-greater-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

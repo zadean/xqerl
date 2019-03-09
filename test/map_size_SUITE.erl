@@ -1,8 +1,11 @@
 -module('map_size_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['map-size-001'/1]).
 -export(['map-size-002'/1]).
@@ -18,7 +21,10 @@
 -export(['map-size-012'/1]).
 -export(['map-size-013'/1]).
 -export(['map-size-014'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -29,21 +35,24 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'map-size-001', 
-'map-size-002', 
-'map-size-003', 
-'map-size-004', 
-'map-size-005', 
-'map-size-006', 
-'map-size-007', 
-'map-size-008', 
-'map-size-009', 
-'map-size-010', 
-'map-size-011', 
-'map-size-012', 
-'map-size-013', 
-'map-size-014'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'map-size-001', 
+    'map-size-002', 
+    'map-size-003', 
+    'map-size-004', 
+    'map-size-005', 
+    'map-size-006', 
+    'map-size-007', 
+    'map-size-008', 
+    'map-size-009', 
+    'map-size-010', 
+    'map-size-011', 
+    'map-size-012', 
+    'map-size-013', 
+    'map-size-014']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

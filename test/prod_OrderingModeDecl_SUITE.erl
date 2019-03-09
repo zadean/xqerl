@@ -1,8 +1,11 @@
 -module('prod_OrderingModeDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['orderDecl-1'/1]).
 -export(['orderDecl-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-DefaultOrderingProlog-3'/1]).
 -export(['K2-DefaultOrderingProlog-1'/1]).
 -export(['K2-DefaultOrderingProlog-2'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'orderDecl-1', 
-'orderDecl-2', 
-'orderdecl-3', 
-'orderDecl-4', 
-'orderdecl-5', 
-'orderdecl-6', 
-'orderDecl-7', 
-'orderDecl-8', 
-'orderDecl-9', 
-'orderDecl-10', 
-'orderDecl-11', 
-'orderDecl-12', 
-'orderDecl-13', 
-'orderdecl-14', 
-'orderDecl-15', 
-'orderDecl-16', 
-'orderDecl-17', 
-'orderDecl-18', 
-'orderDecl-20', 
-'orderDecl-21', 
-'orderDecl-22', 
-'orderDecl-23', 
-'K-DefaultOrderingProlog-1', 
-'K-DefaultOrderingProlog-2', 
-'K-DefaultOrderingProlog-3', 
-'K2-DefaultOrderingProlog-1', 
-'K2-DefaultOrderingProlog-2'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'orderDecl-1', 
+    'orderDecl-2', 
+    'orderdecl-3', 
+    'orderDecl-4', 
+    'orderdecl-5', 
+    'orderdecl-6', 
+    'orderDecl-7', 
+    'orderDecl-8', 
+    'orderDecl-9', 
+    'orderDecl-10', 
+    'orderDecl-11', 
+    'orderDecl-12', 
+    'orderDecl-13', 
+    'orderdecl-14', 
+    'orderDecl-15', 
+    'orderDecl-16', 
+    'orderDecl-17', 
+    'orderDecl-18', 
+    'orderDecl-20', 
+    'orderDecl-21', 
+    'orderDecl-22', 
+    'orderDecl-23', 
+    'K-DefaultOrderingProlog-1']}, 
+   {group_1, [parallel], [
+    'K-DefaultOrderingProlog-2', 
+    'K-DefaultOrderingProlog-3', 
+    'K2-DefaultOrderingProlog-1', 
+    'K2-DefaultOrderingProlog-2']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

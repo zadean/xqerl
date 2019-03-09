@@ -1,8 +1,11 @@
 -module('prod_AllowingEmpty_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['outer-001'/1]).
 -export(['outer-002'/1]).
@@ -23,7 +26,10 @@
 -export(['outer-017'/1]).
 -export(['outer-018'/1]).
 -export(['outer-019'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -34,26 +40,29 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'outer-001', 
-'outer-002', 
-'outer-003', 
-'outer-004', 
-'outer-005', 
-'outer-006', 
-'outer-007', 
-'outer-008', 
-'outer-009', 
-'outer-010', 
-'outer-011', 
-'outer-012', 
-'outer-013', 
-'outer-014', 
-'outer-015', 
-'outer-016', 
-'outer-017', 
-'outer-018', 
-'outer-019'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'outer-001', 
+    'outer-002', 
+    'outer-003', 
+    'outer-004', 
+    'outer-005', 
+    'outer-006', 
+    'outer-007', 
+    'outer-008', 
+    'outer-009', 
+    'outer-010', 
+    'outer-011', 
+    'outer-012', 
+    'outer-013', 
+    'outer-014', 
+    'outer-015', 
+    'outer-016', 
+    'outer-017', 
+    'outer-018', 
+    'outer-019']}].
 
 'outer-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

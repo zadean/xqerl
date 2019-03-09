@@ -1,8 +1,11 @@
 -module('op_concatenate_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['sequenceexpressionhc1'/1]).
 -export(['sequenceexpressionhc2'/1]).
@@ -58,7 +61,10 @@
 -export(['K-commaOp-1'/1]).
 -export(['K-commaOp-2'/1]).
 -export(['K-commaOp-3'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'sequenceexpressionhc1', 
-'sequenceexpressionhc2', 
-'sequenceexpressionhc3', 
-'sequenceexpressionhc4', 
-'sequenceexpressionhc5', 
-'sequenceexpressionhc6', 
-'sequenceexpressionhc7', 
-'sequenceexpressionhc8', 
-'sequenceexpressionhc9', 
-'constSeq-1', 
-'constSeq-2', 
-'constSeq-3', 
-'constSeq-4', 
-'constSeq-5', 
-'constSeq-6', 
-'constSeq-7', 
-'constSeq-8', 
-'constSeq-9', 
-'constSeq-10', 
-'constSeq-11', 
-'constSeq-12', 
-'constSeq-13', 
-'constSeq-14', 
-'constSeq-15', 
-'constSeq-16', 
-'constSeq-17', 
-'constSeq-18', 
-'constSeq-19', 
-'constSeq-20', 
-'constSeq-21', 
-'constSeq-22', 
-'op-concatenate-mix-args-001', 
-'op-concatenate-mix-args-002', 
-'op-concatenate-mix-args-003', 
-'op-concatenate-mix-args-004', 
-'op-concatenate-mix-args-005', 
-'op-concatenate-mix-args-006', 
-'op-concatenate-mix-args-007', 
-'op-concatenate-mix-args-008', 
-'op-concatenate-mix-args-009', 
-'op-concatenate-mix-args-010', 
-'op-concatenate-mix-args-011', 
-'op-concatenate-mix-args-012', 
-'op-concatenate-mix-args-013', 
-'op-concatenate-mix-args-014', 
-'op-concatenate-mix-args-015', 
-'op-concatenate-mix-args-016', 
-'op-concatenate-mix-args-017', 
-'op-concatenate-mix-args-018', 
-'op-concatenate-mix-args-019', 
-'op-concatenate-mix-args-020', 
-'K-commaOp-1', 
-'K-commaOp-2', 
-'K-commaOp-3'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'sequenceexpressionhc1', 
+    'sequenceexpressionhc2', 
+    'sequenceexpressionhc3', 
+    'sequenceexpressionhc4', 
+    'sequenceexpressionhc5', 
+    'sequenceexpressionhc6', 
+    'sequenceexpressionhc7', 
+    'sequenceexpressionhc8', 
+    'sequenceexpressionhc9', 
+    'constSeq-1', 
+    'constSeq-2', 
+    'constSeq-3', 
+    'constSeq-4', 
+    'constSeq-5', 
+    'constSeq-6', 
+    'constSeq-7', 
+    'constSeq-8', 
+    'constSeq-9', 
+    'constSeq-10', 
+    'constSeq-11', 
+    'constSeq-12', 
+    'constSeq-13', 
+    'constSeq-14']}, 
+   {group_1, [parallel], [
+    'constSeq-15', 
+    'constSeq-16', 
+    'constSeq-17', 
+    'constSeq-18', 
+    'constSeq-19', 
+    'constSeq-20', 
+    'constSeq-21', 
+    'constSeq-22', 
+    'op-concatenate-mix-args-001', 
+    'op-concatenate-mix-args-002', 
+    'op-concatenate-mix-args-003', 
+    'op-concatenate-mix-args-004', 
+    'op-concatenate-mix-args-005', 
+    'op-concatenate-mix-args-006', 
+    'op-concatenate-mix-args-007', 
+    'op-concatenate-mix-args-008', 
+    'op-concatenate-mix-args-009', 
+    'op-concatenate-mix-args-010', 
+    'op-concatenate-mix-args-011', 
+    'op-concatenate-mix-args-012', 
+    'op-concatenate-mix-args-013', 
+    'op-concatenate-mix-args-014', 
+    'op-concatenate-mix-args-015', 
+    'op-concatenate-mix-args-016']}, 
+   {group_2, [parallel], [
+    'op-concatenate-mix-args-017', 
+    'op-concatenate-mix-args-018', 
+    'op-concatenate-mix-args-019', 
+    'op-concatenate-mix-args-020', 
+    'K-commaOp-1', 
+    'K-commaOp-2', 
+    'K-commaOp-3']}].
 environment('works',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 

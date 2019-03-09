@@ -1,8 +1,11 @@
 -module('op_dayTimeDuration_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-dayTimeDuration-less-than2args-1'/1]).
 -export(['op-dayTimeDuration-less-than2args-2'/1]).
@@ -50,7 +53,10 @@
 -export(['cbcl-value-less-equal-010'/1]).
 -export(['cbcl-value-less-equal-011'/1]).
 -export(['cbcl-value-less-equal-012'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -61,53 +67,58 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-dayTimeDuration-less-than2args-1', 
-'op-dayTimeDuration-less-than2args-2', 
-'op-dayTimeDuration-less-than2args-3', 
-'op-dayTimeDuration-less-than2args-4', 
-'op-dayTimeDuration-less-than2args-5', 
-'op-dayTimeDuration-less-than2args-6', 
-'op-dayTimeDuration-less-than2args-7', 
-'op-dayTimeDuration-less-than2args-8', 
-'op-dayTimeDuration-less-than2args-9', 
-'op-dayTimeDuration-less-than2args-10', 
-'op-dayTimeDuration-less-than-3', 
-'op-dayTimeDuration-less-than-4', 
-'op-dayTimeDuration-less-than-5', 
-'op-dayTimeDuration-less-than-6', 
-'op-dayTimeDuration-less-than-7', 
-'op-dayTimeDuration-less-than-8', 
-'op-dayTimeDuration-less-than-9', 
-'op-dayTimeDuration-less-than-10', 
-'op-dayTimeDuration-less-than-11', 
-'op-dayTimeDuration-less-than-12', 
-'op-dayTimeDuration-less-than-13', 
-'op-dayTimeDuration-less-than-14', 
-'K-DayTimeDurationLT-1', 
-'K-DayTimeDurationLT-2', 
-'K-DayTimeDurationLT-3', 
-'K-DayTimeDurationLT-4', 
-'K-DayTimeDurationLT-5', 
-'K-DayTimeDurationLT-6', 
-'cbcl-dayTimeDuration-less-than-001', 
-'cbcl-dayTimeDuration-less-than-002', 
-'cbcl-dayTimeDuration-less-than-003', 
-'cbcl-dayTimeDuration-less-than-004', 
-'cbcl-dayTimeDuration-less-than-005', 
-'cbcl-dayTimeDuration-less-than-006', 
-'cbcl-value-less-equal-001', 
-'cbcl-value-less-equal-002', 
-'cbcl-value-less-equal-003', 
-'cbcl-value-less-equal-004', 
-'cbcl-value-less-equal-005', 
-'cbcl-value-less-equal-006', 
-'cbcl-value-less-equal-007', 
-'cbcl-value-less-equal-008', 
-'cbcl-value-less-equal-009', 
-'cbcl-value-less-equal-010', 
-'cbcl-value-less-equal-011', 
-'cbcl-value-less-equal-012'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-dayTimeDuration-less-than2args-1', 
+    'op-dayTimeDuration-less-than2args-2', 
+    'op-dayTimeDuration-less-than2args-3', 
+    'op-dayTimeDuration-less-than2args-4', 
+    'op-dayTimeDuration-less-than2args-5', 
+    'op-dayTimeDuration-less-than2args-6', 
+    'op-dayTimeDuration-less-than2args-7', 
+    'op-dayTimeDuration-less-than2args-8', 
+    'op-dayTimeDuration-less-than2args-9', 
+    'op-dayTimeDuration-less-than2args-10', 
+    'op-dayTimeDuration-less-than-3', 
+    'op-dayTimeDuration-less-than-4', 
+    'op-dayTimeDuration-less-than-5', 
+    'op-dayTimeDuration-less-than-6', 
+    'op-dayTimeDuration-less-than-7', 
+    'op-dayTimeDuration-less-than-8', 
+    'op-dayTimeDuration-less-than-9', 
+    'op-dayTimeDuration-less-than-10', 
+    'op-dayTimeDuration-less-than-11', 
+    'op-dayTimeDuration-less-than-12', 
+    'op-dayTimeDuration-less-than-13', 
+    'op-dayTimeDuration-less-than-14', 
+    'K-DayTimeDurationLT-1']}, 
+   {group_1, [parallel], [
+    'K-DayTimeDurationLT-2', 
+    'K-DayTimeDurationLT-3', 
+    'K-DayTimeDurationLT-4', 
+    'K-DayTimeDurationLT-5', 
+    'K-DayTimeDurationLT-6', 
+    'cbcl-dayTimeDuration-less-than-001', 
+    'cbcl-dayTimeDuration-less-than-002', 
+    'cbcl-dayTimeDuration-less-than-003', 
+    'cbcl-dayTimeDuration-less-than-004', 
+    'cbcl-dayTimeDuration-less-than-005', 
+    'cbcl-dayTimeDuration-less-than-006', 
+    'cbcl-value-less-equal-001', 
+    'cbcl-value-less-equal-002', 
+    'cbcl-value-less-equal-003', 
+    'cbcl-value-less-equal-004', 
+    'cbcl-value-less-equal-005', 
+    'cbcl-value-less-equal-006', 
+    'cbcl-value-less-equal-007', 
+    'cbcl-value-less-equal-008', 
+    'cbcl-value-less-equal-009', 
+    'cbcl-value-less-equal-010', 
+    'cbcl-value-less-equal-011', 
+    'cbcl-value-less-equal-012']}].
 
 'op-dayTimeDuration-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

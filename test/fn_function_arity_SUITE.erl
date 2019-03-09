@@ -1,8 +1,11 @@
 -module('fn_function_arity_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-function-arity-001'/1]).
 -export(['fn-function-arity-002'/1]).
@@ -27,7 +30,10 @@
 -export(['fn-function-arity-021'/1]).
 -export(['fn-function-arity-022'/1]).
 -export(['fn-function-arity-023'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -38,30 +44,33 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-function-arity-001', 
-'fn-function-arity-002', 
-'fn-function-arity-003', 
-'fn-function-arity-004', 
-'fn-function-arity-005', 
-'fn-function-arity-006', 
-'fn-function-arity-007', 
-'fn-function-arity-008', 
-'fn-function-arity-009', 
-'fn-function-arity-010', 
-'fn-function-arity-011', 
-'fn-function-arity-012', 
-'fn-function-arity-013', 
-'fn-function-arity-014', 
-'fn-function-arity-015', 
-'fn-function-arity-016', 
-'fn-function-arity-017', 
-'fn-function-arity-018', 
-'fn-function-arity-019', 
-'fn-function-arity-020', 
-'fn-function-arity-021', 
-'fn-function-arity-022', 
-'fn-function-arity-023'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-function-arity-001', 
+    'fn-function-arity-002', 
+    'fn-function-arity-003', 
+    'fn-function-arity-004', 
+    'fn-function-arity-005', 
+    'fn-function-arity-006', 
+    'fn-function-arity-007', 
+    'fn-function-arity-008', 
+    'fn-function-arity-009', 
+    'fn-function-arity-010', 
+    'fn-function-arity-011', 
+    'fn-function-arity-012', 
+    'fn-function-arity-013', 
+    'fn-function-arity-014', 
+    'fn-function-arity-015', 
+    'fn-function-arity-016', 
+    'fn-function-arity-017', 
+    'fn-function-arity-018', 
+    'fn-function-arity-019', 
+    'fn-function-arity-020', 
+    'fn-function-arity-021', 
+    'fn-function-arity-022', 
+    'fn-function-arity-023']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

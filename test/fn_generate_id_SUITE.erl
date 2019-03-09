@@ -1,8 +1,11 @@
 -module('fn_generate_id_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['generate-id-000'/1]).
 -export(['generate-id-001'/1]).
@@ -33,7 +36,10 @@
 -export(['generate-id-903'/1]).
 -export(['generate-id-904'/1]).
 -export(['generate-id-905'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -44,36 +50,41 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'generate-id-000', 
-'generate-id-001', 
-'generate-id-002', 
-'generate-id-003', 
-'generate-id-004', 
-'generate-id-005', 
-'generate-id-006', 
-'generate-id-007', 
-'generate-id-008', 
-'generate-id-009', 
-'generate-id-010', 
-'generate-id-011', 
-'generate-id-012', 
-'generate-id-013', 
-'generate-id-014', 
-'generate-id-015', 
-'generate-id-016', 
-'generate-id-017', 
-'generate-id-018', 
-'generate-id-019', 
-'generate-id-020', 
-'generate-id-021', 
-'generate-id-022', 
-'generate-id-023', 
-'generate-id-901', 
-'generate-id-902', 
-'generate-id-903', 
-'generate-id-904', 
-'generate-id-905'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'generate-id-000', 
+    'generate-id-001', 
+    'generate-id-002', 
+    'generate-id-003', 
+    'generate-id-004', 
+    'generate-id-005', 
+    'generate-id-006', 
+    'generate-id-007', 
+    'generate-id-008', 
+    'generate-id-009', 
+    'generate-id-010', 
+    'generate-id-011', 
+    'generate-id-012', 
+    'generate-id-013', 
+    'generate-id-014', 
+    'generate-id-015', 
+    'generate-id-016', 
+    'generate-id-017', 
+    'generate-id-018', 
+    'generate-id-019', 
+    'generate-id-020', 
+    'generate-id-021', 
+    'generate-id-022']}, 
+   {group_1, [parallel], [
+    'generate-id-023', 
+    'generate-id-901', 
+    'generate-id-902', 
+    'generate-id-903', 
+    'generate-id-904', 
+    'generate-id-905']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,7 +1,7 @@
 declare namespace _ = "http://xqerl.org/xquery/test_cases";
 declare namespace x = "http://xqerl.org/xquery";
 
-(: declare option db:chop 'false'; :)
+declare option db:chop 'false';
 
 declare variable $catalog := doc("./QT3-test-suite/catalog.xml");
 
@@ -421,8 +421,8 @@ declare function _:get-query($test-case) as xs:string
     if ($test/@file) then
       resolve-uri($test/@file, base-uri($test-case)) =>
       (: BaseX fallback true for invalid XML characters :)
-      (: file:read-text("utf-8",true())  => :)
-      file:read-text("utf-8")   =>
+      file:read-text("utf-8",true())  =>
+      (: file:read-text("utf-8")   => :)
       _:mask-string()
     else
       _:mask-string($test/text())
@@ -716,13 +716,26 @@ declare function _:mod_exports($testCases)
   return _:join-nl(($testCases ! $f(.)))
 };
 
-declare function _:mod_all($testCases)
+declare function _:mod_all($testCases, $single)
 {
-  let $f := function($a){"'"||$a/@name||"'"}
+  (: fn:collection tests need to be done in a singleton group :)
+  let $max := if ($single) then 1 else 24
+  let $f  := function($a){"'"||$a/@name||"'"}
+  let $grpd := 
+      for $tc at $y in $testCases
+      group by $z := $y idiv $max
+      return
+      [$z, $tc]
   return
-    "all() -> ["||$_:n||
-    _:join-cnl(($testCases ! $f(.))) ||$_:n||
-    "]."
+  "all() -> ["||$_:n||
+  ($grpd ! ("   {group, group_" || .?1 || "}" ) ) => _:join-cnl() ||$_:n||
+  "   ]." ||$_:n||
+  "groups() -> ["||$_:n||
+  ($grpd ! ("   {group_" || .?1 || ", [parallel], ["||$_:n||
+  (.?2 ! ("    " || $f(.)) ) => _:join-cnl()
+  ||
+  "]}" ) ) => _:join-cnl()
+  ||"]."
 };
 
 (: Return all used environments if any :)
@@ -760,8 +773,11 @@ let $header             :=
   "-module('"||$SUITE||"')."                           ||$_:n||
   "-include_lib(""common_test/include/ct.hrl"")."      ||$_:n||
   "-export([all/0,"                                    ||$_:n||
+  "         groups/0,"                                 ||$_:n||
   "         suite/0])."                                ||$_:n||
   "-export([init_per_suite/1,"                         ||$_:n||
+  "         init_per_group/2,"                         ||$_:n||
+  "         end_per_group/2,"                          ||$_:n||
   "         end_per_suite/1])."                        ||$_:n||
   (: exports for each test case :)
   _:mod_exports($testCases)
@@ -769,10 +785,14 @@ let $standardFuns       :=
   (if ($catalogTestSetName = ("app_XMark",
                               "app_Demos")) then 
      (: Possibly time consuming tests so give them time to finish :)
-     "suite() -> [{timetrap,{seconds, 60}}]."
+     "suite() -> [{timetrap,{seconds, 240}}]."
    else 
-     "suite() -> [{timetrap,{seconds, 5}}]."
+     "suite() -> [{timetrap,{seconds, 180}}]."
   )||$_:n||
+  "init_per_group(_, Config) ->  Config."              ||$_:n||
+  "end_per_group(_, _Config) -> "                   ||$_:n||
+  (: Clears all compiled modules in the DB :)
+  "   xqerl_code_server:unload(all)."                 ||$_:n||
   "end_per_suite(_Config) -> "                   ||$_:n||
   (: Timetrap set to 60 seconds to allow modules to be purged :)
   "   ct:timetrap({seconds,60}), "               ||$_:n||
@@ -786,7 +806,7 @@ let $standardFuns       :=
   (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
-  _:mod_all($testCases)
+  _:mod_all($testCases, $SUITE eq 'fn_collection_SUITE')
 let $usedEnvironments := _:get-used-environments($testCases)
   , $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
   , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."

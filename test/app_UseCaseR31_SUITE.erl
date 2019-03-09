@@ -1,8 +1,11 @@
 -module('app_UseCaseR31_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['UseCaseR31-001'/1]).
 -export(['UseCaseR31-002'/1]).
@@ -29,7 +32,10 @@
 -export(['UseCaseR31-032'/1]).
 -export(['UseCaseR31-033'/1]).
 -export(['UseCaseR31-034-err'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -40,32 +46,37 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "app"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'UseCaseR31-001', 
-'UseCaseR31-002', 
-'UseCaseR31-003', 
-'UseCaseR31-004', 
-'UseCaseR31-009', 
-'UseCaseR31-012', 
-'UseCaseR31-013', 
-'UseCaseR31-014', 
-'UseCaseR31-015', 
-'UseCaseR31-016', 
-'UseCaseR31-017', 
-'UseCaseR31-018', 
-'UseCaseR31-019', 
-'UseCaseR31-022', 
-'UseCaseR31-023', 
-'UseCaseR31-025', 
-'UseCaseR31-026', 
-'UseCaseR31-027', 
-'UseCaseR31-028', 
-'UseCaseR31-029', 
-'UseCaseR31-030', 
-'UseCaseR31-031', 
-'UseCaseR31-032', 
-'UseCaseR31-033', 
-'UseCaseR31-034-err'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'UseCaseR31-001', 
+    'UseCaseR31-002', 
+    'UseCaseR31-003', 
+    'UseCaseR31-004', 
+    'UseCaseR31-009', 
+    'UseCaseR31-012', 
+    'UseCaseR31-013', 
+    'UseCaseR31-014', 
+    'UseCaseR31-015', 
+    'UseCaseR31-016', 
+    'UseCaseR31-017', 
+    'UseCaseR31-018', 
+    'UseCaseR31-019', 
+    'UseCaseR31-022', 
+    'UseCaseR31-023', 
+    'UseCaseR31-025', 
+    'UseCaseR31-026', 
+    'UseCaseR31-027', 
+    'UseCaseR31-028', 
+    'UseCaseR31-029', 
+    'UseCaseR31-030', 
+    'UseCaseR31-031', 
+    'UseCaseR31-032']}, 
+   {group_1, [parallel], [
+    'UseCaseR31-033', 
+    'UseCaseR31-034-err']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

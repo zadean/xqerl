@@ -1,8 +1,11 @@
 -module('prod_BaseURIDecl_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['base-URI-1'/1]).
 -export(['base-URI-2'/1]).
@@ -42,7 +45,10 @@
 -export(['K2-BaseURIProlog-6'/1]).
 -export(['K2-BaseURIProlog-7'/1]).
 -export(['base-URI-modules-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -53,45 +59,50 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'base-URI-1', 
-'base-URI-2', 
-'base-URI-3', 
-'base-URI-4', 
-'base-URI-5', 
-'base-URI-6', 
-'base-URI-7', 
-'base-URI-8', 
-'base-URI-9', 
-'base-URI-10', 
-'base-URI-11', 
-'base-URI-12', 
-'base-URI-13', 
-'base-URI-14', 
-'base-URI-15', 
-'base-URI-18', 
-'base-URI-19', 
-'base-URI-20', 
-'base-URI-21', 
-'base-URI-22', 
-'base-URI-23', 
-'base-URI-24', 
-'base-uri-25', 
-'base-uri-26', 
-'base-uri-27', 
-'base-uri-28', 
-'base-uri-29', 
-'K-BaseURIProlog-1', 
-'K-BaseURIProlog-2', 
-'K-BaseURIProlog-3', 
-'K2-BaseURIProlog-1', 
-'K2-BaseURIProlog-2', 
-'K2-BaseURIProlog-3', 
-'K2-BaseURIProlog-4', 
-'K2-BaseURIProlog-5', 
-'K2-BaseURIProlog-6', 
-'K2-BaseURIProlog-7', 
-'base-URI-modules-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'base-URI-1', 
+    'base-URI-2', 
+    'base-URI-3', 
+    'base-URI-4', 
+    'base-URI-5', 
+    'base-URI-6', 
+    'base-URI-7', 
+    'base-URI-8', 
+    'base-URI-9', 
+    'base-URI-10', 
+    'base-URI-11', 
+    'base-URI-12', 
+    'base-URI-13', 
+    'base-URI-14', 
+    'base-URI-15', 
+    'base-URI-18', 
+    'base-URI-19', 
+    'base-URI-20', 
+    'base-URI-21', 
+    'base-URI-22', 
+    'base-URI-23', 
+    'base-URI-24', 
+    'base-uri-25']}, 
+   {group_1, [parallel], [
+    'base-uri-26', 
+    'base-uri-27', 
+    'base-uri-28', 
+    'base-uri-29', 
+    'K-BaseURIProlog-1', 
+    'K-BaseURIProlog-2', 
+    'K-BaseURIProlog-3', 
+    'K2-BaseURIProlog-1', 
+    'K2-BaseURIProlog-2', 
+    'K2-BaseURIProlog-3', 
+    'K2-BaseURIProlog-4', 
+    'K2-BaseURIProlog-5', 
+    'K2-BaseURIProlog-6', 
+    'K2-BaseURIProlog-7', 
+    'base-URI-modules-001']}].
 
 'base-URI-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

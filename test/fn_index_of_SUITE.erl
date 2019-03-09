@@ -1,8 +1,11 @@
 -module('fn_index_of_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-indexof-mix-args-001'/1]).
 -export(['fn-indexof-mix-args-002'/1]).
@@ -57,7 +60,10 @@
 -export(['cbcl-fn-indexof-4'/1]).
 -export(['cbcl-fn-indexof-5'/1]).
 -export(['cbcl-fn-indexof-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -68,60 +74,67 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-indexof-mix-args-001', 
-'fn-indexof-mix-args-002', 
-'fn-indexof-mix-args-003', 
-'fn-indexof-mix-args-004', 
-'fn-indexof-mix-args-005', 
-'fn-indexof-mix-args-006', 
-'fn-indexof-mix-args-007', 
-'fn-indexof-mix-args-008', 
-'fn-indexof-mix-args-009', 
-'fn-indexof-mix-args-010', 
-'fn-indexof-mix-args-011', 
-'fn-indexof-mix-args-012', 
-'fn-indexof-mix-args-013', 
-'fn-indexof-mix-args-014', 
-'fn-indexof-mix-args-015', 
-'fn-indexof-mix-args-016', 
-'fn-indexof-mix-args-017', 
-'fn-indexof-mix-args-018', 
-'fn-indexof-mix-args-019', 
-'fn-indexof-mix-args-020', 
-'fn-indexof-mix-args-021', 
-'fn-indexof-mix-args-022', 
-'K-SeqIndexOfFunc-1', 
-'K-SeqIndexOfFunc-2', 
-'K-SeqIndexOfFunc-3', 
-'K-SeqIndexOfFunc-4', 
-'K-SeqIndexOfFunc-5', 
-'K-SeqIndexOfFunc-6', 
-'K-SeqIndexOfFunc-7', 
-'K-SeqIndexOfFunc-8', 
-'K-SeqIndexOfFunc-9', 
-'K-SeqIndexOfFunc-10', 
-'K-SeqIndexOfFunc-11', 
-'K-SeqIndexOfFunc-12', 
-'K-SeqIndexOfFunc-13', 
-'K-SeqIndexOfFunc-14', 
-'K-SeqIndexOfFunc-15', 
-'K-SeqIndexOfFunc-16', 
-'K-SeqIndexOfFunc-17', 
-'K-SeqIndexOfFunc-18', 
-'K-SeqIndexOfFunc-19', 
-'K-SeqIndexOfFunc-20', 
-'K-SeqIndexOfFunc-21', 
-'K-SeqIndexOfFunc-22', 
-'K-SeqIndexOfFunc-23', 
-'K-SeqIndexOfFunc-24', 
-'K-SeqIndexOfFunc-25', 
-'cbcl-fn-indexof-1', 
-'cbcl-fn-indexof-2', 
-'cbcl-fn-indexof-3', 
-'cbcl-fn-indexof-4', 
-'cbcl-fn-indexof-5', 
-'cbcl-fn-indexof-006'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-indexof-mix-args-001', 
+    'fn-indexof-mix-args-002', 
+    'fn-indexof-mix-args-003', 
+    'fn-indexof-mix-args-004', 
+    'fn-indexof-mix-args-005', 
+    'fn-indexof-mix-args-006', 
+    'fn-indexof-mix-args-007', 
+    'fn-indexof-mix-args-008', 
+    'fn-indexof-mix-args-009', 
+    'fn-indexof-mix-args-010', 
+    'fn-indexof-mix-args-011', 
+    'fn-indexof-mix-args-012', 
+    'fn-indexof-mix-args-013', 
+    'fn-indexof-mix-args-014', 
+    'fn-indexof-mix-args-015', 
+    'fn-indexof-mix-args-016', 
+    'fn-indexof-mix-args-017', 
+    'fn-indexof-mix-args-018', 
+    'fn-indexof-mix-args-019', 
+    'fn-indexof-mix-args-020', 
+    'fn-indexof-mix-args-021', 
+    'fn-indexof-mix-args-022', 
+    'K-SeqIndexOfFunc-1']}, 
+   {group_1, [parallel], [
+    'K-SeqIndexOfFunc-2', 
+    'K-SeqIndexOfFunc-3', 
+    'K-SeqIndexOfFunc-4', 
+    'K-SeqIndexOfFunc-5', 
+    'K-SeqIndexOfFunc-6', 
+    'K-SeqIndexOfFunc-7', 
+    'K-SeqIndexOfFunc-8', 
+    'K-SeqIndexOfFunc-9', 
+    'K-SeqIndexOfFunc-10', 
+    'K-SeqIndexOfFunc-11', 
+    'K-SeqIndexOfFunc-12', 
+    'K-SeqIndexOfFunc-13', 
+    'K-SeqIndexOfFunc-14', 
+    'K-SeqIndexOfFunc-15', 
+    'K-SeqIndexOfFunc-16', 
+    'K-SeqIndexOfFunc-17', 
+    'K-SeqIndexOfFunc-18', 
+    'K-SeqIndexOfFunc-19', 
+    'K-SeqIndexOfFunc-20', 
+    'K-SeqIndexOfFunc-21', 
+    'K-SeqIndexOfFunc-22', 
+    'K-SeqIndexOfFunc-23', 
+    'K-SeqIndexOfFunc-24', 
+    'K-SeqIndexOfFunc-25']}, 
+   {group_2, [parallel], [
+    'cbcl-fn-indexof-1', 
+    'cbcl-fn-indexof-2', 
+    'cbcl-fn-indexof-3', 
+    'cbcl-fn-indexof-4', 
+    'cbcl-fn-indexof-5', 
+    'cbcl-fn-indexof-006']}].
 environment('bib',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/bib.xml"), ".",[]}]}, 

@@ -1,8 +1,11 @@
 -module('op_numeric_unary_plus_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-numeric-unary-plusint1args-1'/1]).
 -export(['op-numeric-unary-plusint1args-2'/1]).
@@ -59,7 +62,10 @@
 -export(['K2-NumericUnaryPlus-2'/1]).
 -export(['op-numeric-unary-plus-1'/1]).
 -export(['cbcl-numeric-unary-plus-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -70,62 +76,69 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-numeric-unary-plusint1args-1', 
-'op-numeric-unary-plusint1args-2', 
-'op-numeric-unary-plusint1args-3', 
-'op-numeric-unary-plusintg1args-1', 
-'op-numeric-unary-plusintg1args-2', 
-'op-numeric-unary-plusintg1args-3', 
-'op-numeric-unary-plusdec1args-1', 
-'op-numeric-unary-plusdec1args-2', 
-'op-numeric-unary-plusdec1args-3', 
-'op-numeric-unary-plusdbl1args-1', 
-'op-numeric-unary-plusdbl1args-2', 
-'op-numeric-unary-plusdbl1args-3', 
-'op-numeric-unary-plusflt1args-1', 
-'op-numeric-unary-plusflt1args-2', 
-'op-numeric-unary-plusflt1args-3', 
-'op-numeric-unary-pluslng1args-1', 
-'op-numeric-unary-pluslng1args-2', 
-'op-numeric-unary-pluslng1args-3', 
-'op-numeric-unary-plususht1args-1', 
-'op-numeric-unary-plususht1args-2', 
-'op-numeric-unary-plususht1args-3', 
-'op-numeric-unary-plusnint1args-1', 
-'op-numeric-unary-plusnint1args-2', 
-'op-numeric-unary-plusnint1args-3', 
-'op-numeric-unary-pluspint1args-1', 
-'op-numeric-unary-pluspint1args-2', 
-'op-numeric-unary-pluspint1args-3', 
-'op-numeric-unary-plusulng1args-1', 
-'op-numeric-unary-plusulng1args-2', 
-'op-numeric-unary-plusulng1args-3', 
-'op-numeric-unary-plusnpi1args-1', 
-'op-numeric-unary-plusnpi1args-2', 
-'op-numeric-unary-plusnpi1args-3', 
-'op-numeric-unary-plusnni1args-1', 
-'op-numeric-unary-plusnni1args-2', 
-'op-numeric-unary-plusnni1args-3', 
-'op-numeric-unary-plussht1args-1', 
-'op-numeric-unary-plussht1args-2', 
-'op-numeric-unary-plussht1args-3', 
-'K-NumericUnaryPlus-1', 
-'K-NumericUnaryPlus-2', 
-'K-NumericUnaryPlus-3', 
-'K-NumericUnaryPlus-4', 
-'K-NumericUnaryPlus-5', 
-'K-NumericUnaryPlus-6', 
-'K-NumericUnaryPlus-7', 
-'K-NumericUnaryPlus-8', 
-'K-NumericUnaryPlus-9', 
-'K-NumericUnaryPlus-10', 
-'K-NumericUnaryPlus-11', 
-'K-NumericUnaryPlus-12', 
-'K2-NumericUnaryPlus-1', 
-'K2-NumericUnaryPlus-2', 
-'op-numeric-unary-plus-1', 
-'cbcl-numeric-unary-plus-001'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-numeric-unary-plusint1args-1', 
+    'op-numeric-unary-plusint1args-2', 
+    'op-numeric-unary-plusint1args-3', 
+    'op-numeric-unary-plusintg1args-1', 
+    'op-numeric-unary-plusintg1args-2', 
+    'op-numeric-unary-plusintg1args-3', 
+    'op-numeric-unary-plusdec1args-1', 
+    'op-numeric-unary-plusdec1args-2', 
+    'op-numeric-unary-plusdec1args-3', 
+    'op-numeric-unary-plusdbl1args-1', 
+    'op-numeric-unary-plusdbl1args-2', 
+    'op-numeric-unary-plusdbl1args-3', 
+    'op-numeric-unary-plusflt1args-1', 
+    'op-numeric-unary-plusflt1args-2', 
+    'op-numeric-unary-plusflt1args-3', 
+    'op-numeric-unary-pluslng1args-1', 
+    'op-numeric-unary-pluslng1args-2', 
+    'op-numeric-unary-pluslng1args-3', 
+    'op-numeric-unary-plususht1args-1', 
+    'op-numeric-unary-plususht1args-2', 
+    'op-numeric-unary-plususht1args-3', 
+    'op-numeric-unary-plusnint1args-1', 
+    'op-numeric-unary-plusnint1args-2']}, 
+   {group_1, [parallel], [
+    'op-numeric-unary-plusnint1args-3', 
+    'op-numeric-unary-pluspint1args-1', 
+    'op-numeric-unary-pluspint1args-2', 
+    'op-numeric-unary-pluspint1args-3', 
+    'op-numeric-unary-plusulng1args-1', 
+    'op-numeric-unary-plusulng1args-2', 
+    'op-numeric-unary-plusulng1args-3', 
+    'op-numeric-unary-plusnpi1args-1', 
+    'op-numeric-unary-plusnpi1args-2', 
+    'op-numeric-unary-plusnpi1args-3', 
+    'op-numeric-unary-plusnni1args-1', 
+    'op-numeric-unary-plusnni1args-2', 
+    'op-numeric-unary-plusnni1args-3', 
+    'op-numeric-unary-plussht1args-1', 
+    'op-numeric-unary-plussht1args-2', 
+    'op-numeric-unary-plussht1args-3', 
+    'K-NumericUnaryPlus-1', 
+    'K-NumericUnaryPlus-2', 
+    'K-NumericUnaryPlus-3', 
+    'K-NumericUnaryPlus-4', 
+    'K-NumericUnaryPlus-5', 
+    'K-NumericUnaryPlus-6', 
+    'K-NumericUnaryPlus-7', 
+    'K-NumericUnaryPlus-8']}, 
+   {group_2, [parallel], [
+    'K-NumericUnaryPlus-9', 
+    'K-NumericUnaryPlus-10', 
+    'K-NumericUnaryPlus-11', 
+    'K-NumericUnaryPlus-12', 
+    'K2-NumericUnaryPlus-1', 
+    'K2-NumericUnaryPlus-2', 
+    'op-numeric-unary-plus-1', 
+    'cbcl-numeric-unary-plus-001']}].
 
 'op-numeric-unary-plusint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

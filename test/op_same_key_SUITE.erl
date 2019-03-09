@@ -1,8 +1,11 @@
 -module('op_same_key_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['same-key-001'/1]).
 -export(['same-key-002'/1]).
@@ -31,7 +34,10 @@
 -export(['same-key-025'/1]).
 -export(['same-key-026'/1]).
 -export(['same-key-027'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'same-key-001', 
-'same-key-002', 
-'same-key-003', 
-'same-key-004', 
-'same-key-005', 
-'same-key-006', 
-'same-key-007', 
-'same-key-008', 
-'same-key-009', 
-'same-key-010', 
-'same-key-011', 
-'same-key-012', 
-'same-key-013', 
-'same-key-014', 
-'same-key-015', 
-'same-key-016', 
-'same-key-017', 
-'same-key-018', 
-'same-key-019', 
-'same-key-020', 
-'same-key-021', 
-'same-key-022', 
-'same-key-023', 
-'same-key-024', 
-'same-key-025', 
-'same-key-026', 
-'same-key-027'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'same-key-001', 
+    'same-key-002', 
+    'same-key-003', 
+    'same-key-004', 
+    'same-key-005', 
+    'same-key-006', 
+    'same-key-007', 
+    'same-key-008', 
+    'same-key-009', 
+    'same-key-010', 
+    'same-key-011', 
+    'same-key-012', 
+    'same-key-013', 
+    'same-key-014', 
+    'same-key-015', 
+    'same-key-016', 
+    'same-key-017', 
+    'same-key-018', 
+    'same-key-019', 
+    'same-key-020', 
+    'same-key-021', 
+    'same-key-022', 
+    'same-key-023']}, 
+   {group_1, [parallel], [
+    'same-key-024', 
+    'same-key-025', 
+    'same-key-026', 
+    'same-key-027']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

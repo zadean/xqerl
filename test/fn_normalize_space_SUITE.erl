@@ -1,8 +1,11 @@
 -module('fn_normalize_space_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-normalize-space1args-1'/1]).
 -export(['fn-normalize-space1args-2'/1]).
@@ -43,7 +46,10 @@
 -export(['K-NormalizeSpaceFunc-7'/1]).
 -export(['K-NormalizeSpaceFunc-8'/1]).
 -export(['K-NormalizeSpaceFunc-9'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -54,46 +60,51 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-normalize-space1args-1', 
-'fn-normalize-space1args-2', 
-'fn-normalize-space1args-3', 
-'fn-normalize-space1args-4', 
-'fn-normalize-space0args-1', 
-'fn-normalize-space-1', 
-'fn-normalize-space-2', 
-'fn-normalize-space-3', 
-'fn-normalize-space-4', 
-'fn-normalize-space-5', 
-'fn-normalize-space-6', 
-'fn-normalize-space-7', 
-'fn-normalize-space-8', 
-'fn-normalize-space-9', 
-'fn-normalize-space-10', 
-'fn-normalize-space-11', 
-'fn-normalize-space-12', 
-'fn-normalize-space-13', 
-'fn-normalize-space-14', 
-'fn-normalize-space-15', 
-'fn-normalize-space-16', 
-'fn-normalize-space-17', 
-'fn-normalize-space-18', 
-'fn-normalize-space-19', 
-'fn-normalize-space-20', 
-'fn-normalize-space-21', 
-'fn-normalize-space-23', 
-'fn-normalize-space-24', 
-'fn-normalize-space-25', 
-'fn-normalize-space-26', 
-'K-NormalizeSpaceFunc-1', 
-'K-NormalizeSpaceFunc-2', 
-'K-NormalizeSpaceFunc-3', 
-'K-NormalizeSpaceFunc-4', 
-'K-NormalizeSpaceFunc-5', 
-'K-NormalizeSpaceFunc-6', 
-'K-NormalizeSpaceFunc-7', 
-'K-NormalizeSpaceFunc-8', 
-'K-NormalizeSpaceFunc-9'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-normalize-space1args-1', 
+    'fn-normalize-space1args-2', 
+    'fn-normalize-space1args-3', 
+    'fn-normalize-space1args-4', 
+    'fn-normalize-space0args-1', 
+    'fn-normalize-space-1', 
+    'fn-normalize-space-2', 
+    'fn-normalize-space-3', 
+    'fn-normalize-space-4', 
+    'fn-normalize-space-5', 
+    'fn-normalize-space-6', 
+    'fn-normalize-space-7', 
+    'fn-normalize-space-8', 
+    'fn-normalize-space-9', 
+    'fn-normalize-space-10', 
+    'fn-normalize-space-11', 
+    'fn-normalize-space-12', 
+    'fn-normalize-space-13', 
+    'fn-normalize-space-14', 
+    'fn-normalize-space-15', 
+    'fn-normalize-space-16', 
+    'fn-normalize-space-17', 
+    'fn-normalize-space-18']}, 
+   {group_1, [parallel], [
+    'fn-normalize-space-19', 
+    'fn-normalize-space-20', 
+    'fn-normalize-space-21', 
+    'fn-normalize-space-23', 
+    'fn-normalize-space-24', 
+    'fn-normalize-space-25', 
+    'fn-normalize-space-26', 
+    'K-NormalizeSpaceFunc-1', 
+    'K-NormalizeSpaceFunc-2', 
+    'K-NormalizeSpaceFunc-3', 
+    'K-NormalizeSpaceFunc-4', 
+    'K-NormalizeSpaceFunc-5', 
+    'K-NormalizeSpaceFunc-6', 
+    'K-NormalizeSpaceFunc-7', 
+    'K-NormalizeSpaceFunc-8', 
+    'K-NormalizeSpaceFunc-9']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

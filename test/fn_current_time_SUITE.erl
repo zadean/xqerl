@@ -1,8 +1,11 @@
 -module('fn_current_time_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-current-time-1'/1]).
 -export(['fn-current-time-2'/1]).
@@ -28,7 +31,10 @@
 -export(['fn-current-time-22'/1]).
 -export(['K-ContextCurrentTimeFunc-1'/1]).
 -export(['K-ContextCurrentTimeFunc-2'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -39,31 +45,36 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-current-time-1', 
-'fn-current-time-2', 
-'fn-current-time-3', 
-'fn-current-time-4', 
-'fn-current-time-5', 
-'fn-current-time-6', 
-'fn-current-time-7', 
-'fn-current-time-8', 
-'fn-current-time-9', 
-'fn-current-time-10', 
-'fn-current-time-11', 
-'fn-current-time-12', 
-'fn-current-time-13', 
-'fn-current-time-14', 
-'fn-current-time-15', 
-'fn-current-time-16', 
-'fn-current-time-17', 
-'fn-current-time-18', 
-'fn-current-time-19', 
-'fn-current-time-20', 
-'fn-current-time-21', 
-'fn-current-time-22', 
-'K-ContextCurrentTimeFunc-1', 
-'K-ContextCurrentTimeFunc-2'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-current-time-1', 
+    'fn-current-time-2', 
+    'fn-current-time-3', 
+    'fn-current-time-4', 
+    'fn-current-time-5', 
+    'fn-current-time-6', 
+    'fn-current-time-7', 
+    'fn-current-time-8', 
+    'fn-current-time-9', 
+    'fn-current-time-10', 
+    'fn-current-time-11', 
+    'fn-current-time-12', 
+    'fn-current-time-13', 
+    'fn-current-time-14', 
+    'fn-current-time-15', 
+    'fn-current-time-16', 
+    'fn-current-time-17', 
+    'fn-current-time-18', 
+    'fn-current-time-19', 
+    'fn-current-time-20', 
+    'fn-current-time-21', 
+    'fn-current-time-22', 
+    'K-ContextCurrentTimeFunc-1']}, 
+   {group_1, [parallel], [
+    'K-ContextCurrentTimeFunc-2']}].
 
 'fn-current-time-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

@@ -1,8 +1,11 @@
 -module('prod_SequenceType_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['sequence-type-1'/1]).
 -export(['sequence-type-2'/1]).
@@ -25,7 +28,10 @@
 -export(['sequence-type-19'/1]).
 -export(['sequence-type-20'/1]).
 -export(['sequence-type-21'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -36,28 +42,31 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'sequence-type-1', 
-'sequence-type-2', 
-'sequence-type-3', 
-'sequence-type-4', 
-'sequence-type-5', 
-'sequence-type-6', 
-'sequence-type-7', 
-'sequence-type-8', 
-'sequence-type-9', 
-'sequence-type-10', 
-'sequence-type-11', 
-'sequence-type-12', 
-'sequence-type-13', 
-'sequence-type-14', 
-'sequence-type-15', 
-'sequence-type-16', 
-'sequence-type-17', 
-'sequence-type-18', 
-'sequence-type-19', 
-'sequence-type-20', 
-'sequence-type-21'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'sequence-type-1', 
+    'sequence-type-2', 
+    'sequence-type-3', 
+    'sequence-type-4', 
+    'sequence-type-5', 
+    'sequence-type-6', 
+    'sequence-type-7', 
+    'sequence-type-8', 
+    'sequence-type-9', 
+    'sequence-type-10', 
+    'sequence-type-11', 
+    'sequence-type-12', 
+    'sequence-type-13', 
+    'sequence-type-14', 
+    'sequence-type-15', 
+    'sequence-type-16', 
+    'sequence-type-17', 
+    'sequence-type-18', 
+    'sequence-type-19', 
+    'sequence-type-20', 
+    'sequence-type-21']}].
 
 'sequence-type-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

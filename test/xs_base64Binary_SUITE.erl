@@ -1,8 +1,11 @@
 -module('xs_base64Binary_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['base64-001'/1]).
 -export(['base64-002'/1]).
@@ -43,7 +46,10 @@
 -export(['base64-908'/1]).
 -export(['base64-909'/1]).
 -export(['cbcl-base64binary-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -54,46 +60,51 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "xs"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'base64-001', 
-'base64-002', 
-'base64-003', 
-'base64-004', 
-'base64-005', 
-'base64-006', 
-'base64-007', 
-'base64-008', 
-'base64-009', 
-'base64-010', 
-'base64-011', 
-'base64-012', 
-'base64-013', 
-'base64-014', 
-'base64-101', 
-'base64-102', 
-'base64-103', 
-'base64-104', 
-'base64-105', 
-'base64-106', 
-'base64-107', 
-'base64-108', 
-'base64-109', 
-'base64-110', 
-'base64-111', 
-'base64-112', 
-'base64-113', 
-'base64-114', 
-'base64-115', 
-'base64-901', 
-'base64-902', 
-'base64-903', 
-'base64-904', 
-'base64-905', 
-'base64-906', 
-'base64-907', 
-'base64-908', 
-'base64-909', 
-'cbcl-base64binary-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'base64-001', 
+    'base64-002', 
+    'base64-003', 
+    'base64-004', 
+    'base64-005', 
+    'base64-006', 
+    'base64-007', 
+    'base64-008', 
+    'base64-009', 
+    'base64-010', 
+    'base64-011', 
+    'base64-012', 
+    'base64-013', 
+    'base64-014', 
+    'base64-101', 
+    'base64-102', 
+    'base64-103', 
+    'base64-104', 
+    'base64-105', 
+    'base64-106', 
+    'base64-107', 
+    'base64-108', 
+    'base64-109']}, 
+   {group_1, [parallel], [
+    'base64-110', 
+    'base64-111', 
+    'base64-112', 
+    'base64-113', 
+    'base64-114', 
+    'base64-115', 
+    'base64-901', 
+    'base64-902', 
+    'base64-903', 
+    'base64-904', 
+    'base64-905', 
+    'base64-906', 
+    'base64-907', 
+    'base64-908', 
+    'base64-909', 
+    'cbcl-base64binary-001']}].
 
 'base64-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

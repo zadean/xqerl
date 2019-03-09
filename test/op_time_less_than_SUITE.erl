@@ -1,8 +1,11 @@
 -module('op_time_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-time-less-than2args-1'/1]).
 -export(['op-time-less-than2args-2'/1]).
@@ -48,7 +51,10 @@
 -export(['cbcl-time-less-than-012'/1]).
 -export(['cbcl-time-less-than-013'/1]).
 -export(['cbcl-time-less-than-014'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -59,51 +65,56 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-time-less-than2args-1', 
-'op-time-less-than2args-2', 
-'op-time-less-than2args-3', 
-'op-time-less-than2args-4', 
-'op-time-less-than2args-5', 
-'op-time-less-than2args-6', 
-'op-time-less-than2args-7', 
-'op-time-less-than2args-8', 
-'op-time-less-than2args-9', 
-'op-time-less-than2args-10', 
-'op-time-less-than-1', 
-'op-time-less-than-2', 
-'op-time-less-than-3', 
-'op-time-less-than-4', 
-'op-time-less-than-5', 
-'op-time-less-than-6', 
-'op-time-less-than-7', 
-'op-time-less-than-8', 
-'op-time-less-than-9', 
-'op-time-less-than-10', 
-'op-time-less-than-11', 
-'op-time-less-than-12', 
-'op-time-less-than-13', 
-'op-time-less-than-14', 
-'K-TimeLT-1', 
-'K-TimeLT-2', 
-'K-TimeLT-3', 
-'K-TimeLT-4', 
-'K-TimeLT-5', 
-'K-TimeLT-6', 
-'cbcl-time-less-than-001', 
-'cbcl-time-less-than-002', 
-'cbcl-time-less-than-003', 
-'cbcl-time-less-than-004', 
-'cbcl-time-less-than-005', 
-'cbcl-time-less-than-006', 
-'cbcl-time-less-than-007', 
-'cbcl-time-less-than-008', 
-'cbcl-time-less-than-009', 
-'cbcl-time-less-than-010', 
-'cbcl-time-less-than-011', 
-'cbcl-time-less-than-012', 
-'cbcl-time-less-than-013', 
-'cbcl-time-less-than-014'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-time-less-than2args-1', 
+    'op-time-less-than2args-2', 
+    'op-time-less-than2args-3', 
+    'op-time-less-than2args-4', 
+    'op-time-less-than2args-5', 
+    'op-time-less-than2args-6', 
+    'op-time-less-than2args-7', 
+    'op-time-less-than2args-8', 
+    'op-time-less-than2args-9', 
+    'op-time-less-than2args-10', 
+    'op-time-less-than-1', 
+    'op-time-less-than-2', 
+    'op-time-less-than-3', 
+    'op-time-less-than-4', 
+    'op-time-less-than-5', 
+    'op-time-less-than-6', 
+    'op-time-less-than-7', 
+    'op-time-less-than-8', 
+    'op-time-less-than-9', 
+    'op-time-less-than-10', 
+    'op-time-less-than-11', 
+    'op-time-less-than-12', 
+    'op-time-less-than-13']}, 
+   {group_1, [parallel], [
+    'op-time-less-than-14', 
+    'K-TimeLT-1', 
+    'K-TimeLT-2', 
+    'K-TimeLT-3', 
+    'K-TimeLT-4', 
+    'K-TimeLT-5', 
+    'K-TimeLT-6', 
+    'cbcl-time-less-than-001', 
+    'cbcl-time-less-than-002', 
+    'cbcl-time-less-than-003', 
+    'cbcl-time-less-than-004', 
+    'cbcl-time-less-than-005', 
+    'cbcl-time-less-than-006', 
+    'cbcl-time-less-than-007', 
+    'cbcl-time-less-than-008', 
+    'cbcl-time-less-than-009', 
+    'cbcl-time-less-than-010', 
+    'cbcl-time-less-than-011', 
+    'cbcl-time-less-than-012', 
+    'cbcl-time-less-than-013', 
+    'cbcl-time-less-than-014']}].
 
 'op-time-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

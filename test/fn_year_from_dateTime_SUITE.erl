@@ -1,8 +1,11 @@
 -module('fn_year_from_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-year-from-dateTime1args-1'/1]).
 -export(['fn-year-from-dateTime1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-YearFromDateTimeFunc-3'/1]).
 -export(['K-YearFromDateTimeFunc-4'/1]).
 -export(['K-YearFromDateTimeFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-year-from-dateTime1args-1', 
-'fn-year-from-dateTime1args-2', 
-'fn-year-from-dateTime1args-3', 
-'fn-year-from-dateTime-1', 
-'fn-year-from-dateTime-2', 
-'fn-year-from-dateTime-3', 
-'fn-year-from-dateTime-4', 
-'fn-year-from-dateTime-5', 
-'fn-year-from-dateTime-6', 
-'fn-year-from-dateTime-7', 
-'fn-year-from-dateTime-8', 
-'fn-year-from-dateTime-9', 
-'fn-year-from-dateTime-10', 
-'fn-year-from-dateTime-11', 
-'fn-year-from-dateTime-12', 
-'fn-year-from-dateTime-13', 
-'fn-year-from-dateTimeNew-14', 
-'fn-year-from-dateTimeNew-15', 
-'fn-year-from-dateTime-16', 
-'fn-year-from-dateTime-17', 
-'fn-year-from-dateTime-18', 
-'fn-year-from-dateTime-19', 
-'K-YearFromDateTimeFunc-1', 
-'K-YearFromDateTimeFunc-2', 
-'K-YearFromDateTimeFunc-3', 
-'K-YearFromDateTimeFunc-4', 
-'K-YearFromDateTimeFunc-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-year-from-dateTime1args-1', 
+    'fn-year-from-dateTime1args-2', 
+    'fn-year-from-dateTime1args-3', 
+    'fn-year-from-dateTime-1', 
+    'fn-year-from-dateTime-2', 
+    'fn-year-from-dateTime-3', 
+    'fn-year-from-dateTime-4', 
+    'fn-year-from-dateTime-5', 
+    'fn-year-from-dateTime-6', 
+    'fn-year-from-dateTime-7', 
+    'fn-year-from-dateTime-8', 
+    'fn-year-from-dateTime-9', 
+    'fn-year-from-dateTime-10', 
+    'fn-year-from-dateTime-11', 
+    'fn-year-from-dateTime-12', 
+    'fn-year-from-dateTime-13', 
+    'fn-year-from-dateTimeNew-14', 
+    'fn-year-from-dateTimeNew-15', 
+    'fn-year-from-dateTime-16', 
+    'fn-year-from-dateTime-17', 
+    'fn-year-from-dateTime-18', 
+    'fn-year-from-dateTime-19', 
+    'K-YearFromDateTimeFunc-1']}, 
+   {group_1, [parallel], [
+    'K-YearFromDateTimeFunc-2', 
+    'K-YearFromDateTimeFunc-3', 
+    'K-YearFromDateTimeFunc-4', 
+    'K-YearFromDateTimeFunc-5']}].
 
 'fn-year-from-dateTime1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

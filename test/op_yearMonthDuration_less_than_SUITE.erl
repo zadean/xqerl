@@ -1,8 +1,11 @@
 -module('op_yearMonthDuration_less_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-yearMonthDuration-less-than2args-1'/1]).
 -export(['op-yearMonthDuration-less-than2args-2'/1]).
@@ -38,7 +41,10 @@
 -export(['cbcl-yearMonthDuration-less-than-004'/1]).
 -export(['cbcl-yearMonthDuration-less-than-005'/1]).
 -export(['cbcl-yearMonthDuration-less-than-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-yearMonthDuration-less-than2args-1', 
-'op-yearMonthDuration-less-than2args-2', 
-'op-yearMonthDuration-less-than2args-3', 
-'op-yearMonthDuration-less-than2args-4', 
-'op-yearMonthDuration-less-than2args-5', 
-'op-yearMonthDuration-less-than2args-6', 
-'op-yearMonthDuration-less-than2argsNew-7', 
-'op-yearMonthDuration-less-than2args-8', 
-'op-yearMonthDuration-less-than2args-9', 
-'op-yearMonthDuration-less-than2args-10', 
-'op-yearMonthDuration-less-than-3', 
-'op-yearMonthDuration-less-than-4', 
-'op-yearMonthDuration-less-than-5', 
-'op-yearMonthDuration-less-than-6', 
-'op-yearMonthDuration-less-thanNew-7', 
-'op-yearMonthDuration-less-than-8', 
-'op-yearMonthDuration-less-than-9', 
-'op-yearMonthDuration-less-than-10', 
-'op-yearMonthDuration-less-than-11', 
-'op-yearMonthDuration-less-than-12', 
-'op-yearMonthDuration-less-than-13', 
-'op-yearMonthDuration-less-than-14', 
-'K-YearMonthDurationLT-1', 
-'K-YearMonthDurationLT-2', 
-'K-YearMonthDurationLT-3', 
-'K-YearMonthDurationLT-4', 
-'K-YearMonthDurationLT-5', 
-'K-YearMonthDurationLT-6', 
-'cbcl-yearMonthDuration-less-than-001', 
-'cbcl-yearMonthDuration-less-than-002', 
-'cbcl-yearMonthDuration-less-than-003', 
-'cbcl-yearMonthDuration-less-than-004', 
-'cbcl-yearMonthDuration-less-than-005', 
-'cbcl-yearMonthDuration-less-than-006'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-yearMonthDuration-less-than2args-1', 
+    'op-yearMonthDuration-less-than2args-2', 
+    'op-yearMonthDuration-less-than2args-3', 
+    'op-yearMonthDuration-less-than2args-4', 
+    'op-yearMonthDuration-less-than2args-5', 
+    'op-yearMonthDuration-less-than2args-6', 
+    'op-yearMonthDuration-less-than2argsNew-7', 
+    'op-yearMonthDuration-less-than2args-8', 
+    'op-yearMonthDuration-less-than2args-9', 
+    'op-yearMonthDuration-less-than2args-10', 
+    'op-yearMonthDuration-less-than-3', 
+    'op-yearMonthDuration-less-than-4', 
+    'op-yearMonthDuration-less-than-5', 
+    'op-yearMonthDuration-less-than-6', 
+    'op-yearMonthDuration-less-thanNew-7', 
+    'op-yearMonthDuration-less-than-8', 
+    'op-yearMonthDuration-less-than-9', 
+    'op-yearMonthDuration-less-than-10', 
+    'op-yearMonthDuration-less-than-11', 
+    'op-yearMonthDuration-less-than-12', 
+    'op-yearMonthDuration-less-than-13', 
+    'op-yearMonthDuration-less-than-14', 
+    'K-YearMonthDurationLT-1']}, 
+   {group_1, [parallel], [
+    'K-YearMonthDurationLT-2', 
+    'K-YearMonthDurationLT-3', 
+    'K-YearMonthDurationLT-4', 
+    'K-YearMonthDurationLT-5', 
+    'K-YearMonthDurationLT-6', 
+    'cbcl-yearMonthDuration-less-than-001', 
+    'cbcl-yearMonthDuration-less-than-002', 
+    'cbcl-yearMonthDuration-less-than-003', 
+    'cbcl-yearMonthDuration-less-than-004', 
+    'cbcl-yearMonthDuration-less-than-005', 
+    'cbcl-yearMonthDuration-less-than-006']}].
 
 'op-yearMonthDuration-less-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

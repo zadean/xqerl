@@ -1,8 +1,11 @@
 -module('fn_escape_html_uri_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-escape-html-uri1args-1'/1]).
 -export(['fn-escape-html-uri1args-2'/1]).
@@ -38,7 +41,10 @@
 -export(['K-EscapeHTMLURIFunc-5'/1]).
 -export(['K-EscapeHTMLURIFunc-6'/1]).
 -export(['cbcl-escape-html-uri-001'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-escape-html-uri1args-1', 
-'fn-escape-html-uri1args-2', 
-'fn-escape-html-uri1args-3', 
-'fn-escape-html-uri1args-4', 
-'fn-escape-html-uri1args-5', 
-'fn-escape-html-uri1args-6', 
-'fn-escape-html-uri-1', 
-'fn-escape-html-uri-2', 
-'fn-escape-html-uri-3', 
-'fn-escape-html-uri-4', 
-'fn-escape-html-uri-5', 
-'fn-escape-html-uri-6', 
-'fn-escape-html-uri-7', 
-'fn-escape-html-uri-8', 
-'fn-escape-html-uri-9', 
-'fn-escape-html-uri-10', 
-'fn-escape-html-uri-11', 
-'fn-escape-html-uri-12', 
-'fn-escape-html-uri-13', 
-'fn-escape-html-uri-14', 
-'fn-escape-html-uri-15', 
-'fn-escape-html-uri-16', 
-'fn-escape-html-uri-17', 
-'fn-escape-html-uri-18', 
-'fn-escape-html-uri-19', 
-'fn-escape-html-uri-20', 
-'fn-escape-html-uri-21', 
-'K-EscapeHTMLURIFunc-1', 
-'K-EscapeHTMLURIFunc-2', 
-'K-EscapeHTMLURIFunc-3', 
-'K-EscapeHTMLURIFunc-4', 
-'K-EscapeHTMLURIFunc-5', 
-'K-EscapeHTMLURIFunc-6', 
-'cbcl-escape-html-uri-001'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-escape-html-uri1args-1', 
+    'fn-escape-html-uri1args-2', 
+    'fn-escape-html-uri1args-3', 
+    'fn-escape-html-uri1args-4', 
+    'fn-escape-html-uri1args-5', 
+    'fn-escape-html-uri1args-6', 
+    'fn-escape-html-uri-1', 
+    'fn-escape-html-uri-2', 
+    'fn-escape-html-uri-3', 
+    'fn-escape-html-uri-4', 
+    'fn-escape-html-uri-5', 
+    'fn-escape-html-uri-6', 
+    'fn-escape-html-uri-7', 
+    'fn-escape-html-uri-8', 
+    'fn-escape-html-uri-9', 
+    'fn-escape-html-uri-10', 
+    'fn-escape-html-uri-11', 
+    'fn-escape-html-uri-12', 
+    'fn-escape-html-uri-13', 
+    'fn-escape-html-uri-14', 
+    'fn-escape-html-uri-15', 
+    'fn-escape-html-uri-16', 
+    'fn-escape-html-uri-17']}, 
+   {group_1, [parallel], [
+    'fn-escape-html-uri-18', 
+    'fn-escape-html-uri-19', 
+    'fn-escape-html-uri-20', 
+    'fn-escape-html-uri-21', 
+    'K-EscapeHTMLURIFunc-1', 
+    'K-EscapeHTMLURIFunc-2', 
+    'K-EscapeHTMLURIFunc-3', 
+    'K-EscapeHTMLURIFunc-4', 
+    'K-EscapeHTMLURIFunc-5', 
+    'K-EscapeHTMLURIFunc-6', 
+    'cbcl-escape-html-uri-001']}].
 
 'fn-escape-html-uri1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

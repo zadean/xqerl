@@ -1,8 +1,11 @@
 -module('op_time_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-time-equal2args-1'/1]).
 -export(['op-time-equal2args-2'/1]).
@@ -62,7 +65,10 @@
 -export(['cbcl-time-equal-017'/1]).
 -export(['cbcl-time-equal-018'/1]).
 -export(['cbcl-time-equal-019'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -73,65 +79,72 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-time-equal2args-1', 
-'op-time-equal2args-2', 
-'op-time-equal2args-3', 
-'op-time-equal2args-4', 
-'op-time-equal2args-5', 
-'op-time-equal2args-6', 
-'op-time-equal2args-7', 
-'op-time-equal2args-8', 
-'op-time-equal2args-9', 
-'op-time-equal2args-10', 
-'op-time-equal2args-11', 
-'op-time-equal2args-12', 
-'op-time-equal2args-13', 
-'op-time-equal2args-14', 
-'op-time-equal2args-15', 
-'op-time-equal2args-16', 
-'op-time-equal2args-17', 
-'op-time-equal2args-18', 
-'op-time-equal2args-19', 
-'op-time-equal2args-20', 
-'K-TimeEQ-1', 
-'K-TimeEQ-2', 
-'K-TimeEQ-3', 
-'K-TimeEQ-4', 
-'K-TimeEQ-5', 
-'K-TimeEQ-6', 
-'K-TimeEQ-7', 
-'K-TimeEQ-8', 
-'K-TimeEQ-9', 
-'K-TimeEQ-10', 
-'K-TimeEQ-11', 
-'K-TimeEQ-12', 
-'K-TimeEQ-13', 
-'K-TimeEQ-14', 
-'K-TimeEQ-15', 
-'K-TimeEQ-16', 
-'K-TimeEQ-17', 
-'K-TimeEQ-18', 
-'K-TimeEQ-19', 
-'K-TimeEQ-20', 
-'K2-TimeEQ-1', 
-'cbcl-time-equal-001', 
-'cbcl-time-equal-002', 
-'cbcl-time-equal-003', 
-'cbcl-time-equal-004', 
-'cbcl-time-equal-005', 
-'cbcl-time-equal-006', 
-'cbcl-time-equal-007', 
-'cbcl-time-equal-008', 
-'cbcl-time-equal-009', 
-'cbcl-time-equal-010', 
-'cbcl-time-equal-011', 
-'cbcl-time-equal-012', 
-'cbcl-time-equal-013', 
-'cbcl-time-equal-014', 
-'cbcl-time-equal-017', 
-'cbcl-time-equal-018', 
-'cbcl-time-equal-019'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-time-equal2args-1', 
+    'op-time-equal2args-2', 
+    'op-time-equal2args-3', 
+    'op-time-equal2args-4', 
+    'op-time-equal2args-5', 
+    'op-time-equal2args-6', 
+    'op-time-equal2args-7', 
+    'op-time-equal2args-8', 
+    'op-time-equal2args-9', 
+    'op-time-equal2args-10', 
+    'op-time-equal2args-11', 
+    'op-time-equal2args-12', 
+    'op-time-equal2args-13', 
+    'op-time-equal2args-14', 
+    'op-time-equal2args-15', 
+    'op-time-equal2args-16', 
+    'op-time-equal2args-17', 
+    'op-time-equal2args-18', 
+    'op-time-equal2args-19', 
+    'op-time-equal2args-20', 
+    'K-TimeEQ-1', 
+    'K-TimeEQ-2', 
+    'K-TimeEQ-3']}, 
+   {group_1, [parallel], [
+    'K-TimeEQ-4', 
+    'K-TimeEQ-5', 
+    'K-TimeEQ-6', 
+    'K-TimeEQ-7', 
+    'K-TimeEQ-8', 
+    'K-TimeEQ-9', 
+    'K-TimeEQ-10', 
+    'K-TimeEQ-11', 
+    'K-TimeEQ-12', 
+    'K-TimeEQ-13', 
+    'K-TimeEQ-14', 
+    'K-TimeEQ-15', 
+    'K-TimeEQ-16', 
+    'K-TimeEQ-17', 
+    'K-TimeEQ-18', 
+    'K-TimeEQ-19', 
+    'K-TimeEQ-20', 
+    'K2-TimeEQ-1', 
+    'cbcl-time-equal-001', 
+    'cbcl-time-equal-002', 
+    'cbcl-time-equal-003', 
+    'cbcl-time-equal-004', 
+    'cbcl-time-equal-005', 
+    'cbcl-time-equal-006']}, 
+   {group_2, [parallel], [
+    'cbcl-time-equal-007', 
+    'cbcl-time-equal-008', 
+    'cbcl-time-equal-009', 
+    'cbcl-time-equal-010', 
+    'cbcl-time-equal-011', 
+    'cbcl-time-equal-012', 
+    'cbcl-time-equal-013', 
+    'cbcl-time-equal-014', 
+    'cbcl-time-equal-017', 
+    'cbcl-time-equal-018', 
+    'cbcl-time-equal-019']}].
 
 'op-time-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

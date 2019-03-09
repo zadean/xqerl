@@ -1,8 +1,11 @@
 -module('fn_doc_available_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-doc-available-1'/1]).
 -export(['fn-doc-available-2'/1]).
@@ -21,7 +24,10 @@
 -export(['cbcl-doc-available-004'/1]).
 -export(['cbcl-doc-available-005'/1]).
 -export(['cbcl-doc-available-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -32,24 +38,27 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-doc-available-1', 
-'fn-doc-available-2', 
-'fn-doc-available-3', 
-'fn-doc-available-4', 
-'fn-doc-available-5', 
-'fn-doc-available-6', 
-'fn-doc-available-7', 
-'fn-doc-available-8', 
-'K2-SeqDocAvailableFunc-1', 
-'K2-SeqDocAvailableFunc-1a', 
-'cbcl-doc-available-001', 
-'cbcl-doc-available-002', 
-'cbcl-doc-available-002a', 
-'cbcl-doc-available-003', 
-'cbcl-doc-available-004', 
-'cbcl-doc-available-005', 
-'cbcl-doc-available-006'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-doc-available-1', 
+    'fn-doc-available-2', 
+    'fn-doc-available-3', 
+    'fn-doc-available-4', 
+    'fn-doc-available-5', 
+    'fn-doc-available-6', 
+    'fn-doc-available-7', 
+    'fn-doc-available-8', 
+    'K2-SeqDocAvailableFunc-1', 
+    'K2-SeqDocAvailableFunc-1a', 
+    'cbcl-doc-available-001', 
+    'cbcl-doc-available-002', 
+    'cbcl-doc-available-002a', 
+    'cbcl-doc-available-003', 
+    'cbcl-doc-available-004', 
+    'cbcl-doc-available-005', 
+    'cbcl-doc-available-006']}].
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 

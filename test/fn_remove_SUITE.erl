@@ -1,8 +1,11 @@
 -module('fn_remove_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-remove-mix-args-001'/1]).
 -export(['fn-remove-mix-args-002'/1]).
@@ -55,7 +58,10 @@
 -export(['cbcl-fn-remove-002'/1]).
 -export(['cbcl-fn-remove-003'/1]).
 -export(['cbcl-fn-remove-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -66,58 +72,65 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-remove-mix-args-001', 
-'fn-remove-mix-args-002', 
-'fn-remove-mix-args-003', 
-'fn-remove-mix-args-004', 
-'fn-remove-mix-args-005', 
-'fn-remove-mix-args-006', 
-'fn-remove-mix-args-007', 
-'fn-remove-mix-args-008', 
-'fn-remove-mix-args-009', 
-'fn-remove-mix-args-010', 
-'fn-remove-mix-args-011', 
-'fn-remove-mix-args-012', 
-'fn-remove-mix-args-013', 
-'fn-remove-mix-args-014', 
-'fn-remove-mix-args-015', 
-'fn-remove-mix-args-016', 
-'fn-remove-mix-args-017', 
-'fn-remove-mix-args-018', 
-'fn-remove-mix-args-019', 
-'fn-remove-mix-args-020', 
-'K-SeqRemoveFunc-1', 
-'K-SeqRemoveFunc-2', 
-'K-SeqRemoveFunc-3', 
-'K-SeqRemoveFunc-4', 
-'K-SeqRemoveFunc-5', 
-'K-SeqRemoveFunc-6', 
-'K-SeqRemoveFunc-7', 
-'K-SeqRemoveFunc-8', 
-'K-SeqRemoveFunc-9', 
-'K-SeqRemoveFunc-10', 
-'K-SeqRemoveFunc-11', 
-'K-SeqRemoveFunc-12', 
-'K-SeqRemoveFunc-13', 
-'K-SeqRemoveFunc-14', 
-'K-SeqRemoveFunc-15', 
-'K-SeqRemoveFunc-16', 
-'K-SeqRemoveFunc-17', 
-'K-SeqRemoveFunc-18', 
-'K-SeqRemoveFunc-19', 
-'K-SeqRemoveFunc-20', 
-'K-SeqRemoveFunc-21', 
-'K-SeqRemoveFunc-22', 
-'K-SeqRemoveFunc-23', 
-'K-SeqRemoveFunc-24', 
-'K-SeqRemoveFunc-25', 
-'K-SeqRemoveFunc-26', 
-'K-SeqRemoveFunc-27', 
-'cbcl-fn-remove-001', 
-'cbcl-fn-remove-002', 
-'cbcl-fn-remove-003', 
-'cbcl-fn-remove-004'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-remove-mix-args-001', 
+    'fn-remove-mix-args-002', 
+    'fn-remove-mix-args-003', 
+    'fn-remove-mix-args-004', 
+    'fn-remove-mix-args-005', 
+    'fn-remove-mix-args-006', 
+    'fn-remove-mix-args-007', 
+    'fn-remove-mix-args-008', 
+    'fn-remove-mix-args-009', 
+    'fn-remove-mix-args-010', 
+    'fn-remove-mix-args-011', 
+    'fn-remove-mix-args-012', 
+    'fn-remove-mix-args-013', 
+    'fn-remove-mix-args-014', 
+    'fn-remove-mix-args-015', 
+    'fn-remove-mix-args-016', 
+    'fn-remove-mix-args-017', 
+    'fn-remove-mix-args-018', 
+    'fn-remove-mix-args-019', 
+    'fn-remove-mix-args-020', 
+    'K-SeqRemoveFunc-1', 
+    'K-SeqRemoveFunc-2', 
+    'K-SeqRemoveFunc-3']}, 
+   {group_1, [parallel], [
+    'K-SeqRemoveFunc-4', 
+    'K-SeqRemoveFunc-5', 
+    'K-SeqRemoveFunc-6', 
+    'K-SeqRemoveFunc-7', 
+    'K-SeqRemoveFunc-8', 
+    'K-SeqRemoveFunc-9', 
+    'K-SeqRemoveFunc-10', 
+    'K-SeqRemoveFunc-11', 
+    'K-SeqRemoveFunc-12', 
+    'K-SeqRemoveFunc-13', 
+    'K-SeqRemoveFunc-14', 
+    'K-SeqRemoveFunc-15', 
+    'K-SeqRemoveFunc-16', 
+    'K-SeqRemoveFunc-17', 
+    'K-SeqRemoveFunc-18', 
+    'K-SeqRemoveFunc-19', 
+    'K-SeqRemoveFunc-20', 
+    'K-SeqRemoveFunc-21', 
+    'K-SeqRemoveFunc-22', 
+    'K-SeqRemoveFunc-23', 
+    'K-SeqRemoveFunc-24', 
+    'K-SeqRemoveFunc-25', 
+    'K-SeqRemoveFunc-26', 
+    'K-SeqRemoveFunc-27']}, 
+   {group_2, [parallel], [
+    'cbcl-fn-remove-001', 
+    'cbcl-fn-remove-002', 
+    'cbcl-fn-remove-003', 
+    'cbcl-fn-remove-004']}].
 
 'fn-remove-mix-args-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),

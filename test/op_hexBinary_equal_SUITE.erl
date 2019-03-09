@@ -1,8 +1,11 @@
 -module('op_hexBinary_equal_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-hexBinary-equal2args-1'/1]).
 -export(['op-hexBinary-equal2args-2'/1]).
@@ -39,7 +42,10 @@
 -export(['cbcl-hexBinary-equal-001'/1]).
 -export(['cbcl-hexBinary-equal-002'/1]).
 -export(['cbcl-hexBinary-equal-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -50,42 +56,47 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-hexBinary-equal2args-1', 
-'op-hexBinary-equal2args-2', 
-'op-hexBinary-equal2args-3', 
-'op-hexBinary-equal2args-4', 
-'op-hexBinary-equal2args-5', 
-'op-hexBinary-equal2args-6', 
-'op-hexBinary-equal2args-7', 
-'op-hexBinary-equal2args-8', 
-'op-hexBinary-equal2args-9', 
-'op-hexBinary-equal2args-10', 
-'hexBinary-1', 
-'hexBinary-2', 
-'hexBinary-3', 
-'hexBinary-4', 
-'hexBinary-5', 
-'hexBinary-6', 
-'hexBinary-7', 
-'hexBinary-8', 
-'hexBinary-9', 
-'hexBinary-10', 
-'hexBinary-11', 
-'hexBinary-12', 
-'hexBinary-13', 
-'hexBinary-14', 
-'K-HexBinaryEQ-1', 
-'K-HexBinaryEQ-2', 
-'K-HexBinaryEQ-3', 
-'K-HexBinaryEQ-4', 
-'K-HexBinaryEQ-5', 
-'K-HexBinaryEQ-6', 
-'K-HexBinaryEQ-7', 
-'K-HexBinaryEQ-8', 
-'cbcl-hexBinary-equal-001', 
-'cbcl-hexBinary-equal-002', 
-'cbcl-hexBinary-equal-003'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-hexBinary-equal2args-1', 
+    'op-hexBinary-equal2args-2', 
+    'op-hexBinary-equal2args-3', 
+    'op-hexBinary-equal2args-4', 
+    'op-hexBinary-equal2args-5', 
+    'op-hexBinary-equal2args-6', 
+    'op-hexBinary-equal2args-7', 
+    'op-hexBinary-equal2args-8', 
+    'op-hexBinary-equal2args-9', 
+    'op-hexBinary-equal2args-10', 
+    'hexBinary-1', 
+    'hexBinary-2', 
+    'hexBinary-3', 
+    'hexBinary-4', 
+    'hexBinary-5', 
+    'hexBinary-6', 
+    'hexBinary-7', 
+    'hexBinary-8', 
+    'hexBinary-9', 
+    'hexBinary-10', 
+    'hexBinary-11', 
+    'hexBinary-12', 
+    'hexBinary-13']}, 
+   {group_1, [parallel], [
+    'hexBinary-14', 
+    'K-HexBinaryEQ-1', 
+    'K-HexBinaryEQ-2', 
+    'K-HexBinaryEQ-3', 
+    'K-HexBinaryEQ-4', 
+    'K-HexBinaryEQ-5', 
+    'K-HexBinaryEQ-6', 
+    'K-HexBinaryEQ-7', 
+    'K-HexBinaryEQ-8', 
+    'cbcl-hexBinary-equal-001', 
+    'cbcl-hexBinary-equal-002', 
+    'cbcl-hexBinary-equal-003']}].
 
 'op-hexBinary-equal2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

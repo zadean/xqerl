@@ -1,8 +1,11 @@
 -module('fn_unparsed_text_available_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-unparsed-text-available-001'/1]).
 -export(['fn-unparsed-text-available-002'/1]).
@@ -56,7 +59,10 @@
 -export(['fn-unparsed-text-available-050'/1]).
 -export(['fn-unparsed-text-available-051'/1]).
 -export(['fn-unparsed-text-available-052'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -67,59 +73,66 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-unparsed-text-available-001', 
-'fn-unparsed-text-available-002', 
-'fn-unparsed-text-available-003', 
-'fn-unparsed-text-available-004', 
-'fn-unparsed-text-available-005', 
-'fn-unparsed-text-available-006', 
-'fn-unparsed-text-available-007', 
-'fn-unparsed-text-available-008', 
-'fn-unparsed-text-available-009', 
-'fn-unparsed-text-available-010', 
-'fn-unparsed-text-available-011', 
-'fn-unparsed-text-available-012', 
-'fn-unparsed-text-available-013', 
-'fn-unparsed-text-available-014', 
-'fn-unparsed-text-available-015', 
-'fn-unparsed-text-available-016', 
-'fn-unparsed-text-available-017', 
-'fn-unparsed-text-available-018', 
-'fn-unparsed-text-available-019', 
-'fn-unparsed-text-available-020', 
-'fn-unparsed-text-available-021', 
-'fn-unparsed-text-available-022', 
-'fn-unparsed-text-available-023', 
-'fn-unparsed-text-available-024', 
-'fn-unparsed-text-available-025', 
-'fn-unparsed-text-available-026', 
-'fn-unparsed-text-available-027', 
-'fn-unparsed-text-available-028', 
-'fn-unparsed-text-available-029', 
-'fn-unparsed-text-available-030', 
-'fn-unparsed-text-available-031', 
-'fn-unparsed-text-available-032', 
-'fn-unparsed-text-available-033', 
-'fn-unparsed-text-available-034', 
-'fn-unparsed-text-available-035', 
-'fn-unparsed-text-available-036', 
-'fn-unparsed-text-available-037', 
-'fn-unparsed-text-available-038', 
-'fn-unparsed-text-available-039', 
-'fn-unparsed-text-available-040', 
-'fn-unparsed-text-available-041', 
-'fn-unparsed-text-available-042', 
-'fn-unparsed-text-available-043', 
-'fn-unparsed-text-available-044', 
-'fn-unparsed-text-available-045', 
-'fn-unparsed-text-available-046', 
-'fn-unparsed-text-available-047', 
-'fn-unparsed-text-available-048', 
-'fn-unparsed-text-available-049', 
-'fn-unparsed-text-available-050', 
-'fn-unparsed-text-available-051', 
-'fn-unparsed-text-available-052'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-unparsed-text-available-001', 
+    'fn-unparsed-text-available-002', 
+    'fn-unparsed-text-available-003', 
+    'fn-unparsed-text-available-004', 
+    'fn-unparsed-text-available-005', 
+    'fn-unparsed-text-available-006', 
+    'fn-unparsed-text-available-007', 
+    'fn-unparsed-text-available-008', 
+    'fn-unparsed-text-available-009', 
+    'fn-unparsed-text-available-010', 
+    'fn-unparsed-text-available-011', 
+    'fn-unparsed-text-available-012', 
+    'fn-unparsed-text-available-013', 
+    'fn-unparsed-text-available-014', 
+    'fn-unparsed-text-available-015', 
+    'fn-unparsed-text-available-016', 
+    'fn-unparsed-text-available-017', 
+    'fn-unparsed-text-available-018', 
+    'fn-unparsed-text-available-019', 
+    'fn-unparsed-text-available-020', 
+    'fn-unparsed-text-available-021', 
+    'fn-unparsed-text-available-022', 
+    'fn-unparsed-text-available-023']}, 
+   {group_1, [parallel], [
+    'fn-unparsed-text-available-024', 
+    'fn-unparsed-text-available-025', 
+    'fn-unparsed-text-available-026', 
+    'fn-unparsed-text-available-027', 
+    'fn-unparsed-text-available-028', 
+    'fn-unparsed-text-available-029', 
+    'fn-unparsed-text-available-030', 
+    'fn-unparsed-text-available-031', 
+    'fn-unparsed-text-available-032', 
+    'fn-unparsed-text-available-033', 
+    'fn-unparsed-text-available-034', 
+    'fn-unparsed-text-available-035', 
+    'fn-unparsed-text-available-036', 
+    'fn-unparsed-text-available-037', 
+    'fn-unparsed-text-available-038', 
+    'fn-unparsed-text-available-039', 
+    'fn-unparsed-text-available-040', 
+    'fn-unparsed-text-available-041', 
+    'fn-unparsed-text-available-042', 
+    'fn-unparsed-text-available-043', 
+    'fn-unparsed-text-available-044', 
+    'fn-unparsed-text-available-045', 
+    'fn-unparsed-text-available-046', 
+    'fn-unparsed-text-available-047']}, 
+   {group_2, [parallel], [
+    'fn-unparsed-text-available-048', 
+    'fn-unparsed-text-available-049', 
+    'fn-unparsed-text-available-050', 
+    'fn-unparsed-text-available-051', 
+    'fn-unparsed-text-available-052']}].
 environment('unparsed-text-available',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

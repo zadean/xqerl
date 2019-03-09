@@ -1,8 +1,11 @@
 -module('op_yearMonthDuration_greater_than_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['op-yearMonthDuration-greater-than2args-1'/1]).
 -export(['op-yearMonthDuration-greater-than2args-2'/1]).
@@ -38,7 +41,10 @@
 -export(['cbcl-yearMonthDuration-greater-than-004'/1]).
 -export(['cbcl-yearMonthDuration-greater-than-005'/1]).
 -export(['cbcl-yearMonthDuration-greater-than-006'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "op"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'op-yearMonthDuration-greater-than2args-1', 
-'op-yearMonthDuration-greater-than2args-2', 
-'op-yearMonthDuration-greater-than2args-3', 
-'op-yearMonthDuration-greater-than2args-4', 
-'op-yearMonthDuration-greater-than2args-5', 
-'op-yearMonthDuration-greater-than2args-6', 
-'op-yearMonthDuration-greater-than2args-7', 
-'op-yearMonthDuration-greater-than2args-8', 
-'op-yearMonthDuration-greater-than2args-9', 
-'op-yearMonthDuration-greater-than2args-10', 
-'op-yearMonthDuration-greater-than-3', 
-'op-yearMonthDuration-greater-than-4', 
-'op-yearMonthDuration-greater-than-5', 
-'op-yearMonthDuration-greater-than-6', 
-'op-yearMonthDuration-greater-than-7', 
-'op-yearMonthDuration-greater-than-8', 
-'op-yearMonthDuration-greater-than-9', 
-'op-yearMonthDuration-greater-than-10', 
-'op-yearMonthDuration-greater-than-11', 
-'op-yearMonthDuration-greater-than-12', 
-'op-yearMonthDuration-greater-than-13', 
-'op-yearMonthDuration-greater-than-14', 
-'K-YearMonthDurationGT-1', 
-'K-YearMonthDurationGT-2', 
-'K-YearMonthDurationGT-3', 
-'K-YearMonthDurationGT-4', 
-'K-YearMonthDurationGT-5', 
-'K-YearMonthDurationGT-6', 
-'cbcl-yearMonthDuration-greater-than-001', 
-'cbcl-yearMonthDuration-greater-than-002', 
-'cbcl-yearMonthDuration-greater-than-003', 
-'cbcl-yearMonthDuration-greater-than-004', 
-'cbcl-yearMonthDuration-greater-than-005', 
-'cbcl-yearMonthDuration-greater-than-006'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'op-yearMonthDuration-greater-than2args-1', 
+    'op-yearMonthDuration-greater-than2args-2', 
+    'op-yearMonthDuration-greater-than2args-3', 
+    'op-yearMonthDuration-greater-than2args-4', 
+    'op-yearMonthDuration-greater-than2args-5', 
+    'op-yearMonthDuration-greater-than2args-6', 
+    'op-yearMonthDuration-greater-than2args-7', 
+    'op-yearMonthDuration-greater-than2args-8', 
+    'op-yearMonthDuration-greater-than2args-9', 
+    'op-yearMonthDuration-greater-than2args-10', 
+    'op-yearMonthDuration-greater-than-3', 
+    'op-yearMonthDuration-greater-than-4', 
+    'op-yearMonthDuration-greater-than-5', 
+    'op-yearMonthDuration-greater-than-6', 
+    'op-yearMonthDuration-greater-than-7', 
+    'op-yearMonthDuration-greater-than-8', 
+    'op-yearMonthDuration-greater-than-9', 
+    'op-yearMonthDuration-greater-than-10', 
+    'op-yearMonthDuration-greater-than-11', 
+    'op-yearMonthDuration-greater-than-12', 
+    'op-yearMonthDuration-greater-than-13', 
+    'op-yearMonthDuration-greater-than-14', 
+    'K-YearMonthDurationGT-1']}, 
+   {group_1, [parallel], [
+    'K-YearMonthDurationGT-2', 
+    'K-YearMonthDurationGT-3', 
+    'K-YearMonthDurationGT-4', 
+    'K-YearMonthDurationGT-5', 
+    'K-YearMonthDurationGT-6', 
+    'cbcl-yearMonthDuration-greater-than-001', 
+    'cbcl-yearMonthDuration-greater-than-002', 
+    'cbcl-yearMonthDuration-greater-than-003', 
+    'cbcl-yearMonthDuration-greater-than-004', 
+    'cbcl-yearMonthDuration-greater-than-005', 
+    'cbcl-yearMonthDuration-greater-than-006']}].
 
 'op-yearMonthDuration-greater-than2args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

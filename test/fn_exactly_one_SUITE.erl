@@ -1,8 +1,11 @@
 -module('fn_exactly_one_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-exactly-oneint1args-1'/1]).
 -export(['fn-exactly-oneint1args-2'/1]).
@@ -58,7 +61,10 @@
 -export(['cbcl-exactly-one-002'/1]).
 -export(['cbcl-exactly-one-003'/1]).
 -export(['cbcl-exactly-one-004'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-exactly-oneint1args-1', 
-'fn-exactly-oneint1args-2', 
-'fn-exactly-oneint1args-3', 
-'fn-exactly-oneintg1args-1', 
-'fn-exactly-oneintg1args-2', 
-'fn-exactly-oneintg1args-3', 
-'fn-exactly-onedec1args-1', 
-'fn-exactly-onedec1args-2', 
-'fn-exactly-onedec1args-3', 
-'fn-exactly-onedbl1args-1', 
-'fn-exactly-onedbl1args-2', 
-'fn-exactly-onedbl1args-3', 
-'fn-exactly-oneflt1args-1', 
-'fn-exactly-oneflt1args-2', 
-'fn-exactly-oneflt1args-3', 
-'fn-exactly-onelng1args-1', 
-'fn-exactly-onelng1args-2', 
-'fn-exactly-onelng1args-3', 
-'fn-exactly-oneusht1args-1', 
-'fn-exactly-oneusht1args-2', 
-'fn-exactly-oneusht1args-3', 
-'fn-exactly-onenint1args-1', 
-'fn-exactly-onenint1args-2', 
-'fn-exactly-onenint1args-3', 
-'fn-exactly-onepint1args-1', 
-'fn-exactly-onepint1args-2', 
-'fn-exactly-onepint1args-3', 
-'fn-exactly-oneulng1args-1', 
-'fn-exactly-oneulng1args-2', 
-'fn-exactly-oneulng1args-3', 
-'fn-exactly-onenpi1args-1', 
-'fn-exactly-onenpi1args-2', 
-'fn-exactly-onenpi1args-3', 
-'fn-exactly-onenni1args-1', 
-'fn-exactly-onenni1args-2', 
-'fn-exactly-onenni1args-3', 
-'fn-exactly-onesht1args-1', 
-'fn-exactly-onesht1args-2', 
-'fn-exactly-onesht1args-3', 
-'fn-exactly-one-1', 
-'K-SeqExactlyOneFunc-1', 
-'K-SeqExactlyOneFunc-2', 
-'K-SeqExactlyOneFunc-3', 
-'K-SeqExactlyOneFunc-4', 
-'K-SeqExactlyOneFunc-5', 
-'K-SeqExactlyOneFunc-6', 
-'K-SeqExactlyOneFunc-7', 
-'K-SeqExactlyOneFunc-8', 
-'K-SeqExactlyOneFunc-9', 
-'K-SeqExactlyOneFunc-10', 
-'cbcl-exactly-one-001', 
-'cbcl-exactly-one-002', 
-'cbcl-exactly-one-003', 
-'cbcl-exactly-one-004'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-exactly-oneint1args-1', 
+    'fn-exactly-oneint1args-2', 
+    'fn-exactly-oneint1args-3', 
+    'fn-exactly-oneintg1args-1', 
+    'fn-exactly-oneintg1args-2', 
+    'fn-exactly-oneintg1args-3', 
+    'fn-exactly-onedec1args-1', 
+    'fn-exactly-onedec1args-2', 
+    'fn-exactly-onedec1args-3', 
+    'fn-exactly-onedbl1args-1', 
+    'fn-exactly-onedbl1args-2', 
+    'fn-exactly-onedbl1args-3', 
+    'fn-exactly-oneflt1args-1', 
+    'fn-exactly-oneflt1args-2', 
+    'fn-exactly-oneflt1args-3', 
+    'fn-exactly-onelng1args-1', 
+    'fn-exactly-onelng1args-2', 
+    'fn-exactly-onelng1args-3', 
+    'fn-exactly-oneusht1args-1', 
+    'fn-exactly-oneusht1args-2', 
+    'fn-exactly-oneusht1args-3', 
+    'fn-exactly-onenint1args-1', 
+    'fn-exactly-onenint1args-2']}, 
+   {group_1, [parallel], [
+    'fn-exactly-onenint1args-3', 
+    'fn-exactly-onepint1args-1', 
+    'fn-exactly-onepint1args-2', 
+    'fn-exactly-onepint1args-3', 
+    'fn-exactly-oneulng1args-1', 
+    'fn-exactly-oneulng1args-2', 
+    'fn-exactly-oneulng1args-3', 
+    'fn-exactly-onenpi1args-1', 
+    'fn-exactly-onenpi1args-2', 
+    'fn-exactly-onenpi1args-3', 
+    'fn-exactly-onenni1args-1', 
+    'fn-exactly-onenni1args-2', 
+    'fn-exactly-onenni1args-3', 
+    'fn-exactly-onesht1args-1', 
+    'fn-exactly-onesht1args-2', 
+    'fn-exactly-onesht1args-3', 
+    'fn-exactly-one-1', 
+    'K-SeqExactlyOneFunc-1', 
+    'K-SeqExactlyOneFunc-2', 
+    'K-SeqExactlyOneFunc-3', 
+    'K-SeqExactlyOneFunc-4', 
+    'K-SeqExactlyOneFunc-5', 
+    'K-SeqExactlyOneFunc-6', 
+    'K-SeqExactlyOneFunc-7']}, 
+   {group_2, [parallel], [
+    'K-SeqExactlyOneFunc-8', 
+    'K-SeqExactlyOneFunc-9', 
+    'K-SeqExactlyOneFunc-10', 
+    'cbcl-exactly-one-001', 
+    'cbcl-exactly-one-002', 
+    'cbcl-exactly-one-003', 
+    'cbcl-exactly-one-004']}].
 
 'fn-exactly-oneint1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

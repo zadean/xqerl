@@ -1,8 +1,11 @@
 -module('fn_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-dateTime-1'/1]).
 -export(['fn-dateTime-2'/1]).
@@ -56,7 +59,10 @@
 -export(['K2-DateTimeFunc-1'/1]).
 -export(['cbcl-dateTime-001'/1]).
 -export(['cbcl-dateTime-002'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -67,59 +73,66 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-dateTime-1', 
-'fn-dateTime-2', 
-'fn-dateTime-3', 
-'fn-dateTime-4', 
-'fn-dateTime-5', 
-'fn-dateTime-6', 
-'fn-dateTime-7', 
-'fn-dateTime-8', 
-'fn-dateTime-9', 
-'fn-dateTime-10', 
-'fn-dateTime-11', 
-'fn-dateTime-12', 
-'fn-dateTime-13', 
-'fn-dateTime-14', 
-'fn-dateTime-15', 
-'fn-dateTime-16', 
-'fn-dateTime-17', 
-'fn-dateTime-18', 
-'fn-dateTime-19', 
-'fn-dateTime-20', 
-'fn-dateTime-21', 
-'fn-dateTime-22', 
-'fn-dateTime-23', 
-'fn-dateTime-24', 
-'fn-dateTime-25', 
-'fn-dateTime-26', 
-'fn-dateTime-27', 
-'fn-dateTime-28', 
-'fn-dateTime-29', 
-'fn-dateTime-30', 
-'forg0008-1', 
-'K-DateTimeFunc-1', 
-'K-DateTimeFunc-2', 
-'K-DateTimeFunc-3', 
-'K-DateTimeFunc-4', 
-'K-DateTimeFunc-5', 
-'K-DateTimeFunc-6', 
-'K-DateTimeFunc-7', 
-'K-DateTimeFunc-8', 
-'K-DateTimeFunc-9', 
-'K-DateTimeFunc-10', 
-'K-DateTimeFunc-11', 
-'K-DateTimeFunc-12', 
-'K-DateTimeFunc-13', 
-'K-DateTimeFunc-14', 
-'K-DateTimeFunc-15', 
-'K-DateTimeFunc-16', 
-'K-DateTimeFunc-17', 
-'K-DateTimeFunc-18', 
-'K2-DateTimeFunc-1', 
-'cbcl-dateTime-001', 
-'cbcl-dateTime-002'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-dateTime-1', 
+    'fn-dateTime-2', 
+    'fn-dateTime-3', 
+    'fn-dateTime-4', 
+    'fn-dateTime-5', 
+    'fn-dateTime-6', 
+    'fn-dateTime-7', 
+    'fn-dateTime-8', 
+    'fn-dateTime-9', 
+    'fn-dateTime-10', 
+    'fn-dateTime-11', 
+    'fn-dateTime-12', 
+    'fn-dateTime-13', 
+    'fn-dateTime-14', 
+    'fn-dateTime-15', 
+    'fn-dateTime-16', 
+    'fn-dateTime-17', 
+    'fn-dateTime-18', 
+    'fn-dateTime-19', 
+    'fn-dateTime-20', 
+    'fn-dateTime-21', 
+    'fn-dateTime-22', 
+    'fn-dateTime-23']}, 
+   {group_1, [parallel], [
+    'fn-dateTime-24', 
+    'fn-dateTime-25', 
+    'fn-dateTime-26', 
+    'fn-dateTime-27', 
+    'fn-dateTime-28', 
+    'fn-dateTime-29', 
+    'fn-dateTime-30', 
+    'forg0008-1', 
+    'K-DateTimeFunc-1', 
+    'K-DateTimeFunc-2', 
+    'K-DateTimeFunc-3', 
+    'K-DateTimeFunc-4', 
+    'K-DateTimeFunc-5', 
+    'K-DateTimeFunc-6', 
+    'K-DateTimeFunc-7', 
+    'K-DateTimeFunc-8', 
+    'K-DateTimeFunc-9', 
+    'K-DateTimeFunc-10', 
+    'K-DateTimeFunc-11', 
+    'K-DateTimeFunc-12', 
+    'K-DateTimeFunc-13', 
+    'K-DateTimeFunc-14', 
+    'K-DateTimeFunc-15', 
+    'K-DateTimeFunc-16']}, 
+   {group_2, [parallel], [
+    'K-DateTimeFunc-17', 
+    'K-DateTimeFunc-18', 
+    'K2-DateTimeFunc-1', 
+    'cbcl-dateTime-001', 
+    'cbcl-dateTime-002']}].
 
 'fn-dateTime-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

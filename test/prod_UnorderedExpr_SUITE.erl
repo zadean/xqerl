@@ -1,8 +1,11 @@
 -module('prod_UnorderedExpr_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['Orderexpr-1'/1]).
 -export(['Orderexpr-2'/1]).
@@ -32,7 +35,10 @@
 -export(['K-OrderExpr-2a'/1]).
 -export(['K-OrderExpr-3'/1]).
 -export(['K-OrderExpr-4'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -43,35 +49,40 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'Orderexpr-1', 
-'Orderexpr-2', 
-'Orderexpr-5', 
-'Orderexpr-6', 
-'Orderexpr-9', 
-'Orderexpr-10', 
-'Orderexpr-11', 
-'Orderexpr-12', 
-'Orderexpr-13', 
-'Orderexpr-14', 
-'Orderexpr-15', 
-'Orderexpr-16', 
-'Orderexpr-17', 
-'Orderexpr-18', 
-'Orderexpr-19', 
-'Orderexpr-20', 
-'orderedunorderedexpr-1', 
-'orderedunorderedexpr-2', 
-'orderedunorderedexpr-3', 
-'orderedunorderedexpr-4', 
-'orderedunorderedexpr-5', 
-'orderedunorderedexpr-6', 
-'K-OrderExpr-1', 
-'K-OrderExpr-1a', 
-'K-OrderExpr-2', 
-'K-OrderExpr-2a', 
-'K-OrderExpr-3', 
-'K-OrderExpr-4'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'Orderexpr-1', 
+    'Orderexpr-2', 
+    'Orderexpr-5', 
+    'Orderexpr-6', 
+    'Orderexpr-9', 
+    'Orderexpr-10', 
+    'Orderexpr-11', 
+    'Orderexpr-12', 
+    'Orderexpr-13', 
+    'Orderexpr-14', 
+    'Orderexpr-15', 
+    'Orderexpr-16', 
+    'Orderexpr-17', 
+    'Orderexpr-18', 
+    'Orderexpr-19', 
+    'Orderexpr-20', 
+    'orderedunorderedexpr-1', 
+    'orderedunorderedexpr-2', 
+    'orderedunorderedexpr-3', 
+    'orderedunorderedexpr-4', 
+    'orderedunorderedexpr-5', 
+    'orderedunorderedexpr-6', 
+    'K-OrderExpr-1']}, 
+   {group_1, [parallel], [
+    'K-OrderExpr-1a', 
+    'K-OrderExpr-2', 
+    'K-OrderExpr-2a', 
+    'K-OrderExpr-3', 
+    'K-OrderExpr-4']}].
 environment('partlist',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/partlist.xml"), ".",[]}]}, 

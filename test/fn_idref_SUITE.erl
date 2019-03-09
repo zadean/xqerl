@@ -1,8 +1,11 @@
 -module('fn_idref_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-idref-1'/1]).
 -export(['fn-idref-2'/1]).
@@ -58,7 +61,10 @@
 -export(['cbcl-idref-001'/1]).
 -export(['cbcl-idref-002'/1]).
 -export(['cbcl-idref-003'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -69,61 +75,68 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-idref-1', 
-'fn-idref-2', 
-'fn-idref-3', 
-'fn-idref-4', 
-'fn-idref-5', 
-'fn-idref-6', 
-'fn-idref-7', 
-'fn-idref-8', 
-'fn-idref-9', 
-'fn-idref-10', 
-'fn-idref-11', 
-'fn-idref-12', 
-'fn-idref-13', 
-'fn-idref-14', 
-'fn-idref-15', 
-'fn-idref-16', 
-'fn-idref-17', 
-'fn-idref-18', 
-'fn-idref-19', 
-'fn-idref-20', 
-'fn-idref-21', 
-'fn-idref-23', 
-'fn-idref-30', 
-'fn-idref-31', 
-'fn-idref-32', 
-'fn-idref-33', 
-'fn-idref-34', 
-'fn-idref-dtd-5', 
-'fn-idref-dtd-6', 
-'fn-idref-dtd-7', 
-'fn-idref-dtd-8', 
-'fn-idref-dtd-9', 
-'fn-idref-dtd-10', 
-'fn-idref-dtd-11', 
-'fn-idref-dtd-12', 
-'fn-idref-dtd-13', 
-'fn-idref-dtd-14', 
-'fn-idref-dtd-15', 
-'fn-idref-dtd-16', 
-'fn-idref-dtd-17', 
-'fn-idref-dtd-18', 
-'fn-idref-dtd-19', 
-'fn-idref-dtd-20', 
-'fn-idref-dtd-21', 
-'fn-idref-22', 
-'fn-idref-dtd-23', 
-'fn-idref-dtd-24', 
-'fn-idref-dtd-25', 
-'K2-SeqIDREFFunc-1', 
-'K2-SeqIDREFFunc-2', 
-'K2-SeqIDREFFunc-3', 
-'cbcl-idref-001', 
-'cbcl-idref-002', 
-'cbcl-idref-003'
-].
+   {group, group_0}, 
+   {group, group_1}, 
+   {group, group_2}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-idref-1', 
+    'fn-idref-2', 
+    'fn-idref-3', 
+    'fn-idref-4', 
+    'fn-idref-5', 
+    'fn-idref-6', 
+    'fn-idref-7', 
+    'fn-idref-8', 
+    'fn-idref-9', 
+    'fn-idref-10', 
+    'fn-idref-11', 
+    'fn-idref-12', 
+    'fn-idref-13', 
+    'fn-idref-14', 
+    'fn-idref-15', 
+    'fn-idref-16', 
+    'fn-idref-17', 
+    'fn-idref-18', 
+    'fn-idref-19', 
+    'fn-idref-20', 
+    'fn-idref-21', 
+    'fn-idref-23', 
+    'fn-idref-30']}, 
+   {group_1, [parallel], [
+    'fn-idref-31', 
+    'fn-idref-32', 
+    'fn-idref-33', 
+    'fn-idref-34', 
+    'fn-idref-dtd-5', 
+    'fn-idref-dtd-6', 
+    'fn-idref-dtd-7', 
+    'fn-idref-dtd-8', 
+    'fn-idref-dtd-9', 
+    'fn-idref-dtd-10', 
+    'fn-idref-dtd-11', 
+    'fn-idref-dtd-12', 
+    'fn-idref-dtd-13', 
+    'fn-idref-dtd-14', 
+    'fn-idref-dtd-15', 
+    'fn-idref-dtd-16', 
+    'fn-idref-dtd-17', 
+    'fn-idref-dtd-18', 
+    'fn-idref-dtd-19', 
+    'fn-idref-dtd-20', 
+    'fn-idref-dtd-21', 
+    'fn-idref-22', 
+    'fn-idref-dtd-23', 
+    'fn-idref-dtd-24']}, 
+   {group_2, [parallel], [
+    'fn-idref-dtd-25', 
+    'K2-SeqIDREFFunc-1', 
+    'K2-SeqIDREFFunc-2', 
+    'K2-SeqIDREFFunc-3', 
+    'cbcl-idref-001', 
+    'cbcl-idref-002', 
+    'cbcl-idref-003']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

@@ -1,8 +1,11 @@
 -module('math_pow_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['math-pow-001'/1]).
 -export(['math-pow-002'/1]).
@@ -38,7 +41,10 @@
 -export(['math-pow-032'/1]).
 -export(['math-pow-033'/1]).
 -export(['math-pow-034'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -49,41 +55,46 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "math"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'math-pow-001', 
-'math-pow-002', 
-'math-pow-003', 
-'math-pow-004', 
-'math-pow-005', 
-'math-pow-006', 
-'math-pow-007', 
-'math-pow-008', 
-'math-pow-009', 
-'math-pow-010', 
-'math-pow-011', 
-'math-pow-012', 
-'math-pow-013', 
-'math-pow-014', 
-'math-pow-015', 
-'math-pow-016', 
-'math-pow-017', 
-'math-pow-018', 
-'math-pow-019', 
-'math-pow-020', 
-'math-pow-021', 
-'math-pow-022', 
-'math-pow-023', 
-'math-pow-024', 
-'math-pow-025', 
-'math-pow-026', 
-'math-pow-027', 
-'math-pow-028', 
-'math-pow-029', 
-'math-pow-030', 
-'math-pow-031', 
-'math-pow-032', 
-'math-pow-033', 
-'math-pow-034'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'math-pow-001', 
+    'math-pow-002', 
+    'math-pow-003', 
+    'math-pow-004', 
+    'math-pow-005', 
+    'math-pow-006', 
+    'math-pow-007', 
+    'math-pow-008', 
+    'math-pow-009', 
+    'math-pow-010', 
+    'math-pow-011', 
+    'math-pow-012', 
+    'math-pow-013', 
+    'math-pow-014', 
+    'math-pow-015', 
+    'math-pow-016', 
+    'math-pow-017', 
+    'math-pow-018', 
+    'math-pow-019', 
+    'math-pow-020', 
+    'math-pow-021', 
+    'math-pow-022', 
+    'math-pow-023']}, 
+   {group_1, [parallel], [
+    'math-pow-024', 
+    'math-pow-025', 
+    'math-pow-026', 
+    'math-pow-027', 
+    'math-pow-028', 
+    'math-pow-029', 
+    'math-pow-030', 
+    'math-pow-031', 
+    'math-pow-032', 
+    'math-pow-033', 
+    'math-pow-034']}].
 environment('math',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 

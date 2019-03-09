@@ -1,8 +1,11 @@
 -module('fn_minutes_from_dateTime_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-minutes-from-dateTime1args-1'/1]).
 -export(['fn-minutes-from-dateTime1args-2'/1]).
@@ -31,7 +34,10 @@
 -export(['K-MinutesFromDateTimeFunc-3'/1]).
 -export(['K-MinutesFromDateTimeFunc-4'/1]).
 -export(['K-MinutesFromDateTimeFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -42,34 +48,39 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-minutes-from-dateTime1args-1', 
-'fn-minutes-from-dateTime1args-2', 
-'fn-minutes-from-dateTime1args-3', 
-'fn-minutes-from-dateTime-1', 
-'fn-minutes-from-dateTime-2', 
-'fn-minutes-from-dateTime-3', 
-'fn-minutes-from-dateTime-4', 
-'fn-minutes-from-dateTime-5', 
-'fn-minutes-from-dateTime-6', 
-'fn-minutes-from-dateTime-7', 
-'fn-minutes-from-dateTime-8', 
-'fn-minutes-from-dateTime-9', 
-'fn-minutes-from-dateTime-10', 
-'fn-minutes-from-dateTime-11', 
-'fn-minutes-from-dateTime-12', 
-'fn-minutes-from-dateTime-13', 
-'fn-minutes-from-dateTime-14', 
-'fn-minutes-from-dateTime-15', 
-'fn-minutes-from-dateTime-16', 
-'fn-minutes-from-dateTime-17', 
-'fn-minutes-from-dateTime-18', 
-'fn-minutes-from-dateTime-19', 
-'K-MinutesFromDateTimeFunc-1', 
-'K-MinutesFromDateTimeFunc-2', 
-'K-MinutesFromDateTimeFunc-3', 
-'K-MinutesFromDateTimeFunc-4', 
-'K-MinutesFromDateTimeFunc-5'
-].
+   {group, group_0}, 
+   {group, group_1}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-minutes-from-dateTime1args-1', 
+    'fn-minutes-from-dateTime1args-2', 
+    'fn-minutes-from-dateTime1args-3', 
+    'fn-minutes-from-dateTime-1', 
+    'fn-minutes-from-dateTime-2', 
+    'fn-minutes-from-dateTime-3', 
+    'fn-minutes-from-dateTime-4', 
+    'fn-minutes-from-dateTime-5', 
+    'fn-minutes-from-dateTime-6', 
+    'fn-minutes-from-dateTime-7', 
+    'fn-minutes-from-dateTime-8', 
+    'fn-minutes-from-dateTime-9', 
+    'fn-minutes-from-dateTime-10', 
+    'fn-minutes-from-dateTime-11', 
+    'fn-minutes-from-dateTime-12', 
+    'fn-minutes-from-dateTime-13', 
+    'fn-minutes-from-dateTime-14', 
+    'fn-minutes-from-dateTime-15', 
+    'fn-minutes-from-dateTime-16', 
+    'fn-minutes-from-dateTime-17', 
+    'fn-minutes-from-dateTime-18', 
+    'fn-minutes-from-dateTime-19', 
+    'K-MinutesFromDateTimeFunc-1']}, 
+   {group_1, [parallel], [
+    'K-MinutesFromDateTimeFunc-2', 
+    'K-MinutesFromDateTimeFunc-3', 
+    'K-MinutesFromDateTimeFunc-4', 
+    'K-MinutesFromDateTimeFunc-5']}].
 
 'fn-minutes-from-dateTime1args-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),

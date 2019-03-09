@@ -1,8 +1,11 @@
 -module('fn_apply_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
+         init_per_group/2,
+         end_per_group/2,
          end_per_suite/1]).
 -export(['fn-apply-01'/1]).
 -export(['fn-apply-02'/1]).
@@ -20,7 +23,10 @@
 -export(['fn-apply-14'/1]).
 -export(['fn-apply-15'/1]).
 -export(['fn-apply-16'/1]).
-suite() -> [{timetrap,{seconds, 5}}].
+suite() -> [{timetrap,{seconds, 180}}].
+init_per_group(_, Config) ->  Config.
+end_per_group(_, _Config) -> 
+   xqerl_code_server:unload(all).
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
@@ -31,23 +37,26 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-'fn-apply-01', 
-'fn-apply-02', 
-'fn-apply-03', 
-'fn-apply-04', 
-'fn-apply-05', 
-'fn-apply-06', 
-'fn-apply-07', 
-'fn-apply-08', 
-'fn-apply-09', 
-'fn-apply-10', 
-'fn-apply-11', 
-'fn-apply-12', 
-'fn-apply-13', 
-'fn-apply-14', 
-'fn-apply-15', 
-'fn-apply-16'
-].
+   {group, group_0}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'fn-apply-01', 
+    'fn-apply-02', 
+    'fn-apply-03', 
+    'fn-apply-04', 
+    'fn-apply-05', 
+    'fn-apply-06', 
+    'fn-apply-07', 
+    'fn-apply-08', 
+    'fn-apply-09', 
+    'fn-apply-10', 
+    'fn-apply-11', 
+    'fn-apply-12', 
+    'fn-apply-13', 
+    'fn-apply-14', 
+    'fn-apply-15', 
+    'fn-apply-16']}].
 
 'fn-apply-01'(Config) ->
    __BaseDir = ?config(base_dir, Config),
