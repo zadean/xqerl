@@ -495,22 +495,7 @@ environment('primary',__BaseDir) ->
    end. 
 'collation-key-204'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-        let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
-        collation-key(\"abc123\", $c) eq collation-key(\"ABC 123\", $c)", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('primary',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "collation-key-204.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'collation-key-205'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -43,12 +43,12 @@ environment('speech-representation.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseNLP/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),"http://xqerl.org/speech-representation.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),"http://www.w3.org/qt3/app/UseCaseNLP/speech-representation.json"}]}, 
 {modules, []}
 ].
 'UseCaseNLP-001'(Config) ->

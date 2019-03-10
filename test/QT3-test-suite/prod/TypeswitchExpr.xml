@@ -573,7 +573,20 @@
       <description> Two nested typeswitches. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare variable $i := (attribute name {"content"}, <a attr="content"/>, <e/>, 1, "str", <!-- a comment -->); <d> { typeswitch(typeswitch($i) case $b as element(e) return concat("Found an element by name ", $b) case $b as element() return comment{concat("Found: ", $b)} case $c as attribute(doesntMatch) return $c/.. default $def return $def) case $str as xs:string return "A string" case $attr as attribute() return string($attr) default $def return $def } </d>]]></test>
+      <test><![CDATA[
+         declare variable $i := (attribute name {"content"}, <a attr="content"/>, <e/>, 1, "str", <!-- a comment -->); 
+         <d> { 
+            typeswitch(
+               typeswitch($i) 
+                  case $b as element(e) return concat("Found an element by name ", $b) 
+                  case $b as element() return comment{concat("Found: ", $b)} 
+                  case $c as attribute(doesntMatch) return $c/.. 
+                  default $def return $def) 
+               case $str as xs:string return "A string" 
+               case $attr as attribute() return string($attr) 
+               default $def return $def 
+          } </d>]]>
+      </test>
       <result>
          <assert-xml><![CDATA[<d name="content"><a attr="content"/><e/>1 str<!-- a comment --></d>]]></assert-xml>
       </result>
@@ -903,15 +916,16 @@
         Detecting a type error here is permitted but not required.
       </description>
       <created by="Michael Kay" on="2015-04-16"/>
+      <modified by="Michael Kay" on="2018-05-10" change="The test as written was failing XPTY0004 for the wrong reasons"/>
       <environment ref="array-and-map"/>
       <dependency type="spec" value="XQ31+"/>
       <test>
       	let $x := map{'x':1, 'y':2}
       	let $y := map{'A':1, 'B':2}
       	let $z := ($x, $y, [])
-      	for $e in $z(position() lt 3) return
+      	for $e in $z[position() lt 3] return
       	  typeswitch($e)
-      	  case $A as array(*) return array:get($A, 'A')
+      	  case $A as array(*) return array:get($A, 'A') (: deliberate: array:get requires an integer :)
       	  case $M as map(*) return map:get($M, 'A')
       	  default return error()
       </test>
@@ -920,6 +934,28 @@
            <error code="XPTY0004"/>
            <assert-eq>1</assert-eq>
          </any-of>
+      </result>
+   </test-case>   
+   
+   <test-case name="typeswitch-119" covers="array-general map-general">
+      <description>
+         Purpose: Test typeswitch with an impossible branch. This is not an error.
+      </description>
+      <created by="Michael Kay" on="2018-05-10"/>
+      <environment ref="array-and-map"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         let $x := map{'x':1, 'y':2}
+         let $y := map{'A':1, 'B':2}
+         let $z := ($x, $y, [])
+         for $e as map(*) in $z[position() lt 3] return
+         typeswitch($e)
+         case $A as array(*) return array:get($A, 1)
+         case $M as map(*) return map:get($M, 'A')
+         default return error()
+      </test>
+      <result>
+          <assert-eq>1</assert-eq>
       </result>
    </test-case>   
    

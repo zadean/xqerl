@@ -115,6 +115,13 @@
          <description>Multi-line UTF-16 encoded plain text.</description>
          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
+      <resource file="unparsed-text/text-with-surrogates.txt"
+         media-type="text/plain"
+         encoding="utf-8"
+         uri="http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt">
+         <description>Text with a surrogate pair straddling a 2048-byte boundary.</description>
+         <created by="T Hatanaka" on="2018-05-15"/>
+      </resource>
    </environment>
 
    <environment name="unparsed-text-with-base-uri">
@@ -556,20 +563,28 @@
    <test-case name="fn-unparsed-text-038">
       <description>Evaluates the "unparsed-text" function with the argument set as follows: $href refers to a file whose encoding is invalid for utf-8.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Michael Kay" on="2018-09-24" change="added alternative error code as per bug 21885"/>
       <environment ref="unparsed-text" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/text-plain-utf-8-invalid.txt")</test>
       <result>
-	     <error code="FOUT1190" />
+         <any-of>
+            <error code="FOUT1200" />
+            <error code="FOUT1190" />
+         </any-of>  
       </result>
    </test-case>
 
    <test-case name="fn-unparsed-text-039">
       <description>Evaluates the "unparsed-text" function with the argument set as follows: $href refers to a file which contains non-XML characters.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Michael Kay" on="2018-09-24" change="added alternative error code as per bug 21885"/>
       <environment ref="unparsed-text" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/non-xml-character.txt")</test>
       <result>
-	     <error code="FOUT1190" />
+         <any-of>
+            <error code="FOUT1200" />
+            <error code="FOUT1190" />
+         </any-of>  
       </result>
    </test-case>
 
@@ -626,12 +641,14 @@
    <test-case name="fn-unparsed-text-045">
       <description>Evaluates the "unparsed-text" function with the argument set as follows: $href refers to a file whose encoding is valid iso-8859-1.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Zachary Dean" on="2019-03-12" change="Non-UTF8 with no BOM"/>
       <environment ref="unparsed-text" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt")</test>
       <result>
 	     <any-of>
 	        <assert-string-value>hello&#160;world</assert-string-value>
 	        <error code="FOUT1190" />
+            <error code="FOUT1200" />
 	     </any-of>
       </result>
    </test-case>
@@ -659,12 +676,14 @@
    <test-case name="fn-unparsed-text-048">
       <description>Evaluates the "unparsed-text" function with the argument set as follows: $href refers to a file whose encoding is valid iso-8859-1.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Zachary Dean" on="2019-03-12" change="Non-UTF8 with no BOM"/>
       <environment ref="unparsed-text" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml")</test>
       <result>
 	     <any-of>
 	        <assert-string-value>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;&lt;text&gt;hello&#160;world&lt;/text&gt;</assert-string-value>
 	        <error code="FOUT1190" />
+            <error code="FOUT1200" />
 	     </any-of>
       </result>
    </test-case>
@@ -734,6 +753,18 @@
       </test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unparsed-text-055">
+      <description>Unparsed text reading a file with a surrogate pair at an awkward position</description>
+      <created by="Michael Kay" on="2018-05-15"/>
+      <environment ref="unparsed-text" />
+      <test>
+         string-length(unparsed-text('http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt')) 
+      </test>
+      <result>
+         <assert-eq>2048</assert-eq>
       </result>
    </test-case>
 

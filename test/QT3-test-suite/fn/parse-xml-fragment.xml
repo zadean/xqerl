@@ -8,15 +8,9 @@
         <description>parse-xml-fragment test</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-04"/>
         <modified by="Michael Kay, Saxonica" on="2012-12-21" change="select the element node to avoid whitespace problems"/>        
-        <!-- <environment name="empty"/> -->
-        <environment>
-          <resource file="../docs/atomic.xml"
-                  media-type="text/plain"
-                  encoding="utf-8"
-                  uri="http://xqerl.org/test/docs/atomic.xml"/>
-        </environment>        
+        <environment name="empty"/>
         <test><![CDATA[
-        	parse-xml-fragment(unparsed-text("http://xqerl.org/test/docs/atomic.xml"))/*
+        	parse-xml-fragment(unparsed-text("../docs/atomic.xml"))/*
         ]]></test>
         <result>
             <assert-type>element(*,xs:untyped)</assert-type>
@@ -253,6 +247,26 @@
         <test><![CDATA[parse-xml-fragment("<a/>") instance of document-node()]]></test>
         <result>
             <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-fragment-024">
+        <description>parse-xml-fragment test - empty sequence is OK</description>
+        <created by="Michael Kay, Saxonica" on="2018-06-08"/>        
+        <environment name="empty"/>
+        <test>parse-xml-fragment(())</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-fragment-025">
+        <description>parse-xml-fragment test - (dynamic) empty sequence is OK</description>
+        <created by="Michael Kay, Saxonica" on="2018-07-18"/>        
+        <environment name="empty"/>
+        <test><![CDATA[
+            parse-xml-fragment("<a/>"[current-date() lt xs:date('1900-01-01')])
+        ]]></test>
+        <result>
+            <assert-empty/>
         </result>
     </test-case>
 </test-set>

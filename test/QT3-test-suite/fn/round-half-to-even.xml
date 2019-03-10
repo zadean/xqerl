@@ -866,7 +866,7 @@
       <test>round-half-to-even(xs:float('0.05'), 1)</test>
       <result>
          <all-of>
-            <assert-eq>xs:float(0.1)</assert-eq>
+            <assert-eq>0.1</assert-eq>
             <assert-type>xs:float</assert-type>
          </all-of>
       </result>
@@ -878,7 +878,7 @@
       <test>round-half-to-even(xs:float('-0.05'), 1)</test>
       <result>
          <all-of>
-            <assert-eq>xs:float(-0.1)</assert-eq>
+            <assert-eq>-0.1</assert-eq>
             <assert-type>xs:float</assert-type>
          </all-of>
       </result>
@@ -890,7 +890,7 @@
       <test>round-half-to-even(xs:float('3.75'), 1)</test>
       <result>
          <all-of>
-            <assert-eq>xs:float(3.8)</assert-eq>
+            <assert-eq>3.8</assert-eq>
             <assert-type>xs:float</assert-type>
          </all-of>
       </result>

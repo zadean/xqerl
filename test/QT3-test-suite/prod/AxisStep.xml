@@ -1911,6 +1911,17 @@
          <assert-eq>4</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="Axes084-5">
+      <description> Use of //text() to get all text nodes.</description>
+      <created by="Michael Kay" on="2018-11-08"/>
+      <environment ref="nw_Customers"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(//text()[normalize-space()])</test>
+      <result>
+         <assert-eq>827</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="Axes085">
       <description> Use of // to get all elements of a given name</description>
@@ -5114,6 +5125,33 @@ tour:main()
       <test><![CDATA[<a/>/<b>{.}</b>]]></test>
       <result>
          <assert-xml><![CDATA[<b><a/></b>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Axes-105">
+      <description> 
+         Use the document-node() node test with various axes. 
+         See https://stackoverflow.com/questions/49327886/xpath-why-does-document-node-match-the-document-node
+      </description>
+      <created by="Michael Kay" on="2018-04-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         let $x := document{<a><b/></a>}, $a := $x/a, $b := $a/b
+         return <out p="{exists($x/self::document-node())}" 
+                     q="{exists($x/document-node())}" 
+                     r="{exists($a/parent::document-node())}"
+                     s="{exists($b/ancestor::document-node())}"
+                     t="{exists($b/parent::document-node())}"
+                     u="{exists($b/preceding::document-node())}"/>]]></test>
+      <result>
+         <all-of>
+            <assert>$result/self::out/@p = 'true'</assert>
+            <assert>$result/self::out/@q = 'false'</assert>
+            <assert>$result/self::out/@r = 'true'</assert>
+            <assert>$result/self::out/@s = 'true'</assert>
+            <assert>$result/self::out/@t = 'false'</assert>
+            <assert>$result/self::out/@u = 'false'</assert>
+         </all-of>
       </result>
    </test-case>
    

@@ -188,6 +188,7 @@
 -export(['Axes084-2'/1]).
 -export(['Axes084-3'/1]).
 -export(['Axes084-4'/1]).
+-export(['Axes084-5'/1]).
 -export(['Axes085'/1]).
 -export(['Axes086'/1]).
 -export(['Axes087'/1]).
@@ -336,6 +337,7 @@
 -export(['K2-Axes-102'/1]).
 -export(['K2-Axes-103'/1]).
 -export(['K2-Axes-104'/1]).
+-export(['K2-Axes-105'/1]).
 -export(['statictypingaxis-1'/1]).
 -export(['statictypingaxis-2'/1]).
 -export(['statictypingaxis-3'/1]).
@@ -572,6 +574,7 @@ groups() -> [
     'Axes084-2', 
     'Axes084-3', 
     'Axes084-4', 
+    'Axes084-5', 
     'Axes085', 
     'Axes086', 
     'Axes087', 
@@ -580,9 +583,9 @@ groups() -> [
     'Axes090', 
     'Axes091', 
     'Axes092', 
-    'Axes093', 
-    'Axes094']}, 
+    'Axes093']}, 
    {group_8, [parallel], [
+    'Axes094', 
     'Axes095', 
     'Axes096', 
     'Axes097', 
@@ -605,9 +608,9 @@ groups() -> [
     'Axes114', 
     'Axes115', 
     'Axes116', 
-    'Axes117', 
-    'Axes118']}, 
+    'Axes117']}, 
    {group_9, [parallel], [
+    'Axes118', 
     'Axes119', 
     'Axes120', 
     'Axes121', 
@@ -630,9 +633,9 @@ groups() -> [
     'K2-Axes-10', 
     'K2-Axes-11', 
     'K2-Axes-12', 
-    'K2-Axes-13', 
-    'K2-Axes-14']}, 
+    'K2-Axes-13']}, 
    {group_10, [parallel], [
+    'K2-Axes-14', 
     'K2-Axes-15', 
     'K2-Axes-16', 
     'K2-Axes-17', 
@@ -655,9 +658,9 @@ groups() -> [
     'K2-Axes-34', 
     'K2-Axes-35', 
     'K2-Axes-36', 
-    'K2-Axes-37', 
-    'K2-Axes-38']}, 
+    'K2-Axes-37']}, 
    {group_11, [parallel], [
+    'K2-Axes-38', 
     'K2-Axes-39', 
     'K2-Axes-40', 
     'K2-Axes-41', 
@@ -680,9 +683,9 @@ groups() -> [
     'K2-Axes-58', 
     'K2-Axes-59', 
     'K2-Axes-60', 
-    'K2-Axes-61', 
-    'K2-Axes-62']}, 
+    'K2-Axes-61']}, 
    {group_12, [parallel], [
+    'K2-Axes-62', 
     'K2-Axes-63', 
     'K2-Axes-64', 
     'K2-Axes-65', 
@@ -705,9 +708,9 @@ groups() -> [
     'K2-Axes-82', 
     'K2-Axes-83', 
     'K2-Axes-84', 
-    'K2-Axes-85', 
-    'K2-Axes-86']}, 
+    'K2-Axes-85']}, 
    {group_13, [parallel], [
+    'K2-Axes-86', 
     'K2-Axes-87', 
     'K2-Axes-88', 
     'K2-Axes-89', 
@@ -726,13 +729,14 @@ groups() -> [
     'K2-Axes-102', 
     'K2-Axes-103', 
     'K2-Axes-104', 
+    'K2-Axes-105', 
     'statictypingaxis-1', 
     'statictypingaxis-2', 
     'statictypingaxis-3', 
-    'statictypingaxis-4', 
-    'statictypingaxis-5', 
-    'statictypingaxis-6']}, 
+    'statictypingaxis-4']}, 
    {group_14, [parallel], [
+    'statictypingaxis-5', 
+    'statictypingaxis-6', 
     'cbcl-selfAxis-001', 
     'cbcl-childAxis-001', 
     'cbcl-followingAxis-001', 
@@ -3805,6 +3809,22 @@ environment('xq311B',__BaseDir) ->
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Axes084-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Axes084-5'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count(//text()[normalize-space()])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Axes084-5.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"827") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
@@ -7807,6 +7827,52 @@ tour:main()
    Out =    case xqerl_test:assert_xml(Res,"<b><a/></b>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'K2-Axes-105'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $x := document{<a><b/></a>}, $a := $x/a, $b := $a/b
+         return <out p=\"{exists($x/self::document-node())}\" 
+                     q=\"{exists($x/document-node())}\" 
+                     r=\"{exists($a/parent::document-node())}\"
+                     s=\"{exists($b/ancestor::document-node())}\"
+                     t=\"{exists($b/parent::document-node())}\"
+                     u=\"{exists($b/preceding::document-node())}\"/>", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Axes-105.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"$result/self::out/@p = 'true'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"$result/self::out/@q = 'false'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"$result/self::out/@r = 'true'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"$result/self::out/@s = 'true'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"$result/self::out/@t = 'false'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"$result/self::out/@u = 'false'") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

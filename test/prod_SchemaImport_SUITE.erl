@@ -98,6 +98,7 @@
 -export(['qischema90172-err'/1]).
 -export(['qischema90401-err'/1]).
 -export(['qischema90431-err'/1]).
+-export(['qischema90431-no-err'/1]).
 -export(['qischema90611-err'/1]).
 -export(['qischema90612-err'/1]).
 -export(['qischema90613-err'/1]).
@@ -263,11 +264,12 @@ groups() -> [
     'qischema90172-err', 
     'qischema90401-err', 
     'qischema90431-err', 
+    'qischema90431-no-err', 
     'qischema90611-err', 
     'qischema90612-err', 
-    'qischema90613-err', 
-    'qischema90614-err']}, 
+    'qischema90613-err']}, 
    {group_4, [parallel], [
+    'qischema90614-err', 
     'qischema90621-err', 
     'qischema90631-err', 
     'qischema90701-err', 
@@ -290,9 +292,9 @@ groups() -> [
     'substitution-023', 
     'substitution-024', 
     'substitution-025', 
-    'substitution-030', 
-    'substitution-031']}, 
+    'substitution-030']}, 
    {group_5, [parallel], [
+    'substitution-031', 
     'substitution-032', 
     'cbcl-schema-element-1', 
     'cbcl-schema-element-2', 
@@ -730,6 +732,9 @@ environment('validate',__BaseDir) ->
 'qischema90431-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
+'qischema90431-no-err'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'qischema90611-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 

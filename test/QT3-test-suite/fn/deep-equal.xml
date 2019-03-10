@@ -1039,6 +1039,56 @@
       </result>
    </test-case>
    
+   <test-case name="fn-deep-equal-arrays-14" covers="array-square-constructor fn-deep-equal">
+      <description> Apply deep-equal to a sequence of arrays </description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-arrays-15" covers="array-square-constructor fn-deep-equal">
+      <description> Apply deep-equal to a sequence of arrays </description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [1], []))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-arrays-16" covers="array-square-constructor fn-deep-equal">
+      <description> Apply deep-equal to a sequence of arrays </description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [2]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-arrays-17" covers="array-square-constructor fn-deep-equal">
+      <description> Apply deep-equal to a sequence of arrays </description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c', 'd']], [], [1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-arrays-18" covers="array-square-constructor fn-deep-equal">
+      <description> Apply deep-equal to a sequence of arrays, after remove operation </description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:deep-equal(([['a', 'b', 'd'] => array:put(3, 'c')], [], [1]), ([['a', 'b', 'c', 'd'] => array:remove(4)], [], [1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
    <test-case name="fn-deep-equal-maps-1" covers="map-constructor fn-deep-equal">
       <description> Map deep-equal to map </description>
       <created by="Michael Kay" on="2014-10-14"/>
@@ -1226,6 +1276,42 @@
         let $u := adjust-dateTime-to-timezone($t, implicit-timezone()+xs:dayTimeDuration('PT1H')) return
         fn:deep-equal(map{$t :()}, map{$u :()})
       </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-maps-18" covers="map-constructor fn-deep-equal">
+      <description> Sequence of maps deep-equal to a sequence of maps</description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'x'}))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-maps-19" covers="map-constructor fn-deep-equal">
+      <description> Sequence of maps deep-equal to a sequence of maps</description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'z'}))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-deep-equal-maps-20" covers="map-constructor fn-deep-equal">
+      <description> Sequence of maps deep-equal to a sequence of maps</description>
+      <created by="Michael Kay" on="2018-09-03"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'x'}, map{}))
+      ]]></test>
       <result>
          <assert-false/>
       </result>
@@ -2487,6 +2573,15 @@
       ]]></test>
       <result>
          <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-43">
+      <description>An error evaluating an argument (as distinct from a comparison error) is propagated (Saxon bug 3714)</description>
+      <created by="Michael Kay" on="2018-03-09"/>
+      <test>deep-equal((0 to year-from-date(current-date()))!(10 idiv .), 11 to 22)</test>
+      <result>
+         <error code="FOAR0001"/>
       </result>
    </test-case>
    

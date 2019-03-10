@@ -329,7 +329,7 @@ environment('DupNode',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Constr-compattr-name-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert(Res,"exists($result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']])") of 
+   Out =    case xqerl_test:assert(Res,"$result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']]") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 

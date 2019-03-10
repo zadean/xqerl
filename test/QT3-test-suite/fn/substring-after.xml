@@ -338,6 +338,8 @@
    <test-case name="fn-substring-after-31" covers="uca-collation">
       <description> Use substring-after() with a UCA collation and primary matching</description>
       <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="Michael Kay" on="2018-07-19" change="Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
       <dependency type="spec" value="XP31 XQ31"/>
       <test>fn:substring-after("database", "âta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
       <result>
@@ -358,6 +360,8 @@
    <test-case name="fn-substring-after-33" covers="uca-collation">
       <description> Use substring-after() with a UCA collation and primary matching</description>
       <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="Michael Kay" on="2018-07-19" change="Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
       <dependency type="spec" value="XP31 XQ31"/>
       <test>fn:substring-after("dâtÅbase", "âtabÃ", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
       <result>

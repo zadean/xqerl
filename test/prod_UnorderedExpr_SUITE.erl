@@ -183,9 +183,21 @@ environment('partlist',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Orderexpr-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<part partid=\"1\" partof=\"0\" name=\"engine\"/><part partid=\"3\" partof=\"1\" name=\"piston\"/>") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "2") of 
+      true -> {comment, "Count correct"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"some $e in $result satisfies $e/self::part[@partid=\"1\"][@partof=\"0\"][@name=\"engine\"]") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"some $e in $result satisfies $e/self::part[@partid=\"3\"][@partof=\"1\"][@name=\"piston\"]") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -199,16 +211,20 @@ environment('partlist',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Orderexpr-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_xml(Res,"<part partid=\"1\" partof=\"0\" name=\"engine\"/><part partid=\"3\" partof=\"1\" name=\"piston\"/>") of 
-      true -> {comment, "XML Deep equal"};
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_count(Res, "2") of 
+      true -> {comment, "Count correct"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_xml(Res,"<part partid=\"3\" partof=\"1\" name=\"piston\"/><part partid=\"1\" partof=\"0\" name=\"engine\"/>") of 
-      true -> {comment, "XML Deep equal"};
+   case xqerl_test:assert(Res,"some $e in $result satisfies $e/self::part[@partid=\"1\"][@partof=\"0\"][@name=\"engine\"]") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"some $e in $result satisfies $e/self::part[@partid=\"3\"][@partof=\"1\"][@name=\"piston\"]") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
-      true -> {comment, "any-of"};
+      true -> {comment, "all-of"};
       _ -> false 
    end, 
    case Out of

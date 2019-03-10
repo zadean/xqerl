@@ -73,6 +73,7 @@
 -export(['typeswitch-116'/1]).
 -export(['typeswitch-117'/1]).
 -export(['typeswitch-118'/1]).
+-export(['typeswitch-119'/1]).
 -export(['cbcl-typeswitch-001'/1]).
 -export(['cbcl-typeswitch-002'/1]).
 -export(['cbcl-typeswitch-003'/1]).
@@ -168,12 +169,13 @@ groups() -> [
     'typeswitch-116', 
     'typeswitch-117', 
     'typeswitch-118', 
+    'typeswitch-119', 
     'cbcl-typeswitch-001', 
     'cbcl-typeswitch-002', 
     'cbcl-typeswitch-003', 
-    'cbcl-typeswitch-004', 
-    'cbcl-typeswitch-005']}, 
+    'cbcl-typeswitch-004']}, 
    {group_3, [parallel], [
+    'cbcl-typeswitch-005', 
     'cbcl-typeswitch-006']}].
 environment('array-and-map',__BaseDir) ->
 [{'decimal-formats', []}, 
@@ -989,7 +991,20 @@ environment('ListUnionTypes',__BaseDir) ->
    end. 
 'K2-sequenceExprTypeswitch-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i := (attribute name {\"content\"}, <a attr=\"content\"/>, <e/>, 1, \"str\", <!-- a comment -->); <d> { typeswitch(typeswitch($i) case $b as element(e) return concat(\"Found an element by name \", $b) case $b as element() return comment{concat(\"Found: \", $b)} case $c as attribute(doesntMatch) return $c/.. default $def return $def) case $str as xs:string return \"A string\" case $attr as attribute() return string($attr) default $def return $def } </d>", 
+   Qry = "
+         declare variable $i := (attribute name {\"content\"}, <a attr=\"content\"/>, <e/>, 1, \"str\", <!-- a comment -->); 
+         <d> { 
+            typeswitch(
+               typeswitch($i) 
+                  case $b as element(e) return concat(\"Found an element by name \", $b) 
+                  case $b as element() return comment{concat(\"Found: \", $b)} 
+                  case $c as attribute(doesntMatch) return $c/.. 
+                  default $def return $def) 
+               case $str as xs:string return \"A string\" 
+               case $attr as attribute() return string($attr) 
+               default $def return $def 
+          } </d>
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-sequenceExprTypeswitch-12.xq"), Qry1),
@@ -1334,9 +1349,9 @@ environment('ListUnionTypes',__BaseDir) ->
       	let $x := map{'x':1, 'y':2}
       	let $y := map{'A':1, 'B':2}
       	let $z := ($x, $y, [])
-      	for $e in $z(position() lt 3) return
+      	for $e in $z[position() lt 3] return
       	  typeswitch($e)
-      	  case $A as array(*) return array:get($A, 'A')
+      	  case $A as array(*) return array:get($A, 'A') (: deliberate: array:get requires an integer :)
       	  case $M as map(*) return map:get($M, 'A')
       	  default return error()
       ", 
@@ -1356,6 +1371,31 @@ environment('ListUnionTypes',__BaseDir) ->
    end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'typeswitch-119'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $x := map{'x':1, 'y':2}
+         let $y := map{'A':1, 'B':2}
+         let $z := ($x, $y, [])
+         for $e as map(*) in $z[position() lt 3] return
+         typeswitch($e)
+         case $A as array(*) return array:get($A, 1)
+         case $M as map(*) return map:get($M, 'A')
+         default return error()
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('array-and-map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "typeswitch-119.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"1") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};

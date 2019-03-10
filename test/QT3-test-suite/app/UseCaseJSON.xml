@@ -3,64 +3,64 @@
    <description>Tests for the UseCaseJSON</description>
             
    <environment name="mildred.json">
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/mildred.json" media-type="application/json" uri="http://xqerl.org/mildred.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/mildred.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/mildred.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="employees.json">      
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="http://xqerl.org/employees.json">      
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/employees.json">      
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="bookinfo.json">            
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="http://xqerl.org/bookinfo.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/bookinfo.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="users.json">      
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/users.json" media-type="application/json" uri="http://xqerl.org/users.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/users.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/users.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
    </environment>      
    <environment name="sales.json">            
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/sales.json" media-type="application/json" uri="http://xqerl.org/sales.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/sales.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/sales.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <resource file="UseCaseJSON/products.json" media-type="application/json" uri="http://xqerl.org/products.json">
+      <resource file="UseCaseJSON/products.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/products.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="http://xqerl.org/stores.json">
+      <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/stores.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>       
    </environment>      
    <environment name="satellites.json">                  
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="http://xqerl.org/satellites.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/satellites.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>    
       <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="colors.json">                           
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/colors.json" media-type="application/json" uri="http://xqerl.org/colors.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/colors.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/colors.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>  
    </environment>      
    <environment name="incoming.json">                                            
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/incoming.json" media-type="application/json" uri="http://xqerl.org/incoming.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/incoming.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/incoming.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>   
       <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="table.json">                                                 
-      <static-base-uri uri="http://xqerl.org"/>
-      <resource file="UseCaseJSON/table.json" media-type="application/json" uri="http://xqerl.org/table.json">
+      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseJSON/"/>
+      <resource file="UseCaseJSON/table.json" media-type="application/json" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/table.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>                   
    </environment>       

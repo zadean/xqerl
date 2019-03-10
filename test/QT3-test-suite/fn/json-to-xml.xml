@@ -33,7 +33,7 @@
      </environment>
 
     <environment name="json-ns">
-        <!-- <schema uri="http://www.w3.org/2005/xpath-functions" role="import"/> -->
+        <schema uri="http://www.w3.org/2005/xpath-functions" role="import"/>
         <!-- Either the test driver or the product under test is expected to recognize this URI -->
         <!-- XPath test drivers are expected to recognize role='import' See bug issue 28997 -->
         <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions"/>
@@ -78,6 +78,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[1]')</test>
       <result>
@@ -98,6 +99,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[&#34;a&#34;]')</test>
       <result>
@@ -118,6 +120,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[true]')</test>
       <result>
@@ -138,6 +141,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[false]')</test>
       <result>
@@ -158,6 +162,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[null]')</test>
       <result>
@@ -178,6 +183,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))</test>
       <result>
@@ -195,6 +201,7 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))</test>
       <result>
@@ -223,6 +230,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string</test>
       <result>
@@ -239,9 +247,10 @@
       <modified by="Debbie Lockett" on="2015-08-07" change="Change expected result, quotes not escaped, see bug #28995"/>
       <modified by="Michael Kay" on="2016-09-29" change="Change expected result, existing escapes are retained, see bug #29872"/>
       <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>
-         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
       </test>
       <result>
          <all-of>
@@ -259,9 +268,10 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
       </test>
       <result>
          <all-of>
@@ -278,7 +288,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('{&#34;Key \&#34; with quote&#34;:&#34;Data with \&#34; within it&#34;}')//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml('{&#34;Key \&#34; with quote&#34;:&#34;Data with \&#34; within it&#34;}')//j:string
       </test>
       <result>
          <all-of>
@@ -314,7 +324,7 @@
       </test>
       <result>
          <all-of>
-           <assert>data($result/Q{http://www.w3.org/2005/xpath-functions}array/Q{http://www.w3.org/2005/xpath-functions}number) instance of xs:double</assert>
+           <assert>data($result/j:array/j:number) instance of xs:double</assert>
          </all-of>  
       </result>
    </test-case>
@@ -327,7 +337,7 @@
       <dependency type="feature" value="schemaImport"/>
       <dependency type="spec" value="XP31+"/>
       <test>
-         fn:json-to-xml('[1]', map{'validate':true()}) instance of document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}array))
+         fn:json-to-xml('[1]', map{'validate':true()}) instance of document-node(schema-element(j:array))
       </test>
       <result>
          <assert-true/>
@@ -342,7 +352,7 @@
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
          import schema namespace j="http://www.w3.org/2005/xpath-functions";
-         fn:json-to-xml('[1]', map{'validate':true()}) instance of document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}array))
+         fn:json-to-xml('[1]', map{'validate':true()}) instance of document-node(schema-element(j:array))
       ]]></test>
       <result>
          <assert-true/>
@@ -466,9 +476,9 @@
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'escape':true()})
       </test>
       <result>
-         <assert-xml ignore-prefixes="true"><![CDATA[<Q{http://www.w3.org/2005/xpath-functions}map 
+         <assert-xml ignore-prefixes="true"><![CDATA[<j:map 
          xmlns:j="http://www.w3.org/2005/xpath-functions"
-         ><Q{http://www.w3.org/2005/xpath-functions}string escaped="true" key="a">\uDA00</Q{http://www.w3.org/2005/xpath-functions}string><Q{http://www.w3.org/2005/xpath-functions}string escaped-key="true" key="\uDD00">bell</Q{http://www.w3.org/2005/xpath-functions}string></Q{http://www.w3.org/2005/xpath-functions}map>]]></assert-xml> 
+         ><j:string escaped="true" key="a">\uDA00</j:string><j:string escaped-key="true" key="\uDD00">bell</j:string></j:map>]]></assert-xml> 
       </result>
    </test-case>
 

@@ -48,6 +48,7 @@
 -export(['validateexpr-40'/1]).
 -export(['validateexpr-41'/1]).
 -export(['validateexpr-42'/1]).
+-export(['validateexpr-43'/1]).
 -export(['K2-ValidateExpression-1'/1]).
 -export(['validate-constraints-1'/1]).
 -export(['validate-constraints-2'/1]).
@@ -155,13 +156,14 @@ groups() -> [
     'validateexpr-40', 
     'validateexpr-41', 
     'validateexpr-42', 
+    'validateexpr-43', 
     'K2-ValidateExpression-1', 
     'validate-constraints-1', 
     'validate-constraints-2', 
     'validate-constraints-3', 
-    'validate-constraints-4', 
-    'validate-sc-1']}, 
+    'validate-constraints-4']}, 
    {group_2, [parallel], [
+    'validate-sc-1', 
     'validateexpr-sc-2', 
     'validateexpr-sc-4', 
     'validateexpr-sc-5', 
@@ -184,9 +186,9 @@ groups() -> [
     'validate-as-91016', 
     'validate-as-91017', 
     'cbcl-validateexpr-1', 
-    'cbcl-validateexpr-2', 
-    'cbcl-validateexpr-3']}, 
+    'cbcl-validateexpr-2']}, 
    {group_3, [parallel], [
+    'cbcl-validateexpr-3', 
     'cbcl-validateexpr-4', 
     'cbcl-validateexpr-5', 
     'cbcl-validateexpr-6', 
@@ -456,6 +458,9 @@ environment('abstract',__BaseDir) ->
 'validateexpr-42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
+'validateexpr-43'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'K2-ValidateExpression-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 

@@ -112,8 +112,6 @@ groups() -> [
          declare option output:cdata-section-elements \"\";
          declare option output:doctype-public \"\";
          declare option output:doctype-system \"\";
-         (:declare option output:doctype-public \"none\";
-         declare option output:doctype-system \"none\";:)
          declare option output:indent \"no\";
          declare option output:method \"xml\";
          declare option output:suppress-indentation \"\";

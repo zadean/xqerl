@@ -248,7 +248,7 @@
    </test-case>
 
   <test-case name="Serialization-text-19" covers="serialization-general">
-      <description>Test the HTML serialization output method - empty array</description>
+      <description>Test the text serialization output method - empty array</description>
       <created by="Tim Mills" on="2016-09-30"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
@@ -263,7 +263,9 @@
       </result>
    </test-case>
 
-  <test-case name="Serialization-text-20" covers="serialization-general">
+  <!-- NEXT TEST DROPPED - MHK 2018-05-22 - the test uses the HTML method (not TEXT) and is a duplicate of Serialization-html-46 -->
+  
+  <!--<test-case name="Serialization-text-20" covers="serialization-general">
       <description>Test the HTML serialization output method - empty map</description>
       <created by="Tim Mills" on="2016-09-30"/>
       <dependency type="spec" value="XQ31+"/>
@@ -277,6 +279,6 @@
       <result>
          <assert-serialization-error code="SENR0001"/>
       </result>
-   </test-case>
+   </test-case>-->
 
 </test-set>

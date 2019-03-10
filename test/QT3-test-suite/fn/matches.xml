@@ -77,7 +77,6 @@
    </test-case>
 
    <test-case name="fn-matchesErr-4">
-      <!-- znd - incorrect? -->
       <description> single-digit back-reference to group not yet closed See erratum FO.E24 </description>
       <created by="Michael Kay" on="2009-03-04"/>
       <test>fn:matches("#abc#1", "^((#)abc\1)$")</test>
@@ -603,11 +602,106 @@ defg
    </test-case>
    
    <test-case name="fn-matches-52">
-      <description> A use case involving backtracking and ambiguit</description>
+      <description> A use case involving backtracking and ambiguity</description>
       <created by="Michael Kay" on="2016-12-03"/>
       <test>fn:matches("aaababaaabaa", "^(a*b?a*){3,3}$")</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-53">
+      <description> A use case involving repetition of a back-reference. Saxon bug 3712.</description>
+      <created by="Michael Kay" on="2018-03-06"/>
+      <test>fn:matches("A", "([A-Z])\1*")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-54">
+      <description> A use case involving optional matching of start-of-string. Saxon bug 3782.</description>
+      <created by="Michael Kay" on="2018-05-15"/>
+      <test>fn:matches("kZ", "(^|:)?Z")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-55">
+      <description> Matching reluctant quantifier with min cardinality. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aab", "aaab", "aaaab", "aaaaab") ! fn:matches(., "^(a{3,}?)b")</test>
+      <result>
+         <assert-deep-eq>false(), false(), false(), true(), true(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-56">
+      <description> Matching reluctant quantifier with max cardinality. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aab", "aaab", "aaaab", "aaaaab") ! fn:matches(., "^(a{0,3}?)b")</test>
+      <result>
+         <assert-deep-eq>true(), true(), true(), true(), false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-57">
+      <description> Matching reluctant quantifier with min and max cardinality. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aab", "aaab", "aaaab", "aaaaab") ! fn:matches(., "^(a{2,3}?)b")</test>
+      <result>
+         <assert-deep-eq>false(), false(), true(), true(), false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-58">
+      <description> Matching reluctant quantifier with min cardinality, variable length item that repeats. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aab", "aaab", "aaazab", "aaaaab") ! fn:matches(., "^((az?){3,}?)b")</test>
+      <result>
+         <assert-deep-eq>false(), false(), false(), true(), true(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-59">
+      <description> Matching reluctant quantifier with max cardinality, variable length item that repeats. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aazb", "aaab", "aaaab", "aaaaab") ! fn:matches(., "^((az?){0,3}?)b")</test>
+      <result>
+         <assert-deep-eq>true(), true(), true(), true(), false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-60">
+      <description> Matching reluctant quantifier with min and max cardinality, variable length item that repeats. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "ab", "aazb", "aaab", "aaaab", "aaaaab") ! fn:matches(., "^((az?){2,3}?)b")</test>
+      <result>
+         <assert-deep-eq>false(), false(), true(), true(), false(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-61">
+      <description> Matching reluctant quantifier with min and max cardinality, backtracking required. See Saxon bug 3902</description>
+      <created by="Michael Kay" on="2018-09-13"/>
+      <modified by="Michael Kay" on="2018-09-26" change="Requires XP30+|XQ30+" />
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>("b", "aa", "aaza", "aaaa", "aaaaa", "aaaaaa") ! fn:matches(., "^((az?){2,3}?)a$")</test>
+      <result>
+         <assert-deep-eq>false(), false(), true(), true(), false(), false()</assert-deep-eq>
       </result>
    </test-case>
 
@@ -1388,7 +1482,6 @@ defg
    
 
    <test-case name="cbcl-matches-038">
-      <!-- znd - who says that number is not too large? -->
       <description> test a large exact quantifier </description>
       <created by="Tim Mills" on="2008-07-17"/>      
       <test>fn:matches('aaa', 'a{2147483647}')</test>

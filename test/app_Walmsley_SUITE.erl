@@ -2131,8 +2131,6 @@ deep-equal(json-doc(\"product.json\"), map {
 'd1e42362'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
-(:declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\"; 
-declare option output:method \"json\";:)
 map {
    \"number\": 557,
    \"properties\": <props>

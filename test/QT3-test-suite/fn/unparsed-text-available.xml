@@ -714,4 +714,22 @@
       </result>
    </test-case>
    
+   <test-case name="fn-unparsed-text-available-053">
+      <description>unparsed-text-available(()) returns false</description>
+      <created by="Michael Kay" on="2018-11-06"/>
+      <test>fn:unparsed-text-available("x"[current-date() lt xs:date('1900-01-01')])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unparsed-text-available-054">
+      <description>unparsed-text-available((), "utf-8") returns false</description>
+      <created by="Michael Kay" on="2018-11-06"/>
+      <test>fn:unparsed-text-available("x"[current-date() lt xs:date('1900-01-01')], "utf-8")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 </test-set>

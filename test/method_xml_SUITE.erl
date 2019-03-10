@@ -49,6 +49,8 @@
 -export(['K2-Serialization-39'/1]).
 -export(['Serialization-xml-01'/1]).
 -export(['Serialization-xml-02'/1]).
+-export(['Serialization-xml-03'/1]).
+-export(['Serialization-xml-04'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -110,7 +112,9 @@ groups() -> [
     'K2-Serialization-38', 
     'K2-Serialization-39', 
     'Serialization-xml-01', 
-    'Serialization-xml-02']}].
+    'Serialization-xml-02', 
+    'Serialization-xml-03', 
+    'Serialization-xml-04']}].
 
 'K2-Serialization-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
@@ -505,8 +509,8 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:standalone \"yes\";
         declare option output:omit-xml-declaration \"no\";
+        declare option output:standalone \"yes\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
    Qry1 = Qry,
@@ -534,8 +538,8 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:standalone \"no\";
         declare option output:omit-xml-declaration \"no\";
+        declare option output:standalone \"no\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
    Qry1 = Qry,
@@ -555,8 +559,8 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:standalone \"omit\";
         declare option output:omit-xml-declaration \"no\";
+        declare option output:standalone \"omit\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
    Qry1 = Qry,
@@ -914,12 +918,12 @@ groups() -> [
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"<!\\[CDATA\\[bold\\]\\]>&#(xa0|xA0|160);<!\\[CDATA\\[as brass\\]\\]>"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
    case xqerl_test:assert_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<!\\[CDATA\\[bold\\]\\]>&#(xa0|xA0|160);<!\\[CDATA\\[as brass\\]\\]>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1032,6 +1036,7 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
+        declare option output:omit-xml-declaration \"no\";
         declare option output:item-separator \"|\";
         [1, 2, 3, 4, 5]
       ", 
@@ -1039,17 +1044,9 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-01.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"<\\?xml[^>]+>1\\|2\\|3\\|4\\|5$"/utf8>>,<<"">>) of 
+   Out =    case xqerl_test:assert_serialization_match(Res,<<"<\\?xml[^>]+>1\\|2\\|3\\|4\\|5$"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"1\\|2\\|3\\|4\\|5$"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1071,6 +1068,68 @@ groups() -> [
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xml-03'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+ 
+        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+        declare option output:parameter-document \"xml/xml-character-map.xml\";
+        
+        <out att=\"abc\">XabcX</out>
+
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<out att=['\"]AAABBBCCC['\"]>XAAABBBCCCX</out>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0119") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xml-04'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+ 
+        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+        declare option output:indent \"no\";
+        declare option output:parameter-document \"xml/param-doc-04.xml\";
+        declare option output:omit-xml-declaration \"yes\";
+        
+        <out><in>XXX</in></out>
+
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"^<out><in><!\\[CDATA\\[XXX\\]\\]></in></out>$"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0119") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

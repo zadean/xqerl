@@ -73,6 +73,7 @@
 -export(['fn-replace-54'/1]).
 -export(['fn-replace-55'/1]).
 -export(['fn-replace-56'/1]).
+-export(['fn-replace-57'/1]).
 -export(['K-ReplaceFunc-1'/1]).
 -export(['K-ReplaceFunc-2'/1]).
 -export(['K-ReplaceFunc-3'/1]).
@@ -184,12 +185,13 @@ groups() -> [
     'fn-replace-54', 
     'fn-replace-55', 
     'fn-replace-56', 
+    'fn-replace-57', 
     'K-ReplaceFunc-1', 
     'K-ReplaceFunc-2', 
     'K-ReplaceFunc-3', 
-    'K-ReplaceFunc-4', 
-    'K-ReplaceFunc-5']}, 
+    'K-ReplaceFunc-4']}, 
    {group_3, [parallel], [
+    'K-ReplaceFunc-5', 
     'K-ReplaceFunc-6', 
     'K-ReplaceFunc-7', 
     'K-ReplaceFunc-8', 
@@ -1193,6 +1195,21 @@ abracadabra\", \"\\n\",\"with\")",
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-56.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "%") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-replace-57'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "replace('987654321A', '^(9)(8)(7)(6)(5)(4)(3)(2)(1)((A*?)|(.+))$', '$9$11$12')", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-replace-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "1A") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 

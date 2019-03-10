@@ -1727,18 +1727,24 @@
    <test-case name="K-QuantExprWith-9">
       <description> Some-quantification carrying invalid type declarations. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2018-05-22" 
+         change="prevent over-eager optimization. If $a is a singleton then the EBV of count($a) is optimizable to true(),
+                 and 'some X satisfies true() is always true if X is non-empty"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>some $a as xs:anyURI in 1 satisfies count($a)</test>
+      <test>some $a as xs:anyURI in (1 to 5) satisfies $a - 10</test>
       <result>
          <error code="XPTY0004"/>
       </result>
    </test-case>
 
    <test-case name="K-QuantExprWith-10">
-      <description> Some-quantification carrying invalid type declarations. </description>
+      <description> Every-quantification carrying invalid type declarations. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2018-05-22" 
+         change="prevent over-eager optimization. If $a is a singleton then the EBV of count($a) is optimizable to true().
+                 and 'every X satisfies true()' is true for any sequence X."/>
       <dependency type="spec" value="XQ10+"/>
-      <test>every $a as xs:anyURI in 1 satisfies count($a)</test>
+      <test>every $a as xs:anyURI in (1 to 5) satisfies $a - 10</test>
       <result>
          <error code="XPTY0004"/>
       </result>

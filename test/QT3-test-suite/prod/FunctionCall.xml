@@ -12,6 +12,13 @@
       </schema>
    </environment>
    
+   <environment name="unionListDefined">
+      <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+         <description>A schema defining list and union types.</description>
+         <created by="Anonymous" on="2006-06-07"/>
+      </schema>
+   </environment>
+   
    <test-case name="FunctionCall-001">
       <description>Test that arguments are atomized - built in function</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -748,6 +755,130 @@
       </test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-049" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $elem as node() := validate strict {<lu:elementContainingApproximateDate><lu:e>2018-11-06</lu:e></lu:elementContainingApproximateDate>};
+         declare function local:hof(
+                 $f as function(element(*, lu:restrictedUnion)) as xs:integer, 
+                 $e as node()) as xs:boolean {
+             $f($e) = 10
+         };
+         local:hof(
+             function($in as element(*, lu:approximateDate)) as xs:integer {string-length(string($in))}, $elem/lu:e)
+      
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-050" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $elem as node() := validate strict {<lu:elementContainingApproximateDate><lu:e>2018-11-06</lu:e></lu:elementContainingApproximateDate>};
+         declare function local:hof(
+                 $f as function(element(*, lu:approximateDate)) as xs:integer, 
+                 $e as node()) as xs:boolean {
+             $f($e) = 10
+         };
+         local:hof(
+             function($in as element(*, lu:restrictedUnion)) as xs:integer {string-length(string($in))}, $elem/lu:e)
+      
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+         <!-- The required item type of the first argument of the anonymous function is element(*,
+              lu:restrictedUnion); the supplied value has the wrong type annotation lu:unionListDefined}approximateDate) -->
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-051" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $f := function($in as element(*, lu:approximateDate)) as xs:integer {string-length(string($in))};
+         $f instance of function(element(*, lu:restrictedUnion)) as xs:integer 
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-052" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $f := function($in as element(*, lu:restrictedUnion)) as xs:integer {string-length(string($in))};
+         $f instance of function(element(*, lu:approximateDate)) as xs:integer 
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-053" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $f := function($in as element(*, lu:approximateDateAlternative)) as xs:integer {string-length(string($in))};
+         $f instance of function(element(*, lu:restrictedUnion)) as xs:integer 
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-054" covers-30="union-as-sequence-type">
+      <description>Test subtype relationship of element(*, U) and element(*, V) where U and V are impure union types.</description>
+      <created by="Michael Kay" on="2018-11-07"/>
+      <environment ref="unionListDefined"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace lu = 'http://www.w3.org/XQueryTest/unionListDefined' ;
+         import schema "http://www.w3.org/XQueryTest/unionListDefined";
+         declare variable $f := function($in as element(*, lu:restrictedUnion)) as xs:integer {string-length(string($in))};
+         $f instance of function(element(*, lu:approximateDateAlternative)) as xs:integer 
+      ]]></test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -1805,12 +1936,16 @@
    <test-case name="function-call-reserved-function-names-037">
       <description>Check that reserved function name namespace-node is handled correctly. </description>
       <created by="Tim Mills" on="2013-01-24"/>
+      <modified by="Michael Kay" on="2018-09-24" change="Alternative error code, based on a different assessment of what the user intended to write."/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>
 	namespace-node(1)
       </test>
       <result>
-         <error code="XPST0003" />
+         <any-of>
+            <error code="XPST0003" />
+            <error code="XQST0134" />
+         </any-of>
       </result>
    </test-case>
 

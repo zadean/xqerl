@@ -3249,7 +3249,7 @@ groups() -> [
    end. 
 'K-QuantExprWith-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "some $a as xs:anyURI in 1 satisfies count($a)", 
+   Qry = "some $a as xs:anyURI in (1 to 5) satisfies $a - 10", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-QuantExprWith-9.xq"), Qry1),
@@ -3264,7 +3264,7 @@ groups() -> [
    end. 
 'K-QuantExprWith-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "every $a as xs:anyURI in 1 satisfies count($a)", 
+   Qry = "every $a as xs:anyURI in (1 to 5) satisfies $a - 10", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-QuantExprWith-10.xq"), Qry1),

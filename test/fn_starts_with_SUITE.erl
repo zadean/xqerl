@@ -519,19 +519,7 @@ groups() -> [
    end. 
 'fn-starts-with-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:starts-with(\"database\", \"dâta\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-starts-with-21.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-starts-with-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(\"dâtabase\", \"dâtabasen\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -549,19 +537,7 @@ groups() -> [
    end. 
 'fn-starts-with-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:starts-with(\"âtÅbase\", \"âtabÃse\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-starts-with-23.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-starts-with-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 

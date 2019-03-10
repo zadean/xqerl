@@ -697,6 +697,36 @@
       </result>
    </test-case>
    
+   <test-case name="K2-SeqIntersect-45">
+      <description>Intersect singleton node-set with general node-set</description>
+      <created by="Michael Kay" on="2018-11-09"/>
+      <environment ref="bib2"/>
+      <test>head(//*) intersect (//*)</test> 
+      <result>
+         <assert-count>1</assert-count>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqIntersect-46">
+      <description>General intersection in a boolean context</description>
+      <created by="Michael Kay" on="2018-11-09"/>
+      <environment ref="bib2"/>
+      <test>if (subsequence(//*, 1, 10) intersect subsequence(//*, 7, 2)) then "foo" else "bar"</test> 
+      <result>
+         <assert-eq>"foo"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqIntersect-47">
+      <description>Singleton intersection in a boolean context</description>
+      <created by="Michael Kay" on="2018-11-09"/>
+      <environment ref="bib2"/>
+      <test>if (head(//*) intersect subsequence(//*, 7, 2)) then "foo" else "bar"</test> 
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
    <test-case name="combiningnodeseqintersecthc1">
       <description> Simple combination of node sequences involving different node sequences that results in empty sequence . Use "intersect" operator. Uses the count function to avoid the empty file for results. </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>

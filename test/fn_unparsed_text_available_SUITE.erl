@@ -59,6 +59,8 @@
 -export(['fn-unparsed-text-available-050'/1]).
 -export(['fn-unparsed-text-available-051'/1]).
 -export(['fn-unparsed-text-available-052'/1]).
+-export(['fn-unparsed-text-available-053'/1]).
+-export(['fn-unparsed-text-available-054'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -132,7 +134,9 @@ groups() -> [
     'fn-unparsed-text-available-049', 
     'fn-unparsed-text-available-050', 
     'fn-unparsed-text-available-051', 
-    'fn-unparsed-text-available-052']}].
+    'fn-unparsed-text-available-052', 
+    'fn-unparsed-text-available-053', 
+    'fn-unparsed-text-available-054']}].
 environment('unparsed-text-available',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -1068,6 +1072,36 @@ environment('unparsed-text-available-with-base-uri-2',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-available-052.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-unparsed-text-available-053'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:unparsed-text-available(\"x\"[current-date() lt xs:date('1900-01-01')])", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-available-053.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-unparsed-text-available-054'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:unparsed-text-available(\"x\"[current-date() lt xs:date('1900-01-01')], \"utf-8\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-available-054.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 

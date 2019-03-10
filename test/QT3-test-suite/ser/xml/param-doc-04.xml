@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<output:serialization-parameters
+   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+   <output:method value="xml"/>
+   <output:indent value="yes"/>
+   <output:omit-xml-declaration value="no"/>
+   <output:cdata-section-elements value="in"/>
+</output:serialization-parameters>

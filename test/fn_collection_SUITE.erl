@@ -54,106 +54,42 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "fn"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-   {group, group_1}, 
-   {group, group_2}, 
-   {group, group_3}, 
-   {group, group_4}, 
-   {group, group_5}, 
-   {group, group_6}, 
-   {group, group_7}, 
-   {group, group_8}, 
-   {group, group_9}, 
-   {group, group_10}, 
-   {group, group_11}, 
-   {group, group_12}, 
-   {group, group_13}, 
-   {group, group_14}, 
-   {group, group_15}, 
-   {group, group_16}, 
-   {group, group_17}, 
-   {group, group_18}, 
-   {group, group_19}, 
-   {group, group_20}, 
-   {group, group_21}, 
-   {group, group_22}, 
-   {group, group_23}, 
-   {group, group_24}, 
-   {group, group_25}, 
-   {group, group_26}, 
-   {group, group_27}, 
-   {group, group_28}, 
-   {group, group_29}, 
-   {group, group_30}, 
-   {group, group_31}, 
-   {group, group_32}, 
-   {group, group_33}
+   {group, group_0}
    ].
 groups() -> [
-   {group_1, [parallel], [
-    'fn-collection-1']}, 
-   {group_2, [parallel], [
-    'fn-collection-2']}, 
-   {group_3, [parallel], [
-    'fn-collection-3']}, 
-   {group_4, [parallel], [
-    'fn-collection-4']}, 
-   {group_5, [parallel], [
-    'fn-collection-4d']}, 
-   {group_6, [parallel], [
-    'fn-collection-5']}, 
-   {group_7, [parallel], [
-    'fn-collection-5d']}, 
-   {group_8, [parallel], [
-    'fn-collection-6']}, 
-   {group_9, [parallel], [
-    'fn-collection-7']}, 
-   {group_10, [parallel], [
-    'fn-collection-8']}, 
-   {group_11, [parallel], [
-    'fn-collection-9']}, 
-   {group_12, [parallel], [
-    'fn-collection-10']}, 
-   {group_13, [parallel], [
-    'fn-collection-10d']}, 
-   {group_14, [parallel], [
-    'K2-SeqCollectionFunc-1']}, 
-   {group_15, [parallel], [
-    'K2-SeqCollectionFunc-2']}, 
-   {group_16, [parallel], [
-    'collection-001']}, 
-   {group_17, [parallel], [
-    'collection-002']}, 
-   {group_18, [parallel], [
-    'collection-003']}, 
-   {group_19, [parallel], [
-    'collection-004']}, 
-   {group_20, [parallel], [
-    'collection-005']}, 
-   {group_21, [parallel], [
-    'collection-006']}, 
-   {group_22, [parallel], [
-    'collection-007']}, 
-   {group_23, [parallel], [
-    'collection-008']}, 
-   {group_24, [parallel], [
-    'collection-009']}, 
-   {group_25, [parallel], [
-    'collection-010']}, 
-   {group_26, [parallel], [
-    'collection-900']}, 
-   {group_27, [parallel], [
-    'collection-901']}, 
-   {group_28, [parallel], [
-    'collection-902']}, 
-   {group_29, [parallel], [
-    'collection-903']}, 
-   {group_30, [parallel], [
-    'cbcl-collection-001']}, 
-   {group_31, [parallel], [
-    'cbcl-collection-002']}, 
-   {group_32, [parallel], [
-    'cbcl-collection-003']}, 
-   {group_33, [parallel], [
+   {group_0, [], [
+    'fn-collection-1', 
+    'fn-collection-2', 
+    'fn-collection-3', 
+    'fn-collection-4', 
+    'fn-collection-4d', 
+    'fn-collection-5', 
+    'fn-collection-5d', 
+    'fn-collection-6', 
+    'fn-collection-7', 
+    'fn-collection-8', 
+    'fn-collection-9', 
+    'fn-collection-10', 
+    'fn-collection-10d', 
+    'K2-SeqCollectionFunc-1', 
+    'K2-SeqCollectionFunc-2', 
+    'collection-001', 
+    'collection-002', 
+    'collection-003', 
+    'collection-004', 
+    'collection-005', 
+    'collection-006', 
+    'collection-007', 
+    'collection-008', 
+    'collection-009', 
+    'collection-010', 
+    'collection-900', 
+    'collection-901', 
+    'collection-902', 
+    'collection-903', 
+    'cbcl-collection-001', 
+    'cbcl-collection-002', 
+    'cbcl-collection-003', 
     'cbcl-collection-004']}].
 environment('default-collection-1',__BaseDir) ->
 [{'decimal-formats', []}, 

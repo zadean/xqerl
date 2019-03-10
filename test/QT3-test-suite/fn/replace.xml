@@ -610,6 +610,15 @@ abracadabra", "\n","with")</test>
          <assert-string-value>%</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-replace-57">
+      <description>Evaluation of replace with unmatched double-digit capturing group. Saxon bug 4076.</description>
+      <created by="Debbie Lockett, Saxonica" on="2018-12-21"/>
+      <test>replace('987654321A', '^(9)(8)(7)(6)(5)(4)(3)(2)(1)((A*?)|(.+))$', '$9$11$12')</test>
+      <result>
+         <assert-string-value>1A</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>

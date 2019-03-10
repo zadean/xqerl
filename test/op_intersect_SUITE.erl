@@ -74,6 +74,9 @@
 -export(['K2-SeqIntersect-42'/1]).
 -export(['K2-SeqIntersect-43'/1]).
 -export(['K2-SeqIntersect-44'/1]).
+-export(['K2-SeqIntersect-45'/1]).
+-export(['K2-SeqIntersect-46'/1]).
+-export(['K2-SeqIntersect-47'/1]).
 -export(['combiningnodeseqintersecthc1'/1]).
 -export(['combiningnodeseqintersecthc2'/1]).
 -export(['combiningnodeseqintersecthc3'/1]).
@@ -94,7 +97,8 @@ init_per_suite(Config) ->
 all() -> [
    {group, group_0}, 
    {group, group_1}, 
-   {group, group_2}
+   {group, group_2}, 
+   {group, group_3}
    ].
 groups() -> [
    {group_0, [parallel], [
@@ -167,7 +171,11 @@ groups() -> [
     'K2-SeqIntersect-42', 
     'K2-SeqIntersect-43', 
     'K2-SeqIntersect-44', 
-    'combiningnodeseqintersecthc1', 
+    'K2-SeqIntersect-45', 
+    'K2-SeqIntersect-46', 
+    'K2-SeqIntersect-47', 
+    'combiningnodeseqintersecthc1']}, 
+   {group_3, [parallel], [
     'combiningnodeseqintersecthc2', 
     'combiningnodeseqintersecthc3', 
     'combiningnodeseqintersecthc4']}].
@@ -1178,6 +1186,54 @@ environment('bib2',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'K2-SeqIntersect-45'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "head(//*) intersect (//*)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-45.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_count(Res, "1") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'K2-SeqIntersect-46'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "if (subsequence(//*, 1, 10) intersect subsequence(//*, 7, 2)) then \"foo\" else \"bar\"", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-46.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"foo\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'K2-SeqIntersect-47'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "if (head(//*) intersect subsequence(//*, 7, 2)) then \"foo\" else \"bar\"", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('bib2',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIntersect-47.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"bar\"") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of

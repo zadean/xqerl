@@ -199,6 +199,16 @@
 -export(['numberformat302'/1]).
 -export(['numberformat303'/1]).
 -export(['numberformat304'/1]).
+-export(['numberformat310'/1]).
+-export(['numberformat311'/1]).
+-export(['numberformat312'/1]).
+-export(['numberformat313'/1]).
+-export(['numberformat314'/1]).
+-export(['numberformat315'/1]).
+-export(['numberformat316'/1]).
+-export(['numberformat317'/1]).
+-export(['numberformat318'/1]).
+-export(['numberformat319'/1]).
 -export(['numberformat901err'/1]).
 -export(['numberformat902err'/1]).
 -export(['numberformat905err'/1]).
@@ -486,6 +496,16 @@ groups() -> [
     'numberformat303']}, 
    {group_8, [parallel], [
     'numberformat304', 
+    'numberformat310', 
+    'numberformat311', 
+    'numberformat312', 
+    'numberformat313', 
+    'numberformat314', 
+    'numberformat315', 
+    'numberformat316', 
+    'numberformat317', 
+    'numberformat318', 
+    'numberformat319', 
     'numberformat901err', 
     'numberformat902err', 
     'numberformat905err', 
@@ -498,7 +518,8 @@ groups() -> [
     'cbcl-fn-format-number-003', 
     'cbcl-fn-format-number-004', 
     'cbcl-fn-format-number-005', 
-    'cbcl-fn-format-number-006', 
+    'cbcl-fn-format-number-006']}, 
+   {group_9, [parallel], [
     'cbcl-fn-format-number-007', 
     'cbcl-fn-format-number-008', 
     'cbcl-fn-format-number-009', 
@@ -508,8 +529,7 @@ groups() -> [
     'cbcl-fn-format-number-013', 
     'cbcl-fn-format-number-014', 
     'cbcl-fn-format-number-015', 
-    'cbcl-fn-format-number-016']}, 
-   {group_9, [parallel], [
+    'cbcl-fn-format-number-016', 
     'cbcl-fn-format-number-017', 
     'cbcl-fn-format-number-018', 
     'cbcl-fn-format-number-019', 
@@ -523,7 +543,8 @@ groups() -> [
     'cbcl-fn-format-number-027', 
     'cbcl-fn-format-number-028', 
     'cbcl-fn-format-number-029', 
-    'cbcl-fn-format-number-030', 
+    'cbcl-fn-format-number-030']}, 
+   {group_10, [parallel], [
     'cbcl-fn-format-number-031', 
     'cbcl-fn-format-number-032', 
     'cbcl-fn-format-number-033', 
@@ -533,8 +554,7 @@ groups() -> [
     'cbcl-fn-format-number-037', 
     'cbcl-fn-format-number-038', 
     'cbcl-fn-format-number-039', 
-    'cbcl-fn-format-number-040']}, 
-   {group_10, [parallel], [
+    'cbcl-fn-format-number-040', 
     'cbcl-fn-format-number-041', 
     'cbcl-fn-format-number-042', 
     'cbcl-fn-format-number-043', 
@@ -4160,6 +4180,176 @@ groups() -> [
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat304.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10.0e-1") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat310'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '####,##')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat310.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6421,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat311'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '###,##')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat311.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6421,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat312'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '##,##')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat312.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "64,21,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat313'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '#,##')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat313.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "64,21,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat314'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '0000,00')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat314.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6421,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat315'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '000,00')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat315.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6421,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat316'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '00,00')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat316.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "64,21,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat317'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '0,00')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat317.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "64,21,20") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat318'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '#,#,#')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat318.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6,4,2,1,2,0") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'numberformat319'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      format-number(642120, '##,#,#')
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "numberformat319.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_string_value(Res, "6421,2,0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
    end, 

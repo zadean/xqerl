@@ -1523,6 +1523,22 @@
          <error code="XQST0036"/>
       </result>
    </test-case>
+  
+  <test-case name="qischema90431-no-err">
+    <description>XQ30+ version of test, showing that this is no longer an error.</description>
+    <created by="Michael Kay" on="2018-04-19"/>
+    <environment ref="mini-fpml"/>
+    <module uri="http://www.fpml.org/2005/FpML-4-2" file="SchemaImport/xmod043a.xq"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare namespace hat = "http://www.fpml.org/2005/FpML-4-2"; 
+        import module "http://www.fpml.org/2005/FpML-4-2"; 
+        if (exists($hat:docvar)) then <a/> else <b/>
+      ]]></test>
+    <result>
+      <assert>$result/self::b</assert>
+    </result>
+  </test-case>
 
    <test-case name="qischema90611-err">
       <description>Type-checking of constructed elements involving substitution groups </description>

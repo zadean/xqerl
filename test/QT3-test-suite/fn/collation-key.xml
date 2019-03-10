@@ -280,7 +280,9 @@
    <test-case name="collation-key-204">
       <description>Basic test with case-blind, accent-blind collation</description>
       <created by="Michael Kay" on="2014-12-04"/>
+      <modified by="Michael Kay" on="2018-07-19" change="Added dependency advanced-uca-fallback"/>
       <environment ref="primary"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
       <test>
         let $c := "http://www.w3.org/2013/collation/UCA?strength=primary" return
         collation-key("abc123", $c) eq collation-key("ABC 123", $c)</test>

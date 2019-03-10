@@ -402,8 +402,10 @@
     <test-case name="array-sort-026">
         <description>Apply sort function to array returned from a function</description>
         <created by="Michael Kay after Martin Honnen" on="2017-11-19"/>
+        <modified by="Michael Kay" on="2018-07-18" change="add HOF dependency"/>
         <environment ref="array"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test><![CDATA[
             declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
             declare namespace serialization = "http://www.w3.org/2010/xslt-xquery-serialization";

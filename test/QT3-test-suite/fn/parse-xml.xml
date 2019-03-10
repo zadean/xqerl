@@ -7,14 +7,8 @@
     <test-case name="parse-xml-001">
         <description>parse-xml test</description>
         <created by="ONeil Delpratt" on="2010-10-04"/>        
-        <!-- <environment name="empty"/> -->
-        <environment>
-          <resource file="../docs/atomic.xml"
-                  media-type="text/plain"
-                  encoding="utf-8"
-                  uri="http://xqerl.org/test/docs/atomic.xml"/>
-        </environment>
-        <test><![CDATA[parse-xml(unparsed-text("http://xqerl.org/test/docs/atomic.xml"))]]></test>
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml(unparsed-text("../docs/atomic.xml"))]]></test>
         <result>
             <assert-type>document-node(element(*,xs:untyped))</assert-type>
         </result>
@@ -154,6 +148,26 @@
         <test><![CDATA[parse-xml("<p:a/>")]]></test>
         <result>
             <error code="FODC0006" />
+        </result>
+    </test-case>
+    <test-case name="parse-xml-016">
+        <description>parse-xml test - empty sequence allowed</description>
+        <created by="Michael Kay, Saxonica" on="2018-06-08"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml(())]]></test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-017">
+        <description>parse-xml-fragment test - (dynamic) empty sequence is OK</description>
+        <created by="Michael Kay, Saxonica" on="2018-07-18"/>        
+        <environment name="empty"/>
+        <test><![CDATA[
+            parse-xml("<a/>"[current-date() lt xs:date('1900-01-01')])
+         ]]></test>
+        <result>
+            <assert-empty/>
         </result>
     </test-case>
 </test-set>

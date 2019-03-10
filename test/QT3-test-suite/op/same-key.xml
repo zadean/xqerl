@@ -677,5 +677,43 @@
             <error code="XQDY0137"/>
         </result>
     </test-case>
+    
+    <test-case name="same-key-028">
+        <description>
+            A larger map containing duplicate values, times equal but in different timezones.
+            See Saxon bug 3820. This error was masked in same-key-027 because the map was too small
+            for hash codes to be used.
+        </description>
+        <created by="Michael Kay" on="2018-06-13"/>
+        <environment ref="map" />
+        <dependency type="spec" value="XP31+ XQ31"/>
+        <test>
+            map{ xs:time('17:00:00Z'):1,
+                xs:time('17:00:01Z'):1,
+                xs:time('17:00:02Z'):1,
+                xs:time('17:00:03Z'):1,
+                xs:time('17:00:04Z'):1,
+                xs:time('17:00:05Z'):1,
+                xs:time('17:00:06Z'):1,
+                xs:time('17:00:07Z'):1,
+                xs:time('17:00:08Z'):1,
+                xs:time('17:00:09Z'):1,
+                xs:time('17:00:10Z'):1,
+                xs:time('17:00:11Z'):1,
+                xs:time('17:00:12Z'):1,
+                xs:time('17:00:13Z'):1,
+                xs:time('17:00:14Z'):1,
+                xs:time('17:00:15Z'):1,
+                xs:time('17:00:16Z'):1,
+                xs:time('17:00:17Z'):1,
+                xs:time('17:00:18Z'):1,
+                xs:time('17:00:19Z'):1,
+                xs:time('17:00:20Z'):1,           
+                xs:time('12:00:00-05:00'):2 }
+        </test>
+        <result>
+            <error code="XQDY0137"/>
+        </result>
+    </test-case>
 
 </test-set>

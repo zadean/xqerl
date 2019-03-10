@@ -594,6 +594,21 @@
 	<assert-false />
       </result>
    </test-case>
+   
+   <test-case name="xs-error-054">
+      <description>xs:error in the signature of a function.</description>
+      <created by="Michael Kay" on="2019-01-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:identity($arg as xs:error)
+         {
+         $arg
+         };
+         local:identity(())
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 
 </test-set>   
    

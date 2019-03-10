@@ -69,6 +69,15 @@
 -export(['fn-matches-50'/1]).
 -export(['fn-matches-51'/1]).
 -export(['fn-matches-52'/1]).
+-export(['fn-matches-53'/1]).
+-export(['fn-matches-54'/1]).
+-export(['fn-matches-55'/1]).
+-export(['fn-matches-56'/1]).
+-export(['fn-matches-57'/1]).
+-export(['fn-matches-58'/1]).
+-export(['fn-matches-59'/1]).
+-export(['fn-matches-60'/1]).
+-export(['fn-matches-61'/1]).
 -export(['caselessmatch01'/1]).
 -export(['caselessmatch02'/1]).
 -export(['caselessmatch03'/1]).
@@ -252,6 +261,16 @@ groups() -> [
     'fn-matches-50', 
     'fn-matches-51', 
     'fn-matches-52', 
+    'fn-matches-53', 
+    'fn-matches-54', 
+    'fn-matches-55', 
+    'fn-matches-56', 
+    'fn-matches-57', 
+    'fn-matches-58', 
+    'fn-matches-59', 
+    'fn-matches-60', 
+    'fn-matches-61']}, 
+   {group_3, [parallel], [
     'caselessmatch01', 
     'caselessmatch02', 
     'caselessmatch03', 
@@ -260,8 +279,7 @@ groups() -> [
     'caselessmatch06', 
     'caselessmatch07', 
     'caselessmatch08', 
-    'caselessmatch09']}, 
-   {group_3, [parallel], [
+    'caselessmatch09', 
     'caselessmatch10', 
     'caselessmatch11', 
     'caselessmatch12', 
@@ -276,7 +294,8 @@ groups() -> [
     'K-MatchesFunc-6', 
     'K2-MatchesFunc-1', 
     'K2-MatchesFunc-2', 
-    'K2-MatchesFunc-3', 
+    'K2-MatchesFunc-3']}, 
+   {group_4, [parallel], [
     'K2-MatchesFunc-4', 
     'K2-MatchesFunc-5', 
     'K2-MatchesFunc-6', 
@@ -285,8 +304,7 @@ groups() -> [
     'K2-MatchesFunc-9', 
     'K2-MatchesFunc-10', 
     'K2-MatchesFunc-11', 
-    'K2-MatchesFunc-12']}, 
-   {group_4, [parallel], [
+    'K2-MatchesFunc-12', 
     'K2-MatchesFunc-13', 
     'K2-MatchesFunc-14', 
     'K2-MatchesFunc-15', 
@@ -301,7 +319,8 @@ groups() -> [
     'cbcl-matches-006', 
     'cbcl-matches-006b', 
     'cbcl-matches-007', 
-    'cbcl-matches-008', 
+    'cbcl-matches-008']}, 
+   {group_5, [parallel], [
     'cbcl-matches-009', 
     'cbcl-matches-010', 
     'cbcl-matches-011', 
@@ -310,8 +329,7 @@ groups() -> [
     'cbcl-matches-014', 
     'cbcl-matches-015', 
     'cbcl-matches-016', 
-    'cbcl-matches-017']}, 
-   {group_5, [parallel], [
+    'cbcl-matches-017', 
     'cbcl-matches-018', 
     'cbcl-matches-019', 
     'cbcl-matches-020', 
@@ -326,7 +344,8 @@ groups() -> [
     'cbcl-matches-029', 
     'cbcl-matches-030', 
     'cbcl-matches-031', 
-    'cbcl-matches-032', 
+    'cbcl-matches-032']}, 
+   {group_6, [parallel], [
     'cbcl-matches-033', 
     'cbcl-matches-034', 
     'cbcl-matches-035', 
@@ -335,8 +354,7 @@ groups() -> [
     'cbcl-matches-038', 
     'cbcl-matches-039', 
     'cbcl-matches-040', 
-    'cbcl-matches-041']}, 
-   {group_6, [parallel], [
+    'cbcl-matches-041', 
     'cbcl-matches-041b', 
     'cbcl-matches-042', 
     'cbcl-matches-043', 
@@ -1271,6 +1289,141 @@ defg
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-53'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:matches(\"A\", \"([A-Z])\\1*\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-53.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-54'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:matches(\"kZ\", \"(^|:)?Z\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-54.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-55'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aab\", \"aaab\", \"aaaab\", \"aaaaab\") ! fn:matches(., \"^(a{3,}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-55.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), false(), true(), true(), true()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-56'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aab\", \"aaab\", \"aaaab\", \"aaaaab\") ! fn:matches(., \"^(a{0,3}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-56.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"true(), true(), true(), true(), false(), false()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-57'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aab\", \"aaab\", \"aaaab\", \"aaaaab\") ! fn:matches(., \"^(a{2,3}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), true(), true(), false(), false()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-58'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aab\", \"aaab\", \"aaazab\", \"aaaaab\") ! fn:matches(., \"^((az?){3,}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), false(), true(), true(), true()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-59'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aazb\", \"aaab\", \"aaaab\", \"aaaaab\") ! fn:matches(., \"^((az?){0,3}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"true(), true(), true(), true(), false(), false()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-60'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"ab\", \"aazb\", \"aaab\", \"aaaab\", \"aaaaab\") ! fn:matches(., \"^((az?){2,3}?)b\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), true(), true(), false(), false()") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-matches-61'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(\"b\", \"aa\", \"aaza\", \"aaaa\", \"aaaaa\", \"aaaaaa\") ! fn:matches(., \"^((az?){2,3}?)a$\")", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-matches-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"false(), false(), true(), true(), false(), false()") of 
+      true -> {comment, "Deep equal"};
       {false, F} -> F 
    end, 
    case Out of

@@ -2405,6 +2405,126 @@ return
           <assert-empty/>
         </result>
     </test-case>
+  
+  <test-case name="TumblingWindowExpr556">
+    <description>Tumbling Window Clause, checking cardinality of each window is a singleton</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for tumbling window $w as xs:integer in (1 to 10)
+          start $s when $s mod 5 = 1
+          end $e when $e = $s
+          return count($w)
+        ]]></test>
+    <result>
+      <assert-deep-eq>1, 1</assert-deep-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="SlidingWindowExpr556">
+    <description>Sliding Window Clause, checking cardinality of each window is a singleton</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for sliding window $w as xs:integer in (1 to 10)
+          start $s when $s mod 5 = 1
+          end $e when $e = $s
+          return count($w)
+        ]]></test>
+    <result>
+      <assert-deep-eq>1, 1</assert-deep-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="TumblingWindowExpr557">
+    <description>Tumbling Window Clause, checking cardinality of each window is a singleton (failure case)</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for tumbling window $w as xs:integer in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="SlidingWindowExpr557">
+    <description>Sliding Window Clause, checking cardinality of each window is a singleton (failure case)</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for sliding window $w as xs:integer in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="TumblingWindowExpr558">
+    <description>Tumbling Window Clause, checking cardinality of each window is an empty sequence</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for tumbling window $w as empty-sequence() in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="SlidingWindowExpr558">
+    <description>Sliding Window Clause, checking cardinality of each window is an empty sequence</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for sliding window $w as empty-sequence() in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="TumblingWindowExpr559">
+    <description>Tumbling Window Clause, item type failure detectable statically</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for tumbling window $w as xs:string* in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="SlidingWindowExpr559">
+    <description>Sliding Window Clause, item type failure detectable statically</description>
+    <created by="Michael Kay" on="2018-05-10"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+          for sliding window $w as xs:string* in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ]]></test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
 
     <test-case name="WindowExpr500">
         <description>Window Clause, missing sliding or tumbling</description>

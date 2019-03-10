@@ -34,6 +34,7 @@
 -export(['same-key-025'/1]).
 -export(['same-key-026'/1]).
 -export(['same-key-027'/1]).
+-export(['same-key-028'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -80,7 +81,8 @@ groups() -> [
     'same-key-024', 
     'same-key-025', 
     'same-key-026', 
-    'same-key-027']}].
+    'same-key-027', 
+    'same-key-028']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -1076,6 +1078,45 @@ environment('map',__BaseDir) ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "same-key-027.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQDY0137") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'same-key-028'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+            map{ xs:time('17:00:00Z'):1,
+                xs:time('17:00:01Z'):1,
+                xs:time('17:00:02Z'):1,
+                xs:time('17:00:03Z'):1,
+                xs:time('17:00:04Z'):1,
+                xs:time('17:00:05Z'):1,
+                xs:time('17:00:06Z'):1,
+                xs:time('17:00:07Z'):1,
+                xs:time('17:00:08Z'):1,
+                xs:time('17:00:09Z'):1,
+                xs:time('17:00:10Z'):1,
+                xs:time('17:00:11Z'):1,
+                xs:time('17:00:12Z'):1,
+                xs:time('17:00:13Z'):1,
+                xs:time('17:00:14Z'):1,
+                xs:time('17:00:15Z'):1,
+                xs:time('17:00:16Z'):1,
+                xs:time('17:00:17Z'):1,
+                xs:time('17:00:18Z'):1,
+                xs:time('17:00:19Z'):1,
+                xs:time('17:00:20Z'):1,           
+                xs:time('12:00:00-05:00'):2 }
+        ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "same-key-028.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0137") of 
       true -> {comment, "Correct error"};

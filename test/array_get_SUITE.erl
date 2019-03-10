@@ -16,6 +16,7 @@
 -export(['array-get-007'/1]).
 -export(['array-get-008'/1]).
 -export(['array-get-009'/1]).
+-export(['array-get-010'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -42,7 +43,8 @@ groups() -> [
     'array-get-006', 
     'array-get-007', 
     'array-get-008', 
-    'array-get-009']}].
+    'array-get-009', 
+    'array-get-010']}].
 environment('array',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -208,6 +210,21 @@ environment('array',__BaseDir) ->
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "array-get-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'array-get-010'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "array:get([1], 4294967297)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "array-get-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 

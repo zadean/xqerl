@@ -595,4 +595,17 @@
          <assert-string-value>123456</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="K2-ConDocNode-33">
+      <description>XQuery 3.1 allows an empty document node constructor </description>
+      <created by="Michael Kay" on="2018-10-12"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>document {}</test>
+      <result>
+         <all-of>
+            <assert>$result instance of document-node()</assert>
+            <assert>empty($result/child::node())</assert>
+         </all-of>
+      </result>
+   </test-case>
 </test-set>

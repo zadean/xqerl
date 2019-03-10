@@ -54,6 +54,12 @@
 -export(['FunctionCall-046'/1]).
 -export(['FunctionCall-047'/1]).
 -export(['FunctionCall-048'/1]).
+-export(['FunctionCall-049'/1]).
+-export(['FunctionCall-050'/1]).
+-export(['FunctionCall-051'/1]).
+-export(['FunctionCall-052'/1]).
+-export(['FunctionCall-053'/1]).
+-export(['FunctionCall-054'/1]).
 -export(['K-FunctionCallExpr-1'/1]).
 -export(['K-FunctionCallExpr-2'/1]).
 -export(['K-FunctionCallExpr-3'/1]).
@@ -225,6 +231,12 @@ groups() -> [
     'FunctionCall-047', 
     'FunctionCall-048']}, 
    {group_2, [parallel], [
+    'FunctionCall-049', 
+    'FunctionCall-050', 
+    'FunctionCall-051', 
+    'FunctionCall-052', 
+    'FunctionCall-053', 
+    'FunctionCall-054', 
     'K-FunctionCallExpr-1', 
     'K-FunctionCallExpr-2', 
     'K-FunctionCallExpr-3', 
@@ -242,14 +254,14 @@ groups() -> [
     'K-FunctionCallExpr-15', 
     'K-FunctionCallExpr-15a', 
     'K-FunctionCallExpr-16', 
-    'K-FunctionCallExpr-16a', 
+    'K-FunctionCallExpr-16a']}, 
+   {group_3, [parallel], [
     'K-FunctionCallExpr-17', 
     'K-FunctionCallExpr-17a', 
     'K-FunctionCallExpr-18', 
     'K-FunctionCallExpr-19', 
     'K-FunctionCallExpr-20', 
-    'K-FunctionCallExpr-21']}, 
-   {group_3, [parallel], [
+    'K-FunctionCallExpr-21', 
     'K-FunctionCallExpr-22', 
     'K-FunctionCallExpr-23', 
     'K-FunctionCallExpr-24', 
@@ -267,14 +279,14 @@ groups() -> [
     'K2-FunctionCallExpr-7', 
     'K2-FunctionCallExpr-8', 
     'K2-FunctionCallExpr-9', 
-    'K2-FunctionCallExpr-10', 
+    'K2-FunctionCallExpr-10']}, 
+   {group_4, [parallel], [
     'K2-FunctionCallExpr-11', 
     'K2-FunctionCallExpr-12', 
     'K2-FunctionCallExpr-13', 
     'cbcl-promotion-001', 
     'cbcl-promotion-002', 
-    'cbcl-promotion-003']}, 
-   {group_4, [parallel], [
+    'cbcl-promotion-003', 
     'cbcl-promotion-004', 
     'cbcl-promotion-005', 
     'cbcl-promotion-006', 
@@ -292,14 +304,14 @@ groups() -> [
     'function-call-reserved-function-names-011', 
     'function-call-reserved-function-names-012', 
     'function-call-reserved-function-names-013', 
-    'function-call-reserved-function-names-014', 
+    'function-call-reserved-function-names-014']}, 
+   {group_5, [parallel], [
     'function-call-reserved-function-names-015', 
     'function-call-reserved-function-names-016', 
     'function-call-reserved-function-names-017', 
     'function-call-reserved-function-names-018', 
     'function-call-reserved-function-names-019', 
-    'function-call-reserved-function-names-020']}, 
-   {group_5, [parallel], [
+    'function-call-reserved-function-names-020', 
     'function-call-reserved-function-names-021', 
     'function-call-reserved-function-names-022', 
     'function-call-reserved-function-names-023', 
@@ -317,14 +329,14 @@ groups() -> [
     'function-call-reserved-function-names-035', 
     'function-call-reserved-function-names-036', 
     'function-call-reserved-function-names-037', 
-    'function-call-reserved-function-names-038', 
+    'function-call-reserved-function-names-038']}, 
+   {group_6, [parallel], [
     'function-call-reserved-function-names-039', 
     'function-call-reserved-function-names-040', 
     'function-call-reserved-function-names-041', 
     'function-call-reserved-function-names-042', 
     'function-call-reserved-function-names-043', 
-    'function-call-reserved-function-names-044']}, 
-   {group_6, [parallel], [
+    'function-call-reserved-function-names-044', 
     'function-call-reserved-function-names-045', 
     'function-call-reserved-function-names-046']}].
 environment('ListUnionTypes',__BaseDir) ->
@@ -336,6 +348,18 @@ environment('ListUnionTypes',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, [{filename:join(__BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]}, 
+{resources, []}, 
+{modules, []}
+]; 
+environment('unionListDefined',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, []},
+{schemas, [{filename:join(__BaseDir, "SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]}, 
 {resources, []}, 
 {modules, []}
 ].
@@ -692,6 +716,24 @@ environment('ListUnionTypes',__BaseDir) ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'FunctionCall-049'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
+'FunctionCall-050'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
+'FunctionCall-051'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
+'FunctionCall-052'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
+'FunctionCall-053'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
+'FunctionCall-054'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'K-FunctionCallExpr-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "func-does-not-exist(1, 2, 3)", 
@@ -2049,9 +2091,17 @@ environment('ListUnionTypes',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "function-call-reserved-function-names-037.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0134") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

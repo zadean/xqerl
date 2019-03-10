@@ -744,7 +744,7 @@ groups() -> [
    end. 
 'K2-BaseURIProlog-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare base-uri \"\"; contains(fn:static-base-uri(), \"K2-BaseURIProlog-5\")", 
+   Qry = "declare base-uri \"\"; contains(fn:static-base-uri(), \"BaseURI\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-BaseURIProlog-5.xq"), Qry1),

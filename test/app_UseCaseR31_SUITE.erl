@@ -103,45 +103,57 @@ environment('employees',__BaseDir) ->
 ]; 
 environment('json-docs',__BaseDir) ->
 [{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "UseCaseR31/Wikipedia-Origami.xml"), "","http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml"}]}, 
+{sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/qt3/app/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"}, 
+{"text/plain", filename:join(__BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"}]}, 
 {modules, []}
 ]; 
 environment('users-json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,__BaseDir,"unparsed-text-lines(\"http://xqerl.org/UseCaseR31/users.json\") ! parse-json(.)"}]}]}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,__BaseDir,"unparsed-text-lines(\"UseCaseR31/users.json\") ! parse-json(.)"}]}]}, 
 {'static-base-uri', []}, 
 {params, []}, 
 {vars, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "UseCaseR31/users.json"),"http://xqerl.org/UseCaseR31/users.json"}]}, 
+{resources, []}, 
 {modules, []}
 ]; 
 environment('sales-json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,__BaseDir,"unparsed-text-lines(\"http://xqerl.org/UseCaseR31/sales.json\") ! parse-json(.)"}]}]}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,__BaseDir,"unparsed-text-lines(\"UseCaseR31/sales.json\") ! parse-json(.)"}]}]}, 
 {'static-base-uri', []}, 
 {params, []}, 
 {vars, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "UseCaseR31/sales.json"),"http://xqerl.org/UseCaseR31/sales.json"}]}, 
+{resources, []}, 
+{modules, []}
+]; 
+environment('Wikipedia-Origami.xml',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "UseCaseR31/Wikipedia-Origami.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseR31/Wikipedia-Origami.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]}, 
+{params, []}, 
+{vars, [{"uri","xs:string","'Wikipedia-Origami.xml'"}]}, 
+{namespaces, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'UseCaseR31-001'(Config) ->
@@ -717,6 +729,7 @@ declare namespace array = \"http://www.w3.org/2005/xpath-functions/array\";
 
 let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
 for $k in map:keys($input)
+order by $k descending
 return
   <department name=\"{ $k }\">
     {
@@ -736,17 +749,9 @@ return
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseR31-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
+   Out =    case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end, 
-   case xqerl_test:assert_xml(Res,"<department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>") of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -888,22 +893,10 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
       }
     }
 }", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseR31-028.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"[map{\"CA\":[map{\"clothes\":map{\"socks\":510}},map{\"kitchen\":map{\"broiler\":20,\"toaster\":150}}]},map{\"MA\":[map{\"clothes\":map{\"shirt\":10}},map{\"kitchen\":map{\"toaster\":50,\"blender\":250}}]}]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -959,7 +952,7 @@ return map {
   }
  }
 }", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('Wikipedia-Origami.xml',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseR31-030.xq"), Qry1),

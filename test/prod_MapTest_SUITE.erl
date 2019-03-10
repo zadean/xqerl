@@ -33,6 +33,10 @@
 -export(['MapTest-043'/1]).
 -export(['MapTest-044'/1]).
 -export(['MapTest-045'/1]).
+-export(['MapTest-046'/1]).
+-export(['MapTest-047'/1]).
+-export(['MapTest-048'/1]).
+-export(['MapTest-049'/1]).
 -export(['MapTest-050'/1]).
 -export(['MapTest-051'/1]).
 -export(['MapTest-052'/1]).
@@ -86,6 +90,10 @@ groups() -> [
     'MapTest-043', 
     'MapTest-044', 
     'MapTest-045', 
+    'MapTest-046', 
+    'MapTest-047', 
+    'MapTest-048', 
+    'MapTest-049', 
     'MapTest-050', 
     'MapTest-051', 
     'MapTest-052', 
@@ -521,6 +529,83 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'MapTest-046'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         map{} instance of map(xs:integer, map(xs:integer, xs:string))
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "MapTest-046.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'MapTest-047'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function() as map(xs:integer, xs:string) {map{}},
+             $g := function($m as map(xs:string, xs:integer)) as xs:boolean {map:size($m) = 0}
+         return $g($f())
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "MapTest-047.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'MapTest-048'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         return $f(map{})
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "MapTest-048.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'MapTest-049'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         declare function local:f ($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)};
+         let $g as map(xs:string, xs:date) := map:remove(map{'a':current-date()}, 'a') 
+         return local:f($g)
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "MapTest-049.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of

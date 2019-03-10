@@ -100,6 +100,16 @@
             <error code="XPTY0004"/>
         </result>
     </test-case>
+    
+    <test-case name="array-get-010">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:get([1], 4294967297)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
  
 
  

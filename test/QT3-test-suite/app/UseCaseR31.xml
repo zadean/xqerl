@@ -22,36 +22,22 @@
    </environment>
 
     <environment name="json-docs">
-      <!-- znd added base-uri to find docs -->
-      <static-base-uri uri="http://www.w3.org/qt3/app/"/>
-      <!-- znd added missing doc -->
-      <source file="UseCaseR31/Wikipedia-Origami.xml"
-              uri="http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml">
-          <created by="Zachary Dean" on="2017-12-08" />
-
-      </source>
-
-
-
       <resource file="UseCaseR31/mildred.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/mildred-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/employees.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/employees-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/bookinfo.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -60,8 +46,7 @@
 
 
       <resource file="UseCaseR31/satellites.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/satellites-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -69,8 +54,7 @@
       </resource>
 
       <resource file="UseCaseR31/table.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/table-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -78,16 +62,14 @@
       </resource>
 
       <resource file="UseCaseR31/colors.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/colors-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/users2.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/users2-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -95,29 +77,33 @@
       </resource>
 
       <resource file="UseCaseR31/incoming.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/incoming-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
+
       </resource>
 
    </environment>
 
     <environment name="users-json">
-      <resource file="UseCaseR31/users.json" media-type="text/plain" encoding="utf-8" uri="http://xqerl.org/UseCaseR31/users.json"/>
         <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json">
-            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("http://xqerl.org/UseCaseR31/users.json") ! parse-json(.)</query>
+            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
         </collection>
       <param name="users-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/users-json'" declared="false"/>
     </environment>
 
     <environment name="sales-json">
-      <resource file="UseCaseR31/sales.json" media-type="text/plain" encoding="utf-8" uri="http://xqerl.org/UseCaseR31/sales.json"/>
         <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/sales-json">
-            <query>unparsed-text-lines("http://xqerl.org/UseCaseR31/sales.json") ! parse-json(.)</query>
+            <query>unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.)</query>
         </collection>
       <param name="sales-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'" declared="false"/>
+    </environment>
+    
+    <environment name="Wikipedia-Origami.xml">
+      <source role="." file="UseCaseR31/Wikipedia-Origami.xml" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseR31/Wikipedia-Origami.xml"/>
+      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/" />
+      <param name="uri" as="xs:string" select="'Wikipedia-Origami.xml'"/>
     </environment>
 
 
@@ -741,15 +727,18 @@ return $rot]]></test>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
       <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <modified by="Michael Kay" on="2018-12-03" change="Eliminate dependency on unpredictable ordering of map:keys()" />
       <environment ref="json-docs"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
+       
       <test><![CDATA[
 declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
 declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
 
 let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
 for $k in map:keys($input)
+order by $k descending
 return
   <department name="{ $k }">
     {
@@ -765,10 +754,7 @@ return
     }
   </department>]]></test>
       <result>
-        <any-of>
          <assert-xml><![CDATA[<department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>]]></assert-xml>
-         <assert-xml><![CDATA[<department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>]]></assert-xml>
-        </any-of>
       </result>
    </test-case>
 
@@ -883,7 +869,6 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
       <modified  by="O'Neil Delpratt" on="2016-01-06" change="Bug fix relating to issue #29337: Added order by clauses" />
       <modified  by="Josh Spiegel" on="2016-01-11" change="Bug fix relating to issue #29337: Added order by clauses" />
        <dependency type="spec" value="XQ31+"/>
-       <environment/>
       <test><![CDATA[
       declare namespace map="http://www.w3.org/2005/xpath-functions/map";
       declare variable $storesVar := array { unparsed-text-lines("UseCaseR31/stores.json") ! parse-json(.) };
@@ -950,8 +935,9 @@ return map {
       <description>Convert XML to JSON</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
-      <environment ref="json-docs"/>
-       <dependency type="spec" value="XQ31+"/>
+      <modified by="Zachary Dean" on="2019-03-11" change="Incorrect environment" />
+      <environment ref="Wikipedia-Origami.xml"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[array {
  for $page in doc("UseCaseR31/Wikipedia-Origami.xml")//page
  return map {

@@ -36,6 +36,8 @@
 -export(['map-merge-023'/1]).
 -export(['map-merge-024-hof'/1]).
 -export(['map-merge-024'/1]).
+-export(['map-merge-025'/1]).
+-export(['map-merge-026'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -84,7 +86,9 @@ groups() -> [
     'map-merge-022', 
     'map-merge-023', 
     'map-merge-024-hof', 
-    'map-merge-024']}].
+    'map-merge-024', 
+    'map-merge-025', 
+    'map-merge-026']}].
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
@@ -884,6 +888,38 @@ environment('map',__BaseDir) ->
    end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'map-merge-025'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((1 to 2000)!map:entry('z', .), map{'duplicates':'combine'})?z", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "map-merge-025.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1 to 2000") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'map-merge-026'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((1 to 100)!map:entry('z', .), if (current-date() lt xs:date('1900-01-01')) then map{'duplicates':'combine'} else ())?z", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "map-merge-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};

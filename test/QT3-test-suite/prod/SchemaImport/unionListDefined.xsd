@@ -78,6 +78,10 @@
     <xs:union memberTypes="xs:date xs:dateTime xs:gYear xs:gYearMonth"/>
   </xs:simpleType>
   
+  <xs:simpleType name="approximateDateAlternative">
+    <xs:union memberTypes="xs:date xs:dateTime xs:gYear xs:gYearMonth"/>
+  </xs:simpleType>
+  
   <xs:simpleType name="dateOrDateTime">
     <xs:union memberTypes="xs:date xs:dateTime"/>
   </xs:simpleType>  
@@ -100,7 +104,19 @@
       <xs:sequence>
         <xs:element name="e" type="s:approximateDate"/>
       </xs:sequence>
-    </xs:complexType>  
+    </xs:complexType> 
+  
+  <xs:element name="elementContainingRestrictedDate" type="s:elementContainingRestrictedDateType"/>
+  
+  <xs:complexType name="elementContainingRestrictedDateType">
+    <xs:complexContent>
+      <xs:restriction base="s:elementContainingApproximateDateType">
+        <xs:sequence>
+          <xs:element name="e" type="s:restrictedUnion"/>
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType> 
   
   <xs:element name="elementContainingDateTime" substitutionGroup="s:elementContainingApproximateDate"
             type="s:elementContainingDateType"/>

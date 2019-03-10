@@ -172,9 +172,9 @@ environment('json-files',__BaseDir) ->
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/json","j"}]},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}, 
-{"application/json", filename:join(__BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"}, 
-{"application/json", filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]}, 
 {modules, []}
 ]; 
 environment('json-doc-array',__BaseDir) ->
@@ -186,12 +186,12 @@ environment('json-doc-array',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-doc/arrayNull.json"),"http://www.w3.org/qt3/json/arrayNull-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/arrayFalse.json"),"http://www.w3.org/qt3/json/arrayFalse-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/arrayTrue.json"),"http://www.w3.org/qt3/json/arrayTrue-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/arrayString.json"),"http://www.w3.org/qt3/json/arrayString-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/arrayNumber.json"),"http://www.w3.org/qt3/json/arrayNumber-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/arrayEmpty.json"),"http://www.w3.org/qt3/json/arrayEmpty-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-doc/arrayNull.json"),"http://www.w3.org/qt3/json/arrayNull-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/arrayFalse.json"),"http://www.w3.org/qt3/json/arrayFalse-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/arrayTrue.json"),"http://www.w3.org/qt3/json/arrayTrue-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/arrayString.json"),"http://www.w3.org/qt3/json/arrayString-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/arrayNumber.json"),"http://www.w3.org/qt3/json/arrayNumber-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/arrayEmpty.json"),"http://www.w3.org/qt3/json/arrayEmpty-json"}]}, 
 {modules, []}
 ]; 
 environment('json-doc-map',__BaseDir) ->
@@ -203,13 +203,13 @@ environment('json-doc-map',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-doc/mapDuplicatesEscape.json"),"http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapZeroLength.json"),"http://www.w3.org/qt3/json/mapZeroLength-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapUnescapeUnpaired10.json"),"http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapUnescape10.json"),"http://www.w3.org/qt3/json/mapUnescape10-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapUnescape.json"),"http://www.w3.org/qt3/json/mapUnescape-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapDuplicates.json"),"http://www.w3.org/qt3/json/mapDuplicates-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/mapEmpty.json"),"http://www.w3.org/qt3/json/mapEmpty-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-doc/mapDuplicatesEscape.json"),"http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapZeroLength.json"),"http://www.w3.org/qt3/json/mapZeroLength-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapUnescapeUnpaired10.json"),"http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapUnescape10.json"),"http://www.w3.org/qt3/json/mapUnescape10-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapUnescape.json"),"http://www.w3.org/qt3/json/mapUnescape-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapDuplicates.json"),"http://www.w3.org/qt3/json/mapDuplicates-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/mapEmpty.json"),"http://www.w3.org/qt3/json/mapEmpty-json"}]}, 
 {modules, []}
 ]; 
 environment('json-doc-number',__BaseDir) ->
@@ -221,10 +221,10 @@ environment('json-doc-number',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-doc/number004.json"),"http://www.w3.org/qt3/json/number004-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/number003.json"),"http://www.w3.org/qt3/json/number003-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/number002.json"),"http://www.w3.org/qt3/json/number002-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/number001.json"),"http://www.w3.org/qt3/json/number001-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-doc/number004.json"),"http://www.w3.org/qt3/json/number004-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/number003.json"),"http://www.w3.org/qt3/json/number003-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/number002.json"),"http://www.w3.org/qt3/json/number002-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/number001.json"),"http://www.w3.org/qt3/json/number001-json"}]}, 
 {modules, []}
 ]; 
 environment('json-doc-string',__BaseDir) ->
@@ -236,8 +236,8 @@ environment('json-doc-string',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-doc/stringHex.json"),"http://www.w3.org/qt3/json/stringHex-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/stringUnpaired.json"),"http://www.w3.org/qt3/json/stringUnpaired-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-doc/stringHex.json"),"http://www.w3.org/qt3/json/stringHex-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/stringUnpaired.json"),"http://www.w3.org/qt3/json/stringUnpaired-json"}]}, 
 {modules, []}
 ]; 
 environment('json-doc-error',__BaseDir) ->
@@ -249,22 +249,22 @@ environment('json-doc-error',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "json-doc/errorString03.json"),"http://www.w3.org/qt3/json/errorString03-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorString02.json"),"http://www.w3.org/qt3/json/errorString02-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorString01.json"),"http://www.w3.org/qt3/json/errorString01-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorNumber04.json"),"http://www.w3.org/qt3/json/errorNumber04-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorNumber03.json"),"http://www.w3.org/qt3/json/errorNumber03-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorNumber02.json"),"http://www.w3.org/qt3/json/errorNumber02-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorNumber01.json"),"http://www.w3.org/qt3/json/errorNumber01-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArrayComma.json"),"http://www.w3.org/qt3/json/errorArrayComma-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorMap.json"),"http://www.w3.org/qt3/json/errorMap-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArrayUnicode.json"),"http://www.w3.org/qt3/json/errorArrayUnicode-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArrayString.json"),"http://www.w3.org/qt3/json/errorArrayString-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArrayHex.json"),"http://www.w3.org/qt3/json/errorArrayHex-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArrayNumber.json"),"http://www.w3.org/qt3/json/errorArrayNumber-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorArray.json"),"http://www.w3.org/qt3/json/errorArray-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorExtra.json"),"http://www.w3.org/qt3/json/errorExtra-json"}, 
-{"application/json", filename:join(__BaseDir, "json-doc/errorToken.json"),"http://www.w3.org/qt3/json/errorToken-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-doc/errorString03.json"),"http://www.w3.org/qt3/json/errorString03-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorString02.json"),"http://www.w3.org/qt3/json/errorString02-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorString01.json"),"http://www.w3.org/qt3/json/errorString01-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorNumber04.json"),"http://www.w3.org/qt3/json/errorNumber04-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorNumber03.json"),"http://www.w3.org/qt3/json/errorNumber03-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorNumber02.json"),"http://www.w3.org/qt3/json/errorNumber02-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorNumber01.json"),"http://www.w3.org/qt3/json/errorNumber01-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArrayComma.json"),"http://www.w3.org/qt3/json/errorArrayComma-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorMap.json"),"http://www.w3.org/qt3/json/errorMap-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArrayUnicode.json"),"http://www.w3.org/qt3/json/errorArrayUnicode-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArrayString.json"),"http://www.w3.org/qt3/json/errorArrayString-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArrayHex.json"),"http://www.w3.org/qt3/json/errorArrayHex-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArrayNumber.json"),"http://www.w3.org/qt3/json/errorArrayNumber-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorArray.json"),"http://www.w3.org/qt3/json/errorArray-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorExtra.json"),"http://www.w3.org/qt3/json/errorExtra-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-doc/errorToken.json"),"http://www.w3.org/qt3/json/errorToken-json"}]}, 
 {modules, []}
 ].
 'json-doc-001'(Config) ->

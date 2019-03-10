@@ -2753,6 +2753,130 @@
       <assert-string-value>10.0e-1</assert-string-value>
     </result>
   </test-case>
+  
+  <test-case name="numberformat310" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '####,##')
+    </test>
+    <result>
+      <assert-string-value>6421,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat311" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '###,##')
+    </test>
+    <result>
+      <assert-string-value>6421,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat312" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '##,##')
+    </test>
+    <result>
+      <assert-string-value>64,21,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat313" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '#,##')
+    </test>
+    <result>
+      <assert-string-value>64,21,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat314" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '0000,00')
+    </test>
+    <result>
+      <assert-string-value>6421,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat315" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '000,00')
+    </test>
+    <result>
+      <assert-string-value>6421,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat316" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '00,00')
+    </test>
+    <result>
+      <assert-string-value>64,21,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat317" covers="fn-format-number">
+    <description>Single grouping separator in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '0,00')
+    </test>
+    <result>
+      <assert-string-value>64,21,20</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat318" covers="fn-format-number">
+    <description>Two grouping separators in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '#,#,#')
+    </test>
+    <result>
+      <assert-string-value>6,4,2,1,2,0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat319" covers="fn-format-number">
+    <description>Two grouping separators in pattern: regular or not?</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      format-number(642120, '##,#,#')
+    </test>
+    <result>
+      <assert-string-value>6421,2,0</assert-string-value>
+    </result>
+  </test-case>
+  
+  
+  
+  
 
    <test-case name="numberformat901err">
       <description>

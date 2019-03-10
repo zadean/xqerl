@@ -795,6 +795,22 @@
          <error code="XQST0036"/>
       </result>
    </test-case>
+  
+  <test-case name="modules-19b">
+    <description> Load a library but do not import the schema: variant of modules-19 to show that no error is raised in XQ30 </description>
+    <created by="Michael Kay" on="2018-04-19"/>
+    <environment ref="simple-schema"/>
+    <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+    <dependency type="feature" value="schemaImport"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        $mod3:var1
+      ]]></test>
+    <result>
+      <assert>$result = 1</assert>
+    </result>
+  </test-case>
 
    <test-case name="modules-20">
       <description> Load a library but do not import the schema </description>
@@ -812,6 +828,22 @@
          <error code="XQST0036"/>
       </result>
    </test-case>
+  
+  <test-case name="modules-20b">
+    <description> Load a library but do not import the schema. Variant of modules-20 to show that no error is raised in XQ30 </description>
+    <created by="Michael Kay" on="2018-04-19"/>
+    <environment ref="simple-schema"/>
+    <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+    <dependency type="feature" value="schemaImport"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function1()
+      ]]></test>
+    <result>
+      <assert>$result = 1</assert>
+    </result>
+  </test-case>
 
    <test-case name="modules-21">
       <description> Load a library but do not import the schema </description>

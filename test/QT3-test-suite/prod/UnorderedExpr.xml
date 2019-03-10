@@ -64,23 +64,30 @@
    <test-case name="Orderexpr-9">
       <description> union ordered </description>
       <created by="Andreas Behm" on="2005-10-05"/>
+      <modified by="Michael Kay" on="2018-10-05" change="Don't assume document node construction"/>
       <environment ref="partlist"/>
       <test>ordered {//part[@partof = 1] union //part[@partid = 1] }</test>
       <result>
-         <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
+         <all-of>
+            <assert-count>2</assert-count>
+            <assert>some $e in $result satisfies $e/self::part[@partid="1"][@partof="0"][@name="engine"]</assert>
+            <assert>some $e in $result satisfies $e/self::part[@partid="3"][@partof="1"][@name="piston"]</assert>
+         </all-of>
       </result>
    </test-case>
 
    <test-case name="Orderexpr-10">
       <description> union unordered </description>
       <created by="Andreas Behm" on="2005-10-05"/>
+      <modified by="Michael Kay" on="2018-10-05" change="Don't assume document node construction"/>
       <environment ref="partlist"/>
       <test>unordered {//part[@partof = 1] union //part[@partid = 1] }</test>
       <result>
-         <any-of>
-            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
-            <assert-xml><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
-         </any-of>
+         <all-of>
+            <assert-count>2</assert-count>
+            <assert>some $e in $result satisfies $e/self::part[@partid="1"][@partof="0"][@name="engine"]</assert>
+            <assert>some $e in $result satisfies $e/self::part[@partid="3"][@partof="1"][@name="piston"]</assert>
+         </all-of>
       </result>
    </test-case>
 

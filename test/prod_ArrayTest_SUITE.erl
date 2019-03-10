@@ -34,6 +34,34 @@
 -export(['ArrayTest-052'/1]).
 -export(['ArrayTest-053'/1]).
 -export(['ArrayTest-054'/1]).
+-export(['ArrayTest-055'/1]).
+-export(['ArrayTest-056'/1]).
+-export(['ArrayTest-057'/1]).
+-export(['ArrayTest-058'/1]).
+-export(['ArrayTest-059'/1]).
+-export(['ArrayTest-060'/1]).
+-export(['ArrayTest-061'/1]).
+-export(['ArrayTest-062'/1]).
+-export(['ArrayTest-063'/1]).
+-export(['ArrayTest-064'/1]).
+-export(['ArrayTest-065'/1]).
+-export(['ArrayTest-066'/1]).
+-export(['ArrayTest-067'/1]).
+-export(['ArrayTest-075'/1]).
+-export(['ArrayTest-076'/1]).
+-export(['ArrayTest-077'/1]).
+-export(['ArrayTest-078'/1]).
+-export(['ArrayTest-079'/1]).
+-export(['ArrayTest-080'/1]).
+-export(['ArrayTest-081'/1]).
+-export(['ArrayTest-082'/1]).
+-export(['ArrayTest-083'/1]).
+-export(['ArrayTest-084'/1]).
+-export(['ArrayTest-085'/1]).
+-export(['ArrayTest-086'/1]).
+-export(['ArrayTest-087'/1]).
+-export(['ArrayTest-088'/1]).
+-export(['ArrayTest-089'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -49,7 +77,8 @@ init_per_suite(Config) ->
    [{base_dir, __BaseDir}|Config].
 all() -> [
    {group, group_0}, 
-   {group, group_1}
+   {group, group_1}, 
+   {group, group_2}
    ].
 groups() -> [
    {group_0, [parallel], [
@@ -80,7 +109,36 @@ groups() -> [
     'ArrayTest-051', 
     'ArrayTest-052', 
     'ArrayTest-053', 
-    'ArrayTest-054']}].
+    'ArrayTest-054', 
+    'ArrayTest-055', 
+    'ArrayTest-056', 
+    'ArrayTest-057', 
+    'ArrayTest-058', 
+    'ArrayTest-059', 
+    'ArrayTest-060', 
+    'ArrayTest-061', 
+    'ArrayTest-062', 
+    'ArrayTest-063', 
+    'ArrayTest-064', 
+    'ArrayTest-065', 
+    'ArrayTest-066', 
+    'ArrayTest-067', 
+    'ArrayTest-075', 
+    'ArrayTest-076', 
+    'ArrayTest-077', 
+    'ArrayTest-078', 
+    'ArrayTest-079', 
+    'ArrayTest-080', 
+    'ArrayTest-081']}, 
+   {group_2, [parallel], [
+    'ArrayTest-082', 
+    'ArrayTest-083', 
+    'ArrayTest-084', 
+    'ArrayTest-085', 
+    'ArrayTest-086', 
+    'ArrayTest-087', 
+    'ArrayTest-088', 
+    'ArrayTest-089']}].
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -509,6 +567,486 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"'c'") of 
       true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-055'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= ['a','b','c','d','e', 0] return $array instance of array(xs:string)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-055.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-056'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= ['a','b','c','d','e', ('f', 'g')] return $array instance of array(xs:string+)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-056.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-057'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= ['a','b','c','d','e', ()] return $array instance of array(xs:string?)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-057.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-058'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= ['a','b','c','d','e', (1 to 8)] return $array instance of array(xs:anyAtomicType+)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-058.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-059'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= ['a','b','c','d','e', map{}] return $array instance of array(xs:anyAtomicType+)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-059.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-060'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [['a','b'],['c','d'], [], ['e']] return $array instance of array(array(xs:string*))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-060.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-061'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [(['a','b'],['c','d']), ([], ['e'])] return $array instance of array(array(xs:string*))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-061.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-062'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [(['a','b'],['c','d']), ([], ['e'])] return $array instance of array(array(xs:string*)+)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-062.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-063'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [floor#1, ceiling#1, round#1] return $array instance of array(function(xs:numeric?) as xs:numeric?)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-063.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-064'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [floor#1, ceiling#1, round#1, name#1] return $array instance of array(function(xs:numeric) as xs:numeric)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-064.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-065'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [] return $array instance of array(function(xs:numeric) as xs:numeric)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-065.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-066'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [map{1: map{2: map{}}}] return $array instance of array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-066.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-067'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $array:= [map{1: map{2: map{true(): false()}}}] return $array instance of array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-067.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-075'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:string)) as xs:boolean {array:size($a) ge 0},
+             $array:= ['a','b','c','d','e', 0]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-075.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-076'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:string+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', ('f', 'g')]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-076.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-077'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:string?)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', ()]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-077.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-078'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:anyAtomicType+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', (1 to 8)]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-078.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-079'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:anyAtomicType+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', map{}]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-079.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-080'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(array(xs:string*))) as xs:boolean {array:size($a) eq 4},
+             $array:= [['a','b'],['c','d'], [], ['e']]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-080.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-081'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(array(xs:string*))) as xs:boolean {array:size($a) eq 3},
+             $array:= [['a','b'],['c','d'], ([], ['e'])]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-081.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-082'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(array(xs:string*)+)) as xs:boolean {array:size($a) eq 3},
+             $array:= [['a','b'],['c','d'], ([], ['e'])]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-082.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-083'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 3},
+             $array:= [floor#1, ceiling#1, round#1]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-083.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-084'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 3},
+             $array:= [floor#1, ceiling#1, round#1, name#1]
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-084.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-085'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 0},
+             $array:= []
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-085.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-086'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))) as xs:boolean {array:size($a) eq 1},
+             $array:= [map{1: map{2: map{}}}] 
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-086.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-087'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))) as xs:boolean {array:size($a) eq 1},
+             $array:= [map{1: map{2: map{true(): false()}}}] 
+         return $f($array)
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-087.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-088'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $f := function($a as array(xs:integer)) as xs:boolean {array:size($a) eq 1},
+             $g := function($n as xs:integer) as array(xs:string) {array{(1 to $n)!\"x\"}} 
+         return $f($g(0))
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-088.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'ArrayTest-089'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         declare function local:f($a as array(xs:integer)) as xs:boolean {array:size($a) eq 1};
+         declare function local:g($n as xs:integer) as array(xs:string) {array{(1 to $n)!\"x\"}}; 
+         local:f(local:g(0))
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "ArrayTest-089.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

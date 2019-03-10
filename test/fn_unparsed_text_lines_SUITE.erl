@@ -841,9 +841,17 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-038.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -857,9 +865,17 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-lines-039.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -969,6 +985,10 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
@@ -1031,6 +1051,10 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 

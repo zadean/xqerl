@@ -541,19 +541,7 @@ groups() -> [
    end. 
 'fn-contains-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:contains(\"database\", \"dâta\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-contains-21.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-contains-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"dâtabase\", \"âtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -571,19 +559,7 @@ groups() -> [
    end. 
 'fn-contains-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:contains(\"dâtÅbase\", \"âtabÃse\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-contains-23.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-contains-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 

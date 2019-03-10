@@ -707,6 +707,16 @@
       </result>
    </test-case>
    
+   <test-case name="value-comp-eq-string-15">
+      <description> Value comparison on strings. Saxon bug 3983. </description>
+      <created by="Michael Kay" on="2018-10-30"/>
+      <environment ref="works"/>
+      <test>not(/works/@iddddd eq "")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
    <test-case name="value-comp-ne-string-1">
       <description> Value comparison on strings. </description>
       <created by="Michael Kay" on="2014-10-15"/>
@@ -840,6 +850,16 @@
       <created by="Michael Kay" on="2014-10-15"/>
       <environment ref="works"/>
       <test>not(xs:string(/works/@id) ne "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-15">
+      <description> Value comparison on strings. Saxon bug 3983. </description>
+      <created by="Michael Kay" on="2018-10-30"/>
+      <environment ref="works"/>
+      <test>not(/works/@iddddd ne "")</test>
       <result>
          <assert-true/>
       </result>

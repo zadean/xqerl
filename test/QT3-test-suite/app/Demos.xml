@@ -90,8 +90,7 @@
          </source>
       </environment> 
       <dependency type="spec" value="XQ10+"/>
-      <test file="Demos/currencysvg-xq31.xq"/>
-      <!-- <test file="Demos/currencysvg.xq"/> -->
+      <test file="Demos/currencysvg.xq"/>
       <result>
          <assert-xml file="Demos/currencysvg-result.xml"/>
       </result>   
@@ -139,8 +138,8 @@
       </environment>
       <module uri="http://www.xqsharp.com/raytracer" file="Demos/raytracer.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/scene" file="Demos/scene.xq"/>
-      <module uri="http://www.xqsharp.com/raytracer/shapes" file="Demos/shapes.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/vector" file="Demos/vector.xq"/>
+      <module uri="http://www.xqsharp.com/raytracer/shapes" file="Demos/shapes.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/materials" file="Demos/materials.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/math" file="Demos/math.xq"/>
       <dependency type="spec" value="XQ10+"/> 
@@ -170,7 +169,7 @@
       </result>
    </test-case>
    
-   <!-- <test-case name="RexParser">
+   <test-case name="RexParser">
       <description>A parser written in XQuery generated using REx (Saxon bug 3260)</description>
       <created by="Michael Kay via Gunther Rademacher" on="2017-06-12"/>
       <dependency type="spec" value="XQ10+"/>
@@ -182,5 +181,5 @@
             <assert>$result/self::S/*[13][self::EOF]</assert>
          </all-of>
       </result>
-   </test-case> -->
+   </test-case>
 </test-set>

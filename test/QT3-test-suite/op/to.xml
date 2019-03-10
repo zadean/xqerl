@@ -398,6 +398,16 @@
          <assert-deep-eq>2001 to 2020</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="rangeExpr-42">
+      <description>General comparison involving range expressions in a predicate with singleton range (Saxon bug 3666)</description>
+      <created by="Michael Kay" on="2018-02-13"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>(1 to 5000)[position() = 2000 to round(year-from-date(current-date()), -3)]</test>
+      <result>
+         <assert-eq>2000</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-RangeExpr-1">
       <description> Since the left operand has the static cardinality zero-or-more, implementations using the static typing feature may raise XPTY0004. </description>

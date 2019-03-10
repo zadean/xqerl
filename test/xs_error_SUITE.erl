@@ -60,6 +60,7 @@
 -export(['xs-error-051'/1]).
 -export(['xs-error-052'/1]).
 -export(['xs-error-053'/1]).
+-export(['xs-error-054'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -134,7 +135,8 @@ groups() -> [
     'xs-error-050', 
     'xs-error-051', 
     'xs-error-052', 
-    'xs-error-053']}].
+    'xs-error-053', 
+    'xs-error-054']}].
 
 'xs-error-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
@@ -293,5 +295,8 @@ groups() -> [
    __BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}. 
 'xs-error-053'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XSD 1.1"}. 
+'xs-error-054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.

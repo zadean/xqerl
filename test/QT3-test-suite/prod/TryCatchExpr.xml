@@ -215,6 +215,11 @@
   <test-case name="try-017">
     <description>No context item is a dynamic error (but no context node is a type error...)</description>
     <created by="Michael Kay" on="2013-04-16"/>
+    <modified by="Michael Kay" on="2018-09-24" change="Expected error conditions. The two possible conditions to report are
+      XPDY0002 (the context item is absent) and XPTY0020 (the context item is not a node). Both conditions are true, but
+      for some reason one of them is a dynamic error and the other is a type error. If a type error is reported, it should be XPTY0020
+      and not XPTY0004. Note, however, many other tests in the test suite require XPDY0002 here (for example prod-AxisStep/K2-Steps-1),
+      which prevents static reporting of the error."/>
     <environment ref="err"/>
     <test>
       declare function local:f() { a };
@@ -223,7 +228,7 @@
     <result>
       <any-of>
       	<assert-true/>
-      	<error code="XPTY0004"/>
+      	<error code="XPTY0020"/>
       </any-of>
     </result>
   </test-case>
@@ -241,6 +246,44 @@
     </result>
   </test-case>
 
+  <test-case name="try-019">
+    <description>Empty try expression</description>
+    <created by="Michael Kay" on="2018-10-12"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      try {}
+      catch * {'error'}  
+    </test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
+  <test-case name="try-020">
+    <description>Empty catch expression</description>
+    <created by="Michael Kay" on="2018-10-12"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      try {1 div 0}
+      catch * {}  
+    </test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
+  <test-case name="try-021">
+    <description>Use err:additional: value is implementation-defined, but variable must exist</description>
+    <created by="Michael Kay" on="2019-02-12"/>
+    <environment ref="err"/><test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d };
+        try { local:f(0) } catch * {"caught " || count($err:additional)}
+      ]]></test>
+    <result>
+      <assert>starts-with($result, 'caught')</assert>
+    </result>
+  </test-case>
+  
   <test-case name="no-try-catch-1">
     <description>Without try catch a division by 0 raises a dynamic error.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>

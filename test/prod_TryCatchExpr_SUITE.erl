@@ -25,6 +25,9 @@
 -export(['try-016'/1]).
 -export(['try-017'/1]).
 -export(['try-018'/1]).
+-export(['try-019'/1]).
+-export(['try-020'/1]).
+-export(['try-021'/1]).
 -export(['no-try-catch-1'/1]).
 -export(['no-try-catch-2'/1]).
 -export(['no-try-catch-3'/1]).
@@ -220,12 +223,15 @@ groups() -> [
     'try-016', 
     'try-017', 
     'try-018', 
+    'try-019', 
+    'try-020', 
+    'try-021', 
     'no-try-catch-1', 
-    'no-try-catch-2', 
+    'no-try-catch-2']}, 
+   {group_1, [parallel], [
     'no-try-catch-3', 
     'try-catch-dynamic-error-1', 
-    'try-catch-dynamic-error-2']}, 
-   {group_1, [parallel], [
+    'try-catch-dynamic-error-2', 
     'try-catch-dynamic-error-3', 
     'try-catch-dynamic-error-4', 
     'try-catch-static-error-1', 
@@ -246,11 +252,11 @@ groups() -> [
     'try-catch-dynamic-error-outside-after-4', 
     'try-catch-dynamic-error-outside-1', 
     'try-catch-dynamic-error-outside-2', 
-    'try-catch-dynamic-error-outside-3', 
+    'try-catch-dynamic-error-outside-3']}, 
+   {group_2, [parallel], [
     'try-catch-dynamic-error-outside-4', 
     'try-catch-dynamic-error-outside-5', 
-    'try-catch-dynamic-error-outside-6']}, 
-   {group_2, [parallel], [
+    'try-catch-dynamic-error-outside-6', 
     'try-catch-dynamic-error-outside-7', 
     'try-catch-dynamic-error-outside-8', 
     'try-catch-no-error-1', 
@@ -271,11 +277,11 @@ groups() -> [
     'try-catch-several-name-tests-3', 
     'try-catch-first-matching-catch-clause-1', 
     'try-catch-first-matching-catch-clause-2', 
-    'try-catch-first-matching-catch-clause-3', 
+    'try-catch-first-matching-catch-clause-3']}, 
+   {group_3, [parallel], [
     'try-catch-first-matching-catch-clause-4', 
     'try-catch-first-matching-catch-clause-5', 
-    'try-catch-first-matching-catch-clause-6']}, 
-   {group_3, [parallel], [
+    'try-catch-first-matching-catch-clause-6', 
     'try-catch-first-matching-catch-clause-7', 
     'try-catch-first-matching-catch-clause-8', 
     'try-catch-first-matching-catch-clause-9', 
@@ -296,11 +302,11 @@ groups() -> [
     'try-catch-err-code-variable-12', 
     'try-catch-err-code-variable-13', 
     'try-catch-err-code-variable-14', 
-    'try-catch-err-description-variable-1', 
+    'try-catch-err-description-variable-1']}, 
+   {group_4, [parallel], [
     'try-catch-err-description-variable-2', 
     'try-catch-err-description-variable-3', 
-    'try-catch-err-value-variable-1']}, 
-   {group_4, [parallel], [
+    'try-catch-err-value-variable-1', 
     'try-catch-err-value-variable-2', 
     'try-catch-err-value-variable-3', 
     'try-catch-err-module-variable-1', 
@@ -321,11 +327,11 @@ groups() -> [
     'try-catch-function-call-1', 
     'try-catch-function-call-2', 
     'try-catch-function-call-3', 
-    'try-catch-function-call-4', 
+    'try-catch-function-call-4']}, 
+   {group_5, [parallel], [
     'try-catch-error-function-with-static-error-code', 
     'try-catch-variable-binding-outside-1', 
-    'try-catch-variable-binding-outside-2']}, 
-   {group_5, [parallel], [
+    'try-catch-variable-binding-outside-2', 
     'try-catch-variable-binding-outside-3', 
     'try-catch-variable-binding-outside-4', 
     'try-catch-variable-binding-outside-5', 
@@ -346,11 +352,11 @@ groups() -> [
     'try-catch-all-dynamic-errors-caught-5', 
     'try-catch-all-dynamic-errors-caught-6', 
     'try-catch-all-dynamic-errors-caught-7', 
-    'try-catch-all-dynamic-errors-caught-8', 
+    'try-catch-all-dynamic-errors-caught-8']}, 
+   {group_6, [parallel], [
     'try-catch-all-dynamic-errors-caught-9', 
     'try-catch-all-dynamic-errors-caught-10', 
-    'try-catch-all-dynamic-errors-caught-11']}, 
-   {group_6, [parallel], [
+    'try-catch-all-dynamic-errors-caught-11', 
     'try-catch-all-dynamic-errors-caught-12', 
     'try-catch-all-dynamic-errors-caught-13', 
     'try-catch-all-dynamic-errors-caught-13b', 
@@ -371,11 +377,11 @@ groups() -> [
     'try-catch-fn-error-11', 
     'try-catch-fn-error-12', 
     'try-catch-fn-error-13', 
-    'try-catch-fn-error-14', 
+    'try-catch-fn-error-14']}, 
+   {group_7, [parallel], [
     'try-catch-fn-error-15', 
     'try-catch-fn-error-16', 
-    'try-catch-fn-error-17']}, 
-   {group_7, [parallel], [
+    'try-catch-fn-error-17', 
     'try-catch-fn-error-18', 
     'try-catch-fn-error-19', 
     'try-catch-fn-error-20']}].
@@ -706,7 +712,7 @@ environment('err',__BaseDir) ->
       true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"XPTY0004") of 
+   case xqerl_test:assert_error(Res,"XPTY0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -730,6 +736,61 @@ environment('err',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"second\"") of 
       true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'try-019'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      try {}
+      catch * {'error'}  
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "try-019.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'try-020'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      try {1 div 0}
+      catch * {}  
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "try-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'try-021'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+        declare function local:f($d as xs:integer) { 10 div $d };
+        try { local:f(0) } catch * {\"caught \" || count($err:additional)}
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('err',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "try-021.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"starts-with($result, 'caught')") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of

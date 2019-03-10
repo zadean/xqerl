@@ -79,6 +79,8 @@
 -export(['serialize-xml-140'/1]).
 -export(['serialize-xml-141'/1]).
 -export(['serialize-xml-142'/1]).
+-export(['serialize-html-001'/1]).
+-export(['serialize-html-002'/1]).
 -export(['serialize-json-001'/1]).
 -export(['serialize-json-002'/1]).
 -export(['serialize-json-003'/1]).
@@ -221,6 +223,8 @@ groups() -> [
     'serialize-xml-141']}, 
    {group_3, [parallel], [
     'serialize-xml-142', 
+    'serialize-html-001', 
+    'serialize-html-002', 
     'serialize-json-001', 
     'serialize-json-002', 
     'serialize-json-003', 
@@ -241,10 +245,10 @@ groups() -> [
     'serialize-json-107', 
     'serialize-json-108', 
     'serialize-json-109', 
-    'serialize-json-110', 
-    'serialize-json-111', 
-    'serialize-json-112']}, 
+    'serialize-json-110']}, 
    {group_4, [parallel], [
+    'serialize-json-111', 
+    'serialize-json-112', 
     'serialize-json-113', 
     'serialize-json-114', 
     'serialize-json-115', 
@@ -671,8 +675,8 @@ environment('atomic-xq',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-xml-120.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQST0109") of 
-      true -> {comment, "Correct error"};
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
@@ -918,6 +922,66 @@ environment('atomic-xq',__BaseDir) ->
    Out =    case xqerl_test:assert(Res,"contains($result,\">  <\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'serialize-html-001'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+            let $doc := <html><head/><body><p>Hello World!</p></body></html>
+            let $params := map {
+            \"method\" : \"html\",
+            \"html-version\" : 5.0
+            }       
+            return serialize($doc, $params)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-html-001.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result,'DOCTYPE HTML')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"matches($result,'DOCTYPE html')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'serialize-html-002'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+            let $doc := <html><head/><body><p>Hello World!</p></body></html>
+            let $params := map {
+            \"method\" : \"html\",
+            \"html-version\" : 5
+            }       
+            return serialize($doc, $params)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-html-002.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result,'DOCTYPE HTML')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"matches($result,'DOCTYPE html')") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1199,7 +1263,9 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"
-            count((json-to-xml($result, map { 'duplicates' : 'retain' }))/fn:map/fn:number) eq 2
+                let $xml := json-to-xml($result, map { 'duplicates' : 'retain' })
+                return
+                   count($xml/fn:map/fn:number) eq 2
             ") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 

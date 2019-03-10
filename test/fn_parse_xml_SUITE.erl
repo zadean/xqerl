@@ -22,6 +22,8 @@
 -export(['parse-xml-013'/1]).
 -export(['parse-xml-014'/1]).
 -export(['parse-xml-015'/1]).
+-export(['parse-xml-016'/1]).
+-export(['parse-xml-017'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -54,7 +56,9 @@ groups() -> [
     'parse-xml-012', 
     'parse-xml-013', 
     'parse-xml-014', 
-    'parse-xml-015']}].
+    'parse-xml-015', 
+    'parse-xml-016', 
+    'parse-xml-017']}].
 environment('empty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -69,7 +73,7 @@ environment('empty',__BaseDir) ->
 ].
 'parse-xml-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "parse-xml(unparsed-text(\"http://xqerl.org/test/docs/atomic.xml\"))", 
+   Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"))", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -79,7 +83,7 @@ environment('empty',__BaseDir) ->
 {params, []}, 
 {namespaces, []}, 
 {schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "../docs/atomic.xml"),"http://xqerl.org/test/docs/atomic.xml"}]}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -484,6 +488,62 @@ environment('empty',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0006") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'parse-xml-016'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "parse-xml(())", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, []}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-016.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'parse-xml-017'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+            parse-xml(\"<a/>\"[current-date() lt xs:date('1900-01-01')])
+         ", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, []}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-017.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

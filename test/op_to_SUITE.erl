@@ -48,6 +48,7 @@
 -export(['rangeExpr-39'/1]).
 -export(['rangeExpr-40'/1]).
 -export(['rangeExpr-41'/1]).
+-export(['rangeExpr-42'/1]).
 -export(['K-RangeExpr-1'/1]).
 -export(['K-RangeExpr-2'/1]).
 -export(['K-RangeExpr-3'/1]).
@@ -151,13 +152,14 @@ groups() -> [
     'rangeExpr-39', 
     'rangeExpr-40', 
     'rangeExpr-41', 
+    'rangeExpr-42', 
     'K-RangeExpr-1', 
     'K-RangeExpr-2', 
     'K-RangeExpr-3', 
     'K-RangeExpr-4', 
-    'K-RangeExpr-5', 
-    'K-RangeExpr-6']}, 
+    'K-RangeExpr-5']}, 
    {group_2, [parallel], [
+    'K-RangeExpr-6', 
     'K-RangeExpr-7', 
     'K-RangeExpr-8', 
     'K-RangeExpr-9', 
@@ -180,9 +182,9 @@ groups() -> [
     'K-RangeExpr-26', 
     'K-RangeExpr-27', 
     'K-RangeExpr-28', 
-    'K-RangeExpr-29', 
-    'K-RangeExpr-30']}, 
+    'K-RangeExpr-29']}, 
    {group_3, [parallel], [
+    'K-RangeExpr-30', 
     'K-RangeExpr-31', 
     'K-RangeExpr-32', 
     'K-RangeExpr-33', 
@@ -851,6 +853,21 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2001 to 2020") of 
       true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'rangeExpr-42'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to 5000)[position() = 2000 to round(year-from-date(current-date()), -3)]", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "rangeExpr-42.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2000") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of

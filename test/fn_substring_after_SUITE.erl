@@ -748,19 +748,7 @@ groups() -> [
    end. 
 'fn-substring-after-31'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:substring-after(\"database\", \"âta\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-substring-after-31.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"\"base\"") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-substring-after-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(\"dâtabase\", \"dâtab\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -778,19 +766,7 @@ groups() -> [
    end. 
 'fn-substring-after-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:substring-after(\"dâtÅbase\", \"âtabÃ\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-substring-after-33.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"\"se\"") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"advanced-uca-fallback"}. 
 'fn-substring-after-34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 

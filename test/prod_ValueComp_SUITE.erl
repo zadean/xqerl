@@ -75,6 +75,7 @@
 -export(['value-comp-eq-string-12'/1]).
 -export(['value-comp-eq-string-13'/1]).
 -export(['value-comp-eq-string-14'/1]).
+-export(['value-comp-eq-string-15'/1]).
 -export(['value-comp-ne-string-1'/1]).
 -export(['value-comp-ne-string-2'/1]).
 -export(['value-comp-ne-string-3'/1]).
@@ -89,6 +90,7 @@
 -export(['value-comp-ne-string-12'/1]).
 -export(['value-comp-ne-string-13'/1]).
 -export(['value-comp-ne-string-14'/1]).
+-export(['value-comp-ne-string-15'/1]).
 -export(['value-comp-eq-int-1'/1]).
 -export(['value-comp-eq-int-2'/1]).
 -export(['value-comp-eq-int-3'/1]).
@@ -197,10 +199,11 @@ groups() -> [
     'value-comp-eq-string-12', 
     'value-comp-eq-string-13', 
     'value-comp-eq-string-14', 
+    'value-comp-eq-string-15', 
     'value-comp-ne-string-1', 
-    'value-comp-ne-string-2', 
-    'value-comp-ne-string-3']}, 
+    'value-comp-ne-string-2']}, 
    {group_3, [parallel], [
+    'value-comp-ne-string-3', 
     'value-comp-ne-string-4', 
     'value-comp-ne-string-5', 
     'value-comp-ne-string-6', 
@@ -212,6 +215,7 @@ groups() -> [
     'value-comp-ne-string-12', 
     'value-comp-ne-string-13', 
     'value-comp-ne-string-14', 
+    'value-comp-ne-string-15', 
     'value-comp-eq-int-1', 
     'value-comp-eq-int-2', 
     'value-comp-eq-int-3', 
@@ -222,10 +226,10 @@ groups() -> [
     'value-comp-eq-int-8', 
     'value-comp-eq-double-1', 
     'value-comp-eq-double-2', 
-    'value-comp-eq-double-3', 
-    'value-comp-eq-double-4', 
-    'value-comp-eq-double-5']}, 
+    'value-comp-eq-double-3']}, 
    {group_4, [parallel], [
+    'value-comp-eq-double-4', 
+    'value-comp-eq-double-5', 
     'value-comp-eq-double-6', 
     'value-comp-eq-double-7', 
     'value-comp-eq-double-8']}].
@@ -1273,6 +1277,22 @@ environment('user-defined-types',__BaseDir) ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'value-comp-eq-string-15'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "not(/works/@iddddd eq \"\")", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "value-comp-eq-string-15.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'value-comp-ne-string-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" ne concat(\"a\", \"bc\")", 
@@ -1486,6 +1506,22 @@ environment('user-defined-types',__BaseDir) ->
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "value-comp-ne-string-14.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'value-comp-ne-string-15'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "not(/works/@iddddd ne \"\")", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "value-comp-ne-string-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};

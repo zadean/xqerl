@@ -429,6 +429,43 @@
              <assert>$result lt 3</assert>
        </result>
    </test-case>
+  
+  <test-case name="group-020">
+    <description>grouping to look for duplicates</description>
+    <created by="Michael Kay" on="2018-02-13"/>
+    <test><![CDATA[
+      declare variable $in :=
+      <Folder Name="root">
+        <Folder Name="user">
+          <File Name="Fred"/>
+          <File Name="Bill"/>
+          <File Name="Fred"/>
+        </Folder>
+        <Folder Name="manager">
+          <File Name="Jane"/>
+          <File Name="Mary"/>
+          <File Name="Jane"/>
+        </Folder>
+      </Folder>;
+      
+      declare function local:pathName($resource as element()) as xs:string {
+        string-join($resource/ancestor-or-self::*/@Name, '/')
+      };
+      
+      for $resource in $in//(Folder | File)
+      let $path := local:pathName($resource)
+      group by $path
+      where count($resource) gt 1
+      return $path
+    ]]></test>
+    <result>
+      <assert-permutation>"root/manager/Jane", "root/user/Fred"</assert-permutation>
+    </result>
+  </test-case>
+  
+  
+  
+  
    
    <test-case name="use-case-groupby-Q1">
       <description>Use Case "Group By" - Q1</description>

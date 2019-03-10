@@ -45,6 +45,17 @@
 -export(['Serialization-xhtml-50'/1]).
 -export(['Serialization-xhtml-51'/1]).
 -export(['Serialization-xhtml-52'/1]).
+-export(['Serialization-xhtml-57'/1]).
+-export(['Serialization-xhtml-58'/1]).
+-export(['Serialization-xhtml-59'/1]).
+-export(['Serialization-xhtml-60'/1]).
+-export(['Serialization-xhtml-61'/1]).
+-export(['Serialization-xhtml-62'/1]).
+-export(['Serialization-xhtml-63'/1]).
+-export(['Serialization-xhtml-64'/1]).
+-export(['Serialization-xhtml-65'/1]).
+-export(['Serialization-xhtml-66'/1]).
+-export(['Serialization-xhtml-67'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -60,7 +71,8 @@ init_per_suite(Config) ->
    [{base_dir, __BaseDir}|Config].
 all() -> [
    {group, group_0}, 
-   {group, group_1}
+   {group, group_1}, 
+   {group, group_2}
    ].
 groups() -> [
    {group_0, [parallel], [
@@ -102,7 +114,19 @@ groups() -> [
     'Serialization-xhtml-42', 
     'Serialization-xhtml-50', 
     'Serialization-xhtml-51', 
-    'Serialization-xhtml-52']}].
+    'Serialization-xhtml-52', 
+    'Serialization-xhtml-57', 
+    'Serialization-xhtml-58', 
+    'Serialization-xhtml-59', 
+    'Serialization-xhtml-60', 
+    'Serialization-xhtml-61', 
+    'Serialization-xhtml-62', 
+    'Serialization-xhtml-63', 
+    'Serialization-xhtml-64', 
+    'Serialization-xhtml-65']}, 
+   {group_2, [parallel], [
+    'Serialization-xhtml-66', 
+    'Serialization-xhtml-67']}].
 
 'Serialization-xhtml-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
@@ -1297,6 +1321,405 @@ declare option output:html-version  \"5.0\";
    Out =    case xqerl_test:assert_serialization_match(Res,<<"<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><msup><mi> a </mi>"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-57'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+declare option output:method  \"xhtml\";
+declare option output:indent  \"yes\";
+declare option output:html-version  \"4.0\";
+
+let $html := <html xmlns=\"http://www.w3.org/1999/xhtml\"><body>
+  <p>Lorem ipsum dolor sit amet, 
+     consectetur adipiscing elit, 
+     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+     Ut enim ad minim veniam, 
+     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</body></html>
+return [ $html ]
+", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-57.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>Lorem"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"consequat.</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-58'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+declare option output:method  \"xhtml\";
+declare option output:indent  \"yes\";
+declare option output:html-version  \"4.0\";
+
+let $html := <html xmlns=\"http://www.w3.org/1999/xhtml\"><body>
+  <p>Lorem ipsum dolor sit amet, 
+     consectetur adip<!--sic-->iscing elit, 
+     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+     Ut enim ad minim ven<?sic?>iam, 
+     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</body></html>
+return [ $html ]
+", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-58.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"adip<!--sic-->iscing"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"ven<\\?sic\\?>iam"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-59'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"4.0\";
+      <html xmlns=\"http://www.w3.org/1999/xhtml\"><head/><body><p>a<a>text</a>z</p></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-59.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>a<a>text</a>z</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-60'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"5.0\";
+      <html><head/><body><p>a<mark>text</mark>z</p></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-60.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>a<mark>text</mark>z</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-61'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"html\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"4.0\";
+      <html xmlns=\"http://www.w3.org/1999/xhtml\"><head/><body><p>a<A>text</A>z</p></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-61.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>a<A>text</A>z</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-62'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"5.0\";
+      <html><head/><body><p>a<Mark>text</Mark>z</p></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-62.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>a<Mark>text</Mark>z</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-63'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"5.0\";
+      <html><body><p>A blue<svg width=\"100\" height=\"100\">
+        <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" />
+      </svg>rectangle</p></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-63.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<p>A\\s+blue<svg[^>]*>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"</svg>rectangle</p>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-64'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:html-version  \"5.0\";
+      <html><body><div>
+	The Fraction 
+	@=<math xmlns='http://www.w3.org/1998/Math/MathML'  display='inline'>
+		<mfrac>
+			<mrow>
+				<mi>a</mi>
+				<mo>+</mo>
+				<mi>b</mi>
+			</mrow>
+			<mrow>
+				<msup>
+					<mfenced separators=\" \">
+						<mi>c</mi>
+						<mo>+</mo>
+						<mi>d</mi>
+					</mfenced>
+					<mi>3</mi>
+				</msup>
+			</mrow>
+		</mfrac>
+	</math>=@
+	may be real!</div></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-64.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<div>\\s+The\\s+Fraction\\s+@=<math"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"</math>=@\\s+may\\s+be\\s+real!</div>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-65'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:version  \"1.0\";
+      declare option output:html-version  \"5.0\";
+      declare option output:suppress-indentation  \"li td\";
+      <html><body>
+         <ul>
+           <li><p>One</p></li>
+           <li><p>Two</p></li>
+           <li><p>Three</p></li>
+         </ul>  
+      </body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-65.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<li><p>One</p></li>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<li><p>Two</p></li>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<ul>\\s+<li"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-66'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:version  \"1.0\";
+      declare option output:html-version  \"5.0\";
+      declare option output:suppress-indentation  \"table\";
+      <html><body>
+         <table>
+           <tr>
+            <td><p>One</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Two</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Three</p></td>
+            <td><p>yes</p></td>
+           </tr>
+         </table>  
+      </body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-66.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<table><tr><td><p>One</p></td><td>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<table>[^ ]*</table>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<body>\\s+<table"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'Serialization-xhtml-67'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+      declare namespace math = \"http://www.w3.org/1998/Math/MathML\";
+      declare option output:method  \"xhtml\";
+      declare option output:indent  \"yes\";
+      declare option output:version  \"1.0\";
+      declare option output:html-version  \"5.0\";
+      declare option output:suppress-indentation  \"math:mrow math:mfenced\";
+      <html><body><div>
+	The Fraction 
+	@=<math xmlns='http://www.w3.org/1998/Math/MathML'  display='inline'>
+		<mfrac>
+			<mrow>
+				<mi>a</mi>
+				<mo>+</mo>
+				<mi>b</mi>
+			</mrow>
+			<mrow>
+				<msup>
+					<mfenced separators=\" \">
+						<mi>c</mi>
+						<mo>+</mo>
+						<mi>d</mi>
+					</mfenced>
+					<mi>3</mi>
+				</msup>
+			</mrow>
+		</mfrac>
+	</math>=@
+	may be real!</div></body></html>
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-67.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"<mrow><mi>a</mi><mo>\\+</mo><mi>b</mi></mrow>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"<mfenced separators=\" \"><mi>c</mi><mo>\\+</mo><mi>d</mi></mfenced>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

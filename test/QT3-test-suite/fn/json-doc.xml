@@ -8,24 +8,21 @@
 
   <environment name="json-files">
       <resource file="json-to-xml/data001.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/data001-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
       <resource file="json-to-xml/escapeText.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/escapeText-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
       <resource file="json-to-xml/data005.json"
-                media-type="application/json"
-                old-media-type="text/plain"
+                media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/data005-json">
          <description>UTF-8 encoded plain text.</description>
@@ -36,43 +33,37 @@
    
    <environment name="json-doc-array">
       <resource file="json-doc/arrayEmpty.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayEmpty-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/arrayNumber.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayNumber-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/arrayString.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayString-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/arrayTrue.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayTrue-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>         
       <resource file="json-doc/arrayFalse.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayFalse-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/arrayNull.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/arrayNull-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
@@ -81,50 +72,43 @@
    
    <environment name="json-doc-map">      
       <resource file="json-doc/mapEmpty.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapEmpty-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapDuplicates.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapDuplicates-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapUnescape.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapUnescape-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapUnescape10.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapUnescape10-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapUnescapeUnpaired10.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapZeroLength.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapZeroLength-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/mapDuplicatesEscape.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/mapDuplicatesEscape-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
@@ -133,29 +117,25 @@
    
    <environment name="json-doc-number">
       <resource file="json-doc/number001.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/number001-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/number002.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/number002-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/number003.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/number003-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/number004.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/number004-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
@@ -164,15 +144,13 @@
    
    <environment name="json-doc-string">
       <resource file="json-doc/stringUnpaired.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/stringUnpaired-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/stringHex.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/stringHex-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
@@ -181,113 +159,97 @@
    
    <environment name="json-doc-error">
       <resource file="json-doc/errorToken.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorToken-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorExtra.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorExtra-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArray.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArray-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArrayNumber.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArrayNumber-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArrayHex.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArrayHex-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArrayString.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArrayString-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArrayUnicode.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArrayUnicode-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorMap.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorMap-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorArrayComma.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorArrayComma-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorNumber01.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorNumber01-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorNumber02.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorNumber02-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorNumber03.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorNumber03-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorNumber04.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorNumber04-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorString01.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorString01-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorString02.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorString02-json">
          <created by="Debbie Lockett" on="2015-06-15"/>
       </resource>
       <resource file="json-doc/errorString03.json"
-         media-type="application/json"
-         old-media-type="text/plain"
+         media-type="text/plain"
          encoding="utf-8"
          uri="http://www.w3.org/qt3/json/errorString03-json">
          <created by="Debbie Lockett" on="2015-06-15"/>

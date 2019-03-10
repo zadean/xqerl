@@ -1106,7 +1106,149 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          <assert-eq>'15 August 2015 @ 14:00 CEST'</assert-eq>
       </result>
    </test-case>
-
+   
+   <test-case name="format-dateTime-025a">
+      <description>
+         Reproduce the table in section 9.8.4.6 of the spec, but with dateTime values    
+      </description>
+      <created by="Michael Kay, Saxonica" on="2018-04-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         <out>{
+           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:dateTime('2018-01-01T12:00:00' || .)
+           for $f in ('[Z]', '[Z0]', '[Z0:00]', '[Z00:00]', '[Z0000]', '[Z00:00t]', '[z]', '[ZZ]') 
+              return <time format="{$f}">{
+                 for $t in $times
+                 return <s>{format-dateTime($t, $f)}</s>
+            }</time>   
+         }</out>     
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><time format="[Z]"><s>-10:00</s><s>-05:00</s><s>+00:00</s><s>+05:30</s><s>+13:00</s></time
+            ><time format="[Z0]"><s>-10</s><s>-5</s><s>+0</s><s>+5:30</s><s>+13</s></time
+            ><time format="[Z0:00]"><s>-10:00</s><s>-5:00</s><s>+0:00</s><s>+5:30</s><s>+13:00</s></time
+            ><time format="[Z00:00]"><s>-10:00</s><s>-05:00</s><s>+00:00</s><s>+05:30</s><s>+13:00</s></time
+            ><time format="[Z0000]"><s>-1000</s><s>-0500</s><s>+0000</s><s>+0530</s><s>+1300</s></time
+            ><time format="[Z00:00t]"><s>-10:00</s><s>-05:00</s><s>Z</s><s>+05:30</s><s>+13:00</s></time
+            ><time format="[z]"><s>GMT-10:00</s><s>GMT-05:00</s><s>GMT+00:00</s><s>GMT+05:30</s><s>GMT+13:00</s></time
+            ><time format="[ZZ]"><s>W</s><s>R</s><s>Z</s><s>+05:30</s><s>+13:00</s></time></out>
+]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="format-dateTime-025b">
+      <description>
+         Reproduce the table in section 9.8.4.6 of the spec (penultimate row), but with dateTime values in winter    
+      </description>
+      <created by="Michael Kay, Saxonica" on="2018-04-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         <out>{
+           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:dateTime('2018-01-01T12:00:00' || .)
+           for $f in ('[ZN]') 
+              return <time format="{$f}">{
+                 for $t in $times
+                 return <s>{format-dateTime($t, $f, (), (), "us")}</s>
+            }</time>   
+         }</out>     
+      ]]></test>
+      <result>
+         <!-- Alternative results are possible, feel free to add them -->
+         <all-of>
+            <assert>$result/self::out/time/s[1] = 'HST'</assert>
+            <assert>$result/self::out/time/s[2] = 'EST'</assert>
+            <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
+            <assert>$result/self::out/time/s[4] = 'IST'</assert>
+            <assert>$result/self::out/time/s[5] = '+13:00'</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="format-dateTime-025c">
+      <description>
+         Reproduce the table in section 9.8.4.6 of the spec (last row), but with dateTime values in winter    
+      </description>
+      <created by="Michael Kay, Saxonica" on="2018-04-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         <out>{
+           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:dateTime('2018-01-01T12:00:00' || .)
+           for $f in ('[H00]:[m00] [ZN]') 
+              return <time format="{$f}">{
+                 for $t in $times
+                 return <s>{format-dateTime($t, $f, (), (), "America/New_York")}</s>
+            }</time>   
+         }</out>     
+      ]]></test>
+      <result>
+         <!-- Alternative results are possible, feel free to add them -->
+         <all-of>
+            <assert>$result/self::out/time/s[1] = '17:00 EST'</assert>
+            <assert>$result/self::out/time/s[2] = '12:00 EST'</assert>
+            <assert>$result/self::out/time/s[3] = '07:00 EST'</assert>
+            <assert>$result/self::out/time/s[4] = '01:30 EST'</assert>
+            <assert>$result/self::out/time/s[5] = '18:00 EST'</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="format-dateTime-025d">
+      <description>
+         Reproduce the table in section 9.8.4.6 of the spec (penultimate row), but with dateTime values in summer    
+      </description>
+      <created by="Michael Kay, Saxonica" on="2018-04-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         <out>{
+           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:dateTime('2018-07-01T12:00:00' || .)
+           for $f in ('[ZN]') 
+              return <time format="{$f}">{
+                 for $t in $times
+                 return <s>{format-dateTime($t, $f, (), (), "us")}</s>
+            }</time>   
+         }</out>     
+      ]]></test>
+      <result>
+         <!-- Alternative results are possible, feel free to add them -->
+         <all-of>
+            <assert>$result/self::out/time/s[1] = 'HST'</assert>
+            <assert>$result/self::out/time/s[2] = 'CDT'</assert>
+            <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
+            <assert>$result/self::out/time/s[4] = 'IST'</assert>
+            <assert>$result/self::out/time/s[5] = '+13:00'</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="format-dateTime-025e">
+      <description>
+         Reproduce the table in section 9.8.4.6 of the spec (last row), but with dateTime values in summer    
+      </description>
+      <created by="Michael Kay, Saxonica" on="2018-04-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         <out>{
+           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:dateTime('2018-07-01T12:00:00' || .)
+           for $f in ('[H00]:[m00] [ZN]') 
+              return <time format="{$f}">{
+                 for $t in $times
+                 return <s>{format-dateTime($t, $f, (), (), "America/New_York")}</s>
+            }</time>   
+         }</out>     
+      ]]></test>
+      <result>
+         <!-- Alternative results are possible, feel free to add them -->
+         <all-of>
+            <assert>$result/self::out/time/s[1] = '18:00 EDT'</assert>
+            <assert>$result/self::out/time/s[2] = '13:00 EDT'</assert>
+            <assert>$result/self::out/time/s[3] = '08:00 EDT'</assert>
+            <assert>$result/self::out/time/s[4] = '02:30 EDT'</assert>
+            <assert>$result/self::out/time/s[5] = '19:00 EDT'</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+  
    <test-case name="format-dateTime-801err">
       <description>Error XTDE1340 incorrect picture string</description>
       <created by="Anders Berglund" on="2011-07-01"/>

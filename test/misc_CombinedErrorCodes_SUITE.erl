@@ -743,7 +743,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'K-CombinedErrorCodes-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\"; 1 eq 1", 
+   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\";
+         1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-CombinedErrorCodes-2.xq"), Qry1),
@@ -766,7 +767,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'K-CombinedErrorCodes-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1", 
+   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\",
+         \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-CombinedErrorCodes-3.xq"), Qry1),
@@ -789,7 +791,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'K-CombinedErrorCodes-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1", 
+   Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\",
+         \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-CombinedErrorCodes-4.xq"), Qry1),
@@ -812,7 +815,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'K-CombinedErrorCodes-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import schema namespace prefix = \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1", 
+   Qry = "import schema namespace prefix = \"http://example.com/NSNOTRECOGNIZED\" at
+         \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\",
+         \"http://example.com/3DOESNOTEXIST\"; 1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-CombinedErrorCodes-5.xq"), Qry1),
@@ -835,7 +840,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'K-CombinedErrorCodes-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import schema default element namespace \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1", 
+   Qry = "import schema default element namespace \"http://example.com/NSNOTRECOGNIZED\" at
+         \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\",
+         \"http://example.com/3DOESNOTEXIST\"; 1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-CombinedErrorCodes-6.xq"), Qry1),
@@ -1222,7 +1229,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FOAR0002-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div xs:dayTimeDuration('P0DT00H00M0.000001S')", 
+   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div
+         xs:dayTimeDuration('P0DT00H00M0.000001S')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FOAR0002-5.xq"), Qry1),
@@ -1264,7 +1272,8 @@ environment('xqdy0084',__BaseDir) ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')") of 
+   case xqerl_test:assert(Res,"starts-with(string($result), '1000000000') or starts-with(string($result),
+                  '999999999')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
@@ -1434,7 +1443,8 @@ environment('xqdy0084',__BaseDir) ->
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')") of 
+   case xqerl_test:assert(Res,"starts-with(string($result), '1000000000') or starts-with(string($result),
+                  '999999999')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
@@ -1834,7 +1844,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "adjust-dateTime-to-timezone( xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\"), xs:dayTimeDuration(\"PT14H\"))", 
+   Qry = "adjust-dateTime-to-timezone( xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\"),
+         xs:dayTimeDuration(\"PT14H\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-1.xq"), Qry1),
@@ -1864,7 +1875,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:date(\"-25252734927766555-07-28-14:00\")", 
+   Qry = "xs:date(\"25252734927766555-07-28-14:00\") -
+         xs:date(\"-25252734927766555-07-28-14:00\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-11.xq"), Qry1),
@@ -1879,7 +1891,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dateTime(\"-25252734927766555-07-28T23:59:59-14:00\")", 
+   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") -
+         xs:dateTime(\"-25252734927766555-07-28T23:59:59-14:00\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-12.xq"), Qry1),
@@ -1894,7 +1907,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "adjust-date-to-timezone( xs:date(\"25252734927766555-07-28-14:00\"), xs:dayTimeDuration(\"PT14H\"))", 
+   Qry = "adjust-date-to-timezone( xs:date(\"25252734927766555-07-28-14:00\"),
+         xs:dayTimeDuration(\"PT14H\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-2.xq"), Qry1),
@@ -1909,7 +1923,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:dayTimeDuration(\"PT14H\")", 
+   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") +
+         xs:dayTimeDuration(\"PT14H\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-3.xq"), Qry1),
@@ -1939,7 +1954,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dayTimeDuration(\"-PT14H\")", 
+   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") -
+         xs:dayTimeDuration(\"-PT14H\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-5.xq"), Qry1),
@@ -1969,7 +1985,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:yearMonthDuration(\"P1Y0M\")", 
+   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") +
+         xs:yearMonthDuration(\"P1Y0M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-7.xq"), Qry1),
@@ -1999,7 +2016,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0001-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")", 
+   Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") -
+         xs:yearMonthDuration(\"-P1Y0M\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0001-9.xq"), Qry1),
@@ -2014,7 +2032,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0002-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') + xs:dayTimeDuration('P4999999999999999999DT00H00M01S')", 
+   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') +
+         xs:dayTimeDuration('P4999999999999999999DT00H00M01S')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0002-1.xq"), Qry1),
@@ -2059,7 +2078,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0002-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') - xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')", 
+   Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') -
+         xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0002-4.xq"), Qry1),
@@ -2074,7 +2094,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0002-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:yearMonthDuration('P768614336404564650Y0M') + xs:yearMonthDuration('P768614336404564650Y1M')", 
+   Qry = "xs:yearMonthDuration('P768614336404564650Y0M') +
+         xs:yearMonthDuration('P768614336404564650Y1M')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0002-6.xq"), Qry1),
@@ -2119,7 +2140,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0002-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:yearMonthDuration('P768614336404564650Y0M') - xs:yearMonthDuration('-P768614336404564650Y0M')", 
+   Qry = "xs:yearMonthDuration('P768614336404564650Y0M') -
+         xs:yearMonthDuration('-P768614336404564650Y0M')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0002-9.xq"), Qry1),
@@ -2134,7 +2156,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0003-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"PT15H\"))", 
+   Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"),
+         xs:dayTimeDuration(\"PT15H\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0003-1.xq"), Qry1),
@@ -2149,7 +2172,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FODT0003-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"-PT15H\"))", 
+   Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"),
+         xs:dayTimeDuration(\"-PT15H\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "FODT0003-2.xq"), Qry1),
@@ -2913,7 +2937,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 };
+         abs(foo:something(1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_28.xq"), Qry1),
@@ -2928,7 +2954,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element {
+         foo:something(1) } { }", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_29.xq"), Qry1),
@@ -2943,7 +2971,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_30'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' };
+         processing-instruction { foo:something(1) } { }", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_30.xq"), Qry1),
@@ -2973,7 +3003,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' };
+         let $x as xs:string* := foo:something(1) return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_32.xq"), Qry1),
@@ -2988,7 +3020,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as
+         xs:string in foo:something(1) return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_33.xq"), Qry1),
@@ -3003,7 +3037,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type)
+         as xs:integer { $type }; foo:something('foo')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_34.xq"), Qry1),
@@ -3018,7 +3053,9 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type
+         as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type };
+         foo:something(1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_35.xq"), Qry1),
@@ -3048,7 +3085,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as
+         xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_38.xq"), Qry1),
@@ -3063,7 +3101,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_39'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)", 
+   Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as
+         xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XPTY0004_39.xq"), Qry1),
@@ -3527,7 +3566,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare base-uri \"http://www.example.org/A\"; declare base-uri \"http://www.example.org/B\"; 1 + 2", 
+   Qry = "declare base-uri \"http://www.example.org/A\"; declare base-uri
+         \"http://www.example.org/B\"; 1 + 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0032.xq"), Qry1),
@@ -3542,7 +3582,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar = 'http://www.example.org/cheddar'; 1 + 2", 
+   Qry = "declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar
+         = 'http://www.example.org/cheddar'; 1 + 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0033.xq"), Qry1),
@@ -3557,7 +3598,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0034'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace prefix = \"http://www.example.org/\"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1", 
+   Qry = "declare namespace prefix = \"http://www.example.org/\"; declare function prefix:foo() { 1
+         }; declare function prefix:foo() { 1 }; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0034.xq"), Qry1),
@@ -3593,7 +3635,9 @@ environment('xqdy0084',__BaseDir) ->
    {skip,"XQ10+"}. 
 'XQST0038_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2", 
+   Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\";
+         declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 +
+         2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0038_1.xq"), Qry1),
@@ -3623,7 +3667,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace prefix = \"http://www.w3.org/\"; declare function prefix:foo($arg, $arg) { 1 }; 1 + 2", 
+   Qry = "declare namespace prefix = \"http://www.w3.org/\"; declare function prefix:foo($arg, $arg)
+         { 1 }; 1 + 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0039.xq"), Qry1),
@@ -3918,8 +3963,8 @@ environment('xqdy0084',__BaseDir) ->
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -3982,7 +4027,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0047'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\"; 1", 
+   Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\";
+         1", 
    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0047_lib.xq")) catch _:_ -> ok end, 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4032,7 +4078,8 @@ environment('xqdy0084',__BaseDir) ->
    {skip,"XQ10+"}. 
 'XQST0055'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit; 1", 
+   Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit;
+         1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0055.xq"), Qry1),
@@ -4151,7 +4198,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0066_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare default element namespace \"http://www.w3.org/a\"; declare default element namespace \"http://www.w3.org/b\"; 1", 
+   Qry = "declare default element namespace \"http://www.w3.org/a\"; declare default element
+         namespace \"http://www.w3.org/b\"; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0066_1.xq"), Qry1),
@@ -4166,7 +4214,8 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0066_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare default function namespace \"http://www.example.org/\"; declare default function namespace \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2", 
+   Qry = "declare default function namespace \"http://www.example.org/\"; declare default function
+         namespace \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0066_3.xq"), Qry1),
@@ -4435,10 +4484,7 @@ environment('xqdy0084',__BaseDir) ->
    {skip,"XQ10+"}. 
 'XQST0093a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-      	import module namespace foo=\"http://www.example.org/foo\"; 
-      	$foo:variable2
-      ", 
+   Qry = " import module namespace foo=\"http://www.example.org/foo\"; $foo:variable2 ", 
    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq")) catch _:_ -> ok end, 
    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq")) catch _:_ -> ok end, 
    Qry1 = Qry,

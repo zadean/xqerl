@@ -295,4 +295,381 @@
          <assert-deep-eq>'c'</assert-deep-eq>
       </result>
    </test-case>
+   
+   
+   <test-case name="ArrayTest-055" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e', 0] return $array instance of array(xs:string)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-056" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e', ('f', 'g')] return $array instance of array(xs:string+)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-057" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e', ()] return $array instance of array(xs:string?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-058" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e', (1 to 8)] return $array instance of array(xs:anyAtomicType+)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-059" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e', map{}] return $array instance of array(xs:anyAtomicType+)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-060" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= [['a','b'],['c','d'], [], ['e']] return $array instance of array(array(xs:string*))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-061" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= [(['a','b'],['c','d']), ([], ['e'])] return $array instance of array(array(xs:string*))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-062" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= [(['a','b'],['c','d']), ([], ['e'])] return $array instance of array(array(xs:string*)+)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-063" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-07-19" change="add HOF depedendency"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>let $array:= [floor#1, ceiling#1, round#1] return $array instance of array(function(xs:numeric?) as xs:numeric?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-064" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-07-19" change="add HOF depedendency"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>let $array:= [floor#1, ceiling#1, round#1, name#1] return $array instance of array(function(xs:numeric) as xs:numeric)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-065" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-07-19" change="add HOF depedendency"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>let $array:= [] return $array instance of array(function(xs:numeric) as xs:numeric)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-066" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= [map{1: map{2: map{}}}] return $array instance of array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-067" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= [map{1: map{2: map{true(): false()}}}] return $array instance of array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-075" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:string)) as xs:boolean {array:size($a) ge 0},
+             $array:= ['a','b','c','d','e', 0]
+         return $f($array)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-076" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:string+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', ('f', 'g')]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-077" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:string?)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', ()]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-078" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:anyAtomicType+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', (1 to 8)]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-079" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:anyAtomicType+)) as xs:boolean {array:size($a) eq 6},
+             $array:= ['a','b','c','d','e', map{}]
+         return $f($array)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-080" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(array(xs:string*))) as xs:boolean {array:size($a) eq 4},
+             $array:= [['a','b'],['c','d'], [], ['e']]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-081" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(array(xs:string*))) as xs:boolean {array:size($a) eq 3},
+             $array:= [['a','b'],['c','d'], ([], ['e'])]
+         return $f($array)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-082" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(array(xs:string*)+)) as xs:boolean {array:size($a) eq 3},
+             $array:= [['a','b'],['c','d'], ([], ['e'])]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-083" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 3},
+             $array:= [floor#1, ceiling#1, round#1]
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-084" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 3},
+             $array:= [floor#1, ceiling#1, round#1, name#1]
+         return $f($array)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-085" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(function(xs:numeric?) as xs:numeric?)) as xs:boolean {array:size($a) eq 0},
+             $array:= []
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-086" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))) as xs:boolean {array:size($a) eq 1},
+             $array:= [map{1: map{2: map{}}}] 
+         return $f($array)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-087" covers="array-general">
+      <description>Array type testing</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-04-26" change="use XPath syntax only"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(map(xs:integer, map(xs:integer, map(xs:integer, map(*)))))) as xs:boolean {array:size($a) eq 1},
+             $array:= [map{1: map{2: map{true(): false()}}}] 
+         return $f($array)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-088" covers="array-general">
+      <description>Array type testing - empty array satisfies otherwise incompatible types</description>
+      <created by="Michael Kay" on="2018-04-26"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($a as array(xs:integer)) as xs:boolean {array:size($a) eq 1},
+             $g := function($n as xs:integer) as array(xs:string) {array{(1 to $n)!"x"}} 
+         return $f($g(0))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-089" covers="array-general">
+      <description>Array type testing - empty array satisfies otherwise incompatible types</description>
+      <created by="Michael Kay" on="2018-04-26"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         declare function local:f($a as array(xs:integer)) as xs:boolean {array:size($a) eq 1};
+         declare function local:g($n as xs:integer) as array(xs:string) {array{(1 to $n)!"x"}}; 
+         local:f(local:g(0))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   
 </test-set>

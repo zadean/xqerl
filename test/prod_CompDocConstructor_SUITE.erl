@@ -65,6 +65,7 @@
 -export(['K2-ConDocNode-30'/1]).
 -export(['K2-ConDocNode-31'/1]).
 -export(['K2-ConDocNode-32'/1]).
+-export(['K2-ConDocNode-33'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -144,7 +145,8 @@ groups() -> [
     'K2-ConDocNode-29', 
     'K2-ConDocNode-30', 
     'K2-ConDocNode-31', 
-    'K2-ConDocNode-32']}].
+    'K2-ConDocNode-32', 
+    'K2-ConDocNode-33']}].
 environment('atomic',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
@@ -1021,6 +1023,29 @@ environment('TreeEmpty',__BaseDir) ->
    Out =    case xqerl_test:assert_string_value(Res, "123456") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'K2-ConDocNode-33'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "document {}", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ConDocNode-33.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"$result instance of document-node()") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"empty($result/child::node())") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

@@ -281,7 +281,10 @@
    <test-case name="K-NodeRootFunc-2">
       <description> A test whose essence is: `(1, 2, 3)[root()]`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <test>(1, 2, 3)[root()]</test>
+      <modified by="Michael Kay" on="2018-05-22" 
+         change="prevent over-eager optimization: root() must deliver a single node or an error,
+                 therefore the predicate [root()] can be optimized to [true()]"/>
+      <test>(1, 2, 3)[root()[generate-id() != '***']]</test>
       <result>
          <error code="XPTY0004"/>
       </result>

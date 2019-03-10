@@ -1801,7 +1801,7 @@ groups() -> [
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-round-half-to-even-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"xs:float(0.1)") of 
+   case xqerl_test:assert_eq(Res,"0.1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
@@ -1824,7 +1824,7 @@ groups() -> [
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-round-half-to-even-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"xs:float(-0.1)") of 
+   case xqerl_test:assert_eq(Res,"-0.1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
@@ -1847,7 +1847,7 @@ groups() -> [
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-round-half-to-even-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_eq(Res,"xs:float(3.8)") of 
+   case xqerl_test:assert_eq(Res,"3.8") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 

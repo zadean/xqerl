@@ -524,7 +524,7 @@ environment('lang',__BaseDir) ->
    end. 
 'K-NodeRootFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(1, 2, 3)[root()]", 
+   Qry = "(1, 2, 3)[root()[generate-id() != '***']]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-NodeRootFunc-2.xq"), Qry1),

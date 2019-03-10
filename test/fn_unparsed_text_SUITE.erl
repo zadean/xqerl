@@ -61,6 +61,7 @@
 -export(['fn-unparsed-text-052'/1]).
 -export(['fn-unparsed-text-053'/1]).
 -export(['fn-unparsed-text-054'/1]).
+-export(['fn-unparsed-text-055'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -136,7 +137,8 @@ groups() -> [
     'fn-unparsed-text-051', 
     'fn-unparsed-text-052', 
     'fn-unparsed-text-053', 
-    'fn-unparsed-text-054']}].
+    'fn-unparsed-text-054', 
+    'fn-unparsed-text-055']}].
 environment('unparsed-text',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -146,7 +148,8 @@ environment('unparsed-text',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-16be-bom-lines.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt"}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "unparsed-text/text-with-surrogates.txt"),"http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt"}, 
+{"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-16be-bom-lines.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt"}, 
 {"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-16le-bom-lines.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt"}, 
 {"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-8-bom-lines.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines.txt"}, 
 {"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-8-lines.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-lines.txt"}, 
@@ -831,9 +834,17 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-038.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -847,9 +858,17 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-039.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOUT1190") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -952,6 +971,10 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
@@ -1006,6 +1029,10 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -1119,6 +1146,24 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-unparsed-text-055'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         string-length(unparsed-text('http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt')) 
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-055.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"2048") of 
+      true -> {comment, "Equal"};
       {false, F} -> F 
    end, 
    case Out of

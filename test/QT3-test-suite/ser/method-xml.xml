@@ -90,7 +90,9 @@
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.1"/>
-      <test><![CDATA[<a>{codepoints-to-string(1 to 31)}</a>]]></test>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        <a>{codepoints-to-string(1 to 31)}</a>]]></test>
       <result>
          <any-of>
             <serialization-matches flags="i"><![CDATA[&#x1;&#x2;&#x3;&#x4;&#x5;&#x6;&#x7;&#x8;\t\n&#xB;&#xC;&#xD;&#xE;&#xF;&#x10;&#x11;&#x12;&#x13;&#x14;&#x15;&#x16;&#x17;&#x18;&#x19;&#x1A;&#x1B;&#x1C;&#x1D;&#x1E;&#x1F;]]></serialization-matches>
@@ -357,8 +359,8 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:standalone "yes";
         declare option output:omit-xml-declaration "no";
+        declare option output:standalone "yes";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
       <result>
@@ -377,8 +379,8 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:standalone "no";
         declare option output:omit-xml-declaration "no";
+        declare option output:standalone "no";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
       <result>
@@ -394,8 +396,8 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:standalone "omit";
         declare option output:omit-xml-declaration "no";
+        declare option output:standalone "omit";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
       <result>
@@ -625,9 +627,9 @@
       ]]></test>
       <result>
         <any-of>
+          <assert-serialization-error code="SESU0007"/> <!-- us-ascii unknown -->
           <serialization-matches><![CDATA[<!\[CDATA\[bold\]\]>&#(xa0|xA0|160);<!\[CDATA\[as brass\]\]>]]></serialization-matches>
-          <assert-serialization-error code="SESU0007"/> <!-- us-ascii -->
-        </any-of>           
+        </any-of>
       </result>
    </test-case>
 
@@ -711,14 +713,12 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
+        declare option output:omit-xml-declaration "no";
         declare option output:item-separator "|";
         [1, 2, 3, 4, 5]
       ]]></test>
       <result>
-        <any-of>
          <serialization-matches><![CDATA[<\?xml[^>]+>1\|2\|3\|4\|5$]]></serialization-matches>
-         <serialization-matches><![CDATA[1\|2\|3\|4\|5$]]></serialization-matches>
-        </any-of>
       </result>
    </test-case>
 
@@ -737,5 +737,49 @@
          <assert-serialization-error code="SENR0001"/>
       </result>
    </test-case>
+  
+  <test-case name="Serialization-xml-03" covers="serialization-general">
+    <description>Test the XML serialization method - use parameter file - use-character-map (Saxon bug 3729)</description>
+    <created by="Michael Kay" on="2018-03-27"/>
+    <modified by="Michael Kay" on="2018-07-24" change="Needs XQuery"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "xml/xml-character-map.xml";
+        
+        <out att="abc">XabcX</out>
+
+      ]]></test>
+    <result>
+      <any-of>
+        <serialization-matches><![CDATA[<out att=['"]AAABBBCCC['"]>XAAABBBCCCX</out>]]></serialization-matches>
+        <error code="XQST0119"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-xml-04" covers="serialization-general">
+    <description>Test the XML serialization method - use parameter file - explicit declaration overrides parameter document</description>
+    <created by="Michael Kay" on="2018-05-01"/>
+    <modified by="Michael Kay" on="2018-07-24" change="Needs XQuery"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:indent "no";
+        declare option output:parameter-document "xml/param-doc-04.xml";
+        declare option output:omit-xml-declaration "yes";
+        
+        <out><in>XXX</in></out>
+
+      ]]></test>
+    <result>
+      <any-of>
+        <serialization-matches><![CDATA[^<out><in><!\[CDATA\[XXX\]\]></in></out>$]]></serialization-matches>
+        <error code="XQST0119"/>
+      </any-of>
+    </result>
+  </test-case>
 
 </test-set>

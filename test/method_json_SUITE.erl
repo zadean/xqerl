@@ -540,9 +540,17 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_serialization_match(Res,<<"-1\\.0E7"/utf8>>,<<"">>) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"-1\\.0E7"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"-10000000"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -562,9 +570,17 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_serialization_match(Res,<<"\\{\"a\":1\\.2678\\d*E7\\}"/utf8>>,<<"">>) of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_serialization_match(Res,<<"\\{\"a\":1\\.2678\\d*E7\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_serialization_match(Res,<<"\\{\"a\":12678968}"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1625,24 +1641,12 @@ declare option output:media-type  \"text/json\";
 declare option output:encoding  \"UTF-8\";
 declare option output:json-node-output-method  \"xml\";
 
-parse-json(unparsed-text('http://xqerl.org/json/data001.json'))
+parse-json(unparsed-text('json/data001.json'))
 ", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "json/data001.json"),"http://xqerl.org/json/data001.json"}]}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-59.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"\\{\"glossary\":\\{.*\"title\":\"example glossary\".*\\}\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1701,24 +1705,12 @@ declare option output:media-type  \"text/json\";
 declare option output:encoding  \"UTF-8\";
 declare option output:json-node-output-method  \"xml\";
 
-parse-json(unparsed-text('http://xqerl.org/json/data002.json'))
+parse-json(unparsed-text('json/data002.json'))
 ", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "json/data002.json"),"http://xqerl.org/json/data002.json"}]}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-60.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"\\{\"menu\":\\{.*\"id\":\"file\".*\\}\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1753,24 +1745,12 @@ declare option output:media-type  \"text/json\";
 declare option output:encoding  \"UTF-8\";
 declare option output:json-node-output-method  \"xml\";
 
-parse-json(unparsed-text('http://xqerl.org/json/data003.json'))
+parse-json(unparsed-text('json/data003.json'))
 ", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "json/data003.json"),"http://xqerl.org/json/data003.json"}]}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-61.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"\\{\"widget\":\\{.*\"debug\":\"on\".*\\}\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1877,24 +1857,12 @@ declare option output:media-type  \"text/json\";
 declare option output:encoding  \"UTF-8\";
 declare option output:json-node-output-method  \"xml\";
 
-parse-json(unparsed-text('http://xqerl.org/json/data004.json'))
+parse-json(unparsed-text('json/data004.json'))
 ", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "json/data004.json"),"http://xqerl.org/json/data004.json"}]}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-62.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"\\{\"web-app\":\\{.*\"servlet\":\\[(\\{.*\\},){4}\\{.*\\}\\].*\\}\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
@@ -1925,24 +1893,12 @@ declare option output:media-type  \"text/json\";
 declare option output:encoding  \"UTF-8\";
 declare option output:json-node-output-method  \"xml\";
 
-parse-json(unparsed-text('http://xqerl.org/json/data005.json'))
+parse-json(unparsed-text('json/data005.json'))
 ", 
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{'context-item', [""]}, 
-{vars, []}, 
-{params, []}, 
-{namespaces, []}, 
-{schemas, []}, 
-{resources, [{"text/plain", filename:join(__BaseDir, "json/data005.json"),"http://xqerl.org/json/data005.json"}]}, 
-{modules, []}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-63.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_serialization_match(Res,<<"\\{\"menu\":\\{.*\"header\":\"SVG Viewer\".*\\}\\}"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};

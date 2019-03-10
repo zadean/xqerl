@@ -30,6 +30,7 @@
 -export(['group-017'/1]).
 -export(['group-018'/1]).
 -export(['group-019'/1]).
+-export(['group-020'/1]).
 -export(['use-case-groupby-Q1'/1]).
 -export(['use-case-groupby-Q2'/1]).
 -export(['use-case-groupby-Q3'/1]).
@@ -81,6 +82,7 @@ groups() -> [
     'group-018', 
     'group-019']}, 
    {group_1, [parallel], [
+    'group-020', 
     'use-case-groupby-Q1', 
     'use-case-groupby-Q2', 
     'use-case-groupby-Q3', 
@@ -670,6 +672,45 @@ environment('GroupByUseCases',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert(Res,"$result lt 3") of 
       true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'group-020'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+      declare variable $in :=
+      <Folder Name=\"root\">
+        <Folder Name=\"user\">
+          <File Name=\"Fred\"/>
+          <File Name=\"Bill\"/>
+          <File Name=\"Fred\"/>
+        </Folder>
+        <Folder Name=\"manager\">
+          <File Name=\"Jane\"/>
+          <File Name=\"Mary\"/>
+          <File Name=\"Jane\"/>
+        </Folder>
+      </Folder>;
+      
+      declare function local:pathName($resource as element()) as xs:string {
+        string-join($resource/ancestor-or-self::*/@Name, '/')
+      };
+      
+      for $resource in $in//(Folder | File)
+      let $path := local:pathName($resource)
+      group by $path
+      where count($resource) gt 1
+      return $path
+    ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "group-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_permutation(Res,"\"root/manager/Jane\", \"root/user/Fred\"") of 
+      true -> {comment, "Correct permutation"};
       {false, F} -> F 
    end, 
    case Out of

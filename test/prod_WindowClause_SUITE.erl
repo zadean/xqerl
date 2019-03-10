@@ -123,6 +123,14 @@
 -export(['TumblingWindowExpr553'/1]).
 -export(['TumblingWindowExpr554'/1]).
 -export(['TumblingWindowExpr555'/1]).
+-export(['TumblingWindowExpr556'/1]).
+-export(['SlidingWindowExpr556'/1]).
+-export(['TumblingWindowExpr557'/1]).
+-export(['SlidingWindowExpr557'/1]).
+-export(['TumblingWindowExpr558'/1]).
+-export(['SlidingWindowExpr558'/1]).
+-export(['TumblingWindowExpr559'/1]).
+-export(['SlidingWindowExpr559'/1]).
 -export(['WindowExpr500'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
@@ -142,7 +150,8 @@ all() -> [
    {group, group_1}, 
    {group, group_2}, 
    {group, group_3}, 
-   {group, group_4}
+   {group, group_4}, 
+   {group, group_5}
    ].
 groups() -> [
    {group_0, [parallel], [
@@ -266,6 +275,15 @@ groups() -> [
     'TumblingWindowExpr553', 
     'TumblingWindowExpr554', 
     'TumblingWindowExpr555', 
+    'TumblingWindowExpr556', 
+    'SlidingWindowExpr556', 
+    'TumblingWindowExpr557']}, 
+   {group_5, [parallel], [
+    'SlidingWindowExpr557', 
+    'TumblingWindowExpr558', 
+    'SlidingWindowExpr558', 
+    'TumblingWindowExpr559', 
+    'SlidingWindowExpr559', 
     'WindowExpr500']}].
 environment('WindowingUseCases01',__BaseDir) ->
 [{'decimal-formats', []}, 
@@ -2767,6 +2785,166 @@ return
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'TumblingWindowExpr556'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for tumbling window $w as xs:integer in (1 to 10)
+          start $s when $s mod 5 = 1
+          end $e when $e = $s
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "TumblingWindowExpr556.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1, 1") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'SlidingWindowExpr556'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for sliding window $w as xs:integer in (1 to 10)
+          start $s when $s mod 5 = 1
+          end $e when $e = $s
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "SlidingWindowExpr556.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"1, 1") of 
+      true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'TumblingWindowExpr557'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for tumbling window $w as xs:integer in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "TumblingWindowExpr557.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'SlidingWindowExpr557'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for sliding window $w as xs:integer in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "SlidingWindowExpr557.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'TumblingWindowExpr558'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for tumbling window $w as empty-sequence() in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "TumblingWindowExpr558.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'SlidingWindowExpr558'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for sliding window $w as empty-sequence() in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "SlidingWindowExpr558.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'TumblingWindowExpr559'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for tumbling window $w as xs:string* in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "TumblingWindowExpr559.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'SlidingWindowExpr559'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+          for sliding window $w as xs:string* in (1 to 10)
+          start $s when true()
+          end $e when $e = $s + 1
+          return count($w)
+        ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "SlidingWindowExpr559.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of

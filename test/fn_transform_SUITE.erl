@@ -99,6 +99,8 @@
 -export(['fn-transform-82c'/1]).
 -export(['fn-transform-82d'/1]).
 -export(['fn-transform-82e'/1]).
+-export(['fn-transform-83'/1]).
+-export(['fn-transform-84'/1]).
 -export(['fn-transform-err-1'/1]).
 -export(['fn-transform-err-2'/1]).
 -export(['fn-transform-err-3'/1]).
@@ -116,6 +118,8 @@
 -export(['fn-transform-err-14'/1]).
 -export(['fn-transform-err-15'/1]).
 -export(['fn-transform-err-16'/1]).
+-export(['fn-transform-err-17'/1]).
+-export(['fn-transform-err-18'/1]).
 -export(['fn-transform-901'/1]).
 -export(['fn-transform-902'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
@@ -235,10 +239,12 @@ groups() -> [
     'fn-transform-82c', 
     'fn-transform-82d', 
     'fn-transform-82e', 
-    'fn-transform-err-1', 
-    'fn-transform-err-2', 
-    'fn-transform-err-3']}, 
+    'fn-transform-83', 
+    'fn-transform-84', 
+    'fn-transform-err-1']}, 
    {group_4, [parallel], [
+    'fn-transform-err-2', 
+    'fn-transform-err-3', 
     'fn-transform-err-4', 
     'fn-transform-err-5', 
     'fn-transform-err-6', 
@@ -253,6 +259,8 @@ groups() -> [
     'fn-transform-err-14', 
     'fn-transform-err-15', 
     'fn-transform-err-16', 
+    'fn-transform-err-17', 
+    'fn-transform-err-18', 
     'fn-transform-901', 
     'fn-transform-902']}].
 environment('works-mod-uri2',__BaseDir) ->
@@ -597,6 +605,12 @@ environment('multiple-result-docs',__BaseDir) ->
 'fn-transform-82e'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"fn-transform-XSLT"}. 
+'fn-transform-83'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-transform-XSLT"}. 
+'fn-transform-84'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-transform-XSLT"}. 
 'fn-transform-err-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"fn-transform-XSLT"}. 
@@ -646,6 +660,12 @@ environment('multiple-result-docs',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"fn-transform-XSLT"}. 
 'fn-transform-err-16'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-transform-XSLT"}. 
+'fn-transform-err-17'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-transform-XSLT"}. 
+'fn-transform-err-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"fn-transform-XSLT"}. 
 'fn-transform-901'(Config) ->

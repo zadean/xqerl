@@ -118,6 +118,11 @@
 -export(['fn-deep-equal-arrays-11'/1]).
 -export(['fn-deep-equal-arrays-12'/1]).
 -export(['fn-deep-equal-arrays-13'/1]).
+-export(['fn-deep-equal-arrays-14'/1]).
+-export(['fn-deep-equal-arrays-15'/1]).
+-export(['fn-deep-equal-arrays-16'/1]).
+-export(['fn-deep-equal-arrays-17'/1]).
+-export(['fn-deep-equal-arrays-18'/1]).
 -export(['fn-deep-equal-maps-1'/1]).
 -export(['fn-deep-equal-maps-2'/1]).
 -export(['fn-deep-equal-maps-3'/1]).
@@ -135,6 +140,9 @@
 -export(['fn-deep-equal-maps-15'/1]).
 -export(['fn-deep-equal-maps-16'/1]).
 -export(['fn-deep-equal-maps-17'/1]).
+-export(['fn-deep-equal-maps-18'/1]).
+-export(['fn-deep-equal-maps-19'/1]).
+-export(['fn-deep-equal-maps-20'/1]).
 -export(['fn-deep-equal-node-args-3'/1]).
 -export(['fn-deep-equal-node-args-4'/1]).
 -export(['fn-deep-equal-node-args-5'/1]).
@@ -251,6 +259,7 @@
 -export(['K2-SeqDeepEqualFunc-40'/1]).
 -export(['K2-SeqDeepEqualFunc-41'/1]).
 -export(['K2-SeqDeepEqualFunc-42'/1]).
+-export(['K2-SeqDeepEqualFunc-43'/1]).
 -export(['cbcl-deep-equal-001'/1]).
 -export(['cbcl-deep-equal-002'/1]).
 -export(['cbcl-deep-equal-003'/1]).
@@ -404,15 +413,20 @@ groups() -> [
     'fn-deep-equal-arrays-11', 
     'fn-deep-equal-arrays-12', 
     'fn-deep-equal-arrays-13', 
+    'fn-deep-equal-arrays-14', 
+    'fn-deep-equal-arrays-15', 
+    'fn-deep-equal-arrays-16', 
+    'fn-deep-equal-arrays-17', 
+    'fn-deep-equal-arrays-18', 
     'fn-deep-equal-maps-1', 
     'fn-deep-equal-maps-2', 
-    'fn-deep-equal-maps-3', 
+    'fn-deep-equal-maps-3']}, 
+   {group_5, [parallel], [
     'fn-deep-equal-maps-4', 
     'fn-deep-equal-maps-5', 
     'fn-deep-equal-maps-6', 
     'fn-deep-equal-maps-7', 
-    'fn-deep-equal-maps-8']}, 
-   {group_5, [parallel], [
+    'fn-deep-equal-maps-8', 
     'fn-deep-equal-maps-9', 
     'fn-deep-equal-maps-10', 
     'fn-deep-equal-maps-11', 
@@ -422,13 +436,17 @@ groups() -> [
     'fn-deep-equal-maps-15', 
     'fn-deep-equal-maps-16', 
     'fn-deep-equal-maps-17', 
+    'fn-deep-equal-maps-18', 
+    'fn-deep-equal-maps-19', 
+    'fn-deep-equal-maps-20', 
     'fn-deep-equal-node-args-3', 
     'fn-deep-equal-node-args-4', 
     'fn-deep-equal-node-args-5', 
     'K-SeqDeepEqualFunc-1', 
     'K-SeqDeepEqualFunc-2', 
     'K-SeqDeepEqualFunc-3', 
-    'K-SeqDeepEqualFunc-4', 
+    'K-SeqDeepEqualFunc-4']}, 
+   {group_6, [parallel], [
     'K-SeqDeepEqualFunc-5', 
     'K-SeqDeepEqualFunc-6', 
     'K-SeqDeepEqualFunc-7', 
@@ -436,8 +454,7 @@ groups() -> [
     'K-SeqDeepEqualFunc-9', 
     'K-SeqDeepEqualFunc-10', 
     'K-SeqDeepEqualFunc-11', 
-    'K-SeqDeepEqualFunc-12']}, 
-   {group_6, [parallel], [
+    'K-SeqDeepEqualFunc-12', 
     'K-SeqDeepEqualFunc-13', 
     'K-SeqDeepEqualFunc-14', 
     'K-SeqDeepEqualFunc-15', 
@@ -453,7 +470,8 @@ groups() -> [
     'K-SeqDeepEqualFunc-25', 
     'K-SeqDeepEqualFunc-26', 
     'K-SeqDeepEqualFunc-27', 
-    'K-SeqDeepEqualFunc-28', 
+    'K-SeqDeepEqualFunc-28']}, 
+   {group_7, [parallel], [
     'K-SeqDeepEqualFunc-29', 
     'K-SeqDeepEqualFunc-30', 
     'K-SeqDeepEqualFunc-31', 
@@ -461,8 +479,7 @@ groups() -> [
     'K-SeqDeepEqualFunc-33', 
     'K-SeqDeepEqualFunc-34', 
     'K-SeqDeepEqualFunc-35', 
-    'K-SeqDeepEqualFunc-36']}, 
-   {group_7, [parallel], [
+    'K-SeqDeepEqualFunc-36', 
     'K-SeqDeepEqualFunc-37', 
     'K-SeqDeepEqualFunc-38', 
     'K-SeqDeepEqualFunc-39', 
@@ -478,7 +495,8 @@ groups() -> [
     'K-SeqDeepEqualFunc-49', 
     'K-SeqDeepEqualFunc-50', 
     'K-SeqDeepEqualFunc-51', 
-    'K-SeqDeepEqualFunc-52', 
+    'K-SeqDeepEqualFunc-52']}, 
+   {group_8, [parallel], [
     'K-SeqDeepEqualFunc-53', 
     'K-SeqDeepEqualFunc-54', 
     'K-SeqDeepEqualFunc-55', 
@@ -486,8 +504,7 @@ groups() -> [
     'K-SeqDeepEqualFunc-57', 
     'K-SeqDeepEqualFunc-58', 
     'K-SeqDeepEqualFunc-59', 
-    'K-SeqDeepEqualFunc-60']}, 
-   {group_8, [parallel], [
+    'K-SeqDeepEqualFunc-60', 
     'K-SeqDeepEqualFunc-61', 
     'K-SeqDeepEqualFunc-62', 
     'K-SeqDeepEqualFunc-63', 
@@ -503,7 +520,8 @@ groups() -> [
     'K2-SeqDeepEqualFunc-2', 
     'K2-SeqDeepEqualFunc-3', 
     'K2-SeqDeepEqualFunc-4', 
-    'K2-SeqDeepEqualFunc-5', 
+    'K2-SeqDeepEqualFunc-5']}, 
+   {group_9, [parallel], [
     'K2-SeqDeepEqualFunc-6', 
     'K2-SeqDeepEqualFunc-7', 
     'K2-SeqDeepEqualFunc-8', 
@@ -511,8 +529,7 @@ groups() -> [
     'K2-SeqDeepEqualFunc-10', 
     'K2-SeqDeepEqualFunc-11', 
     'K2-SeqDeepEqualFunc-12', 
-    'K2-SeqDeepEqualFunc-13']}, 
-   {group_9, [parallel], [
+    'K2-SeqDeepEqualFunc-13', 
     'K2-SeqDeepEqualFunc-14', 
     'K2-SeqDeepEqualFunc-15', 
     'K2-SeqDeepEqualFunc-16', 
@@ -528,7 +545,8 @@ groups() -> [
     'K2-SeqDeepEqualFunc-26', 
     'K2-SeqDeepEqualFunc-27', 
     'K2-SeqDeepEqualFunc-28', 
-    'K2-SeqDeepEqualFunc-29', 
+    'K2-SeqDeepEqualFunc-29']}, 
+   {group_10, [parallel], [
     'K2-SeqDeepEqualFunc-30', 
     'K2-SeqDeepEqualFunc-31', 
     'K2-SeqDeepEqualFunc-32', 
@@ -536,13 +554,13 @@ groups() -> [
     'K2-SeqDeepEqualFunc-34', 
     'K2-SeqDeepEqualFunc-35', 
     'K2-SeqDeepEqualFunc-36', 
-    'K2-SeqDeepEqualFunc-37']}, 
-   {group_10, [parallel], [
+    'K2-SeqDeepEqualFunc-37', 
     'K2-SeqDeepEqualFunc-38', 
     'K2-SeqDeepEqualFunc-39', 
     'K2-SeqDeepEqualFunc-40', 
     'K2-SeqDeepEqualFunc-41', 
     'K2-SeqDeepEqualFunc-42', 
+    'K2-SeqDeepEqualFunc-43', 
     'cbcl-deep-equal-001', 
     'cbcl-deep-equal-002', 
     'cbcl-deep-equal-003', 
@@ -2258,6 +2276,81 @@ environment('perverse',__BaseDir) ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'fn-deep-equal-arrays-14'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [1]))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-arrays-14.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-arrays-15'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [1], []))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-arrays-15.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-arrays-16'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c']], [], [2]))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-arrays-16.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-arrays-17'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(([['a', 'b', 'c']], [], [1]), ([['a', 'b', 'c', 'd']], [], [1]))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-arrays-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-arrays-18'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(([['a', 'b', 'd'] => array:put(3, 'c')], [], [1]), ([['a', 'b', 'c', 'd'] => array:remove(4)], [], [1]))", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-arrays-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'fn-deep-equal-maps-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal(map{}, map{})", 
@@ -2525,6 +2618,57 @@ environment('perverse',__BaseDir) ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-maps-17.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-maps-18'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'x'}))
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-maps-18.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-maps-19'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'z'}))
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-maps-19.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-deep-equal-maps-20'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+        fn:deep-equal((map{1:'a', 2:'b'}, map{1:'x', 2:'y'}), (map{2:'b', 1:'a'}, map{2:'y', 1:'x'}, map{}))
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-deep-equal-maps-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
@@ -4443,6 +4587,21 @@ environment('perverse',__BaseDir) ->
 'K2-SeqDeepEqualFunc-42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}. 
+'K2-SeqDeepEqualFunc-43'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((0 to year-from-date(current-date()))!(10 idiv .), 11 to 22)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqDeepEqualFunc-43.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'cbcl-deep-equal-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $doc1 := <doc><?processing-instruction content ?></doc> let $doc2 := <doc><!--comment--></doc> return deep-equal($doc1, $doc2)", 

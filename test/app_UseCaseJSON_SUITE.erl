@@ -55,110 +55,110 @@ environment('mildred.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/mildred.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/mildred.json"}]}, 
 {modules, []}
 ]; 
 environment('employees.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/employees.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/employees.json"}]}, 
 {modules, []}
 ]; 
 environment('bookinfo.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/bookinfo.json"}]}, 
 {modules, []}
 ]; 
 environment('users.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/users.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/users.json"}]}, 
 {modules, []}
 ]; 
 environment('sales.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/stores.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/stores.json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/products.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/products.json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/sales.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/sales.json"}]}, 
 {modules, []}
 ]; 
 environment('satellites.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/satellites.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/satellites.json"}]}, 
 {modules, []}
 ]; 
 environment('colors.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/colors.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/colors.json"}]}, 
 {modules, []}
 ]; 
 environment('incoming.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/incoming.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/incoming.json"}]}, 
 {modules, []}
 ]; 
 environment('table.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://xqerl.org"}]}, 
+{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseJSON/"}]}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/table.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/table.json"}]}, 
 {modules, []}
 ]; 
 environment('Wikipedia-Origami.xml',__BaseDir) ->

@@ -815,24 +815,86 @@ declare option output:version  "5.0";
    </test-case>
 
    <test-case name="Serialization-html-43" covers-30="html-output">
-      <description>Test escape-uri-attributes parameter for HTML 4.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <dependency type="spec" value="XQ30+"/>
-     <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
+     <description>Test escape-uri-attributes parameter for HTML 4.0</description>
+     <created by="Henry Zongaro" on="2012-10-26"/>
+     <modified by="Michael Kay" on="2018-07-15" change="Do what Henry intended"/>
+     <dependency type="feature" value="serialization" satisfied="true"/>
+     <dependency type="spec" value="XQ30+"/>
+     <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:escape-uri-attributes  "yes";
+declare option output:version  "4.0";
+
+<html><head/><body><a href="file:///c:/My Documents/temp/b&#xe9;b&#xe9;.xml">Click here baby!</a></body></html>
+]]></test>
+     <result>
+       <all-of>
+         <serialization-matches><![CDATA[My Documents/temp/b%C3%A9b%C3%A9\.xml]]></serialization-matches>
+       </all-of>
+     </result>
    </test-case>
+  
+  <test-case name="Serialization-html-43a" covers-30="html-output">
+    <description>Test escape-uri-attributes parameter for HTML 4.0</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:escape-uri-attributes  "no";
+declare option output:version  "4.0";
+
+<html><head/><body><a href="file:///c:/My Documents/temp/b&#xe9;b&#xe9;.xml">Click here baby!</a></body></html>
+]]></test>
+    <result>
+      <all-of>
+        <serialization-matches>My Documents/temp/b&#xe9;b&#xe9;\.xml</serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
 
    <test-case name="Serialization-html-44" covers-30="html-output">
       <description>Test escape-uri-attributes parameter for HTML 5.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
-      <dependency type="spec" value="XQ30+"/>
-     <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
+     <modified by="Michael Kay" on="2018-07-15" change="Do what Henry intended"/>
+     <dependency type="feature" value="serialization" satisfied="true"/>
+     <dependency type="spec" value="XQ30+"/>
+     <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:escape-uri-attributes  "yes";
+declare option output:version  "5.0";
+
+<html><head/><body><a href="file:///c:/My Documents/temp/b&#xe9;b&#xe9;.xml">Click here baby!</a></body></html>
+]]></test>
+     <result>
+       <all-of>
+         <serialization-matches><![CDATA[My Documents/temp/b%C3%A9b%C3%A9\.xml]]></serialization-matches>
+       </all-of>
+     </result>
    </test-case>
+  
+  <test-case name="Serialization-html-44a" covers-30="html-output">
+    <description>Test escape-uri-attributes parameter for HTML 5.0</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:escape-uri-attributes  "no";
+declare option output:version  "5.0";
+
+<html><head/><body><a href="file:///c:/My Documents/temp/b&#xe9;b&#xe9;.xml">Click here baby!</a></body></html>
+]]></test>
+    <result>
+      <all-of>
+        <serialization-matches>My Documents/temp/b&#xe9;b&#xe9;\.xml</serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
 
   <test-case name="Serialization-html-45" covers="serialization-general">
       <description>Test the HTML serialization output method - empty array</description>
@@ -868,5 +930,307 @@ return [ $html ]
 	<assert-serialization-error code="SENR0001"/>
       </result>
    </test-case>
+  
+  <test-case name="Serialization-html-47" covers="serialization-general">
+    <description>Test the HTML serialization output method - indent - whitespace not allowed at start or end of paragraph</description>
+    <created by="Michael Kay" on="2018-07-16"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:indent  "yes";
+declare option output:version  "4.0";
+
+let $html := <html><body>
+  <p>Lorem ipsum dolor sit amet, 
+     consectetur adipiscing elit, 
+     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+     Ut enim ad minim veniam, 
+     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</body></html>
+return [ $html ]
+]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>Lorem]]></serialization-matches>
+        <serialization-matches><![CDATA[consequat.</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-48" covers="serialization-general">
+    <description>Test the HTML serialization output method - indent - whitespace not allowed before or after comment or pi</description>
+    <created by="Michael Kay" on="2018-07-16"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "html";
+declare option output:indent  "yes";
+declare option output:version  "4.0";
+
+let $html := <html><body>
+  <p>Lorem ipsum dolor sit amet, 
+     consectetur adip<!--sic-->iscing elit, 
+     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+     Ut enim ad minim ven<?sic?>iam, 
+     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</body></html>
+return [ $html ]
+]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[adip<!--sic-->iscing]]></serialization-matches>
+        <serialization-matches><![CDATA[ven<\?sic\s*>iam]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-49" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 4.0</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "4.0";
+      <html><head/><body><p>a<a>text</a>z</p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>a<a>text</a>z</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-50" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 5.0</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      <html><head/><body><p>a<mark>text</mark>z</p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>a<mark>text</mark>z</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-51" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 4.0: caseblind recognition</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "4.0";
+      <html><head/><body><p>a<A>text</A>z</p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>a<A>text</A>z</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-52" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 5.0 - caseblind recognition</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      <html><head/><body><p>a<Mark>text</Mark>z</p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>a<Mark>text</Mark>z</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-53" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 5.0 - svg element</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      <html><body><p>A blue<svg width="100" height="100">
+        <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+      </svg>rectangle</p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p>A\s+blue<svg[^>]*>]]></serialization-matches>
+        <serialization-matches><![CDATA[</svg>rectangle</p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-54" covers-30="html-output">
+    <description>Test indenting of inline elements for HTML 5.0 - math element</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      <html><body><div>
+	The Fraction 
+	@=<math xmlns='http://www.w3.org/1998/Math/MathML'  display='inline'>
+		<mfrac>
+			<mrow>
+				<mi>a</mi>
+				<mo>+</mo>
+				<mi>b</mi>
+			</mrow>
+			<mrow>
+				<msup>
+					<mfenced separators=" ">
+						<mi>c</mi>
+						<mo>+</mo>
+						<mi>d</mi>
+					</mfenced>
+					<mi>3</mi>
+				</msup>
+			</mrow>
+		</mfrac>
+	</math>=@
+	may be real!</div></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<div>\s+The\s+Fraction\s+@=<math]]></serialization-matches>
+        <serialization-matches><![CDATA[</math>=@\s+may\s+be\s+real!</div>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-55" covers-30="html-output">
+    <description>Test suppress-indentation for HTML method</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "li td";
+      <html><body>
+         <ul>
+           <li><p>One</p></li>
+           <li><p>Two</p></li>
+           <li><p>Three</p></li>
+         </ul>  
+      </body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<li><p>One</p></li>]]></serialization-matches>
+        <serialization-matches><![CDATA[<li><p>Two</p></li>]]></serialization-matches>
+        <serialization-matches><![CDATA[<ul>\s+<li]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-56" covers-30="html-output">
+    <description>Test suppress-indentation for HTML method</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "TABLE";
+      <html><body>
+         <table>
+           <tr>
+            <td><p>One</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Two</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Three</p></td>
+            <td><p>yes</p></td>
+           </tr>
+         </table>  
+      </body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<table><tr><td><p>One</p></td><td>]]></serialization-matches>
+        <serialization-matches><![CDATA[<table>[^ ]*</table>]]></serialization-matches>
+        <serialization-matches><![CDATA[<body>\s+<table]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-57" covers-30="html-output">
+    <description>Test suppressing indenting of inline elements for HTML 5.0 - math element</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare namespace math = "http://www.w3.org/1998/Math/MathML";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "math:MROW math:MFENCED";
+      <html><body><div>
+	The Fraction 
+	@=<math xmlns='http://www.w3.org/1998/Math/MathML'  display='inline'>
+		<mfrac>
+			<mrow>
+				<mi>a</mi>
+				<mo>+</mo>
+				<mi>b</mi>
+			</mrow>
+			<mrow>
+				<msup>
+					<mfenced separators=" ">
+						<mi>c</mi>
+						<mo>+</mo>
+						<mi>d</mi>
+					</mfenced>
+					<mi>3</mi>
+				</msup>
+			</mrow>
+		</mfrac>
+	</math>=@
+	may be real!</div></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<mrow><mi>a</mi><mo>\+</mo><mi>b</mi></mrow>]]></serialization-matches>
+        <serialization-matches><![CDATA[<mfenced separators=" "><mi>c</mi><mo>\+</mo><mi>d</mi></mfenced>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
 
 </test-set>

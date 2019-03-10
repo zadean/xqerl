@@ -54,7 +54,7 @@
       <dependency type="spec" value="XQ30+" />
       <test>element x { attribute Q{http://example.com/x}y { } }</test>
       <result>
-         <assert>exists($result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']])</assert>
+         <assert>$result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']]</assert>
       </result>
    </test-case>
 

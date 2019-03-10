@@ -241,7 +241,7 @@ environment('json-ns',__BaseDir) ->
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
-{schemas, []}, 
+{schemas, [{filename:join(__BaseDir, ""),"http://www.w3.org/2005/xpath-functions"}]}, 
 {resources, []}, 
 {modules, []}
 ].
@@ -596,7 +596,7 @@ environment('json-ns',__BaseDir) ->
 'json-to-xml-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
-         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
       ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -630,7 +630,7 @@ environment('json-ns',__BaseDir) ->
 'json-to-xml-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
-         fn:json-to-xml('[\"Data with \\\" within it\"]')//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml('[\"Data with \\\" within it\"]')//j:string
       ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -656,7 +656,7 @@ environment('json-ns',__BaseDir) ->
 'json-to-xml-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
-         fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//Q{http://www.w3.org/2005/xpath-functions}string
+         fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//j:string
       ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -842,9 +842,9 @@ environment('json-ns',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "json-to-xml-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<Q{http://www.w3.org/2005/xpath-functions}map 
+   Out =    case xqerl_test:assert_xml(Res,"<j:map 
          xmlns:j=\"http://www.w3.org/2005/xpath-functions\"
-         ><Q{http://www.w3.org/2005/xpath-functions}string escaped=\"true\" key=\"a\">\\uDA00</Q{http://www.w3.org/2005/xpath-functions}string><Q{http://www.w3.org/2005/xpath-functions}string escaped-key=\"true\" key=\"\\uDD00\">bell</Q{http://www.w3.org/2005/xpath-functions}string></Q{http://www.w3.org/2005/xpath-functions}map>") of 
+         ><j:string escaped=\"true\" key=\"a\">\\uDA00</j:string><j:string escaped-key=\"true\" key=\"\\uDD00\">bell</j:string></j:map>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 

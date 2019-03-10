@@ -27,7 +27,6 @@
 -export(['Serialization-text-17'/1]).
 -export(['Serialization-text-18'/1]).
 -export(['Serialization-text-19'/1]).
--export(['Serialization-text-20'/1]).
 suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
@@ -65,8 +64,7 @@ groups() -> [
     'Serialization-text-16', 
     'Serialization-text-17', 
     'Serialization-text-18', 
-    'Serialization-text-19', 
-    'Serialization-text-20']}].
+    'Serialization-text-19']}].
 
 'Serialization-text-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
@@ -418,27 +416,6 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_serialization_match(Res,<<"1 2 3 4 5"/utf8>>,<<"">>) of 
       true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
-'Serialization-text-20'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-     	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"html\";
-        map { } 
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-text-20.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
-      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of

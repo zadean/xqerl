@@ -3,18 +3,21 @@
    <description/>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
          idref="func-abs"/>
+   
    <environment name="e0">
       <source role="." file="abs/e0.xml">
          <description>A simple file containing &lt;e&gt;0&lt;/e&gt;</description>
          <created by="Michael Kay" on="2010-12-08"/>
       </source>
    </environment>
+   
    <environment name="e1">
       <source role="." file="abs/e1.xml">
          <description>A simple file containing &lt;e&gt;1&lt;/e&gt;</description>
          <created by="Michael Kay" on="2010-12-08"/>
       </source>
    </environment>
+   
    <environment name="e-1">
       <source role="." file="abs/e-1.xml">
          <description>A simple file containing &lt;e&gt;-1&lt;/e&gt;</description>

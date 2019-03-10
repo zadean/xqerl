@@ -278,6 +278,65 @@
       </result>
    </test-case>
    
+   <test-case name="MapTest-046" covers="map-size map-general">
+      <description>empty map type</description>
+      <created by="Michael Kay" on="2018-03-18"/>
+      <environment ref="map"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         map{} instance of map(xs:integer, map(xs:integer, xs:string))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-047" covers="map-size map-general">
+      <description>empty map type (assumes dynamic type checking)</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-07-24" change="Use valid XPath syntax for let expression"/>
+      <environment ref="map"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function() as map(xs:integer, xs:string) {map{}},
+             $g := function($m as map(xs:string, xs:integer)) as xs:boolean {map:size($m) = 0}
+         return $g($f())
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-048" covers="map-size map-general">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <environment ref="map"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         return $f(map{})
+      </test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-049" covers="map-size map-general">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2018-03-13"/>
+      <environment ref="map"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         declare function local:f ($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)};
+         let $g as map(xs:string, xs:date) := map:remove(map{'a':current-date()}, 'a') 
+         return local:f($g)
+      </test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
    <test-case name="MapTest-050" covers="map-size map-general">
       <description>map type subsumption</description>
       <created by="Michael Kay" on="2014-10-08"/>

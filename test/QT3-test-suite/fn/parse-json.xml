@@ -793,6 +793,46 @@
          <assert-deep-eq>map{"%\u0010%":"x", "%\n%":"y"}</assert-deep-eq>
       </result>
    </test-case>
+   <test-case name="fn-parse-json-112">
+      <description>
+         Arity=1, empty sequence as first argument
+      </description>
+      <created by="Michael Kay" on="2018-06-08"/>
+      <test>parse-json(())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-113">
+      <description>
+         Arity=2, empty sequence as first argument
+      </description>
+      <created by="Michael Kay" on="2018-06-08"/>
+      <test>parse-json((),  map{'escape':true(), 'duplicates':'reject'})</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-114">
+      <description>
+         Arity=1, dynamic empty sequence as first argument
+      </description>
+      <created by="Michael Kay" on="2018-07-18"/>
+      <test>parse-json("[]"[current-date() lt xs:date('1900-01-01')])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-115">
+      <description>
+         Arity=2, dynamic empty sequence as first argument
+      </description>
+      <created by="Michael Kay" on="2018-07-18"/>
+      <test>parse-json("[]"[current-date() lt xs:date('1900-01-01')],  map{'escape':true(), 'duplicates':'reject'})</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
    
   
    <!-- things that a liberal parser might allow -->

@@ -572,6 +572,7 @@
    <test-set name="misc-AppendixA4"                     file="misc/AppendixA4.xml"/>
    <test-set name="misc-ErrorsAndOptimization"          file="misc/ErrorsAndOptimization.xml"/>
    <test-set name="misc-HigherOrderFunctions"           file="misc/HigherOrderFunctions.xml"/>
+   <test-set name="misc-JsonTestSuite"                  file="misc/JsonTestSuite.xml"/>
    <test-set name="misc-StaticContext"                  file="misc/StaticContext.xml"/>
    <test-set name="misc-Surrogates"                     file="misc/Surrogates.xml"/>
    <test-set name="misc-UCACollation"                   file="misc/UCACollation.xml"/>

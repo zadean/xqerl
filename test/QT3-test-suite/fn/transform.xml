@@ -136,27 +136,34 @@
         <modified by="Michael Kay" on="2015-11-27" change="Add dependency on XSLT 3.0"/>
         <modified by="Tim Mills" on="2016-10-25" change="Bug 29942"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
+        <modified by="Michael Kay" on="2018-06-14" change="Formatted for readability"/>
         <dependency type="spec" value="XQ31+"/>
 	<dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
             <![CDATA[
                     let $xsl  :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'
                                                                  xmlns:app='http://www.example.com'>
-                                                <xsl:template name='app:main' > <xsl:for-each select='//section'>
-                                                <xsl:result-document href='section{position()}.html'>
-                                                <xsl:value-of select='.' />
-                                                </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>"
-                     , $xml := "<doc>
-                                                   <section>sect1</section>
-                                                   <section>sect2</section>
-                                                   </doc>"
+                                    <xsl:template name='app:main'> 
+                                       <xsl:for-each select='//section'>
+                                          <xsl:result-document href='section{position()}.html'>
+                                             <xsl:value-of select='.' />
+                                          </xsl:result-document>
+                                       </xsl:for-each>
+                                    </xsl:template> 
+                                 </xsl:stylesheet>",
+                        $xml := "<doc>
+                                   <section>sect1</section>
+                                   <section>sect2</section>
+                                 </doc>"
                     return
-                    element{xs:QName('html')}{
+                    element {xs:QName('html')} {
                         element {xs:QName('body')} {
-                            for $x in fn:transform(map{"xslt-version":2.0, "stylesheet-text":$xsl,
-                            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml",
-                            "initial-template":fn:QName('http://www.example.com','main'), "source-node":fn:parse-xml($xml)})?*
+                            for $x in fn:transform(
+                                        map{"xslt-version"    : 2.0, 
+                                            "stylesheet-text" : $xsl,
+                                            "base-output-uri" : "http://www.w3.org/fots/fn/transform/output-doc.xml",
+                                            "initial-template": fn:QName('http://www.example.com','main'), 
+                                            "source-node"     : fn:parse-xml($xml)})?*
                             return $x }
                         }]]>
         </test>
@@ -500,22 +507,30 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform producing multiple result documents</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
         <modified by="Debbie Lockett" on="2015-04-13" change="Add base-output-uri option"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-06-14" change="Formatted for readability"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     let $xsl  :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
-                                                <xsl:template match='/'> <xsl:for-each select='//section'>
-                                                <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
-                                                </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>"
+                                    <xsl:template match='/'>
+                                       <xsl:for-each select='//section'>
+                                           <xsl:result-document href='section{position()}.html'> 
+                                              <!-- instructions content here -->
+                                            </xsl:result-document> 
+                                       </xsl:for-each>
+                                    </xsl:template> 
+                                 </xsl:stylesheet>"
                     , $xml := "<doc>
-                                                   <section>sect1</section>
-                                                   <section>sect2</section>
-                                                   <section>sect3</section>
-                                                   </doc>"
+                                   <section>sect1</section>
+                                   <section>sect2</section>
+                                   <section>sect3</section>
+                               </doc>"
                     return
-            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
-            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
+                       fn:transform(map {"stylesheet-text": $xsl, 
+                                         "source-node": parse-xml($xml),
+                                         "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"}) 
+                            => map:remove("http://www.w3.org/fots/fn/transform/output-doc.xml")]]>
         </test>
         <result>
             <all-of>
@@ -530,37 +545,43 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-13a">
         <description>Transform producing multiple result documents (with content)</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     let $xsl  :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
-                                                <xsl:template match='/'> <xsl:for-each select='//section'>
-                                                <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
-                                                <html>
-                    <head>
-                        <title>Section <xsl:value-of select='position()'/></title>
-                    </head>
-                    <body>
-                        <h1>Header for section <xsl:value-of select='position()'/></h1>
-                        <p>The content of <xsl:value-of select='.'/>.</p>
-                        <xsl:if test='position() ne last()'>
-                            <p><a href='section{position()+1}.html'>Next section</a></p>
-                        </xsl:if>
-                        <xsl:if test='position() eq last()'>
-                            <p><a href='section1.html'>First section</a></p>
-                        </xsl:if>
-                    </body>
-                </html>
-                                                </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>"
+                                    <xsl:template match='/'> 
+                                       <xsl:for-each select='//section'>
+                                         <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
+                                           <html>
+                                             <head>
+                                                 <title>Section <xsl:value-of select='position()'/></title>
+                                             </head>
+                                             <body>
+                                                 <h1>Header for section <xsl:value-of select='position()'/></h1>
+                                                 <p>The content of <xsl:value-of select='.'/>.</p>
+                                                 <xsl:if test='position() ne last()'>
+                                                     <p><a href='section{position()+1}.html'>Next section</a></p>
+                                                 </xsl:if>
+                                                 <xsl:if test='position() eq last()'>
+                                                     <p><a href='section1.html'>First section</a></p>
+                                                 </xsl:if>
+                                             </body>
+                                         </html>
+                                       </xsl:result-document>
+                                    </xsl:for-each>
+                                  </xsl:template>
+                                </xsl:stylesheet>"
                     , $xml := "<doc>
-                                                   <section>sect1</section>
-                                                   <section>sect2</section>
-                                                   <section>sect3</section>
-                                                   </doc>"
+                                  <section>sect1</section>
+                                  <section>sect2</section>
+                                  <section>sect3</section>
+                               </doc>"
                     return
-            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
-            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
+                      fn:transform(map {"stylesheet-text": $xsl, 
+                                        "source-node": parse-xml($xml),
+                                        "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})
+                         => map:remove("http://www.w3.org/fots/fn/transform/output-doc.xml")]]>
         </test>
         <result>
             <all-of>
@@ -575,9 +596,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-14">
         <description>Transform producing multiple result documents, with base-output-uri option</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
-        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections, "base-output-uri": "http://www.w3.org/fots/fn/transform/output-doc.xml"}) => map:keys()</test>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections, "base-output-uri": "http://www.w3.org/fots/fn/transform/output-doc.xml"})
+            => map:remove("http://www.w3.org/fots/fn/transform/output-doc.xml")
+            => map:keys()</test>
         <result>
             <assert-permutation>("http://www.w3.org/fots/fn/transform/section1.html","http://www.w3.org/fots/fn/transform/section2.html","http://www.w3.org/fots/fn/transform/section3.html")</assert-permutation>
         </result>
@@ -975,6 +999,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using serialized delivery-format</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Debbie Lockett" on="2015-04-13" change="added base-output-uri option"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -991,7 +1016,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                     return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-33.xml", static-base-uri()),
-            "delivery-format":"serialized"})]]>
+            "delivery-format":"serialized"})
+            => map:remove(resolve-uri("transform/sandbox/fn-transform-33.xml", static-base-uri()))]]>
         </test>
         <result>
             <all-of>
@@ -1117,6 +1143,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
         <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -1139,7 +1166,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                     return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-37/output.html", static-base-uri()),
-            "delivery-format":"serialized"})]]>
+            "delivery-format":"serialized"})
+            => map:remove(resolve-uri("transform/sandbox/fn-transform-37/output.html", static-base-uri()))]]>
         </test>
         <result>
             <all-of>
@@ -1160,6 +1188,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
         <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - commented out affected assert elements using doc function"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
@@ -1167,7 +1196,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             static-base-uri()), "delivery-format":"serialized"}) return map:keys($res)</test>
         <result>
             <all-of>
-                <assert>count($result) = 3</assert>
+                <assert>count($result) = (3, 4)</assert>
                 <assert>contains(string-join($result), 'section1.html')</assert>
                 <assert>some $key in $result satisfies ends-with($key,
                     'transform/sandbox/fn-transform-38/section3.html')</assert>
@@ -1183,6 +1212,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
         <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
@@ -1192,7 +1222,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             "delivery-format":"serialized"}) return map:keys($res)</test>
         <result>
             <all-of>
-                <assert>count($result) = 3</assert>
+                <assert>count($result) = (3, 4)</assert>
                 <assert>contains(string-join($result), 'section1.html')</assert>
                 <assert>some $key in $result satisfies ends-with($key,
                     'transform/sandbox/fn-transform-39/section3.html')</assert>
@@ -1206,6 +1236,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             delivery-format and base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="onedoc">
             <source role="$onedoc" file="transform/onedoc.xsl"/>
@@ -1216,7 +1247,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             static-base-uri()), "delivery-format" : "serialized"})</test>
         <result>
             <all-of>
-                <assert>map:size($result) = 1</assert>
+                <assert>map:size($result) = 1 to 2</assert>
                 <!--<assert>ends-with($result?*, 'transform/sandbox/fn-transform-40/section1.html')</assert>
                 <assert>ends-with(map:keys($result), 'transform/sandbox/fn-transform-40/section1.html')</assert>
                 <assert><![CDATA[doc('transform/sandbox/fn-transform-40/section1.html')//h1 = 'Header for section 1']]></assert>-->
@@ -1261,6 +1292,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
@@ -1268,7 +1300,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             static-base-uri()), "delivery-format":"serialized"})</test>
         <result>
             <all-of>
-                <assert>map:size($result) = 3</assert>
+                <assert>map:size($result) = 3 to 4</assert>
                 <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
                 <assert>some $key in map:keys($result) satisfies ends-with($key,
                     'transform/sandbox/fn-transform-43/section3.html')</assert>
@@ -1281,6 +1313,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using serialized delivery-format and
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -1300,7 +1333,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                     return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-44/output.xml", static-base-uri()),
-            "delivery-format":"serialized"})]]>
+            "delivery-format":"serialized"})
+            => map:remove(resolve-uri("transform/sandbox/fn-transform-44/output.xml", static-base-uri()))]]>
         </test>
         <result>
             <all-of>
@@ -1342,6 +1376,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
@@ -1351,11 +1386,10 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             "delivery-format":"serialized"})</test>
         <result>
             <all-of>
-                <assert>count(map:keys($result)) = 3</assert>
+                <assert>count(map:keys($result)) = 3 to 4</assert>
                 <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
-                <assert>some $key in map:keys($result) satisfies ends-with($key,
-                    'transform/sandbox/fn-transform-39/section3.html')</assert>
-                <assert><![CDATA[some $key in map:keys($result) satisfies parse-xml($result($key))//h1 = 'Header for section 2']]></assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 'transform/sandbox/fn-transform-39/section3.html')</assert>
+                <assert>some $key in map:keys($result)[contains(., 'section')] satisfies parse-xml($result($key))//h1 = 'Header for section 2'</assert>
             </all-of>
         </result>
     </test-case>
@@ -1374,11 +1408,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             "delivery-format":"document"})</test>
         <result>
             <all-of>
-                <assert>count(map:keys($result)) = 3</assert>
+                <assert>count(map:keys($result)) = 3 to 4</assert>
                 <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
                 <assert>some $key in map:keys($result) satisfies ends-with($key,
                     'transform/sandbox/fn-transform-39/section3.html')</assert>
-                <assert><![CDATA[some $key in map:keys($result) satisfies $result($key)//h1 = 'Header for section 2']]></assert>
+                <assert>some $key in map:keys($result) satisfies $result($key)//h1 = 'Header for section 2'</assert>
             </all-of>
         </result>
     </test-case>
@@ -1719,6 +1753,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 options initial-function and function-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <modified by="Michael Kay" on="2017-04-05" change="externally-invoked function must be public"/>
+        <modified by="Michael Kay" on="2018-06-14" change="default delivery format is 'document', so the result should have a document node"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
@@ -1750,7 +1785,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
                 <assert>$result("output") instance of node()</assert>
-                <assert>$result?output/self::this = 'new1new2'</assert>
+                <assert>$result("output") instance of document-node()</assert>
+                <assert>$result?output/this = 'new1new2'</assert>
             </all-of>
         </result>
     </test-case>
@@ -1760,6 +1796,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         for version 2.0 stylesheet (needs an XSLT 3.0 processor)</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <modified by="Michael Kay" on="2017-04-05" change="externally-invoked function must be public"/>
+        <modified by="Michael Kay" on="2018-06-14" change="default delivery format is 'document', so the result should have a document node"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
@@ -1794,7 +1831,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
                 <assert>$result("output") instance of node()</assert>
-                <assert>$result?output/self::this = 'new1new2'</assert>
+                <assert>$result("output") instance of document-node()</assert>
+                <assert>$result?output/this = 'new1new2'</assert>
             </all-of>
         </result>
     </test-case>
@@ -2486,17 +2524,50 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
     
+    <test-case name="fn-transform-83">
+        <description>Use initial-match-selection in place of source-node</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, "initial-match-selection" : fn:doc($uri)})return $result?output</test>
+        <result>
+            <assert>count($result//employee) > 0</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-84">
+        <description>Use initial-match-selection to select atomic values</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            version='3.0'> 
+            <xsl:template match='.' as='xs:integer'>
+              <xsl:sequence select='. * .'/>
+            </xsl:template> 
+        </xsl:stylesheet>" return
+        transform(map{"stylesheet-text":$xsl,
+            "delivery-format" : "raw",
+            "initial-match-selection": 1 to 5
+            })?output]]></test><result>
+            <assert>deep-equal($result, (1, 4, 9, 16, 25))</assert>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location; change expected error"></modified>
       <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+      <modified by="Michael Kay" on="2018-09-22" change="allow alternative error code, based on careful reading of the spec"/>
       <environment ref="works-mod-uri2"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <test>let $result := fn:transform(map {"stylesheet-location" : $render})return $result("output")</test>
       <result>
-         <error code="FOXT0002"/>
+          <any-of>
+              <error code="FOXT0002"/>
+              <error code="XTDE0040"/>
+          </any-of>       
       </result>
    </test-case>
 
@@ -2672,6 +2743,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - value supplied for stylesheet-base-uri should be absolute</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Michael Kay" on="2016-11-30" change="No longer an error : bug 30023"/>
+        <modified by="Michael Kay" on="2018-09-23" change="As we were saying, this is no longer an error..."/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -2684,7 +2756,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             })?output
             ]]></test>
         <result>
-            <error code="FOXT0002"/>
+            <assert>ends-with($result/x, 'fn/transform/staticbaseuri.xsl')</assert>
         </result>
     </test-case>
 
@@ -2694,10 +2766,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)!tokenize(., '/')[last()]</test>
+            "delivery-format":"serialized"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
@@ -2711,10 +2785,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)!tokenize(., '/')[last()]</test>
+            "delivery-format":"serialized"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
@@ -2728,10 +2804,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
+        <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"document"}) return map:keys($res)!tokenize(., '/')[last()]</test>
+            "delivery-format":"document"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
@@ -2833,6 +2911,31 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             })
         ]]>
         </test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-17">
+        <description>Use initial-match-selection as well as source-node</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, "initial-match-selection" : fn:doc($uri), "source-node" : fn:doc($uri)})return $result?output</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-18">
+        <description>Stylesheet params should be supplied as QNames, not strings</description>
+        <created by="Michael Kay" on="2018-01-21"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, 
+                                               "source-node" : fn:doc($uri), 
+                                               "stylesheet-params" : map{ "debug": true()}
+                                          }) return $result?output</test>
         <result>
             <error code="FOXT0002"/>
         </result>

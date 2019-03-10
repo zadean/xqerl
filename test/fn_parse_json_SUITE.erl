@@ -77,6 +77,10 @@
 -export(['fn-parse-json-109'/1]).
 -export(['fn-parse-json-110'/1]).
 -export(['fn-parse-json-111'/1]).
+-export(['fn-parse-json-112'/1]).
+-export(['fn-parse-json-113'/1]).
+-export(['fn-parse-json-114'/1]).
+-export(['fn-parse-json-115'/1]).
 -export(['fn-parse-json-801'/1]).
 -export(['fn-parse-json-802'/1]).
 -export(['fn-parse-json-804'/1]).
@@ -253,8 +257,12 @@ groups() -> [
     'fn-parse-json-109', 
     'fn-parse-json-110', 
     'fn-parse-json-111', 
-    'fn-parse-json-801']}, 
+    'fn-parse-json-112']}, 
    {group_3, [parallel], [
+    'fn-parse-json-113', 
+    'fn-parse-json-114', 
+    'fn-parse-json-115', 
+    'fn-parse-json-801', 
     'fn-parse-json-802', 
     'fn-parse-json-804', 
     'fn-parse-json-806', 
@@ -274,12 +282,12 @@ groups() -> [
     'fn-parse-json-830', 
     'fn-parse-json-831', 
     'fn-parse-json-832', 
-    'fn-parse-json-833', 
+    'fn-parse-json-833']}, 
+   {group_4, [parallel], [
     'fn-parse-json-834', 
     'fn-parse-json-835', 
     'fn-parse-json-839', 
-    'fn-parse-json-840']}, 
-   {group_4, [parallel], [
+    'fn-parse-json-840', 
     'fn-parse-json-901', 
     'fn-parse-json-902', 
     'fn-parse-json-903', 
@@ -299,12 +307,12 @@ groups() -> [
     'fn-parse-json-917', 
     'fn-parse-json-918', 
     'fn-parse-json-919', 
-    'fn-parse-json-920', 
+    'fn-parse-json-920']}, 
+   {group_5, [parallel], [
     'fn-parse-json-921', 
     'fn-parse-json-922', 
     'fn-parse-json-923', 
-    'fn-parse-json-924']}, 
-   {group_5, [parallel], [
+    'fn-parse-json-924', 
     'fn-parse-json-925', 
     'fn-parse-json-926', 
     'fn-parse-json-927', 
@@ -324,12 +332,12 @@ groups() -> [
     'fn-parse-json-941', 
     'fn-parse-json-942', 
     'fn-parse-json-943', 
-    'fn-parse-json-944', 
+    'fn-parse-json-944']}, 
+   {group_6, [parallel], [
     'fn-parse-json-945', 
     'fn-parse-json-946', 
     'fn-parse-json-947', 
-    'fn-parse-json-948']}, 
-   {group_6, [parallel], [
+    'fn-parse-json-948', 
     'fn-parse-json-949', 
     'fn-parse-json-950', 
     'fn-parse-json-951', 
@@ -1775,6 +1783,66 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"map{\"%\\u0010%\":\"x\", \"%\\n%\":\"y\"}") of 
       true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-parse-json-112'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "parse-json(())", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-parse-json-112.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-parse-json-113'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "parse-json((),  map{'escape':true(), 'duplicates':'reject'})", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-parse-json-113.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-parse-json-114'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "parse-json(\"[]\"[current-date() lt xs:date('1900-01-01')])", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-parse-json-114.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-parse-json-115'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "parse-json(\"[]\"[current-date() lt xs:date('1900-01-01')],  map{'escape':true(), 'duplicates':'reject'})", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-parse-json-115.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

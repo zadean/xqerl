@@ -60,7 +60,9 @@
 -export(['modules-17'/1]).
 -export(['modules-18'/1]).
 -export(['modules-19'/1]).
+-export(['modules-19b'/1]).
 -export(['modules-20'/1]).
+-export(['modules-20b'/1]).
 -export(['modules-21'/1]).
 -export(['modules-22'/1]).
 -export(['modules-23'/1]).
@@ -143,15 +145,10 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-   {group, group_0}, 
-   {group, group_1}, 
-   {group, group_2}, 
-   {group, group_3}, 
-   {group, group_4}, 
-   {group, group_5}
+   {group, group_0}
    ].
 groups() -> [
-   {group_0, [parallel], [
+   {group_0, [], [
     'K2-ModuleProlog-1', 
     'modules-simple', 
     'modules-bad-ns', 
@@ -174,8 +171,7 @@ groups() -> [
     'module-URIs-19', 
     'module-URIs-20', 
     'module-URIs-21', 
-    'module-URIs-22']}, 
-   {group_1, [parallel], [
+    'module-URIs-22', 
     'module-URIs-23', 
     'module-URIs-24', 
     'module-URIs-25', 
@@ -199,15 +195,16 @@ groups() -> [
     'modules-10', 
     'modules-11', 
     'modules-12', 
-    'modules-13']}, 
-   {group_2, [parallel], [
+    'modules-13', 
     'modules-14', 
     'modules-15', 
     'modules-16', 
     'modules-17', 
     'modules-18', 
     'modules-19', 
+    'modules-19b', 
     'modules-20', 
+    'modules-20b', 
     'modules-21', 
     'modules-22', 
     'modules-23', 
@@ -224,8 +221,7 @@ groups() -> [
     'K2-ModuleImport-1', 
     'errata6-001', 
     'errata6-002', 
-    'errata6-003']}, 
-   {group_3, [parallel], [
+    'errata6-003', 
     'errata6-004', 
     'errata6-005', 
     'errata6-006', 
@@ -249,8 +245,7 @@ groups() -> [
     'modules-pub-priv-12', 
     'modules-pub-priv-13', 
     'modules-pub-priv-14', 
-    'modules-pub-priv-15']}, 
-   {group_4, [parallel], [
+    'modules-pub-priv-15', 
     'modules-pub-priv-16', 
     'modules-pub-priv-17', 
     'modules-pub-priv-18', 
@@ -274,8 +269,7 @@ groups() -> [
     'modules-pub-priv-36', 
     'modules-pub-priv-37', 
     'modules-pub-priv-38', 
-    'cbcl-module-001']}, 
-   {group_5, [parallel], [
+    'cbcl-module-001', 
     'cbcl-module-002', 
     'cbcl-module-003', 
     'cbcl-module-004']}].
@@ -1345,9 +1339,15 @@ environment('user-defined-types',__BaseDir) ->
 'modules-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
+'modules-19b'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'modules-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
+'modules-20b'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'modules-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
