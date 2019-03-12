@@ -2739,26 +2739,14 @@ head_1(H) -> H.
       Txt = 'unparsed-text'(Ctx,Href),
       ok = check_json_doc_opts(Opts),
       'parse-json'(Ctx,Txt,Opts)
-%%       %db_json_to_item
-%%       Uri = xqerl_types:value(Href),
-%%       BaseUri = xqerl_types:value(BaseUri0),
-%%       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-%%       Options = map_options_to_list(Ctx, Opts),
-%%       case xqerl_json:db_json_to_item(ResVal, Options) of
-%%          {error, not_exists} ->
-%%             ?err('FOUT1170');
-%%          {error, _} ->
-%%             ?err('FOJS0001');
-%%          JDoc ->
-%%             JDoc
-%%       end            
    catch 
+      ?ERROR_MATCH(?A("FOUT1190")) -> ?err('FOJS0001'); % invalid XML char
       ?ERROR_MATCH(?A("FORG0002")) -> ?err('FOUT1170');
       ?ERROR_MATCH(?A("XQST0046")) -> ?err('FOUT1170');
       _:#xqError{} = E -> throw(E);
       _:_:Stack -> 
          ?dbg("Stack",Stack),
-         ?err('FOUT1170')
+         ?err('FOJS0001')
    end.
 %%    Txt = 'unparsed-text'(Ctx,Arg1),
 %%    'parse-json'(Ctx,Txt,Arg2).

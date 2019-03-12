@@ -1053,16 +1053,14 @@ format_datetime_part(#xsDateTime{offset = #off_set{sign = S,
    Pat = "^\\p{Nd}(\\p{Nd})?$",
    {ok,RE} = re:compile(Pat, [unicode, ucp]),
    case is_match(First, RE) of
+      _ when H =:= 0 andalso M =:= 0 andalso Second =:= "t" -> %"traditional"
+         "Z";
       true ->
-         if H =:= 0 andalso M =:= 0 andalso Second =:= "t" -> %"traditional"
-               "Z";
+         O = parse_picture(H, First),
+         if M > 0 ->
+               Sign ++ O ++ ":" ++ parse_picture(M, "11");
             true ->
-               O = parse_picture(H, First),
-               if M > 0 ->
-                     Sign ++ O ++ ":" ++ parse_picture(M, "11");
-                  true ->
-                     Sign ++ O
-               end
+               Sign ++ O
          end;
       _ ->
          if First =:= "Z", H =< 12, M == 0 ->

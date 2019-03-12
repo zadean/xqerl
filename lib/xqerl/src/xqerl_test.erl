@@ -71,22 +71,13 @@ assert(Result, QueryString) ->
       #xqError{} = Res ->
          ?dbg("false",{false, {Res,Result,QueryString}}),
          {false, {Res,Result,QueryString}};
-      #{nk := _} ->
-         true;
-      [] ->
-         {false,[]};
       Res1 ->
-         StrVal = string_value(Res1),
-         if StrVal == <<"true">> ->
+         EBV = xqerl_operators:eff_bool_val(Res1),
+         if EBV ->
                true;
-            StrVal == <<"false">> ->
-               ?dbg("false",{false, {assert,Res1,Result,QueryString}}),
-               {false, {assert,Res1,QueryString}};
-            StrVal == <<"">> ->
-               ?dbg("false",{false, {assert,Res1,Result,QueryString}}),
-               {false, {assert,Res1,QueryString}};
             true ->
-               true
+               ?dbg("false",{false, {assert,Res1,Result,QueryString}}),
+               {false, {assert,Res1,QueryString}}
          end
    end.
 
@@ -285,20 +276,18 @@ assert_norm_string_value(Result, String) ->
          {false, {assert_norm_string_value,StrVal,String}}
    end.
 
+assert_serialization_match(#xqError{} = Err, _, _) ->
+   {false, Err};
 assert_serialization_match(Result, SchemaRegex, Flags) ->
-   %io:format("~p~n",[Result]),
-   Norm = if Flags == <<"q">> ->
-                {ok,Norm0} = xs_regex:normalize(SchemaRegex),
-                Norm0;
-             true ->
-                SchemaRegex
-          end,
+   {ok, NormResult} = xs_regex:normalize(string_value(Result)),
+   {ok, Norm} = xs_regex:normalize(SchemaRegex),
    {_, RE} = xs_regex:compile(Norm, Flags),
-   case catch re:run(string_value(Result), RE) of
+   case catch re:run(NormResult, RE) of
       {match,_} ->
          true;
       _ ->
-         {false, {assert_serialization_match,Result,SchemaRegex}}      
+         ?dbg("Result,SchemaRegex", {NormResult, Norm}),
+         {false, {assert_serialization_match,NormResult,SchemaRegex}}      
    end.
    
 %% assert_error
@@ -411,6 +400,7 @@ run(misc) ->
    run_suite(misc_AppendixA4_SUITE),
    run_suite(misc_ErrorsAndOptimization_SUITE),
    run_suite(misc_HigherOrderFunctions_SUITE),
+   run_suite(misc_JsonTestSuite_SUITE),
    run_suite(misc_StaticContext_SUITE),
    run_suite(misc_Surrogates_SUITE),
    run_suite(misc_UCACollation_SUITE),
@@ -985,7 +975,7 @@ handle_environment(List) ->
                                Val = xqerl:run(Value),
                                Map#{?LB(Name) => Val};
                           ({Name,As,Value},Map) ->
-                             Val = xqerl:run("param", Value++" cast as "++As),
+                             Val = xqerl:run(Value++" cast as "++As),
                              Map#{?LB(Name) => Val}          
                        end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
@@ -1441,6 +1431,7 @@ qt3_files() ->
    "misc/AppendixA4.xml",
    "misc/ErrorsAndOptimization.xml",
    "misc/HigherOrderFunctions.xml",
+   "misc/JsonTestSuite.xml",
    "misc/StaticContext.xml",
    "misc/Surrogates.xml",
    "misc/UCACollation.xml",

@@ -238,6 +238,7 @@ is_numeric(_) ->
 
 
 
+get_type('empty-sequence'          ) ->                     0 ;
 get_type('item'                    ) ->   9223372036854775808 ;
 get_type('node'                    ) ->  11529215046068469760 ;
 get_type('attribute'               ) ->  11538222245323210752 ;
@@ -305,6 +306,7 @@ get_type('xs:IDREFS'               ) ->  10376293541715904512 ;
 get_type('xs:NMTOKENS'             ) ->  10376293541704894464 ;
 get_type('xs:ENTITIES'             ) ->  10376293541716428800 ;
 % reverse
+get_type(                   0 ) ->  'empty-sequence'          ;
 get_type( 9223372036854775808 ) ->  'item'                    ;
 get_type(11529215046068469760 ) ->  'node'                    ;
 get_type(11538222245323210752 ) ->  'attribute'               ;

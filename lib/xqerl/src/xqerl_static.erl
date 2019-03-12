@@ -837,12 +837,6 @@ handle_node(State,#xqVar{id = Id,
          _ ->
             VarStmt
       end,
-   %case check_type_match(VarType, SVarType) of
-   %   false ->
-   %      ?err('XPTY0004');
-   %   _ ->
-   %      ok
-   %end,
    External = case is_static_literal(VarStmt) of
                  true when not Ext ->
                     {false, VarStmt};
@@ -855,7 +849,7 @@ handle_node(State,#xqVar{id = Id,
    State1 = add_inscope_variable(set_is_db(State, IsDB), NewVar),
    NewStatement = Node#xqVar{id = Id,
                              name = Name, 
-                             type = SVarType, 
+                             type = Type, 
                              expr = VarStmt1},
    set_statement_and_type(State1, NewStatement, VarType);
 
@@ -1515,9 +1509,12 @@ handle_node(State, {range, Expr1, Expr2}) ->
                set_statement_and_type(
                  State, 'empty-sequence', 
                  #xqSeqType{type = 'empty-sequence', occur = zero});
-            true ->
+            is_number(Diff) ->
                set_static_count(
-                  set_statement_type(S3, Iom), Diff + 1)
+                  set_statement_type(S3, Iom), Diff + 1);
+            true ->
+               %?dbg("F",{Diff}),
+               ?err('XPTY0004') % was decimal?
          end;
       true ->
          set_statement_and_type(S3,{range, St1, St2}, Izm)
@@ -1827,29 +1824,41 @@ handle_node(State, {'string-constructor', Expr}) ->
 %% 3.11.1 Maps
 %% 3.11.1.1 Map Constructors
 handle_node(State, {'map', Vals}) -> 
-   {KVSts,KVTys} = lists:mapfoldl(fun(KV, Types) ->
-                                   KVS1 = handle_node(State, KV),
-                                   KVSt = get_statement(KVS1),
-                                   KVSty = get_statement_type(KVS1),
-                                   {KVSt,[KVSty|Types]}
-                             end, [], Vals),
-   Sty = case get_list_type(KVTys) of
-            #xqSeqType{type = item} ->
-               any;
-            O ->
-               O
-         end,
+   {KVSts, {FKeyTy, FValTy}} = 
+     lists:mapfoldl(
+       fun(KV, Types) ->
+             KVS1 = handle_node(State, KV),
+             KVSt = get_statement(KVS1),
+             KVSty = get_statement_type(KVS1),
+             #xqSeqType{type = 
+                          #xqFunTest{kind = map, 
+                                     type = ValTy, 
+                                     params = [KeyTy]}} = KVSty,
+%             ?dbg("KVSty",KVSty), % this should be folded
+             NewTypes = 
+               case Types of 
+                  {any,any} ->
+                     {KeyTy, ValTy};
+                  {OKeyTy, OValTy} ->
+                     {get_list_type([OKeyTy,KeyTy]),
+                      get_list_type([OValTy,ValTy])}
+               end,
+             {KVSt, NewTypes}
+       end, {any,any}, Vals),
    set_statement_and_type(State, {'map', KVSts}, 
                           #xqSeqType{type = #xqFunTest{kind = map, 
-                                                       type = Sty}, 
+                                                       params = [FKeyTy],
+                                                       type = FValTy}, 
                                      occur = one});
 handle_node(State, {'map-key-val', Key, Val}) -> 
    KeyS1 = handle_node(State, Key),
    KeySt = get_statement(KeyS1),
+   KeyTy = get_statement_type(KeyS1),
    ValS1 = handle_node(State, Val),
    ValSt = get_statement(ValS1),
    ValTy = get_statement_type(ValS1),
-   set_statement_and_type(State, {'map-key-val', KeySt, ValSt}, ValTy);
+   Type = #xqFunTest{kind = map, type = ValTy, params = [KeyTy]},
+   set_statement_and_type(State, {'map-key-val', KeySt, ValSt}, #xqSeqType{type = Type, occur = one});
 
 %% 3.11.1.2 Map Lookup using Function Call Syntax
 %% 3.11.2 Arrays
@@ -1857,7 +1866,13 @@ handle_node(State, {'map-key-val', Key, Val}) ->
 handle_node(State, {'array', Expr}) -> 
    S1 = handle_node(State, Expr),
    St = get_statement(S1),
-   Ty = get_statement_type(S1),
+   Ty = case get_statement_type(S1) of
+            #xqSeqType{type = item} ->
+               any;
+            O ->
+               O
+         end,
+   %?dbg("Ty",{Ty, St}),
    set_statement_and_type(State, 
                           {'array', l(St)}, 
                           #xqSeqType{type = #xqFunTest{kind = array, 
@@ -2057,9 +2072,15 @@ handle_node(State, {'let',#xqVar{id = Id,
          ?err('XPTY0004');
       OkType == cast , element(2, LetType) == item ->
          ok;
-      OkType == cast , element(2, Type) =/= item ->
-         %?dbg("LetType",{LetType, Type}),
-         ?err('XPTY0004');
+      OkType == cast ->
+         case Type of
+            #xqSeqType{type = #xqFunTest{}} ->
+               ok;
+            #xqSeqType{type = IType} when IType =/= item ->
+               ?err('XPTY0004');
+            _ ->
+               ok
+         end;
       true ->
          ok
    end,
@@ -3504,7 +3525,7 @@ handle_predicate(State,
    Type = get_statement_type(SimExpr),
    IsNum = check_type_match(Type, #xqSeqType{type = 'xs:numeric',
                                              occur = zero_or_many}),
-   % numericas are position filters, all else mean no return
+   % numerics are position filters, all else mean no return
    if IsNum -> 
          set_statement_and_type(State, 
                                 {positional_predicate, SimSt}, 
@@ -4955,6 +4976,8 @@ check_fun_arg_type(State, Arg, TargetType) ->
    #xqSeqType{type = TT} = TargetType,
    if NoCast ->
          set_statement(Arg, type_ensure(ParamType1,TargetType,Param));
+      NoCast == false_not_empty ->
+         set_statement(Arg, {false_not_empty, Param});
       NoCast == cast ->
          %?err('XPTY0004');
          set_statement(Arg, {promote_to, Param, TargetType});
@@ -5043,7 +5066,9 @@ get_list_type([#xqSeqType{type =
    ParamsC = if length(ParamsA) =/= length(ParamsB) ->
                    any;
                 ParamsA == any;
-                ParamsB == any ->
+                ParamsA == [any];
+                ParamsB == any;
+                ParamsB == [any] ->
                    any;
                 true ->
                    Comb = fun(A,B) ->
@@ -5205,6 +5230,10 @@ check_type_match(#xqSeqType{type = ParamType},
                  #xqSeqType{type = TargetType}) 
    when ?node(ParamType) andalso ?xs_anyAtomicType(TargetType) -> 
    atomize;
+check_type_match(#xqSeqType{type = 'xs:numeric'}, 
+                 #xqSeqType{type = TargetType}) 
+   when ?xs_numeric(TargetType) -> 
+   cast;
 check_type_match(#xqSeqType{type = function}, 
                  #xqSeqType{type = TargetType}) 
    when ?xs_anyAtomicType(TargetType) -> 
@@ -5228,10 +5257,20 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = K1}},
         K1 == array;
         K1 == function ->
    true;   
+% empty map has parameter any in a list
+check_type_match(#xqSeqType{type = #xqFunTest{kind = map,
+                                              params = [any]}}, 
+                 #xqSeqType{type = #xqFunTest{kind = map}}) ->
+   true;   
 check_type_match(#xqSeqType{type = #xqFunTest{kind = map}}, 
                  #xqSeqType{type = #xqFunTest{kind = map, 
                                               params = any, 
                                               type = any}}) ->
+   true;   
+% empty arrays are any type
+check_type_match(#xqSeqType{type = #xqFunTest{kind = array,
+                                              type = #xqSeqType{type = 'empty-sequence'}}}, 
+                 #xqSeqType{type = #xqFunTest{kind = array}}) ->
    true;   
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array}}, 
                  #xqSeqType{type = #xqFunTest{kind = array, 
@@ -5240,7 +5279,13 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = array}},
    true;   
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array, type = Type1}}, 
                  #xqSeqType{type = #xqFunTest{kind = array, type = Type2}}) ->
-   check_type_match(Type1,Type2);
+   case check_type_match(Type1,Type2) of
+      false ->
+         % empty arrays can match
+         false_not_empty;
+      O ->
+         O
+   end;
 check_type_match(#xqSeqType{type = #xqFunTest{kind = array, 
                                               type = Type1}}, 
                  #xqSeqType{} = Type2) ->
@@ -5272,9 +5317,15 @@ check_type_match(#xqSeqType{type = #xqFunTest{kind = map,
    if length(Params1) =:= length(Params2);
       Params1 =:= any;
       Params2 =:= any ->
-         check_type_match(Type1,Type2) == true;
+         case check_type_match(Type1,Type2) of
+            false ->
+               % empty arrays can match
+               false_not_empty;
+            O ->
+               O
+         end;
       true ->
-         false
+         false_not_empty
    end;
 check_type_match(#xqSeqType{type = #xqFunTest{kind = function}}, 
                  #xqSeqType{type = #xqFunTest{}}) -> % function coercion 
@@ -5367,7 +5418,7 @@ check_type_match(#xqSeqType{type = #xqFunTest{}}, TargetType) ->
    check_type_match(#xqSeqType{type = function, occur = one}, TargetType);   
 
 check_type_match(any, _TargetType) ->
-   true;
+   cast; % any to something needs to be checked in runtime
 check_type_match(undefined, _TargetType) ->
    true;
 
@@ -5382,6 +5433,8 @@ check_type_match(ParamType, TargetType) ->
          ?err('XPST0051')
    end.
 
+check_type_cast(0, _) -> false;
+check_type_cast(_, 0) -> false;
 check_type_cast(P, T) ->
    case xqerl_btypes:can_substitute(P, T) of
       true ->

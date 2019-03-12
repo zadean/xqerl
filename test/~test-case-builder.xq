@@ -190,7 +190,7 @@ declare function _:assert-xml($result) as xs:string
 (: Runs regex match on results :)
 declare function _:assert-serialization-matches($result) as xs:string
 {
-  let $ec := _:mask-string(fn:string($result))
+  let $ec := _:mask-string($result/text())
   let $fl := _:mask-string($result/@flags)
   return
   "   case xqerl_test:assert_serialization_match(Res,<<"||$ec||"/utf8>>,<<"||$fl||">>) of " ||$_:n|| 
@@ -718,8 +718,8 @@ declare function _:mod_exports($testCases)
 
 declare function _:mod_all($testCases, $single)
 {
-  (: fn:collection tests need to be done in a singleton group :)
-  let $max := if ($single) then 1 else 24
+  (: tests that step on each other need to be done in a singleton group :)
+  let $max := if ($single) then 1000 else 24
   let $f  := function($a){"'"||$a/@name||"'"}
   let $grpd := 
       for $tc at $y in $testCases
@@ -731,7 +731,14 @@ declare function _:mod_all($testCases, $single)
   ($grpd ! ("   {group, group_" || .?1 || "}" ) ) => _:join-cnl() ||$_:n||
   "   ]." ||$_:n||
   "groups() -> ["||$_:n||
-  ($grpd ! ("   {group_" || .?1 || ", [parallel], ["||$_:n||
+  ($grpd ! ("   {group_" || .?1 || 
+    (
+      if ($single) then
+        ", [], ["
+      else
+        ", [parallel], ["
+    )
+  ||$_:n||
   (.?2 ! ("    " || $f(.)) ) => _:join-cnl()
   ||
   "]}" ) ) => _:join-cnl()
@@ -806,7 +813,7 @@ let $standardFuns       :=
   (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
-  _:mod_all($testCases, $SUITE eq 'fn_collection_SUITE')
+  _:mod_all($testCases, $SUITE = ('fn_collection_SUITE', 'prod_ModuleImport_SUITE', 'app_Demos_SUITE'))
 let $usedEnvironments := _:get-used-environments($testCases)
   , $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
   , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."

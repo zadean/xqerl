@@ -529,10 +529,10 @@ do_serialize_html(#{nk := document} = Doc, Opts, NsInScope) ->
 do_serialize_html(#{nk := 'processing-instruction',
                      nn := {_,_,Ln}} = Node, _Opts, _) ->
    Tgt = xqldb_mem_nodes:string_value(Node),
-   if Tgt == <<>> ->
-         <<"<?", Ln/binary, " ?>">>;
+   if Tgt == <<>> -> % no trailing '?' in html
+         <<"<?", Ln/binary, " >">>;
       true ->
-         <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
+         <<"<?", Ln/binary, " ", Tgt/binary, ">">>
    end;
 do_serialize_html(#{nk := comment} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
@@ -624,7 +624,7 @@ do_serialize_xhtml(#{nk := 'processing-instruction',
                      nn := {_,_,Ln}} = Node, _Opts, _) ->
    Tgt = xqldb_mem_nodes:string_value(Node),
    if Tgt == <<>> ->
-         <<"<?", Ln/binary, " ?>">>;
+         <<"<?", Ln/binary, "?>">>; % no trailing whitespace allowed
       true ->
          <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
    end;
@@ -898,6 +898,10 @@ encode_qname({_, Px, Ln}) when is_atom(Px);
 encode_qname({_, Px, Ln}) ->
    <<Px/binary, ":", Ln/binary>>.
 
+encode_binary(Val, utf8) -> Val;
+encode_binary(Val, Enc) -> 
+   unicode:characters_to_binary(Val, unicode, Enc).
+
 string_join([], _With) -> <<>>;
 string_join([H], _With) -> H;
 string_join([H|T], With) ->
@@ -932,12 +936,13 @@ normalize_string_value(Val, #{'normalization-form' := nfc,
          norm_nfc_mapped(Val, Map, <<>>, <<>>)
    end;
 normalize_string_value(Val, #{'normalization-form' := none,
-                              'use-character-maps' := Map}) ->
+                              'use-character-maps' := Map,
+                              encoding := Enc}) ->
    case maps:size(Map) of
       0 ->
-         Val;
+         encode_binary(Val, Enc);
       _ ->
-         norm_mapped(Val, Map, <<>>)
+         encode_binary(norm_mapped(Val, Map, <<>>), Enc)
    end.
 
 norm_nfc_mapped(<<C/utf8,Val/binary>>, Map, Acc, Buf) when is_map_key(C, Map) ->
@@ -977,8 +982,9 @@ is_well_formed(Children) ->
 
 can_indent(_, _, #{indent := false}) -> false;
 can_indent({Ns, _, Ln}, Children, #{'suppress-indentation' := Els}) ->
+   Ln0 = string:lowercase(Ln),
    case [1 || #qname{namespace = Ns1, local_name = Ln1} <- Els,
-              Ln == Ln1,
+              Ln0 == string:lowercase(Ln1),
               Ns == Ns1 orelse 
                 (Ns == <<>> andalso Ns1 == 'no-namespace')] =/= [] of
       true ->
@@ -1003,7 +1009,8 @@ do_xml_declaration(Wellformed, ElementName,
                      'doctype-public' := P,
                      encoding := Encoding}) -> 
    Enc = if Encoding == utf8 -> <<"UTF-8">>;
-            Encoding == utf16 -> <<"UTF-16">>
+            Encoding == utf16 -> <<"UTF-16">>;
+            Encoding == utf32 -> <<"UTF-32">>            
          end,
    DocType = if Method == html, D == <<>>, P == <<>>, HtmlVers == 5.0, ElementName == <<"html">> -> 
                   <<"<!DOCTYPE ", ElementName/binary, ">\n">>;

@@ -248,7 +248,15 @@ exists_resource(DocUri) when is_binary(DocUri) ->
 select_resource(DocUri) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    case xqldb_db:exists(DbUri) of
-      false -> {error, not_exists};
+      false -> 
+         try
+            Fn = xqldb_lib:uri_to_filename(DocUri),
+            {ok, Bin} = file:read_file(Fn),
+            Bin
+         catch
+            _:_ ->
+               {error, not_exists}
+         end;
       true ->
          DB = xqldb_db:database(DbUri),
          case xqldb_path_table:lookup(?PATH_TABLE_P(DB), {Name, res}) of
@@ -261,7 +269,14 @@ select_resource(DocUri) when is_binary(DocUri) ->
                      {ok, Bin} = file:read_file(Loc),
                      Bin;
                   [] ->
-                     {error, not_exists};
+                     try
+                        Fn = xqldb_lib:uri_to_filename(DocUri),
+                        {ok, Bin} = file:read_file(Fn),
+                        Bin
+                     catch
+                        _:_ ->
+                           {error, not_exists}
+                     end;
                   _ ->
                      {error, multiple}
                end;

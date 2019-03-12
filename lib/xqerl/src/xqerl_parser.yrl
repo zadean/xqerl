@@ -1607,6 +1607,7 @@ end.
 'NCName' -> 'mod' : to_NCName('$1').
 'NCName' -> 'modify' : to_NCName('$1').
 'NCName' -> 'module' : to_NCName('$1').
+'NCName' -> 'namespace' : to_NCName('$1').
 'NCName' -> 'ne' : to_NCName('$1').
 'NCName' -> 'next' : to_NCName('$1').
 'NCName' -> 'no-inherit' : to_NCName('$1').

@@ -230,6 +230,9 @@ handle_call({new, Path}, _From, #{meta := TabName,
       [{{_, Id}, undefined, closed}] ->
          ets:insert(Ets, {{Path, Id}, undefined, opening}),
          DbDir = filename:join([DataDir, int_to_path(Id)]),
+         {reply, {DbDir, Id}, State};
+      [{{_, Id}, undefined, opening}] ->
+         DbDir = filename:join([DataDir, int_to_path(Id)]),
          {reply, {DbDir, Id}, State}
    end
    catch

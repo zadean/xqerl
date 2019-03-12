@@ -296,7 +296,6 @@ do_compile(Filename, Str, false) ->
 %io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri),
-%io:format("~p~n", [Tree]),
 %io:format("~p~n", [maps:get(body, Static)]),
       {_,_,_,_,_,Forms,_} = scan_tree(Static),
       xqerl_context:destroy(Static),
@@ -355,6 +354,7 @@ do_compile(Filename, Str, Hints) ->
       gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT)
    catch 
       ?NOT_FOUND(V) = Error ->
+      ?dbg("Error",Error),
          KN1 = trim_q(V),
          case lists:keyfind(KN1, 2, Hints) of
             false ->
@@ -368,6 +368,8 @@ do_compile(Filename, Str, Hints) ->
                end
          end;
       _:#xqError{} = Error:StackTrace ->
+         ?dbg("Error",Error),
+         ?dbg("Error",StackTrace),
          % TODO save the error
          add_stacktrace(Error, StackTrace);
       _:Error:StackTrace ->

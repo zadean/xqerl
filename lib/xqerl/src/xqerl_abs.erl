@@ -1343,6 +1343,9 @@ expr_do(Ctx, {map, Vals} ) ->
                    ?P("[{_@KeyExp, _@ValExp}|_@Abs]")
              end, {nil,?L}, alist(Vals)), 
    ?P("xqerl_map:construct(_@CtxVar,_@@AVals)");
+expr_do(Ctx, {false_not_empty, Expr} )->
+   E1 = expr_do(Ctx, Expr),
+   ?P("xqerl_types:ensure_empty(_@E1)");
 expr_do(Ctx, {array, {expr, Expr}} )->
    Vals = lists:foldr(
             fun(E,Acc) ->
@@ -1692,6 +1695,30 @@ expr_do(Ctx, #xqFunction{annotations = Annos,
                           arity = Ay, 
                           params = Params,
                           type = Type,
+                          body = {promote_to, {M,F,_}, OtherType}}) ->
+   _ = add_used_record_type(xqFunction),
+   TA = expr_do(Ctx, OtherType),
+   CtxVar = context_map_abs(Ctx), 
+   Fun = if Ay > 0 ->
+               DArgs = [{var,?L,list_to_atom("P__"++integer_to_list(I))} ||
+                        I <- lists:seq(1, Ay)],
+               ?P("fun(_,_@@DArgs) -> xqerl_types:promote('@M@':'@F@'(_@CtxVar,_@@DArgs),_@TA) end");
+            true ->
+               ?P("fun(_) -> xqerl_types:promote('@M@':'@F@'(_@CtxVar),_@TA) end")
+         end,
+   ?P(["#xqFunction{id = 0,"
+       "            annotations = _@Annos@," 
+       "            name = _@Name@," 
+       "            arity = _@Ay@," 
+       "            params = _@Params@,"
+       "            type = _@Type@,"
+       "            body = _@Fun}"]);
+
+expr_do(Ctx, #xqFunction{annotations = Annos, 
+                          name = Name, 
+                          arity = Ay, 
+                          params = Params,
+                          type = Type,
                           body = {M,F,_}}) ->
    _ = add_used_record_type(xqFunction),
    CtxVar = context_map_abs(Ctx), 
@@ -2014,6 +2041,7 @@ expr_do(Ctx, #xqComparisonExpr{anno = Line,
       Op =:= '>'; Op =:= '>=';
       Op =:= '<'; Op =:= '<=' ->
          ?P("xqerl_operators:general_compare('@Op@',_@E1,_@E2)");
+      %xqerl_context:get_default_collation(Ctx)
       Op =:= 'eq' -> ?P("xqerl_operators:equal(_@E1,_@E2)");
       Op =:= 'ne' -> ?P("xqerl_operators:not_equal(_@E1,_@E2)");
       Op =:= 'gt' -> ?P("xqerl_operators:greater_than(_@E1,_@E2)");
@@ -2769,6 +2797,7 @@ window_loop(Ctx, #xqWindow{type = Type,
    EndTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,
                                        EVar,EPosVar,EPrevVar,ENextVar]),
    % mask the win variable name to type-check it later
+   % TODO
    %TempWinVarName = next_var_name(),
    %TempWinVar = {[],[],[],TempWinVarName},
 
@@ -4144,6 +4173,8 @@ simple_name('processing-instruction', undefined) ->
 simple_name(_, #qname{namespace = N, local_name = L}) ->
    {any_name(N), any_name(L)};
 simple_name(document, undefined) ->
+   [];
+simple_name('document-node', undefined) ->
    [];
 simple_name(node, _) ->
    '_';

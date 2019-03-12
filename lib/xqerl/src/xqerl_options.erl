@@ -49,10 +49,11 @@ serialization_option_map(#{nk := element,
 serialization_option_map(Options, Namespaces) 
   when is_map(Options), not is_map_key(nk, Options) ->
    List = maps:to_list(Options),
+   List1 = keys_as_string(List),
    serialization_option_map(
      [{?OUTPUTB(KeyBin), 
        type_check_mapped_vals(KeyBin, Value)} || 
-      {KeyBin,{_,Value}} <- List], Namespaces);
+      {KeyBin,{_,Value}} <- List1], Namespaces);
 serialization_option_map(_, _) ->
    ?err('XPTY0004').
 
@@ -75,11 +76,20 @@ type_check_mapped_vals(<<"item-separator">>, Val) -> string_value(Val);
 type_check_mapped_vals(<<"media-type">>, Val) -> string_value(Val);
 type_check_mapped_vals(<<"normalization-form">>, Val) -> string_value(Val);
 type_check_mapped_vals(<<"version">>, Val) -> string_value(Val);
-type_check_mapped_vals(<<"html-version">>, Val) -> string_value(Val); % should be decimal
+type_check_mapped_vals(<<"html-version">>, Val) -> decimal_value(Val); % should be decimal
 type_check_mapped_vals(<<"json-node-output-method">>, Val) -> string_value(Val);
 type_check_mapped_vals(<<"method">>, Val) -> string_value(Val);
 type_check_mapped_vals(<<"use-character-maps">>, Val) -> Val;
 type_check_mapped_vals(_,V) -> V .
+
+keys_as_string([{_,{#xqAtomicValue{type = 'xs:QName',
+                                   value = #qname{namespace = 'no-namespace',
+                                                  local_name = Str}} = N,V}}|T]) ->
+   [{Str, {N, V}}|keys_as_string(T)];
+keys_as_string([H|T]) ->
+   [H|keys_as_string(T)];
+keys_as_string([]) ->
+   [].
 
 true_false_def([], Def) -> Def;
 true_false_def(#xqAtomicValue{value = true}, _) -> <<"yes">>;
@@ -101,6 +111,8 @@ qname_list(O) ->
 string_value([]) -> <<>>;
 string_value(Val) -> 
    xqerl_types:string_value(Val).
+
+decimal_value(Val) -> xqerl_types:cast_as(Val, 'xs:decimal').
 
 validate(Options, Namespaces) ->
    V1 = validate1(Options, #{}, Namespaces),
@@ -270,12 +282,12 @@ get_encoding(Value) ->
    case string:lowercase(Value) of
       <<"utf-8">> -> utf8;
       <<"utf-16">> -> utf16;
-      <<"utf-32">> -> ?err('SESU0007');
-      <<"us-ascii">> -> ?err('SESU0007');
+      <<"utf-32">> -> utf32;
       _ -> ?err('SESU0007')
-      %_ -> ?err('SEPM0016')
    end.
 
+get_html_version(#xqAtomicValue{value = #xsDecimal{int = 5, scf = 0}}) -> 5.0;
+get_html_version(#xqAtomicValue{value = #xsDecimal{int = 4, scf = 0}}) -> 4.0;
 get_html_version(Value) ->
    case xqerl_lib:trim(Value) of
       <<"5.0">> -> 5.0;

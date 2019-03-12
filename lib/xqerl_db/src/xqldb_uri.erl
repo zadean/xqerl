@@ -93,6 +93,8 @@ flatten_file_path_name(AbsFilename) ->
    Split = filename:split(AbsFilename),
    Parts = flatten_file_path(Split, []),
    case Parts of
+      [Name] ->
+         {<<"/">>, Name};
       [<<"/">>, Name] ->
          {<<"/">>, Name};
       _ ->

@@ -37,6 +37,7 @@
 -export([type/1]).
 
 -export([promote/2]).
+-export([ensure_empty/1]).
 -export([construct_as/2]).
 -export([cast_as/2]).
 -export([cast_as/3]).
@@ -212,6 +213,17 @@ type(#xqAtomicValue{type = T}) ->
 type(Seq) ->
    #xqSeqType{type = T, occur = _One} = xqerl_seq3:get_seq_type(Seq),
    T.
+
+ensure_empty({array, []} = A) -> A;
+ensure_empty(M) when is_map(M) -> 
+   case maps:size(M) of
+      0 ->
+         M;
+      _ ->
+         ?err('XPTY0004')
+   end;
+ensure_empty(_) -> ?err('XPTY0004').
+  
 
 % this function is for promoting/checking sequences for their types
 cast_as_seq(Vals, SeqType) when is_atom(SeqType) ->
@@ -607,10 +619,46 @@ promote(#xqAtomicValue{type = 'xs:untypedAtomic'} = At,Type) ->
 promote(#xqAtomicValue{type = 'xs:anyURI'} = At,
         #xqSeqType{type = 'xs:string'} = Type) ->
    cast_as_seq(At,Type);
-promote(Map,#xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
+promote(Map,#xqSeqType{type = #xqFunTest{kind = map,
+                                         params = P,
+                                         type = T}}) when is_map(Map) ->
+   %?dbg("{P,T,Map}", {P,T,Map}),
+   Check = fun(V,#xqSeqType{type = #xqFunTest{}} = Ty) ->
+                 promote(V,Ty);
+              (V,Ty) ->
+                 case instance_of(V,Ty) of
+                    ?true -> true;
+                    _ -> 
+                       ?err('XPTY0004')
+                 end
+           end,
+   case {P,T} of
+      {any,any} ->
+         ok;
+      {[any],any} ->
+         ok;
+      {any,_} ->
+         _ = [Check(V, T) || {_,{_,V}} <- maps:to_list(Map)],
+         ok;
+      {[any],_} ->
+         _ = [Check(V, T) || {_,{_,V}} <- maps:to_list(Map)],
+         ok;
+      {[Kt],any} ->
+         _ = [Check(K, Kt) || {_,{K,_}} <- maps:to_list(Map)],
+         ok;
+      {[Kt],_} ->
+         _ = [{Check(K, Kt),Check(V, T)} || {_,{K,V}} <- maps:to_list(Map)],
+         ok
+   end,
    Map;
-promote({array,_} = A,#xqSeqType{type = #xqFunTest{kind = array}}) ->
+promote({array,_} = A, #xqSeqType{type = #xqFunTest{kind = array,
+                                                    type = any}}) ->
    A;
+promote({array,Vs}, #xqSeqType{type = #xqFunTest{kind = array,
+                                                 type = Ty}}) ->
+   Vs1 = [promote(V, Ty) || V <- Vs],
+   %?dbg("Vs1",Vs1),
+   {array,Vs1};
 promote(#xqFunction{} = A,#xqSeqType{type = #xqFunTest{kind = function,
                                                        params = P,
                                                        type = T} = B}) ->
@@ -728,6 +776,7 @@ subtype_of('processing-instruction', #xqKindTest{kind = node}) -> true;
 subtype_of('element', 'xs:QName')   -> ?err('XPTY0117'); % namespace sensitive
 subtype_of('attribute', 'xs:QName') -> ?err('XPTY0117'); % namespace sensitive
 
+subtype_of(map, 'xs:anyAtomicType') -> false;
 subtype_of(_, 'xs:anyAtomicType') -> true;
 subtype_of('xs:dateTimeStamp'     , 'xs:dateTime') -> true;
 subtype_of('xs:dayTimeDuration'   , 'xs:duration') -> true;

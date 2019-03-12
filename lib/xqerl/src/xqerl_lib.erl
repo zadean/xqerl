@@ -323,17 +323,16 @@ encode_for_uri(<<H/utf8,T/binary>>) ->
    <<Upp/binary, (encode_for_uri(T))/binary>>.
 
 
-bin_to_utf8(<<>>) ->
-    ?err('FOUT1200'); 
+bin_to_utf8(<<>>) -> <<>>; 
 bin_to_utf8(Binary) ->
    case unicode:bom_to_encoding(Binary) of
       % no BOM UTF-8 assumed
       {latin1, 0} ->
-         case unicode:characters_to_binary(Binary, utf8) of
+         case unicode:characters_to_binary(Binary, unicode) of
             {error,_,_} ->
-               ?err('FOUT1190');
+               ?err('FOUT1200');
             {incomplete,_,_} ->
-               ?err('FOUT1190');
+               ?err('FOUT1200');
             Bin ->
                Bin
          end;
