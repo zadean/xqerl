@@ -5711,8 +5711,10 @@ increase_occur_inscope_vars(#state{inscope_vars = Vars} = State) ->
           (zero_or_one) -> zero_or_many;
           (Ot) -> Ot
        end,
-   NewVars = [setelement(2, Var, T#xqSeqType{occur = O(Occ)}) ||
-              {_,#xqSeqType{occur = Occ} = T,_,_,_} = Var <- Vars],
+   % remove any static inline values that they can be grouped correctly
+   % this function is only called when a group by expression is used
+   NewVars = [setelement(5, setelement(2, Var, T#xqSeqType{occur = O(Occ)}), false)
+             || {_,#xqSeqType{occur = Occ} = T,_,_,_} = Var <- Vars],
    NV = lists:foldl(fun(V,A) ->
                           lists:keyreplace(element(1,V), 1, A, V)
                     end, Vars, NewVars),

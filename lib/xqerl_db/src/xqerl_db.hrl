@@ -21,7 +21,6 @@
 %% -------------------------------------------------------------------
 
 -include_lib("kernel/include/logger.hrl").
--include("xqerl_item.hrl").
 
 % node kinds
 -define(fragment, 7). % non-conformant xml
