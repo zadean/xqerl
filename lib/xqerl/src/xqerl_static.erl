@@ -3098,6 +3098,21 @@ handle_node(State, {'function-call',
    set_statement_and_type(State, 
                           {'function-call',
                            F#xqFunction{params = [ArgSt1,ArgSt2], type = Type1}}, Type1);
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN,local_name = ?A("subsequence")} = Name, 3, 
+                    [Arg1, Arg2, Arg3]}) -> 
+   F = get_static_function(State, {Name, 2}),
+   StateC = set_in_constructor(State, false),
+   SimpArg1 = handle_node(StateC, Arg1),
+   SimpArg2 = handle_node(StateC, Arg2),
+   SimpArg3 = handle_node(StateC, Arg3),
+   ArgSt1 = get_statement(SimpArg1),
+   ArgSt2 = get_statement(SimpArg2),
+   ArgSt3 = get_statement(SimpArg3),
+   Type1 = maybe_zero_type(get_statement_type(SimpArg1)),
+   set_statement_and_type(State, 
+                          {'function-call',
+                           F#xqFunction{params = [ArgSt1,ArgSt2,ArgSt3], type = Type1}}, Type1);
 
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,local_name = ?A("reverse")} = Name, 1, 
@@ -3505,8 +3520,7 @@ handle_predicates(State, Predicates) ->
 handle_predicate(State, 
                  {predicate,
                   [#xqComparisonExpr{comp = '=',
-                                     lhs = {'function-call',
-                                            {qname,?FN,_,<<"position">>},0,[]},
+                                     lhs = ?POSITION,
                                      rhs = Rhs}]}) ->
    % positional predicate in list, allow this through.
    State0 = set_in_predicate(State, true),

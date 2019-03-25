@@ -4619,6 +4619,7 @@ sort1(Ctx,A,B,Coll) ->
                     xq_types:xs_double(),
                     xq_types:xs_double()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
+'subsequence'(_Ctx,[],_StartingLoc,_Length) -> [];
 'subsequence'(_Ctx,SourceSeq,StartingLoc,Length) -> 
    VLen = xqerl_types:value(Length),
    VStart = xqerl_types:value(StartingLoc),
@@ -4650,14 +4651,10 @@ sort1(Ctx,A,B,Coll) ->
                                 Min + erlang:round(VLen) - 1),
                %?dbg("{Len,Min,Max}",{Len,Min,Max}),
                xqerl_seq3:range(Min, Max);
+            is_list(SourceSeq) ->
+               lists:sublist(SourceSeq, Start1, End);
             true ->
-               AList = xqerl_seq3:to_list(SourceSeq),
-               if AList == [] ->
-                     [];
-                  true ->
-                     %?dbg("{AList, Start1, End}",{AList, Start1, End}),
-                     lists:sublist(AList, Start1, End)
-               end
+               lists:sublist([SourceSeq], Start1, End)
          end
    end.
 

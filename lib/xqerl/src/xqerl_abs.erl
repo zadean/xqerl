@@ -346,10 +346,11 @@ scan_mod(#xqModule{prolog = Prolog,
    
    FileName1 = binary_to_list(FileName),
 
-   EmptyMap = Map#{variables => lists:map(VarFun1, Variables)
+   ModName = xqerl_static:string_atom(FileName),
+   EmptyMap = Map#{variables => lists:map(VarFun1, Variables),
+                   module => ModName
                   }, 
    
-   ModName = xqerl_static:string_atom(FileName),
    MapItems = init_fun_abs(
                 EmptyMap#{module => ModName},
                 maps:get(stat_props, EmptyMap) ++ [options|[module|StaticProps]]),
@@ -368,10 +369,10 @@ scan_mod(#xqModule{prolog = Prolog,
    P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
-   {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
+   %{RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P7 = get_global_funs(),
    P2 = lists:flatten([?P(export_functions(Functions)),
-                       RestExports,
+                       [], %RestExports,
                        ?P(used_records())]),
    AllAbs = lists:flatten([P1,[P1a|P2],P3,P4,P5,P6,P7]),
    {FileName,
@@ -380,7 +381,7 @@ scan_mod(#xqModule{prolog = Prolog,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
     AllAbs,
-    RestWrappers
+    [] %RestWrappers
    };
 
 scan_mod(#xqModule{prolog = Prolog, 
@@ -453,7 +454,7 @@ init_function(Variables,Prolog) ->
                    {'module-import',{N,P} = E} <- Prolog,
                    not lists:member(N, Stats),
                    P =/= <<>>],
-   ?dbg("{Variables,ImportedMods}",{Variables,ImportedMods}),
+   %?dbg("{Variables,ImportedMods}",{Variables,ImportedMods}),
    
    ImpSetFun = fun({I,_} = _M, CtxVar) ->
                      NC0 = next_ctx_var_name(),
@@ -607,7 +608,7 @@ rest_functions(Ctx, Functions) ->
            Parts = lists:flatten([FieldPart,CookiePart,HeaderPart,FormPart,QryPart]),
            LocalParams = [{var,?L,list_to_atom("Var_" ++ integer_to_list(Id))} 
                          || #xqVar{id = Id} <- FParams],
-           ?dbg("Parts",Parts),
+           %?dbg("Parts",Parts),
            FunName = rest_fun_name(FId),
            G5 = ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",

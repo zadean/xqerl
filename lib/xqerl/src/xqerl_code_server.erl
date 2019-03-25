@@ -90,6 +90,7 @@ start_link() ->
    gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 stop() ->
+   cowboy:stop_listener(xqerl_listener),
    gen_server:stop(?MODULE).
 
 get_static_signatures() ->
@@ -149,7 +150,7 @@ init([]) ->
    % create or open table
    {ok, Tab} = dets:open_file(TabName, [{type, set},{keypos, 2}]),
    % add ebin path to code path
-   true = code:add_pathz(EbinDir),
+   true = code:add_patha(EbinDir),
    DispatchFileName = filename:join(CodeDir, "dispatch.dat"),
    ok = init_rest(DispatchFileName),
    {ok, #{dir  => CodeDir,
@@ -231,7 +232,7 @@ handle_info(_Info, State) ->
 			| term().
 
 terminate(_Reason, _State) ->
-    ok.
+   cowboy:stop_listener(xqerl_listener).
 
 
 -spec code_change(OldVsn, State :: term(), Extra :: term()) -> Result when
@@ -465,7 +466,12 @@ init_rest(DispatchFileName) ->
    Paths  = case filelib:is_regular(DispatchFileName) of
                 true ->
                    {ok, Dis} = file:consult(DispatchFileName),
-                   Dis;
+                   case Dis of
+                      [] ->
+                         [];
+                      [D] ->
+                         D
+                   end;
                 false ->
                    Dis = [],
                    ok = write_dispatch(DispatchFileName, Dis),
@@ -489,7 +495,8 @@ merge_load_dispatch(Module, Rest, DispatchFile) ->
    _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
    ok.
 
-remove_module_from_endpoints(Module, EndPoints) ->
+remove_module_from_endpoints(_Module, []) -> [];
+remove_module_from_endpoints(Module, [EndPoints]) ->
    [Ep || #endpoint{module = M} = Ep <- EndPoints, M =/= Module].
    
 remove_module_dispatch(Module, DispatchFile) ->
