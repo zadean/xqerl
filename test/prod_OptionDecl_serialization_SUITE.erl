@@ -159,9 +159,17 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQST0108") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQST0108") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

@@ -1308,9 +1308,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQST0048") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQST0048") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1384,9 +1392,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-28a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1507,9 +1523,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "errata8-001a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -1529,9 +1553,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "errata8-002a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"10") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"10") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2137,9 +2169,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
@@ -2365,9 +2405,17 @@ environment('user-defined-types',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-module-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"XQST0059") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};
