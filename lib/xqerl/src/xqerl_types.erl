@@ -62,8 +62,8 @@
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).
 -define(MAXFLOATPREC,  1.175494351e-38).
--define(true,  ?xav('xs:boolean',true)).
--define(false, ?xav('xs:boolean',false)).
+-define(true,  true).
+-define(false, false).
 -define(xav(T,V),  #xqAtomicValue{type = T, value = V}).
 -define(ERROR_MATCH(E),
         _:#xqError{name = #xqAtomicValue{value=#qname{local_name = E}}}).
@@ -84,6 +84,8 @@ is_date_type(_Type) -> false.
 
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
+atomize(true) -> true;
+atomize(false) -> false;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
 atomize(#{nk := Nk,
           id := Id} = Node) ->
@@ -167,6 +169,8 @@ string_value(#xqAtomicValue{type = 'xs:string', value = V}) ->
 string_value(#qname{} = Q) ->
    Str = cast_as(#xqAtomicValue{type = 'xs:QName', value = Q}, 'xs:string'),
    string_value(Str);
+string_value(true) -> <<"true">>;
+string_value(false) -> <<"false">>;
 string_value(#xqAtomicValue{} = At) ->
    string_value(cast_as(At, 'xs:string'));
 
@@ -253,6 +257,9 @@ cast_as_seq(#xqAtomicValue{type = 'xs:anyURI'} = Av,
    cast_as(Av,'xs:string');
 cast_as_seq(#xqAtomicValue{} = Av, 
             #xqSeqType{type = 'xs:anyAtomicType'}) ->
+   Av;
+cast_as_seq(Av, #xqSeqType{type = 'xs:anyAtomicType'})
+   when is_boolean(Av) ->
    Av;
 cast_as_seq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Av, 
             #xqSeqType{type = Type}) ->
@@ -563,6 +570,10 @@ promote(#xqRange{} = R, #xqSeqType{} = T) ->
          ?err('XPTY0004')
    end;
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
+   At;
+promote(At, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(At) ->
+   At;
+promote(At, #xqSeqType{type = 'xs:boolean'}) when is_boolean(At) ->
    At;
 promote(#{nk := _} = N,#xqSeqType{type = T} = St) 
    when T == 'xs:anyAtomicType';
@@ -1004,42 +1015,46 @@ instance_of([Seq], #xqSeqType{type = #xqKindTest{} = TType,
         TOccur == one_or_many;
         TOccur == zero_or_one;
         TOccur == zero_or_many ->
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(Seq, #xqSeqType{type = #xqFunTest{} = TType,
                             occur = TOccur}) 
    when TOccur == one_or_many;
         TOccur == zero_or_many ->
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(Seq, #xqSeqType{type = #xqFunTest{} = TType,
                             occur = TOccur}) 
    when TOccur == one;
         TOccur == zero_or_one ->
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(Seq, #xqSeqType{type = TType, 
                             occur = TOccur}) 
    when is_map(Seq), TOccur == one;
         is_map(Seq), TOccur == one_or_many;
         is_map(Seq), TOccur == zero_or_one;
         is_map(Seq), TOccur == zero_or_many -> 
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(#{nk := _} = Seq, #xqSeqType{type = TType,
                                         occur = TOccur}) 
    when TOccur == one;
         TOccur == one_or_many;
         TOccur == zero_or_one;
         TOccur == zero_or_many -> 
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(#array{} = Seq, #xqSeqType{type = TType, 
                                        occur = TOccur}) 
    when TOccur == one;
         TOccur == one_or_many;
         TOccur == zero_or_one;
         TOccur == zero_or_many -> 
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqKindTest{}}) ->
    ?false;
 instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqFunTest{}}) ->
    ?false;
+instance_of(Bool, #xqSeqType{type = 'xs:boolean'}) when is_boolean(Bool) -> 
+   ?true;
+instance_of(Bool, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(Bool) -> 
+   ?true;
 instance_of(#xqAtomicValue{type = IType}, 
             #xqSeqType{type = IType}) -> ?true;
 instance_of(#xqAtomicValue{type = IType}, 
@@ -1058,11 +1073,11 @@ instance_of(Seq, #xqSeqType{type = TType, occur = TOccur})
    F = fun(Item) ->
              instance_of1(Item, TType)
        end,
-   ?xav('xs:boolean',lists:all(F, Seq));
+   lists:all(F, Seq);
 instance_of(Seq, #xqSeqType{type = TType, occur = TOccur}) 
    when TOccur == one_or_many;
         TOccur == zero_or_many -> 
-   ?xav('xs:boolean',instance_of1(Seq, TType));
+   instance_of1(Seq, TType);
 instance_of(_,_) ->
    ?false.
 
@@ -1124,6 +1139,8 @@ check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
    ?dbg("{Type, ReturnType}",{Type, ReturnType}),
    subtype_of(Type,ReturnType).
 
+instance_of1(Bool, 'xs:boolean') when is_boolean(Bool) -> true;
+instance_of1(Bool, 'xs:anyAtomicType') when is_boolean(Bool) -> true;
 instance_of1(#xqAtomicValue{}, 'xs:anyAtomicType') -> true;
 instance_of1(#xqRange{}, 'xs:anyAtomicType') -> true;
 instance_of1(#xqRange{}, T) when ?xs_integer(T) -> true;
@@ -1460,7 +1477,7 @@ cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' )
    ST;
 cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
-cast_as( #xqAtomicValue{type = 'xs:boolean'} = ST, 'xs:numeric' ) ->
+cast_as( ST, 'xs:numeric' ) when is_boolean(ST) ->
    cast_as(ST,'xs:double');
 cast_as( #xqAtomicValue{type = 'xs:string'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
@@ -1486,6 +1503,9 @@ cast_as( ?xav('xs:base64Binary', Val), 'xs:string' ) ->
    ?xav('xs:string', b64bin_to_str(Val));
 cast_as( ?xav('xs:base64Binary', Val), 'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', b64bin_to_str(Val));
+
+cast_as( Bool, 'xs:boolean' ) when is_boolean(Bool) ->
+   Bool;
 cast_as( ?true, 'xs:decimal' ) ->
    ?xav('xs:decimal',xqerl_numeric:decimal(1));
 cast_as( ?false, 'xs:decimal' ) ->
@@ -1500,12 +1520,16 @@ cast_as( ?false, 'xs:float' ) ->
    ?xav('xs:float',xqerl_numeric:float(0));
 cast_as( ?true, 'xs:integer' ) ->
    ?xav('xs:integer',1);
-cast_as( ?false, 'xs:integer' ) ->
-   ?xav('xs:integer',0);
-cast_as( ?xav('xs:boolean', Val), 'xs:string' ) -> 
+
+cast_as( ?false, Integer ) when ?xs_integer(Integer) ->
+   cast_as(?xav('xs:integer', 0), Integer);
+cast_as( ?true, Integer ) when ?xs_integer(Integer) ->
+   cast_as(?xav('xs:integer', 1), Integer);
+cast_as( Val, 'xs:string' ) when is_boolean(Val) -> 
    ?xav('xs:string', atom_to_binary(Val,utf8));
-cast_as( ?xav('xs:boolean', Val), 'xs:untypedAtomic' ) -> 
+cast_as( Val, 'xs:untypedAtomic' ) when is_boolean(Val) -> 
    ?xav('xs:untypedAtomic', atom_to_binary(Val,utf8));
+
 cast_as( ?xav('xs:date', Val), 'xs:dateTime' ) -> 
    Rec = zero_time(Val),
    Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
@@ -1990,15 +2014,21 @@ cast_as( ?xav('xs:IDREF', Val), 'xs:untypedAtomic' ) ->
    ?xav('xs:untypedAtomic', Val);
 cast_as( ?xav('xs:ENTITY', Val), 'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', Val);
+
+cast_as( Bool, 'xs:normalizedString' ) when is_boolean(Bool) -> 
+   ?xav('xs:normalizedString', atom_to_binary(Bool, latin1));
 cast_as( #xqAtomicValue{} = Arg1,'xs:normalizedString' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:string' )),
    Norm = xqerl_lib:normalize_string(StrVal),
    ?xav('xs:normalizedString', Norm);
+
+cast_as( Bool, 'xs:token' ) when is_boolean(Bool) -> 
+   ?xav('xs:token', atom_to_binary(Bool, latin1));
 cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as(Arg1, 'xs:normalizedString')),
    Token = xqerl_lib:normalize_spaces(StrVal),
    ?xav('xs:token', Token);
-cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) -> 
+cast_as( Arg1, 'xs:language' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
    case re:run(StrVal, "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$",[unicode]) of
       nomatch ->
@@ -2006,7 +2036,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) ->
       _ ->
          ?xav('xs:language', StrVal)
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKEN' ) ->
+cast_as( Arg1,'xs:NMTOKEN' ) ->
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
    case xqerl_lib:is_valid_token(StrVal) of
       true ->
@@ -2014,7 +2044,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKEN' ) ->
       false ->
          ?err('FORG0001')
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKENS' ) ->
+cast_as( Arg1,'xs:NMTOKENS' ) ->
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
    case xqerl_lib:is_valid_tokens(StrVal) of
       true ->
@@ -2025,7 +2055,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKENS' ) ->
       false ->
          ?err('FORG0001')
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
+cast_as( Arg1,'xs:Name' ) ->
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
    case xqerl_lib:is_valid_name(StrVal) of
       true ->
@@ -2033,17 +2063,17 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
       false ->
          ?err('FORG0001')
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:NCName' ) ->
+cast_as( Arg1,'xs:NCName' ) ->
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:Name' )),
    _ = [?err('FORG0001')  || <<":">> <= StrVal],
    ?xav('xs:NCName', StrVal);
-cast_as( #xqAtomicValue{} = Arg1,'xs:ID' ) ->
+cast_as( Arg1,'xs:ID' ) ->
    StrVal = ncname_value(Arg1),
    ?xav('xs:ID', StrVal);
-cast_as( #xqAtomicValue{} = Arg1,'xs:IDREF' ) ->
+cast_as( Arg1,'xs:IDREF' ) ->
    StrVal = ncname_value(Arg1),
    ?xav('xs:IDREF', StrVal);
-cast_as( #xqAtomicValue{} = Arg1,'xs:IDREFS' ) ->
+cast_as( Arg1,'xs:IDREFS' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
       <<>> ->
          ?err('FORG0001');
@@ -2053,10 +2083,10 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:IDREFS' ) ->
                          ?xav('xs:IDREF', Tok)
                    end, Tokens)
    end;
-cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITY' ) ->
+cast_as( Arg1,'xs:ENTITY' ) ->
    StrVal = ncname_value(Arg1),
    ?xav('xs:ENTITY', StrVal);
-cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITIES' ) ->
+cast_as( Arg1,'xs:ENTITIES' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
       <<>> ->
          ?err('FORG0001');
@@ -2219,6 +2249,14 @@ cast_as( #xqAtomicValue{} = Arg1, 'xs:byte' ) ->
 cast_as( #xqAtomicValue{type = 'xs:byte'} = Arg1, TT ) -> 
    cast_as_int(Arg1, TT);
 % block known types
+cast_as( Intype, T ) when is_boolean(Intype) ->
+   case is_known_type(T) of
+      true ->
+         ?err('XPTY0004');
+      _ ->
+         %?dbg("T",{Intype,T}),
+         ?err('XQST0052')
+   end;
 cast_as( #xqAtomicValue{type = Intype}, T ) 
    when Intype == 'xs:unsignedInt';    Intype == 'xs:string';
         Intype == 'xs:boolean';        Intype == 'xs:decimal';

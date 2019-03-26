@@ -238,7 +238,7 @@
 
 -define(str(D), #xqAtomicValue{type = 'xs:string', value = D}).
 -define(intv(D), #xqAtomicValue{type = 'xs:integer', value = D}).
--define(bool(D), #xqAtomicValue{type = 'xs:boolean', value = D}).
+-define(bool(D), D).
 -define(bin(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
 -define(uri(D), #xqAtomicValue{type = 'xs:anyURI', value = D}).
 

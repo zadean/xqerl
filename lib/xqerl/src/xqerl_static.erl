@@ -50,8 +50,8 @@
 -export([scan_variables/2]).
 
 
--define(true,#xqAtomicValue{type = 'xs:boolean', value = true}).
--define(false,#xqAtomicValue{type = 'xs:boolean', value = false}).
+-define(true, true).
+-define(false, false).
 -define(atomic(Type,Val),#xqAtomicValue{type = Type, value = Val}).
 -define(boolone,#xqSeqType{type = 'xs:boolean', occur = one}).
 -define(boolzone,#xqSeqType{type = 'xs:boolean', occur = zero_or_one}).
@@ -655,6 +655,8 @@ handle_node(State, #xqVarRef{name = Name}) ->
 
 handle_node(State, {sequence, [{range,_,_} = Range]}) ->
    handle_node(State, Range);
+handle_node(State, {sequence, [Expr]}) ->
+   handle_node(State, Expr);
 handle_node(State, {sequence, Expr}) -> 
    S = handle_node(State, Expr),
    Upd = is_updating(S),
@@ -1741,10 +1743,26 @@ handle_node(State, #xqLogicalExpr{lhs = Expr1,
    % reorder, check if one is true/false?
    % will end up an andalso/orelse
    % can reorder at will, so use the best
-   S1 = get_statement(handle_node(State, Expr1)),
-   S2 = get_statement(handle_node(State, Expr2)),
-   NewExpr = Expr#xqLogicalExpr{lhs = S1,
-                                rhs = S2},
+   State1 = handle_node(State, Expr1),
+   State2 = handle_node(State, Expr2),
+   S1 = get_statement(State1),
+   S2 = get_statement(State2),
+   T1 = get_statement_type(State1),
+   T2 = get_statement_type(State2),
+   C1 = check_type_match(T1, ?boolone) == true,
+   C2 = check_type_match(T2, ?boolone) == true,
+   S1_1 = if C1 ->
+                S1;
+             true ->
+                {eff_bool, S1}
+          end,
+   S2_1 = if C2 ->
+                S2;
+             true ->
+                {eff_bool, S2}
+          end,
+   NewExpr = Expr#xqLogicalExpr{lhs = S1_1,
+                                rhs = S2_1},
    set_statement_and_type(State, NewExpr, ?boolone);
 %% 3.9 Node Constructors
 %% 3.9.1 Direct Element Constructors
@@ -2084,7 +2102,7 @@ handle_node(State, {'let',#xqVar{id = Id,
       true ->
          ok
    end,
-   
+%?dbg("LetType",{LetType, Type, OkType}),
    {LetType1,LetStmt1} = 
               if OkType =/= true ->
                     {OutType,{promote_to, LetStmt, OutType}};
@@ -2260,7 +2278,13 @@ handle_node(State, {where, Id, Expr}) ->
    S1 = handle_node(State, Expr),
    ?NO_UPD(S1),
    St = get_statement(S1),
-   set_statement_and_type(State, {where, Id, St}, ?boolone);
+   StTy = get_statement_type(S1),
+   Eff = check_type_match(StTy, ?boolone) == true,
+   St1 = if Eff -> St;
+            true ->
+               {eff_bool, St}
+         end,               
+   set_statement_and_type(State, {where, Id, St1}, ?boolone);
   
 %% 3.12.6 Count Clause
 handle_node(State, {count,#xqVar{id = Id, 
@@ -2376,7 +2400,7 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    IfSt = get_statement(IfS1),
    ThSt0 = get_statement(ThS1),
    ElSt0 = get_statement(ElS1),
-   %IfTy = get_statement_type(IfS1), % is boolean
+   IfTy = get_statement_type(IfS1), % is boolean
    #xqSeqType{occur = ThOc} = ThTy0 = get_statement_type(ThS1),
    #xqSeqType{occur = ElOc} = ElTy0 = get_statement_type(ElS1),
    ThCt = get_static_count(ThS1),
@@ -2391,19 +2415,19 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    {ThSt, ThTy} = 
       if InPred andalso ThIsInt ->
             {#xqComparisonExpr{id = B1, comp = '=', lhs = Pos, rhs = ThSt0}, 
-             #xqSeqType{type = 'xs:boolean', occur = one}};
+             ?boolone};
          true ->
             {ThSt0, ThTy0}
       end,
    {ElSt, ElTy} = 
       if InPred andalso ElIsInt ->
             {#xqComparisonExpr{id = B2, comp = '=', lhs = Pos, rhs = ElSt0}, 
-             #xqSeqType{type = 'xs:boolean', occur = one}};
+             ?boolone};
          true ->
             {ElSt0, ElTy0}
       end,
    %check_type_match
-   
+   IfStBool = check_type_match(IfTy, ?boolone) == true, 
    % is the if statement a boolean value?
    if IfSt == ?true ->
          set_static_count(
@@ -2423,8 +2447,8 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
                     set_statement_and_type(State1, ElSt, ElTy), ElCt)
                end;
             _ ->
-               %TODO static type feature here
-            %?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
+               
+               %?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
                BothType = if ThOc == zero;
                              ElOc == zero ->
                                 maybe_zero_type(get_list_type([ThTy,ElTy]));
@@ -2440,8 +2464,13 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
                               true ->
                                  undefined
                            end,
+               IfSt2 = if IfStBool -> IfSt;
+                          true ->
+                             {eff_bool, IfSt}
+                       end,
+                             
                set_static_count(
-                 set_statement_and_type(State1, {'if-then-else', IfSt, ThSt, ElSt}, 
+                 set_statement_and_type(State1, {'if-then-else', IfSt2, ThSt, ElSt}, 
                                         BothType), BothCount)
          end
    end;
@@ -3091,28 +3120,34 @@ handle_node(State, {'function-call',
    F = get_static_function(State, {Name, 2}),
    StateC = set_in_constructor(State, false),
    SimpArg1 = handle_node(StateC, Arg1),
-   SimpArg2 = handle_node(StateC, Arg2),
    ArgSt1 = get_statement(SimpArg1),
-   ArgSt2 = get_statement(SimpArg2),
+   Dbl = #xqSeqType{type = 'xs:double', occur = one},
+   SimpArgs = handle_list(StateC, [Arg2]),
+   CheckArgs = check_fun_arg_types(State, SimpArgs, [Dbl]),
+   NewArgs = lists:map(fun({S,_C}) ->
+                           S
+                       end, CheckArgs),
    Type1 = maybe_zero_type(get_statement_type(SimpArg1)),
    set_statement_and_type(State, 
                           {'function-call',
-                           F#xqFunction{params = [ArgSt1,ArgSt2], type = Type1}}, Type1);
+                           F#xqFunction{params = [ArgSt1|NewArgs], type = Type1}}, Type1);
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,local_name = ?A("subsequence")} = Name, 3, 
                     [Arg1, Arg2, Arg3]}) -> 
    F = get_static_function(State, {Name, 2}),
    StateC = set_in_constructor(State, false),
    SimpArg1 = handle_node(StateC, Arg1),
-   SimpArg2 = handle_node(StateC, Arg2),
-   SimpArg3 = handle_node(StateC, Arg3),
    ArgSt1 = get_statement(SimpArg1),
-   ArgSt2 = get_statement(SimpArg2),
-   ArgSt3 = get_statement(SimpArg3),
+   Dbl = #xqSeqType{type = 'xs:double', occur = one},
+   SimpArgs = handle_list(StateC, [Arg2,Arg3]),
+   CheckArgs = check_fun_arg_types(State, SimpArgs, [Dbl,Dbl]),
+   NewArgs = lists:map(fun({S,_C}) ->
+                           S
+                       end, CheckArgs),
    Type1 = maybe_zero_type(get_statement_type(SimpArg1)),
    set_statement_and_type(State, 
                           {'function-call',
-                           F#xqFunction{params = [ArgSt1,ArgSt2,ArgSt3], type = Type1}}, Type1);
+                           F#xqFunction{params = [ArgSt1|NewArgs], type = Type1}}, Type1);
 
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,local_name = ?A("reverse")} = Name, 1, 
@@ -3545,9 +3580,7 @@ handle_predicate(State,
                                 {positional_predicate, SimSt}, 
                                  PostFilterType);
       true ->
-         set_statement_and_type(State, 
-                                #xqAtomicValue{type = 'xs:boolean',
-                                               value = false}, ?boolone)
+         set_statement_and_type(State, false, ?boolone)
    end;
 
 handle_predicate(State, {predicate, Expr}) ->

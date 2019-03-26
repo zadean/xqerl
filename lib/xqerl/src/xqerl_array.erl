@@ -115,8 +115,7 @@
 'filter'(Ctx,#array{data = List},Function) when is_function(Function) -> 
    try
       Fx = fun(I) ->
-                 Val = Function(Ctx,I),
-                 xqerl_types:value(Val) =:= true
+                 Function(Ctx,I)
            end,
       Data = lists:filter(Fx, List),
       #array{data = Data}
@@ -365,14 +364,12 @@ sort1(_,[],[],_Coll) -> true;
 sort1(_,[],_B,_Coll) -> true;
 sort1(_,_A,[],_Coll) -> false;
 sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
-   #xqAtomicValue{value = Equal} = 
-     xqerl_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
-   if Equal =:= true ->
+   Equal = xqerl_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
+   if Equal ->
          sort1(Ctx,tl(A),tl(B),Coll);
       true ->
-         #xqAtomicValue{value = NotEqual} = 
-           xqerl_operators:not_equal(hd(A), hd(A)),
-         if NotEqual =:= true ->
+         NotEqual = xqerl_operators:not_equal(hd(A), hd(A)),
+         if NotEqual ->
                true;
             true ->
                TypeA = xqerl_types:type(hd(A)),
@@ -388,9 +385,7 @@ sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
                        xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
                      Comp =< 0;
                   true ->
-                     #xqAtomicValue{value = LTEqual} = 
-                       xqerl_operators:less_than_eq(hd(A), hd(B)),
-                     LTEqual
+                     xqerl_operators:less_than_eq(hd(A), hd(B))
                end
          end
    end;

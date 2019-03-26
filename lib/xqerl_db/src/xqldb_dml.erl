@@ -162,7 +162,7 @@ select_doc(DocUri) when is_binary(DocUri) ->
 insert_doc(DocUri, Filename) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    DB = xqldb_db:database(DbUri),
-   xqldb_sax:parse_file(DB,Filename,Name);
+   ok = xqldb_sax:parse_file(DB,Filename,Name);
 ?ENSURE_BIN2(insert_doc).
 
 delete_doc(DocUri) when is_binary(DocUri) ->

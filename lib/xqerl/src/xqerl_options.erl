@@ -92,8 +92,8 @@ keys_as_string([]) ->
    [].
 
 true_false_def([], Def) -> Def;
-true_false_def(#xqAtomicValue{value = true}, _) -> <<"yes">>;
-true_false_def(#xqAtomicValue{value = false}, _) -> <<"no">>;
+true_false_def(true, _) -> <<"yes">>;
+true_false_def(false, _) -> <<"no">>;
 true_false_def(#xqAtomicValue{type = 'xs:untypedAtomic'} = V, D) -> 
    true_false_def(xqerl_types:cast_as(V, 'xs:boolean'), D);
 true_false_def(_,_) ->

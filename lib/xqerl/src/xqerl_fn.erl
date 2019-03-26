@@ -28,7 +28,7 @@
 -module(xqerl_fn).
 -compile(inline_list_funcs).
 
--define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
+-define(bool(Val), Val).
 -define(atint(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
 -define(dbl(Val), #xqAtomicValue{type = 'xs:double', value = Val}).
@@ -1509,10 +1509,9 @@ data1(_) ->
          %?dbg("Zip",Zip),
          EqFun = 
              fun({X,Y}) when is_list(X),is_list(Y) ->
-                   'deep-equal'(Ctx,X,Y,CollFun) == ?bool(true);
+                   'deep-equal'(Ctx,X,Y,CollFun);
                 ({#{nk := _} = N1,#{nk := _} = N2}) ->
-                   A1 = xqerl_node:nodes_equal(N1,N2,CollFun),
-                   A1 == {xqAtomicValue,'xs:boolean',true};
+                   xqerl_node:nodes_equal(N1,N2,CollFun);
                 ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
                    true;
                 ({#xqAtomicValue{value = infinity},
@@ -1525,9 +1524,12 @@ data1(_) ->
                   #xqAtomicValue{type = T2} = N2}) 
                    when ?xs_string(T1) andalso ?xs_string(T2) ->
                    compare(Ctx, N1, N2, CollFun) == ?atint(0);
+                ({true, true}) -> true;
+                ({false, false}) -> true;
+                ({N1, _}) when is_boolean(N1) -> false;
+                ({_, N2}) when is_boolean(N2) -> false;
                 ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
-                   xqerl_operators:equal(N1,N2) == 
-                     {xqAtomicValue,'xs:boolean',true};
+                   xqerl_operators:equal(N1,N2);
                 ({_,#xqFunction{}}) ->
                    ?err('FOTY0015');
                 ({#xqFunction{},_}) ->
@@ -1546,14 +1548,14 @@ data1(_) ->
                                        [],
                                        xqerl_map:get([], M1, K), 
                                        xqerl_map:get([], M2, K),
-                                       CollFun) == ?bool(true)
+                                       CollFun)
                                end,         
                            lists:all(F, K1);
                         true ->
                            false
                      end;
                 ({{array,A1},{array,A2}}) ->
-                   'deep-equal'(Ctx,A1,A2,CollFun) == ?bool(true)
+                   'deep-equal'(Ctx,A1,A2,CollFun)
                 end,
          try
             ?bool(lists:all(EqFun, Zip))
@@ -1605,6 +1607,8 @@ data1(_) ->
                    {Key, A};
                 (#xqAtomicValue{} = A) ->
                    {A, A};
+                (A) when is_boolean(A) ->
+                   {A, A};
                 (#{nk := _} = N) ->
                    A = xqerl_types:atomize(N),
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
@@ -1634,15 +1638,15 @@ distinct_vals(Vals,Fun) ->
                                AccKey#xqAtomicValue.value == nan;
                           #xqAtomicValue{type = KeyType} 
                              when ?xs_string(KeyType), ?xs_string(AccType) ->
-                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                              xqerl_operators:equal(AccKey, Key);
                           #xqAtomicValue{type = KeyType} 
                              when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
-                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                              xqerl_operators:equal(AccKey, Key);
                           #xqAtomicValue{type = KeyType} 
                              when ?xs_duration(KeyType), ?xs_duration(AccType) ->
-                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                              xqerl_operators:equal(AccKey, Key);
                           #xqAtomicValue{type = AccType} ->
-                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                              xqerl_operators:equal(AccKey, Key);
                           _ ->
                              false
                        end;
@@ -1949,9 +1953,9 @@ pct_encode3([H|T]) ->
                           is_map(MA) ->
    lists:filter(fun(S) ->
                    case xqerl_operators:lookup(Ctx, MA, S) of
-                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                      true ->
                          true;
-                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
+                      false ->
                          false;
                       _ ->
                          ?err('XPTY0004')
@@ -1960,15 +1964,15 @@ pct_encode3([H|T]) ->
 'filter'(Ctx,Seq,F) when is_function(F,2) ->
    lists:filter(fun(Val) ->
                   case catch xqerl_seq3:singleton_value(F(Ctx,Val)) of
-                     #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                     true ->
                         true;
-                     #xqAtomicValue{type = 'xs:boolean', value = false} ->
+                     false ->
                         false;
                      {'EXIT',#xqError{} = E} ->
                         throw(E);
                      #{nk := _} = N ->
                         case catch xqerl_types:cast_as(N, 'xs:boolean') of
-                           #xqAtomicValue{type = 'xs:boolean', value = V} ->
+                           V ->
                               V;
                            _ ->
                               ?err('XPTY0004')
@@ -2619,7 +2623,7 @@ head_1(H) -> H.
    %{index,counter}
    Fun = fun(Elem,{List,Counter}) ->
                case catch xqerl_operators:equal(Elem, Arg2) of
-                  #xqAtomicValue{type = 'xs:boolean', value = true} ->
+                  true ->
                      Int = #xqAtomicValue{type = 'xs:integer', value = Counter},
                      {0,{[Int|List], Counter + 1}};
                   _ ->
@@ -2762,7 +2766,7 @@ check_json_doc_opts(#{?A("fallback") := {_,#xqFunction{body = B} = Fx}}) ->
                                      type   = #xqSeqType{type = 'xs:string',
                                                          occur = one}}},
    case xqerl_types:instance_of(Fx, Ty) of
-      ?atm('xs:boolean',true) ->
+      true ->
          case B == fun xqerl_fn:concat/2 of
              true ->
                ?err('XPTY0004');
@@ -3155,6 +3159,20 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:integer'} = H|T], Acc,SeqType) ->
          compare_convert_seq(T, [H|Acc], 'xs:double');
       true ->
          ?err('FORG0006')
+   end;
+compare_convert_seq([H|T], Acc, SeqType) when is_boolean(H) ->
+   Type = 'xs:boolean',
+   case xqerl_types:subtype_of(Type, SeqType) of
+      true ->
+         compare_convert_seq(T, [H|Acc], SeqType);
+      _ ->
+         case xqerl_types:subtype_of(SeqType, Type) orelse 
+                SeqType == [] of
+            true ->
+               compare_convert_seq(T, [H|Acc], Type);
+            _ ->
+               ?err('FORG0006')
+         end
    end;
 compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
    case xqerl_operators:is_comparable(Type) of
@@ -3616,7 +3634,7 @@ shrink_spaces(<<H,T/binary>>) ->
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:string(JSON, Options).
 
-get_bool(#xqAtomicValue{type = 'xs:boolean', value = B}) ->
+get_bool(B) when is_boolean(B) ->
    B;
 get_bool(_) ->
    ?err('XPTY0004').
@@ -4402,13 +4420,12 @@ sort1(_,[],[],_Coll) -> true;
 sort1(_,[],_B,_Coll) -> true;
 sort1(_,_A,[],_Coll) -> false;
 sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
-   #xqAtomicValue{value = Equal} = xqerl_fn:'deep-equal'(Ctx, HA, 
-                                                         HB, Coll),
+   Equal = xqerl_fn:'deep-equal'(Ctx, HA, HB, Coll),
    if Equal ->
          sort1(Ctx,TA,TB,Coll);
       true ->
          % values that don't equal self, e.g. NaN
-         #xqAtomicValue{value = NotEqual} = xqerl_operators:not_equal(HA,HA),
+         NotEqual = xqerl_operators:not_equal(HA,HA),
          if NotEqual -> true;
             true ->
                TypeA = xqerl_types:type(HA),
@@ -4423,9 +4440,7 @@ sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
                                                                      HB, Coll),
                      Comp =< 0;
                   true ->
-                     #xqAtomicValue{value = LTEqual} = 
-                       xqerl_operators:less_than_eq(HA, HB),
-                     LTEqual
+                     xqerl_operators:less_than_eq(HA, HB)
                end
          end
    end;

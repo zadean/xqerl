@@ -210,9 +210,9 @@ double(#xsDecimal{int = Int, scf = Scf} = D) ->
          D
    end;
 double(String) ->
-   case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-      undefined ->
-         OVal = begin
+%%    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
+%%       undefined ->
+%%          OVal = begin
    Val = case xqerl_lib:trim(String) of
             <<$.,T/binary>> ->
                <<$0,$.,T/binary>>;
@@ -221,7 +221,7 @@ double(String) ->
             V ->
                V
          end,
-   case string:find(Val, <<"--">>) of
+   case binary:match(Val, <<"--">>) of
       nomatch ->
          ok;
       _ ->
@@ -306,11 +306,11 @@ double(String) ->
                      end
                end
          end
-   end
-                end,
-         xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, OVal),
-         OVal;
-      V -> V
+%%    end
+%%                 end,
+%%          xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, OVal),
+%%          OVal;
+%%       V -> V
    end.   
 
 

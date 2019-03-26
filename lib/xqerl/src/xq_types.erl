@@ -228,9 +228,7 @@
                                             minute :: 0,
                                             second :: #xsDecimal{int :: 0,
                                                                  scf :: 0}}}.  
--type xs_boolean() :: 
-        #xqAtomicValue{type :: 'xs:boolean',
-                       value :: boolean()}.
+-type xs_boolean() :: boolean().
 -type xs_base64Binary() :: 
         #xqAtomicValue{type :: 'xs:base64Binary',
                        value :: binary()}.  

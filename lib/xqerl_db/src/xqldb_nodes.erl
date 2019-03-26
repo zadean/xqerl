@@ -64,7 +64,7 @@
          document_uri/1,
          namespace_nodes/1,
          iterator_to_node_list/2, 
-         iterator_to_node_set/1, 
+         iterator_to_node_set/2, 
          select_with_prefix/2,
          
 test/0]).
@@ -210,6 +210,12 @@ db_node_to_node(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}
    Map = map_from_node_bin(DB, Bin),
    Map#{id => {DbPid, DocId, NodeId},
         pa => Path}.
+
+db_node_to_node_key(_, []) -> [];
+db_node_to_node_key(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}) ->
+   Map = map_from_node_bin(DB, Bin),
+   {NodeId, Map#{id => {DbPid, DocId, NodeId},
+                 pa => Path}}.
 
 map_from_node_bin(#{names      := Names,
                     namespaces := Nmsps},
@@ -526,7 +532,7 @@ string_value(_) -> [].
 select_with_prefix(Set, Prefix) ->
    Iter = gb_sets:iterator_from({Prefix, []}, Set),
    case gb_sets:next(Iter) of
-      {{K,_} = E, I} ->
+      {{K, E}, I} ->
          case binary_prefix(Prefix, K) of
             false ->
                [];
@@ -537,7 +543,7 @@ select_with_prefix(Set, Prefix) ->
          []
    end.
 
-select_with_prefix({{K,_} = E, I}, Prefix, Acc) ->
+select_with_prefix({{K, E}, I}, Prefix, Acc) ->
    case binary_prefix(Prefix, K) of
       false ->
          Acc;
@@ -728,6 +734,15 @@ get_string_value(Ref, #{texts := Tab}) ->
    xqldb_string_table2:lookup(Tab, Ref).
    
    
-iterator_to_node_set(Iter) ->
-   List = xqldb_join:iterator_to_list(Iter),
+iterator_to_node_set(Iter, DB) ->
+   List = iterator_to_node_set_1(Iter, DB),
    gb_sets:from_list(List).
+
+iterator_to_node_set_1(Iter, DB) when is_function(Iter) ->
+   iterator_to_node_set_1(Iter(), DB);
+iterator_to_node_set_1([Iter], DB) when is_function(Iter) ->
+   iterator_to_node_set_1(Iter(), DB);
+iterator_to_node_set_1([{I,_} = H|T], DB) ->
+   [{I, db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
+iterator_to_node_set_1([], _) ->
+   [].

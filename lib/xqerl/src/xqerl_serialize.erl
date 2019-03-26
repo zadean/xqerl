@@ -110,6 +110,8 @@ norm_s1_([]) -> [].
 %%    the new sequence. The new sequence is S2.
 norm_s2([#xqAtomicValue{} = H|T]) ->
    [xqerl_types:cast_as(H, 'xs:string')|norm_s2(T)];
+norm_s2([H|T]) when is_boolean(H) ->
+   [xqerl_types:cast_as(H, 'xs:string')|norm_s2(T)];
 norm_s2([H|T]) ->
    [H|norm_s2(T)];
 norm_s2([]) -> [].
@@ -396,9 +398,9 @@ do_serialize_json(#xqAtomicValue{value = neg_zero}, _Opts) ->
 do_serialize_json(#xqAtomicValue{type = Type, value = Val}, _Opts)
    when ?xs_numeric(Type) ->
    xqerl_numeric:string(Val);
-do_serialize_json(#xqAtomicValue{value = true}, _Opts) ->
+do_serialize_json(true, _Opts) ->
    <<"true">>;
-do_serialize_json(#xqAtomicValue{value = false}, _Opts) ->
+do_serialize_json(false, _Opts) ->
    <<"false">>;
 do_serialize_json(#xqAtomicValue{} = Atomic, Opts) ->
    to_json_string(Atomic, Opts);
@@ -416,9 +418,9 @@ do_serialize_adaptive(Seq, #{'item-separator' := Sep} = Opts) when is_list(Seq) 
    string_join(Seq1, Sep);
 do_serialize_adaptive(#{nk := _} = Node, Opts) ->
    do_serialize_xml(Node, Opts);
-do_serialize_adaptive(#xqAtomicValue{value = true}, _Opts) ->
+do_serialize_adaptive(true, _Opts) ->
    <<"true()">>;
-do_serialize_adaptive(#xqAtomicValue{value = false}, _Opts) ->
+do_serialize_adaptive(false, _Opts) ->
    <<"false()">>;
 do_serialize_adaptive(#xqAtomicValue{type = Type, value = Val}, _Opts)
    when Type == 'xs:untypedAtomic';

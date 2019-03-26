@@ -1422,6 +1422,10 @@ expr_do(Ctx, {range,Expr1,Expr2}) ->
    E2 = expr_do(Ctx, Expr2),
    ?P("xqerl_seq3:range(_@E1,_@E2)");
 
+expr_do(Ctx, {eff_bool, Expr}) ->
+   E = expr_do(Ctx, Expr),
+   ?P("xqerl_operators:eff_bool_val(_@E)");
+   
 %#xqLogicalExpr
 expr_do(Ctx, #xqLogicalExpr{comp = Op,
                             anno = Line,
@@ -1430,12 +1434,12 @@ expr_do(Ctx, #xqLogicalExpr{comp = Op,
    _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
-   S1 = ?P("xqerl_operators:eff_bool_val(_@E1)"),
-   S2 = ?P("xqerl_operators:eff_bool_val(_@E2)"),
+   S1 = ?P("_@E1"),
+   S2 = ?P("_@E2"),
    if Op =:= 'and' ->
-         ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 andalso _@S2}");
+         ?P("xqerl_operators:do_and(_@S1, fun() -> _@S2 end)");
       Op =:= 'or' ->
-         ?P("#xqAtomicValue{type = 'xs:boolean', value = _@S1 orelse _@S2}")
+         ?P("xqerl_operators:do_or(_@S1, fun() -> _@S2 end)")
    end;
 
 % instance of / castable
@@ -1595,12 +1599,9 @@ expr_do(Ctx, {Op,Vars,Test}) when Op =:= every;
           some ->  ?Q("lists:any")
        end,
    E = expr_do(Ctx3, Test),
-   ?P(["#xqAtomicValue{",
-       "    type = 'xs:boolean',", 
-       "    value =" ,
-       "      _@F(fun(_@VarTup) ->",
-       "               xqerl_operators:eff_bool_val(_@E)",
-       "          end,[_@VarTup || _@Gens])}"]);
+   ?P([" _@F(fun(_@VarTup) ->",
+       "    xqerl_operators:eff_bool_val(_@E)",
+       " end,[_@VarTup || _@Gens])"]);
 
 % ordering
 %% expr_do(Ctx, {'function-call', 
@@ -2028,8 +2029,10 @@ expr_do(Ctx, {'if-then-else', If, Then, Else}) ->
    IfSt = expr_do(Ctx, If),
    True = expr_do(Ctx, Then),
    False = expr_do(Ctx, Else),
-   ?P(["case xqerl_operators:eff_bool_val(_@IfSt) of",
-       "   true -> _@True; _ -> _@False end"]);
+   ?P(["case _@IfSt of",
+       "   true -> _@True; ",
+       "   [true] -> _@True; ",
+       "_ -> _@False end"]);
 
 expr_do(Ctx, #xqComparisonExpr{anno = Line,
                                comp = Op,
@@ -2105,6 +2108,8 @@ expr_do(Ctx, #xqAxisStep{} = Step) ->
 
 expr_do(_Ctx, <<>>) ->
    ?Q("<<>>");
+expr_do(_Ctx, true) -> ?Q("true");
+expr_do(_Ctx, false) -> ?Q("false");
 
 % catch-all
 expr_do(_Ctx, Expr) ->
@@ -2486,7 +2491,7 @@ where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
    R =?P(["'@FunctionName@'(_,[]) -> [];",
           "'@FunctionName@'(__Ctx,List) ->",
           "[I || _@OldVariableTupleMatch = I <- List,",
-          " xqerl_operators:eff_bool_val(_@E1)]."
+          " _@E1 ]."
          ]),
    
    %{Ctx,[InLine,WhereFun]}.
@@ -3526,9 +3531,10 @@ abs_param_list(Ctx, List) ->
                end, {nil,?L}, List).
    
 abs_boolean(Bool) ->
-   _ = add_used_record_type(xqAtomicValue),
-   ?P("#xqAtomicValue{type = 'xs:boolean', value = _@Bool@}").
+   ?P("_@Bool@").
 
+abs_simp_atomic_value(#xqAtomicValue{type = 'xs:boolean', value = V}) ->
+   ?P("_@V@");
 abs_simp_atomic_value(#xqAtomicValue{type = T, value = V}) ->
    _ = add_used_record_type(xqAtomicValue),
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}").
@@ -3823,7 +3829,7 @@ ensure_type(Ctx,Var,Type,_AType) ->
    %?dbg("ensure_type         ",{Var,Type,AType}),
    T = expr_do(Ctx,Type),
    ?P("_ = case xqerl_types:instance_of(_@Var,_@T) of "
-      "#xqAtomicValue{value = true} -> _@Var; "
+      "true -> _@Var; "
       "_ -> xqerl_error:error('XPTY0004') end").
 
 

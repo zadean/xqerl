@@ -29,7 +29,7 @@
 
 -include("xqerl.hrl").
 
--define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
+-define(bool(Val), Val).
 -define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(untyp(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
 
@@ -993,16 +993,40 @@ merge_content([#xqAtomicValue{type = Type, value = <<>>}|T], Acc)
    when Type =/= 'xs:untypedAtomic',
         Type =/= 'xs:string' ->
    merge_content(T, Acc);
+
 merge_content([#xqAtomicValue{type = Type} = H|T], Acc) 
    when Type =/= 'xs:untypedAtomic' ->
    NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
    merge_content([NewH|T], Acc);
+merge_content([H|T], Acc) when is_boolean(H) ->
+   NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
+   merge_content([NewH|T], Acc);
+
 merge_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = <<St1/binary, " ", St2/binary>>,
    merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', 
                                  value = Str3}|T], Acc);
+merge_content([#xqAtomicValue{} = H1, H2|T], Acc) when is_boolean(H2) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
+   Str3 = <<St1/binary, " ", St2/binary>>,
+   merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', 
+                                 value = Str3}|T], Acc);
+merge_content([H1, #xqAtomicValue{} = H2|T], Acc) when is_boolean(H1) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
+   Str3 = <<St1/binary, " ", St2/binary>>,
+   merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', 
+                                 value = Str3}|T], Acc);
+merge_content([H1, H2|T], Acc) when is_boolean(H1), is_boolean(H2) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
+   Str3 = <<St1/binary, " ", St2/binary>>,
+   merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', 
+                                 value = Str3}|T], Acc);
+
 merge_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) 
    when Type == 'xs:untypedAtomic' ->
    merge_content([], [#xqTextNode{string_value = Expr}|Acc]);
@@ -1362,16 +1386,16 @@ nodes_equal_1(#{nk := Type1} = Node1,
                      xqldb_mem_nodes:string_value(Node2)),
 %?dbg("{Val1,Val2}",{Val1,Val2}),
             xqerl_operators:equal(?str(Val1),
-                                  ?str(Val2), Collation) == ?bool(true)
+                                  ?str(Val2), Collation)
          end;
       Type1 == text andalso Type2 == text ->
          Val1 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node1)),
          Val2 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node2)),
-         xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
+         xqerl_operators:equal(?str(Val1),?str(Val2),Collation);
       Type1 == comment andalso Type2 == comment ->
          Val1 = xqldb_mem_nodes:string_value(Node1),
          Val2 = xqldb_mem_nodes:string_value(Node2),
-         xqerl_operators:equal(?str(Val1), ?str(Val2), Collation) == ?bool(true);
+         xqerl_operators:equal(?str(Val1), ?str(Val2), Collation);
       Type1 == 'processing-instruction' andalso 
         Type2 == 'processing-instruction' ->
          Name1 = xqldb_mem_nodes:node_name(Node1),
@@ -1381,7 +1405,7 @@ nodes_equal_1(#{nk := Type1} = Node1,
          begin
             Val1 = xqldb_mem_nodes:string_value(Node1),
             Val2 = xqldb_mem_nodes:string_value(Node2),
-            xqerl_operators:equal(?str(Val1), ?str(Val2)) == ?bool(true)
+            xqerl_operators:equal(?str(Val1), ?str(Val2))
          end;
       true ->
          false

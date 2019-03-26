@@ -84,6 +84,8 @@ do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
     {xqerl_coll:sort_key(Val, T), A};
 do_atomize(#xqAtomicValue{value = Val} = A,Coll) ->
        {xqerl_coll:sort_key(Val, Coll), A};
+do_atomize(A, Coll) when is_boolean(A) ->
+       {xqerl_coll:sort_key(A, Coll), A};
 do_atomize(_,_) ->
    ?err('XPTY0004').
 
@@ -149,7 +151,7 @@ flatten_window_return(WType, Bw) ->
        L2 = element(9, B),
        S = xqerl_seq3:from_list(L2),
        case xqerl_types:instance_of(S, WType) of
-          #xqAtomicValue{value = true} ->
+          true ->
              setelement(9, B, S);
           _ -> 
              ?err('XPTY0004')
@@ -471,11 +473,11 @@ do_order({TA,[{ValA,descending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
                                                     value = nan} ->
          true;
       true ->
-         case val(xqerl_operators:greater_than(ValA, ValB)) of
+         case xqerl_operators:greater_than(ValA, ValB) of
             true  ->
                true;
             _ ->
-               case val(xqerl_operators:equal(ValA, ValB)) of
+               case xqerl_operators:equal(ValA, ValB) of
                   true ->
                      do_order({TA,RestA},{TB,RestB});
                   _ ->
@@ -505,11 +507,11 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
                                                     value = nan} ->
          true;
       true ->
-         case val(xqerl_operators:less_than(ValA, ValB)) of
+         case xqerl_operators:less_than(ValA, ValB) of
             true ->
                true;
             _ ->
-               case val(xqerl_operators:equal(ValA, ValB)) of
+               case xqerl_operators:equal(ValA, ValB) of
                   true ->
                      do_order({TA,RestA},{TB,RestB});
                   _ ->
@@ -518,8 +520,8 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          end
    end.
 
-val(T) -> xqerl_types:value(T).
-
+bool(true) -> true;
+bool(false) -> false;
 bool(T) -> xqerl_operators:eff_bool_val(T).
 
 

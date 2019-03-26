@@ -271,7 +271,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
             [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
                OutPathId <- PathLookup(InPathId)],
           IterUnion = xqldb_join:union(Iters),
-          Results = xqldb_nodes:iterator_to_node_set(IterUnion),
+          Results = xqldb_nodes:iterator_to_node_set(IterUnion, DB),
           xqerl_lib:lput(ResKey, Results),
           Results;
        Results ->
@@ -280,8 +280,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    EachNode = fun(#{id := {_,_,NodeId}}) ->
                     xqldb_nodes:select_with_prefix(ResultSet, NodeId)
               end,
-   Matches = lists:flatmap(EachNode, Nodes),
-   xqldb_nodes:iterator_to_node_list(Matches, DB).
+   lists:flatmap(EachNode, Nodes).
    
 normalize_step_names([{Ax,H}|T], NameMap, NmspMap) ->
    NewH = 

@@ -134,7 +134,7 @@ open(DBDirectory, TableName) when is_binary(DBDirectory) ->
    open(binary_to_list(DBDirectory), TableName);
 open(DBDirectory, TableName) ->
    HeapName = filename:join(DBDirectory, TableName ++ ".idx"),
-   {ok, Tab} = dets:open_file(HeapName),
+   {ok, Tab} = dets:open_file(HeapName, []),
    ETab = ets:new(?MODULE, [ordered_set]),
    AxesTab = ets:new(axes, [bag]),
    dets:to_ets(Tab, ETab),

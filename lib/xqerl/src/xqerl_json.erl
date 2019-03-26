@@ -367,13 +367,13 @@ json_to_xml(State, Key, true) ->
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = #xqAtomicValue{type = 'xs:boolean', value = true}}; %% TODO make this a string node
+                  content = true}; %% TODO make this a string node
 json_to_xml(State, Key, false) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = #xqAtomicValue{type = 'xs:boolean', value = false}}; %% TODO make this a string node
+                  content = false}; %% TODO make this a string node
 json_to_xml(State, Key, null) -> 
    #xqElementNode{name = ?qn("null"),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
@@ -433,10 +433,8 @@ json_to_map(#state{duplicates = Dupes} = State, {object, Members}) ->
              ?err('FOJS0005')
        end,
    lists:foldl(F, #{}, Members);
-json_to_map(_State, true) -> 
-   #xqAtomicValue{type = 'xs:boolean', value = true};
-json_to_map(_State, false) -> 
-   #xqAtomicValue{type = 'xs:boolean', value = false};
+json_to_map(_State, true) -> true;
+json_to_map(_State, false) -> false;
 json_to_map(_State, null) -> [];
 json_to_map(_State, {Val, _Lex}) 
    when is_float(Val);

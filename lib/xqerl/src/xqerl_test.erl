@@ -151,10 +151,9 @@ assert_xml(Result, QueryString0) ->
                     Other
               end,
             Res1 = xqerl_node:nodes_equal(ResXml2, QueryString2, codepoint),
-            StrVal = string_value(Res1),
             %?dbg("Res1",Res1),
             %?dbg("StrVal",StrVal),
-            if StrVal == <<"true">> ->
+            if Res1 ->
                   true;
                true ->
                   {false, {assert_xml,ResXml,QueryString}}
@@ -199,16 +198,14 @@ assert_deep_eq(Result, QueryString) ->
    end.
 %% assert_false           (: string value of result == 'true' :)
 assert_false(Result) ->
-   StrVal = string_value(Result),
-   if StrVal == <<"false">> ->
-         true;
+   if Result ->
+         {false, {assert_false,Result}};
       true ->
-         {false, {assert_false,Result}}
+         true
    end.
 %% assert_true            (: string value of result == 'false' :)
 assert_true(Result) ->
-   StrVal = string_value(Result),
-   if StrVal == <<"true">> ->
+   if Result ->
          true;
       true ->
          {false, {assert_true,Result}}
@@ -224,11 +221,13 @@ assert_permutation(Result, PermuteString) ->
          Rest = lists:foldl(
                   fun(R,Acc) ->
                         Fnd = [A || A <- Acc, 
-                                    (catch xqerl_operators:equal(R, A)) == 
-                                      #xqAtomicValue{type = 'xs:boolean',
-                                                     value = true} orelse
-                                      (xqerl_types:value(A) == nan andalso 
-                                       xqerl_types:value(R) == nan)
+                                    case catch xqerl_operators:equal(R, A) of
+                                       true ->
+                                          true;
+                                       _ ->
+                                          xqerl_types:value(A) == nan andalso
+                                            xqerl_types:value(R) == nan
+                                    end
                               ],
                         case Fnd of
                            [] ->

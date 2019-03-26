@@ -912,9 +912,9 @@ filter1(Ctx, Fun, [H|T], Pos,Size) ->
    NextPos = Pos + 1,
    PosRec = ?int_rec(Pos),
    case Fun(Ctx,H,PosRec,Size) of
-      #xqAtomicValue{value = true} ->
+      true ->
          [H|filter1(Ctx, Fun, T, NextPos,Size)];
-      #xqAtomicValue{value = false} ->
+      false ->
          filter1(Ctx, Fun, T, NextPos,Size);
       [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
          if FPos == Pos ->
@@ -1015,6 +1015,8 @@ get_item_type([Item]) ->
    get_item_type(Item);
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
+get_item_type(Item) when is_boolean(Item) ->
+   'xs:boolean';
 get_item_type(Item) when is_function(Item) ->
    function;
 get_item_type(#xqFunction{}) ->

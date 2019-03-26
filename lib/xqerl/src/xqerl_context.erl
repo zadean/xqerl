@@ -404,8 +404,7 @@ get_default_language(Tab) ->
 set_default_language(Tab,Value) ->
    set(Tab, 'default-language', Value).
 
-get_default_collation(Ctx) ->
-   maps:get('default-collation', Ctx).
+get_default_collation(#{'default-collation' := Coll}) -> Coll.
 set_default_collation(Ctx, Value) ->
    All = ?MODULE:get_statically_known_collations(Ctx),
    case lists:any(fun(U) -> U == Value end, All) of
@@ -476,8 +475,8 @@ get_xpath_1_compatibility_mode(Tab) ->
 set_xpath_1_compatibility_mode(Tab,Value) ->
    set(Tab, 'xpath-1-compatibility-mode', Value).
 
-get_statically_known_collations(Ctx) ->
-   maps:get('statically-known-collations', Ctx).
+get_statically_known_collations(#{'statically-known-collations' := Val}) ->
+   Val.
 set_statically_known_collations(Ctx, Value) ->
    Ctx#{'statically-known-collations' => Value}.
 

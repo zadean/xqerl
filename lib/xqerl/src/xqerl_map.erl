@@ -80,7 +80,7 @@
          xq_types:xs_boolean().
 'contains'(_Ctx,Map,Key) when is_map(Map) ->
    MKey = xqerl_operators:key_val(Key),
-   #xqAtomicValue{type = 'xs:boolean', value = maps:is_key(MKey, Map)};
+   is_map_key(MKey, Map);
 'contains'(_Ctx,Map,Key) ->
    IMap = ?val(Map),
    if is_map(IMap) ->
@@ -344,8 +344,7 @@ equal(Map1,Map2) ->
          F = fun(K) ->
                    V1 = ?MODULE:get([], Map1, K),
                    V2 = ?MODULE:get([], Map2, K),
-                   xqerl_operators:equal(V1,V2) == 
-                     #xqAtomicValue{type = 'xs:boolean',value = true}
+                   xqerl_operators:equal(V1,V2)
              end,         
          lists:all(F, K1);
       true ->
