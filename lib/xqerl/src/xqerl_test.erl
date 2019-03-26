@@ -198,7 +198,7 @@ assert_deep_eq(Result, QueryString) ->
    end.
 %% assert_false           (: string value of result == 'true' :)
 assert_false(Result) ->
-   if Result ->
+   if Result =/= false ->
          {false, {assert_false,Result}};
       true ->
          true
