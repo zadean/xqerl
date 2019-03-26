@@ -1085,8 +1085,8 @@ range_range_comp_any(Op,
    end.
 
 % returns xs:boolean
-general_compare(_Op,[],_) -> [];
-general_compare(_Op,_,[]) -> [];
+general_compare(_Op,[],_) -> false;
+general_compare(_Op,_,[]) -> false;
 general_compare(Op,{array,L1},L2) -> 
    general_compare(Op,L1,L2);
 general_compare(Op,L1,{array,L2}) -> 
