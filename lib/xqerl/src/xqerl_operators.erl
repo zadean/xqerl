@@ -40,6 +40,7 @@
 -define(is_numeric(Num), (is_integer(Num) orelse is_float(Num))).
 
 -define(bool(Val), Val).
+-define(atv(Type, Val), #xqAtomicValue{type = Type, value = Val}).
 -define(intv(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
 -define(strv(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(sing(Val), Val).
@@ -471,7 +472,10 @@ equal(#xqAtomicValue{type = T2, value = Val2},
 equal(#xqAtomicValue{} = Arg1, #xqAtomicValue{} = Arg2, _Collation) ->
    equal(Arg1, Arg2).
 
-equal(A, A) -> true;
+equal(undefined, undefined) -> [];
+equal([], []) -> [];
+equal([], _) -> [];
+equal(_, []) -> [];
 equal(#xqAtomicValue{type = T1, value = V1}, 
       #xqAtomicValue{type = T2, value = V2}) 
    when ?xs_integer(T1), 
@@ -616,10 +620,6 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'}, #xqAtomicValue{}) ->
    ?err('XPTY0004');
 equal(#xqAtomicValue{}, #xqAtomicValue{}) ->
    ?err('XPTY0004');
-equal(undefined, undefined) -> [];
-equal([], []) -> [];
-equal([], _) -> [];
-equal(_, []) -> [];
 equal([Arg1], Arg2) ->
    equal(Arg1, Arg2);
 equal(Arg1, [Arg2]) ->
@@ -1085,8 +1085,8 @@ range_range_comp_any(Op,
    end.
 
 % returns xs:boolean
-general_compare(_Op,[],_) -> ?bool(false);
-general_compare(_Op,_,[]) -> ?bool(false);
+general_compare(_Op,[],_) -> [];
+general_compare(_Op,_,[]) -> [];
 general_compare(Op,{array,L1},L2) -> 
    general_compare(Op,L1,L2);
 general_compare(Op,L1,{array,L2}) -> 
@@ -1316,9 +1316,9 @@ atomize_list([]) -> [].
 
 % returns: numeric
 numeric_add(#xqAtomicValue{value = #xsDecimal{int = I, scf = 0}}, B) ->
-   numeric_add(?intv(I), B);
+   numeric_add(?atv('xs:decimal', I), B);
 numeric_add(A, #xqAtomicValue{value = #xsDecimal{int = I, scf = 0}}) ->
-   numeric_add(A, ?intv(I));
+   numeric_add(A, ?atv('xs:decimal', I));
 numeric_add(#xqAtomicValue{value = neg_zero} = A,B) ->
    numeric_add(A#xqAtomicValue{value = 0.0},B);
 numeric_add(A,#xqAtomicValue{value = neg_zero} = B) ->

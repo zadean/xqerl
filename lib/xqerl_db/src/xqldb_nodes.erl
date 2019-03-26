@@ -529,28 +529,53 @@ string_value(#{id := {_, _, _},
 string_value(_) -> [].
 
 
-select_with_prefix(Set, Prefix) ->
-   Iter = gb_sets:iterator_from({Prefix, []}, Set),
-   case gb_sets:next(Iter) of
-      {{K, E}, I} ->
-         case binary_prefix(Prefix, K) of
-            false ->
-               [];
-            true ->
-               select_with_prefix(gb_sets:next(I), Prefix, [E])
-         end;
-      none ->
-         []
-   end.
+%% prefix_match(<<>>) -> [{{'_','$1'},[],['$1']}];
+%% prefix_match(NodeId) ->
+%%    {Low, High} = get_node_id_range(NodeId), 
+%%    [{{'$1','$2'}, [{'andalso',{'>=','$1',Low},{'<','$1',High}}], ['$2']}].
+   
 
-select_with_prefix({{K, E}, I}, Prefix, Acc) ->
+select_with_prefix(Set, Prefix) ->
+   Curr = case ets:lookup(Set, Prefix) of
+             [] ->
+                [];
+             [{_,C}] ->
+                [C]
+          end,
+   select_with_prefix(ets:next(Set, Prefix), Prefix, Curr, Set).
+
+select_with_prefix('$end_of_table', _, Acc, _) -> Acc;
+select_with_prefix(K, Prefix, Acc, Set) ->
    case binary_prefix(Prefix, K) of
       false ->
          Acc;
       true ->
-         select_with_prefix(gb_sets:next(I), Prefix, [E|Acc])
-   end;
-select_with_prefix(none, _, Acc) -> Acc.
+         E = ets:lookup_element(Set, K, 2),
+         select_with_prefix(ets:next(Set, K), Prefix, [E|Acc], Set)
+   end.
+
+%% select_with_prefix(Set, Prefix) ->
+%%    Iter = gb_sets:iterator_from({Prefix, []}, Set),
+%%    case gb_sets:next(Iter) of
+%%       {{K, E}, I} ->
+%%          case binary_prefix(Prefix, K) of
+%%             false ->
+%%                [];
+%%             true ->
+%%                select_with_prefix(gb_sets:next(I), Prefix, [E])
+%%          end;
+%%       none ->
+%%          []
+%%    end.
+%% 
+%% select_with_prefix({{K, E}, I}, Prefix, Acc) ->
+%%    case binary_prefix(Prefix, K) of
+%%       false ->
+%%          Acc;
+%%       true ->
+%%          select_with_prefix(gb_sets:next(I), Prefix, [E|Acc])
+%%    end;
+%% select_with_prefix(none, _, Acc) -> Acc.
 
 
 binary_prefix(Prefix, Prefix) -> true;
@@ -736,7 +761,10 @@ get_string_value(Ref, #{texts := Tab}) ->
    
 iterator_to_node_set(Iter, DB) ->
    List = iterator_to_node_set_1(Iter, DB),
-   gb_sets:from_list(List).
+   Tab = ets:new(?MODULE, [ordered_set]),
+   ets:insert(Tab, List),
+   Tab.
+   %gb_sets:from_list(List).
 
 iterator_to_node_set_1(Iter, DB) when is_function(Iter) ->
    iterator_to_node_set_1(Iter(), DB);

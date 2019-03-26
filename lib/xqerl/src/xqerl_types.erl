@@ -108,6 +108,42 @@ atomize(O) ->
    ?dbg("O",O),
    ?err('XPTY0004').
 
+make_node_external(#{nk := element,
+                     at := Int} = Node) when is_integer(Int) ->
+   Node;
+make_node_external(#{nk := element,
+                     nn := {Ns,Px,_}} = Node) ->
+   Ats = maps:get(at, Node, []),
+   F = fun(#{nn := {_,<<>>,_}}, M) ->
+             M;
+          (#{nn := {Ns1,Px1,_}}, M) ->
+             M#{Px1 => Ns1}          
+       end,
+   Nss = lists:foldl(F, #{Px => Ns}, Ats),
+   NoP = maps:remove(pt, Node),
+   NsSet = NoP#{ns => Nss}, 
+   make_node_external_1(NsSet, Nss);
+make_node_external(Node) ->
+   maps:remove(pt, Node).
+
+make_node_external_1(#{nk := element,
+                       nn := {Ns,Px,_}, 
+                       ch := Ch} = Node, Nss) ->
+   Ats = maps:get(at, Node, []),
+   F = fun(#{nn := {_,<<>>,_}}, M) ->
+             M;
+          (#{nn := {Ns1,Px1,_}}, M) ->
+             M#{Px1 => Ns1}
+       end,
+   Nss1 = lists:foldl(F, Nss#{Px => Ns}, Ats),
+   Node#{ch := make_node_external_1(Ch, Nss1),
+         ns => Nss1};
+make_node_external_1(#{nk := _} = Node, _Nss) ->
+   Node;
+make_node_external_1([Node|T], Nss) ->
+   [make_node_external_1(Node, Nss)|make_node_external_1(T, Nss)];
+make_node_external_1([], _) -> [].
+
 
 return_value([]) -> xqerl_seq3:empty();
 return_value(#xqAtomicValue{} = A) -> A;
@@ -116,17 +152,14 @@ return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
 return_value(#xqFunction{} = F) -> F;
 %return_value(#xqFunction{}) -> ?err('XPTY0004');
 return_value(Fun) when is_function(Fun) -> Fun;
-return_value(#{nk := _,
-               pt := _} = Map) -> % remove parent node
-   maps:remove(pt,Map);
+return_value(#{nk := _} = Map) -> % remove parent node
+   make_node_external(Map);
 return_value(Map) when is_map(Map) -> Map;
 return_value([Other]) ->
    return_value(Other);
 return_value(List) when is_list(List) ->
-   xqerl_seq3:flatten(
-     lists:map(fun(I) ->
-                     return_value(I)
-               end, List));
+   M = lists:map(fun(I) -> return_value(I) end, List),
+   xqerl_seq3:flatten(M);
 return_value(Other) -> 
    Other.
 

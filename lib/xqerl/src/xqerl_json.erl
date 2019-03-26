@@ -114,7 +114,7 @@ string_to_xml(String, Options) ->
          Doc = #xqDocumentNode{content = Frag},
          Opt = #{namespaces => [],
                  'base-uri' => get_base_uri(Options),
-                 'copy-namespaces' => {preserve,'no-inherit'}},
+                 'copy-namespaces' => {preserve,'inherit'}},
          xqerl_node:new_fragment(Opt, Doc)
    catch
       _:_ :Stk ->

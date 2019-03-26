@@ -135,17 +135,17 @@ new_fragment(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
                Ctx0#{'base-uri' => #xqAtomicValue{value = <<>>}};
             true ->
                Ctx0#{'base-uri' => #xqAtomicValue{value = <<>>},
-                     'copy-namespaces' => {preserve, 'no-inherit'}}
+                     'copy-namespaces' => {preserve, 'inherit'}}
          end,
    new_fragment(Ctx, Content);
 new_fragment(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
    new_fragment(Ctx0, [Content]);
 new_fragment(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
    new_fragment(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
-                              'copy-namespaces' => {preserve, 'no-inherit'}}), Content);
+                              'copy-namespaces' => {preserve, 'inherit'}}), Content);
 new_fragment(Ctx0, Content) when not is_map(Ctx0), not is_list(Content) ->
    new_fragment(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
-                              'copy-namespaces' => {preserve, 'no-inherit'}}), [Content]).
+                              'copy-namespaces' => {preserve, 'inherit'}}), [Content]).
 
 new_fragment_list(_, []) -> [];
 new_fragment_list(_, [undefined]) -> [];
@@ -177,17 +177,17 @@ new_fragment_list(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
                Ctx0#{'base-uri' => #xqAtomicValue{value = <<>>}};
             true ->
                Ctx0#{'base-uri' => #xqAtomicValue{value = <<>>},
-                     'copy-namespaces' => {preserve, 'no-inherit'}}
+                     'copy-namespaces' => {preserve, 'inherit'}}
          end,
    new_fragment_list(Ctx, Content);
 new_fragment_list(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
    new_fragment_list(Ctx0, [Content]);
 new_fragment_list(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
    new_fragment_list(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
-                              'copy-namespaces' => {preserve, 'no-inherit'}}), Content);
+                              'copy-namespaces' => {preserve, 'inherit'}}), Content);
 new_fragment_list(Ctx0, Content) when not is_map(Ctx0), not is_list(Content) ->
    new_fragment_list(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
-                              'copy-namespaces' => {preserve, 'no-inherit'}}), [Content]).
+                              'copy-namespaces' => {preserve, 'inherit'}}), [Content]).
 
 can_follow([],_Curr) -> true;
 can_follow(element,attribute) -> false;
@@ -480,13 +480,13 @@ merge_inscope_namespaces({'no-preserve',inherit},
    % no-preserve, inherit means keep no namespaces actually attached and all in-scope.
    lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
 merge_inscope_namespaces({preserve,'no-inherit'},
-                         _ElemNs,
+                         ElemNs,
                          _InScopeNs,
                          DirectNamespaces) ->
    % preserve, no-inherit means keep only those namespaces actually attached.
-   lists:keysort(3, DirectNamespaces);
-   %lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
-merge_inscope_namespaces({preserve,inherit},
+   %lists:keysort(3, DirectNamespaces);
+   lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, ElemNs));
+merge_inscope_namespaces({preserve, inherit},
                          ElemNs,
                          InScopeNs,
                          DirectNamespaces) ->

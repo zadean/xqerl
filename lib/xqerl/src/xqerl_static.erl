@@ -2159,17 +2159,19 @@ handle_node(State, #xqWindow{type = WindowType,
               true ->
                  WType0
            end,
-   %?dbg("WType",{WType,WType0}),
    WinStmt = get_statement(WinState),
    SWinType = WinType#xqSeqType{occur = zero_or_many},
-   OkType = check_type_match(SWinType, WType),
+   OkType = check_type_match(WType, SWinType),
    WTypeOut =  if OkType == false ->
                      ?err('XPTY0004');
                   OkType == cast ->
                     WType;
+                  SWinType#xqSeqType.occur =/= WinType#xqSeqType.occur ->
+                     WType;
                   true ->
                     ignore
                end,
+   %?dbg("WType",{OkType,WType,WType0,WTypeOut,SWinType}),
    PosType = ?intone,
    WinVar  = {WName,SWinType,[],ErlVarName},
    % variables for start expression
@@ -4143,7 +4145,7 @@ scan_setters(#state{tab = Tab} = State, SetList) ->
    OM = set_or_error('ordering-mode', SetList, ordered, 'XQST0065'),
    EO = set_or_error('empty-seq-order', SetList, greatest, 'XQST0069'),
    CN = set_or_error('copy-namespaces', SetList, 
-                     {preserve, 'no-inherit'}, 'XQST0055'),
+                     {preserve, 'inherit'}, 'XQST0055'),
    DF = scan_dec_formats(proplists:lookup_all('decimal-format', SetList),State),
    RM = set_or_error('revalidation', SetList, lax, 'XUST0003'),
    ok = check_def_collation(State, DC),
@@ -4188,10 +4190,10 @@ scan_variables(_State, Variables) ->
 scan_namespaces(State, Namespaces) ->
    NsList = [#xqNamespace{namespace = Ns, prefix = Px}
              || {Px,Ns} <- Namespaces],
-   Default = [#xqNamespace{namespace = Ns, prefix = Px}
-              || {Px,Ns} <- Namespaces, Px == <<>>],
-   State1 = set_inscope_ns(State, Default),
-   State1#state{known_ns = NsList}.
+   %Default = [#xqNamespace{namespace = Ns, prefix = Px}
+   %           || {Px,Ns} <- Namespaces, Px == <<>>],
+   %State1 = set_inscope_ns(State, Default),
+   State#state{known_ns = NsList}.
 
 scan_options(Options) ->
    xqerl_options:serialization_option_map(Options).
@@ -4783,6 +4785,10 @@ is_whitespace(Str) ->
 %% beginning of the content and the end, or any cdata, or any character 
 %% reference, or any content expression 
 remove_empty_head([]) -> [];
+remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str1},
+                   #xqAtomicValue{type = 'xs:string', value = Str2}|T]) ->
+   Str3 = #xqAtomicValue{type = 'xs:string', value = <<Str1/binary,Str2/binary>>},
+   remove_empty_head([Str3|T]);
 remove_empty_head([H1,#xqAtomicValue{type = 'xs:string', 
                                      value = Str} = H2,H3|T]) 
    when (?IS_BOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->

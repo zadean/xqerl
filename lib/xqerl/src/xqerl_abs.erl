@@ -2491,7 +2491,7 @@ where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
    R =?P(["'@FunctionName@'(_,[]) -> [];",
           "'@FunctionName@'(__Ctx,List) ->",
           "[I || _@OldVariableTupleMatch = I <- List,",
-          " _@E1 ]."
+          " _@E1 =:= true]."
          ]),
    
    %{Ctx,[InLine,WhereFun]}.
