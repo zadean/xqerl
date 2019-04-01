@@ -1169,6 +1169,8 @@ range_range_comp_any(Op,
                               Orig)
    end.
 
+-define(is_atomic(A), is_record(A, xqAtomicValue) orelse is_number(A) orelse is_boolean(A) orelse is_binary(A)).
+
 % returns xs:boolean
 general_compare(_Op,[],_) -> false;
 general_compare(_Op,_,[]) -> false;
@@ -1176,32 +1178,24 @@ general_compare(Op,{array,L1},L2) ->
    general_compare(Op,L1,L2);
 general_compare(Op,L1,{array,L2}) -> 
    general_compare(Op,L1,L2);
-general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
-   value_compare(Op,List1,List2);
-general_compare(Op,#xqRange{} = List1,#xqAtomicValue{} = V2) ->
-   Bool = range_val_comp_any(Op, List1, V2),
+general_compare(Op, A1, A2) when ?is_atomic(A1), ?is_atomic(A2) ->
+   value_compare(Op, A1, A2);
+general_compare(Op, #xqRange{} = List1, A2) when ?is_atomic(A2) ->
+   Bool = range_val_comp_any(Op, List1, A2),
    ?bool(Bool);
-general_compare(Op,#xqAtomicValue{} = V1,#xqRange{} = List2) ->
-   Bool = range_val_comp_any(Op, V1, List2),
+general_compare(Op, A1, #xqRange{} = List2) when ?is_atomic(A1) ->
+   Bool = range_val_comp_any(Op, A1, List2),
    ?bool(Bool);
 general_compare(Op,#xqRange{} = List1,#xqRange{} = List2) ->
    Bool = range_range_comp_any(Op, List1, List2),
    ?bool(Bool);
    
-general_compare(Op,#xqAtomicValue{} = V1,List2) when is_list(List2) ->
-   Bool = general_compare_any_2(List2, Op, V1),
+general_compare(Op, A1, List2) when ?is_atomic(A1), is_list(List2) ->
+   Bool = general_compare_any_2(List2, Op, A1),
    ?bool(Bool);
-general_compare(Op, V1, List2) when is_list(List2), is_boolean(V1) ->
-   Bool = general_compare_any_2(List2, Op, V1),
+general_compare(Op, List1, A2) when is_list(List1), ?is_atomic(A2) ->
+   Bool = general_compare_any_1(List1, Op, A2),
    ?bool(Bool);
-general_compare(Op,List1,#xqAtomicValue{} = V2) when is_list(List1) ->
-   Bool = general_compare_any_1(List1, Op, V2),
-   ?bool(Bool);
-general_compare(Op, List1, V2) when is_list(List1), is_boolean(V2) ->
-   Bool = general_compare_any_1(List1, Op, V2),
-   ?bool(Bool);
-general_compare(Op, V1, V2) when is_boolean(V1), is_boolean(V2) ->
-   value_compare(Op, V1, V2);
 
 general_compare(Op, V1, #{nk := _} = V2) ->
    general_compare(Op, V1, xqerl_types:atomize(V2));
@@ -1243,7 +1237,7 @@ cartesian_compare(Op,List1,List2) ->
             end, List1),
    ?bool(Bool).
 
-general_compare_any_1([#xqAtomicValue{} = V1|R1], Op, V2) ->
+general_compare_any_1([V1|R1], Op, V2) when ?is_atomic(V1) ->
    case value_compare(Op,V1,V2) of
       ?bool(true) ->
          true;
@@ -1268,7 +1262,7 @@ general_compare_any_1([V1|R1], Op, V2) ->
 general_compare_any_1([], _, _) -> false.
 
 
-general_compare_any_2([#xqAtomicValue{} = V2|R2], Op, V1) ->
+general_compare_any_2([V2|R2], Op, V1) when ?is_atomic(V2) ->
    case value_compare(Op,V1,V2) of
       ?bool(true) ->
          true;
@@ -1436,27 +1430,30 @@ atomize_list(Seq) when not is_list(Seq) ->
    atomize_list([Seq]);
 atomize_list([]) -> [].
 
+numeric_type_val(I) when is_integer(I) ->
+   {'xs:integer', I};
+numeric_type_val(I) when is_float(I) ->
+   {'xs:double', I};
+numeric_type_val(#xqAtomicValue{type = TypeA0, value = neg_zero}) 
+   when ?xs_numeric(TypeA0) ->
+   {TypeA0, 0.0};
+numeric_type_val(#xqAtomicValue{type = TypeA0, value = ValA0}) 
+   when ?xs_numeric(TypeA0) ->
+   {TypeA0, ValA0};
+numeric_type_val(neg_zero) ->
+   {'xs:double', 0.0};
+numeric_type_val(At) when At == nan;
+                          At == neg_infinity;
+                          At == infinity ->
+   {'xs:double', At};
+numeric_type_val(_) ->
+   ?err('XPTY0004').
+
+
 % returns: numeric
 numeric_add(A, B) -> 
-   TV = fun(I) when is_integer(I) ->
-              {'xs:integer', I};
-           (I) when is_float(I) ->
-              {'xs:double', I};
-           (#xqAtomicValue{type = TypeA0, value = neg_zero}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, 0.0};
-           (#xqAtomicValue{type = TypeA0, value = ValA0}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, ValA0};
-           (neg_zero) ->
-              {'xs:double', 0.0};
-           (At) when At == nan;
-                     At == neg_infinity;
-                     At == infinity ->
-              {'xs:double', At};
-           (_) ->
-              ?err('XPTY0004')
-        end,
-   {TypeA, ValA} = TV(A),
-   {TypeB, ValB} = TV(B),
+   {TypeA, ValA} = numeric_type_val(A),
+   {TypeB, ValB} = numeric_type_val(B),
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
@@ -1511,25 +1508,8 @@ numeric_add(A, B) ->
 
 % returns: numeric
 numeric_subtract(A, B) ->
-   TV = fun(I) when is_integer(I) ->
-              {'xs:integer', I};
-           (I) when is_float(I) ->
-              {'xs:double', I};
-           (#xqAtomicValue{type = TypeA0, value = neg_zero}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, 0.0};
-           (#xqAtomicValue{type = TypeA0, value = ValA0}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, ValA0};
-           (neg_zero) ->
-              {'xs:double', 0.0};
-           (At) when At == nan;
-                     At == neg_infinity;
-                     At == infinity ->
-              {'xs:double', At};
-           (_) ->
-              ?err('XPTY0004')
-        end,
-   {TypeA, ValA} = TV(A),
-   {TypeB, ValB} = TV(B),
+   {TypeA, ValA} = numeric_type_val(A),
+   {TypeB, ValB} = numeric_type_val(B),
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
@@ -1583,25 +1563,8 @@ numeric_subtract(A, B) ->
 
 % returns: numeric
 numeric_multiply(A, B) -> 
-   TV = fun(I) when is_integer(I) ->
-              {'xs:integer', I};
-           (I) when is_float(I) ->
-              {'xs:double', I};
-           (#xqAtomicValue{type = TypeA0, value = neg_zero}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, 0.0};
-           (#xqAtomicValue{type = TypeA0, value = ValA0}) when ?xs_numeric(TypeA0) ->
-              {TypeA0, ValA0};
-           (neg_zero) ->
-              {'xs:double', 0.0};
-           (At) when At == nan;
-                     At == neg_infinity;
-                     At == infinity ->
-              {'xs:double', At};
-           (_) ->
-              ?err('XPTY0004')
-        end,
-   {TypeA, ValA} = TV(A),
-   {TypeB, ValB} = TV(B),
+   {TypeA, ValA} = numeric_type_val(A),
+   {TypeB, ValB} = numeric_type_val(B),
    
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
@@ -3283,6 +3246,12 @@ eff_bool_val(Seq) ->
 get_numeric_type(TypeA, TypeA) -> TypeA;
 get_numeric_type('xs:double', _) -> 'xs:double';
 get_numeric_type(_,'xs:double') -> 'xs:double';
+get_numeric_type('xs:float', _) -> 'xs:float';
+get_numeric_type(_,'xs:float') -> 'xs:float';
+get_numeric_type('xs:decimal', _) -> 'xs:decimal';
+get_numeric_type(_,'xs:decimal') -> 'xs:decimal';
+get_numeric_type('xs:integer', _) -> 'xs:integer';
+get_numeric_type(_,'xs:integer') -> 'xs:integer';
 get_numeric_type(TypeA, TypeB) -> 
    N1 = num(TypeA),
    N2 = num(TypeB),
