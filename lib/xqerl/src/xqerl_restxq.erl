@@ -58,7 +58,7 @@
 -define(EPX, <<"rerr">>).
 
 -define(QN(Nm),#qname{namespace = ?NS, local_name = Nm}).
--define(SV(V), #xqAtomicValue{type = 'xs:string', value = V}).
+-define(SV(V), V).
 -define(anno(N,V),#annotation{name = N, values = V}).
 
 default_rest_annos() ->
