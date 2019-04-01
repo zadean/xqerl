@@ -114,7 +114,7 @@
 -type xml_element() :: #xqElementNode{} | #{nk := element, _ := _}.
 -type xml_namespace() :: #xqNamespaceNode{} .
 -type xml_pi() :: #xqProcessingInstructionNode{} | #{nk := 'processing-instruction', _ := _}.
--type xml_text() :: #xqTextNode{} | #{nk := test, _ := _}.
+-type xml_text() :: #xqTextNode{} | #{nk := text, _ := _}.
 
 
 
@@ -175,9 +175,7 @@
                        value :: float() | nan | neg_zero | 
                          infinity | neg_infinity }.  
 -type xs_double() :: 
-        #xqAtomicValue{type :: 'xs:double',
-                       value :: float() | nan | neg_zero | 
-                         infinity | neg_infinity }.  
+        float() | nan | neg_zero | infinity | neg_infinity.  
 
 -type xs_time() :: 
         #xqAtomicValue{type :: 'xs:time',
@@ -269,8 +267,7 @@
                        value :: #xsDateTime{year :: 0, month :: 0}}.  
 
 -type xs_integer() :: % [\-+]?[0-9]+
-        #xqAtomicValue{type :: 'xs:integer',
-                       value :: integer()} |
+        integer() |
         xs_nonPositiveInteger() | xs_long() | xs_nonNegativeInteger().  
 -type xs_nonPositiveInteger() :: % [\-+]?[0-9]+ 
         #xqAtomicValue{type :: 'xs:nonPositiveInteger', 
@@ -319,8 +316,7 @@
 
 
 -type xs_string() :: 
-        #xqAtomicValue{type :: 'xs:string',
-                       value :: binary()} |
+        binary() |
         xs_normalizedString().  
 -type xs_normalizedString() :: 
         #xqAtomicValue{type :: 'xs:normalizedString',

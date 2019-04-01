@@ -339,8 +339,7 @@ attribute(LocalName, Value) ->
   #xqAttributeNode{name = #qname{namespace = 'no-namespace',
                                  prefix = <<>>,
                                  local_name = LocalName},
-                   string_value = #xqAtomicValue{type = 'xs:string',
-                                         value = Value}}.
+                   string_value = Value}.
 
 element_node(Name, Atts, Expr) ->
    #xqElementNode{name = Name, 
@@ -358,10 +357,9 @@ parse_body(MediaTyp, Body) ->
          json ->
             xqerl_json:string(Body, []);
          html ->
-            %#xqAtomicValue{type = 'xs:string', value = Body};
             xqldb_mem_nodes:parse_binary(Body, {<<>>, <<>>});
          text ->
-            #xqAtomicValue{type = 'xs:string', value = Body};
+            Body;
          binary ->
             #xqAtomicValue{type = 'xs:base64Binary', value = Body}
       end

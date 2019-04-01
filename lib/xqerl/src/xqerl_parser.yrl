@@ -1040,8 +1040,8 @@ end.
 % [125]    Lookup      ::=      "?" KeySpecifier
 'Lookup'                 -> '?' 'KeySpecifier' : '$2'.
 % [126]    KeySpecifier      ::=      NCName | IntegerLiteral | ParenthesizedExpr | "*"
-'KeySpecifier'           -> 'NCName'         : #xqAtomicValue{type = 'xs:NCName', value = bin_value_of('$1')}.
-'KeySpecifier'           -> 'IntegerLiteral' : #xqAtomicValue{type = 'xs:integer', value = value_of('$1')}.
+'KeySpecifier'           -> 'NCName'         : xqAtomicValue('xs:NCName', bin_value_of('$1')).
+'KeySpecifier'           -> 'IntegerLiteral' : xqAtomicValue('xs:integer', value_of('$1')).
 'KeySpecifier'           -> 'ParenthesizedExpr' : '$1'.
 'KeySpecifier'           -> '*'        : 'wildcard'.
 'KeySpecifier'           -> 'wildcard' : 'wildcard'.
@@ -1195,13 +1195,13 @@ end.
 'DirAttributeValue'      -> 'apos' 'DirAttributeValuesApos' 'apos' : '$2'.
 'DirAttributeValue'      -> 'apos'                          'apos' : [].
 % [145]    QuotAttrValueContent    ::=      QuotAttrContentChar | CommonContent   
-'QuotAttrValueContent'   -> 'QuotAttrContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
+'QuotAttrValueContent'   -> 'QuotAttrContentChars' : xqAtomicValue('xs:string', '$1').
 'QuotAttrValueContent'   -> 'CommonContent' : '$1'.
 
 'QuotAttrContentChars'   -> 'QuotAttrContentChar' : bin_value_of('$1').
 'QuotAttrContentChars'   -> 'QuotAttrContentChar' 'QuotAttrContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 % [146]    AposAttrValueContent    ::=      AposAttrContentChar | CommonContent   
-'AposAttrValueContent'   -> 'AposAttrContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
+'AposAttrValueContent'   -> 'AposAttrContentChars' : xqAtomicValue('xs:string', '$1').
 'AposAttrValueContent'   -> 'CommonContent' : '$1'.
 
 'AposAttrContentChars'   -> 'AposAttrContentChar' 'AposAttrContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
@@ -1213,7 +1213,7 @@ end.
 'DirElemContent'         -> 'DirectConstructor'   : '$1'.
 'DirElemContent'         -> 'CDataSection'        : '$1'.
 'DirElemContent'         -> 'CommonContent'       : '$1'.
-'DirElemContent'         -> 'ElementContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
+'DirElemContent'         -> 'ElementContentChars' : xqAtomicValue('xs:string', '$1').
 
 'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 'ElementContentChars'    -> 'S'                  'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
@@ -1222,22 +1222,21 @@ end.
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
 'CommonContent'          -> 'PredefinedEntityRef' : {entity_ref, bin_value_of('$1')}.
 'CommonContent'          -> 'CharRef'             : {char_ref, bin_value_of('$1')}.
-'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = <<"{">>}.
-'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = <<"}">>}.
+'CommonContent'          -> '{{'                  : xqAtomicValue('xs:string', <<"{">>).
+'CommonContent'          -> '}}'                  : xqAtomicValue('xs:string', <<"}">>).
 'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
 'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : 
    #xqCommentNode{identity = next_id(), string_value = '$2'}.
 % [150]    DirCommentContents      ::=      ((Char - '-') | ('-' (Char - '-')))*
 %% done in scanner
-'DirCommentContents'     -> 'comment-text' : 
-   #xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}.
+'DirCommentContents'     -> 'comment-text' : xqAtomicValue('xs:string', bin_value_of('$1')).
 % [151]    DirPIConstructor     ::=      "<?" PITarget (S DirPIContents)? "?>"  /* ws: explicit */
 'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : 
    #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2'))}.
 'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : 
    #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2')),
-   string_value = #xqAtomicValue{type = 'xs:string', value = bin_value_of('$3')}}.
+   string_value = xqAtomicValue('xs:string', bin_value_of('$3'))}.
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
@@ -1246,7 +1245,7 @@ end.
          #xqTextNode{identity = next_id(), cdata = true, string_value = []};
       true ->
          #xqTextNode{identity = next_id(), cdata = true, 
-            string_value = #xqAtomicValue{type = 'xs:string', value = '$2'}}
+            string_value = xqAtomicValue('xs:string', '$2')}
    end.
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
 %% done in scanner
@@ -1348,10 +1347,10 @@ end.
 % [177]    StringConstructor    ::=      "``[" StringConstructorContent "]``"   /* ws: explicit */
 'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : {'string-constructor', '$2'}.
 % [178]    StringConstructorContent      ::=      StringConstructorChars (StringConstructorInterpolation StringConstructorChars)*  /* ws: explicit */
-'StringConstructorContent'-> 'StringConstructorChars'                                 : [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}].
-'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}|'$2'].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$2')}].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[#xqAtomicValue{type = 'xs:string', value = bin_value_of('$2')}|'$3'].
+'StringConstructorContent'-> 'StringConstructorChars'                                 : [xqAtomicValue('xs:string', bin_value_of('$1'))].
+'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [xqAtomicValue('xs:string', bin_value_of('$1'))|'$2'].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [xqAtomicValue('xs:string', bin_value_of('$2'))].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[xqAtomicValue('xs:string', bin_value_of('$2'))|'$3'].
 % [179]    StringConstructorChars     ::=      (Char* - (Char* ('`{' | ']``') Char*)) /* ws: explicit */
 %% done in scanner
 % [180]    StringConstructorInterpolation      ::=      "`{" Expr? "}`"   
@@ -1735,8 +1734,11 @@ qname_to_atom(Q) ->
    P = get_qname_prefix(Q),
    binary_to_atom(<<P/binary,":",L/binary>>,utf8).
 
+xqAtomicValue('xs:string', Value) -> Value;
+xqAtomicValue('xs:integer', Value) -> Value;
+xqAtomicValue('xs:double', Value) -> Value;
 xqAtomicValue(Type,Value) ->
-   {xqAtomicValue, Type,Value}.
+   #xqAtomicValue{type = Type, value = Value}.
 
 qname(func, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
    try
@@ -1929,7 +1931,9 @@ at_value([#xqAtomicValue{value = At}]) ->
    At;
 at_value(A) when is_list(A) ->
    try
-      L = lists:map( fun(#xqAtomicValue{value = V}) ->
+      L = lists:map( fun(V) when is_binary(V) ->
+                            V;
+                        (#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,E}) ->
                             at_value(E);
@@ -1954,9 +1958,9 @@ at_value(A) ->
 
 ns_value([]) ->
    [];
-ns_value([#xqAtomicValue{} = At]) ->
+ns_value([At]) when is_binary(At) ->
    %?dbg("1705",At),
-   xqerl_lib:normalize_spaces(element(3,At));
+   xqerl_lib:normalize_spaces(At);
    %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
@@ -1964,7 +1968,7 @@ ns_value([{expr,A}]) ->
 ns_value(A) when is_list(A) ->
    %?dbg("1708",A),
    try
-      L = lists:map( fun(#xqAtomicValue{value = V}) ->
+      L = lists:map( fun(V) when is_binary(V) ->
                             V;
                         ({expr,_E}) ->
                             ?err('XQST0022');
@@ -2006,19 +2010,17 @@ dir_att(QName, Value) ->
       true ->
          #xqAttributeNode{name = qname(other,QName), 
                           string_value = case Value of
-                                    [] -> [#xqAtomicValue{type = 'xs:string', 
-                                                          value = <<>>}];
+                                    [] -> [xqAtomicValue('xs:string', <<>>)];
                                     undefined -> 
-                                       [#xqAtomicValue{type = 'xs:string', 
-                                                       value = <<>>}];
+                                       [xqAtomicValue('xs:string', <<>>)];
                                     _ -> normalize_att_content(Value)
                                     end}
    end.
   
 normalize_att_content(Content) ->
    lists:map(
-      fun(#xqAtomicValue{value = Str} = A) ->
-            A#xqAtomicValue{value = normalize_whitespace(Str)};
+      fun(Str) when is_binary(Str) ->
+            normalize_whitespace(Str);
          (O) ->
             O
       end, Content).

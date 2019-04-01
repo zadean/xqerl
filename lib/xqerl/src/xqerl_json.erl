@@ -32,18 +32,15 @@
 -define(key(Value),#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                   prefix = <<>>, 
                                                   local_name = <<"key">>},
-                                    string_value = #xqAtomicValue{type = 'xs:string', 
-                                                          value = Value}}).
+                                    string_value = Value}).
 -define(esckey, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                                prefix = <<>>, 
                                                local_name = <<"escaped-key">>},
-                                 string_value = #xqAtomicValue{type = 'xs:string', 
-                                                       value = <<"true">>}}).
+                                 string_value = <<"true">>}).
 -define(esc, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                             prefix = <<>>, 
                                             local_name = <<"escaped">>},
-                              string_value = #xqAtomicValue{type = 'xs:string', 
-                                                    value = <<"true">>}}).
+                              string_value = <<"true">>}).
 
 -define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
 -define(CP2_REST(Cp1,Cp2,Rest), <<Cp1/utf8,Cp2/utf8,Rest/binary>>).
@@ -98,7 +95,7 @@ string(String, Options) ->
 
 xml_to_string(Node, Options) ->
    State = parse_options(#state{},Options),
-   #xqAtomicValue{type = 'xs:string', value = xml_to_json(State, Node)}.
+   xml_to_json(State, Node).
 
 string_to_xml(String, Options) ->
    State = parse_options(#state{duplicates = retain,
@@ -291,9 +288,13 @@ get_attributes(Content, AllowWs) ->
       Rest0 = [ K || K <- Content, 
                      not is_record(K, xqProcessingInstructionNode),
                      not is_record(K, xqCommentNode)],
-      F = fun(#xqTextNode{string_value = [#xqAtomicValue{value = V}]}) ->
+      F = fun(#xqTextNode{string_value = [V]}) when is_binary(V) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
-             (#xqTextNode{string_value = #xqAtomicValue{value = V}}) ->
+             (#xqTextNode{string_value = V}) when is_binary(V) ->
+                AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
+             (#xqTextNode{string_value = [#xqAtomicValue{value = V}]}) when is_binary(V) ->
+                AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
+             (#xqTextNode{string_value = #xqAtomicValue{value = V}}) when is_binary(V) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
              (#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = Ln}}) 
@@ -388,7 +389,7 @@ json_to_xml(State, Key, {Val, Lex})
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = #xqAtomicValue{type = 'xs:string', value = Lex}}; %% TODO make this a string node
+                  content = Lex}; %% TODO make this a string node
 json_to_xml(State, Key, Val) ->
    Norm = normalize_string(State, Val),
    Esc = att_esc(Norm, State#state.escape),
@@ -396,8 +397,7 @@ json_to_xml(State, Key, Val) ->
                   attributes = [Esc|att_key(Key, State#state.escape)],
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = #xqAtomicValue{type = 'xs:string', 
-                                        value = Norm}}. %% TODO make this a string node
+                  content = Norm}. %% TODO make this a string node
 
 json_to_map(State, {array, Values}) ->
    {array,lists:map(fun(V) ->
@@ -410,9 +410,7 @@ json_to_map(#state{duplicates = Dupes} = State, {object, Members}) ->
                 true ->
                    ?err('FOJS0003');
                 _ ->
-                   ATString = #xqAtomicValue{type = 'xs:string', 
-                                             value = NormKey},
-                   Map#{NormKey => {ATString,json_to_map(State,V)}}
+                   Map#{NormKey => {NormKey,json_to_map(State,V)}}
              end;
           ({K,V},Map) when Dupes == use_first ->
              NormKey = normalize_string(State, K),
@@ -420,15 +418,11 @@ json_to_map(#state{duplicates = Dupes} = State, {object, Members}) ->
                 true ->
                    Map;
                 _ ->
-                   ATString = #xqAtomicValue{type = 'xs:string', 
-                                             value = NormKey},
-                   Map#{NormKey => {ATString,json_to_map(State,V)}}
+                   Map#{NormKey => {NormKey,json_to_map(State,V)}}
              end;
           ({K,V},Map) when Dupes == use_last ->
              NormKey = normalize_string(State, K),
-             ATString = #xqAtomicValue{type = 'xs:string', 
-                                       value = NormKey},
-             Map#{NormKey => {ATString,json_to_map(State,V)}};
+             Map#{NormKey => {NormKey,json_to_map(State,V)}};
           (_,_) ->
              ?err('FOJS0005')
        end,
@@ -441,11 +435,10 @@ json_to_map(_State, {Val, _Lex})
         Val =:= neg_zero;
         Val =:= infinity;
         Val =:= neg_infinity ->
-   #xqAtomicValue{type = 'xs:double', value = Val};
+   Val;
 json_to_map(State, Val) ->
    %?dbg("State#state.escape",State#state.escape),
-   Norm = normalize_string(State, Val),
-   #xqAtomicValue{type = 'xs:string', value = Norm}.
+   normalize_string(State, Val).
 
 normalize_string(#state{escape = true}, String) ->
    escape(String, <<>>);
@@ -529,7 +522,7 @@ no_escape(<<>>, _Fallback, Acc) -> Acc;
 no_escape(<<$\\,$u,A,B,C,D, T/binary>>,Fallback, Acc) ->
    % this should be a bad codepoint, so call fallback
    Str = <<$\\,$u,A,B,C,D>>,
-   NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
+   NewStr = Fallback(Str),
    StrVal = xqerl_types:string_value(NewStr),
    no_escape(T, Fallback, <<Acc/binary,StrVal/binary>>);
 no_escape(?CP2_REST($\\,H,_), _Fallback, _Acc) 
@@ -547,7 +540,7 @@ no_escape(?CP_REST(H,T), Fallback, Acc) ->
          try
             Pad = do_pad(H),
             Str = <<$\\,$u,Pad/binary>>,
-            NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
+            NewStr = Fallback(Str),
             NewVal = xqerl_types:string_value(NewStr),
             no_escape(T, Fallback, <<Acc/binary,NewVal/binary>>)
          catch

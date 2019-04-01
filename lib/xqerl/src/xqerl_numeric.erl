@@ -598,6 +598,8 @@ ceiling(Float) ->
    T = trunc(Float),
    if Float == T ->
          T;
+      Float > -1, Float < 0 ->
+         neg_zero;
       Float < 0 ->
          T;
       true ->

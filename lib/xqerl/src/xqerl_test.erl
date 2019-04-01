@@ -112,9 +112,7 @@ assert_xml(Result, {file, FileLoc}) ->
 assert_xml(Result, {doc_file, FileLoc}) ->
    {ok,FileBin} = file:read_file(FileLoc),
    Norm = normalize_lines(FileBin, <<>>),
-   Doc = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>},
-                              #xqAtomicValue{type = 'xs:string', 
-                              value = Norm}),
+   Doc = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>}, Norm),
    Norm1 = xqerl_node:to_xml(Doc),   
    assert_xml(Result, Norm1);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
@@ -134,15 +132,13 @@ assert_xml(Result, QueryString0) ->
          try
             ResXml2 = xqerl_fn:'parse-xml-fragment'(
                         #{'base-uri' => <<>>}, 
-                        #xqAtomicValue{type = 'xs:string', 
-                                       value = ResXml}),
+                        ResXml),
                                        %value = <<"<x>",ResXml/binary,"</x>">>}),
             %?dbg("ResXml2",ResXml2),
             QueryString2 =
               case catch xqerl_fn:'parse-xml-fragment'(
                              #{'base-uri' => <<>>}, 
-                             #xqAtomicValue{type = 'xs:string', 
-                                            value = QueryString})
+                             QueryString)
                                             %value = <<"<x>",QueryString/binary,"</x>">>})
                  of
                  {'EXIT',#xqError{}} ->
@@ -831,9 +827,7 @@ handle_environment(List) ->
    Uniq = integer_to_binary(erlang:unique_integer()),
    DefaultCollection = <<"http://example.org/default",Uniq/binary>>,
    
-   Map00 = #{default_collection => 
-                    #xqAtomicValue{type = 'xs:string',
-                                   value = DefaultCollection}},
+   Map00 = #{default_collection => DefaultCollection},
    Map1 = if DeCollation == undefined ->
                 Map00;
              true ->

@@ -269,8 +269,7 @@ split_names_list(Values, Namespaces) ->
    Split = string:split(xqerl_lib:trim(Values), "\s", all),
    ?dbg("Split",Split),
    [try
-       Str = #xqAtomicValue{type = 'xs:string', value = S},
-       QNm = xqerl_types:cast_as(Str, 'xs:QName', Namespaces),
+       QNm = xqerl_types:cast_as(S, 'xs:QName', Namespaces),
        QNm#xqAtomicValue.value
     catch
        _:_ ->
@@ -347,14 +346,10 @@ normalize_character_map(Value) ->
                _ -> 
                   ?dbg("Key",Key),
                   ?err('XPTY0004')
-            end, 
-            case V of
-               #xqAtomicValue{type = 'xs:string',
-                              value = Val} -> Val;
-               _ when is_binary(V) ->
+            end,
+            if is_binary(V) ->
                   V;
-               _ ->
-                  ?dbg("V",V),
+               true ->
                   ?err('XPTY0004')
             end} 
           || {Key, {_,V}} <- maps:to_list(Value)],

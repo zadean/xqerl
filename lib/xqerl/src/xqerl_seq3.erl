@@ -86,7 +86,7 @@
 
 -include("xqerl.hrl").
 
--define(int_rec(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
+-define(int_rec(Val), Val).
 
 
 %-define(seq, gb_trees).
@@ -124,7 +124,7 @@ check(List,nonnode) ->
 
 path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
-   Size = length(List),
+   Size = fun() -> length(List) end,
    try
       lists:flatten(do_path_map(Fun, List,1,Size))
    of Mapped ->
@@ -744,14 +744,19 @@ from_list(List) ->
 
 range(_, []) -> empty();
 range([], _) -> empty();
+range(A, A) when is_integer(A) -> A;
 range(#xqAtomicValue{value = A}, #xqAtomicValue{value = A}) 
    when is_integer(A) ->
    ?int_rec(A);
 range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) 
    when is_integer(From),is_integer(To) ->
    range1(From,To);
-range(A, A) when is_integer(A) ->
-   ?int_rec(A);
+range(#xqAtomicValue{value = From}, To) 
+   when is_integer(From),is_integer(To) ->
+   range1(From,To);
+range(From, #xqAtomicValue{value = To}) 
+   when is_integer(From),is_integer(To) ->
+   range1(From,To);
 range(From, To) when is_integer(From),is_integer(To) ->
    range1(From,To);
 range(From, To) ->
@@ -809,21 +814,29 @@ get_unique_values1([#xqAtomicValue{value = {xsDecimal,H,0}}|T]) ->
    [H|get_unique_values1(T)];
 get_unique_values1([#xqAtomicValue{value = {xsDecimal,_,_}}|T]) ->
    get_unique_values1(T);
+get_unique_values1([F|T]) when is_float(F) ->
+   if trunc(F) == F ->
+         [trunc(F)|get_unique_values1(T)];
+      true ->
+         get_unique_values1(T)
+   end;
 get_unique_values1([#xqAtomicValue{value = F}|T]) when is_float(F) ->
    if trunc(F) == F ->
          [trunc(F)|get_unique_values1(T)];
       true ->
          get_unique_values1(T)
    end;
+get_unique_values1([H|T]) when is_integer(H) ->
+   [H|get_unique_values1(T)];
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
-position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
-                                                           is_integer(I)%,
-                                                           %length(Seq) < 50
-   ->
+position_filter(_Ctx, I, Seq) when is_list(Seq),
+                                   is_integer(I) ->
    nth(I, Seq);
-   %nth(I, expand(Seq));
+position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
+                                                           is_integer(I) ->
+   nth(I, Seq);
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    Seq = expand(Seq0),
    try
@@ -881,10 +894,14 @@ filter(Ctx, Fun, #xqRange{} = Range) ->
    filter(Ctx, Fun, to_list(Range));
 filter(Ctx, #xqAtomicValue{} = Pos,Seq) ->
    position_filter(Ctx, [Pos], Seq);
+filter(Ctx, Pos, Seq) when is_integer(Pos) ->
+   position_filter(Ctx, [Pos], Seq);
+filter(Ctx, [Pos], Seq) when is_integer(Pos) ->
+   position_filter(Ctx, [Pos], Seq);
 filter(Ctx, [#xqAtomicValue{}] = Pos,Seq) ->
    position_filter(Ctx, Pos, Seq);
-filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
-   position_filter(Ctx, Pos, Seq);
+%% filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
+%%    position_filter(Ctx, Pos, Seq);
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
 filter(Ctx, Fun, Seq2) when is_function(Fun,4) ->
@@ -916,7 +933,19 @@ filter1(Ctx, Fun, [H|T], Pos,Size) ->
          [H|filter1(Ctx, Fun, T, NextPos,Size)];
       false ->
          filter1(Ctx, Fun, T, NextPos,Size);
+      [FPos] when is_number(FPos) ->
+         if FPos == Pos ->
+               [H|filter1(Ctx, Fun, T, NextPos,Size)];
+            true ->
+               filter1(Ctx, Fun, T, NextPos,Size)
+         end;
       [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
+         if FPos == Pos ->
+               [H|filter1(Ctx, Fun, T, NextPos,Size)];
+            true ->
+               filter1(Ctx, Fun, T, NextPos,Size)
+         end;
+      FPos when is_number(FPos) ->
          if FPos == Pos ->
                [H|filter1(Ctx, Fun, T, NextPos,Size)];
             true ->
@@ -1017,6 +1046,16 @@ get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
 get_item_type(Item) when is_boolean(Item) ->
    'xs:boolean';
+get_item_type(Item) when is_binary(Item) ->
+   'xs:string';
+get_item_type(Item) when is_integer(Item) ->
+   'xs:integer';
+get_item_type(Item) when is_float(Item);
+                         Item == neg_zero;
+                         Item == infinity;
+                         Item == nan;
+                         Item == neg_infinity ->
+   'xs:double';
 get_item_type(Item) when is_function(Item) ->
    function;
 get_item_type(#xqFunction{}) ->

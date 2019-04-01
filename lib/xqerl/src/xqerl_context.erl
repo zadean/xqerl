@@ -607,20 +607,17 @@ set_context_item(Ctx, [], _Pos, _Size) ->
 set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) 
    when is_integer(Size) ->
    Ctx#{'context-item' := {CI, Pos},
-        'context-item-count' := #xqAtomicValue{type = 'xs:integer',
-                                               value = Size}};
+        'context-item-count' => Size};
 set_context_item(Ctx, #{nk := _} = CI, Pos, Size) 
    when is_integer(Size) ->
    BU = xqldb_mem_nodes:base_uri(CI),
    Ctx#{'context-item' => {CI, Pos},
         'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = BU},
-        'context-item-count' => #xqAtomicValue{type = 'xs:integer',
-                                               value = Size}};
+        'context-item-count' => Size};
 set_context_item(Ctx, CI, Pos, Size) 
    when is_integer(Size) ->
    Ctx#{'context-item' => {CI, Pos},
-        'context-item-count' => #xqAtomicValue{type = 'xs:integer',
-                                               value = Size}};
+        'context-item-count' => Size};
 set_context_item(#{'context-item' := _,
                    'context-item-count' := _} = Ctx, CI, Pos, Size) ->
    Ctx#{'context-item' := {CI, Pos},
@@ -649,9 +646,6 @@ get_context_size(#{'context-item-count' := P}) ->
 get_context_size(_) ->
    ?err('XPDY0002').
 
-set_context_size(Ctx, Value) when is_integer(Value)->
-   maps:put('context-item-count', #xqAtomicValue{type = 'xs:integer',
-                                                 value = Value}, Ctx);
 set_context_size(Ctx, Value) ->
    maps:put('context-item-count', Value, Ctx).
 

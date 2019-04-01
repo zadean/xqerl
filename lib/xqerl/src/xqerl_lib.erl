@@ -550,8 +550,7 @@ is_valid_tokens(Token) ->
 
    
 format_stacktrace(L) ->
-   [#xqAtomicValue{type = 'xs:string', value = V} ||
-    V <- format_stacktrace_(L)].
+   format_stacktrace_(L).
 
 format_stacktrace_([]) -> [];
 format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) when is_integer(Ary) ->

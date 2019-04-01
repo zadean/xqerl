@@ -25,7 +25,7 @@
 -module(xqerl_array).
 
 -include("xqerl.hrl").
--define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
+-define(atint(I), I).
 
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(PX, <<"array">>).
@@ -237,6 +237,13 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
 %% supplied array (counting from 1). 
 'get'(Ctx,[Seq],Position) ->
    'get'(Ctx,Seq,Position);
+'get'(_Ctx,#array{data = List}, I) when is_integer(I) ->
+   case catch lists:nth(I, List) of
+      {'EXIT', _} ->
+         ?err('FOAY0001');
+      N ->
+         N
+   end;
 'get'(_Ctx,#array{data = List},#xqAtomicValue{type = T, value = I}) 
    when ?xs_integer(T) ->
    case catch lists:nth(I, List) of
@@ -301,7 +308,7 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
 %% except for the members at specified positions. 
 'remove'(_Ctx,#array{data = List},Positions) -> 
    Arr = array:from_list(List),
-   IntList = [V || #xqAtomicValue{value = V} <- xqerl_seq3:to_list(Positions)],
+   IntList = [xqerl_types:value(V) || V <- xqerl_seq3:to_list(Positions)],
    SortPos = ordsets:from_list(IntList),
    RevPos = lists:reverse(ordsets:to_list(SortPos)),
    Fx = fun(P,A) ->
@@ -381,8 +388,7 @@ sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
                    (?xs_string(TypeB) 
                     orelse TypeB =:= 'xs:anyURI' 
                     orelse TypeB =:= 'xs:untypedAtomic') ->
-                     #xqAtomicValue{value = Comp} = 
-                       xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
+                     Comp = xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
                      Comp =< 0;
                   true ->
                      xqerl_operators:less_than_eq(hd(A), hd(B))

@@ -1346,7 +1346,7 @@ name_match(_, _) -> false.
 
 do_predicates(Nodes, []) -> Nodes;
 do_predicates(Nodes, [P|Ps]) ->
-   S = length(Nodes),
+   S = fun() -> length(Nodes) end,
    F = do_pred_filter(P, Nodes, 1, S),
    do_predicates(F, Ps).
 

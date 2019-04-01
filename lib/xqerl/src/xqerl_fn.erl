@@ -29,10 +29,10 @@
 -compile(inline_list_funcs).
 
 -define(bool(Val), Val).
--define(atint(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
+-define(atint(Val), Val).
+-define(dbl(Val), Val).
+-define(str(Val), Val).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
--define(dbl(Val), #xqAtomicValue{type = 'xs:double', value = Val}).
--define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(atm(Typ,Val), #xqAtomicValue{type = Typ, value = Val}).
 
 -define(A(T),<<T>>).
@@ -681,12 +681,18 @@
           xq_types:xs_numeric() | []) -> xq_types:xs_numeric() | [].
 'abs'(_Ctx,[]) -> [];
 'abs'(Ctx,[Arg]) -> 'abs'(Ctx,Arg);
+'abs'(_Ctx, nan = Arg) -> Arg;
 'abs'(_Ctx,#xqAtomicValue{value = nan} = Arg) -> Arg;
+'abs'(_Ctx, infinity = Arg) -> Arg;
 'abs'(_Ctx,#xqAtomicValue{value = infinity} = Arg) -> Arg;
+'abs'(_Ctx, neg_infinity) -> infinity;
 'abs'(_Ctx,#xqAtomicValue{value = neg_infinity} = Arg) -> 
    Arg#xqAtomicValue{value = infinity};
+'abs'(_Ctx, neg_zero) -> 0.0;
 'abs'(_Ctx,#xqAtomicValue{value = neg_zero} = Arg) -> 
    Arg#xqAtomicValue{value = 0.0};
+'abs'(_Ctx, Val) when is_number(Val) ->
+   xqerl_numeric:abs_val(Val);
 'abs'(_Ctx,#xqAtomicValue{type = Type, value = Val}) when ?xs_integer(Type) ->
    ?atint(xqerl_numeric:abs_val(Val));
 'abs'(_Ctx,#xqAtomicValue{value = Val} = Arg) ->
@@ -1002,7 +1008,7 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
 
 avg1([], Sum, Count) ->
    xqerl_operators:divide(Sum, ?atint(Count));
-avg1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _, _) ->
+avg1([nan = H|_], _, _) ->
    H;
 avg1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _, _) ->
    H;
@@ -1074,9 +1080,7 @@ avg1([H|T], Sum, Count) ->
 'codepoint-equal'(_Ctx,_Arg1,[]) -> [];
 'codepoint-equal'(_Ctx,[Arg1],Arg2) -> 'codepoint-equal'(_Ctx,Arg1,Arg2);
 'codepoint-equal'(_Ctx,Arg1,[Arg2]) -> 'codepoint-equal'(_Ctx,Arg1,Arg2);
-'codepoint-equal'(_Ctx,
-                  #xqAtomicValue{type = 'xs:string', value = Str1},
-                  #xqAtomicValue{type = 'xs:string', value = Str2}) -> 
+'codepoint-equal'(_Ctx, Str1, Str2) when is_binary(Str1), is_binary(Str2) -> 
       ?bool(Str1 == Str2);
 'codepoint-equal'(_,_,_) -> ?err('XPTY0004').
 
@@ -1098,14 +1102,24 @@ cp_to_bin(CpList) ->
       _:_ -> ?err('FOCH0001')
   end.
 
-cp_to_bin([#xqAtomicValue{value = C}|_],_) 
-   when C < 9;
+cp_to_bin([C|_],_) 
+   when is_integer(C), C < 9;
         C =:= 11;
         C =:= 12;
-        C > 13, C < 32;
+        is_integer(C), C > 13, C < 32;
         C =:= 65534;
         C =:= 65535 -> % codepoints that will pass utf8 but are not xml
    throw({error,bad_codepoint});
+cp_to_bin([#xqAtomicValue{value = C}|_],_) 
+   when is_integer(C), C < 9;
+        C =:= 11;
+        C =:= 12;
+        is_integer(C), C > 13, C < 32;
+        C =:= 65534;
+        C =:= 65535 -> % codepoints that will pass utf8 but are not xml
+   throw({error,bad_codepoint});
+cp_to_bin([C|T],Acc) when is_integer(C) ->
+   cp_to_bin(T,<<Acc/binary,C/utf8>>);
 cp_to_bin([#xqAtomicValue{value = C}|T],Acc) when is_integer(C) ->
    cp_to_bin(T,<<Acc/binary,C/utf8>>);
 cp_to_bin([#xqRange{min = C}|_],_) 
@@ -1246,6 +1260,8 @@ cp_to_bin([],Acc) -> Acc.
 
 concat_1([], Acc) -> Acc;
 concat_1([?atm(Ty,H)|T], Acc) when is_binary(H), Ty =/= 'xs:hexBinary', Ty =/= 'xs:base64Binary' ->
+   concat_1(T, <<Acc/binary, H/binary>>);
+concat_1([H|T], Acc) when is_binary(H) ->
    concat_1(T, <<Acc/binary, H/binary>>);
 concat_1([H|T], Acc) ->
    Hd = xqerl_types:value(xqerl_types:cast_as(H, 'xs:string')),
@@ -1390,6 +1406,10 @@ data1([]) -> [];
 data1([#array{} = H|T]) ->
    Flat = xqerl_array:flatten([], H),
    data1(Flat ++ T);
+data1([H|T]) when is_number(H);
+                  is_binary(H);
+                  is_boolean(H) ->
+   [H|data1(T)];
 data1([#xqAtomicValue{} = H|T]) ->
    [H|data1(T)];
 data1([#{nk := _} = H|T]) ->
@@ -1507,56 +1527,9 @@ data1(_) ->
       _ ->
          Zip = lists:zip(Arg1, Arg2),
          %?dbg("Zip",Zip),
-         EqFun = 
-             fun({X,Y}) when is_list(X),is_list(Y) ->
-                   'deep-equal'(Ctx,X,Y,CollFun);
-                ({#{nk := _} = N1,#{nk := _} = N2}) ->
-                   xqerl_node:nodes_equal(N1,N2,CollFun);
-                ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
-                   true;
-                ({#xqAtomicValue{value = infinity},
-                  #xqAtomicValue{value = infinity}}) ->
-                   true;
-                ({#xqAtomicValue{value = neg_infinity},
-                  #xqAtomicValue{value = neg_infinity}}) ->
-                   true;
-                ({#xqAtomicValue{type = T1} = N1,
-                  #xqAtomicValue{type = T2} = N2}) 
-                   when ?xs_string(T1) andalso ?xs_string(T2) ->
-                   compare(Ctx, N1, N2, CollFun) == ?atint(0);
-                ({true, true}) -> true;
-                ({false, false}) -> true;
-                ({N1, _}) when is_boolean(N1) -> false;
-                ({_, N2}) when is_boolean(N2) -> false;
-                ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
-                   xqerl_operators:equal(N1,N2);
-                ({_,#xqFunction{}}) ->
-                   ?err('FOTY0015');
-                ({#xqFunction{},_}) ->
-                   ?err('FOTY0015');
-                ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
-                   F1 == F2;
-                ({M1,M2}) when is_map(M1) andalso is_map(M2) ->
-                     Sz1 = xqerl_map:size([], M1),
-                     Sz2 = xqerl_map:size([], M2),
-                     if Sz1 == Sz2 ->
-                           K1 = xqerl_map:keys([],M1),
-                           F = fun(K) ->
-                                     xqerl_map:contains([], M2, K) == 
-                                       ?bool(true) andalso
-                                     'deep-equal'(
-                                       [],
-                                       xqerl_map:get([], M1, K), 
-                                       xqerl_map:get([], M2, K),
-                                       CollFun)
-                               end,         
-                           lists:all(F, K1);
-                        true ->
-                           false
-                     end;
-                ({{array,A1},{array,A2}}) ->
-                   'deep-equal'(Ctx,A1,A2,CollFun)
-                end,
+         EqFun = fun({X,Y}) ->
+                       deep_equal_1({X, Y}, Ctx, CollFun)
+                 end,
          try
             ?bool(lists:all(EqFun, Zip))
          catch
@@ -1566,6 +1539,94 @@ data1(_) ->
                ?bool(false)
          end
    end.
+
+deep_equal_1({X, Y}, Ctx, CollFun) when is_list(X), is_list(Y) ->
+   'deep-equal'(Ctx,X,Y,CollFun);
+deep_equal_1({#{nk := _} = N1,#{nk := _} = N2}, _, CollFun) ->
+   xqerl_node:nodes_equal(N1,N2,CollFun);
+deep_equal_1({#xqAtomicValue{value = nan},
+              #xqAtomicValue{value = nan}}, _, _) ->
+   true;
+deep_equal_1({nan, #xqAtomicValue{value = nan}}, _, _) ->
+   true;
+deep_equal_1({#xqAtomicValue{value = nan}, nan}, _, _) ->
+   true;
+deep_equal_1({nan, nan}, _, _) ->
+   true;
+deep_equal_1({#xqAtomicValue{value = infinity},
+              #xqAtomicValue{value = infinity}}, _, _) ->
+   true;
+deep_equal_1({infinity, #xqAtomicValue{value = infinity}}, _, _) ->
+   true;
+deep_equal_1({#xqAtomicValue{value = infinity}, infinity}, _, _) ->
+   true;
+deep_equal_1({infinity, infinity}, _, _) ->
+   true;
+deep_equal_1({#xqAtomicValue{value = neg_infinity},
+              #xqAtomicValue{value = neg_infinity}}, _, _) ->
+   true;
+deep_equal_1({neg_infinity, #xqAtomicValue{value = neg_infinity}}, _, _) ->
+   true;
+deep_equal_1({#xqAtomicValue{value = neg_infinity}, neg_infinity}, _, _) ->
+   true;
+deep_equal_1({neg_infinity, neg_infinity}, _, _) ->
+   true;
+deep_equal_1({true, true}, _, _) ->
+   true;
+deep_equal_1({true, false}, _, _) ->
+   false;
+deep_equal_1({false, false}, _, _) ->
+   true;
+deep_equal_1({false, true}, _, _) ->
+   false;
+deep_equal_1({#xqAtomicValue{type = T1, value = V1}, V2}, Ctx, CollFun)
+   when ?xs_string(T1);
+        T1 == 'xs:anyURI';
+        T1 == 'xs:untypedAtomic' ->
+   deep_equal_1({V1, V2}, Ctx, CollFun);
+deep_equal_1({V1, #xqAtomicValue{type = T2, value = V2}}, Ctx, CollFun)
+   when ?xs_string(T2);
+        T2 == 'xs:anyURI';
+        T2 == 'xs:untypedAtomic' ->
+   deep_equal_1({V1, V2}, Ctx, CollFun);
+deep_equal_1({V1, V2}, Ctx, CollFun) when is_binary(V1),
+                                          is_binary(V2) ->
+   compare(Ctx, V1, V2, CollFun) == 0;
+deep_equal_1({N1, N2}, _, _) when is_number(N1), is_number(N2) ->
+   N1 == N2;
+deep_equal_1({_, #xqFunction{}}, _, _) ->
+   ?err('FOTY0015');
+deep_equal_1({#xqFunction{}, _}, _, _) ->
+   ?err('FOTY0015');
+deep_equal_1({V1, V2}, _, _) when is_function(V1),
+                                  is_function(V2) ->
+   V1 == V2;
+deep_equal_1({{array,A1},{array,A2}}, Ctx, CollFun) ->
+   'deep-equal'(Ctx,A1,A2,CollFun);
+deep_equal_1({{array,_},_}, _, _) -> false;
+deep_equal_1({{_, array},_}, _, _) -> false;
+deep_equal_1({M1, M2}, Ctx, CollFun) when is_map(M1),
+                                          is_map(M2) ->
+   Sz1 = xqerl_map:size([], M1),
+   Sz2 = xqerl_map:size([], M2),
+   if Sz1 == Sz2 ->
+         K1 = xqerl_map:keys([],M1),
+         F = fun(K) ->
+                   xqerl_map:contains([], M2, K) == 
+                     ?bool(true) andalso
+                   'deep-equal'(
+                     Ctx,
+                     xqerl_map:get([], M1, K), 
+                     xqerl_map:get([], M2, K),
+                     CollFun)
+             end,         
+         lists:all(F, K1);
+      true ->
+         false
+   end;
+deep_equal_1({N1, N2}, _, _) ->
+   xqerl_operators:equal(N1,N2).
+
 
 %% Returns the value of the default collation property from the static context. 
 %% fn:default-collation() as xs:string
@@ -1605,9 +1666,20 @@ data1(_) ->
                                                     T == 'xs:anyURI' ->
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
                    {Key, A};
+                (A) when is_binary(A)->
+                   Key = xqerl_coll:sort_key(A, Collation),
+                   {Key, A};
+                (#xqAtomicValue{value = neg_zero} = A) ->
+                   {0, A};
+                (#xqAtomicValue{value = V} = A) when is_atom(V) ->
+                   {V, A};
                 (#xqAtomicValue{} = A) ->
                    {A, A};
-                (A) when is_boolean(A) ->
+                (A) when is_number(A) ->
+                   {A, A};
+                (neg_zero = A) ->
+                   {0, A};
+                (A) when is_atom(A) ->
                    {A, A};
                 (#{nk := _} = N) ->
                    A = xqerl_types:atomize(N),
@@ -1647,9 +1719,13 @@ distinct_vals(Vals,Fun) ->
                               xqerl_operators:equal(AccKey, Key);
                           #xqAtomicValue{type = AccType} ->
                               xqerl_operators:equal(AccKey, Key);
+                          _ when is_number(Key) ->
+                             xqerl_operators:equal(AccKey, Key);
                           _ ->
                              false
                        end;
+                    ({AccKey,_}) when is_number(AccKey) ->
+                       (catch xqerl_operators:equal(AccKey, Key)) == true;
                     ({AccKey,_}) ->
                        Key == AccKey
                  end,
@@ -1972,7 +2048,7 @@ pct_encode3([H|T]) ->
                         throw(E);
                      #{nk := _} = N ->
                         case catch xqerl_types:cast_as(N, 'xs:boolean') of
-                           V ->
+                           V when is_boolean(V) ->
                               V;
                            _ ->
                               ?err('XPTY0004')
@@ -2624,8 +2700,7 @@ head_1(H) -> H.
    Fun = fun(Elem,{List,Counter}) ->
                case catch xqerl_operators:equal(Elem, Arg2) of
                   true ->
-                     Int = #xqAtomicValue{type = 'xs:integer', value = Counter},
-                     {0,{[Int|List], Counter + 1}};
+                     {0,{[Counter|List], Counter + 1}};
                   _ ->
                      {0,{List, Counter + 1}}
                end
@@ -2685,7 +2760,7 @@ head_1(H) -> H.
              ({<<>>,<<>>}) ->
                 false;
              ({<<>>,_}) ->
-                {true,#xqAtomicValue{type = 'xs:string', value = <<>>}};
+                {true, <<>>};
              ({P,_}) ->
                 {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
           end,
@@ -2796,7 +2871,9 @@ check_json_doc_opts(_) ->
                     xq_types:xq_map()) ->
          [] | xq_types:xml_document().
 'json-to-xml'(_Ctx,[],_Arg2) -> [];
-'json-to-xml'(Ctx,#xqAtomicValue{value = JSON},Arg2) -> 
+'json-to-xml'(Ctx,#xqAtomicValue{value = JSON},Arg2) ->
+   'json-to-xml'(Ctx, JSON, Arg2);
+'json-to-xml'(Ctx, JSON, Arg2) when is_binary(JSON) -> 
    ok = check_json_to_xml_opts(Arg2),
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:string_to_xml(JSON, Options).
@@ -2927,6 +3004,8 @@ check_json_to_xml_opts(_) ->
    Str = string_value(Arg1),
    Upp = string:lowercase(Str),
    ?str(Upp);
+'lower-case'(_, Val) when is_binary(Val) ->
+   string:lowercase(Val);
 'lower-case'(_,#xqAtomicValue{value = Val, type = Type}) ->
    case xqerl_types:subtype_of(Type, 'xs:string') of
       true ->
@@ -3029,7 +3108,7 @@ cache(#{tab := Tab}, Key, Value) ->
 
 max1([], Max) ->
    Max;
-max1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
+max1([nan = H|_], _) ->
    H;
 max1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
    H;
@@ -3045,7 +3124,7 @@ max1([H|T], Max) ->
 
 min1([], Min) ->
    Min;
-min1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
+min1([nan = H|_], _) ->
    H;
 min1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
    H;
@@ -3091,6 +3170,26 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:anyURI'} = H|T], Acc, SeqType) ->
       true ->
          ?err('FORG0006')
    end;
+compare_convert_seq([H|T], Acc, SeqType) 
+   when is_binary(H), ?xs_string(SeqType);
+        is_binary(H), SeqType == 'xs:anyURI';
+        is_binary(H), SeqType == [] ->
+   NewType = if SeqType == 'xs:string';
+                SeqType == 'xs:anyURI';
+                SeqType == [] ->
+                   'xs:string';
+                true ->
+                   BType = xqerl_btypes:get_type('xs:string'),
+                   BSeqType = xqerl_btypes:get_type(SeqType),
+                   xqerl_btypes:get_type(BType band BSeqType)
+             end,
+   if NewType == 'item' ->
+         ?err('FORG0006');
+      true ->
+         compare_convert_seq(T, [H|Acc], NewType)
+   end;
+compare_convert_seq([H|_], _Acc, _SeqType) when is_binary(H) ->
+   ?err('FORG0006');
 compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType) 
    when ?xs_string(StrType), 
         ?xs_string(SeqType) orelse SeqType == 'xs:anyURI' ->
@@ -3108,6 +3207,10 @@ compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType)
       true ->
          compare_convert_seq(T, [H|Acc], NewType)
    end;
+compare_convert_seq([H|T], Acc, SeqType) 
+   when is_integer(H), ?xs_integer(SeqType) ->
+   NewType = 'xs:integer',
+   compare_convert_seq(T, [H|Acc], NewType);
 compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType) 
    when ?xs_integer(StrType), 
         ?xs_integer(SeqType) ->
@@ -3123,7 +3226,11 @@ compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType)
       true ->
          compare_convert_seq(T, [H|Acc], NewType)
    end;
-compare_convert_seq([#xqAtomicValue{type = 'xs:double'} = H|T], Acc, _) ->
+compare_convert_seq([H|T], Acc, _) when is_float(H);
+                                        H == neg_zero;
+                                        H == infinity;
+                                        H == nan;
+                                        H == neg_infinity ->
    compare_convert_seq(T, [H|Acc], 'xs:double');
 compare_convert_seq([#xqAtomicValue{type = 'xs:float'} = H|T], Acc, SeqType) ->
    if SeqType =:= 'xs:float' orelse 
@@ -3148,7 +3255,7 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:decimal'} = H|T], Acc,SeqType) ->
       true ->
          ?err('FORG0006')
    end;
-compare_convert_seq([#xqAtomicValue{type = 'xs:integer'} = H|T], Acc,SeqType) ->
+compare_convert_seq([H|T], Acc,SeqType) when is_integer(H) ->
    if SeqType =:= 'xs:integer' orelse SeqType =:= [] ->
          compare_convert_seq(T, [H|Acc], 'xs:integer');
       SeqType =:= 'xs:decimal' ->
@@ -3417,9 +3524,9 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 -spec 'node-name'(xq_types:context(),
                   [] | xq_types:xml_node()) -> 
          [] | xq_types:xs_QName().
+'node-name'(_Ctx, []) -> [];
 'node-name'(Ctx, [Arg]) ->
    'node-name'(Ctx, Arg);
-'node-name'(_Ctx, #xqAtomicValue{}) -> ?err('XPTY0004');
 'node-name'(_Ctx, #{nk := Nk,
                     nn := NodeName}) ->
    %?dbg("Node",Node),
@@ -3437,8 +3544,7 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
          ?atm('xs:QName',Q)
    end;
 'node-name'(_Ctx, #{nk := _}) -> [];
-'node-name'(_Ctx, []) ->
-   [].
+'node-name'(_Ctx, _) -> ?err('XPTY0004').
 
 %% Returns the value of $arg with leading and trailing whitespace removed, 
 %% and sequences of internal whitespace reduced to a single space character. 
@@ -3629,8 +3735,8 @@ shrink_spaces(<<H,T/binary>>) ->
                    xq_types:xq_map()) ->
          [] | xq_types:xq_item().
 'parse-json'(_Ctx,[],_Arg2) -> [];
-'parse-json'(_Ctx,#xqAtomicValue{value = ?A("null")},_Arg2) -> [];
-'parse-json'(Ctx,#xqAtomicValue{value = JSON},Arg2) -> 
+'parse-json'(_Ctx, <<"null">>, _Arg2) -> [];
+'parse-json'(Ctx, JSON, Arg2) when is_binary(JSON) -> 
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:string(JSON, Options).
 
@@ -3639,7 +3745,7 @@ get_bool(B) when is_boolean(B) ->
 get_bool(_) ->
    ?err('XPTY0004').
 
-get_str(#xqAtomicValue{type = 'xs:string', value = B}) ->
+get_str(B) when is_binary(B) ->
    B;
 get_str(#{nk := _} = N) ->
    xqerl_types:string_value(N);
@@ -3925,7 +4031,7 @@ path_2('processing-instruction',[#{id := NId} = Node|Rest],Acc, Parent) ->
 -spec 'position'(xq_types:context()) ->
          [] | xq_types:xs_integer().
 'position'(Ctx) -> 
-   ?atm('xs:integer', xqerl_context:get_context_position(Ctx)).
+   xqerl_context:get_context_position(Ctx).
 
 %% Returns the prefix component of the supplied QName. 
 %% fn:prefix-from-QName($arg as xs:QName?) as xs:NCName?
@@ -3991,7 +4097,7 @@ pre_loc_from_str(Str) ->
 -spec 'random-number-generator'(xq_types:context()) ->
          xq_types:xq_map(xq_types:xs_string(),xq_types:xq_item()).
 'random-number-generator'(Ctx) -> 
-   'random-number-generator'(Ctx, ?atm('xs:double',31.13)).
+   'random-number-generator'(Ctx, 31.13).
 
 %% fn:random-number-generator(
 %%    $seed  as xs:anyAtomicType?) as map(xs:string, item())
@@ -3999,12 +4105,16 @@ pre_loc_from_str(Str) ->
                                 [] | xq_types:xs_anyAtomicType()) ->
          xq_types:xq_map(xq_types:xs_string(),xq_types:xq_item()).
 'random-number-generator'(Ctx,[]) ->
-   'random-number-generator'(Ctx, ?atm('xs:double',31.13));
+   'random-number-generator'(Ctx, 31.13);
 'random-number-generator'(Ctx,#xqAtomicValue{value = Seed}) 
    when not is_integer(Seed), 
         not is_float(Seed) ->
-   'random-number-generator'(Ctx,#xqAtomicValue{value = erlang:phash2(Seed)});
-'random-number-generator'(Ctx,#xqAtomicValue{value = Seed}) ->
+   'random-number-generator'(Ctx, erlang:phash2(Seed));
+'random-number-generator'(Ctx, Seed) 
+   when not is_integer(Seed), 
+        not is_float(Seed) ->
+   'random-number-generator'(Ctx, erlang:phash2(Seed));
+'random-number-generator'(Ctx, Seed) ->
    S = rand:seed(exs1024s, 
                  {erlang:phash2([Seed]),1,2}), 
    {Num,S2} = rand:uniform_s(S),
@@ -4025,12 +4135,11 @@ pre_loc_from_str(Str) ->
                          arity = 1,
                          body = FunBod},
    NextFun = fun(_) -> 
-                   'random-number-generator'(Ctx,
-                                             #xqAtomicValue{value = Seed + 1}) 
+                   'random-number-generator'(Ctx, Seed + 1) 
              end,
    xqerl_map:construct(
      Ctx, 
-     [{?str(?A("number")), ?atm('xs:double',Num)},
+     [{?str(?A("number")), Num},
       {?str(?A("next")), NextFun},
       {?str(?A("permute")),Permute}]).
 
@@ -4272,9 +4381,9 @@ string_value(At) -> xqerl_types:string_value(At).
       true ->
          Dec = xqerl_numeric:decimal(ArgVal),
          Rounded = xqerl_numeric:round_half(Dec, Prec),
-         if Rounded =:= {xsDecimal,0,0} andalso 
-              ArgVal < 0 andalso 
-              (ArgType =:= 'xs:double' orelse ArgType =:= 'xs:float') ->
+         if Rounded =:= {xsDecimal,0,0} andalso ArgVal < 0 andalso ArgType =:= 'xs:double' ->
+               neg_zero;
+            Rounded =:= {xsDecimal,0,0} andalso ArgVal < 0 andalso ArgType =:= 'xs:float' ->
                #xqAtomicValue{type = ArgType, value = neg_zero};
             true ->
                xqerl_types:cast_as(?atm('xs:decimal', Rounded), ArgType)
@@ -4436,8 +4545,7 @@ sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
                   ?xs_string(TypeB) orelse 
                     TypeB == 'xs:anyURI' orelse 
                     TypeB == 'xs:untypedAtomic' ->
-                     #xqAtomicValue{value = Comp} = xqerl_fn:compare(Ctx, HA, 
-                                                                     HB, Coll),
+                     Comp = xqerl_fn:compare(Ctx, HA, HB, Coll),
                      Comp =< 0;
                   true ->
                      xqerl_operators:less_than_eq(HA, HB)
@@ -4525,12 +4633,11 @@ sort1(Ctx,A,B,Coll) ->
 'string'(_Ctx,Node) when ?noderecs(Node) ->
    Atomized = xqerl_types:atomize(Node),
    xqerl_types:cast_as(Atomized, 'xs:string');
+'string'(_Ctx, S) when is_binary(S) -> S;
 'string'(_Ctx,#xqFunction{}) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_map(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,#array{}) -> ?err('FOTY0014');
-'string'(_Ctx,#xqAtomicValue{} = Av) ->
-   xqerl_types:cast_as(Av, 'xs:string');
 'string'(_Ctx,Arg1) -> 
    xqerl_types:cast_as(Arg1, 'xs:string').
 
@@ -4551,26 +4658,26 @@ sort1(Ctx,A,B,Coll) ->
 'string-join'(_,[],_) -> ?str(<<>>);
 'string-join'(Ctx,Arg1,Arg2) ->
    NewArg1 = xqerl_seq3:to_list(Arg1),
-   Sep = xqerl_types:value(xqerl_types:cast_as(Arg2, 'xs:string')),
+   Sep = xqerl_types:cast_as(Arg2, 'xs:string'),
    if Sep == <<>> ->
          'concat'(Ctx, NewArg1);
       true ->
          'string-join1'(NewArg1,Sep)
    end.
 
-'string-join1'([?str(H)|Arg1],Sep) ->
+'string-join1'([H|Arg1],Sep) when is_binary(H) ->
    Ct = 'string-join2'(Arg1,Sep,H),
    ?str(Ct);
 'string-join1'([H|Arg1],Sep) ->
-   Hd = xqerl_types:value(xqerl_types:cast_as(H, 'xs:string')),
+   Hd = xqerl_types:cast_as(H, 'xs:string'),
    Ct = 'string-join2'(Arg1,Sep,Hd),
    ?str(Ct).
 
 'string-join2'([],_,Acc) -> Acc;
-'string-join2'([?str(H)|Arg1],Sep,Acc) ->
+'string-join2'([H|Arg1],Sep,Acc) when is_binary(H) ->
    'string-join2'(Arg1,Sep,<<Acc/binary,Sep/binary,H/binary>>);
 'string-join2'([H|Arg1],Sep,Acc) ->
-   Hd = xqerl_types:value(xqerl_types:cast_as(H, 'xs:string')),
+   Hd = xqerl_types:cast_as(H, 'xs:string'),
    'string-join2'(Arg1,Sep,<<Acc/binary,Sep/binary,Hd/binary>>).
 
 %% Returns the number of characters in a string.
@@ -4826,25 +4933,37 @@ sort1(Ctx,A,B,Coll) ->
 'sum'(_,[],Arg2) -> Arg2;
 'sum'(_,Arg1,_) -> 
    {Seq,SeqType} = compare_convert_seq(xqerl_seq3:to_list(Arg1), [], []),
-   if ?xs_numeric(SeqType) ->
-         Sum1 = sum1(lists:reverse(Seq), []),
-         xqerl_types:cast_as(Sum1, SeqType);
-      true ->
-         case xqerl_types:is_date_type(SeqType) of
+   case Seq of
+      [One] when ?xs_numeric(SeqType) ->
+         One;
+      _ ->
+         if ?xs_integer(SeqType) ->
+               xqerl_types:value(sum1(lists:reverse(Seq), []));
+            ?xs_numeric(SeqType) ->
+               sum1(lists:reverse(Seq), []);
             true ->
-               Sum1 = sum1(lists:reverse(Seq), []),
-               xqerl_types:cast_as(Sum1, SeqType);
-            _ ->
-               ?err('FORG0006')
+               case xqerl_types:is_date_type(SeqType) of
+                  true ->
+                     Sum1 = sum1(lists:reverse(Seq), []),
+                     xqerl_types:cast_as(Sum1, SeqType);
+                  _ ->
+                     ?err('FORG0006')
+               end
          end
    end.
 
 sum1([], Sum) ->
    Sum;
-sum1([#xqAtomicValue{type = 'xs:double', value = nan} = H|_], _) ->
+sum1([nan = H|_], _) ->
    H;
-sum1([#xqAtomicValue{type = 'xs:float', value = nan} = H|_], _) ->
-   H;
+sum1([#xqAtomicValue{type = 'xs:float', value = nan} = H|T], _) ->
+   % check for double nan 
+   case lists:member(nan, T) of
+      true ->
+         nan;
+      false ->
+         H
+   end;
 sum1([H|T], []) ->
    sum1(T, H);
 sum1([H|T], Sum) ->
@@ -4941,9 +5060,7 @@ sum1([H|T], Sum) ->
          if Input1 == <<>> -> [];
             true ->
                List = re:split(Input1, MP, [group]),
-               lists:map(fun([S|_]) ->
-                               #xqAtomicValue{type = 'xs:string', value = S}
-                         end, List)
+               lists:map(fun([S|_]) -> S end, List)
          end
    end.
    
@@ -5125,7 +5242,7 @@ valid_cps(Bin) ->
                             xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xs_string()).
 'unparsed-text-lines'(Ctx,Arg1,Arg2) ->
-   #xqAtomicValue{value = Str} = 'unparsed-text'(Ctx,Arg1,Arg2),
+   Str = 'unparsed-text'(Ctx,Arg1,Arg2),
    to_lines(Str, <<>>, []).
 
 to_lines(<<>>,<<>>,Acc) ->
@@ -5154,14 +5271,14 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 'upper-case'(Ctx,[Arg1]) -> 'upper-case'(Ctx,Arg1);
 'upper-case'(_,#{nk := _} = Arg1) ->
    Str = string_value(Arg1),
-   Upp = string:uppercase(Str),
-   #xqAtomicValue{type = 'xs:string', value = Upp};
+   string:uppercase(Str);
+'upper-case'(_, Arg1) when is_binary(Arg1) ->
+   string:uppercase(Arg1);
 'upper-case'(_,#xqAtomicValue{type = Type} = Arg1) 
    when ?xs_string(Type);
         Type =:= 'xs:anyURI' ->
    Str = string_value(Arg1),
-   Upp = string:uppercase(Str),
-   #xqAtomicValue{type = 'xs:string', value = Upp};
+   string:uppercase(Str);
 'upper-case'(_,_) -> ?err('XPTY0004').   
 
 %% Returns a sequence of xs:anyURI values representing the URIs in a 

@@ -52,7 +52,7 @@
 
 -define(true, true).
 -define(false, false).
--define(atomic(Type,Val),#xqAtomicValue{type = Type, value = Val}).
+-define(atomic(Type,Val),atomic_value(Type,Val)).
 -define(boolone,#xqSeqType{type = 'xs:boolean', occur = one}).
 -define(boolzone,#xqSeqType{type = 'xs:boolean', occur = zero_or_one}).
 -define(stringone,#xqSeqType{type = 'xs:string', occur = one}).
@@ -557,7 +557,8 @@ handle_node(State, #qname{namespace = NsExpr,
                      ?err('XPTY0004');
                   _ ->
                      St1 = case get_statement(NS1) of
-                              {expr,#xqAtomicValue{} = Av1} ->
+                              {expr, Av1} when is_record(Av1, xqAtomicValue);
+                                               is_binary(Av1) ->
                                  Av1;
                               O ->
                                  O
@@ -631,6 +632,19 @@ handle_node(State, #xqQuery{query = Qry} )->
                           end, Qry),
    set_statement(State, #xqQuery{query = Statements});
 %% 3.1.1 Literals
+handle_node(State, At) when is_binary(At) -> 
+   S2 = set_static_count(State, 1),
+   set_statement_and_type(S2, At, #xqSeqType{type = 'xs:string', occur = one});
+handle_node(State, At) when is_integer(At) -> 
+   S2 = set_static_count(State, 1),
+   set_statement_and_type(S2, At, #xqSeqType{type = 'xs:integer', occur = one});
+handle_node(State, At) when is_float(At);
+                            At == infinity;
+                            At == neg_infinity;
+                            At == neg_zero;
+                            At == nan -> 
+   S2 = set_static_count(State, 1),
+   set_statement_and_type(S2, At, #xqSeqType{type = 'xs:double', occur = one});
 handle_node(State, #xqAtomicValue{type = T} = At) -> 
    S2 = set_static_count(State, 1),
    set_statement_and_type(S2, At, #xqSeqType{type = T, occur = one});
@@ -784,7 +798,7 @@ handle_node(State,
                            local_name = ?A("static-base-uri")}, 0}) -> 
    RType = #xqSeqType{type = 'xs:anyURI',occur = zero_or_one},
    Base = xqerl_context:get_static_base_uri(State#state.tab),
-   ArgSt = #xqAtomicValue{type = 'xs:anyURI', value = Base},
+   ArgSt = ?atomic('xs:anyURI', Base),
    Type = #xqFunTest{kind = function, params = [], 
                      type = RType} ,
    set_statement_and_type(State, 
@@ -897,7 +911,12 @@ handle_node(State, #xqFunction{name = FName, type = FType0,
    FType = if FType0 == undefined ->
                  Sty;
               true ->
-                 get_statement(handle_node(State, FType0))
+                 try
+                    get_statement(handle_node(State, FType0))
+                 catch
+                    ?ERROR_MATCH(?A("XQST0052")) -> ?err('XPST0051');
+                    _:Err -> throw(Err)
+                 end
            end,   
    FType1 = #xqSeqType{type = #xqFunTest{kind = function,
                                          params = ParamTypes,
@@ -977,6 +996,10 @@ handle_node(State,
    St1 = get_statement(S1),
    case St1 of
       #xqAtomicValue{} ->
+         handle_node(State, {'function-call', Name, 1, [St1]});
+      _ when is_integer(St1);
+             is_float(St1);
+             is_binary(St1) ->
          handle_node(State, {'function-call', Name, 1, [St1]});
       _ ->
          #xqFunction{params = Params, type = Type} = 
@@ -1060,26 +1083,26 @@ handle_node(State, {postfix, Id, #xqVarRef{name = Name} = Ref,
 
 % predicate on variable
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
-                    [{predicate,[{'=',?POSITION,?atomic('xs:integer',1)}]}]}) ->
+                    [{predicate,[{'=',?POSITION,1}]}]}) ->
    handle_node(State, ?HEAD(Ref));
 
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
-                    [{predicate,[{'<',?POSITION,?atomic('xs:integer',_) = A}]}]}) ->
+                    [{predicate,[{'<',?POSITION,A}]}]}) when is_integer(A) ->
    Top = {'subtract',A,?atomic('xs:integer',1)},
    Bottom = ?atomic('xs:integer',1),
    handle_node(State, ?SUBSEQ3(Ref,Bottom,Top));
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
-                    [{predicate,[{'>',?atomic('xs:integer',_) = A,?POSITION}]}]}) ->
+                    [{predicate,[{'>',A,?POSITION}]}]}) when is_integer(A) ->
    Top = {'subtract',A,?atomic('xs:integer',1)},
    Bottom = ?atomic('xs:integer',1),
    handle_node(State, ?SUBSEQ3(Ref,Bottom,Top));
 
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
-                    [{predicate,[{'>',?POSITION,?atomic('xs:integer',_) = A}]}]}) ->
+                    [{predicate,[{'>',?POSITION,A}]}]}) when is_integer(A) ->
    Top = {'add',A,?atomic('xs:integer',1)},
    handle_node(State, ?SUBSEQ2(Ref,Top));
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
-                    [{predicate,[{'<',?atomic('xs:integer',_) = A,?POSITION}]}]}) ->
+                    [{predicate,[{'<',A,?POSITION}]}]}) when is_integer(A) ->
    Top = {'add',A,?atomic('xs:integer',1)},
    handle_node(State, ?SUBSEQ2(Ref,Top));
    
@@ -1468,7 +1491,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
    NC2 = check_type_match(T2, Type),
    Stm1 = get_statement(S1),
    Stm2 = get_statement(S2),
-   %?dbg("{NC1,NC2}",{NC1,NC2}),
+%?dbg("{NC1,NC2}",{NC1,NC2}),
    St1 = if NC1 ->
                Stm1;
             NC1 == cast ->
@@ -1478,8 +1501,8 @@ handle_node(State, {range, Expr1, Expr2}) ->
             true -> 
                % special case
                case Stm1 of
-                  #xqAtomicValue{value = neg_zero} ->
-                     #xqAtomicValue{type = 'xs:integer',value = 0};
+                  neg_zero ->
+                     0;
                   _ ->
                      %?dbg("F",{T1, Type}),
                      ?err('XPTY0004')
@@ -1494,8 +1517,8 @@ handle_node(State, {range, Expr1, Expr2}) ->
             true ->
                % special case
                case Stm2 of
-                  #xqAtomicValue{value = neg_zero} ->
-                     #xqAtomicValue{type = 'xs:integer',value = 0};
+                  neg_zero ->
+                     0;
                   _ ->
                      %?dbg("F",{T2, Type}),
                      ?err('XPTY0004')
@@ -1506,7 +1529,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
    S3 = set_statement(State, {range, St1, St2}),
    Atomics = both_atomics(St1, St2),
    if Atomics ->
-         #xqAtomicValue{value = Diff} = xqerl_operators:subtract(St2, St1),
+         Diff = xqerl_operators:subtract(St2, St1),
          if Diff < 0 ->
                set_statement_and_type(
                  State, 'empty-sequence', 
@@ -1578,7 +1601,9 @@ handle_node(State, #xqArithExpr{op = Op,
             xqerl_operators:subtract(St1, St2);
          Atomic, Op =:= '*' ->
             xqerl_operators:multiply(St1, St2);
-         Atomic, Op =:= 'div', element(3, St2) /= 0 ->
+         Atomic, Op =:= 'div', is_record(St2, xqAtomicValue), element(3, St2) /= 0 ->
+            xqerl_operators:divide(St1, St2);
+         Atomic, Op =:= 'div', is_number(St2), St2 /= 0 ->
             xqerl_operators:divide(St1, St2);
          Atomic, Op =:= 'idiv' ->
             xqerl_operators:idivide(St1, St2);
@@ -1589,6 +1614,10 @@ handle_node(State, #xqArithExpr{op = Op,
       end,
    Type = if is_record(NewExpr, xqAtomicValue) ->
                 #xqSeqType{type = NewExpr#xqAtomicValue.type, occur = one};
+             is_integer(NewExpr) ->
+                #xqSeqType{type = 'xs:integer', occur = one};
+             is_float(NewExpr) ->
+                #xqSeqType{type = 'xs:double', occur = one};
              BothOne ->
                 #xqSeqType{type = T3, occur = one};
              true ->
@@ -1603,7 +1632,6 @@ handle_node(State, {'unary', '+', Expr1} = _Node) ->
    CheckNum = check_type_match(Sty, #xqSeqType{type = 'xs:numeric', 
                                                occur = zero_or_one}),
    if CheckNum == false ->
-         %?dbg("F",{Sty}),
          ?err('XPTY0004');
       true ->
          ok
@@ -1611,16 +1639,13 @@ handle_node(State, {'unary', '+', Expr1} = _Node) ->
    Atomic = all_atomics(St1),
    IsOne = Sty#xqSeqType.occur == one,
    if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:unary_plus(St1),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+         Eq = xqerl_operators:unary_plus(St1),
+         set_statement_and_type(State, Eq, Sty);
       IsOne ->
-         set_statement_and_type(State, {'unary', '+', St1}, 
-                                #xqSeqType{type = Sty#xqSeqType.type, 
-                                           occur = one});
+         set_statement_and_type(State, {'unary', '+', St1}, Sty);
       true ->
          set_statement_and_type(State, {'unary', '+', St1}, 
-                                #xqSeqType{type = Sty#xqSeqType.type, 
-                                           occur = zero_or_one})
+                                Sty#xqSeqType{occur = zero_or_one})
    end; 
 handle_node(State, {'unary', '-', Expr1} = _Node) -> 
    S1 = handle_node(State, Expr1),
@@ -1629,19 +1654,18 @@ handle_node(State, {'unary', '-', Expr1} = _Node) ->
    CheckNum = check_type_match(Sty, #xqSeqType{type = 'xs:numeric', 
                                                occur = zero_or_one}),
    if CheckNum == false ->
-         %?dbg("F",{Sty}),
          ?err('XPTY0004');
       true ->
          ok
    end,
    Atomic = all_atomics(St1),
+   Inv = inverse_numeric_type(Sty#xqSeqType.type),
    if Atomic ->
-         #xqAtomicValue{type = T} = Eq = xqerl_operators:unary_minus(St1),
-         set_statement_and_type(State, Eq, #xqSeqType{type = T, occur = one});
+         Eq = xqerl_operators:unary_minus(St1),
+         set_statement_and_type(State, Eq, #xqSeqType{type = Inv, occur = one});
       true ->
          set_statement_and_type(State, {'unary', '-', St1}, 
-                                #xqSeqType{type = inverse_numeric_type(Sty#xqSeqType.type), 
-                                           occur = zero_or_one})
+                                #xqSeqType{type = Inv, occur = zero_or_one})
    end; 
 %% 3.6 String Concatenation Expressions
 handle_node(State, {'concat', _, _} = Concat) ->
@@ -2603,7 +2627,13 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
    OutType = ?boolone,
    S1 = handle_node(State, Expr1),
    %?dbg("Expr2",Expr2),
-   St2 = #xqSeqType{type = TType} = get_statement(handle_node(State, Expr2)),
+   St2 = #xqSeqType{type = TType} = 
+            try
+               get_statement(handle_node(State, Expr2))
+            catch
+               ?ERROR_MATCH(?A("XQST0052")) -> ?err('XPST0051');
+               _:Err -> throw(Err)
+            end,
    %?dbg("TType",TType),
    case TType of
       #xqKindTest{} ->
@@ -2765,16 +2795,37 @@ handle_node(State, {castable_as, Expr1, #xqSeqType{type = TypeAtom} = Expr2}) ->
 %% 3.18.5 Constructor Functions
 handle_node(State, {'function-call',#qname{namespace = ?XS,
                                            local_name = Type}, 1, 
-                    [#xqAtomicValue{type = AtType, value = AtVal} = Av]}) -> 
+                    [Av0]}) when is_number(Av0);
+                                 is_binary(Av0);
+                                 is_boolean(Av0);
+                                 is_record(Av0, xqAtomicValue) ->
+   {AtType, AtVal} = 
+     case Av0 of
+        #xqAtomicValue{type = AtType0, value = AtVal0} ->
+           {AtType0, AtVal0};
+        _ when is_integer(Av0) ->
+           {'xs:integer', Av0};
+        _ when is_float(Av0) ->
+           {'xs:double', Av0};
+        _ when is_binary(Av0) ->
+           {'xs:string', Av0};
+        _ when is_boolean(Av0) ->
+           {'xs:boolean', Av0}
+     end,        
    TypeAtom = list_to_atom("xs:" ++ binary_to_list(Type)),
    BOType = xqerl_btypes:get_type(TypeAtom),
    BIType = xqerl_btypes:get_type(AtType),
    NoCast = xqerl_btypes:can_substitute(BIType, BOType),
-   NewNode = if Type == <<"numeric">>;
+   NewNode = if Type == <<"integer">>, ?xs_integer(AtType);
+                Type == <<"boolean">>, AtType == 'xs:boolean';
+                Type == <<"string">>, ?xs_string(AtType);
+                Type == <<"double">>, AtType == 'xs:double' ->
+                   AtVal;
+                Type == <<"numeric">>;
                 Type == <<"decimal">>;
                 Type == <<"double">>;
                 Type == <<"float">> ->
-                   xqerl_types:cast_as(Av, TypeAtom);
+                   xqerl_types:cast_as(Av0, TypeAtom);
                 NoCast ->
                    #xqAtomicValue{type = TypeAtom, value = AtVal};
                 Type == <<"NOTATION">> ->
@@ -2782,12 +2833,12 @@ handle_node(State, {'function-call',#qname{namespace = ?XS,
                 Type == <<"QName">> andalso AtType == 'xs:untypedAtomic' ->
                    ?err('FORG0001');
                 Type == <<"QName">> ->
-                   xqerl_types:cast_as(Av, TypeAtom, State#state.known_ns);
+                   xqerl_types:cast_as(Av0, TypeAtom, State#state.known_ns);
                 Type == <<"NMTOKENS">> ->
-                   {sequence,xqerl_types:cast_as(Av, TypeAtom)};
+                   {sequence,xqerl_types:cast_as(Av0, TypeAtom)};
                 true ->
                    %?dbg("{Av,TypeAtom}",{Av,TypeAtom}),
-                   xqerl_types:cast_as(Av, TypeAtom)
+                   xqerl_types:cast_as(Av0, TypeAtom)
              end,
    if Type == <<"NMTOKENS">> ->
          set_statement_and_type(State, NewNode, 
@@ -2810,6 +2861,12 @@ handle_node(State, {'function-call',#qname{namespace = ?XS} = Name, 1,
    St1 = get_statement(S1),
    case St1 of
       #xqAtomicValue{} ->
+         handle_node(State, {'function-call', Name, 1, [St1]});
+      _ when is_integer(St1) ->
+         handle_node(State, {'function-call', Name, 1, [St1]});
+      _ when is_float(St1) ->
+         handle_node(State, {'function-call', Name, 1, [St1]});
+      _ when is_binary(St1) ->
          handle_node(State, {'function-call', Name, 1, [St1]});
       _ ->
          #xqFunction{params = Params, type = Type} = 
@@ -2992,12 +3049,9 @@ handle_node(State, {'function-call',
       {'partial-function', _Name,_Arity,Args} ->
          PlaceHolders = [P || {'?',P} <- Args],
          Cnt = length(PlaceHolders),
-         set_statement_and_type(State, #xqAtomicValue{type = 'xs:integer', 
-                                                      value = Cnt}, Type);
+         set_statement_and_type(State, Cnt, Type);
       {'function-ref', _Name,Arity} ->
-         set_statement_and_type(State, 
-                                #xqAtomicValue{type = 'xs:integer', 
-                                               value = Arity}, Type);
+         set_statement_and_type(State, Arity, Type);
       #xqVarRef{name = Name} ->
          St = get_variable(State, Name),
          Val = element(4, St), % xqSeqType
@@ -3009,9 +3063,7 @@ handle_node(State, {'function-call',
                                                       [{variable, Val}]}}, 
                                       Type);
             #xqSeqType{type = #xqFunTest{params = Ps}} ->
-               set_statement_and_type(State, 
-                                      #xqAtomicValue{type = 'xs:integer', 
-                                                     value = length(Ps)}, Type);
+               set_statement_and_type(State, length(Ps), Type);
             _VType ->
                set_statement_and_type(State, 
                                       {'function-call', 
@@ -3023,9 +3075,7 @@ handle_node(State, {'function-call',
          Val = element(4, St), % xqSeqType
          case element(2, St) of
             #xqSeqType{type = #xqFunTest{params = Ps}} ->
-               set_statement_and_type(State, 
-                                      #xqAtomicValue{type = 'xs:integer', 
-                                                     value = length(Ps)}, Type);
+               set_statement_and_type(State, length(Ps), Type);
             _VType ->
                set_statement_and_type(State, 
                                       {'function-call', 
@@ -3053,8 +3103,7 @@ handle_node(State, {'function-call',
                                 #xqSeqType{type = 'empty-sequence', 
                                            occur = zero});
       {'function-ref', Name,_Arity} ->
-         set_statement_and_type(State, #xqAtomicValue{type = 'xs:QName', 
-                                                      value = Name}, Type);
+         set_statement_and_type(State, ?atomic('xs:QName', Name), Type);
       _ ->
          StateC = set_in_constructor(State, false),
          SimpArg = handle_node(StateC, Arg),
@@ -3203,9 +3252,7 @@ handle_node(State, {'function-call',
                                  F#xqFunction{params = [ArgSt], type = Type}}, 
                                 Type);
       true ->
-         set_statement_and_type(State, 
-                                #xqAtomicValue{type = 'xs:integer', 
-                                               value = ArgCt}, Type)
+         set_statement_and_type(State, ArgCt, Type)
    end;
 
 handle_node(State, {'function-call', 
@@ -3237,8 +3284,7 @@ handle_node(State, {'function-call',
                     0, []}) -> 
    DefCol = State#state.default_collation,
    Type = ?stringone,
-   ArgSt = #xqAtomicValue{type = 'xs:string', value = DefCol},
-   set_statement_and_type(State, ArgSt, Type);
+   set_statement_and_type(State, DefCol, Type);
 handle_node(State, 
             %#state{module_type = main} = State, 
             {'function-call', 
@@ -3246,7 +3292,7 @@ handle_node(State,
                     0, []}) -> 
    Base = xqerl_context:get_static_base_uri(State#state.tab),%State#state.base_uri,
    Type = #xqSeqType{type = 'xs:anyURI', occur = zero_or_one},
-   ArgSt = #xqAtomicValue{type = 'xs:anyURI', value = Base},
+   ArgSt = ?atomic('xs:anyURI', Base),
    set_statement_and_type(State, ArgSt, Type);
 
 % BLOCKed functions - not safe
@@ -3411,7 +3457,7 @@ handle_node(State, #xqSeqType{type = #qname{} = Name} = Node) ->
    Atom = if Ns == ?XS ->
                 list_to_atom("xs:" ++ binary_to_list(Ln));
              true ->
-                ?err('XPST0051')
+                ?err('XQST0052')
           end,
    set_statement(State, Node#xqSeqType{type = Atom});
 handle_node(State, #xqSeqType{type = T} = Node) when not is_atom(T) ->
@@ -4362,7 +4408,29 @@ resolve_pragma_qname(Name, _Ctx) ->
 param_types(Params) ->
    [ T || #xqVar{type = T} <- Params].
 
-both_atomics(#xqAtomicValue{},#xqAtomicValue{}) ->
+both_atomics(#xqAtomicValue{}, B) 
+   when is_record(B, xqAtomicValue);
+        is_number(B);
+        is_binary(B);
+        is_boolean(B) -> 
+   true;
+both_atomics(A, B) 
+   when is_number(A), is_record(B, xqAtomicValue);
+        is_number(A), is_number(B);
+        is_number(A), is_binary(B);
+        is_number(A), is_boolean(B) -> 
+   true;
+both_atomics(A, B) 
+   when is_binary(A), is_record(B, xqAtomicValue);
+        is_binary(A), is_number(B);
+        is_binary(A), is_binary(B);
+        is_binary(A), is_boolean(B) -> 
+   true;
+both_atomics(A, B) 
+   when is_boolean(A), is_record(B, xqAtomicValue);
+        is_boolean(A), is_number(B);
+        is_boolean(A), is_binary(B);
+        is_boolean(A), is_boolean(B) -> 
    true;
 both_atomics(_,_) ->
    false.
@@ -4430,7 +4498,8 @@ resolve_element_name(State, #qname{prefix = Px} = QName) ->
 resolve_element_name(_State, QName) ->
    QName.
 
-resolve_attribute_name(State, #xqAtomicValue{} = A) ->
+resolve_attribute_name(State, A) when is_record(A, xqAtomicValue);
+                                      is_binary(A)->
    try 
       xqerl_types:value(xqerl_types:cast_as(A,'xs:QName',State#state.known_ns))
    of Q ->
@@ -4558,14 +4627,14 @@ handle_direct_constructor(State = #state{base_uri = BU},
                end, Attributes1), 
    %?dbg(?LINE, Content),
    SContent = case get_statement(handle_element_content(State1, Content)) of
-                 [{content_expr,[?atomic('xs:string',<<>>)]}] ->
+                 [{content_expr,[<<>>]}] ->
                     % one that can sneak through
                     [];
                  O ->
                     O
               end,
    NewBase = [S ||
-              #xqAttributeNode{string_value = [?atomic(_,S)],
+              #xqAttributeNode{string_value = [S],
                                name = #qname{prefix = <<"xml">>,
                                              local_name = <<"base">>}} <-
               Attributes2],
@@ -4705,8 +4774,8 @@ handle_comp_constructor(State, #xqNamespaceNode{uri = U, prefix = P} = Node) ->
            {undefined, _} ->
               ?err('XPST0081');
            _ ->
-              {U, P}
-              %get_statement(handle_node(State, Name))
+              {get_statement(handle_node(State, U)), 
+               get_statement(handle_node(State, P))}
         end,
    set_statement_and_type(State, 
                           Node#xqNamespaceNode{uri = U1, prefix = P1}, 
@@ -4785,129 +4854,114 @@ is_whitespace(Str) ->
 %% beginning of the content and the end, or any cdata, or any character 
 %% reference, or any content expression 
 remove_empty_head([]) -> [];
-remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str1},
-                   #xqAtomicValue{type = 'xs:string', value = Str2}|T]) ->
-   Str3 = #xqAtomicValue{type = 'xs:string', value = <<Str1/binary,Str2/binary>>},
+remove_empty_head([Str1, Str2|T]) when is_binary(Str1), is_binary(Str2) ->
+   Str3 = <<Str1/binary,Str2/binary>>,
    remove_empty_head([Str3|T]);
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string', 
-                                     value = Str} = H2,H3|T]) 
-   when (?IS_BOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+remove_empty_head([H1, Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_BOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
    case is_whitespace(Str) of
       true ->
          [H1|remove_empty_head([H3|T])];
       _ ->
-         [H1,H2|remove_empty_head([H3|T])]
+         [H1, Str|remove_empty_head([H3|T])]
    end;
-remove_empty_head([#xqAtomicValue{type = 'xs:string', 
-                                  value = Str} = H2,H3]) 
-   when ?IS_BOUNDARY(H3) ->
+remove_empty_head([Str ,H3]) 
+   when is_binary(Str) andalso (?IS_BOUNDARY(H3)) ->
    case is_whitespace(Str) of
       true ->
          [H3];
       _ ->
-         [H2,H3]
+         [Str, H3]
    end;
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string', value = Str} = H2]) 
-   when ?IS_BOUNDARY(H1) ->
+remove_empty_head([H1, Str]) 
+   when is_binary(Str) andalso (?IS_BOUNDARY(H1)) ->
    case is_whitespace(Str) of
       true ->
          [H1];
       _ ->
-         [H1,H2]
+         [H1, Str]
    end;
-remove_empty_head([#xqAtomicValue{type = 'xs:string'} = H1,H2|T]) 
-   when ?IS_NONBOUNDARY(H2) ->
-   [H1|remove_empty_head([H2|T])];
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) 
-   when (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
-   [H1,H2|remove_empty_head([H3|T])];
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) 
-   when (?IS_BOUNDARY(H1)) andalso (?IS_NONBOUNDARY(H3)) ->
-   [H1,H2|remove_empty_head([H3|T])];
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) 
-   when (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
-   [H1,H2|remove_empty_head([H3|T])];
-remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str} = H2,H3|T]) 
-   when ?IS_BOUNDARY(H3) ->
+remove_empty_head([Str,H2|T]) 
+   when is_binary(Str) andalso (?IS_NONBOUNDARY(H2)) ->
+   [Str|remove_empty_head([H2|T])];
+remove_empty_head([H1, Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+   [H1, Str|remove_empty_head([H3|T])];
+remove_empty_head([H1, Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_BOUNDARY(H1)) andalso (?IS_NONBOUNDARY(H3)) ->
+   [H1, Str|remove_empty_head([H3|T])];
+remove_empty_head([H1, Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_NONBOUNDARY(H1)) andalso (?IS_BOUNDARY(H3)) ->
+   [H1, Str|remove_empty_head([H3|T])];
+remove_empty_head([Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_BOUNDARY(H3)) ->
    case is_whitespace(Str) of
       true ->
          remove_empty_head([H3|T]);
       _ ->
-         [H2|remove_empty_head([H3|T])]
+         [Str|remove_empty_head([H3|T])]
    end;
-remove_empty_head([H1,#xqAtomicValue{type = 'xs:string'} = H2|T]) 
-   when ?IS_NONBOUNDARY(H1) ->
-   [H1,H2|remove_empty_head(T)];
-remove_empty_head([#xqAtomicValue{type = 'xs:string'} = H2,H3|T]) 
-   when ?IS_NONBOUNDARY(H3) ->
-   [H2|remove_empty_head([H3|T])];
-remove_empty_head([#xqAtomicValue{type = 'xs:string', value = Str} = H2]) ->
+remove_empty_head([H1, Str|T]) 
+   when is_binary(Str) andalso (?IS_NONBOUNDARY(H1)) ->
+   [H1, Str|remove_empty_head(T)];
+remove_empty_head([Str, H3|T]) 
+   when is_binary(Str) andalso (?IS_NONBOUNDARY(H3)) ->
+   [Str|remove_empty_head([H3|T])];
+remove_empty_head([Str]) when is_binary(Str) ->
    case is_whitespace(Str) of
       true ->
          [];
       _ ->
-         [H2]
+         [Str]
    end;
 remove_empty_head([H|T]) -> [H|remove_empty_head(T)].
 
 combine_literals_to_text(undefined) -> [];
 combine_literals_to_text([]) -> [];
-combine_literals_to_text([{RefType, Val1},
-                          #xqAtomicValue{type = 'xs:string', value = Val2}|T]) 
-   when RefType =:= char_ref;
-        RefType =:= entity_ref ->
-   combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = <<Val1/binary, Val2/binary>>}|T]);
-combine_literals_to_text([#xqAtomicValue{type = 'xs:string', value = Val1},
-                          {RefType, Val2}|T]) 
-   when RefType =:= char_ref;
-        RefType =:= entity_ref ->
-   combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = <<Val1/binary, Val2/binary>>}|T]);
+combine_literals_to_text([{RefType, Val1}, Val2|T]) 
+   when RefType =:= char_ref, is_binary(Val2);
+        RefType =:= entity_ref, is_binary(Val2) ->
+   combine_literals_to_text([<<Val1/binary, Val2/binary>>|T]);
+combine_literals_to_text([Val1, {RefType, Val2}|T]) 
+   when RefType =:= char_ref, is_binary(Val1);
+        RefType =:= entity_ref, is_binary(Val1) ->
+   combine_literals_to_text([<<Val1/binary, Val2/binary>>|T]);
 combine_literals_to_text([{RefType1, Val1},
                           {RefType2, Val2}|T]) 
    when RefType1 =:= char_ref orelse RefType1 =:= entity_ref andalso
         RefType2 =:= char_ref orelse RefType2 =:= entity_ref ->
-   combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = <<Val1/binary, Val2/binary>>}|T]);
-combine_literals_to_text([#xqAtomicValue{type = 'xs:string', value = Val1},
-                          #xqAtomicValue{type = 'xs:string', value = Val2}|T]) ->
-   combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = <<Val1/binary, Val2/binary>>}|T]);
+   combine_literals_to_text([<<Val1/binary, Val2/binary>>|T]);
+combine_literals_to_text([Val1, Val2|T]) when is_binary(Val1), is_binary(Val2) ->
+   combine_literals_to_text([<<Val1/binary, Val2/binary>>|T]);
 combine_literals_to_text([{RefType,Txt}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
-   [#xqTextNode{string_value = #xqAtomicValue{type = 'xs:string', 
-                                      value = Txt}, 
-                cdata = true}|combine_literals_to_text(T)];
-combine_literals_to_text([#xqAtomicValue{type = 'xs:string'} = H|T]) ->
+   [#xqTextNode{string_value = Txt, cdata = true}|combine_literals_to_text(T)];
+combine_literals_to_text([H|T]) when is_binary(H) ->
    [#xqTextNode{string_value = H, cdata = true}|combine_literals_to_text(T)];
 combine_literals_to_text([H|T]) ->
    [H|combine_literals_to_text(T)].
 
 combine_literals(undefined) -> [];
 combine_literals([]) -> [];
-combine_literals([{RefType, Val1},
-                  #xqAtomicValue{type = 'xs:string', value = Val2}|T]) 
-   when RefType =:= char_ref;
-        RefType =:= entity_ref ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
-combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
-                  {RefType, Val2}|T]) 
-   when RefType =:= char_ref;
-        RefType =:= entity_ref ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
+combine_literals([{RefType, Val1}, Val2|T]) 
+   when RefType =:= char_ref, is_binary(Val2);
+        RefType =:= entity_ref, is_binary(Val2) ->
+   combine_literals([<<Val1/binary, Val2/binary>>|T]);
+combine_literals([Val1, {RefType, Val2}|T]) 
+   when RefType =:= char_ref, is_binary(Val1);
+        RefType =:= entity_ref, is_binary(Val1) ->
+   combine_literals([<<Val1/binary, Val2/binary>>|T]);
 combine_literals([{RefType1, Val1},{RefType2, Val2}|T]) 
    when (RefType1 =:= char_ref orelse RefType1 =:= entity_ref) andalso
         (RefType2 =:= char_ref orelse RefType2 =:= entity_ref) ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
-combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
-                  #xqAtomicValue{type = 'xs:string', value = Val2}|T]) ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
+   combine_literals([<<Val1/binary, Val2/binary>>|T]);
+combine_literals([Val1, Val2|T]) when is_binary(Val1), is_binary(Val2) ->
+   combine_literals([<<Val1/binary, Val2/binary>>|T]);
 combine_literals([{RefType,Txt}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
-   [#xqAtomicValue{type = 'xs:string', value = Txt}|combine_literals(T)];
+   [Txt|combine_literals(T)];
 combine_literals([H|T]) ->
    [H|combine_literals(T)].
 
@@ -5075,11 +5129,12 @@ type_ensure(ActType,TargType,Statement) ->
 
 all_atomics([]) -> false;
 all_atomics(#xqAtomicValue{}) -> true;
+all_atomics(V) when is_number(V);
+                    is_boolean(V);
+                    is_binary(V) -> true;
 all_atomics(List) when is_list(List) ->
-   lists:all(fun(#xqAtomicValue{}) ->
-                   true;
-                (_) ->
-                   false
+   lists:all(fun(V) ->
+                   all_atomics(V)
              end, List);
 all_atomics(_) ->
   false.
@@ -5740,6 +5795,9 @@ param_variable_name(Id) ->
    list_to_atom(lists:concat([param_prefix(), Id])).
 
 is_static_literal(#xqAtomicValue{}) -> true;
+is_static_literal(V) when is_number(V) -> true;
+is_static_literal(V) when is_binary(V) -> true;
+is_static_literal(V) when is_boolean(V) -> true;
 is_static_literal(_) -> false.
 
 % {Name,Type,Annos,ErlVarName}
@@ -6134,6 +6192,7 @@ resolve_kind_type(State, KType) ->
             end
          catch
             ?ERROR_MATCH(?A("XPST0051")) -> ?err('XPST0008');
+            ?ERROR_MATCH(?A("XQST0052")) -> ?err('XPST0008');
             _:#xqError{} = E -> throw(E);
             _:_ -> ?err('XPST0008')
          end;
@@ -6148,3 +6207,12 @@ get_contains_updates() ->
       O ->
          O
    end.
+
+atomic_value('xs:integer', V) -> V;
+atomic_value('xs:string', V) -> V;
+atomic_value('xs:double', V) -> V;
+atomic_value('xs:boolean', V) -> V;
+atomic_value(T, V) -> 
+   #xqAtomicValue{type = T, value = V}.
+
+  

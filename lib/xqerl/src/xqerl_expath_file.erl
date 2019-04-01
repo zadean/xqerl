@@ -236,8 +236,8 @@
   {xqSeqType, 'xs:string', zero_or_one}, [], {'current_dir', 1}, 0, []}
 ]).
 
--define(str(D), #xqAtomicValue{type = 'xs:string', value = D}).
--define(intv(D), #xqAtomicValue{type = 'xs:integer', value = D}).
+-define(str(D), D).
+-define(intv(D), D).
 -define(bool(D), D).
 -define(bin(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
 -define(uri(D), #xqAtomicValue{type = 'xs:anyURI', value = D}).
@@ -251,7 +251,7 @@
 %% Rules
 %%    Tests if the file or directory pointed by $path exists.
 %% This function is -nondeterministic-.
-exists(_,?str(Path)) ->
+exists(_, Path) when is_binary(Path) ->
    ?bool(filelib:is_file(Path));
 exists(Ctx,Path) ->
    exists(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -263,7 +263,7 @@ exists(Ctx,Path) ->
 %%    Tests if $path points to a directory. On UNIX-based systems the 
 %%    root and the volume roots are considered directories.
 %% This function is -nondeterministic-.
-is_dir(_,?str(Path)) ->
+is_dir(_, Path) when is_binary(Path) ->
    ?bool(filelib:is_dir(Path));
 is_dir(Ctx,Path) ->
    is_dir(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -274,7 +274,7 @@ is_dir(Ctx,Path) ->
 %% Rules
 %%    Tests if $path points to a file.
 %% This function is -nondeterministic-.
-is_file(_,?str(Path)) ->
+is_file(_, Path) when is_binary(Path) ->
    ?bool(filelib:is_regular(Path));
 is_file(Ctx,Path) ->
    is_file(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -288,7 +288,7 @@ is_file(Ctx,Path) ->
 %% Error Conditions
 %%    [file:not-found] is raised if $path does not exist.
 %%    [file:io-error] is raised if any other error occurs.
-last_modified(_,?str(Path)) ->
+last_modified(_, Path) when is_binary(Path) ->
    case filelib:last_modified(Path) of
       0 -> err_not_found(Path);
       {{Y,M,D},{H,Mi,S}} ->
@@ -315,7 +315,7 @@ last_modified(Ctx,Path) ->
 %% Error Conditions
 %%    [file:not-found] is raised if $path does not exist.
 %%    [file:io-error] is raised if any other error occurs.
-size(_,?str(Path)) ->
+size(_, Path) when is_binary(Path) ->
    case filelib:file_size(Path) of
       0 ->
          case filelib:is_file(Path) of
@@ -355,7 +355,7 @@ size(Ctx,Path) ->
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
 %% NOTE: Params as item to allow map instead of element 
-append(_,?str(File),Items) ->
+append(_, File, Items) when is_binary(File) ->
    case file:open(File, [append,binary]) of
       {ok,Fd} ->
          case file:write(Fd, erlang:term_to_binary(Items)) of
@@ -395,7 +395,7 @@ append(_,_File,_Items,_Params) ->
 %%    [file:no-dir] is raised if the parent directory of $file does not exist.
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
-append_binary(_,?str(Path),?bin(Value)) ->
+append_binary(_, Path, ?bin(Value)) when is_binary(Path) ->
    case file:open(Path, [append,binary]) of
       {ok,Fd} ->
          case file:write(Fd, Value) of
@@ -439,7 +439,9 @@ append_binary(Ctx,Path,Value) ->
 append_text(Ctx,Path,Value) ->
    append_text(Ctx,Path,Value,?str(<<"UTF-8">>)).
 
-append_text(_,?str(Path),?str(Value),?str(Encoding)) ->
+append_text(_, Path, Value, Encoding) when is_binary(Path),
+                                           is_binary(Value),
+                                           is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -486,7 +488,8 @@ append_text(Ctx,Path,Value,Encoding) ->
 append_text_lines(Ctx,Path,Values) ->
    append_text_lines(Ctx,Path,Values,?str(<<"UTF-8">>)).
 
-append_text_lines(_,?str(Path),Values,?str(Encoding)) ->
+append_text_lines(_, Path, Values, Encoding) when is_binary(Path),
+                                                  is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -545,7 +548,8 @@ append_text_lines(Ctx,Path,Values,Encoding) ->
 %%       to a directory, in which a subdirectory exists with the name of the 
 %%       source file.
 %%    [file:io-error] is raised if any other error occurs.
-copy(_,?str(Source),?str(Target)) ->
+copy(_, Source, Target) when is_binary(Source),
+                             is_binary(Target) ->
    case filelib:is_file(Source) of
       false -> err_not_found(Source);
       true ->
@@ -594,7 +598,7 @@ copy(Ctx,Source,Target) ->
 %%    [file:exists] is raised if the specified path, or any of its parent 
 %%       directories, points to an existing file.
 %%    [file:io-error] is raised if any other error occurs.
-create_dir(_,?str(Dir)) ->
+create_dir(_, Dir) when is_binary(Dir) ->
    case filelib:ensure_dir(Dir) of
       ok ->
          case ensure_dir(Dir) of
@@ -637,7 +641,9 @@ create_temp_dir(Ctx,Prefix,Suffix) ->
    Dir = filename:basedir(user_cache, <<"xqerl">>),
    create_temp_dir(Ctx,Prefix,Suffix,?str(Dir)).
 
-create_temp_dir(_,?str(Prefix),?str(Suffix),?str(Dir)) ->
+create_temp_dir(_, Prefix, Suffix, Dir) when is_binary(Prefix),
+                                             is_binary(Suffix),
+                                             is_binary(Dir) ->
    Name = <<Prefix/binary, 
             (integer_to_binary(erlang:phash2(make_ref())))/binary, 
             Suffix/binary>>,
@@ -679,7 +685,9 @@ create_temp_file(Ctx,Prefix,Suffix) ->
    Dir = filename:basedir(user_cache, <<"xqerl">>),
    create_temp_file(Ctx,Prefix,Suffix,?str(Dir)).
 
-create_temp_file(_,?str(Prefix),?str(Suffix),?str(Dir)) ->
+create_temp_file(_, Prefix, Suffix, Dir) when is_binary(Prefix),
+                                              is_binary(Suffix),
+                                              is_binary(Dir) ->
    Name = <<Prefix/binary, 
             (integer_to_binary(erlang:phash2(make_ref())))/binary, 
             Suffix/binary>>,
@@ -717,7 +725,8 @@ create_temp_file(Ctx,Prefix,Suffix,Dir) ->
 delete(Ctx,Path) ->
    delete(Ctx,Path,?bool(false)).
 
-delete(_,?str(Path),?bool(Rec)) -> 
+delete(_, Path, Rec) when is_binary(Path),
+                          is_boolean(Rec) -> 
    case filelib:is_file(Path) of
       false -> err_not_found(Path);
       true when Rec -> % recursive delete 
@@ -791,7 +800,9 @@ list(Ctx,Dir) ->
 list(Ctx,Dir,Recursive) ->
    list(Ctx,Dir,Recursive,?str(<<"*">>)).
 
-list(_,?str(Dir),?bool(Recursive),?str(Pattern)) ->
+list(_, Dir, Recursive, Pattern) when is_binary(Dir),
+                                      is_boolean(Recursive),
+                                      is_binary(Pattern) ->
    case filelib:is_dir(Dir) of
       false -> err_no_dir(Dir);
       true ->
@@ -847,7 +858,8 @@ list(Ctx,Dir,Recursive,Pattern) ->
 %%    [file:is-dir] is raised if $target points to a directory, in which a 
 %%       subdirectory exists with the name of the source.
 %%    [file:io-error] is raised if any other error occurs.
-move(_,?str(Source),?str(Target)) ->
+move(_, Source, Target) when is_binary(Source),
+                             is_binary(Target) ->
    case filelib:is_file(Source) of
       false -> err_not_found(Source);
       true ->
@@ -889,7 +901,7 @@ move(Ctx,Source,Target) ->
 %%    [file:out-of-range] is raised if $offset or $length is negative, or if 
 %%       the chosen values would exceed the file bounds.
 %%    [file:io-error] is raised if any other error occurs.
-read_binary(_,?str(File)) ->
+read_binary(_, File) when is_binary(File) ->
    case file:read_file(strip_scheme(File)) of
       {ok,Bin} ->
          ?bin(Bin);
@@ -904,9 +916,10 @@ read_binary(Ctx,File) ->
    read_binary(Ctx,
                xqerl_types:cast_as(File, 'xs:string')).
 
-read_binary(_,_,?intv(Offset)) when Offset < 0 ->
+read_binary(_, _, Offset) when is_integer(Offset), Offset < 0 ->
    err_out_of_range(Offset);
-read_binary(_,?str(File),?intv(Offset)) ->
+read_binary(_, File, Offset) when is_binary(File),
+                                  is_integer(Offset) ->
    case file:open(strip_scheme(File), [read,binary]) of
       {ok,Fd} ->
          case do_read_from(Fd,Offset) of
@@ -934,10 +947,12 @@ read_binary(Ctx,File,Offset) ->
                xqerl_types:cast_as(File, 'xs:string'),
                xqerl_types:cast_as(Offset, 'xs:integer')).
 
-read_binary(_,_,?intv(Offset),?intv(Length)) when Offset < 0;
-                                                  Length < 0 ->
+read_binary(_, _, Offset, Length) when is_integer(Offset), Offset < 0;
+                                       is_integer(Length), Length < 0 ->
    err_out_of_range(Offset);
-read_binary(_,?str(File),?intv(Offset),?intv(Length)) ->
+read_binary(_, File, Offset, Length) when is_binary(File),
+                                          is_integer(Offset),
+                                          is_integer(Length) ->
    case file:open(strip_scheme(File), [read,binary]) of
       {ok,Fd} ->
          case file:pread(Fd, Offset, Length) of
@@ -982,7 +997,8 @@ read_binary(Ctx,File,Offset,Length) ->
 read_text(Ctx,File) ->
    read_text(Ctx,File,?str(<<"UTF-8">>)).
 
-read_text(_,?str(File),?str(Encoding)) ->
+read_text(_, File, Encoding) when is_binary(File), 
+                                  is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [read,read_ahead,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -1030,7 +1046,8 @@ read_text(Ctx,File,Encoding) ->
 read_text_lines(Ctx,File) ->
    read_text_lines(Ctx,File,?str(<<"UTF-8">>)).
 
-read_text_lines(_,?str(File),?str(Encoding)) ->
+read_text_lines(_, File, Encoding) when is_binary(File),
+                                        is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [read,read_ahead,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -1076,7 +1093,7 @@ read_text_lines(Ctx,File,Encoding) ->
 %%    [file:no-dir] is raised if the parent directory of $file does not exist.
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
-write(_,?str(File),Items) ->
+write(_, File, Items) when is_binary(File) ->
    case file:open(File, [write,binary]) of
       {ok,Fd} ->
          case file:write(Fd, erlang:term_to_binary(Items)) of
@@ -1126,7 +1143,8 @@ write(_,_File,_Items,_Params) ->
 write_binary(Ctx,File,Value) ->
    write_binary(Ctx,File,Value,?intv(0)).
 
-write_binary(_,?str(File),?bin(Value),?intv(Offset)) ->
+write_binary(_, File, ?bin(Value), Offset) when is_binary(File),
+                                                is_integer(Offset) ->
    case file:open(File, [write,binary]) of
       {ok,Fd} ->
          case file:position(Fd, Offset) of
@@ -1175,7 +1193,9 @@ write_binary(Ctx,File,Value,Offset) ->
 write_text(Ctx,File,Value) ->
    write_text(Ctx,File,Value,?str(<<"UTF-8">>)).
 
-write_text(_,?str(File),?str(Value),?str(Encoding)) ->
+write_text(_, File, Value, Encoding) when is_binary(File),
+                                          is_binary(Value),
+                                          is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [write,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -1219,7 +1239,8 @@ write_text(Ctx,File,Value,Encoding) ->
 write_text_lines(Ctx,Path,Values) ->
    write_text_lines(Ctx,Path,Values,?str(<<"UTF-8">>)).
 
-write_text_lines(_,?str(Path),Values,?str(Encoding)) ->
+write_text_lines(_, Path, Values, Encoding) when is_binary(Path),
+                                                 is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
    case file:open(Path, [write,binary,{encoding,Enc}]) of
       {ok,Fd} ->
@@ -1253,7 +1274,7 @@ write_text_lines(Ctx,Path,Values,Encoding) ->
 %%    An empty string is returned if the path points to the root directory, 
 %%       or if it contains no directory separators.
 %% This function is -deterministic- (no path existence check is made).
-name(_,?str(Path)) ->
+name(_, Path) when is_binary(Path) ->
    ?str(filename:basename(Path));
 name(Ctx,Path) ->
    name(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1267,7 +1288,7 @@ name(Ctx,Path) ->
 %%    The inverse function is file:children.
 %%    An empty sequence is returned if the path points to a root directory.
 %% This function is -nondeterministic-.
-parent(_,?str(Path)) ->
+parent(_, Path) when is_binary(Path) ->
    Abs = filename:absname(Path),
    D = filename:dirname(Abs),
    if D == Abs -> % root
@@ -1308,7 +1329,7 @@ children(Ctx,Dir) ->
 %%    [file:not-found] is raised if $path does not exist.
 %%    [file:io-error] is raised if an error occurs while trying to obtain the 
 %%       native path.
-path_to_native(_,?str(Path)) ->
+path_to_native(_, Path) when is_binary(Path) ->
    try
       R = xqerl_lib:resolve_against_base_uri(<<".">>, Path),
       N = filename:nativename(strip_scheme(R)),
@@ -1338,7 +1359,7 @@ path_to_native(Ctx,Path) ->
 %%       path is relative, it is first resolved against the current working 
 %%       directory.
 %% This function is -deterministic- (no path existence check is made).
-path_to_uri(_,?str(Path)) ->
+path_to_uri(_, Path) when is_binary(Path) ->
    try
       ?uri(xqerl_lib:resolve_against_base_uri(<<".">>, Path))
    catch
@@ -1357,7 +1378,7 @@ path_to_uri(Ctx,Path) ->
 %%    If the resulting path points to a directory, it will be suffixed 
 %%       with the system-specific directory separator.
 %% This function is -nondeterministic-.
-resolve_path(_,?str(Path)) ->
+resolve_path(_, Path) when is_binary(Path) ->
    try
       R = xqerl_lib:resolve_against_base_uri(filename:absname(<<>>), Path),
       N = filename:nativename(strip_scheme(R)),
@@ -1541,7 +1562,7 @@ get_encoding_1(<<"utf-16">>) -> utf16;
 get_encoding_1(<<"utf-32">>) -> utf32;
 get_encoding_1(E) -> err_unknown_encoding(E).
 
-write_line(Fd,?str(S)) ->
+write_line(Fd, S) when is_binary(S) ->
    case file:write(Fd, S) of
       ok ->
          io:nl(Fd);

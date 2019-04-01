@@ -207,18 +207,18 @@ maps_to_list(Maps) ->
               xq_types:xq_map()) -> 
          xq_types:xq_map().
 'merge'(_Ctx,[],_) -> #{};
-'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,Dup}})
   when Dup == <<"use-first">>;
        Dup == <<"use-any">> -> 
 %%    do_merge(lists:reverse(Maps), #{});
    List = maps_to_list(lists:reverse(Maps)),
    maps:from_list(List);
-'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,Dup}})
   when Dup == <<"use-last">> -> 
 %%    do_merge(Maps, #{});
    List = maps_to_list(Maps),
    maps:from_list(List);
-'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}}) -> 
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,Dup}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
                end, #{}, lists:reverse(Maps));
@@ -279,7 +279,7 @@ maps_to_list(Maps) ->
              xq_types:xq_map()) -> 
          xq_types:xs_integer().
 'size'(_Ctx,Map) when is_map(Map) -> 
-   #xqAtomicValue{type='xs:integer', value = maps:size(Map)};
+   maps:size(Map);
 'size'(_Ctx,Map) -> 
    IMap = ?val(Map),
    if is_map(IMap) ->

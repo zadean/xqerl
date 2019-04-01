@@ -49,7 +49,7 @@
 
 -define(digit(H), H >= $0, H =< $9).
 -define(xav(T,V),  #xqAtomicValue{type = T, value = V}).
--define(str(Val), ?xav('xs:string',Val)).
+-define(str(Val), Val).
 -define(THROW(E), _:#xqError{} = E -> throw(E)).
 
 -define(MAXYEAR, (1 bsl 32) - 1).

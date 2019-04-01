@@ -32,7 +32,7 @@
 -include("xqerl.hrl").
 -include("xqerl_parser.hrl").
 
--define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
+-define(atint(I), I).
 
 -export([windowclause/3]).
 -export([windowclause/5]).
@@ -68,9 +68,12 @@ add_position([], _Cnt, Acc) ->
 do_atomize([],_) -> {<<>>, []};
 do_atomize([V],C) -> do_atomize(V,C);
 do_atomize(#{nk := _} = N,Coll) ->
-   A = xqerl_seq3:singleton_value(xqerl_types:atomize(N)),
-   #xqAtomicValue{value = Val} = A,
-   {xqerl_coll:sort_key(Val, Coll), A};
+   case xqerl_seq3:singleton_value(xqerl_types:atomize(N)) of
+      #xqAtomicValue{value = Val} = A ->
+         {xqerl_coll:sort_key(Val, Coll), A};
+      Val ->
+         {xqerl_coll:sort_key(Val, Coll), Val}
+   end;
 do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
    when T =:= 'xs:gYearMonth' orelse
         T =:= 'xs:gYear' orelse
@@ -80,11 +83,13 @@ do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
         T =:= 'xs:date' orelse
         T =:= 'xs:dateTime' orelse
         T =:= 'xs:time' ->
-    #xqAtomicValue{value = Val, type = T} = A ,
     {xqerl_coll:sort_key(Val, T), A};
 do_atomize(#xqAtomicValue{value = Val} = A,Coll) ->
-       {xqerl_coll:sort_key(Val, Coll), A};
-do_atomize(A, Coll) when is_boolean(A) ->
+    {xqerl_coll:sort_key(Val, Coll), A};
+do_atomize(A, Coll) when is_boolean(A);
+                         is_number(A);
+                         is_binary(A);
+                         is_atom(A) ->
        {xqerl_coll:sort_key(A, Coll), A};
 do_atomize(_,_) ->
    ?err('XPTY0004').
@@ -460,8 +465,7 @@ do_order({TA,[{ValA,descending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          false;
       Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', 
                                                        value = nan};
-      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', 
-                                                       value = nan} ->
+      Empty == greatest andalso ValA == nan ->
          true;
       Empty == least andalso ValA == [] ->
          false;
@@ -469,8 +473,7 @@ do_order({TA,[{ValA,descending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          true;
       Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', 
                                                     value = nan};
-      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', 
-                                                    value = nan} ->
+      Empty == least andalso ValB == nan ->
          true;
       true ->
          case xqerl_operators:greater_than(ValA, ValB) of
@@ -494,8 +497,7 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          true;
       Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', 
                                                        value = nan};
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', 
-                                                       value = nan} ->
+      Empty == greatest andalso ValB == nan ->
          true;
       Empty == least andalso ValA == [] ->
          true;
@@ -503,8 +505,7 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          false;
       Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', 
                                                     value = nan};
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', 
-                                                    value = nan} ->
+      Empty == least andalso ValA == nan ->
          true;
       true ->
          case xqerl_operators:less_than(ValA, ValB) of

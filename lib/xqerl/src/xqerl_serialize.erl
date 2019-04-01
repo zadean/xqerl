@@ -93,7 +93,7 @@ normalize_seq(Seq, Opts) ->
 %%    item in the sequence that is input to serialization to create the new 
 %%    sequence S1. Each item in the sequence that is an array is flattened by 
 %%    calling the function array:flatten() before being copied.
-norm_s1([]) -> [#xqAtomicValue{type = 'xs:string', value = <<>>}];
+norm_s1([]) -> [<<>>];
 norm_s1(Seq) when is_list(Seq) ->
    norm_s1_(Seq);
 norm_s1(Seq) ->
@@ -110,7 +110,10 @@ norm_s1_([]) -> [].
 %%    the new sequence. The new sequence is S2.
 norm_s2([#xqAtomicValue{} = H|T]) ->
    [xqerl_types:cast_as(H, 'xs:string')|norm_s2(T)];
-norm_s2([H|T]) when is_boolean(H) ->
+norm_s2([H|T]) when is_binary(H) ->
+   [H|norm_s2(T)];
+norm_s2([H|T]) when is_number(H);
+                    is_atom(H) ->
    [xqerl_types:cast_as(H, 'xs:string')|norm_s2(T)];
 norm_s2([H|T]) ->
    [H|norm_s2(T)];
@@ -129,9 +132,9 @@ norm_s3(Seq, #{'item-separator' := <<>>}) ->
 norm_s3(Seq, #{'item-separator' := Sep}) ->
    norm_s3_2(Seq, Sep).
 
-norm_s3_1([#xqAtomicValue{value = V1},#xqAtomicValue{value = V2}|T]) ->
+norm_s3_1([V1, V2|T]) when is_binary(V1), is_binary(V2) ->
    V3 = <<V1/binary," ",V2/binary>>,
-   norm_s3_1([#xqAtomicValue{value = V3}|T]);
+   norm_s3_1([V3|T]);
 norm_s3_1([H|T]) ->
    [H|norm_s3_1(T)];
 norm_s3_1([]) -> [].
@@ -141,13 +144,13 @@ norm_s3_2([H|T], Sep) ->
    [H|norm_s3_2_(T,Sep)].
 
 norm_s3_2_([H|T],Sep) ->
-   [#xqAtomicValue{value = Sep},H|norm_s3_2_(T,Sep)];
+   [Sep,H|norm_s3_2_(T,Sep)];
 norm_s3_2_([],_) -> [].
 
 %% 4. For each item in S3, if the item is a string, create a text node in the 
 %%    new sequence whose string value is equal to the string; otherwise, copy 
 %%    the item to the new sequence. The new sequence is S4.
-norm_s4([#xqAtomicValue{value = Val}|T]) ->
+norm_s4([Val|T]) when is_binary(Val) ->
    [xqldb_mem_nodes:text({make_ref(), 0},Val)|norm_s4(T)];
 norm_s4([H|T]) ->
    [H|norm_s4(T)];
@@ -393,8 +396,13 @@ do_serialize_json(Map, Opts) when is_map(Map) ->
 do_serialize_json(#xqAtomicValue{value = nan}, _Opts) -> ?err('SERE0020');
 do_serialize_json(#xqAtomicValue{value = infinity}, _Opts) -> ?err('SERE0020');
 do_serialize_json(#xqAtomicValue{value = neg_infinity}, _Opts) -> ?err('SERE0020');
-do_serialize_json(#xqAtomicValue{value = neg_zero}, _Opts) -> 
-   <<"-0">>;
+do_serialize_json(#xqAtomicValue{value = neg_zero}, _Opts) -> <<"-0">>;
+do_serialize_json(nan, _Opts) -> ?err('SERE0020');
+do_serialize_json(infinity, _Opts) -> ?err('SERE0020');
+do_serialize_json(neg_infinity, _Opts) -> ?err('SERE0020');
+do_serialize_json(neg_zero, _Opts) -> <<"-0">>;
+do_serialize_json(Val, _Opts) when is_number(Val) ->
+   xqerl_numeric:string(Val);
 do_serialize_json(#xqAtomicValue{type = Type, value = Val}, _Opts)
    when ?xs_numeric(Type) ->
    xqerl_numeric:string(Val);
@@ -402,6 +410,8 @@ do_serialize_json(true, _Opts) ->
    <<"true">>;
 do_serialize_json(false, _Opts) ->
    <<"false">>;
+do_serialize_json(Bin, Opts) when is_binary(Bin) ->
+   to_json_string(Bin, Opts);
 do_serialize_json(#xqAtomicValue{} = Atomic, Opts) ->
    to_json_string(Atomic, Opts);
 do_serialize_json([], _Opts) ->
@@ -422,22 +432,27 @@ do_serialize_adaptive(true, _Opts) ->
    <<"true()">>;
 do_serialize_adaptive(false, _Opts) ->
    <<"false()">>;
+do_serialize_adaptive(Val, _Opts) when is_binary(Val) ->
+   Q = duplicate_quotes(Val,<<>>),
+   <<$",Q/binary,$">>;
 do_serialize_adaptive(#xqAtomicValue{type = Type, value = Val}, _Opts)
    when Type == 'xs:untypedAtomic';
         Type == 'xs:anyURI';
         ?xs_string(Type) ->
    Q = duplicate_quotes(Val,<<>>),
    <<$",Q/binary,$">>;
+do_serialize_adaptive(Val, _Opts) when is_integer(Val) ->
+   xqerl_numeric:string(Val);
 do_serialize_adaptive(#xqAtomicValue{type = Type, value = Val}, _Opts)
    when ?xs_decimal(Type) ->
    xqerl_numeric:string(Val);
-do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts)
-   when Type == 'xs:double' ->
-   Pic = #xqAtomicValue{type = 'xs:string',
-                        value = <<"0.0##########################e0">>},
-   Str = xqerl_fn:'format-number'(#{},Val,Pic,
-                                  #dec_format{infinity = "INF"}),
-   Str#xqAtomicValue.value;
+do_serialize_adaptive(Val, _Opts) when is_float(Val);
+                                       Val == neg_zero;
+                                       Val == infinity;
+                                       Val == nan;
+                                       Val == neg_infinity ->
+   Pic = <<"0.0##########################e0">>,
+   xqerl_fn:'format-number'(#{},Val,Pic, #dec_format{infinity = "INF"});
 do_serialize_adaptive(#xqAtomicValue{type = Type, 
                                      value = #qname{namespace = Ns,
                                                     local_name = Ln}}, _Opts)

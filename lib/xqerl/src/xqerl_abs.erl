@@ -665,7 +665,7 @@ param_fields([{Atom, VarName}|T],Map) ->
    VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
    TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
    [?P(["_@TmpAtom = cowboy_req:binding(_@Atom@, Req),",
-        "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+        "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
        ])|param_fields(T,Map)].
 
 param_headers([],_) -> [];
@@ -675,7 +675,7 @@ param_headers(Params,Map) ->
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(["_@TmpAtom = cowboy_req:header(_@ParamName@, Req, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
            ])
     end || {ParamName, VarName, Default0} <- Params].
 
@@ -687,7 +687,7 @@ param_cookies(Params,Map) ->
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(["_@TmpAtom = proplists:get_value(_@CookieName@, Cookies, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
            ])
     end || {CookieName, VarName, Default0} <- Params]
    ].
@@ -700,7 +700,7 @@ param_forms(Params,Map) ->
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(["_@TmpAtom = proplists:get_value(_@ParamName@, FormKeyVals, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
            ])
     end || {ParamName, VarName, Default0} <- Params]].
 
@@ -712,7 +712,7 @@ param_queries(Params,Map) ->
        VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(["_@TmpAtom = proplists:get_value(_@ParamName@, QueryKeyVals, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = _@TmpAtom}, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
            ])
     end || {ParamName, VarName, Default0} <- Params]].
 
@@ -800,8 +800,7 @@ body_function(ContextMap, Body,Prolog) ->
                     " {CI,_} = maps:get('context-item', Options, {_@E2, 1}),"
                     " _@NextVar = xqerl_types:promote(CI,_@E1),",
                     " xqerl_context:set_context_item(_@CtxVar1,_@NextVar,1,",
-                    "   #xqAtomicValue{type = 'xs:integer', value = ",
-                    "      xqerl_seq3:size(_@NextVar)})"
+                    "      xqerl_seq3:size(_@NextVar))"
                     "end"]),
             {P, NV}
       end,                 
@@ -878,8 +877,7 @@ expression_body(ContextMap, Body, Prolog, Variables, Init) ->
                     " CI = maps:get('context-item', Options, _@E2),"
                     " _@NextVar = xqerl_types:promote(CI,_@E1),",
                     " xqerl_context:set_context_item(_@CtxVar1,_@NextVar,1,",
-                    "   #xqAtomicValue{type = 'xs:integer', value = ",
-                    "      xqerl_seq3:size(_@NextVar)})"
+                    "      xqerl_seq3:size(_@NextVar))"
                     "end"]),
             {P, NV}
       end,                 
@@ -1130,8 +1128,12 @@ expr_do(Ctx, {pragma, [{#qname{namespace = ?A("http://xqerl.org/xquery"),
 expr_do(Ctx, {pragma, _Pragmas, Exprs}) ->
    expr_do(Ctx, Exprs);
 
-expr_do(_Ctx, undefined) ->
-   {atom,?L,undefined};
+expr_do(_Ctx, Atom) when Atom =:= infinity;
+                         Atom =:= neg_infinity;
+                         Atom =:= neg_zero;
+                         Atom =:= nan;
+                         Atom =:= undefined ->
+   {atom,?L,Atom};
 % try/catch
 expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    _ = add_used_record_type(xqError),
@@ -1387,11 +1389,15 @@ expr_do(Ctx, #xqQuery{query = Qry}) ->
    
 expr_do(Ctx, [T]) when is_tuple(T) ->
    expr_do(Ctx, T);
+expr_do(_Ctx, V) when is_number(V) ->
+   ?P("_@V@");
+expr_do(_Ctx, V) when is_binary(V) ->
+   ?P("_@V@");
 expr_do(_Ctx, #xqAtomicValue{type = T, value = V}) ->
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}");
 
 expr_do(Ctx, {'string-constructor', Expr}) ->
-   F = fun(#xqAtomicValue{type = 'xs:string', value = V}, Abs) ->
+   F = fun(V, Abs) when is_binary(V) ->
              if V == <<>> ->
                    Abs;
                 true ->
@@ -1408,7 +1414,7 @@ expr_do(Ctx, {'string-constructor', Expr}) ->
        end,
    Es = lists:foldr(F, [], alist(Expr)),
    Fl = {bin,?L,Es},
-   ?P("#xqAtomicValue{type = 'xs:string', value = _@Fl}");
+   ?P("_@Fl");
 
 % context item can be a variable of set in the context map
 expr_do(#{context_variable := CtxVar}, 'context-item') ->
@@ -1437,9 +1443,9 @@ expr_do(Ctx, #xqLogicalExpr{comp = Op,
    S1 = ?P("_@E1"),
    S2 = ?P("_@E2"),
    if Op =:= 'and' ->
-         ?P("xqerl_operators:do_and(_@S1, fun() -> _@S2 end)");
+         ?P("xqerl_operators:op_and(_@S1, fun() -> _@S2 end)");
       Op =:= 'or' ->
-         ?P("xqerl_operators:do_or(_@S1, fun() -> _@S2 end)")
+         ?P("xqerl_operators:op_or(_@S1, fun() -> _@S2 end)")
    end;
 
 % instance of / castable
@@ -2538,9 +2544,8 @@ count_part(Ctx,{'count',#xqVar{id = Id,
             "   '@FunctionName@'(Ctx,1,Stream)."
            ]),
    R2 = ?P(["'@FunctionName@'(_,_,[]) -> [];",
-            "'@FunctionName@'(Ctx,Pos,[_@OldVariableTupleMatch|T]) ->",
-            "   _@VarName1 = #xqAtomicValue{type = 'xs:integer', value = Pos},",
-            "   [_@NextFun|'@FunctionName@'(Ctx,Pos + 1,T)]."
+            "'@FunctionName@'(Ctx,_@VarName1,[_@OldVariableTupleMatch|T]) ->",
+            "   [_@NextFun|'@FunctionName@'(Ctx,_@VarName1 + 1,T)]."
            ]),
    {NewCtx,[R1,R2]}.
 
@@ -2810,7 +2815,7 @@ window_loop(Ctx, #xqWindow{type = Type,
    OutTup   = get_variable_tuple(Ctx, [SVar,SPosVar,SPrevVar,SNextVar,
                                        EVar,EPosVar,EPrevVar,ENextVar,WinVar]),
    StartFunAbs = case StartExpr of
-                    #xqAtomicValue{value = true} -> % very common start
+                    true -> % very common start
                        ?Q("true");
                     _ ->
                        E1 = expr_do(Ctx6, StartExpr),
@@ -3059,9 +3064,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
            ])
         end,
    ForFun2 = ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1,",
-                 " Pos) ->_@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
-                 "                                       value = Pos},",
-                 "    _@Ens,_@Next."]),
+                 " _@PosVarName1) ->  _@Ens,_@Next."]),
    {NewCtx,[ForFun1, ForFun2]}.
 
 glob_fun_name({window,Id}) ->
@@ -3460,7 +3463,7 @@ abs_ns_qname(Ctx, {N, P}) ->
         end,
    E2 = if is_tuple(P) ->
               case P of
-                 #xqAtomicValue{value = <<>>} ->
+                 <<>> ->
                     atom_or_string(<<>>);
                  _ ->
                     expr_do(Ctx, P)
@@ -3478,7 +3481,7 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
         end,
    E2 = if is_tuple(P) ->
               case P of
-                 #xqAtomicValue{value = <<>>} ->
+                 <<>> ->
                     atom_or_string(<<>>);
                  _ ->
                     expr_do(Ctx, P)
@@ -3527,14 +3530,26 @@ abs_param_list(Ctx, List) ->
                   (#xqAtomicValue{type = St},Acc) ->
                      {cons,?L,abs_seq_type(Ctx, 
                                            #xqSeqType{occur = one,
-                                                      type = St}) ,Acc}
+                                                      type = St}) ,Acc};
+                  (I, Acc) when is_binary(I) ->
+                     {cons,?L,abs_seq_type(Ctx, 
+                                           #xqSeqType{occur = one,
+                                                      type = 'xs:string'}) ,Acc};
+                  (I, Acc) when is_float(I) ->
+                     {cons,?L,abs_seq_type(Ctx, 
+                                           #xqSeqType{occur = one,
+                                                      type = 'xs:double'}) ,Acc};
+                  (I, Acc) when is_integer(I) ->
+                     {cons,?L,abs_seq_type(Ctx, 
+                                           #xqSeqType{occur = one,
+                                                      type = 'xs:integer'}) ,Acc}
                end, {nil,?L}, List).
    
 abs_boolean(Bool) ->
    ?P("_@Bool@").
 
-abs_simp_atomic_value(#xqAtomicValue{type = 'xs:boolean', value = V}) ->
-   ?P("_@V@");
+%% abs_simp_atomic_value(#xqAtomicValue{type = 'xs:boolean', value = V}) ->
+%%    ?P("_@V@");
 abs_simp_atomic_value(#xqAtomicValue{type = T, value = V}) ->
    _ = add_used_record_type(xqAtomicValue),
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}").
@@ -3935,9 +3950,8 @@ handle_axis_step_pred(Ctx, {predicate, Pred}) ->
                        {size_variable,SizeVar}
                       ]),   
    Ctx2 = Ctx1#{context_variable => IntCtxVar,
-                %position_variable => PosVar,
-                position_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@PosVar}"),
-                size_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@SizeVar}")},
+                position_variable => PosVar,
+                size_variable => SizeVar},
    E1 = expr_do(Ctx2, Pred),
    ?P("fun(_@IntCtxVar,_@PosVar,_@SizeVar) -> "
       "xqerl_operators:eff_bool_val(_@E1) end");
@@ -3955,15 +3969,14 @@ handle_axis_step_pred(Ctx, {positional_predicate, Pred}) ->
                        {size_variable,SizeVar}
                       ]),   
    Ctx2 = Ctx1#{context_variable => IntCtxVar,
-                %position_variable => PosVar,
-                position_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@PosVar}"),
-                size_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@SizeVar}")},
+                position_variable => PosVar,
+                size_variable => SizeVar},
    E1 = expr_do(Ctx2, Pred), 
    % TODO check for last() function call and use in filter params as match
 %   ?dbg("E1", {Pred, E1}),
    ?P("fun(_@IntCtxVar,_@PosVar,_@SizeVar) -> "
       "xqerl_operators:eff_bool_val("
-      "  xqerl_operators:general_compare('=',_@E1, #xqAtomicValue{type = 'xs:integer', value = _@PosVar})) "
+      "  xqerl_operators:general_compare('=',_@E1, _@PosVar)) "
       "end");
 handle_axis_step_pred(Ctx, Other) ->
    ?dbg("!!!SKIPPING!!!", Other),

@@ -25,8 +25,6 @@
 -module(xqerl_types).
 -compile(inline_list_funcs).
 
--import(xqerl_numeric,[double/1]).
-
 -export([return_value/1,
          return_value/2,
          rest_return_value/2]).
@@ -86,6 +84,9 @@ atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(true) -> true;
 atomize(false) -> false;
+atomize(A) when is_binary(A);
+                is_number(A);
+                is_atom(A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
 atomize(#{nk := Nk,
           id := Id} = Node) ->
@@ -98,7 +99,7 @@ atomize(#{nk := Nk,
    if Nk =:= comment;
       Nk =:= namespace;
       Nk =:= 'processing-instruction' ->
-         ?xav('xs:string', Str);
+         Str;
       true ->
          ?xav('xs:untypedAtomic', Str)
    end;
@@ -108,41 +109,41 @@ atomize(O) ->
    ?dbg("O",O),
    ?err('XPTY0004').
 
-make_node_external(#{nk := element,
-                     at := Int} = Node) when is_integer(Int) ->
-   Node;
-make_node_external(#{nk := element,
-                     nn := {Ns,Px,_}} = Node) ->
-   Ats = maps:get(at, Node, []),
-   F = fun(#{nn := {_,<<>>,_}}, M) ->
-             M;
-          (#{nn := {Ns1,Px1,_}}, M) ->
-             M#{Px1 => Ns1}          
-       end,
-   Nss = lists:foldl(F, #{Px => Ns}, Ats),
-   NoP = maps:remove(pt, Node),
-   NsSet = NoP#{ns => Nss}, 
-   make_node_external_1(NsSet, Nss);
+%% make_node_external(#{nk := element,
+%%                      at := Int} = Node) when is_integer(Int) ->
+%%    Node;
+%% make_node_external(#{nk := element,
+%%                      nn := {Ns,Px,_}} = Node) ->
+%%    Ats = maps:get(at, Node, []),
+%%    F = fun(#{nn := {_,<<>>,_}}, M) ->
+%%              M;
+%%           (#{nn := {Ns1,Px1,_}}, M) ->
+%%              M#{Px1 => Ns1}          
+%%        end,
+%%    Nss = lists:foldl(F, #{Px => Ns}, Ats),
+%%    NoP = maps:remove(pt, Node),
+%%    NsSet = NoP#{ns => Nss}, 
+%%    make_node_external_1(NsSet, Nss);
 make_node_external(Node) ->
    maps:remove(pt, Node).
 
-make_node_external_1(#{nk := element,
-                       nn := {Ns,Px,_}, 
-                       ch := Ch} = Node, Nss) ->
-   Ats = maps:get(at, Node, []),
-   F = fun(#{nn := {_,<<>>,_}}, M) ->
-             M;
-          (#{nn := {Ns1,Px1,_}}, M) ->
-             M#{Px1 => Ns1}
-       end,
-   Nss1 = lists:foldl(F, Nss#{Px => Ns}, Ats),
-   Node#{ch := make_node_external_1(Ch, Nss1),
-         ns => Nss1};
-make_node_external_1(#{nk := _} = Node, _Nss) ->
-   Node;
-make_node_external_1([Node|T], Nss) ->
-   [make_node_external_1(Node, Nss)|make_node_external_1(T, Nss)];
-make_node_external_1([], _) -> [].
+%% make_node_external_1(#{nk := element,
+%%                        nn := {Ns,Px,_}, 
+%%                        ch := Ch} = Node, Nss) ->
+%%    Ats = maps:get(at, Node, []),
+%%    F = fun(#{nn := {_,<<>>,_}}, M) ->
+%%              M;
+%%           (#{nn := {Ns1,Px1,_}}, M) ->
+%%              M#{Px1 => Ns1}
+%%        end,
+%%    Nss1 = lists:foldl(F, Nss#{Px => Ns}, Ats),
+%%    Node#{ch := make_node_external_1(Ch, Nss1),
+%%          ns => Nss1};
+%% make_node_external_1(#{nk := _} = Node, _Nss) ->
+%%    Node;
+%% make_node_external_1([Node|T], Nss) ->
+%%    [make_node_external_1(Node, Nss)|make_node_external_1(T, Nss)];
+%% make_node_external_1([], _) -> [].
 
 
 return_value([]) -> xqerl_seq3:empty();
@@ -196,8 +197,6 @@ string_value({Error,_}) ->
    {Error};
 %% string_value([At]) ->
 %%    string_value(At);
-string_value(#xqAtomicValue{type = 'xs:string', value = V}) ->
-   V;
 % QName hack
 string_value(#qname{} = Q) ->
    Str = cast_as(#xqAtomicValue{type = 'xs:QName', value = Q}, 'xs:string'),
@@ -205,7 +204,10 @@ string_value(#qname{} = Q) ->
 string_value(true) -> <<"true">>;
 string_value(false) -> <<"false">>;
 string_value(#xqAtomicValue{} = At) ->
-   string_value(cast_as(At, 'xs:string'));
+   cast_as(At, 'xs:string');
+string_value(At) when is_number(At);
+                      is_atom(At) ->
+   cast_as(At, 'xs:string');
 
 string_value(N) when is_record(N, xqElementNode);
                      is_record(N, xqDocumentNode);
@@ -247,6 +249,17 @@ type(#xqRange{}) ->
    'xs:integer';
 type(#xqAtomicValue{type = T}) ->
    T;
+type(V) when is_integer(V) ->
+   'xs:integer';
+type(V) when is_float(V) ->
+   'xs:double';
+type(V) when V == nan;
+             V == neg_zero;
+             V == infinity;
+             V == neg_infinity ->
+   'xs:double';
+type(V) when is_binary(V) ->
+   'xs:string';
 type(Seq) ->
    #xqSeqType{type = T, occur = _One} = xqerl_seq3:get_seq_type(Seq),
    T.
@@ -292,7 +305,9 @@ cast_as_seq(#xqAtomicValue{} = Av,
             #xqSeqType{type = 'xs:anyAtomicType'}) ->
    Av;
 cast_as_seq(Av, #xqSeqType{type = 'xs:anyAtomicType'})
-   when is_boolean(Av) ->
+   when is_boolean(Av);
+        is_number(Av);
+        is_binary(Av) ->
    Av;
 cast_as_seq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Av, 
             #xqSeqType{type = Type}) ->
@@ -300,6 +315,9 @@ cast_as_seq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Av,
 cast_as_seq(#xqAtomicValue{type = AType} = Av, 
             #xqSeqType{type = Type}) 
    when ?xs_numeric(AType), ?xs_numeric(Type) ->
+   cast_as(Av,Type);
+cast_as_seq(Av, #xqSeqType{type = Type}) when is_number(Av), 
+                                              ?xs_numeric(Type) ->
    cast_as(Av,Type);
 cast_as_seq(#xqAtomicValue{type = AType} = Av, 
             #xqSeqType{type = Type}) ->
@@ -344,6 +362,10 @@ cast_as_seq(Vals, #xqSeqType{type = #xqFunTest{kind = array}})
 cast_as_seq(Seq, #xqSeqType{type = 'xs:anyAtomicType'}) 
    when is_list(Seq) ->
    lists:map(fun(#xqAtomicValue{} = Av) ->
+                   Av;
+                (Av) when is_binary(Av);
+                          is_number(Av);
+                          is_boolean(Av) ->
                    Av;
                 (Item) ->
                    cast_as(Item, 'xs:anyAtomicType')
@@ -604,9 +626,27 @@ promote(#xqRange{} = R, #xqSeqType{} = T) ->
    end;
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    At;
-promote(At, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(At) ->
+promote(At, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(At);
+                                                        is_binary(At);
+                                                        is_number(At) ->
    At;
 promote(At, #xqSeqType{type = 'xs:boolean'}) when is_boolean(At) ->
+   At;
+promote(At, #xqSeqType{type = 'xs:numeric'}) when is_number(At) ->
+   At;
+promote(At, #xqSeqType{type = TT}) when is_integer(At),
+                                        ?xs_integer(TT) ->
+   At;
+promote(At, #xqSeqType{type = 'xs:double'}) when is_float(At) ->
+   At;
+promote(At, #xqSeqType{type = 'xs:double'}) when is_integer(At) ->
+   cast_as(At, 'xs:double');
+promote(At, #xqSeqType{type = 'xs:float'}) when is_integer(At) ->
+   cast_as(At, 'xs:float');
+promote(At, #xqSeqType{type = 'xs:decimal'}) when is_integer(At) ->
+   cast_as(At, 'xs:decimal');
+promote(At, #xqSeqType{type = TT}) when is_binary(At),
+                                        ?xs_string(TT) ->
    At;
 promote(#{nk := _} = N,#xqSeqType{type = T} = St) 
    when T == 'xs:anyAtomicType';
@@ -725,6 +765,26 @@ promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = 'xs:duration'}) ->
          ?err('XPTY0004')
    end;
 promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = TType} = Type) ->
+   case subtype_of(AType,TType) of
+      true ->
+         cast_as(At,Type);
+      _ ->
+         ?err('XPTY0004')
+   end;
+promote(At, #xqSeqType{type = TType} = Type) when is_number(At);
+                                                  is_binary(At);
+                                                  is_atom(At) ->
+   AType =  if is_binary(At) ->
+                  'xs:string';
+               is_integer(At) ->
+                  'xs:integer';
+               is_float(At);
+               At == infinity;
+               At == neg_infinity;
+               At == neg_zero;
+               At == nan ->
+                  'xs:float'
+            end,
    case subtype_of(AType,TType) of
       true ->
          cast_as(At,Type);
@@ -1084,9 +1144,30 @@ instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqKindTest{}}) ->
    ?false;
 instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqFunTest{}}) ->
    ?false;
+instance_of(Val, #xqSeqType{type = 'xs:numeric'}) 
+   when is_number(Val);
+        Val == neg_zero;
+        Val == infinity;
+        Val == nan;
+        Val == neg_infinity -> 
+   ?true;
+instance_of(Val, #xqSeqType{type = 'xs:double'}) when is_float(Val);
+                                                      Val == neg_zero;
+                                                      Val == infinity;
+                                                      Val == nan;
+                                                      Val == neg_infinity -> 
+   ?true;
+instance_of(Val, #xqSeqType{type = 'xs:decimal'}) when is_integer(Val) -> 
+   ?true;
+instance_of(Val, #xqSeqType{type = 'xs:integer'}) when is_integer(Val) -> 
+   ?true;
+instance_of(Val, #xqSeqType{type = 'xs:string'}) when is_binary(Val) -> 
+   ?true;
 instance_of(Bool, #xqSeqType{type = 'xs:boolean'}) when is_boolean(Bool) -> 
    ?true;
-instance_of(Bool, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(Bool) -> 
+instance_of(Val, #xqSeqType{type = 'xs:anyAtomicType'}) when is_boolean(Val);
+                                                             is_binary(Val);
+                                                             is_number(Val) -> 
    ?true;
 instance_of(#xqAtomicValue{type = IType}, 
             #xqSeqType{type = IType}) -> ?true;
@@ -1169,7 +1250,7 @@ check_annotations(_Annos, _TargetAnnos) -> true.
 %TODO - do something
 check_return_type(_Type, any) -> true;
 check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
-   ?dbg("{Type, ReturnType}",{Type, ReturnType}),
+   %?dbg("{Type, ReturnType}",{Type, ReturnType}),
    subtype_of(Type,ReturnType).
 
 instance_of1(Bool, 'xs:boolean') when is_boolean(Bool) -> true;
@@ -1350,6 +1431,10 @@ get_type(#xqKindTest{kind = Type}) ->
 get_type(#xqFunTest{kind = Type}) ->
    Type.
 
+get_item_type(Val) when is_binary(Val) -> 'xs:string';
+get_item_type(Val) when is_integer(Val) -> 'xs:integer';
+get_item_type(Val) when is_boolean(Val) -> 'xs:boolean';
+get_item_type(Val) when is_float(Val) -> 'xs:double';
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
 get_item_type(#{nk := _} = Node) ->
@@ -1458,11 +1543,445 @@ fun_check(#xqFunTest{kind = function, name = Name1,
 fun_check(#xqFunTest{},#xqFunTest{}) ->
    false.
 
-cast_as( [At], TT ) -> cast_as( At, TT );
-cast_as([],#xqSeqType{occur = one}) ->
+
+cast_as_string([]) -> [];
+cast_as_string(L) when is_list(L) -> ?err('XPTY0004'); % only singleton
+cast_as_string(Str) when is_binary(Str) -> Str;
+cast_as_string(Int) when is_integer(Int) -> integer_to_binary(Int);
+cast_as_string(?xav(IntType, Val)) when ?xs_integer(IntType) -> 
+   cast_as_string(Val);
+cast_as_string(?xav('xs:untypedAtomic', Val)) -> Val;
+cast_as_string(true) -> <<"true">>;
+cast_as_string(false) -> <<"false">>;
+cast_as_string(?xav('xs:anyURI', 'no-namespace')) -> <<>>;
+cast_as_string(?xav('xs:anyURI', Val)) -> xqerl_lib:decode_string(Val);
+cast_as_string(?xav('xs:base64Binary', Val)) -> b64bin_to_str(Val);
+cast_as_string(?xav(_, #xsDateTime{string_value = Val})) -> Val;
+cast_as_string(?xav('xs:decimal', Val)) -> xqerl_numeric:string(Val);
+cast_as_string(infinity) -> <<"INF">>;
+cast_as_string(neg_infinity) -> <<"-INF">>;
+cast_as_string(neg_zero) -> <<"-0">>;
+cast_as_string(nan) -> <<"NaN">>;
+cast_as_string(Dbl) when is_float(Dbl) -> xqerl_numeric:string(Dbl);
+cast_as_string(?xav('xs:float', infinity)) -> <<"INF">>; 
+cast_as_string(?xav('xs:float', neg_infinity)) -> <<"-INF">>;
+cast_as_string(?xav('xs:float', neg_zero)) -> <<"-0">>;
+cast_as_string(?xav('xs:float', nan)) -> <<"NaN">>;
+cast_as_string(?xav('xs:float', Val)) -> xqerl_numeric:float_string(Val);
+cast_as_string(?xav('xs:hexBinary', Val)) -> hexbin_to_str(Val);
+cast_as_string(?xav('xs:NMTOKEN', Val)) -> Val;
+cast_as_string(?xav('xs:Name', Val)) -> Val;
+cast_as_string(?xav('xs:NCName', Val)) -> Val;
+cast_as_string(?xav('xs:ID', Val)) -> Val;
+cast_as_string(?xav('xs:IDREF', Val)) -> Val;
+cast_as_string(?xav('xs:ENTITY', Val)) -> Val;
+cast_as_string(?xav('xs:NOTATION', #qname{prefix = <<>>, local_name = L})) -> L;
+cast_as_string(?xav('xs:NOTATION', #qname{prefix = P, local_name = L})) -> 
+   <<P/binary,":",L/binary>>;
+cast_as_string(?xav('xs:QName', #qname{prefix = <<>>, local_name = L})) ->  L;
+cast_as_string(?xav('xs:QName', #qname{prefix = P, local_name = L})) 
+   when is_atom(P) -> L;
+cast_as_string(?xav('xs:QName', #qname{prefix = P, local_name = L})) ->
+   <<P/binary,":",L/binary>>;
+cast_as_string(?xav('xs:token', Val)) -> Val;
+cast_as_string(?xav('xs:normalizedString', Val)) -> Val;
+cast_as_string(?xav('xs:language', Val)) -> Val.
+
+cast_from_string('xs:anyURI', <<>>) -> ?xav('xs:anyURI', <<>>);
+cast_from_string('xs:anyURI', Val) -> % MAYBE castable
+   case xqerl_lib:check_uri_string(Val) of
+      {error,Err} ->
+         ?dbg("Err",Err),
+         ?err('FORG0001');
+      Uri ->
+         ?xav('xs:anyURI', Uri)
+   end;
+cast_from_string('xs:base64Binary', Val) -> % MAYBE castable
+   ?xav('xs:base64Binary', str_to_b64bin(xqerl_lib:trim(Val)));
+cast_from_string('xs:boolean', Val) -> % MAYBE castable
+   Val1 = xqerl_lib:trim(Val),
+   if Val1 == <<"true">>  -> true;
+      Val1 == <<"false">> -> false;
+      Val1 == <<"1">>     -> true;
+      Val1 == <<"0">>     -> false;
+      true -> ?err('FORG0001') 
+   end;
+%% In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types 
+%% derived from these), if the value is too large or too small to be 
+%% represented by the implementation, a dynamic error [err:FODT0001] is raised.
+cast_from_string('xs:date', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_date(Val);
+cast_from_string('xs:dateTime', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_dateTime(Val);
+%% In casting to a duration value, if the value is too large or too small to 
+%% be represented by the implementation, a dynamic error [err:FODT0002] is 
+%% raised.
+cast_from_string('xs:dayTimeDuration', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_dayTimeDuration(Val);
+%% In casting to xs:decimal or to a type derived from xs:decimal, if the value 
+%% is not too large or too small but nevertheless cannot be represented 
+%% accurately with the number of decimal digits available to the 
+%% implementation, the implementation may round to the nearest representable 
+%% value or may raise a dynamic error [err:FOCA0006]. The choice of rounding 
+%% algorithm and the choice between rounding and error behavior and is 
+%% implementation-defined.
+cast_from_string('xs:decimal', Val) -> % MAYBE castable
+   Val1 = xqerl_lib:trim(Val),
+   try
+      NNum = xqerl_numeric:decimal(Val1),
+      ?xav('xs:decimal', NNum)
+   catch
+      _:_ -> ?err('FORG0001' )
+   end;
+cast_from_string('xs:numeric', Val) -> % MAYBE castable
+   xqerl_numeric:double(Val);
+cast_from_string('xs:double', Val) -> % MAYBE castable
+   xqerl_numeric:double(Val);
+%% In casting to a duration value, if the value is too large or too small to be represented 
+%% by the implementation, a dynamic error [err:FODT0002] is raised.
+cast_from_string('xs:duration', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_duration(Val);
+cast_from_string('xs:float', Val) -> % MAYBE castable
+   % xs:float is a 32 bit xs:double
+   DblVal = cast_from_string('xs:double', Val),
+   if is_float(DblVal) ->
+         if DblVal < ?MINFLOAT -> ?xav('xs:float', neg_infinity);
+            DblVal > ?MAXFLOAT -> ?xav('xs:float', infinity);
+            abs(DblVal) < ?MAXFLOATPREC -> ?xav('xs:float', 0.0);
+            true -> ?xav('xs:float', xqerl_numeric:float(DblVal))
+         end;
+      true -> ?xav('xs:float', DblVal)
+   end;
+cast_from_string('xs:gDay', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_gDay(Val);
+cast_from_string('xs:gMonth', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_gMonth(Val);
+cast_from_string('xs:gMonthDay', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_gMonthDay(Val);
+%In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types derived from these), 
+%% if the value is too large or too small to be represented by the implementation, 
+%% a dynamic error [err:FODT0001] is raised.
+cast_from_string('xs:gYear', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_gYear(Val);
+cast_from_string('xs:gYearMonth', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_gYearMonth(Val);
+cast_from_string('xs:hexBinary', <<>>) ->
+   ?xav('xs:hexBinary', <<>>);
+cast_from_string('xs:hexBinary', Val) -> % MAYBE castable
+   Val1 = xqerl_lib:trim(Val),
+   case erlang:size(Val1) rem 2 =/= 0 orelse 
+          [C || 
+          <<C/utf8>> <= Val1,
+          not (C >= 48 andalso C =< 57),
+          not (C >= 65 andalso C =< 90),
+          not (C >= 97 andalso C =< 102)          
+         ] /= [] of
+      true ->
+         ?err('FORG0001');
+      _ ->
+         try
+            ?xav('xs:hexBinary', str_to_hexbin(Val1))
+         catch
+            _:_ -> ?err('FORG0001')
+         end
+   end;
+cast_from_string('xs:integer', Val) -> % MAYBE castable
+   try
+      binary_to_integer(xqerl_lib:trim(Val))
+   catch
+      _:_ -> ?err('FORG0001')
+   end;
+cast_from_string(IntType, Val) when ?xs_integer(IntType) -> % MAYBE castable
+   IntVal = cast_from_string('xs:integer', Val),
+   cast_as(IntVal, IntType);
+
+cast_from_string('xs:NCName', Val) -> % MAYBE castable
+   StrVal = value(cast_from_string('xs:Name', Val)),
+   _ = [?err('FORG0001')  || <<":">> <= StrVal],
+   ?xav('xs:NCName', StrVal);
+cast_from_string('xs:Name', Val) ->
+   StrVal = value(cast_from_string('xs:token', Val)),
+   case xqerl_lib:is_valid_name(StrVal) of
+      true ->
+         ?xav('xs:Name', StrVal);
+      false ->
+         ?err('FORG0001')
+   end;
+cast_from_string('xs:ID', Val) ->
+   StrVal = value(cast_from_string('xs:NCName', Val)),
+   ?xav('xs:ID', StrVal);
+cast_from_string('xs:IDREF', Val) ->
+   StrVal = value(cast_from_string('xs:NCName', Val)),
+   ?xav('xs:IDREF', StrVal);
+cast_from_string('xs:IDREFS', Val) ->
+   case value(cast_from_string('xs:token', Val)) of
+      <<>> ->
+         ?err('FORG0001');
+      StrVal ->
+         Tokens = string:split(StrVal," ",all),
+         lists:map(fun(Tok) ->
+                         ?xav('xs:IDREF', Tok)
+                   end, Tokens)
+   end;
+cast_from_string('xs:ENTITY', Val) ->
+   StrVal = value(cast_from_string('xs:NCName', Val)),
+   ?xav('xs:ENTITY', StrVal);
+cast_from_string('xs:ENTITIES', Val) ->
+   case value(cast_from_string('xs:token', Val)) of
+      <<>> ->
+         ?err('FORG0001');
+      StrVal ->
+         Tokens = string:split(StrVal," ",all),
+         lists:map(fun(Tok) ->
+                         case xqerl_lib:is_valid_token(Tok) of
+                            true ->
+                               ?xav('xs:ENTITY', Tok);
+                            false ->
+                               ?err('FORG0001')
+                         end
+                   end, Tokens)
+   end;
+cast_from_string('xs:NMTOKEN', Val) ->
+   StrVal = value(cast_from_string('xs:token', Val)),
+   case xqerl_lib:is_valid_token(StrVal) of
+      true ->
+         ?xav('xs:NMTOKEN', StrVal);
+      false ->
+         ?err('FORG0001')
+   end;
+cast_from_string('xs:NMTOKENS', Val) ->
+   StrVal = value(cast_from_string('xs:token', Val)),
+   case xqerl_lib:is_valid_tokens(StrVal) of
+      true ->
+         Tokens = string:split(StrVal," ",all),
+         lists:map(fun(Tok) ->
+                         ?xav('xs:NMTOKEN', Tok)
+               end, Tokens);
+      false ->
+         ?err('FORG0001')
+   end;
+
+cast_from_string('xs:language', Val) -> 
+   StrVal = value(cast_from_string('xs:token', Val)),
+   case re:run(StrVal, "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$",[unicode]) of
+      nomatch ->
+         ?err('FORG0001');
+      _ ->
+         ?xav('xs:language', StrVal)
+   end;
+
+cast_from_string('xs:token', Val) -> 
+   StrVal = value(cast_from_string('xs:normalizedString', Val)),
+   Token = xqerl_lib:normalize_spaces(StrVal),
+   ?xav('xs:token', Token);
+cast_from_string('xs:normalizedString', Val) -> 
+   Norm = xqerl_lib:normalize_string(Val),
+   ?xav('xs:normalizedString', Norm);
+
+
+cast_from_string('xs:time', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_time(Val);
+%% In casting to a duration value, if the value is too large or too small to be represented by the 
+%% implementation, a dynamic error [err:FODT0002] is raised.
+cast_from_string('xs:yearMonthDuration', Val) -> % MAYBE castable
+   xqerl_datetime:string_to_yearMonthDuration(Val);
+cast_from_string(T, _) ->
+   case is_known_type(T) of
+      true -> ?err('XPTY0004');
+      _ -> ?err('XQST0052')
+   end.
+
+cast_from_integer('xs:double', IntVal) -> 
+   xqerl_numeric:double(IntVal);
+cast_from_integer('xs:float', IntVal) -> 
+   ?xav('xs:float', xqerl_numeric:float(IntVal));
+cast_from_integer('xs:decimal', IntVal) -> 
+   ?xav('xs:decimal', xqerl_numeric:decimal(IntVal));
+cast_from_integer('xs:integer', IntVal) -> IntVal;
+cast_from_integer('xs:long', IntVal) when IntVal > 9223372036854775807;
+                                          IntVal < -9223372036854775808 ->
+   ?err('FORG0001');
+cast_from_integer('xs:long', IntVal) -> 
+   ?xav('xs:long', IntVal);
+cast_from_integer('xs:unsignedLong', IntVal) when IntVal > 18446744073709551615;
+                                                  IntVal < 0 ->
+   ?err('FORG0001');
+cast_from_integer('xs:unsignedLong', IntVal) -> 
+   ?xav('xs:unsignedLong', IntVal);
+cast_from_integer('xs:int', IntVal) when IntVal > 2147483647;
+                                         IntVal < -2147483648 ->
+   ?err('FORG0001');
+cast_from_integer('xs:int', IntVal) -> 
+   ?xav('xs:int', IntVal);
+cast_from_integer('xs:unsignedInt', IntVal) when IntVal > 4294967295;
+                                                 IntVal < 0 ->
+   ?err('FORG0001');
+cast_from_integer('xs:unsignedInt', IntVal) -> 
+   ?xav('xs:unsignedInt', IntVal);
+cast_from_integer('xs:short', IntVal) when IntVal > 32767;
+                                           IntVal < -32768 ->
+   ?err('FORG0001');
+cast_from_integer('xs:short', IntVal) -> 
+   ?xav('xs:short', IntVal);
+cast_from_integer('xs:unsignedShort', IntVal) when IntVal > 65535;
+                                                   IntVal < 0 -> 
+   ?err('FORG0001');
+cast_from_integer('xs:unsignedShort', IntVal) ->
+   ?xav('xs:unsignedShort', IntVal);
+cast_from_integer('xs:byte', IntVal) when IntVal > 127;
+                                          IntVal < -128 ->
+   ?err('FORG0001');
+cast_from_integer('xs:byte', IntVal) -> 
+   ?xav('xs:byte', IntVal);
+cast_from_integer('xs:unsignedByte', IntVal) when IntVal > 255;
+                                                  IntVal < 0 ->
+   ?err('FORG0001');
+cast_from_integer('xs:unsignedByte', IntVal) -> 
+   ?xav('xs:unsignedByte', IntVal);
+cast_from_integer('xs:positiveInteger', IntVal) when IntVal < 1 ->
+   ?err('FORG0001');
+cast_from_integer('xs:positiveInteger', IntVal) -> 
+   ?xav('xs:positiveInteger', IntVal);
+cast_from_integer('xs:nonPositiveInteger', IntVal) when IntVal > 0 ->
+   ?err('FORG0001');
+cast_from_integer('xs:nonPositiveInteger', IntVal) -> 
+   ?xav('xs:nonPositiveInteger', IntVal);
+cast_from_integer('xs:nonNegativeInteger', IntVal) when IntVal < 0 ->
+   ?err('FORG0001');
+cast_from_integer('xs:nonNegativeInteger', IntVal) -> 
+   ?xav('xs:nonNegativeInteger', IntVal);
+cast_from_integer('xs:negativeInteger', IntVal) when IntVal > -1 ->
+   ?err('FORG0001');
+cast_from_integer('xs:negativeInteger', IntVal) -> 
+   ?xav('xs:negativeInteger', IntVal);
+cast_from_integer('xs:boolean', 0) -> ?false;
+cast_from_integer('xs:boolean', _) -> ?true;
+cast_from_integer(T, _) ->
+   case is_known_type(T) of
+      true -> ?err('XPTY0004');
+      _ -> 
+         %?dbg("T",T),
+         ?err('XQST0052')
+   end.
+
+
+cast_as(#xqAtomicValue{type = Type} = ST, 'xs:numeric') 
+   when ?xs_numeric(Type) ->
+   ST;
+cast_as(Val, 'xs:numeric') when Val == nan;
+                                Val == neg_zero;
+                                Val == neg_infinity;
+                                Val == infinity ->
+   Val;
+cast_as(ST, 'xs:numeric') when is_number(ST) -> ST;
+cast_as(ST, 'xs:numeric') when is_boolean(ST);
+                               is_binary(ST) ->
+   cast_as(ST,'xs:double');
+cast_as(#xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric') ->
+   cast_as(ST,'xs:double');
+cast_as(#xqAtomicValue{}, 'xs:numeric') ->
    ?err('XPTY0004');
+cast_as(Flt, 'xs:double') when is_float(Flt) -> Flt;
+cast_as(Val, 'xs:double') when Val == nan;
+                               Val == neg_zero;
+                               Val == neg_infinity;
+                               Val == infinity ->
+   Val;
+cast_as(Bin, 'xs:string') when is_binary(Bin) -> Bin;
+cast_as(true, 'xs:boolean') -> true;
+cast_as(false, 'xs:boolean') -> false;
+cast_as(Int, 'xs:integer') when is_integer(Int) -> Int;
+
+cast_as([At], TT) -> cast_as(At, TT);
+cast_as(#{nk := _} = N, 'xs:string') -> 
+   cast_as(atomize(N), 'xs:string');
+cast_as(Any, 'xs:string') -> cast_as_string(Any);
+cast_as(Any, 'xs:untypedAtomic') -> 
+   ?xav('xs:untypedAtomic', cast_as_string(Any));
+cast_as(String, Type) when is_binary(String),
+                           is_atom(Type) ->
+   cast_from_string(Type, String);
+cast_as(?xav('xs:untypedAtomic', String), Type) 
+   when is_binary(String),
+        is_atom(Type) ->
+   cast_from_string(Type, String);
+% string subtypes
+cast_as(Any, StringType) when ?xs_string(StringType) ->
+   StrVal = cast_as_string(Any),
+   cast_as(StrVal, StringType);
+
+% integer does not handle string types, so string checks happen first
+cast_as(#xqAtomicValue{type = IntType, value = IntVal}, TT) 
+   when ?xs_integer(IntType),
+        is_atom(TT) -> 
+   cast_from_integer(TT, IntVal);
+cast_as(IntVal, TT) when is_integer(IntVal), is_atom(TT) -> 
+   cast_from_integer(TT, IntVal);
+
+cast_as(Val, 'xs:float') when Val == nan;
+                              Val == neg_zero;
+                              Val == neg_infinity;
+                              Val == infinity ->
+   ?xav('xs:float', Val);
+cast_as(Val, 'xs:float') when is_float(Val), Val < ?MINFLOAT -> 
+   ?xav('xs:float', neg_infinity);
+cast_as(Val, 'xs:float') when is_float(Val), Val > ?MAXFLOAT -> 
+   ?xav('xs:float', infinity);
+cast_as(Val, 'xs:float') when is_float(Val), abs(Val) < ?MAXFLOATPREC -> 
+   ?xav('xs:float', 0.0);
+cast_as(Val, 'xs:float') when is_float(Val) -> 
+   ?xav('xs:float', xqerl_numeric:float(Val));
+cast_as(Val, DecType) when ?xs_decimal(DecType), Val == nan;
+                           ?xs_decimal(DecType), Val == neg_infinity;
+                           ?xs_decimal(DecType), Val == infinity -> 
+   % MAYBE castable
+   ?err('FOCA0002');
+cast_as(neg_zero, 'xs:boolean') -> ?false;
+cast_as(neg_zero, 'xs:integer') -> 0;
+cast_as(neg_zero, 'xs:decimal') -> ?xav('xs:decimal', xqerl_numeric:decimal(0));
+cast_as(0.0, 'xs:boolean') -> ?false;
+cast_as(nan, 'xs:boolean') -> ?false;
+cast_as(Val, 'xs:boolean') when is_float(Val) -> ?true;
+cast_as(Val, 'xs:integer') when is_float(Val) ->
+   trunc(Val);
+cast_as(Val, 'xs:decimal') when is_float(Val) -> 
+   ?xav('xs:decimal', xqerl_numeric:decimal(Val));
+cast_as(nan, IntType) when ?xs_integer(IntType) -> ?err('FOCA0002');
+cast_as(neg_infinity, IntType) when ?xs_integer(IntType) -> ?err('FOCA0002');
+cast_as(infinity, IntType) when ?xs_integer(IntType) -> ?err('FOCA0002');
+cast_as(neg_zero, IntType) when ?xs_integer(IntType) -> 
+   cast_from_integer(IntType, 0);
+cast_as(Val, IntType) when is_float(Val), ?xs_integer(IntType) -> % MAYBE castable
+   cast_from_integer(IntType, trunc(Val));
+
+cast_as([], 'xs:double') -> [];
+cast_as(?true, 'xs:double') -> xqerl_numeric:double(1);
+cast_as(?false, 'xs:double') -> xqerl_numeric:double(0);
+cast_as(?xav('xs:decimal', Val), 'xs:double') -> xqerl_numeric:double(Val);
+cast_as(Val, 'xs:double') when is_integer(Val) ->
+   xqerl_numeric:double(Val);
+cast_as(#xqAtomicValue{type = IntType, value = IntVal}, 'xs:double') 
+   when ?xs_integer(IntType) ->
+   xqerl_numeric:double(IntVal);
+
+cast_as(Val, 'xs:boolean') when is_integer(Val) -> ?true;
+cast_as(Val, 'xs:decimal') when is_integer(Val) -> 
+   ?xav('xs:decimal', xqerl_numeric:decimal(Val));
+cast_as(Val, 'xs:float') when is_integer(Val) -> 
+   ?xav('xs:float', xqerl_numeric:float(Val));
+cast_as(#xqAtomicValue{type = IntType, value = IntVal}, 'xs:float') 
+   when ?xs_integer(IntType) ->
+   ?xav('xs:float', xqerl_numeric:float(IntVal));
+
+
+
+cast_as([],#xqSeqType{occur = one}) -> ?err('XPTY0004');
 cast_as(Seq,#xqSeqType{type = T, occur = one}) ->
    cast_as(Seq,T);
+cast_as([], #xqSeqType{occur = zero_or_one}) -> [];
+cast_as(Seq,#xqSeqType{type = T, occur = zero_or_one}) ->
+   cast_as(Seq,T);
+
 cast_as( At, [] ) -> At;
 cast_as( At, #xqSeqType{type = item}) -> At;
 cast_as( At, 'item' ) -> At;
@@ -1472,7 +1991,6 @@ cast_as( #{nk := _} = N, 'xs:anyAtomicType' ) ->
    atomize(N);
 cast_as( [], 'empty-sequence' ) -> [];
 cast_as( _, 'empty-sequence' ) -> ?err('XPTY0004');
-cast_as( [], #xqSeqType{occur = zero_or_one} ) -> [];
 cast_as( [], #xqSeqType{type = 'empty-sequence'} ) -> [];
 cast_as( _, #xqSeqType{type = 'empty-sequence'} ) -> ?err('XPTY0004');
 cast_as( [], 'xs:error' ) -> [];
@@ -1492,76 +2010,44 @@ cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) ->
 cast_as( #{nk := _} = At, #xqKindTest{kind = node} ) -> 
    At;
 cast_as( #{nk := _} = At, TT ) ->
+   ?dbg("TT",TT),
    Atomized = atomize(At),
+   ?dbg("Atomized",Atomized),
    cast_as(Atomized, TT);
 cast_as( [], 'xs:anyURI') -> [];
 cast_as( [], 'xs:NCName') -> [];
 cast_as( [], 'xs:language') -> [];
-cast_as( [], 'xs:string') -> [];
 cast_as( [], 'xs:hexBinary') -> [];
 cast_as( [], 'xs:base64Binary') -> [];
 cast_as( [], 'xs:float') -> [];
-cast_as( [], 'xs:double') -> [];
 cast_as( [], 'xs:date') -> [];
 cast_as( [], 'xs:time') -> [];
 cast_as( [], 'xs:dateTime') -> [];
-cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) 
-   when ?xs_numeric(Type) ->
-   ST;
-cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
-   cast_as(ST,'xs:double');
-cast_as( ST, 'xs:numeric' ) when is_boolean(ST) ->
-   cast_as(ST,'xs:double');
-cast_as( #xqAtomicValue{type = 'xs:string'} = ST, 'xs:numeric' ) ->
-   cast_as(ST,'xs:double');
-cast_as( #xqAtomicValue{type = _}, 'xs:numeric' ) ->
-   ?err('XPTY0004');
+
+
+
 % force float to cast. forces into 32 bit
 cast_as( #xqAtomicValue{type = Type, value = _} = ST, Type ) 
    when Type /= 'xs:float' -> 
    ST;
-cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:string' ) -> 
-   ?xav('xs:string',<<>>);
-cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic',<<>>);
-cast_as( ?xav('xs:anyURI', Val), 'xs:string' ) -> 
-   %?xav('xs:string', Val);
-   ?xav('xs:string', xqerl_lib:decode_string(Val));
-cast_as( ?xav('xs:anyURI', Val), 'xs:untypedAtomic' ) -> 
-   %?xav('xs:untypedAtomic', Val);
-   ?xav('xs:untypedAtomic', xqerl_lib:decode_string(Val));
 cast_as( ?xav('xs:base64Binary', Val), 'xs:hexBinary' ) -> 
    ?xav('xs:hexBinary', b64bin_to_hexbin(Val));
-cast_as( ?xav('xs:base64Binary', Val), 'xs:string' ) -> 
-   ?xav('xs:string', b64bin_to_str(Val));
-cast_as( ?xav('xs:base64Binary', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', b64bin_to_str(Val));
-
 cast_as( Bool, 'xs:boolean' ) when is_boolean(Bool) ->
    Bool;
 cast_as( ?true, 'xs:decimal' ) ->
    ?xav('xs:decimal',xqerl_numeric:decimal(1));
 cast_as( ?false, 'xs:decimal' ) ->
    ?xav('xs:decimal',xqerl_numeric:decimal(0));
-cast_as( ?true, 'xs:double' ) ->
-   ?xav('xs:double',xqerl_numeric:double(1));
-cast_as( ?false, 'xs:double' ) ->
-   ?xav('xs:double',xqerl_numeric:double(0));
 cast_as( ?true, 'xs:float' ) ->
    ?xav('xs:float',xqerl_numeric:float(1));
 cast_as( ?false, 'xs:float' ) ->
    ?xav('xs:float',xqerl_numeric:float(0));
-cast_as( ?true, 'xs:integer' ) ->
-   ?xav('xs:integer',1);
+cast_as(?true, 'xs:integer') -> 1;
 
 cast_as( ?false, Integer ) when ?xs_integer(Integer) ->
-   cast_as(?xav('xs:integer', 0), Integer);
+   cast_as(0, Integer);
 cast_as( ?true, Integer ) when ?xs_integer(Integer) ->
-   cast_as(?xav('xs:integer', 1), Integer);
-cast_as( Val, 'xs:string' ) when is_boolean(Val) -> 
-   ?xav('xs:string', atom_to_binary(Val,utf8));
-cast_as( Val, 'xs:untypedAtomic' ) when is_boolean(Val) -> 
-   ?xav('xs:untypedAtomic', atom_to_binary(Val,utf8));
+   cast_as(1, Integer);
 
 cast_as( ?xav('xs:date', Val), 'xs:dateTime' ) -> 
    Rec = zero_time(Val),
@@ -1593,11 +2079,6 @@ cast_as( ?xav('xs:date', Val), 'xs:gYearMonth' ) ->
    Rec = Val#xsDateTime{day   = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
    ?xav('xs:gYearMonth', set_date_string(Rec, Str));
-cast_as( ?xav('xs:date', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:date', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 cast_as( ?xav('xs:dateTime', Val), 'xs:date' ) -> 
    Rec = zero_time(Val),
    Str = xqerl_datetime:to_string(Rec,'xs:date'),
@@ -1652,8 +2133,6 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:gYearMonth' ) ->
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
    ?xav('xs:gYearMonth', set_date_string(Rec, Str));
-cast_as( ?xav('xs:dateTime', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
 cast_as( ?xav('xs:dateTime', Val), 'xs:time' ) ->
    Rec = Val#xsDateTime{sign  = '+',
                         year  = 0,
@@ -1661,39 +2140,10 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:time' ) ->
                         day   = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:time'),
    ?xav('xs:time', set_date_string(Rec, Str));
-cast_as( ?xav('xs:dateTime', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:date' ) -> 
-%%    #xqAtomicValue{type = 'xs:date', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:dateTime' ) -> 
-%%    #xqAtomicValue{type = 'xs:dateTime', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:gDay' ) -> 
-%%    #xqAtomicValue{type = 'xs:gDay', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:gMonth' ) -> 
-%%    #xqAtomicValue{type = 'xs:gMonth', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:gMonthDay' ) -> 
-%%    #xqAtomicValue{type = 'xs:gMonthDay', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:gYear' ) -> 
-%%    #xqAtomicValue{type = 'xs:gYear', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:gYearMonth' ) -> 
-%%    #xqAtomicValue{type = 'xs:gYearMonth', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:string' ) -> 
-%%    #xqAtomicValue{type = 'xs:string', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:time' ) -> 
-%%    #xqAtomicValue{type = 'xs:time', value = Val};
-%% cast_as( #xqAtomicValue{type = 'xs:dateTimeStamp', value = Val}, 'xs:untypedAtomic' ) -> 
-%%    #xqAtomicValue{type = 'xs:untypedAtomic', value = Val};
 
 cast_as( ?xav('xs:dayTimeDuration', Val), 'xs:duration' ) ->
    Str = xqerl_datetime:to_string(Val,'xs:duration'),
    ?xav('xs:duration', set_date_string(Val, Str));
-cast_as( ?xav('xs:dayTimeDuration', #xsDateTime{string_value = Val}), 
-         'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:dayTimeDuration', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 cast_as( ?xav('xs:dayTimeDuration', _Val), 
          'xs:yearMonthDuration' ) ->
    Rec = #xsDateTime{year   = 0, 
@@ -1708,80 +2158,22 @@ cast_as( ?xav('xs:decimal', #xsDecimal{int = 0, scf = 0}), 'xs:boolean' ) ->
    ?false;
 cast_as( ?xav('xs:decimal', _), 'xs:boolean' ) ->
    ?true;
-cast_as( #xqAtomicValue{type = 'xs:float'} = At, 'xs:numeric' ) -> At;
-cast_as( #xqAtomicValue{type = 'xs:double'} = At, 'xs:numeric' ) -> At;
-cast_as( #xqAtomicValue{type = 'xs:decimal'} = At, 'xs:numeric' ) -> At;
-cast_as( ?xav('xs:decimal', Val), 'xs:double' ) -> 
-   ?xav('xs:double', double(Val));
 cast_as( ?xav('xs:decimal', Val), 'xs:float' ) -> 
    ?xav('xs:float', xqerl_numeric:float(Val));
-cast_as( ?xav('xs:decimal', Val), 'xs:integer' ) -> 
-   ?xav('xs:integer', xqerl_numeric:integer(Val));
-cast_as( ?xav('xs:decimal', Val), 'xs:string' ) -> 
-   SVal = xqerl_numeric:string(Val),
-   ?xav('xs:string', SVal);
-cast_as( ?xav('xs:decimal', Val), 'xs:untypedAtomic' ) ->
-   SVal = xqerl_numeric:string(Val),
-   ?xav('xs:untypedAtomic', SVal);
-cast_as( ?xav('xs:double', Val), 'xs:boolean' ) -> 
-   if Val == 0 -> ?false;
-      Val == neg_zero -> ?false;
-      Val == nan -> ?false;
-      true -> ?true
-   end;
-cast_as( ?xav('xs:double', Val), 'xs:decimal' ) -> % MAYBE castable
-   if Val == nan -> ?err('FOCA0002');
-      Val == neg_zero -> ?xav('xs:decimal', xqerl_numeric:decimal(0));
-      Val == neg_infinity -> ?err('FOCA0002');
-      Val == infinity -> ?err('FOCA0002');
-      true -> ?xav('xs:decimal', xqerl_numeric:decimal(Val))
-   end;
+
+cast_as(?xav('xs:decimal', Val), 'xs:integer') -> 
+   xqerl_numeric:integer(Val);
+cast_as(?xav('xs:decimal', Val), IntType) when ?xs_integer(IntType) -> 
+   Int = xqerl_numeric:integer(Val),
+   cast_as(Int, IntType);
+
 % ensure float is 32 bit
 cast_as( ?xav('xs:float', Val), 'xs:float' ) ->
-   cast_as( ?xav('xs:double', Val), 'xs:float' );
-cast_as( ?xav('xs:double', Val), 'xs:float' ) ->
-   if Val == nan;
-      Val == neg_zero;
-      Val == neg_infinity;
-      Val == infinity  -> ?xav('xs:float', Val);
-      Val < ?MINFLOAT -> ?xav('xs:float', neg_infinity);
-      Val > ?MAXFLOAT -> ?xav('xs:float', infinity);
-      abs(Val) < ?MAXFLOATPREC -> ?xav('xs:float', 0.0);
-      true -> 
-         ?xav('xs:float', xqerl_numeric:float(Val))
-   end;
-cast_as( ?xav('xs:double', Val), 'xs:integer' ) -> % MAYBE castable
-   if Val == nan -> ?err('FOCA0002');
-      Val == neg_infinity -> ?err('FOCA0002');
-      Val == neg_zero -> ?xav('xs:integer', 0);
-      Val == infinity -> ?err('FOCA0002');
-      true -> ?xav('xs:integer', trunc(Val))
-   end;
-cast_as( ?xav('xs:double', Val), 'xs:string' ) -> 
-   SVal = if Val == infinity -> <<"INF">>;
-             Val == neg_infinity -> <<"-INF">>;
-             Val == neg_zero -> <<"-0">>;
-             Val == nan -> <<"NaN">>;
-             true -> xqerl_numeric:string(Val)
-          end,
-   ?xav('xs:string', SVal);
-cast_as( ?xav('xs:double', Val), 'xs:untypedAtomic' ) -> 
-   SVal = if Val == infinity -> <<"INF">>;
-             Val == neg_infinity -> <<"-INF">>;
-             Val == neg_zero -> <<"-0">>;
-             Val == nan -> <<"NaN">>;
-             true -> xqerl_numeric:string(Val)
-          end,
-   ?xav('xs:untypedAtomic', SVal);
+   cast_as(Val, 'xs:float');
 cast_as( ?xav('xs:duration', Val), 'xs:dayTimeDuration' ) -> 
    Rec = Val#xsDateTime{year = 0, month = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration'),
    ?xav('xs:dayTimeDuration', set_date_string(Rec, Str));
-cast_as( ?xav('xs:duration', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:duration', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 cast_as( ?xav('xs:duration', Val), 'xs:yearMonthDuration' ) -> 
    Rec = Val#xsDateTime{day = 0, hour = 0, minute = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration'),
@@ -1799,254 +2191,35 @@ cast_as( ?xav('xs:float', Val), 'xs:decimal' ) -> % MAYBE castable
       Val == infinity -> ?err('FOCA0002');
       true -> ?xav('xs:decimal', xqerl_numeric:decimal(Val))
    end;
-cast_as( ?xav('xs:float', Val), 'xs:double' ) -> 
-   ?xav('xs:double', Val);
+cast_as( ?xav('xs:float', Val), 'xs:double' ) -> Val;
 cast_as( ?xav('xs:float', Val), 'xs:integer' ) -> % MAYBE castable
    if Val == nan -> ?err('FOCA0002');
-      Val == neg_zero -> ?xav('xs:integer', 0);
+      Val == neg_zero -> 0;
       Val == neg_infinity -> ?err('FOCA0002');
       Val == infinity -> ?err('FOCA0002');
-      true -> ?xav('xs:integer', trunc(Val))
+      true -> trunc(Val)
    end;
-cast_as( ?xav('xs:float', Val), 'xs:string' ) -> 
-   SVal = if Val == infinity -> <<"INF">>;
-             Val == neg_infinity -> <<"-INF">>;
-             Val == neg_zero -> <<"-0">>;
-             Val == nan -> <<"NaN">>;
-             true -> xqerl_numeric:float_string(Val)
-          end,
-   ?xav('xs:string', SVal);
-cast_as( ?xav('xs:float', Val), 'xs:untypedAtomic' ) -> 
-   SVal = if Val == infinity -> <<"INF">>;
-             Val == neg_infinity -> <<"-INF">>;
-             Val == neg_zero -> <<"0">>;
-             Val == nan -> <<"NaN">>;
-             true -> xqerl_numeric:float_string(Val)
-          end,
-   ?xav('xs:untypedAtomic', SVal);
-cast_as( ?xav('xs:gDay', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:gDay', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:gMonth', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:gMonth',#xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:gMonthDay', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:gMonthDay', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:gYear', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:gYear', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:gYearMonth', #xsDateTime{string_value = Val}), 
-         'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:gYearMonth', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
+cast_as(?xav('xs:float', Val), IntType) when ?xs_integer(IntType) -> % MAYBE castable
+   if Val == nan -> ?err('FOCA0002');
+      Val == neg_infinity -> ?err('FOCA0002');
+      Val == infinity -> ?err('FOCA0002');
+      Val == neg_zero -> cast_from_integer(IntType, 0);
+      true -> cast_from_integer(IntType, trunc(Val))
+   end;
+
 cast_as( ?xav('xs:hexBinary', Val), 'xs:base64Binary' ) ->
    ?xav('xs:base64Binary', hexbin_to_b64bin(Val));
-cast_as( ?xav('xs:hexBinary', Val), 'xs:string' ) -> 
-   ?xav('xs:string', hexbin_to_str(Val));
-cast_as( ?xav('xs:hexBinary', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', hexbin_to_str(Val));
-cast_as( ?xav('xs:integer', 0), 'xs:boolean' ) -> ?false;
-cast_as( ?xav('xs:integer', _), 'xs:boolean' ) -> ?true;
-cast_as( ?xav('xs:integer', Val), 'xs:decimal' ) -> 
-   ?xav('xs:decimal', xqerl_numeric:decimal(Val));
-cast_as( ?xav('xs:integer', Val), 'xs:double' ) ->
-   ?xav('xs:double', double(Val));
-cast_as( ?xav('xs:integer', Val), 'xs:float' ) -> 
-   ?xav('xs:float', xqerl_numeric:float(Val));
-cast_as( ?xav('xs:integer', Val), 'xs:string' ) -> 
-   ?xav('xs:string', integer_to_binary(Val));
-cast_as( ?xav('xs:integer', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', integer_to_binary(Val));
-cast_as( ?xav('xs:NMTOKEN', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:Name', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:NCName', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:ID', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:IDREF', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:ENTITY', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
+
+cast_as(0, 'xs:boolean') -> ?false;
+
+
+
 cast_as( ?xav('xs:NOTATION', Val), 'xs:QName' ) -> 
    ?xav('xs:QName', Val);
-cast_as( ?xav('xs:NOTATION', #qname{prefix = P, local_name = L}), 
-         'xs:string' ) -> 
-   Val = if P == <<>> -> L;
-            true ->
-               <<P/binary,":",L/binary>>
-         end,
-   ?xav('xs:string', Val);
-cast_as( #xqAtomicValue{type = 'xs:NOTATION'} = N, 'xs:untypedAtomic' ) -> 
-   cast_as( N, 'xs:string' );
 
 cast_as( ?xav('xs:QName', Val), 'xs:NOTATION' ) -> % MAYBE castable
    ?xav('xs:NOTATION', Val);
-cast_as( ?xav('xs:QName', #qname{prefix = P, local_name = L}), 'xs:string' ) ->
-   %?dbg("P",P),
-   Pre = if is_atom(P) -> <<>>;
-            true -> P end,
-   Val = case Pre of
-            <<>> -> L;
-            _ ->
-               <<P/binary,":",L/binary>>
-         end,
-   ?xav('xs:string', Val);
-cast_as( #xqAtomicValue{type = 'xs:QName'} = Q, 'xs:untypedAtomic' ) ->
-   Val = value(cast_as( Q, 'xs:string' )),
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:string', <<>>), 'xs:anyURI' ) -> ?xav('xs:anyURI', <<>>);
-cast_as( ?xav('xs:string', Val), 'xs:anyURI' ) -> % MAYBE castable
-   case xqerl_lib:check_uri_string(Val) of
-      {error,Err} ->
-         ?dbg("Err",Err),
-         ?err('FORG0001');
-      Uri ->
-         ?xav('xs:anyURI', Uri)
-   end;
-cast_as( ?xav('xs:string', Val), 'xs:base64Binary' ) -> % MAYBE castable
-   ?xav('xs:base64Binary', str_to_b64bin(xqerl_lib:trim(Val)));
-cast_as( ?xav('xs:string', Val0), 'xs:boolean' ) -> % MAYBE castable
-   Val = xqerl_lib:trim(Val0),
-   if Val == <<"true">>  -> ?true;
-      Val == <<"false">> -> ?false;
-      Val == <<"1">>     -> ?true;
-      Val == <<"0">>     -> ?false;
-      true -> ?err('FORG0001') 
-   end;
-%% In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types 
-%% derived from these), if the value is too large or too small to be 
-%% represented by the implementation, a dynamic error [err:FODT0001] is raised.
-cast_as( ?xav('xs:string', Val), 'xs:date' ) -> % MAYBE castable
-   xqerl_datetime:string_to_date(Val);
-cast_as( ?xav('xs:string', Val), 'xs:dateTime' ) -> % MAYBE castable
-   xqerl_datetime:string_to_dateTime(Val);
-%% cast_as( ?xav('xs:string', Val), 'xs:dateTimeStamp' ) -> % MAYBE castable
-%%    xqerl_datetime:string_to_dateTimeStamp(Val);
 
-%% In casting to a duration value, if the value is too large or too small to 
-%% be represented by the implementation, a dynamic error [err:FODT0002] is 
-%% raised.
-cast_as( ?xav('xs:string', Val), 'xs:dayTimeDuration' ) -> % MAYBE castable
-   xqerl_datetime:string_to_dayTimeDuration(Val);
-
-%% In casting to xs:decimal or to a type derived from xs:decimal, if the value 
-%% is not too large or too small but nevertheless cannot be represented 
-%% accurately with the number of decimal digits available to the 
-%% implementation, the implementation may round to the nearest representable 
-%% value or may raise a dynamic error [err:FOCA0006]. The choice of rounding 
-%% algorithm and the choice between rounding and error behavior and is 
-%% implementation-defined.
-cast_as( ?xav('xs:string', Val1), 'xs:decimal' ) -> % MAYBE castable
-   Val = xqerl_lib:trim(Val1),
-   try
-      NNum = xqerl_numeric:decimal(Val),
-      ?xav('xs:decimal', NNum)
-   catch
-      _:_ -> ?err('FORG0001' )
-   end;
-cast_as( ?xav('xs:string', Val), 'xs:numeric' ) -> % MAYBE castable
-   cast_as( ?xav('xs:string', Val), 'xs:double' );
-cast_as( ?xav('xs:string', Val1), 'xs:double' ) -> % MAYBE castable
-   V = xqerl_numeric:double(Val1),
-   ?xav('xs:double', V);
-%% In casting to a duration value, if the value is too large or too small to be represented 
-%% by the implementation, a dynamic error [err:FODT0002] is raised.
-cast_as( ?xav('xs:string', Val), 'xs:duration' ) -> % MAYBE castable
-   xqerl_datetime:string_to_duration(Val);
-
-cast_as( #xqAtomicValue{type = 'xs:string'} = Av, 'xs:float' ) -> % MAYBE castable
-   % xs:float is a 32 bit xs:double
-   #xqAtomicValue{value = DblVal} = cast_as(Av, 'xs:double'),
-   if is_float(DblVal) ->
-         if DblVal < ?MINFLOAT -> ?xav('xs:float', neg_infinity);
-            DblVal > ?MAXFLOAT -> ?xav('xs:float', infinity);
-            abs(DblVal) < ?MAXFLOATPREC -> ?xav('xs:float', 0.0);
-            true -> ?xav('xs:float', xqerl_numeric:float(DblVal))
-         end;
-      true -> ?xav('xs:float', DblVal)
-   end;
-
-cast_as( ?xav('xs:string', Val), 'xs:gDay' ) -> % MAYBE castable
-   xqerl_datetime:string_to_gDay(Val);
-cast_as( ?xav('xs:string', Val), 'xs:gMonth' ) -> % MAYBE castable
-   xqerl_datetime:string_to_gMonth(Val);
-cast_as( ?xav('xs:string', Val), 'xs:gMonthDay' ) -> % MAYBE castable
-   xqerl_datetime:string_to_gMonthDay(Val);
-%In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types derived from these), 
-%% if the value is too large or too small to be represented by the implementation, 
-%% a dynamic error [err:FODT0001] is raised.
-cast_as( ?xav('xs:string', Val), 'xs:gYear' ) -> % MAYBE castable
-   xqerl_datetime:string_to_gYear(Val);
-cast_as( ?xav('xs:string', Val), 'xs:gYearMonth' ) -> % MAYBE castable
-   xqerl_datetime:string_to_gYearMonth(Val);
-cast_as( ?xav('xs:string', ""), 'xs:hexBinary' ) -> % MAYBE castable
-   ?xav('xs:hexBinary', <<>>);
-cast_as( ?xav('xs:string', Val), 'xs:hexBinary' ) -> % MAYBE castable
-   Val1 = xqerl_lib:trim(Val),
-   case erlang:size(Val1) rem 2 =/= 0 orelse 
-          [C || 
-          <<C/utf8>> <= Val1,
-          not (C >= 48 andalso C =< 57),
-          not (C >= 65 andalso C =< 90),
-          not (C >= 97 andalso C =< 102)          
-         ] /= [] of
-      true ->
-         ?err('FORG0001');
-      _ ->
-         try
-            ?xav('xs:hexBinary', str_to_hexbin(Val1))
-         catch
-            _:_ -> ?err('FORG0001')
-         end
-   end;
-cast_as( ?xav('xs:string', Val), 'xs:integer' ) -> % MAYBE castable
-   try
-      ?xav('xs:integer', binary_to_integer(xqerl_lib:trim(Val)))
-   catch
-      _:_ -> ?err('FORG0001')
-   end;
-cast_as( ?xav('xs:string', Val), 'xs:time' ) -> % MAYBE castable
-   xqerl_datetime:string_to_time(Val);
-cast_as( ?xav('xs:string', Val),'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-% subtypes
-cast_as( ?xav('xs:token', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:normalizedString', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:language', Val), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:token', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:normalizedString', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:language', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:NMTOKEN', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:Name', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:NCName', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:ID', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:IDREF', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:ENTITY', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 
 cast_as( Bool, 'xs:normalizedString' ) when is_boolean(Bool) -> 
    ?xav('xs:normalizedString', atom_to_binary(Bool, latin1));
@@ -2057,7 +2230,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:normalizedString' ) ->
 
 cast_as( Bool, 'xs:token' ) when is_boolean(Bool) -> 
    ?xav('xs:token', atom_to_binary(Bool, latin1));
-cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) -> 
+cast_as(Arg1,'xs:token') -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as(Arg1, 'xs:normalizedString')),
    Token = xqerl_lib:normalize_spaces(StrVal),
    ?xav('xs:token', Token);
@@ -2134,15 +2307,6 @@ cast_as( Arg1,'xs:ENTITIES' ) ->
                          end
                    end, Tokens)
    end;
-%% In casting to a duration value, if the value is too large or too small to be represented by the 
-%% implementation, a dynamic error [err:FODT0002] is raised.
-cast_as( ?xav('xs:string', Val), 'xs:yearMonthDuration' ) -> % MAYBE castable
-   xqerl_datetime:string_to_yearMonthDuration(Val);
-cast_as( ?xav('xs:time', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
-   ?xav('xs:string', Val);
-cast_as( ?xav('xs:time', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 % xs:untypedAtomic handled as if xs:string
 cast_as( ?xav('xs:untypedAtomic', Val), Type ) -> % MAYBE castable
    Val1 = if is_integer(Val) ->
@@ -2168,119 +2332,9 @@ cast_as( ?xav('xs:yearMonthDuration', Val), 'xs:duration' ) ->
 cast_as( ?xav('xs:yearMonthDuration', #xsDateTime{string_value = Val}), 
          'xs:string' ) -> 
    ?xav('xs:string', Val);
-cast_as( ?xav('xs:yearMonthDuration', #xsDateTime{string_value = Val}), 
-         'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', Val);
 %sub types
-cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedShort' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 65535 orelse IntVal < 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:unsignedShort', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:unsignedShort'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
 
-cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedLong' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 18446744073709551615 orelse IntVal < 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:unsignedLong', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:unsignedLong'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedInt' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 4294967295 orelse IntVal < 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:unsignedInt', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:unsignedInt'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedByte' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 255 orelse IntVal < 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:unsignedByte', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:unsignedByte'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:short' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 32767 orelse IntVal < -32768 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:short', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:short'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:positiveInteger' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal < 1 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:positiveInteger', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:positiveInteger'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:nonPositiveInteger' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:nonPositiveInteger', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:nonPositiveInteger'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:nonNegativeInteger' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal < 0 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:nonNegativeInteger', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:nonNegativeInteger'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:negativeInteger' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > -1 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:negativeInteger', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:negativeInteger'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:long' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 9223372036854775807 orelse IntVal < -9223372036854775808 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:long', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:long'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:int' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 2147483647 orelse IntVal < -2147483648 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:int', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:int'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
-cast_as( #xqAtomicValue{} = Arg1, 'xs:byte' ) -> 
-   IntVal = to_int_val(Arg1),
-   if IntVal > 127 orelse IntVal < -128 ->
-         ?err('FORG0001');
-      true ->
-         ?xav('xs:byte', IntVal)
-   end;
-cast_as( #xqAtomicValue{type = 'xs:byte'} = Arg1, TT ) -> 
-   cast_as_int(Arg1, TT);
+
 % block known types
 cast_as( Intype, T ) when is_boolean(Intype) ->
    case is_known_type(T) of
@@ -2341,20 +2395,29 @@ cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _) ->
    Q;
 cast_as( [],'xs:QName', _Namespaces) -> 
    ?err('XPTY0004');
-cast_as( ?xav(AType, <<>>),'xs:QName', _) 
-   when AType == 'xs:string';
-        AType == 'xs:untypedAtomic'->
+cast_as(?xav('xs:untypedAtomic', <<>>),'xs:QName', _) ->
    ?err('FORG0001');
-cast_as( ?xav(AType, <<"Q{", Rest/binary>>), 'xs:QName', _) 
-   when AType == 'xs:string';
-        AType == 'xs:untypedAtomic'-> % MAYBE castable
+cast_as(<<>>,'xs:QName', _) ->
+   ?err('FORG0001');
+cast_as(?xav('xs:untypedAtomic', <<"Q{", Rest/binary>>), 'xs:QName', _) ->
    [Ns,Local] = string:split(Rest, [$}]),
    ?xav('xs:QName', #qname{namespace = Ns,
                            prefix = <<>>,
                            local_name = xqerl_lib:trim(Local)});   
-cast_as( ?xav(AType, Val), 'xs:QName', Namespaces) 
-   when AType == 'xs:string';
-        AType == 'xs:untypedAtomic'-> % MAYBE castable
+cast_as(<<"Q{", Rest/binary>>, 'xs:QName', _) ->
+   [Ns,Local] = string:split(Rest, [$}]),
+   ?xav('xs:QName', #qname{namespace = Ns,
+                           prefix = <<>>,
+                           local_name = xqerl_lib:trim(Local)});   
+cast_as(Val0, 'xs:QName', Namespaces) -> % MAYBE castable
+   {Val, AType} = case Val0 of
+            ?xav('xs:untypedAtomic', Val1) ->
+               {Val1, 'xs:untypedAtomic'};
+            _ when is_binary(Val0) ->
+               {Val0, 'xs:string'};
+            _ ->
+               ?err('XPTY0004') % not a string literal
+         end,
    try
       {Prefix, Local} = case scan_ncname(xqerl_lib:trim(Val)) of
                               {P, L} -> {P, L};
@@ -2389,8 +2452,7 @@ cast_as( ?xav(AType, Val), 'xs:QName', Namespaces)
       _:#xqError{} = E -> throw(E);
       _:_ -> ?err('FORG0001')
    end;
-cast_as( #xqAtomicValue{},'xs:QName', _) -> % MAYBE castable
-   ?err('XPTY0004'); % not a string literal
+   
 cast_as( #xqAtomicValue{type = AType} = At, 'xs:NOTATION', Namespaces) 
    when AType == 'xs:string';
         AType == 'xs:untypedAtomic' -> % MAYBE castable
@@ -2577,12 +2639,6 @@ has_name(#xqAttributeNode{name = Name},
          #qname{namespace = Ns, local_name = Loc}) ->
    (Ns  == <<"*">> orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == <<"*">> orelse Loc == Name#qname.local_name).
-
-to_int_val(Arg1) ->
-   xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )).
-
-cast_as_int(Arg1, TT) ->
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT ).
 
 set_date_string(Rec, Str) ->
    Rec#xsDateTime{string_value = Str}.

@@ -30,7 +30,7 @@
 -include("xqerl.hrl").
 
 -define(bool(Val), Val).
--define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
+-define(str(Val), Val).
 -define(untyp(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
 
 -define(STR_REST(Str,Rest), <<Str,Rest/binary>>).
@@ -217,91 +217,18 @@ ensure_qname({Nx,Px}, InScopeNamespaces) ->
    #qname{namespace = N, prefix = P} = 
      ensure_qname(#qname{namespace = Nx, prefix = Px}, InScopeNamespaces),
    {N,P};
-ensure_qname(#qname{namespace = [Nx]} = QName, InScopeNamespaces) ->
-   ensure_qname(QName#qname{namespace = Nx}, InScopeNamespaces);
-ensure_qname(#qname{prefix = [Nx]} = QName, InScopeNamespaces) ->
-   ensure_qname(QName#qname{prefix = Nx}, InScopeNamespaces);
-ensure_qname(#qname{local_name = [Nx]} = QName, InScopeNamespaces) ->
-   ensure_qname(QName#qname{local_name = Nx}, InScopeNamespaces);
-
+ensure_qname([H], InScopeNamespaces) ->
+   ensure_qname(H, InScopeNamespaces);
 ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, 
              _InScopeNamespaces) -> QName;
-ensure_qname(#qname{namespace = #xqAtomicValue{} = Nx} = QName, 
-             InScopeNamespaces) ->
-   NewNx = xqerl_types:string_value(Nx),
-   ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
-
-ensure_qname(#qname{prefix = #xqAtomicValue{value = <<>>}} = QName, 
-             InScopeNamespaces) ->
-   ensure_qname(QName#qname{prefix = <<>>}, InScopeNamespaces);
-ensure_qname(#qname{prefix = #xqAtomicValue{type = AT} = Nx} = QName, 
-             InScopeNamespaces) when ?xs_string(AT);
-                                     AT == 'xs:untypedAtomic' ->
+ensure_qname(#{nk := _} = Node, InScopeNamespaces) ->
+   ensure_qname(xqerl_types:atomize(Node), InScopeNamespaces);
+ensure_qname(#xqAtomicValue{type = 'xs:untypedAtomic',
+                            value = Val}, InScopeNamespaces) ->
+   ensure_qname(Val, InScopeNamespaces);
+ensure_qname(Val, InScopeNamespaces) when is_binary(Val) ->
    try
-      NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
-      ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
-   catch
-      _:_ ->
-         ?err('XQDY0074')
-   end;
-ensure_qname(#qname{prefix = #xqAtomicValue{}}, _) ->
-   ?err('XPTY0004');
-
-ensure_qname(#qname{local_name = #xqAtomicValue{} = Nx} = QName, 
-             InScopeNamespaces) ->
-   try
-      NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
-      ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces)
-   catch
-      _:_ ->
-         ?err('XQDY0074')
-   end;
-ensure_qname(#qname{namespace = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
-   NewNx = xqerl_types:string_value(Nx),
-   ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
-ensure_qname(#qname{prefix = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
-   try
-      NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
-      ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
-   catch
-      _:_ ->
-         ?err('XQDY0074')
-   end;
-ensure_qname(#qname{local_name = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
-   try
-      NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
-      ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces)
-   catch
-      _:_ ->
-         ?err('XQDY0074')
-   end;
-ensure_qname(#qname{namespace = Ns, prefix = Px, local_name = Ln} = QName, 
-             InScopeNamespaces) -> 
-   SNs = is_tuple(Ns),
-   SPx = is_tuple(Px),
-   SLn = is_tuple(Ln),
-   Ns1 = string_if_tuple(Ns),
-   Px1 = string_if_tuple(Px),
-   Ln1 = string_if_tuple(Ln),
-   if SNs orelse SPx orelse SLn ->
-         ensure_qname(#qname{namespace = Ns1, prefix = Px1, local_name = Ln1}, 
-                      InScopeNamespaces);
-      true ->
-         QName
-   end;
-ensure_qname(#{nk := _} = Node, InScopeNamespaces) -> 
-   try
-      Q = xqerl_types:cast_as(Node,'xs:QName',InScopeNamespaces),
-      xqerl_types:value(Q)
-   catch
-      _:_ ->
-         ?err('XQDY0074')
-   end;
-ensure_qname(#xqAtomicValue{type = Ty} = At, InScopeNamespaces) 
-   when Ty =:= 'xs:string';
-        Ty =:= 'xs:untypedAtomic' ->
-   try
-      xqerl_types:value(xqerl_types:cast_as(At,'xs:QName',InScopeNamespaces))
+      xqerl_types:value(xqerl_types:cast_as(Val,'xs:QName',InScopeNamespaces))
    catch
       _:_ ->
          ?err('XQDY0074')
@@ -309,16 +236,108 @@ ensure_qname(#xqAtomicValue{type = Ty} = At, InScopeNamespaces)
 ensure_qname(#xqAtomicValue{} = V, InScopeNamespaces) ->
    ?dbg("XPTY0004",{V, InScopeNamespaces}),
    ?err('XPTY0004');
-ensure_qname([H], InScopeNamespaces) ->
-   ensure_qname(H, InScopeNamespaces);
-ensure_qname(QName, InScopeNamespaces) ->
+ensure_qname(V, InScopeNamespaces) when is_number(V);
+                                        is_atom(V) ->
+   ?dbg("XPTY0004",{V, InScopeNamespaces}),
+   ?err('XPTY0004');
+ensure_qname(#qname{namespace = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{namespace = Nx}, InScopeNamespaces);
+ensure_qname(#qname{prefix = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{prefix = Nx}, InScopeNamespaces);
+ensure_qname(#qname{prefix = []} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{prefix = <<>>}, InScopeNamespaces);
+ensure_qname(#qname{local_name = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{local_name = Nx}, InScopeNamespaces);
+
+ensure_qname(#qname{namespace = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
+   NewNx = xqerl_types:string_value(Nx),
+   ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
+ensure_qname(#qname{namespace = #xqAtomicValue{} = Nx} = QName, 
+             InScopeNamespaces) ->
+   NewNx = xqerl_types:string_value(Nx),
+   ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
+
+ensure_qname(#qname{prefix = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
+   Atom = xqerl_types:atomize(Nx),
+   ensure_qname(QName#qname{prefix = Atom}, InScopeNamespaces);
+ensure_qname(#qname{prefix = #xqAtomicValue{value = <<>>}} = QName, 
+             InScopeNamespaces) ->
+   ensure_qname(QName#qname{prefix = <<>>}, InScopeNamespaces);
+ensure_qname(#qname{prefix = #xqAtomicValue{type = AT} = Nx} = QName, 
+             InScopeNamespaces) when ?xs_string(AT);
+                                     AT == 'xs:untypedAtomic' ->
+   NewNx = xqerl_types:string_value(Nx),
+   ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces);
+ensure_qname(#qname{prefix = #xqAtomicValue{}}, _) ->
+   ?err('XPTY0004');
+
+ensure_qname(#qname{local_name = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
+   Atom = xqerl_types:atomize(Nx),
+   ensure_qname(QName#qname{local_name = Atom}, InScopeNamespaces);
+ensure_qname(#qname{local_name = #xqAtomicValue{value = <<>>}} = QName, 
+             InScopeNamespaces) ->
+   ensure_qname(QName#qname{local_name = <<>>}, InScopeNamespaces);
+ensure_qname(#qname{local_name = #xqAtomicValue{type = AT} = Nx} = QName, 
+             InScopeNamespaces) when ?xs_string(AT);
+                                     AT == 'xs:untypedAtomic' ->
+   NewNx = xqerl_types:string_value(Nx),
+   ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces);
+ensure_qname(#qname{local_name = #xqAtomicValue{}}, _) ->
+   ?err('XPTY0004');
+
+ensure_qname(#qname{namespace = Ns,
+                    prefix = Px,
+                    local_name = Ln}, _InScopeNamespaces)
+   when is_binary(Ns) orelse is_atom(Ns),
+        is_binary(Px),
+        is_binary(Ln) ->
+   try
+      Px1 = case Px of
+               <<>> ->
+                  <<>>;
+               _ ->
+                  xqerl_types:string_value(xqerl_types:cast_as(Px,'xs:NCName'))
+            end,
+      Ln1 = xqerl_types:string_value(xqerl_types:cast_as(Ln,'xs:NCName')),
+      #qname{namespace = Ns,
+             prefix = Px1,
+             local_name = Ln1}    
+   catch
+      _:_ ->
+         ?dbg("XQDY0074",{Ns, Px, Ln}),
+         ?err('XQDY0074')
+   end;
+ensure_qname(#qname{namespace = Ns,
+                    prefix = <<>>,
+                    local_name = undefined} = QName, _InScopeNamespaces)
+   when is_binary(Ns) orelse is_atom(Ns) ->
+   QName;
+ensure_qname(#qname{namespace = Ns,
+                    prefix = Px,
+                    local_name = undefined}, _InScopeNamespaces)
+   when is_binary(Ns) orelse is_atom(Ns),
+        is_binary(Px) ->
+   try
+      Px1 = xqerl_types:string_value(xqerl_types:cast_as(Px,'xs:NCName')),
+      #qname{namespace = Ns,
+             prefix = Px1,
+             local_name = undefined}    
+   catch
+      _:_ ->
+         ?dbg("XQDY0074",{Ns, Px}),
+         ?err('XQDY0074')
+   end;
+ensure_qname(QName, InScopeNamespaces) when is_list(QName) ->
    case xqerl_seq3:from_list(QName) of
       [H] ->
          ensure_qname(H, InScopeNamespaces);
       _ ->
          ?dbg("XPTY0004",{QName, InScopeNamespaces}),
          ?err('XPTY0004')
-   end.
+   end;
+ensure_qname(QName, InScopeNamespaces) ->
+   ?dbg("XPTY0004",{QName, InScopeNamespaces}),
+   ?err('XPTY0004').
 
 %% A namespace binding is created for each namespace declared in the current 
 %%   element constructor by a namespace declaration attribute.
@@ -755,9 +774,23 @@ handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName,
                            _ ->
                               QName0
                         end;
-                     #xqAtomicValue{type = AT, value = _Val} 
-                        when AT =:= 'xs:string';
-                             AT =:= 'xs:untypedAtomic' ->
+                     _ when is_binary(QName0) ->
+                        try 
+                           xqerl_types:value(
+                             xqerl_types:cast_as(QName0,'xs:NCName')) 
+                        of
+                           L ->
+                              case string:lowercase(L) of
+                                 ?SSTR("xml") ->
+                                    ?err('XQDY0064');
+                                 _ ->
+                                    #qname{local_name = L}
+                              end
+                        catch
+                           _:_ ->
+                              ?err('XQDY0041')
+                        end;
+                     #xqAtomicValue{type = 'xs:untypedAtomic', value = _Val} ->
                         try 
                            xqerl_types:value(
                              xqerl_types:cast_as(QName0,'xs:NCName')) 
@@ -994,6 +1027,16 @@ merge_content([#xqAtomicValue{type = Type, value = <<>>}|T], Acc)
         Type =/= 'xs:string' ->
    merge_content(T, Acc);
 
+merge_content([H|T], Acc) when is_binary(H);
+                               is_number(H);
+                               is_boolean(H) ->
+   NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
+   merge_content([NewH|T], Acc);
+merge_content([H1,H2|T], Acc) when is_binary(H2);
+                                   is_number(H2);
+                                   is_boolean(H2) ->
+   NewH = xqerl_types:cast_as(H2, 'xs:untypedAtomic'),
+   merge_content([H1,NewH|T], Acc);
 merge_content([#xqAtomicValue{type = Type} = H|T], Acc) 
    when Type =/= 'xs:untypedAtomic' ->
    NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
@@ -1108,8 +1151,23 @@ maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = <<St1/binary," ",St2/binary>>,
    maybe_merge_text_seq([?untyp(Str3)|T], Acc);
+maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,
+                      H2|T], Acc) when is_binary(H2) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = H2,
+   Str3 = <<St1/binary," ",St2/binary>>,
+   maybe_merge_text_seq([?untyp(Str3)|T], Acc);
+maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,
+                      H2|T], Acc) when is_integer(H2) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
+   Str3 = <<St1/binary," ",St2/binary>>,
+   maybe_merge_text_seq([?untyp(Str3)|T], Acc);
 maybe_merge_text_seq([#xqAtomicValue{type = Type} = H|T], Acc) 
    when Type =/= 'xs:untypedAtomic' ->
+   maybe_merge_text_seq(
+     [xqerl_types:cast_as(H, 'xs:untypedAtomic')|T],Acc);
+maybe_merge_text_seq([H|T], Acc) when is_binary(H) ->
    maybe_merge_text_seq(
      [xqerl_types:cast_as(H, 'xs:untypedAtomic')|T],Acc);
 maybe_merge_text_seq([H|T], Acc) ->
@@ -1164,20 +1222,31 @@ merge_text_content([#xqAtomicValue{type = Type} = H|T], Acc,Type)
    when Type =/= 'xs:untypedAtomic' ->
    NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
    merge_text_content([NewH|T], Acc,Type);
+merge_text_content([H|T], Acc,Type) when is_binary(H);
+                                         is_number(H);
+                                         is_atom(H) ->
+   NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
+   merge_text_content([NewH|T], Acc,Type);
 
 merge_text_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc,text) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = <<St1/binary, " ", St2/binary>>,
-   merge_text_content(
-     [#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc,text);
+   merge_text_content([Str3|T], Acc, text);
 
 merge_text_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc,attribute) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = <<St1/binary, St2/binary>>,
-   merge_text_content(
-     [#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc,attribute);
+   merge_text_content([Str3|T], Acc, attribute);
+merge_text_content([#xqAtomicValue{} = H1, H2|T], Acc,attribute) 
+   when is_binary(H2);
+        is_number(H2);
+        is_atom(H2) ->
+   St1 = xqerl_types:string_value(H1),
+   St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
+   Str3 = <<St1/binary, St2/binary>>,
+   merge_text_content([Str3|T], Acc, attribute);
 
 merge_text_content([#xqAtomicValue{} = H1, #{nk := _} = Node|T], Acc,Type) ->
    Atomized = [atomize_node(Node)],
@@ -1450,7 +1519,11 @@ to_xml(#{nk := _,
    xqerl_serialize:serialize(Copy, #{method => xml});
 to_xml(#{nk := _} = Node) ->
    xqerl_serialize:serialize(Node, #{method => xml});
-to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
+to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A);
+to_xml(B) when is_binary(B) -> B;
+to_xml(V) when is_atom(V);
+               is_number(V) -> 
+   xqerl_types:string_value(V).
 
 
 combine_atomics([], Acc) ->
@@ -1459,7 +1532,7 @@ combine_atomics([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:string')),
    Str3 = <<St1/binary," ",St2/binary>>,
-   combine_atomics([#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
+   combine_atomics([Str3|T], Acc);
 combine_atomics([H|T], Acc) ->
    combine_atomics(T, [H|Acc]).
 
