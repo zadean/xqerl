@@ -829,7 +829,7 @@ get_module_exports(Imports) when is_list(Imports) ->
                      catch 
                         _:_ ->
                            xqerl_error:error('XQST0059', 
-                                           "Unknown ModNamespace", 
+                                           <<"Unknown ModNamespace">>, 
                                            Ns)
                      end
                end, Acc, Imports);
@@ -843,7 +843,7 @@ get_module_exports({Ns,_Px}) ->
    catch 
       _:_ ->
          xqerl_error:error('XQST0059', 
-                         "Unknown ModNamespace", 
+                         <<"Unknown ModNamespace">>, 
                          Ns)
    end.
 

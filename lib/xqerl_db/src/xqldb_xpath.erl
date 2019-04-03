@@ -219,7 +219,7 @@ simple_path(InitCtxItems, Steps) ->
 
 % merges nodes by DB, node output is reversed
 merge_nodes([], Map) ->
-   [{K, L} || {K,L} <- maps:to_list(Map)];
+   maps:to_list(Map);
 merge_nodes([N|T], Map) ->
    Key = get_group_key(N), 
    case Map of

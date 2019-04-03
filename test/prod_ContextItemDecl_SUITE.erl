@@ -62,11 +62,10 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(TD, "prod"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-   {group, group_0}, 
-   {group, group_1}
+   {group, group_0}
    ].
 groups() -> [
-   {group_0, [parallel], [
+   {group_0, [], [
     'contextDecl-014', 
     'contextDecl-015', 
     'contextDecl-016', 
@@ -89,8 +88,7 @@ groups() -> [
     'contextDecl-037', 
     'contextDecl-038', 
     'contextDecl-039', 
-    'contextDecl-040']}, 
-   {group_1, [parallel], [
+    'contextDecl-040', 
     'contextDecl-041', 
     'contextDecl-042', 
     'contextDecl-043', 

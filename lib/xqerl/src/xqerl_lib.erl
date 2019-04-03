@@ -534,10 +534,10 @@ is_valid_name(<<H/utf8,T/binary>>) ->
 -spec is_valid_token(binary()) -> boolean().
 is_valid_token(<<>>) -> false;
 is_valid_token(Token) ->
-   [C ||
-    <<C/utf8>> <= Token,
-    is_xsname_char(C) == false
-    ] == [].
+   F = fun(C) ->
+             is_xsname_char(C) == false
+       end,
+   lists:any(F, [C || <<C/utf8>> <= Token]) == false.
 
 -spec is_valid_tokens(binary()) -> boolean().
 is_valid_tokens(<<>>) -> false;

@@ -211,11 +211,11 @@ db_node_to_node(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}
    Map#{id => {DbPid, DocId, NodeId},
         pa => Path}.
 
-db_node_to_node_key(_, []) -> [];
-db_node_to_node_key(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}) ->
-   Map = map_from_node_bin(DB, Bin),
-   {NodeId, Map#{id => {DbPid, DocId, NodeId},
-                 pa => Path}}.
+%% db_node_to_node_key(_, []) -> [];
+%% db_node_to_node_key(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}) ->
+%%    Map = map_from_node_bin(DB, Bin),
+%%    {NodeId, Map#{id => {DbPid, DocId, NodeId},
+%%                  pa => Path}}.
 
 map_from_node_bin(#{names      := Names,
                     namespaces := Nmsps},
@@ -536,23 +536,27 @@ string_value(_) -> [].
    
 
 select_with_prefix(Set, Prefix) ->
-   Curr = case ets:lookup(Set, Prefix) of
-             [] ->
-                [];
-             [{_,C}] ->
-                [C]
-          end,
-   select_with_prefix(ets:next(Set, Prefix), Prefix, Curr, Set).
+   L = split_id(Prefix),
+   MS = [{{lists:append(L, '_'),'$1'},[],['$1']}],
+   ets:select(Set, MS).
 
-select_with_prefix('$end_of_table', _, Acc, _) -> Acc;
-select_with_prefix(K, Prefix, Acc, Set) ->
-   case binary_prefix(Prefix, K) of
-      false ->
-         Acc;
-      true ->
-         E = ets:lookup_element(Set, K, 2),
-         select_with_prefix(ets:next(Set, K), Prefix, [E|Acc], Set)
-   end.
+%%    Curr = case ets:lookup(Set, Prefix) of
+%%              [] ->
+%%                 [];
+%%              [{_,C}] ->
+%%                 [C]
+%%           end,
+%%    select_with_prefix(ets:next(Set, Prefix), Prefix, Curr, Set).
+
+%% select_with_prefix('$end_of_table', _, Acc, _) -> Acc;
+%% select_with_prefix(K, Prefix, Acc, Set) ->
+%%    case binary_prefix(Prefix, K) of
+%%       false ->
+%%          Acc;
+%%       true ->
+%%          E = ets:lookup_element(Set, K, 2),
+%%          select_with_prefix(ets:next(Set, K), Prefix, [E|Acc], Set)
+%%    end.
 
 %% select_with_prefix(Set, Prefix) ->
 %%    Iter = gb_sets:iterator_from({Prefix, []}, Set),
@@ -771,6 +775,18 @@ iterator_to_node_set_1(Iter, DB) when is_function(Iter) ->
 iterator_to_node_set_1([Iter], DB) when is_function(Iter) ->
    iterator_to_node_set_1(Iter(), DB);
 iterator_to_node_set_1([{I,_} = H|T], DB) ->
-   [{I, db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
+   [{split_id(I), db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
 iterator_to_node_set_1([], _) ->
    [].
+
+split_id(<<A:32/integer, B:32/integer, C:32/integer, D:32/integer, Rest/binary>>) ->
+   [A,B,C,D|split_id(Rest)];
+split_id(<<A:32/integer, B:32/integer, C:32/integer, Rest/binary>>) ->
+   [A,B,C|split_id(Rest)];
+split_id(<<A:32/integer, B:32/integer, Rest/binary>>) ->
+   [A,B|split_id(Rest)];
+split_id(<<A:32/integer, Rest/binary>>) ->
+   [A|split_id(Rest)];
+split_id(<<>>) -> [].
+  
+

@@ -499,10 +499,13 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
                                                        value = nan};
       Empty == greatest andalso ValB == nan ->
          true;
+      Empty == least andalso ValB == [];
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', 
+                                                       value = nan};
+      Empty == least andalso ValB == nan ->
+         false;
       Empty == least andalso ValA == [] ->
          true;
-      Empty == least andalso ValB == [] ->
-         false;
       Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', 
                                                     value = nan};
       Empty == least andalso ValA == nan ->
@@ -537,17 +540,19 @@ bool(T) -> xqerl_operators:eff_bool_val(T).
 -spec optimize(#xqFlwor{}, digraph:graph()) ->
    Result :: #xqFlwor{} | any().
 optimize(#xqFlwor{} = FL, Digraph) ->
-   {B2, F2} = fold_changes(FL, Digraph),
+   FL0 = optimize_nested(FL, Digraph),
+   {B2, F2} = fold_changes(FL0, Digraph),
    case strip_empty_flwor(F2) of
       #xqFlwor{} = _F000 ->
          %?dbg("1",FL),
          %?dbg("2",F2),
-         %?dbg("3",F000),
+         %?dbg("3",_F000),
          {B3,F3} = replace_trailing_for_in_return(F2, Digraph),
          {B4,F4} = fold_for_count(F3, Digraph),
          {B5,F5} = maybe_lift_simple_return(F4, Digraph),
          {B6,F6} = maybe_lift_lets_in_return(F5, Digraph),
          F7 = if B2 orelse B3 orelse B4 orelse B5 orelse B6 ->
+                    ?dbg("F6",F6),
                     % keep cycling until completely optimized
                     optimize(F6, Digraph);
                  true ->
@@ -567,7 +572,17 @@ optimize(#xqFlwor{} = FL, Digraph) ->
 optimize(FL, _) -> FL.
   
 %% STEP 1 
-%% done in parser, splits and statements in where 
+-spec optimize_nested(#xqFlwor{}, digraph:graph()) ->
+   {Changed :: boolean(),Result :: #xqFlwor{}}.
+optimize_nested(#xqFlwor{loop = L} = FL, G) ->
+   Fun = fun({'let', #xqVar{expr = #xqFlwor{} = Fl2} = FV, ST}) ->
+               ?dbg("Optimizing nested FLWOR", true),               
+               {'let', FV#xqVar{expr = optimize(Fl2, G)}, ST};
+            (E) ->
+               E
+         end,
+   NewLoop = lists:map(Fun, L),
+   FL#xqFlwor{loop = NewLoop}.
 
 %% STEP 2 
 -spec fold_changes(#xqFlwor{}, digraph:graph()) ->
@@ -580,15 +595,14 @@ fold_changes(#xqFlwor{} = FL, G) ->
    {B2a,F2a} = maybe_remove_redundant_let(F2, G),
    {B3,F3} = remove_unused_variables(F2a, G),
    {B4,F4} = maybe_lift_nested_for_expression(F3),
-   {B5,F5} = maybe_lift_nested_let_clause(F4),
+   {B8,F8} = maybe_split_comparisons_in_where_clause(F4, G),
+   {B5,F5} = maybe_lift_nested_let_clause(F8),
    {B5a,F5a} = maybe_lift_nested_for_clause(F5, G),
-   
    {B6,F6} = maybe_lift_where_clause(F5a, G),
    {B7,F7} = where_clause_as_predicate(F6, G),
-   {B8,F8} = maybe_split_comparisons_in_where_clause(F7, G),
    B = B0 orelse B0a orelse B1 orelse B2 orelse B2a orelse B3 orelse 
        B4 orelse B5 orelse B5a orelse B6 orelse B7 orelse B8, 
-   {B,F8}.
+   {B,F7}.
 
 %% STEP 2.1 Attempts to replace singleton fors with a let 
 maybe_replace_for_with_let(#xqFlwor{loop = L} = FL) ->
@@ -875,7 +889,7 @@ maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
             AType}, _) 
              when Typ == 'for';
                   Typ == 'let' ->
-             ?dbg("Lifting let from sub-FLWOR",N),
+             ?dbg("Lifting let from nested-FLWOR",N),
              Loop = [L, {Typ,V#xqVar{expr = Fl1#xqFlwor{loop = T}},AType}],
              {Loop,true};
           (O,Changed0) ->
@@ -1066,12 +1080,14 @@ split_where_comparisons([{'where', WId,
          WName = {CId, comp_right},
          replace_variable_dependancies(G, WName, RVx),
          digraph:add_edge(G, RVx, WName),
+         ?dbg("Splitting where comparison", RLet),
          [RLet, Where2] ++ split_where_comparisons(T, G);
       is_record(Rhs, xqVarRef) ->
          digraph:add_vertex(G, LVx),
          WName = {CId, comp_left},
          replace_variable_dependancies(G, WName, LVx),
          digraph:add_edge(G, LVx, WName),
+         ?dbg("Splitting where comparison", LLet),
          [LLet, Where3] ++ split_where_comparisons(T, G);
       true ->
          digraph:add_vertex(G, LVx),
@@ -1082,6 +1098,7 @@ split_where_comparisons([{'where', WId,
          replace_variable_dependancies(G, WNameR, RVx),
          digraph:add_edge(G, LVx, WNameL),
          digraph:add_edge(G, RVx, WNameR),
+         ?dbg("Splitting where comparisons", {LLet, RLet}),
          [LLet, RLet, Where1] ++ split_where_comparisons(T, G)
    end;
 split_where_comparisons([H|T], G) ->

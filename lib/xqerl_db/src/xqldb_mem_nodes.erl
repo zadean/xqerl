@@ -99,7 +99,10 @@
 %%                  nsp_on   => list({_,_}),
 %%                  nsp_off  => list({_,_,_})}.
 
--define(u2b(S), unicode:characters_to_binary(S)).
+-define(u2b(S), if is_binary(S) -> S;
+                   is_list(S) ->
+                      unicode:characters_to_binary(S)
+                end).
 
 % construct from file
 parse_file(<<"file://",File/binary>>) -> parse_file(File);

@@ -30,6 +30,7 @@
 -export([get_props/2]).
 -export([merge_props/2]).
 
+-define(XS, <<"http://www.w3.org/2001/XMLSchema">>).
 -define(FN, <<"http://www.w3.org/2005/xpath-functions">>).
 -define(AR, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(MP, <<"http://www.w3.org/2005/xpath-functions/map">>).
@@ -44,6 +45,8 @@
 %%      higher_order       => HigherOrder,
 %%      static_properties  => StaticProperties,
 %%      dynamic_properties => DynamicProperties}.
+get_props(#qname{namespace = ?XS,local_name = <<"QName">>}, 2) -> 
+  props(false, false, false, false, [known_namespaces], []);
 get_props(#qname{namespace = ?AR,local_name = <<"append">>}, 2) -> 
   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?AR,local_name = <<"filter">>}, 2) -> 

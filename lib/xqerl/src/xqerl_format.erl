@@ -815,6 +815,8 @@ parse_datetime_marker([$s|Rest]) ->
    {secint,    parse_datetime_modifiers(Rest,"01")};
 parse_datetime_marker([$f|Rest]) -> 
    {secfract,  parse_datetime_modifiers(Rest,"1")};
+parse_datetime_marker([$Z,$N|Rest]) -> % blocking named time zones 
+   {tz,        parse_datetime_modifiers(Rest,"01:01")};
 parse_datetime_marker([$Z|Rest]) -> 
    {tz,        parse_datetime_modifiers(Rest,"01:01")};
 parse_datetime_marker([$z|Rest]) -> 

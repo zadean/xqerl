@@ -1479,9 +1479,9 @@ expr_do(Ctx, {cast_as,Expr1,
    expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = 'xs:QName'}});
 expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = 'xs:QName'}}) -> 
    % namespace sensitive
-   Namespaces = abs_ns_list(Ctx),
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
    E1 = expr_do(Ctx, Expr1),
-   ?P("xqerl_types:cast_as(_@E1,'xs:QName',_@Namespaces)");
+   ?P("xqerl_types:cast_as(_@E1,'xs:QName', maps:get(namespaces, _@CtxVar))");
 expr_do(Ctx, {cast_as,Expr1,Expr2}) ->
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
@@ -1498,6 +1498,11 @@ expr_do(Ctx, {promote_to,Expr1,Expr2}) ->
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
    ?P("xqerl_types:promote(_@E1,_@E2)");
+
+expr_do(Ctx, {check,Expr1,Expr2}) ->
+   E1 = expr_do(Ctx, Expr1),
+   E2 = expr_do(Ctx, Expr2),
+   ?P("xqerl_types:check(_@E1,_@E2)");
 
 expr_do(Ctx, #xqSeqType{type = #qname{local_name = Ln}} = ST) ->
    Atom = erlang:binary_to_atom(<<"xs:", Ln/binary>>, latin1),
@@ -1520,9 +1525,14 @@ expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
                                 Cons =:= comp_cons ->
    C = {var,?L,get_context_variable_name(Ctx)},
    E = expr_do(Ctx, Expr),
-   B = maps:get('base-uri', Ctx),
-   %?P("_@E");
-   ?P("xqerl_node:new_fragment((_@C)#{'base-uri' => _@B@},_@E)");
+   ?P("xqerl_node:new_fragment(_@C, _@E)");
+%% expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
+%%                                 Cons =:= comp_cons ->
+%%    C = {var,?L,get_context_variable_name(Ctx)},
+%%    E = expr_do(Ctx, Expr),
+%%    B = maps:get('base-uri', Ctx),
+%%    %?P("_@E");
+%%    ?P("xqerl_node:new_fragment((_@C)#{'base-uri' => _@B@},_@E)");
 
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
    expr_do(Ctx, Expr1#xqFunction{body = {atomize, Body}});
@@ -2035,9 +2045,8 @@ expr_do(Ctx, {'if-then-else', If, Then, Else}) ->
    IfSt = expr_do(Ctx, If),
    True = expr_do(Ctx, Then),
    False = expr_do(Ctx, Else),
-   ?P(["case _@IfSt of",
+   ?P(["case xqerl_seq3:singleton_value(_@IfSt) of",
        "   true -> _@True; ",
-       "   [true] -> _@True; ",
        "_ -> _@False end"]);
 
 expr_do(Ctx, #xqComparisonExpr{anno = Line,
@@ -2504,15 +2513,20 @@ where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
    {Ctx,[R]}.
 
 order_part(Ctx,{'order_by',Id, Exprs}) ->
+   Collations = [C || {order,_,{modifier,_,_,{_,C}}} <- alist(Exprs)],
+   CollVars = [begin
+                  V = {var,?L,next_var_name()},
+                  ?P("_@V = xqerl_coll:parse(_@C@)")
+               end || C <- Collations],
    FunctionName = glob_fun_name({order_by, Id}),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    VarTup = get_variable_tuple(Ctx),
-   OFun = fun({order,Expr,{modifier,Dir,{_,Empty},{_,_Collation}}},Acc) ->
+   OFun = fun({{order,Expr,{modifier,Dir,{_,Empty},_}}, CF},Acc) ->
                 E1 = expr_do(LocCtx, Expr),
-                ?P("[{fun(_@VarTup) -> xqerl_seq3:singleton_value(_@E1) end,
+                ?P("[{fun(_@VarTup) -> xqerl_coll:sort_key(xqerl_seq3:singleton_value(_@E1), _@CF) end,
                       '@Dir@','@Empty@'}|_@Acc]")
           end,
-   Funs = lists:foldr(OFun, {nil,?L}, alist(Exprs)),
+   Funs = lists:foldr(OFun, {nil,?L}, lists:zip(alist(Exprs), CollVars)),
    
    R =?P(["'@FunctionName@'(_,[]) -> [];",
           "'@FunctionName@'(__Ctx, Stream) ->",
@@ -3252,13 +3266,19 @@ abs_document_node(Ctx, #xqDocumentNode{identity = Id,
    CCtx = {var,?L,get_context_variable_name(Ctx)},
    ?P("'@FN@'(_@CCtx,_@VarTup)").
 
-abs_element_node(Ctx, #xqElementNode{name = N, 
+abs_element_node(#{namespaces := Nss} = 
+                 Ctx, #xqElementNode{name = N, 
                                      attributes = A1, % namespaces in here
                                      content = E0, 
                                      type = Type, 
                                      base_uri = BU, 
                                      inscope_ns = IsNs}) ->
    _ = add_used_record_type(xqElementNode),
+   NssN = [{P, U} ||
+           #xqNamespaceNode{uri = U, prefix = P} <- A1],
+   NssN1 = lists:ukeymerge(1, 
+                           lists:keysort(1, NssN), 
+                           lists:keysort(1, Nss)),
    E1 = case N of
            #qname{} ->
               abs_qname(Ctx,N);
@@ -3275,12 +3295,20 @@ abs_element_node(Ctx, #xqElementNode{name = N,
               {atom,?L,Type}
         end,
    E4 = expr_do(Ctx,BU),
-   E5 = if E0 == [undefined] -> {nil,?L};
+   NextCtxName = next_ctx_var_name(),
+   NextCtx = {var, ?L, NextCtxName},
+   Ctx1 = set_context_variable_name(Ctx, NextCtxName),
+   if E0 == [undefined];
+      E0 == [] -> 
+         ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
+             " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, ",
+             "content = []}"]);
            true ->
-              expr_do(Ctx,E0)
-        end,
-   ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
-       " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, content = _@E5}"]).
+              E5 = expr_do(Ctx1#{namespaces => NssN1},E0),
+              ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
+                  " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, ",
+                  "content = fun(_@NextCtx) -> _@E5 end}"])
+   end.
 
 abs_attribute_node(Ctx, #xqAttributeNode{name = N, string_value = E}) ->
    _ = add_used_record_type(xqAttributeNode),
@@ -3448,11 +3476,29 @@ abs_qname(_Ctx, undefined) ->
 abs_qname(_Ctx, {variable,_}) ->
    atom_or_string(undefined);
 abs_qname(_Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
-   _ = add_used_record_type(qname),
-   if is_atom(N) ->
-         ?P("#qname{namespace = '@N@', prefix = _@P@, local_name = _@L@}");
-      true ->
-         ?P("#qname{namespace = _@N@, prefix = _@P@, local_name = _@L@}")
+   try
+      N1 = if N == 'no-namespace' ->
+                  'no-namespace';
+              true ->
+                 xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI'))
+           end,
+      P1 = if P == <<>> ->
+                  <<>>;
+              true ->
+                 xqerl_types:string_value(xqerl_types:cast_as(P, 'xs:NCName'))
+           end,
+      L1 = xqerl_types:string_value(xqerl_types:cast_as(L, 'xs:NCName')),
+      _ = add_used_record_type(xqAtomicValue),
+      _ = add_used_record_type(qname),
+      ?P("#xqAtomicValue{type = 'xs:QName', value = #qname{namespace = _@N1@, prefix = _@P1@, local_name = _@L1@}}")
+   catch
+      _:_ ->
+         _ = add_used_record_type(qname),
+         if is_atom(N) ->
+               ?P("#qname{namespace = '@N@', prefix = _@P@, local_name = _@L@}");
+            true ->
+               ?P("#qname{namespace = _@N@, prefix = _@P@, local_name = _@L@}")
+         end
    end.
 
 abs_ns_qname(Ctx, {N, P}) ->
@@ -3579,7 +3625,9 @@ set_variable_tuple_name(Ctx, Name) ->
 abs_ns_list(Ctx) ->
    _ = add_used_record_type(xqNamespace),
    lists:foldr(fun(#xqNamespace{prefix = P,namespace = N}, Abs) ->
-                     ?P("[#xqNamespace{prefix = _@P@,namespace = _@N@}|_@Abs]")
+                     ?P("[#xqNamespace{prefix = _@P@,namespace = _@N@}|_@Abs]");
+                  ({P, N}, Abs) ->
+                     ?P("[#xqNamespace{prefix = _@P@,namespace = _@N@}|_@Abs]")                  
                end, {nil,?L}, maps:get(namespaces,Ctx)).   
 
 next_var_tuple_name() ->

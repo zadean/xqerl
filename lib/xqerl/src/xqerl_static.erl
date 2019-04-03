@@ -1495,7 +1495,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
    St1 = if NC1 ->
                Stm1;
             NC1 == cast ->
-               {cast_as, Stm1, Type};
+               {promote_to, Stm1, Type};
             NC1 == atomize ->
                {promote_to, {atomize, Stm1}, Type};
             true -> 
@@ -1511,7 +1511,7 @@ handle_node(State, {range, Expr1, Expr2}) ->
    St2 = if NC2 ->
                Stm2;
             NC2 == cast ->
-               {cast_as, Stm2, Type};
+               {promote_to, Stm2, Type};
             NC2 == atomize ->
                {promote_to, {atomize, Stm2}, Type};
             true ->
@@ -1686,10 +1686,13 @@ handle_node(State, #xqComparisonExpr{comp = Comp,
         Comp =:= 'lt' -> 
    S1 = get_statement(handle_node(State, Expr1)),
    S2 = get_statement(handle_node(State, Expr2)),
+   
+   DefColl = xqerl_coll:parse(State#state.default_collation), 
+   
    Atomic = both_atomics(S1, S2),
    NewExpr = 
    if Atomic, Comp =:= 'eq' ->
-         xqerl_operators:equal(S1, S2);
+         xqerl_operators:equal(S1, S2, DefColl);
       Atomic, Comp =:= 'ne' ->
          xqerl_operators:not_equal(S1, S2);
       Atomic, Comp =:= 'ge' ->
@@ -2109,27 +2112,12 @@ handle_node(State, {'let',#xqVar{id = Id,
    LetStmt = get_statement(LetState),
    %?dbg("LetType",{LetType, Type}),
    OkType = check_type_match(LetType, Type),
-   if OkType == false ->
-         %?dbg("LetType",{LetType, Type}),
-         ?err('XPTY0004');
-      OkType == cast , element(2, LetType) == item ->
-         ok;
-      OkType == cast ->
-         case Type of
-            #xqSeqType{type = #xqFunTest{}} ->
-               ok;
-            #xqSeqType{type = IType} when IType =/= item ->
-               ?err('XPTY0004');
-            _ ->
-               ok
-         end;
-      true ->
-         ok
-   end,
-%?dbg("LetType",{LetType, Type, OkType}),
+   %?dbg("LetType",{LetType, Type, OkType}),
    {LetType1,LetStmt1} = 
-              if OkType =/= true ->
-                    {OutType,{promote_to, LetStmt, OutType}};
+              if OkType == false ->
+                    ?err('XPTY0004');
+                 OkType =/= true ->
+                    {OutType,{check, LetStmt, OutType}};
                  Type#xqSeqType.occur =/= LetType#xqSeqType.occur ->
                     {OutType,{ensure, LetStmt, OutType}};
                  true ->
@@ -2337,7 +2325,6 @@ handle_node(State, {group_by, Id, GExprs}) ->
    set_statement(State1, {group_by, Id, St});
 handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{name = Name}, 
                               collation = Coll} = Gb) -> 
-   Collations = State#state.known_collations, 
    DefColl    = State#state.default_collation, 
    BaseUri    = State#state.base_uri,
    NewColl =  if Coll == default ->
@@ -2345,17 +2332,17 @@ handle_node(State, #xqGroupBy{grp_variable = #xqVarRef{name = Name},
                   true ->
                      xqerl_lib:resolve_against_base_uri(BaseUri, Coll)
                end,
-   Ok = lists:member(NewColl, Collations),
-   if Ok ->
-         ok;
-      true ->
+   try
+      _ = xqerl_coll:parse(NewColl),
+      St = get_variable(State, Name),
+      NewVar = {variable, element(4, St)},
+      set_statement(State, Gb#xqGroupBy{grp_variable = NewVar, 
+                                        collation = NewColl})
+   catch
+      _:_ ->
          ?err('XQST0076')
-   end,
+   end;
    % here get the variable ref, do not allow inlining
-   St = get_variable(State, Name),
-   NewVar = {variable, element(4, St)},
-   set_statement(State, Gb#xqGroupBy{grp_variable = NewVar, 
-                                     collation = NewColl});
 %% 3.12.8 Order By Clause
 handle_node(State, {order_by, Id, OExprs}) ->
    S1 = handle_node(State, OExprs),
@@ -2368,7 +2355,6 @@ handle_node(State, #xqOrderSpec{expr = OExpr,
                                                    empty     = Empty,
                                                    collation = Collation}}) ->
    % TODO return xqOrderModifier
-   Collations = State#state.known_collations, 
    DefColl    = State#state.default_collation, 
    BaseUri    = State#state.base_uri,
    EmptOrd    = State#state.empty_order,
@@ -2383,14 +2369,15 @@ handle_node(State, #xqOrderSpec{expr = OExpr,
                   true ->
                      Empty
                end,
-   Ok = lists:member(NewColl, Collations),
-   if Ok ->
-         NewMod = {modifier,Dir,{empty,NewEmptO},{collation,NewColl}},
-         OState = handle_node(State, OExpr),
-         ?NO_UPD(OState),
-         SimOExpr = get_statement(OState),
-         set_statement(State, {order, {atomize, SimOExpr}, NewMod});
-      true ->
+   try
+      _ = xqerl_coll:parse(NewColl),
+      NewMod = {modifier,Dir,{empty,NewEmptO},{collation,NewColl}},
+      OState = handle_node(State, OExpr),
+      ?NO_UPD(OState),
+      SimOExpr = get_statement(OState),
+      set_statement(State, {order, {atomize, SimOExpr}, NewMod})
+   catch
+      _:_ ->
          ?err('XQST0076')
    end;
 %% 3.12.9 Return Clause
@@ -3000,6 +2987,7 @@ handle_node(State, {'function-call',
    StateC = set_in_constructor(State, false),
    SimpArg = handle_node(StateC, Arg),
    Type0 = get_statement_type(SimpArg),
+   %?dbg("Type0",Type0),
    Type = case Type0 of
              #xqSeqType{type = Ty} when ?node(Ty) ->
                 Type0#xqSeqType{type = 'xs:double'};
@@ -5346,6 +5334,10 @@ check_type_match(#xqSeqType{type = function},
                  #xqSeqType{type = TargetType}) 
    when ?xs_anyAtomicType(TargetType) -> 
    ?err('FOTY0013');
+check_type_match(#xqSeqType{type = 'xs:decimal'}, 
+                 #xqSeqType{type = TargetType}) 
+   when ?xs_integer(TargetType) -> 
+   cast;
 % untyped to number
 check_type_match(#xqSeqType{type = 'xs:untypedAtomic'}, 
                  #xqSeqType{type = TargetType}) 

@@ -64,14 +64,13 @@ sort_key(Val, Type) when Type == 'xs:gYearMonth';
    Val#xsDateTime{hour = 0, minute = 0, offset = [], string_value = <<>>};
 sort_key({xsDecimal,_,_} = Item, _) ->
    xqerl_numeric:double(Item);
+sort_key([], _) ->
+   [];
 sort_key(Item, _) when is_float(Item);
                        is_integer(Item);
-                       is_tuple(Item) ->
+                       is_tuple(Item);
+                       is_atom(Item) ->
    Item;
-sort_key([], _) ->
-   <<>>;
-sort_key(Atom, _) when is_atom(Atom) ->
-   Atom;
 sort_key(Str, codepoint) ->
    binary(Str,codepoint);
 sort_key(Str, Fun) ->

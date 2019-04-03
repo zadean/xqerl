@@ -34,9 +34,10 @@
 -export([string_value/1]).
 -export([type/1]).
 
--export([promote/2]).
+-export([promote/2,
+         check/2]).
+
 -export([ensure_empty/1]).
--export([construct_as/2]).
 -export([cast_as/2]).
 -export([cast_as/3]).
 %% -export([as_seq/2]).
@@ -81,6 +82,7 @@ is_date_type('xs:dateTimeStamp')          -> true;
 is_date_type(_Type) -> false.
 
 atomize([]) -> [];
+atomize([A]) -> atomize(A);
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(true) -> true;
 atomize(false) -> false;
@@ -598,6 +600,14 @@ seq_type_val_match(#xqSeqType{occur = zero_or_many}, _) ->
 seq_type_val_match(_A, _B) ->
    false.
 
+check(A, B) ->
+   case instance_of(A, B) of
+      true ->
+         A;
+      false ->
+         ?err('XPTY0004')
+   end.
+
 promote([],#xqSeqType{occur = zero}) -> [];
 promote([],#xqSeqType{occur = zero_or_one}) -> [];
 promote([],#xqSeqType{occur = zero_or_many}) -> [];
@@ -645,6 +655,13 @@ promote(At, #xqSeqType{type = 'xs:float'}) when is_integer(At) ->
    cast_as(At, 'xs:float');
 promote(At, #xqSeqType{type = 'xs:decimal'}) when is_integer(At) ->
    cast_as(At, 'xs:decimal');
+promote(#xqAtomicValue{type = 'xs:float'} = At, #xqSeqType{type = 'xs:double'}) ->
+   At#xqAtomicValue{type = 'xs:double'};
+promote(#xqAtomicValue{type = Num1} = At, 
+        #xqSeqType{type = FltDbl})
+   when ?xs_decimal(Num1), FltDbl == 'xs:double';
+        ?xs_decimal(Num1), FltDbl == 'xs:float' ->
+   cast_as(At, FltDbl);
 promote(At, #xqSeqType{type = TT}) when is_binary(At),
                                         ?xs_string(TT) ->
    At;
@@ -659,12 +676,7 @@ promote(#{nk := _} = N,#xqSeqType{type = Kind} = T) ->
       ?false when is_record(Kind, xqKindTest) ->
          ?err('XPTY0004');
       _ ->
-         try cast_as_seq(N,T) 
-         catch
-            _:#xqError{} = E ->
-               throw(E);
-            _:_ -> ?err('XPTY0004') 
-         end
+         promote(atomize(N), T)
    end;
 promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    atomize(N);
@@ -679,24 +691,14 @@ promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
                ?err('XPTY0004')
          end,
    lists:map(Fun, List);
+   
 promote(#xqAtomicValue{type = Num1} = At,#xqSeqType{type = Num2}) 
    when ?xs_numeric(Num1) andalso ?xs_numeric(Num2) ->
-   %?dbg("{Num1,Num2}",{Num1,Num2}),
    case subtype_of(Num1,Num2) of
       true ->
          At;
       _ ->
-         V2 = cast_as_seq(At,Num2),
-         case subtype_of(Num2,Num1) of
-            true -> % possible precision loss
-               Eq = xqerl_operators:equal(At, V2),
-               case Eq of
-                  ?true -> V2;
-                  _ -> ?err('XPTY0004')
-               end;
-            _ ->
-               V2
-         end                     
+         ?err('XPTY0004')
    end;
 promote(#xqAtomicValue{type = 'xs:untypedAtomic'} = At,Type) ->
    cast_as_seq(At,Type);
@@ -1120,18 +1122,11 @@ instance_of(Seq, #xqSeqType{type = #xqFunTest{} = TType,
         TOccur == zero_or_one ->
    instance_of1(Seq, TType);
 instance_of(Seq, #xqSeqType{type = TType, 
-                            occur = TOccur}) 
+                            occur = TOccur}) % nodes and maps 
    when is_map(Seq), TOccur == one;
         is_map(Seq), TOccur == one_or_many;
         is_map(Seq), TOccur == zero_or_one;
         is_map(Seq), TOccur == zero_or_many -> 
-   instance_of1(Seq, TType);
-instance_of(#{nk := _} = Seq, #xqSeqType{type = TType,
-                                        occur = TOccur}) 
-   when TOccur == one;
-        TOccur == one_or_many;
-        TOccur == zero_or_one;
-        TOccur == zero_or_many -> 
    instance_of1(Seq, TType);
 instance_of(#array{} = Seq, #xqSeqType{type = TType, 
                                        occur = TOccur}) 
@@ -1310,7 +1305,7 @@ instance_of1(#{nk := attribute,
 instance_of1(#{nk := 'processing-instruction',
                nn := {_,_,NLn}}, 
              #xqKindTest{kind = 'processing-instruction', 
-                         name = #qname{local_name = Ln}}) ->
+                         name = ?xav('xs:QName', #qname{local_name = Ln})}) ->
    case {NLn, Ln} of
       {Ln,Ln} -> true;
       {Ln,<<"*">>} -> true;
@@ -1498,11 +1493,6 @@ get_item_type(_) ->
 %%                get_list_type(Types, HType band BType)
 %%          end
 %%    end.
-
-construct_as(At,#xqSeqType{type = 'xs:error'}) ->
-   xqerl_xs:xs_error([], At);
-construct_as(At,#xqSeqType{type = _Type}) ->
-   At.
 
 % dialyzer % type_check(#xqSeqType{}, undefined) -> true;
 % dialyzer % type_check(undefined, #xqSeqType{}) -> true;
@@ -2589,6 +2579,8 @@ is_known_type('empty-sequence')            -> true;
 is_known_type(_)                           -> false.
 
 
+norm_name_type(?xav('xs:QName', #qname{} = Q), B) -> 
+   norm_name_type(Q, B);
 norm_name_type(undefined,undefined) -> {'_', '_', '_'};
 norm_name_type(#qname{namespace = 'no-namespace'} = N, T) ->
    norm_name_type(N#qname{namespace = <<>>}, T);
@@ -2622,6 +2614,8 @@ has_name(undefined, _) ->
    true;
 has_name(_, undefined) ->
    true;
+has_name(#qname{} = Name, ?xav('xs:QName', #qname{} = Q)) ->
+   has_name(Name, Q);
 has_name(#qname{} = Name, #qname{namespace = Ns, local_name = Loc}) ->
    (Ns  == <<"*">> orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == <<"*">> orelse Loc == Name#qname.local_name);

@@ -485,13 +485,18 @@ equal(Val1, Val2, Collation)
    Eq = xqerl_coll:sort_key(Val1, Collation) == 
           xqerl_coll:sort_key(Val2, Collation),
    ?bool(Eq);
-equal(#xqAtomicValue{} = Arg1, #xqAtomicValue{} = Arg2, _Collation) ->
+equal(Arg1, Arg2, _Collation) ->
    equal(Arg1, Arg2).
 
 equal(undefined, undefined) -> [];
 equal([], []) -> [];
 equal([], _) -> [];
 equal(_, []) -> [];
+equal(V1, V2) 
+   when is_integer(V1), 
+        is_integer(V2) ->
+   % happens often so skip numeric equal
+   ?bool(V1 =:= V2);
 equal(#xqAtomicValue{type = T1, value = V1}, 
       #xqAtomicValue{type = T2, value = V2}) 
    when ?xs_integer(T1), 
@@ -691,6 +696,11 @@ not_equal(Arg1, [Arg2]) ->
 not_equal(Arg1, Arg2) ->
    ?sing(negate(equal(Arg1, Arg2))).
 
+greater_than(V1, V2) 
+   when is_integer(V1), 
+        is_integer(V2) ->
+   % happens often so skip numeric equal
+   ?bool(V1 > V2);
 greater_than(#xqAtomicValue{type = T1, value = V1}, 
              #xqAtomicValue{type = T2, value = V2}) 
    when ?xs_integer(T1), 
@@ -899,6 +909,11 @@ less_than(Arg1, [Arg2]) ->
    less_than(Arg1, Arg2);
 less_than(_, _) -> ?err('XPTY0004').
 
+greater_than_eq(V1, V2) 
+   when is_integer(V1), 
+        is_integer(V2) ->
+   % happens often so skip numeric
+   ?bool(V1 >= V2);
 greater_than_eq(#xqAtomicValue{type = T1, value = V1}, 
                 #xqAtomicValue{type = T2, value = V2}) 
    when ?xs_integer(T1), 
@@ -965,6 +980,11 @@ greater_than_eq(Arg1, [Arg2]) ->
 greater_than_eq(Arg1, Arg2) ->
    ?bool(numeric_greater_than(Arg1,Arg2) orelse numeric_equal(Arg1, Arg2) ).
 
+less_than_eq(V1, V2) 
+   when is_integer(V1), 
+        is_integer(V2) ->
+   % happens often so skip numeric
+   ?bool(V1 =< V2);
 less_than_eq(#xqAtomicValue{type = T1, value = V1}, 
              #xqAtomicValue{type = T2, value = V2}) 
    when ?xs_integer(T1), 
@@ -1174,6 +1194,8 @@ range_range_comp_any(Op,
 % returns xs:boolean
 general_compare(_Op,[],_) -> false;
 general_compare(_Op,_,[]) -> false;
+general_compare(Op,[A],B) -> general_compare(Op,A,B);
+general_compare(Op,A,[B]) -> general_compare(Op,A,B);
 general_compare(Op,{array,L1},L2) -> 
    general_compare(Op,L1,L2);
 general_compare(Op,L1,{array,L2}) -> 

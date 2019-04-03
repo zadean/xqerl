@@ -100,7 +100,7 @@ get_signatures(ModNamespace) ->
    Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, ?TIMEOUT),
    case Rep of
       {error, unknown_namespace} ->
-         xqerl_error:error('XQST0059', "Unknown ModNamespace", ModNamespace);
+         xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, ModNamespace);
       _ ->
          {ok, Rep}
    end.

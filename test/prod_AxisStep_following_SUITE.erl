@@ -28,6 +28,7 @@
 -export(['following-19'/1]).
 -export(['following-20'/1]).
 -export(['following-21'/1]).
+-export(['following-22'/1]).
 -export(['K2-followingAxis-1'/1]).
 -export(['K2-followingAxis-2'/1]).
 -export(['K2-followingAxis-3'/1]).
@@ -72,9 +73,10 @@ groups() -> [
     'following-19', 
     'following-20', 
     'following-21', 
-    'K2-followingAxis-1', 
-    'K2-followingAxis-2']}, 
+    'following-22', 
+    'K2-followingAxis-1']}, 
    {group_1, [parallel], [
+    'K2-followingAxis-2', 
     'K2-followingAxis-3', 
     'K2-followingAxis-4']}].
 environment('works-mod',__BaseDir) ->
@@ -417,6 +419,22 @@ environment('works-mod',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'following-22'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "exists(//employee[@name=\"John Doe 10\"]/following::text()[.='Monday'])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "following-22.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

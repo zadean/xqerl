@@ -453,6 +453,10 @@ x(G, Map, Parent, #xqTryCatch{id = Id, expr = Expr, catches = Catches}) ->
              E6 => E6,
              E7 => E7},
    x(G, M2, K, Catches);
+x(G, Map, Parent, #qname{local_name = <<"QName">>}) ->
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
+   Map;
 x(G, Map, Parent, {Cons,Bod}) when Cons =:= direct_cons;
                                    Cons =:= comp_cons ->
    add_vertex(G, {static,base_uri}),
