@@ -65,6 +65,8 @@
          namespace_nodes/1,
          iterator_to_node_list/2, 
          iterator_to_node_set/2, 
+         iterator_to_atom_set/2, 
+         iterator_to_dbl_set/2, 
          select_with_prefix/2,
          
 test/0]).
@@ -211,6 +213,18 @@ db_node_to_node(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}
    Map#{id => {DbPid, DocId, NodeId},
         pa => Path}.
 
+db_node_to_atom(_, []) -> [];
+db_node_to_atom(DB, Node) ->
+   Nd = db_node_to_node(DB, Node),
+   Tv = xqerl_types:atomize(Nd),
+   Nd#{tv => Tv}. % typed value
+
+db_node_to_dbl(_, []) -> [];
+db_node_to_dbl(DB, Node) ->
+   Nd = db_node_to_node(DB, Node),
+   Tv = xqerl_types:cast_as(Nd, 'xs:double'),
+   Nd#{tv => Tv}. % typed value
+
 %% db_node_to_node_key(_, []) -> [];
 %% db_node_to_node_key(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}) ->
 %%    Map = map_from_node_bin(DB, Bin),
@@ -248,6 +262,7 @@ map_from_node_bin(#{names := Names} = DB, <<?proc_inst, NameRef:24/integer,
    #{nk => 'processing-instruction',
      nn => {<<>>,<<>>,maps:get(NameRef, Names)},
      sv => get_string_value(TextRef, DB)}.
+
 
 get_name(NsRef, PxRef, NameRef, Names, Nmsps) ->
    #{NameRef := Name} = Names,
@@ -416,19 +431,19 @@ ancestors(#{id := {DbPid, DocId, NodeId},
    end;
 ancestors(_) -> [].
 
-siblings(#{id := {DbPid, DocId, ChildId},
-           nk := Nk} = _) when Nk =/= document ->
-   ParentId = parent_id(ChildId),
+siblings(#{id := _, %{DbPid, DocId, ChildId},
+           nk := Nk} = Nd) when Nk =/= document ->
+   Parent = parent(Nd),
    % call children on fake parent node
-   children(#{nk => element, id => {DbPid, DocId, ParentId}}).
+   children(Parent).
 
 % child axis for DB nodes
 parent(#{id := {DbPid, DocId, ChildId},
          nk := Nk} = _) when Nk =/= document ->
-   Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, ChildId},
+   ParentId = parent_id(ChildId),
+   Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, ParentId},
    case xqerl_lib:lget(Key) of
       undefined ->
-         ParentId = parent_id(ChildId),
          #{index := Indx} = DB = xqerl_context:get_db(DbPid),
          Seg = trunc_id(ParentId),
          Filter = fun(I, _) when I == ParentId -> 
@@ -475,33 +490,34 @@ children(#{id := {DbPid, DocId, NodeId},
    end;
 children(_) -> [].
 
-attributes(#{id := {DbPid, DocId, NodeId},
+attributes(#{id := _,%{DbPid, DocId, NodeId},
              nk := element,
-             at := Atc}) when Atc > 0  ->
-   Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
-   case xqerl_lib:lget(Key) of
-      undefined ->
-         #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-         Bs = byte_size(NodeId),
-         Bp = Bs + 4,
-         Low  = <<NodeId:Bs/binary,0,0,0,0>>,
-         High = <<NodeId:Bs/binary,255,255,255,255>>,
-         LowT  = trunc_id(Low),
-         HighT = trunc_id(High),
-         Filter = fun(I, L) when byte_size(I) == Bp, I > Low, I < High -> 
-                        is_attribute({'_','_'}, '_', proplists:get_value(b, L));
-                     (_, _) -> false
-                  end,
-         Res = if LowT == HighT ->
-                     merge_index:lookup(Indx, doc, DocId, LowT, Filter);
-                  true ->
-                     merge_index:range(Indx, doc, DocId, LowT, HighT, all, Filter)
-               end,
-         Out = iterator_to_node_list(Res, DB),
-         xqerl_lib:lput(Key, Out);
-      Out ->
-         Out
-   end;
+             at := Atc} = Nd) when Atc > 0  ->
+   xqldb_xpath:simple_path(Nd, [{attribute, {att, '_', '_'}}]);
+%%    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
+%%    case xqerl_lib:lget(Key) of
+%%       undefined ->
+%%          #{index := Indx} = DB = xqerl_context:get_db(DbPid),
+%%          Bs = byte_size(NodeId),
+%%          Bp = Bs + 4,
+%%          Low  = <<NodeId:Bs/binary,0,0,0,0>>,
+%%          High = <<NodeId:Bs/binary,255,255,255,255>>,
+%%          LowT  = trunc_id(Low),
+%%          HighT = trunc_id(High),
+%%          Filter = fun(I, L) when byte_size(I) == Bp, I > Low, I < High -> 
+%%                         is_attribute({'_','_'}, '_', proplists:get_value(b, L));
+%%                      (_, _) -> false
+%%                   end,
+%%          Res = if LowT == HighT ->
+%%                      merge_index:lookup(Indx, doc, DocId, LowT, Filter);
+%%                   true ->
+%%                      merge_index:range(Indx, doc, DocId, LowT, HighT, all, Filter)
+%%                end,
+%%          Out = iterator_to_node_list(Res, DB),
+%%          xqerl_lib:lput(Key, Out);
+%%       Out ->
+%%          Out
+%%    end;
 attributes(_) -> [].
 
 get_single_node(#{index := Indx} = DB, DocId, NodeId) ->
@@ -768,7 +784,18 @@ iterator_to_node_set(Iter, DB) ->
    Tab = ets:new(?MODULE, [ordered_set]),
    ets:insert(Tab, List),
    Tab.
-   %gb_sets:from_list(List).
+
+iterator_to_atom_set(Iter, DB) ->
+   List = iterator_to_atom_set_1(Iter, DB),
+   Tab = ets:new(xqldb_nodes_atom, [ordered_set]),
+   ets:insert(Tab, List),
+   Tab.
+
+iterator_to_dbl_set(Iter, DB) ->
+   List = iterator_to_dbl_set_1(Iter, DB),
+   Tab = ets:new(xqldb_nodes_dbl, [ordered_set]),
+   ets:insert(Tab, List),
+   Tab.
 
 iterator_to_node_set_1(Iter, DB) when is_function(Iter) ->
    iterator_to_node_set_1(Iter(), DB);
@@ -777,6 +804,24 @@ iterator_to_node_set_1([Iter], DB) when is_function(Iter) ->
 iterator_to_node_set_1([{I,_} = H|T], DB) ->
    [{split_id(I), db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
 iterator_to_node_set_1([], _) ->
+   [].
+
+iterator_to_atom_set_1(Iter, DB) when is_function(Iter) ->
+   iterator_to_atom_set_1(Iter(), DB);
+iterator_to_atom_set_1([Iter], DB) when is_function(Iter) ->
+   iterator_to_atom_set_1(Iter(), DB);
+iterator_to_atom_set_1([{I,_} = H|T], DB) ->
+   [{split_id(I), db_node_to_atom(DB, H)} | iterator_to_atom_set_1(T, DB)];
+iterator_to_atom_set_1([], _) ->
+   [].
+
+iterator_to_dbl_set_1(Iter, DB) when is_function(Iter) ->
+   iterator_to_dbl_set_1(Iter(), DB);
+iterator_to_dbl_set_1([Iter], DB) when is_function(Iter) ->
+   iterator_to_dbl_set_1(Iter(), DB);
+iterator_to_dbl_set_1([{I,_} = H|T], DB) ->
+   [{split_id(I), db_node_to_dbl(DB, H)} | iterator_to_dbl_set_1(T, DB)];
+iterator_to_dbl_set_1([], _) ->
    [].
 
 split_id(<<A:32/integer, B:32/integer, C:32/integer, D:32/integer, Rest/binary>>) ->

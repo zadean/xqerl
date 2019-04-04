@@ -271,17 +271,30 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
             [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
                OutPathId <- PathLookup(InPathId)],
           IterUnion = xqldb_join:union(Iters),
-          Results = xqldb_nodes:iterator_to_node_set(IterUnion, DB),
+          Results = case lists:last(Steps) of
+                       atomize ->
+                          xqldb_nodes:iterator_to_atom_set(IterUnion, DB);
+                       double ->
+                          xqldb_nodes:iterator_to_dbl_set(IterUnion, DB);
+                       _ ->
+                          xqldb_nodes:iterator_to_node_set(IterUnion, DB)
+                    end,
           xqerl_lib:lput(ResKey, Results),
           Results;
        Results ->
           Results
     end,
    EachNode = fun(#{id := {_,_,NodeId}}) ->
+                    % this is the node id join, steps could shorten the id
+                    % such as reverse steps
                     xqldb_nodes:select_with_prefix(ResultSet, NodeId)
               end,
    lists:flatmap(EachNode, Nodes).
    
+normalize_step_names([atomize|T], NameMap, NmspMap) ->
+   normalize_step_names(T, NameMap, NmspMap);
+normalize_step_names([double|T], NameMap, NmspMap) ->
+   normalize_step_names(T, NameMap, NmspMap);
 normalize_step_names([{Ax,H}|T], NameMap, NmspMap) ->
    NewH = 
       case H of
@@ -420,12 +433,11 @@ ancestor_or_self_text(#{nk := _}, _) -> [].
 attribute_attribute(#{nk := element, at := []}, _) -> [];
 attribute_attribute(#{id := ?DB_ND,
                       nk := element,
-                      at := _} = P, {NameAndType, Preds}) ->
+                      at := _} = P, {{A, B, T}, Preds}) ->
    Cn = [N#{pt => P} || 
          #{nk := attribute,
-           nn := NodeName,
-           tn := TypeName} = N <- xqldb_nodes:attributes(P),
-         name_type_match(NameAndType, NodeName, TypeName)],
+           tn := TypeName} = N <- simple_path(P, [{attribute, {att, A, B}}]),
+         type_match(T, TypeName)],
    do_predicates(Cn, Preds);
 attribute_attribute(#{nk := element,
                       at := At} = P, {NameAndType, Preds}) ->
@@ -441,7 +453,8 @@ attribute_node(#{nk := element, at := []}, _) -> [];
 attribute_node(#{id := ?DB_ND,
                  nk := element,
                  at := _} = P, {Preds}) ->
-   do_predicates([N#{pt => P} || N <- xqldb_nodes:attributes(P)], Preds);
+   do_predicates([N#{pt => P} || 
+                  N <- simple_path(P, [{attribute, {att, '_', '_'}}])], Preds);
 attribute_node(#{nk := element,
                  at := At} = P, {Preds}) ->
    do_predicates([N#{pt => P} || N <- At], Preds);
@@ -455,7 +468,7 @@ child_comment(#{id := ?DB_ND,
                 nk := Nk} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N || #{nk := comment} = N <- xqldb_nodes:children(P)],
+   Cn = simple_path(P, [{child, comment}]),
    do_predicates(Cn, Preds);
 child_comment(#{nk := Nk,
                 ch := _} = P, {Preds})
@@ -467,13 +480,10 @@ child_comment(#{nk := _}, _) -> [].
 
 -spec child_element(document() | element(), step()) -> [element()].
 child_element(#{id := ?DB_ND,
-                nk := Nk} = P, {NameAndType, Preds})
+                nk := Nk} = P, {{A, B, _Type}, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N
-        || #{nk := element,
-             nn := NodeName} = N <- xqldb_nodes:children(P),
-           name_type_match(NameAndType, NodeName, '_')],
+   Cn = simple_path(P, [{child, {A, B}}]),
    do_predicates(Cn, Preds);
 child_element(#{nk := Nk,
                 ch := _} = P, {NameAndType, Preds})
@@ -491,7 +501,7 @@ child_element(#{nk := _}, _) -> [].
 child_node(#{id := ?DB_ND,
              nk := Nk} = P, {Preds}) when Nk == element;
                                           Nk == document -> 
-   do_predicates([N || N <- xqldb_nodes:children(P)], Preds);
+   do_predicates(simple_path(P, [{child, '_'}]), Preds);
 child_node(#{nk := Nk} = P, {Preds}) when Nk == element;
                                           Nk == document -> 
    do_predicates([N || N <- xqldb_mem_nodes:children(P)], Preds);
@@ -499,13 +509,10 @@ child_node(#{nk := _}, _) -> [].
 
 -spec child_processing_instruction(document() | element(), step()) -> [proc_inst()].
 child_processing_instruction(#{id := ?DB_ND,
-                               nk := Nk} = P, {Name, Preds})
+                               nk := Nk} = P, {{Name}, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N
-        || #{nk := 'processing-instruction',
-             nn := NodeName} = N <- xqldb_nodes:children(P),
-           name_match(Name, NodeName)],
+   Cn = simple_path(P, [{child, {pi, Name}}]),
    do_predicates(Cn, Preds);
 child_processing_instruction(#{nk := Nk,
                                ch := _} = P, {Name, Preds})
@@ -523,7 +530,7 @@ child_text(#{id := ?DB_ND,
              nk := Nk} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N || #{nk := text} = N <- xqldb_nodes:children(P)],
+   Cn = simple_path(P, [{child, text}]),
    do_predicates(Cn, Preds);
 child_text(#{nk := Nk,
              ch := _} = P, {Preds})
@@ -538,10 +545,10 @@ child_text(#{nk := _}, _) -> [].
 %% ================================
 -spec descendant_comment(document() | element(), step()) -> [comment()].
 descendant_comment(#{id := ?DB_ND,
-                     nk := Nk} = Node, {Preds})
+                     nk := Nk} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Ds = [N || #{nk := comment} = N <- xqldb_nodes:descendants(Node)],
+   Ds = simple_path(P, [{descendant, comment}]),
    do_predicates(Ds, Preds);
 descendant_comment(#{nk := Nk} = Node, {Preds})
    when Nk =:= element;
@@ -552,12 +559,10 @@ descendant_comment(#{nk := _}, _) -> [].
 
 -spec descendant_element(document() | element(), step()) -> [element()].
 descendant_element(#{id := ?DB_ND,
-                     nk := Nk} = Node, {NameAndType, Preds})
+                     nk := Nk} = P, {{A, B, _}, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Ds = [N || #{nk := element,
-                nn := NodeName} = N <- xqldb_nodes:descendants(Node),
-              name_type_match(NameAndType, NodeName, '_')],
+   Ds = simple_path(P, [{descendant, {A, B}}]),
    do_predicates(Ds, Preds);
 descendant_element(#{nk := Nk} = Node, {NameAndType, Preds})
    when Nk =:= element;
@@ -571,10 +576,10 @@ descendant_element(#{nk := _}, _) -> [].
 
 -spec descendant_node(document() | element(), step()) -> [anychild()].
 descendant_node(#{id := ?DB_ND,
-                  nk := Nk} = Node, {Preds})
+                  nk := Nk} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   do_predicates(xqldb_nodes:descendants(Node), Preds);
+   do_predicates(simple_path(P, [{descendant, '_'}]), Preds);
 descendant_node(#{nk := Nk} = Node, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
@@ -583,12 +588,10 @@ descendant_node(#{nk := _}, _) -> [].
 
 -spec descendant_processing_instruction(document() | element(), step()) -> [proc_inst()].
 descendant_processing_instruction(#{id := ?DB_ND,
-                                    nk := Nk} = Node, {Name, Preds})
+                                    nk := Nk} = P, {{Name}, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Ds = [N || #{nk := 'processing-instruction',
-                nn := NodeName} = N <- xqldb_nodes:descendants(Node),
-              name_match(Name, NodeName)],
+   Ds = simple_path(P, [{descendant, {pi, Name}}]),
    do_predicates(Ds, Preds);
 descendant_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
    when Nk =:= element;
@@ -601,10 +604,10 @@ descendant_processing_instruction(#{nk := _}, _) -> [].
 
 -spec descendant_text(document() | element(), step()) -> [text()].
 descendant_text(#{id := ?DB_ND,
-                  nk := Nk} = Node, {Preds})
+                  nk := Nk} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Ds = [N || #{nk := text} = N <- xqldb_nodes:descendants(Node)],
+   Ds = simple_path(P, [{descendant, text}]),
    do_predicates(Ds, Preds);
 descendant_text(#{nk := Nk} = Node, {Preds})
    when Nk =:= element;
@@ -624,18 +627,8 @@ descendant_or_self_attribute(#{nk := _}, _) -> [].
 -spec descendant_or_self_comment(comment() | document() | element(), step()) -> [comment()].
 descendant_or_self_comment(#{nk := comment} = Node, Step) ->
    self_comment(Node, Step);
-descendant_or_self_comment(#{id := ?DB_ND,
-                             nk := Nk} = Node, {Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := comment} = N <- xqldb_nodes:descendants(Node)],
-   do_predicates(Ds, Preds);
-descendant_or_self_comment(#{nk := Nk} = Node, {Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := comment} = N <- xqldb_mem_nodes:descendants(Node)],
-   do_predicates(Ds, Preds);
-descendant_or_self_comment(#{nk := _}, _) -> [].
+descendant_or_self_comment(Node, {Preds}) ->
+  descendant_comment(Node, {Preds}).
 
 -spec descendant_or_self_document_node(document(), step()) -> [document()].
 descendant_or_self_document_node(#{nk := document} = Node, Step) -> 
@@ -644,12 +637,18 @@ descendant_or_self_document_node(#{nk := _}, _) -> [].
 
 -spec descendant_or_self_element(document() | element(), step()) -> [element()].
 descendant_or_self_element(#{id := ?DB_ND,
-                             nk := Nk} = Node, {NameAndType, Preds}) 
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [D || #{nk := element,
-                nn := NodeName} = D <- [Node | xqldb_nodes:descendants(Node)],
-              name_type_match(NameAndType, NodeName, '_')], 
+                             nk := document} = P, {{A, B, _}, Preds}) ->
+   Ds = simple_path(P, [{descendant, {A, B}}]),
+   do_predicates(Ds, Preds);
+descendant_or_self_element(#{id := ?DB_ND,
+                             nk := element,
+                             nn := Nn} = P, {{A, B, _} = Nt, Preds}) -> 
+   Ds = case name_type_match(Nt, Nn, '_') of
+           true ->
+              [P|simple_path(P, [{descendant, {A, B}}])];
+           false ->
+              simple_path(P, [{descendant, {A, B}}])
+        end,
    do_predicates(Ds, Preds);
 descendant_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds}) 
    when Nk =:= element;
@@ -670,7 +669,7 @@ descendant_or_self_node(#{id := ?DB_ND,
                           nk := Nk} = Node, {Preds}) 
    when Nk =:= element;
         Nk =:= document -> 
-   Ds = [Node | xqldb_nodes:descendants(Node)], 
+   Ds = [Node | simple_path(Node, [{descendant, '_'}])], 
    do_predicates(Ds, Preds);
 descendant_or_self_node(#{nk := Nk} = Node, {Preds}) 
    when Nk =:= element;
@@ -682,38 +681,14 @@ descendant_or_self_node(#{nk := _}, _) -> [].
 -spec descendant_or_self_processing_instruction(document() | element() | proc_inst(), step()) -> [proc_inst()].
 descendant_or_self_processing_instruction(#{nk := 'processing-instruction'} = Node, Step) ->
    self_processing_instruction(Node, Step);
-descendant_or_self_processing_instruction(#{id := ?DB_ND,
-                                            nk := Nk} = Node, {Name, Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := 'processing-instruction',
-                nn := NodeName} = N <- xqldb_nodes:descendants(Node),
-              name_match(Name, NodeName)],
-   do_predicates(Ds, Preds);
-descendant_or_self_processing_instruction(#{nk := Nk} = Node, {Name, Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := 'processing-instruction',
-                nn := NodeName} = N <- xqldb_mem_nodes:descendants(Node),
-              name_match(Name, NodeName)],
-   do_predicates(Ds, Preds);
-descendant_or_self_processing_instruction(#{nk := _}, _) -> [].
+descendant_or_self_processing_instruction(Node, Step) ->
+   descendant_processing_instruction(Node, Step).
 
 -spec descendant_or_self_text(document() | element() | text(), step()) -> [text()].
 descendant_or_self_text(#{nk := text} = Node, Step) -> 
    self_text(Node, Step);
-descendant_or_self_text(#{id := ?DB_ND,
-                          nk := Nk} = Node, {Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := text} = N <- xqldb_nodes:descendants(Node)],
-   do_predicates(Ds, Preds);
-descendant_or_self_text(#{nk := Nk} = Node, {Preds})
-   when Nk =:= element;
-        Nk =:= document -> 
-   Ds = [N || #{nk := text} = N <- xqldb_mem_nodes:descendants(Node)],
-   do_predicates(Ds, Preds);
-descendant_or_self_text(#{nk := _}, _) -> [].
+descendant_or_self_text(Node, Step) ->
+   descendant_text(Node, Step).
 
 %% ==========================
 %% following - forward
@@ -1330,6 +1305,10 @@ following(Node, Acc) ->
          following(Par, Acc ++ Nds)
    end.
 
+type_match('_', _) -> true;
+type_match(Ty, Ty) -> true;
+type_match(_, _) -> false.
+
 name_type_match({'_', '_', '_'}, _, _) -> true;
 name_type_match({'_', '_', Ty}, {_, _, _}, Ty) -> true;
 name_type_match({'_', Ln,  '_'},{_, _, Ln}, _) -> true;
@@ -1393,12 +1372,15 @@ build_mem_node_fun(Steps) ->
    end.
 
 build_mem_node_fun(Node, []) -> [Node]; % out of steps return node
+build_mem_node_fun(Node, [F]) when is_function(F) -> [F(Node)]; % out of steps return node
 build_mem_node_fun(Node, [{H,P}|Steps]) ->
    [N ||
     X <- H(Node, P),
     N <- build_mem_node_fun(X, Steps)].
 
 get_funs_from_steps([]) -> [];
+get_funs_from_steps([atomize]) -> [];
+get_funs_from_steps([double]) -> [];
 get_funs_from_steps([{attribute, {att, '_', '_'}}|T]) ->
    [{fun attribute_node/2, {[]}} | get_funs_from_steps(T)];
 get_funs_from_steps([{attribute, {att, N, L}}|T]) ->

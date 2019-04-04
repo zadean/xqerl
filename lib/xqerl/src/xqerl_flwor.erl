@@ -552,7 +552,7 @@ optimize(#xqFlwor{} = FL, Digraph) ->
          {B5,F5} = maybe_lift_simple_return(F4, Digraph),
          {B6,F6} = maybe_lift_lets_in_return(F5, Digraph),
          F7 = if B2 orelse B3 orelse B4 orelse B5 orelse B6 ->
-                    ?dbg("F6",F6),
+                    %?dbg("F6",F6),
                     % keep cycling until completely optimized
                     optimize(F6, Digraph);
                  true ->
@@ -639,9 +639,10 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
                              empty = false} = FV,AType} = V) 
                   when Id0 < 10000 andalso 
                          is_tuple(Ex) andalso 
-                         element(1, Ex) =/= pragma andalso 
-                         element(1, Ex) =/= db_path_expr andalso 
-                         element(1, Ex) =/= path_expr;
+                         element(1, Ex) =/= pragma %andalso 
+                         %element(1, Ex) =/= db_path_expr andalso 
+                         %element(1, Ex) =/= path_expr
+                        ;
                        Id0 < 10000, not is_tuple(Ex) ->
                    D = fun(O) ->
                              not relies_on(V, O, G) orelse length(Fors) == 1
@@ -695,6 +696,7 @@ maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G) ->
            element(1, V) == 'let',
            shiftable_expression(V),
            P > 1],
+   %?dbg("Lets",Lets),
    F = fun({P,Let},{Ch,All}) ->
              {Ch1,All1} = do_lift_let({P,Let},All,G),
              {Ch1 orelse Ch, All1}
@@ -801,7 +803,7 @@ maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = Clauses, return = _Return} 
    Dups = [{{P1,L1},{P2,L2}} ||
            {P1,{'let',#xqVar{expr = E1},_} = L1} <- Lets,
            {P2,{'let',#xqVar{expr = E2},_} = L2} <- Lets,
-           E1 == E2,
+           expressions_equal(E1, E2),
            P1 < P2],
    % only remove the first
    % this works because path and postfix statements have unique ids
@@ -1050,14 +1052,31 @@ split_where_comparisons([{'where', WId,
                 local_name = <<"~lhs_", (integer_to_binary(CId))/binary>>},
    RNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
                 local_name = <<"~rhs_", (integer_to_binary(CId))/binary>>},
+
+   Lhs1 = case Lhs of
+             {path_expr, LI, _} ->
+                erlang:put({'$_where', LI}, Rhs), 
+                % put here for static phase type check
+                {atomize, Lhs};
+             _ ->
+                Lhs
+          end,
+   Rhs1 = case Rhs of
+             {path_expr, RI, _} ->
+                erlang:put({'$_where', RI}, Lhs), 
+                % put here for static phase type check
+                {atomize, Rhs};
+             _ ->
+                Rhs
+          end,
    LLetVar = #xqVar{name = LNm,
-                    type = #xqSeqType{},
-                    id = CId + 10000,
-                    expr = Lhs},
-   RLetVar = #xqVar{name = RNm,
-                    type = #xqSeqType{},
+                    type = undefined,
                     id = CId + 20000,
-                    expr = Rhs},
+                    expr = Lhs1},
+   RLetVar = #xqVar{name = RNm,
+                    type = undefined,
+                    id = CId + 30000,
+                    expr = Rhs1},
    WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
                                    rhs = #xqVarRef{name = RNm}},
    WExpr2 = WExpr#xqComparisonExpr{lhs = Lhs,
@@ -1528,7 +1547,8 @@ delete_edges(G, V1, V2) ->
     {_,_,V3,_} = E <- [digraph:edge(G, Ed)],
     V3 == V2].
 
-  
+expressions_equal(E1, E2) ->
+   E1 == E2.
 
 print_digraph(G) -> ok.
 %%   [?dbg("D",E) ||

@@ -90,6 +90,13 @@ atomize(A) when is_binary(A);
                 is_number(A);
                 is_atom(A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
+atomize(#{tv := Tv}) -> Tv;
+atomize(#{nk := attribute,
+          sv := Sv}) ->
+   ?xav('xs:untypedAtomic', Sv);
+atomize(#{nk := text,
+          sv := Sv}) ->
+   ?xav('xs:untypedAtomic', Sv);
 atomize(#{nk := Nk,
           id := Id} = Node) ->
    Str = case Id of
@@ -187,7 +194,9 @@ rest_return_value(Seq, #{options := Opts}) ->
 
 string_value([]) -> <<>>;
 string_value(Bin) when is_binary(Bin) -> Bin;
-%string_value([H|T]) when is_integer(H) -> [H|T];
+string_value(#xqAtomicValue{type = Type,
+                            value = Bin})
+   when ?xs_string(Type) -> Bin;
 string_value(#xqError{} = E) -> E;
 string_value(#xqRange{} = R) -> 
    string_value(xqerl_seq3:expand(R));
@@ -2000,9 +2009,9 @@ cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) ->
 cast_as( #{nk := _} = At, #xqKindTest{kind = node} ) -> 
    At;
 cast_as( #{nk := _} = At, TT ) ->
-   ?dbg("TT",TT),
+   %?dbg("TT",TT),
    Atomized = atomize(At),
-   ?dbg("Atomized",Atomized),
+   %?dbg("Atomized",Atomized),
    cast_as(Atomized, TT);
 cast_as( [], 'xs:anyURI') -> [];
 cast_as( [], 'xs:NCName') -> [];

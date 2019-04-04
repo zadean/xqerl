@@ -1537,6 +1537,38 @@ expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
    expr_do(Ctx, Expr1#xqFunction{body = {atomize, Body}});
 
+% atomize called on cardinality fun
+expr_do(Ctx, {double,{'function-call', 
+                       #xqFunction{params = [A],
+                                   body = {xqerl_fn,Name,2}} = F
+                      }
+             }) 
+   when Name == 'exactly-one';
+        Name == 'zero-or-one';
+        Name == 'one-or-more' ->
+   expr_do(Ctx, {'function-call', F#xqFunction{params = [{double, A}]}});
+expr_do(Ctx, {atomize,{'function-call', 
+                       #xqFunction{params = [A],
+                                   body = {xqerl_fn,Name,2}} = F
+                      }
+             }) 
+   when Name == 'exactly-one';
+        Name == 'zero-or-one';
+        Name == 'one-or-more' ->
+   expr_do(Ctx, {'function-call', F#xqFunction{params = [{atomize, A}]}});
+
+expr_do(Ctx, {double, {path_expr,_Id,Steps}}) ->
+   expr_do(Ctx, {path_expr,_Id,Steps ++ [double]});
+expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
+   expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
+
+expr_do(Ctx, {atomize, Expr}) ->
+   E = expr_do(Ctx, Expr),
+   ?P("xqerl_types:atomize(_@E)");
+expr_do(Ctx, {double, Expr}) ->
+   E = expr_do(Ctx, Expr),
+   ?P("xqerl_types:cast_as(_@E, 'xs:double')");
+
 % paths
 %TODO move path expressions to local functions
 % should take Base as the original context
@@ -1562,17 +1594,11 @@ expr_do(Ctx, {path_expr,_Id, _Steps} = P) ->
 
 
 
-expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
-   expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
 
 expr_do(Ctx, {root}) ->
    expr_do(Ctx, 'context-item');
 expr_do(Ctx, {'any-root'}) ->
    expr_do(Ctx, 'context-item');
-
-expr_do(Ctx, {atomize, Expr}) ->
-   E = expr_do(Ctx, Expr),
-   ?P("xqerl_types:atomize(_@E)");
 
 expr_do(Ctx, #xqDocumentNode{} = N) ->
    abs_document_node(Ctx, N);
@@ -2154,7 +2180,7 @@ path_expr_do(Ctx0, {_PathExpr, _Id, [ Base | Steps ]}) ->
             CurrCtxVar = {var, ?L, get_context_variable_name(Ctx0)},
             a_var(Var, CurrCtxVar);           
         _ ->
-           ?dbg("Base", Base),
+           %?dbg("Base", Base),
            expr_do(Ctx, {expr, Base})
      end,
 
@@ -2189,6 +2215,14 @@ step_expr_do(_, [atomize], SourceVar) ->
    O = ?P([" xqerl_seq3:path_map(",
        "      fun(_@DocVar,_,_) ->",
        "             xqerl_types:atomize(_@DocVar)",
+       "      end, _@SourceVar)"       
+      ]),
+   alist(O);
+step_expr_do(_, [double], SourceVar) -> 
+   DocVar = {var,?L,next_var_name()},
+   O = ?P([" xqerl_seq3:path_map(",
+       "      fun(_@DocVar,_,_) ->",
+       "             xqerl_types:cast_as(_@DocVar, 'xs:double')",
        "      end, _@SourceVar)"       
       ]),
    alist(O);
@@ -4169,6 +4203,10 @@ build_simple_path(_Ctx, SourceVar, Simp) ->
 split_steps([]) -> [];
 split_steps(Steps) ->
    case lists:splitwith(fun is_simple_step/1, Steps) of
+      {[atomize], []} ->
+         [{[], [atomize]}];
+      {[double], []} ->
+         [{[], [double]}];
       {Sim1, []} ->
          [{Sim1, []}];
       {Sim1, Hard1} ->
@@ -4180,6 +4218,8 @@ split_steps(Steps) ->
 is_hard_step(Step) ->
    not is_simple_step(Step).
 
+is_simple_step(atomize) -> true;
+is_simple_step(double) -> true;
 is_simple_step(#xqAxisStep{axis = Axis,
                            node_test = #xqKindTest{type = Ty},
                            predicates = []}) 
@@ -4215,15 +4255,17 @@ maybe_split_predicate_step(Sim,
       true ->
          {Sim, [H|Hs]};
       false ->
-         ?dbg("Preds",Preds),
+         %?dbg("Preds",Preds),
          NewSim = Sim ++ [H#xqAxisStep{predicates = []}],
          NewHard = [H#xqAxisStep{axis = self}|Hs],
-         ?dbg("H    ",H),
+         %?dbg("H    ",H),
          {NewSim, NewHard}
    end;
 maybe_split_predicate_step(Sim, Hard) ->
    {Sim, Hard}.
 
+simple_axis(atomize) -> atomize;
+simple_axis(double) -> double;
 simple_axis(#xqAxisStep{axis = Axis,
                         node_test = 
                           #xqKindTest{kind = Kind,

@@ -403,7 +403,7 @@ att_events([],State,_) ->
    State.
 
 get_att_type(Key, AttDec) ->
-   ?dbg("Key, AttDec", {Key, AttDec}),
+   %?dbg("Key, AttDec", {Key, AttDec}),
    case AttDec of
       #{Key := Type} ->
          Type;

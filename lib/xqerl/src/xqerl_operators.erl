@@ -1594,6 +1594,8 @@ numeric_multiply(A, B) ->
            end,
    ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA * ValB;
+             is_number(ValA) andalso is_number(ValB) ->
+                ValA * ValB;
              ValA == infinity andalso is_number(ValB) andalso ValB > 0 ->
                 infinity;
              ValA == infinity andalso is_number(ValB) andalso ValB < 0 ->
@@ -1612,8 +1614,6 @@ numeric_multiply(A, B) ->
                 nan;
              ValA == nan orelse ValB == nan ->
                 nan;
-             is_integer(ValA) andalso is_integer(ValB) ->
-                ValA * ValB;
              TypeC == 'xs:float' -> % float could be overflowed
                 case float(ValA) * float(ValB) of
                    X when X > ?MAXFLOAT ->

@@ -1312,6 +1312,27 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
 %% 3.3.2 Steps
 %% the type of a step path is the last steps type as 0 or many
 % Steps is a list of steps to take in order
+handle_node(State, atomize) ->
+   Type = #xqSeqType{type = 'xs:anyAtomicType', occur = zero_or_many},
+   set_statement_and_type(State, atomize, Type);
+handle_node(State, double) ->
+   Type = #xqSeqType{type = 'xs:double', occur = zero_or_many},
+   set_statement_and_type(State, double, Type);
+handle_node(State, {atomize, {path_expr, Id, Steps}}) ->
+   case erlang:get({'$_where', Id}) of
+      undefined ->
+         handle_node(State, {path_expr, Id, Steps ++ [atomize]});
+      OtherSide ->
+         Type = get_statement_type(handle_node(State, OtherSide)),
+         #xqSeqType{type = St} = get_simple_type(Type),
+         ?dbg("Type",Type),
+         ?dbg("St  ",St),
+         if ?xs_numeric(St) ->
+               handle_node(State, {path_expr, Id, Steps ++ [double]});
+            true ->
+               handle_node(State, {path_expr, Id, Steps ++ [atomize]})
+         end
+   end;
 handle_node(State, {path_expr, Id, Steps}) ->
    StateC = set_in_constructor(State, false),
    IsMaybeDb = case get_in_predicate(State) of
@@ -1338,7 +1359,7 @@ handle_node(State, {path_expr, Id, Steps}) ->
                     {get_statement_type(State), IsMaybeDb}, Steps),
    %?dbg("{Id, Statements}",{Id, Statements}),
    Ps = if IsDB ->
-              {db_path_expr, Id, Statements};
+              {path_expr, Id, Statements};
            true ->
               {path_expr, Id, Statements}
         end,
@@ -1609,7 +1630,14 @@ handle_node(State, #xqArithExpr{op = Op,
             xqerl_operators:idivide(St1, St2);
          Atomic, Op =:= 'mod' ->
             xqerl_operators:modulo(St1, St2);
+         ?node(T1#xqSeqType.type), ?node(T2#xqSeqType.type) ->
+            Expr#xqArithExpr{lhs = {double, St1}, rhs = {double, St2}};
+         ?node(T1#xqSeqType.type) ->
+            Expr#xqArithExpr{lhs = {double, St1}, rhs = St2};
+         ?node(T2#xqSeqType.type) ->
+            Expr#xqArithExpr{lhs = St1, rhs = {double, St2}};
          true ->
+            %?dbg("{T1, T2, T3}", {T1, T2, T3}),
             Expr#xqArithExpr{lhs = St1, rhs = St2}
       end,
    Type = if is_record(NewExpr, xqAtomicValue) ->

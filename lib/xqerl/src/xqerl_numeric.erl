@@ -165,8 +165,8 @@ decimal(#xsDecimal{} = D) -> simplify(D);
 %% decimal(String) when is_list(String) -> %TODO remove
 %%    decimal(list_to_binary(String));
 decimal(String) ->
-   case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-      undefined ->
+%   case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
+%      undefined ->
          Val = case split_on_dot(String,<<>>) of
                   [Int,Fract] ->
                      Scf = byte_size(Fract),
@@ -175,10 +175,11 @@ decimal(String) ->
                   [Int] ->
                      #xsDecimal{int = binary_to_integer(Int), scf = 0}
                end,
-         xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, Val),
-         Val;
-      V -> V
-   end.   
+%         xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, Val),
+         Val%;
+%      V -> V
+%   end.   
+.
 
 -spec double(number() | #xsDecimal{} | binary()) -> 
          'infinity' | 'nan' | 'neg_infinity' | 'neg_zero' | 
@@ -200,14 +201,14 @@ double(#xsDecimal{scf = Scf} = D) when Scf > 6 ->
       _:_ ->
          D
    end;
-double(#xsDecimal{int = Int, scf = Scf} = D) ->
+double(#xsDecimal{int = Int, scf = Scf}) ->
    try 
+      Int / math:pow(10, Scf)
+   catch 
+      _:_ ->
       double(
         <<(integer_to_binary(Int))/binary, $.,$0,$E,$-, 
           (integer_to_binary(Scf))/binary>>)
-   catch 
-      _:_ ->
-         D
    end;
 double(String) ->
 %%    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
@@ -221,12 +222,6 @@ double(String) ->
             V ->
                V
          end,
-   case binary:match(Val, <<"--">>) of
-      nomatch ->
-         ok;
-      _ ->
-         ?err('FORG0001')
-   end,
    if Val == <<"-0">>  -> neg_zero;
       Val == <<"NaN">>  -> nan;
       Val == <<"-INF">> -> neg_infinity;
@@ -238,6 +233,7 @@ double(String) ->
          case catch binary_to_float(Val) of
             Flt when is_float(Flt), Flt == 0 ->
                if First == $- ->
+                     ok = check_double_dash(Val),
                      neg_zero;
                   true ->
                      Flt
@@ -281,7 +277,9 @@ double(String) ->
                                                 binary_to_float(Man)
                                           end
                                     end,
-                        NNum = if Sign == '-' -> - Num;
+                        NNum = if Sign == '-' -> 
+                                     ok = check_double_dash(Val),
+                                     - Num;
                                   true -> Num
                                end,
                         try
@@ -318,16 +316,17 @@ double(String) ->
 -spec float(number() | #xsDecimal{}) -> float().
 float(Float) when is_float(Float) ->
    % take the float from 64 to 32 bit
-   <<New:32/float>> = <<Float:32/float>>,
-   New;
+   try 
+      <<New:32/float>> = <<Float:32/float>>,
+      New
+   catch
+      _:_ ->
+         ?err('FOAR0002')
+   end;
 float(Int) when is_integer(Int) ->
    ?MODULE:float(erlang:float(Int));
-float(#xsDecimal{int = Int, scf = Scf}) ->
-   ?MODULE:float(
-     double(
-       <<(integer_to_binary(Int))/binary, ".0E-",
-         (integer_to_binary(Scf))/binary >>
-           )).
+float(#xsDecimal{} = D) ->
+   ?MODULE:float(double(D)).
 
 -spec integer(number() | #xsDecimal{}) -> integer().
 integer(Int) when is_integer(Int) -> Int;
@@ -1025,4 +1024,17 @@ split_on_e(<<"e",T/binary>>,Acc) -> [Acc,T];
 split_on_e(<<"E",T/binary>>,Acc) -> [Acc,T];
 split_on_e(<<H/utf8,T/binary>>,Acc) -> split_on_e(T,<<Acc/binary,H/utf8>>).
 
+check_double_dash(Val) -> 
+   case binary:match(Val, <<"--">>) of
+      nomatch ->
+         ok;
+      _ ->
+         ?err('FORG0001')
+   end.
+%% ;
+%% check_double_dash(<<"--">>) -> ?err('FORG0001');
+%% check_double_dash(<<"--", _/binary>>) -> ?err('FORG0001');
+%% check_double_dash(<<_, R/binary>>) ->
+%%    check_double_dash(R);
+%% check_double_dash(<<>>) -> ok.
 

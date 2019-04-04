@@ -322,7 +322,7 @@ normalize_lines(<<H,T/binary>>, Acc) ->
 normalize_lines(<<>>, Acc) -> Acc.
 
 
-string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
+string_value(List) when is_list(List) ->
    NewList = lists:map(fun xqerl_seq3:singleton/1, List),
    Seq = xqerl_seq3:from_list(NewList),
    xqerl_types:string_value(Seq);
@@ -1013,7 +1013,8 @@ handle_environment(List) ->
 load_qt3_xml() ->
    TestDir = filename:join(
                filename:dirname(
-                 filename:dirname(code:lib_dir(xqerl))),"test/QT3-test-suite"),
+                 filename:dirname(
+                   filename:dirname(code:lib_dir(xqerl)))),"qt3tests"),
    Catalog = filename:join(TestDir, "catalog.xml"),
    Tests = [filename:join(TestDir, F) || F <- qt3_files()],
    _ = [maybe_insert_file(N) || N <- [Catalog|Tests] ],

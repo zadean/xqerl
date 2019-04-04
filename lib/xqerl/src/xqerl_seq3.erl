@@ -530,7 +530,7 @@ pformap(From,NL,FCT,Limit,Left,Pids,Acc) when not is_list(NL) ->
 
 
 pmap(FCT,List) ->
-   pmap(FCT,List,16).
+   pmap(FCT,List,32).
 
 pmap(FCT,List,Limit) -> 
    pmap(self(),List,FCT,Limit,Limit,[],[]),

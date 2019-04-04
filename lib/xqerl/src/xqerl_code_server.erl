@@ -555,10 +555,11 @@ do_unload(Tab, Ebin, DispatchFile) ->
       %?dbg("",Flat),
       Filename = filename:join("/git/zadean/xqerl/lib/xqerl_tests/src",atom_to_list(M) ++ ".erl"),
       ?dbg("Filename",Filename),
-      {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
+%      {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
       %?dbg("PP",PP),
-      io:put_chars(FP, PP),
-      file:close(FP),
+io:format(PP),
+%      io:put_chars(FP, PP),
+%      file:close(FP),
       %ok = file:write_file(Filename, list_to_binary(PP)),
       Flat.   
 -elif(true).

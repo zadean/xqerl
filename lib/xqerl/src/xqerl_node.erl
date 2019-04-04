@@ -120,11 +120,11 @@ new_fragment(#{'base-uri' := B} = Ctx0, Content) when is_list(Content), is_map(C
    Ctx2 = add_node(Ctx1, Id, Doc),
    DynNs = [#xqNamespace{namespace = ?SSTR("http://www.w3.org/XML/1998/namespace"), 
                          prefix = ?SSTR("xml")}|DefaultNs],
-   {Children, Sz, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
+   {Children, _, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
    if Children == [] ->
          [];
       true ->
-         Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
+         Ctx5 = set_node_children(Ctx4, Id, Children),
          {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
          %io:format("~p~n",[L]),
          xqldb_mem_nodes:parse_list(xqerl_types:value(B),L)
@@ -162,11 +162,11 @@ new_fragment_list(#{'base-uri' := _} = Ctx0, Content) when is_list(Content),
    Ctx2 = add_node(Ctx1, Id, Doc),
    DynNs = [#xqNamespace{namespace = ?SSTR("http://www.w3.org/XML/1998/namespace"), 
                          prefix = ?SSTR("xml")}|DefaultNs],
-   {Children, Sz, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
+   {Children, _, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
    if Children == [] ->
          [];
       true ->
-         Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
+         Ctx5 = set_node_children(Ctx4, Id, Children),
          _FragId = get_frag_id(Ctx5),
          {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
          L
@@ -208,14 +208,14 @@ get_node_type(#xqCommentNode{}) -> comment;
 get_node_type(#xqTextNode{}) -> text;
 get_node_type(#xqProcessingInstructionNode{}) -> 'processing-instruction'.
 
+ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, 
+             _InScopeNamespaces) -> QName;
 ensure_qname({Nx,Px}, InScopeNamespaces) ->
    #qname{namespace = N, prefix = P} = 
      ensure_qname(#qname{namespace = Nx, prefix = Px}, InScopeNamespaces),
    {N,P};
 ensure_qname([H], InScopeNamespaces) ->
    ensure_qname(H, InScopeNamespaces);
-ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, 
-             _InScopeNamespaces) -> QName;
 ensure_qname(#{nk := _} = Node, InScopeNamespaces) ->
    ensure_qname(xqerl_types:atomize(Node), InScopeNamespaces);
 ensure_qname(#xqAtomicValue{type = 'xs:untypedAtomic',
@@ -307,12 +307,16 @@ ensure_qname(#qname{namespace = Ns,
                     local_name = undefined} = QName, _InScopeNamespaces)
    when is_binary(Ns) orelse is_atom(Ns) ->
    QName;
+ensure_qname(#qname{prefix = <<"xml">>,
+                    local_name = undefined} = Q, _InScopeNamespaces) ->
+   Q;
 ensure_qname(#qname{namespace = Ns,
                     prefix = Px,
                     local_name = undefined}, _InScopeNamespaces)
    when is_binary(Ns) orelse is_atom(Ns),
         is_binary(Px) ->
    try
+      %?dbg("Px",Px),
       Px1 = xqerl_types:string_value(xqerl_types:cast_as(Px,'xs:NCName')),
       #qname{namespace = Ns,
              prefix = Px1,
@@ -465,6 +469,7 @@ check_element_name(#qname{namespace = <<"http://www.w3.org/XML/1998/namespace">>
 check_element_name(_) ->
    ok.
 
+check_attribute_names([]) -> ok;
 check_attribute_names(AttributeNodes) ->
    Names = [{Ns,Ln} || 
             #xqAttributeNode{name = #qname{namespace = Ns, local_name = Ln}} 
@@ -500,10 +505,13 @@ ensure_content_deep(_, Content) ->
    %?dbg("Content",Content),
    Content. % leave sequences alone, they get atomized
 
+merge_context_namespaces(#{namespaces := IsNs} = Ctx, IsNs) ->
+   Ctx;
 merge_context_namespaces(#{namespaces := Namespaces} = Ctx, IsNs) ->
-   N = lists:ukeymerge(3, 
-                       lists:keysort(3, IsNs),
-                       lists:keysort(3, Namespaces)),
+   F = fun({_,_,K} = I, L) ->
+             lists:keystore(K, 3, L, I)
+       end,
+   N = lists:foldl(F, Namespaces, IsNs),
    Ctx#{namespaces := N}.
 
 merge_inscope_namespaces({'no-preserve','no-inherit'},
@@ -512,12 +520,24 @@ merge_inscope_namespaces({'no-preserve','no-inherit'},
                          _DirectNamespaces) ->
    % no-preserve, no-inherit means keep only used namespaces.
    ElemNs;
+
+merge_inscope_namespaces({'no-preserve',inherit},
+                         _ElemNs,
+                         InScopeNs,
+                         InScopeNs) ->
+   InScopeNs;
 merge_inscope_namespaces({'no-preserve',inherit},
                          _ElemNs,
                          InScopeNs,
                          DirectNamespaces) ->
    % no-preserve, inherit means keep no namespaces actually attached and all in-scope.
    lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
+
+merge_inscope_namespaces({preserve,'no-inherit'},
+                         ElemNs,
+                         _InScopeNs,
+                         ElemNs) ->
+   ElemNs;
 merge_inscope_namespaces({preserve,'no-inherit'},
                          ElemNs,
                          _InScopeNs,
@@ -525,6 +545,27 @@ merge_inscope_namespaces({preserve,'no-inherit'},
    % preserve, no-inherit means keep only those namespaces actually attached.
    %lists:keysort(3, DirectNamespaces);
    lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, ElemNs));
+
+merge_inscope_namespaces({preserve, inherit},
+                         [],
+                         InScopeNs,
+                         InScopeNs) ->
+   InScopeNs;
+merge_inscope_namespaces({preserve, inherit},
+                         [],
+                         InScopeNs,
+                         DirectNamespaces) ->
+   lists:ukeymerge(3, lists:keysort(3, DirectNamespaces), lists:keysort(3, InScopeNs));
+merge_inscope_namespaces({preserve, inherit},
+                         ElemNs,
+                         ElemNs,
+                         []) ->
+   ElemNs;
+merge_inscope_namespaces({preserve, inherit},
+                         ElemNs,
+                         InScopeNs,
+                         []) ->
+   lists:ukeymerge(3, lists:keysort(3, InScopeNs), lists:keysort(3, ElemNs));
 merge_inscope_namespaces({preserve, inherit},
                          ElemNs,
                          InScopeNs,
@@ -538,6 +579,9 @@ merge_inscope_namespaces({preserve, inherit},
                     end,
                 not lists:any(B, Keep)
           end,
+   %?dbg("ElemNs",ElemNs),
+   %?dbg("InScopeNs",InScopeNs),
+   %?dbg("DirectNamespaces",DirectNamespaces),
    lists:filter(F, ElemNs) ++ Keep.
 
 % returns {Children, Sz, Ctx3}
@@ -701,7 +745,7 @@ handle_content(#{'base-uri' := BU,
      handle_contents(Ctx2#{'base-uri' := BU1}, 
                      Id, ImplNamespaces ++ Content3, 
                      InScopeNs3, 0),
-   Ctx4 = (set_node_children(Ctx3, Id, Children, Sz1)),
+   Ctx4 = (set_node_children(Ctx3, Id, Children)),
    {Id, Sz1 + Sz + 1,Ctx4};
 
 handle_content(Ctx, _Parent, #xqDocumentNode{content = Content} = N, INs, Sz) ->
@@ -718,7 +762,7 @@ handle_content(Ctx, _Parent, #xqDocumentNode{content = Content} = N, INs, Sz) ->
    Node = N#xqDocumentNode{identity = Id, content = undefined},
    Ctx2 = add_node(Ctx1, Id, Node),
    {Children, Sz1, Ctx3} = handle_contents(Ctx2, Id, Content2, INs, 0),
-   Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
+   Ctx4 = set_node_children(Ctx3, Id, Children),
    {Id, Sz1 + Sz + 1,Ctx4};
 
 handle_content(Ctx, Parent, 
@@ -947,11 +991,9 @@ get_nodes(#{nodes := Nodes}) -> Nodes.
 get_frag_id(#{frag_id := F}) -> F.
 
 % returns new Ctx
-set_node_children(Ctx, Id, Children, Sz) ->
+set_node_children(#{nodes := Nodes} = Ctx, Id, Children) ->
    Children1 = lists:reverse(Children),
-   Nodes = get_nodes(Ctx),
-   Node = maps:get(Id, Nodes),
-   %Node = array:get(Id, Nodes),
+   #{Id := Node} = Nodes,
    Node2 = case Node of
               #xqXmlFragment{} ->
                  Node#xqXmlFragment{children = Children1};
@@ -960,10 +1002,16 @@ set_node_children(Ctx, Id, Children, Sz) ->
               #xqElementNode{} ->
                  Node#xqElementNode{children = Children1}
            end,
-   add_node(Ctx,Id, Node2).
+   Ctx#{nodes := Nodes#{Id := Node2}}.
 
+resolve_namespace(#qname{namespace = 'no-namespace', 
+                         prefix = <<>>} = QName, 
+                  [#xqNamespace{namespace = 'no-namespace', prefix = <<>>}|_]) ->
+   QName;
 resolve_namespace(#qname{namespace = Ns, 
                          prefix = LPx} = QName, InscopeNamespaces) ->
+   %?dbg("QName            ",QName),
+   %?dbg("InscopeNamespaces",InscopeNamespaces),
    %check if there is a new prefix for the namespace
    Px1 = [Px || 
           #xqNamespace{namespace = Ns1, prefix = Px} 
@@ -1568,6 +1616,9 @@ combine_atomics([H|T], Acc) ->
    combine_atomics(T, [H|Acc]).
 
 
+check_computed_namespaces([]) -> ok;
+check_computed_namespaces([#xqNamespaceNode{uri = 'no-namespace', prefix = <<>>}]) -> ok;
+check_computed_namespaces([#xqNamespaceNode{uri = <<"http://www.w3.org/XML/1998/namespace">>, prefix = <<"xml">>}]) -> ok;
 check_computed_namespaces(NameSpaces0) ->
    NameSpaces = [{P,xqerl_types:value((N))} ||
                  #xqNamespaceNode{uri = N, prefix = P} <- NameSpaces0],
@@ -1577,7 +1628,7 @@ check_computed_namespaces(NameSpaces0) ->
          ?err('XQDY0102');
       true ->
          %?dbg("NameSpaceNodes",NameSpaceNodes),
-         %?dbg("Namespaces",Namespaces),
+         %?dbg("NameSpaces",NameSpaces),
          F = fun({<<"xml">>,Ns}) 
                    when Ns =/= <<"http://www.w3.org/XML/1998/namespace">> ->
                    ?err('XQDY0101');
@@ -1599,7 +1650,10 @@ check_computed_namespaces(NameSpaces0) ->
    end,
    ok.
    
+check_direct_namespaces([]) -> ok;
+check_direct_namespaces([#xqNamespace{namespace = 'no-namespace', prefix = <<>>}]) -> ok;
 check_direct_namespaces(NameSpaceNodes) ->
+   %?dbg("NameSpaceNodes",NameSpaceNodes),
    Namespaces = [{P,xqerl_types:value(N)} || 
                  #xqNamespace{namespace = N, prefix = P} 
                 <- NameSpaceNodes],
@@ -1656,9 +1710,11 @@ node_to_content(#{nk := _} = Orig, Preserve) ->
                        #xqAtomicValue{} ->
                           Nn;
                        {Ns,Px,Ln} ->
+                          #xqAtomicValue{type = 'xs:QName',
+                                         value = 
                           #qname{namespace = maybe_ns_to_atom(Ns),
                                  prefix = Px,
-                                 local_name = Ln};
+                                 local_name = Ln}};
                        _ ->
                           Nn
                     end,
@@ -1682,9 +1738,11 @@ node_to_content(#{nk := _} = Orig, Preserve) ->
                        #xqAtomicValue{} ->
                           Nn;
                        {Ns,Px,Ln} ->
+                          #xqAtomicValue{type = 'xs:QName',
+                                         value = 
                           #qname{namespace = maybe_ns_to_atom(Ns),
                                  prefix = Px,
-                                 local_name = Ln};
+                                 local_name = Ln}};
                        _ ->
                           Nn
                     end,
@@ -1708,9 +1766,11 @@ node_to_content(#{nk := _} = Orig, Preserve) ->
                        #xqAtomicValue{} ->
                           Nn;
                        {Ns,Px,Ln} ->
+                          #xqAtomicValue{type = 'xs:QName',
+                                         value = 
                           #qname{namespace = maybe_ns_to_atom(Ns),
                                  prefix = Px,
-                                 local_name = Ln};
+                                 local_name = Ln}};
                        _ ->
                           Nn
                     end,
@@ -1849,21 +1909,23 @@ build_sax(Num, NodeMap,NsInUse) ->
 
 %% %{startPrefixMapping, Prefix, Uri}
 %% %{endPrefixMapping, Prefix}
+namespace_mappings([#xqNamespaceNode{uri = Ns, prefix = Ln}]) ->
+   {[{startPrefixMapping, Ln, fix_ns(Ns)}],
+    [{endPrefixMapping, Ln}]};
 namespace_mappings(List) ->
    S = lists:map(fun(#xqNamespaceNode{uri = Ns, prefix = Ln}) ->
                        {startPrefixMapping, Ln, fix_ns(Ns)};
                     (#xqNamespace{namespace = Ns, prefix = Ln}) ->
                        {startPrefixMapping, Ln, fix_ns(Ns)}
                  end, List),
-   E = lists:map(fun(#xqNamespaceNode{prefix = Ln}) ->
-                       {endPrefixMapping, Ln};
-                    (#xqNamespace{prefix = Ln}) ->
+   US = lists:usort(S),
+   E = lists:map(fun({startPrefixMapping, Ln, _}) ->
                        {endPrefixMapping, Ln}
-                 end, List),
-   {lists:usort(S),
-    lists:usort(E)}.
+                 end, US),
+   {US, E}.
 
 %% [{Uri, Prefix, AttributeName, Value}]
+attribute_list([]) -> [];
 attribute_list(List) ->
    lists:map(fun(#xqAttributeNode{name = #qname{namespace = Ns,
                                                 prefix = Px, 

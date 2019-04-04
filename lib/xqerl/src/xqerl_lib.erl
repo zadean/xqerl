@@ -261,6 +261,8 @@ trim_1(String) ->
          Sz = byte_size(String) - 1,
          <<Out:Sz/bytes,_/binary>> = String,
          trim_1(Out);
+      H when H < 128 ->
+         String;
       _ when binary_part(String,BS,-3) == <<8206/utf8>>;
              binary_part(String,BS,-3) == <<8207/utf8>>;
              binary_part(String,BS,-3) == <<8232/utf8>>;

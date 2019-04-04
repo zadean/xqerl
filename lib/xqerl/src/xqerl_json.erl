@@ -28,18 +28,19 @@
 -include("xqerl.hrl").
 
 -define(ns, <<"http://www.w3.org/2005/xpath-functions">>).
--define(qn(Local), #qname{namespace = ?ns, prefix = <<>>, local_name = <<Local>>}).
--define(key(Value),#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                                  prefix = <<>>, 
-                                                  local_name = <<"key">>},
+-define(q(Q), #xqAtomicValue{type = 'xs:QName', value = Q}).
+-define(qn(Local), ?q(#qname{namespace = ?ns, prefix = <<>>, local_name = <<Local>>})).
+-define(key(Value),#xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                                     prefix = <<>>, 
+                                                     local_name = <<"key">>}),
                                     string_value = Value}).
--define(esckey, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                               prefix = <<>>, 
-                                               local_name = <<"escaped-key">>},
+-define(esckey, #xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                                  prefix = <<>>, 
+                                                  local_name = <<"escaped-key">>}),
                                  string_value = <<"true">>}).
--define(esc, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
+-define(esc, #xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
                                             prefix = <<>>, 
-                                            local_name = <<"escaped">>},
+                                            local_name = <<"escaped">>}),
                               string_value = <<"true">>}).
 
 -define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
@@ -144,8 +145,8 @@ xml_to_json(State, [#xqElementNode{} = E]) ->
   xml_to_json(State, E);
 
 xml_to_json(State = #state{indent = Indent},
-             #xqElementNode{name = #qname{namespace = ?ns, 
-                                          local_name = <<"array">>},
+             #xqElementNode{name = ?q(#qname{namespace = ?ns, 
+                                          local_name = <<"array">>}),
                             content = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Content = lists:map(fun(V) ->
@@ -159,7 +160,7 @@ xml_to_json(State = #state{indent = Indent},
          {<<$", KeyVal/binary, $">>, serialize_array(Content, Indent), EscKey}
    end;
 xml_to_json(State = #state{indent = Indent}, 
-            #xqElementNode{name = #qname{namespace = ?ns, local_name = <<"map">>},
+            #xqElementNode{name = ?q(#qname{namespace = ?ns, local_name = <<"map">>}),
                            content = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Fold = fun(V,Check) ->
@@ -189,8 +190,8 @@ xml_to_json(State = #state{indent = Indent},
          KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
          {<<$", KeyVal/binary, $">>,serialize_map(Content, Indent), EscKey}
    end;
-xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = <<"boolean">>},
+xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
+                                                local_name = <<"boolean">>}),
                                   content = Expr}) -> 
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
@@ -207,8 +208,8 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
       _:_ ->
          ?err('FOJS0006') % invalid boolean
    end;
-xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = <<"null">>},
+xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
+                                                local_name = <<"null">>}),
                                   content = Expr}) -> 
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
    if Rest =/= [] ->
@@ -220,8 +221,8 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
          KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
          {<<$", KeyVal/binary, $">>,<<"null">>, EscKey}
    end;
-xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = <<"number">>},
+xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
+                                                local_name = <<"number">>}),
                                   content = Expr})->
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
@@ -243,8 +244,8 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
       _:_ ->
          ?err('FOJS0006') % invalid number
    end;
-xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = <<"string">>},
+xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
+                                                local_name = <<"string">>}),
                                   content = Expr}) ->
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
    case Rest of
@@ -274,16 +275,16 @@ get_attributes(Content, AllowWs) ->
    %?dbg("Content",Content),
    try
       Key = [ xqerl_types:string_value(K) || 
-              #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                             local_name = <<"key">>},
+              #xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                             local_name = <<"key">>}),
                                string_value = K} <- Content ],
       EscKey = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
-                 #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                                local_name = <<"escaped-key">>},
+                 #xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                                local_name = <<"escaped-key">>}),
                                   string_value = K} <- Content ],
       Esc = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
-              #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                             local_name = <<"escaped">>},
+              #xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                             local_name = <<"escaped">>}),
                                string_value = K} <- Content ],
       Rest0 = [ K || K <- Content, 
                      not is_record(K, xqProcessingInstructionNode),
@@ -296,13 +297,13 @@ get_attributes(Content, AllowWs) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
              (#xqTextNode{string_value = #xqAtomicValue{value = V}}) when is_binary(V) ->
                 AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
-             (#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                             local_name = Ln}}) 
+             (#xqAttributeNode{name = ?q(#qname{namespace = 'no-namespace', 
+                                             local_name = Ln})}) 
                 when Ln == <<"key">>;
                      Ln == <<"escaped-key">>;
                      Ln == <<"escaped">> ->
                 false;
-             (#xqAttributeNode{name = #qname{namespace = Ns}}) 
+             (#xqAttributeNode{name = ?q(#qname{namespace = Ns})}) 
                 when Ns == 'no-namespace';
                      Ns == ?ns ->
                 true;
