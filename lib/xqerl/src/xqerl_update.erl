@@ -70,7 +70,9 @@ apply_local_updates(Ctx, Pid, Vars) when is_pid(Pid) ->
       {Pid, Pul} ->
          %io:format("~p~n", [Pul]),
          ok = compatibilityCheck(Pul),
+         %?dbg("Pul",Pul),
          PulMap = mergeUpdates(Pul),
+         %?dbg("PulMap",PulMap),
          applyUpdates(Ctx, PulMap, Vars)         
    end.
 
@@ -81,6 +83,7 @@ apply_updates(Ctx, Pid) when is_pid(Pid) ->
          %io:format("~p~n", [Pul]),
          ok = compatibilityCheck(Pul),
          PulMap = mergeUpdates(Pul),
+         %?dbg("PulMap",PulMap),
          applyUpdates(Ctx, PulMap)
    end.
 
@@ -105,6 +108,7 @@ put(Node, Uri, Params) ->
 %% upd:compatibilityCheck(
 %%    $pul as pending-update-list)
 compatibilityCheck(Pul) ->
+   %?dbg("Pul",Pul),
    %% Two or more upd:rename primitives in $pul have the same target node
    _ = if_dupe([Target || {rename, Target, _} <- Pul], 'XUDY0015'),
    %% Two or more upd:replaceNode primitives in $pul have the same target node
@@ -128,8 +132,12 @@ mergeUpdates(Pul) ->
 
 mergeUpdates([{put, _, _, _} = H|T], #{put := Puts} = Acc) ->
    mergeUpdates(T, Acc#{put := [H|Puts]});
-mergeUpdates([{delete, {Db, Pos}}|T], Acc) ->
-   mergeUpdates(T, do_merge(Acc, Db, delete, Pos, []));
+mergeUpdates([{delete, {Db, DocId, Id}}|T], Acc) -> % db node
+   mergeUpdates(T, do_merge(Acc, Db, delete, {DocId, Id}, []));
+mergeUpdates([{delete, {Db, Id}}|T], Acc) -> % mem node
+   mergeUpdates(T, do_merge(Acc, Db, delete, Id, []));
+mergeUpdates([{Type, {Db, DocId, Id}, Val}|T], Acc) ->
+   mergeUpdates(T, do_merge(Acc, Db, Type, {DocId, Id}, Val));
 mergeUpdates([{Type, {Db, Pos}, Val}|T], Acc) ->
    mergeUpdates(T, do_merge(Acc, Db, Type, Pos, Val));
 mergeUpdates([], Acc) -> Acc.
@@ -139,8 +147,7 @@ do_merge(Acc, Db, Type, Pos, Val) when is_reference(Db) -> % mem nodes
    List = maps:get(Type, DbMap, []),
    List1 = [{Pos,Val}|List],
    Acc#{Db => DbMap#{Type => List1}};
-do_merge(Acc, Db, Type, Pos, Val) -> % db nodes
-   DocId = xqldb_dml:select_node_root(Db, Pos),
+do_merge(Acc, Db, Type, {DocId, Pos}, Val) -> % db nodes
    DbMap = maps:get(Db, Acc, #{}),
    DbDocMap = maps:get(DocId, DbMap, #{}),
    List = maps:get(Type, DbDocMap, []),
@@ -162,28 +169,30 @@ applyUpdates(Ctx, PulMap) ->
                  Key =/= put],
    Puts = maps:get(put, PulMap, []) ,
    % 
-   UFun = fun(DbUri) ->
-                #{db_lock := LockPid,
-                  paths   := Paths} = DB = xqldb_db:database(DbUri),
-                _ = xqldb_lock:write(LockPid, Self, 60000),
-                DocMap = maps:get(DbUri, PulMap),
-                Docs = maps:keys(DocMap),
-                NewPuts = 
-                [begin
-                    MemDoc0 = xqldb_mem_nodes:build_db_node(DB, DocPos),
-                    MemDoc = expand_children(MemDoc0),
-                    Upds = maps:get(DocId, DocMap),
-                    Frank = do_updates(MemDoc, Upds),
-                    %?dbg("Frank",Frank),
-                    SaxList = xqerl_node:new_fragment_list(Ctx#{updating => true}, Frank),
-                    ok = xqldb_sax:parse_list(DB,SaxList,DocUri),
-                    _ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
-                    in_put_list(Frank, Puts)
-                 end || {DocUri,DocPos} = DocId <- Docs],
-                %?dbg("NewPuts",NewPuts),
-                _ = xqldb_lock:clear(LockPid, Self),
-                NewPuts
-          end,
+   UFun = 
+     fun(DbPid) ->
+           DocMap = maps:get(DbPid, PulMap),
+           DocIds = maps:keys(DocMap),
+           #{db_lock := LockPid} = DB = xqldb_db:database(DbPid),
+           _ = xqldb_lock:write(LockPid, Self, 60000),
+           NewPuts =
+           [begin
+               Upds = maps:get(DocId, DocMap),
+               Root = xqldb_nodes:get_single_node(DB, DocId, <<>>),
+               MemDoc = xqldb_nodes:deep_copy_node(Root),
+               Frank = do_updates(MemDoc, Upds), 
+               SaxList = xqerl_node:new_fragment_list(Ctx#{updating => true}, Frank),
+               DocUri = xqldb_nodes:document_uri(Root),
+               {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
+               %?dbg("DocUri",DocUri),
+               ok = xqldb_sax:parse_list(DB, SaxList, DocName),
+               %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
+               in_put_list(Frank, Puts)
+            end 
+           || DocId <- DocIds],
+           _ = xqldb_lock:clear(LockPid, Self),
+           NewPuts
+     end,
    NewPuts1 = case catch lists:flatten(lists:map(UFun, DBs)) of
       % duplicate attributes
       {'EXIT', ?ERROR_MATCH(<<"XQDY0025">>)} ->
@@ -432,7 +441,7 @@ check_rename_target(_) -> ?err('XUTY0012').
 
 
 check_delete([#{nk := _} = H|T]) ->
-   case xqldb_mem_nodes:parent(H) of
+   case xqldb_xpath:parent_node(H, {[]}) of
       [] ->
          check_delete(T);
       _ ->
@@ -505,7 +514,7 @@ check_replace_target([Target]) ->
    check_replace_target(Target);
 check_replace_target(#{nk := document}) -> ?err('XUTY0008');
 check_replace_target(#{nk := _} = Target) ->
-   case xqldb_mem_nodes:parent(Target) of
+   case xqldb_xpath:parent_node(Target, {[]}) of
       [] ->
          ?err('XUDY0009');
       _ ->
@@ -578,7 +587,7 @@ check_split_insert(Command, Target, Content) ->
    end.
 
 normalize_insertion_sequence([#{nk := document} = H|T]) ->
-   xqldb_mem_nodes:children(H) ++ normalize_insertion_sequence(T);
+   xqldb_xpath:child_node(H, {[]}) ++ normalize_insertion_sequence(T);
 normalize_insertion_sequence([#{nk := attribute} = H1,
                               #{nk := K2} = H2|T]) when K2 =/= attribute ->
    IsAtt = fun(#{nk := attribute}) -> true;
@@ -590,7 +599,11 @@ normalize_insertion_sequence([#{nk := attribute} = H1,
       false ->
          [H1|normalize_insertion_sequence([H2|T])]
    end;
-normalize_insertion_sequence([#xqAtomicValue{} = H|T]) ->
+normalize_insertion_sequence([H|T])
+   when is_record(H, xqAtomicValue);
+        is_binary(H);
+        is_number(H);
+        is_atom(H) ->
    H1 = #{nk => text, sv => xqerl_types:string_value(H)},
    [H1|normalize_insertion_sequence(T)];
 normalize_insertion_sequence([H|T]) ->
@@ -627,7 +640,7 @@ check_sibling_target_type(#{nk := 'processing-instruction'} = N, AList) ->
 check_sibling_target_type(_, _) -> ?err('XUTY0006').
 
 check_sibling_parent(Node, AList) ->
-   case xqldb_mem_nodes:parent(Node) of
+   case xqldb_xpath:parent_node(Node, {[]}) of
       [] ->
          ?err('XUDY0029');
       P when AList == [] ->

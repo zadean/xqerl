@@ -68,6 +68,9 @@
          iterator_to_atom_set/2, 
          iterator_to_dbl_set/2, 
          select_with_prefix/2,
+         select_following_siblings/2,
+         select_preceding_siblings/2,
+         get_single_node/3,
          
 test/0]).
 
@@ -545,68 +548,38 @@ string_value(#{id := {_, _, _},
 string_value(_) -> [].
 
 
-%% prefix_match(<<>>) -> [{{'_','$1'},[],['$1']}];
-%% prefix_match(NodeId) ->
-%%    {Low, High} = get_node_id_range(NodeId), 
-%%    [{{'$1','$2'}, [{'andalso',{'>=','$1',Low},{'<','$1',High}}], ['$2']}].
-   
-
 select_with_prefix(Set, Prefix) ->
    L = split_id(Prefix),
    MS = [{{lists:append(L, '_'),'$1'},[],['$1']}],
    ets:select(Set, MS).
 
-%%    Curr = case ets:lookup(Set, Prefix) of
-%%              [] ->
-%%                 [];
-%%              [{_,C}] ->
-%%                 [C]
-%%           end,
-%%    select_with_prefix(ets:next(Set, Prefix), Prefix, Curr, Set).
+select_following_siblings(Set, Prefix) ->
+   L = split_id(Prefix),
+   [C|R] = lists:reverse(L),
+   M = lists:reverse(['$1'|R]),
+   MS = [{{M,'$2'},[{'>', '$1', C}],['$2']}],
+   ets:select(Set, MS).
+%% select_following_siblings(Set, Prefix) ->
+%%    L = split_id(Prefix),
+%%    [_C|R] = lists:reverse(L),
+%%    M = lists:reverse(['_'|R]),
+%%    MS = [{{M,'_'},[],['$_']}],
+%%    [B || {A,B} <- ets:select(Set, MS), A > L].
 
-%% select_with_prefix('$end_of_table', _, Acc, _) -> Acc;
-%% select_with_prefix(K, Prefix, Acc, Set) ->
-%%    case binary_prefix(Prefix, K) of
-%%       false ->
-%%          Acc;
-%%       true ->
-%%          E = ets:lookup_element(Set, K, 2),
-%%          select_with_prefix(ets:next(Set, K), Prefix, [E|Acc], Set)
-%%    end.
-
-%% select_with_prefix(Set, Prefix) ->
-%%    Iter = gb_sets:iterator_from({Prefix, []}, Set),
-%%    case gb_sets:next(Iter) of
-%%       {{K, E}, I} ->
-%%          case binary_prefix(Prefix, K) of
-%%             false ->
-%%                [];
-%%             true ->
-%%                select_with_prefix(gb_sets:next(I), Prefix, [E])
-%%          end;
-%%       none ->
-%%          []
-%%    end.
-%% 
-%% select_with_prefix({{K, E}, I}, Prefix, Acc) ->
-%%    case binary_prefix(Prefix, K) of
-%%       false ->
-%%          Acc;
-%%       true ->
-%%          select_with_prefix(gb_sets:next(I), Prefix, [E|Acc])
-%%    end;
-%% select_with_prefix(none, _, Acc) -> Acc.
+select_preceding_siblings(Set, Prefix) ->
+   L = split_id(Prefix),
+   [C|R] = lists:reverse(L),
+   M = lists:reverse(['$1'|R]),
+   MS = [{{M,'$2'},[{'<', '$1', C}],['$2']}],
+   ets:select(Set, MS).
 
 
-binary_prefix(Prefix, Prefix) -> true;
-binary_prefix(Prefix, Maybe) ->
-   binary:longest_common_prefix([Prefix, Maybe]) == byte_size(Prefix).
 
 %% XXX better here to completely build the nodes expanding string values to
 %% their full size if need be. Also get all nested nodes and add as children.
 %% leave their ID as-is, this will allow getting 
 %% parent/ancestor/preceding/following axes later
-deep_copy_node(#{id := {DbPid, _, _},
+deep_copy_node(#{id := {DbPid, _, Id},
                  nk := Nk,
                  sv := Sv} = N) 
    when Nk =:= text;
@@ -616,10 +589,10 @@ deep_copy_node(#{id := {DbPid, _, _},
    if byte_size(Sv) =:= 64 ->
          #{texts := Tab} = xqerl_context:get_db(DbPid),
          S = xqldb_string_table2:lookup(Tab, Sv),
-         N#{id := {0,0},
+         N#{id := {0,Id},
             sv := S};
       true ->
-         N#{id := {0,0}} 
+         N#{id := {0,Id}} 
    end;
 %% element and document node copies should pull in all descendant nodes at one 
 %% time. This can be an iterator list. Also, get the inscope-namespaces.
@@ -647,7 +620,7 @@ deep_copy_node(#{id := {DbPid, DocId, NodeId}}) ->
                 end
           end,
    List = iterator_to_node_list(Iter, DB),
-   {[B], []} = build_node_from_list(List, DB#{inscope_ns => IsNss}, node_depth(NodeId), []),
+   {[B], []} = build_node_from_list(List, DB#{inscope_ns => IsNss}, node_depth(NodeId), [], erlang:make_ref()),
    B.
 
 get_node_id_range(<<>>) -> {undefined, undefined};
@@ -696,15 +669,16 @@ filter_fun(Low, High) ->
 %% pa = path id in DB
 
 % everything should return {Siblings, Rest}
-build_node_from_list([], _DB, _Depth, Siblings) ->
+build_node_from_list([], _DB, _Depth, Siblings, _Ref) ->
    {lists:reverse(Siblings), []};
-build_node_from_list([#{nk := Nk} = N|T], DB, Depth, Siblings) 
+build_node_from_list([#{nk := Nk,
+                        id := {_,_,Id}} = N|T], DB, Depth, Siblings, Ref) 
    when Nk =:= text;
         Nk =:= comment;
         Nk =:= 'processing-instruction' ->
    Nd = node_depth(N),
    if Nd == Depth ->
-         build_node_from_list(T, DB, Depth, [N#{id := {0,0}}|Siblings]);
+         build_node_from_list(T, DB, Depth, [N#{id := {Ref,Id}}|Siblings], Ref);
       Nd < Depth ->
          {lists:reverse(Siblings), [N|T]}
    end;
@@ -713,7 +687,7 @@ build_node_from_list([#{nk := element,
                         id := {_, DocId, Id} = NodeId,
                         hn := HasNs,
                         at := AttCnt} = N|T], 
-                     #{inscope_ns := Ins} = DB, Depth, Siblings) ->
+                     #{inscope_ns := Ins} = DB, Depth, Siblings, Ref) ->
    % inscope_ns is on the DB map and is the inscope for the head element
    % each element with namespaces pulls in its own and merges to map
    case Depth > node_depth(NodeId) of
@@ -730,22 +704,23 @@ build_node_from_list([#{nk := element,
                0 ->
                   {[], T};
                _ ->
-                  take_attributes(T, [], DB)
+                  take_attributes(T, [], DB, Ref)
             end,
-         {Ch, Rest1} = build_node_from_list(Rest, DB#{inscope_ns := Ins1}, Depth + 1, []),
+         {Ch, Rest1} = build_node_from_list(Rest, DB#{inscope_ns := Ins1}, Depth + 1, [], Ref),
          Nd = N#{at := Atts,
-                 id := {0,0},
+                 id := {Ref,Id},
                  ns => Ins1,
-                 ch => Ch},
-         build_node_from_list(Rest1, DB, Depth, [Nd|Siblings])
+                 ch => Ch,
+                 tn => 'xs:untypedAtomic'},
+         build_node_from_list(Rest1, DB, Depth, [Nd|Siblings], Ref)
    end;
 % everything should return {Siblings, Rest}
 build_node_from_list([#{nk := document,
-                        du := Sr} = N|T], DB, _Depth, _Siblings) ->
+                        du := Sr} = N|T], DB, _Depth, _Siblings, Ref) ->
    Sv = get_string_value(Sr, DB),
-   {Ch, Rest} = build_node_from_list(T, DB, 1, []), 
+   {Ch, Rest} = build_node_from_list(T, DB, 1, [], Ref), 
    {[N#{du := Sv,
-        id := {0,0},
+        id := {Ref,<<>>},
         ch => Ch}], Rest}.
 
 
@@ -759,9 +734,10 @@ node_depth(NdId) when is_binary(NdId) ->
    byte_size(NdId) div 4.
 
 % expand all attributes at head of the list return {Atts, Rest}
-take_attributes([#{nk := attribute} = N|T], Atts, DB) ->
-   take_attributes(T, [N#{id := {0,0}}|Atts], DB);
-take_attributes(List, Atts, _DB) ->
+take_attributes([#{nk := attribute,
+                   id := {_,_,Id}} = N|T], Atts, DB, Ref) ->
+   take_attributes(T, [N#{id := {Ref,Id}}|Atts], DB, Ref);
+take_attributes(List, Atts, _DB, _Ref) ->
    {Atts, List}.
    
 get_namespaces(#{index := Index,

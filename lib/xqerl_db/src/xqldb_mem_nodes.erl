@@ -988,6 +988,8 @@ lookup_node([_|T],Id) ->
    lookup_node(T,Id).
 
 % Base is the parent base-uri
+augment_base_uri(#{bu := _} = N, Base) when is_tuple(Base) ->
+   N;
 augment_base_uri(#{bu := BU} = N, Base) ->
    NewBase = xqldb_lib:join_uris(Base, BU),
    N#{bu := NewBase};

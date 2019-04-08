@@ -67,6 +67,9 @@ new_fragment(#{nk := _} = Node) ->
 
 copy_node([N]) ->
    copy_node(N);
+copy_node(#{id := {_,_,_}} = N) ->
+   D = xqldb_nodes:deep_copy_node(N),
+   copy_node(D, erlang:make_ref());
 copy_node(#{nk := _,
             pt := _} = N) ->
    (copy_node(N, erlang:make_ref()))#{pt := []};
@@ -75,22 +78,12 @@ copy_node(#{nk := _} = N) ->
 copy_node(_) ->
    ?err('XUTY0013').
 
-copy_node(#{id := {B,I},
-            at := At,
-            ch := _} = N, Ref) when is_binary(B) ->
-   N#{id := {Ref, I},
-      at := [copy_node(A, Ref) || A <- At],
-      ch := [copy_node(A, Ref) || A <- xqldb_mem_nodes:children(N)]};
 copy_node(#{id := {_,I},
             at := At,
             ch := Ch} = N, Ref) ->
    N#{id := {Ref, I},
       at := [copy_node(A, Ref) || A <- At],
       ch := [copy_node(A, Ref) || A <- Ch]};
-copy_node(#{id := {B,I},
-            ch := _} = N, Ref) when is_binary(B) ->
-   N#{id := {Ref, I},
-      ch := [copy_node(A, Ref) || A <- xqldb_mem_nodes:children(N)]};
 copy_node(#{id := {_,I},
             ch := Ch} = N, Ref) ->
    N#{id := {Ref, I},
@@ -1607,7 +1600,9 @@ to_xml(V) when is_atom(V);
 
 combine_atomics([], Acc) ->
    lists:reverse(Acc);
-combine_atomics([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
+combine_atomics([H1, H2|T], Acc)
+   when is_record(H1, xqAtomicValue) orelse is_binary(H1) orelse is_atom(H1) orelse is_number(H1),
+        is_record(H2, xqAtomicValue) orelse is_binary(H2) orelse is_atom(H2) orelse is_number(H2) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:string')),
    Str3 = <<St1/binary," ",St2/binary>>,

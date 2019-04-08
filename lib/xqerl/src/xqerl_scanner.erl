@@ -544,10 +544,15 @@ scan_token("option" ++ T, _A) -> maybe_token("option", T);
 scan_token("only" ++ T, _A) -> maybe_token("only", T);
 scan_token("of" ++ T, _A) -> maybe_token("of", T);
 scan_token("nodes" ++ T, _A) -> maybe_token("nodes", T); % update facility
-scan_token("node" ++ T = Str, _A) -> % reserved function names 
-   case lookforward_is_paren(T) of
-      true -> maybe_token("node", T);
-      false -> scan_name(Str)
+scan_token("node" ++ T = Str, A) -> % reserved function names 
+   case lookback_is_updating(A) of
+      true ->
+         {{'node',?L,'node'}, T};
+      false ->
+         case lookforward_is_paren(T) of
+            true -> maybe_token("node", T);
+            false -> scan_name(Str)
+         end
    end;
 scan_token("no-preserve" ++ T, _A) -> maybe_token("no-preserve", T);
 scan_token("no-inherit" ++ T, _A) -> maybe_token("no-inherit", T);
@@ -1268,6 +1273,17 @@ lookback(_) -> [].
 %%       "return" ++ _ -> true;
 %%       _ -> false
 %%    end.
+
+lookback_is_updating(A) ->
+   case lookback(A) of
+      'insert' -> true;
+      'delete' -> true;
+      'replace' -> true;
+      'of' -> true;
+      'rename' -> true;
+      _ ->
+         false
+   end.
 
 lookback_is_default(A) ->
    case lookback(A) of

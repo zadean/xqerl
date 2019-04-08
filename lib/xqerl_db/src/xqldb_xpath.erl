@@ -204,6 +204,9 @@ lang(Node) ->
 
 % when given a unique list of nodes, returns the results of all
 % Steps in document order. 
+simple_path([InitCtxItems], [{'following-sibling', _}] = Steps) ->
+   Db = get_group_key(InitCtxItems),
+   select_fun(Db, [InitCtxItems], Steps);
 simple_path(InitCtxItems, Steps) when is_list(InitCtxItems) ->
    MergedNodes = merge_nodes(InitCtxItems, #{}),
    % group IDs by Type and DB
@@ -229,7 +232,7 @@ merge_nodes([N|T], Map) ->
          merge_nodes(T, Map#{Key => [N]})
    end.
 
-get_group_key(#{id := {Ref, Id}}) when is_reference(Ref), is_integer(Id) ->
+get_group_key(#{id := {Ref, _Id}}) when is_reference(Ref) ->
    mem;
 get_group_key(#{id := {Pid, DocId, Id},
                 pa := PathId}) when is_pid(Pid),
@@ -284,11 +287,17 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
        Results ->
           Results
     end,
-   EachNode = fun(#{id := {_,_,NodeId}}) ->
-                    % this is the node id join, steps could shorten the id
-                    % such as reverse steps
-                    xqldb_nodes:select_with_prefix(ResultSet, NodeId)
-              end,
+   EachNode = 
+     fun(#{id := {_,_,NodeId}}) ->
+           case Steps of
+              [{'following-sibling', _}] ->
+                 xqldb_nodes:select_following_siblings(ResultSet, NodeId);
+              [{'preceding-sibling', _}] ->
+                 xqldb_nodes:select_preceding_siblings(ResultSet, NodeId);
+              _ ->
+                 xqldb_nodes:select_with_prefix(ResultSet, NodeId)
+           end
+     end,
    lists:flatmap(EachNode, Nodes).
    
 normalize_step_names([atomize|T], NameMap, NmspMap) ->
@@ -796,14 +805,10 @@ following_sibling_comment(#{nk := _}, _) -> [].
 
 -spec following_sibling_element(comment() | element() | proc_inst() | text(), step()) -> [element()].
 following_sibling_element(#{nk := Nk,
-                            id := ?DB_ND = Id} = Node, {NameAndType, Preds}) 
+                            id := ?DB_ND = _Id} = Node, {{A, B, _}, Preds}) 
    when Nk =:= element; Nk =:= text;
         Nk =:= comment; Nk =:= 'processing-instruction' -> 
-   Sibs = [S || #{id := SId,
-                  nk := element,
-                  nn := NodeName} = S <- xqldb_nodes:siblings(Node), 
-                SId > Id,
-                name_type_match(NameAndType, NodeName, '_')],
+   Sibs = simple_path(Node, [{'following-sibling', {A, B}}]),
    do_predicates(Sibs, Preds);
 following_sibling_element(#{nk := Nk,
                             id := Id} = Node, {NameAndType, Preds}) 

@@ -93,28 +93,32 @@ parse_file(DB,File,Uri) ->
       
 parse_list(_DB,[],_Uri) -> ok;
 parse_list(DB,List,Uri) ->
-   %?dbg("start", List),
-   %Self = self(),
    DocId = xqldb_path_table:new_document_id(?PATH_TABLE_P(DB)),
-   State = default_state(DB,Uri,DocId),
+   State0 = default_state(DB,Uri,DocId),
+   Index = maps:get(index, DB),
+   Timestamp = maps:get(timestamp, State0),
+   Counter = #{},
+   WFun = fun() -> index_writer([], {Index, DocId, Timestamp}, 0) end,
+   Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
+   State = State0#{writer => Writer,
+                   counter => Counter},
+   try
    F = fun(E,S) ->
              event(E,0,S)
        end,
-   {_Nodes,_Nsps} = lists:foldl(F, State, List),
-   
-   % stuff for another module
-   %{Len,Nodes} = xqldb_nodes:doc_tree_to_node_table(Tree),
-   %Struct = xqldb_structure:index_doc(Nodes),
-   %Len = byte_size(Nodes) div ?BSZ,
-   %DocPos = xqldb_node_table:insert(?NODE_TABLE_P(DB), Nodes),
-   %_ = xqldb_lock:write(?DBLOCK(DB), Self, 60000),
-   %_ = xqldb_structure_index:add(?STRUCT_INDEX_P(DB), Struct),
-   %ONsps = [{A + DocPos, B + DocPos,C,D} || {A,B,C,D} <- Nsps],
-   %_ = xqldb_ns_node_table:insert(?NS_NODE_TABLE_P(DB), ONsps),
-   %_ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocPos, Len}),
-   %_ = xqldb_lock:clear(?DBLOCK(DB), Self),
-   %?dbg("done", Uri),
-   ok.
+   State1 = lists:foldl(F, State, List),
+   %?dbg("State1",State1),
+   Self = self(),   
+   ok = post_document_paths(State1),   
+   Writer ! {Self, done},
+   ok = wait_index_writer(Writer),
+   Counts = get_path_counts(maps:get(counter, State1)),
+   xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
+   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocId}),
+   ok
+   catch _ : G : E ->
+      [{G,E}]
+   end.
 
 
 split_parse_file(File, Fun, Path) ->
@@ -195,13 +199,23 @@ event(startDocument, _L, #{doc_id := DocId,
           paths := Paths1,
           counter := Counter1,
           parent := NodeId};
-event(startFragment, _L, #{text_tab := TextTab,
+event(startFragment, _L, #{doc_id := DocId,
+                           text_tab := TextTab,
+                           struct_idx := Struct,
+                           paths := Paths,
+                           writer := Writer,
+                           counter := Counter,
+                           timestamp := Timestamp,
                            uri := Uri} = State) ->
+   NodeId = <<>>,
    UriRef = xqldb_string_table2:insert(TextTab, Uri),
-   Nd = xqldb_nodes:document(UriRef),
+   NodeBin = xqldb_nodes:document(UriRef),
+   {PathId, Paths1} = get_path_id(Struct, [], Paths),
+   Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := 1,
-          node_acc := [Nd],
-          parent := <<>>};
+          paths := Paths1,
+          counter := Counter1,
+          parent := NodeId};
 event(endDocument, _L, #{parent := <<>>} = State) -> State;
 event(endFragment, _L, #{parent := <<>>} = State) ->
    State;
@@ -356,6 +370,8 @@ event({attributeDecl, ElementNameS, AttributeNameS, Type, _Mode, _Value}, _,
              end,
    State#{att_dec := AttDec1};
 
+% base uri sent from constructors and updates
+event({baseUri, _},_,State) -> State;
 event(Event,_,State) -> 
    ?dbg("UNKNOWN EVENT", Event),
    State.

@@ -198,6 +198,8 @@ x(G, Map, Parent, {'simple-map', Id, Lhs, Rhs}) ->
 
 x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
    K = {Id, modify},
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
    LM = lists:foldl(fun(E,M) ->
@@ -207,6 +209,8 @@ x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
    x(G, LM, K, Return);
 x(G, Map, Parent, {update, Id,_,A,B,C}) ->
    K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
@@ -215,6 +219,8 @@ x(G, Map, Parent, {update, Id,_,A,B,C}) ->
    Map;
 x(G, Map, Parent, {update, Id,_,A,B}) ->
    K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
@@ -222,6 +228,8 @@ x(G, Map, Parent, {update, Id,_,A,B}) ->
    Map;
 x(G, Map, Parent, {update, Id,_,A}) ->
    K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
