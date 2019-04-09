@@ -724,6 +724,7 @@ promote(Map,#xqSeqType{type = #xqFunTest{kind = map,
                  case instance_of(V,Ty) of
                     ?true -> true;
                     _ -> 
+                       ?dbg("04", {V,Ty}),
                        ?err('XPTY0004')
                  end
            end,
@@ -742,7 +743,8 @@ promote(Map,#xqSeqType{type = #xqFunTest{kind = map,
          _ = [Check(K, Kt) || {_,{K,_}} <- maps:to_list(Map)],
          ok;
       {[Kt],_} ->
-         _ = [{Check(K, Kt),Check(V, T)} || {_,{K,V}} <- maps:to_list(Map)],
+         _ = [{Check(K, Kt),
+               Check(V, T)} || {_,{K,V}} <- maps:to_list(Map)],
          ok
    end,
    Map;

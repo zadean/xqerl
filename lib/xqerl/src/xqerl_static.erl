@@ -1907,7 +1907,7 @@ handle_node(State, {'map', Vals}) ->
                           #xqFunTest{kind = map, 
                                      type = ValTy, 
                                      params = [KeyTy]}} = KVSty,
-%             ?dbg("KVSty",KVSty), % this should be folded
+  %?dbg("KVSty",KVSty), % this should be folded
              NewTypes = 
                case Types of 
                   {any,any} ->
@@ -1920,9 +1920,15 @@ handle_node(State, {'map', Vals}) ->
        end, {any,any}, Vals),
    set_statement_and_type(State, {'map', KVSts}, 
                           #xqSeqType{type = #xqFunTest{kind = map, 
-                                                       params = [FKeyTy],
-                                                       type = FValTy}, 
+                                                       params = [#xqSeqType{type = 'xs:anyAtomicType', occur = one}],
+                                                       type = #xqSeqType{}}, 
                                      occur = one});
+%%                                      occur = one});
+%%    set_statement_and_type(State, {'map', KVSts}, 
+%%                           #xqSeqType{type = #xqFunTest{kind = map, 
+%%                                                        params = [FKeyTy],
+%%                                                        type = FValTy}, 
+%%                                      occur = one});
 handle_node(State, {'map-key-val', Key, Val}) -> 
    KeyS1 = handle_node(State, Key),
    KeySt = get_statement(KeyS1),

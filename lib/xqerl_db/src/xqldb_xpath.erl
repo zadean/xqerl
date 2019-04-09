@@ -259,7 +259,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    ResultSet = 
     case xqerl_lib:lget(ResKey) of
        undefined ->
-          io:format("~p~n",[Steps]),
+          %io:format("~p~n",[Steps]),
           LookupKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps},
           PathLookup = 
              case xqerl_lib:lget(LookupKey) of
