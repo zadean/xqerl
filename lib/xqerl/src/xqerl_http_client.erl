@@ -58,7 +58,8 @@
 -export(['send-request'/2,'send-request'/3,'send-request'/4]).
 
 -export([get_content_media_type/1,
-         parse_body/2]).
+         parse_body/2,
+         read_body/1]).
 
 %% http:send-request($request as element(http:request)?,
 %%                   $href as xs:string?,
@@ -346,6 +347,15 @@ element_node(Name, Atts, Expr) ->
                   attributes = Atts, 
                   content = Expr}.
 
+read_body(Req) ->
+   read_body(Req, <<>>).
+read_body(Req, Acc) ->
+   case cowboy_req:read_body(Req) of
+      {more, Bin, Req1} ->
+         read_body(Req1, <<Acc/binary, Bin/binary>>);
+      {ok, Bin, _} ->
+         <<Acc/binary, Bin/binary>>
+   end.
 
 parse_body(MediaTyp, Body) ->
    try

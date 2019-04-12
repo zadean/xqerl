@@ -238,15 +238,24 @@ endpoint_rec(Path,Methods,MediaTypes,OutputTypes,Fields,Module,Function) ->
           end,
    {Map,_} = lists:foldl(Fold, {0,1}, Split),
    % pre-parse consumed/produced media-types
-   Med = [begin
-             [{M,_,_}] = cow_http_hd:parse_accept(L),
-             M
-          end || L <- MediaTypes],
-   Meo = [begin
-             [{M,_,_}] = cow_http_hd:parse_accept(L),
-             M
-          end
-          || L <- OutputTypes],
+   Par = fun(Lis) ->
+               [begin
+                   case L of
+                      <<"*/*">> -> '*';
+                      _ ->
+                         [{M,_,_}] = cow_http_hd:parse_accept(L),
+                         M
+                   end
+                end || L <- Lis]
+         end,
+   Par2 = fun(Lis) ->
+               [begin
+                   [{M,_,_}] = cow_http_hd:parse_accept(L),
+                   M
+                end || L <- Lis]
+         end,
+   Med = Par(MediaTypes),
+   Meo = Par2(OutputTypes),
    #endpoint{path = Path,
              path_length = Len,
              path_map = Map,
@@ -312,11 +321,11 @@ endpoint_sort(#endpoint{path_length = La} = A, #endpoint{path_length = Lb} = B) 
          endpoint_sort_2(A, B)
    end.
 
-% path bitmap sort, explicit = 0, variable = 1, larger number == higher quality
+% path bitmap sort, explicit = 0, variable = 1, larger number == lower quality
 endpoint_sort_2(#endpoint{path_map = La} = A, #endpoint{path_map = Lb} = B) ->
-   if La > Lb ->
+   if La < Lb ->
          true;
-      La < Lb ->
+      La > Lb ->
          false;
       true ->
          endpoint_sort_3(A, B)

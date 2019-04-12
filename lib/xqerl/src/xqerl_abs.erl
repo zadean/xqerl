@@ -609,17 +609,33 @@ rest_functions(Ctx, Functions) ->
            LocalParams = [{var,?L,list_to_atom("Var_" ++ integer_to_list(Id))} 
                          || #xqVar{id = Id} <- FParams],
            %?dbg("Parts",Parts),
+
+           HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
-           G5 = ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
+           G5 = if HasUpd -> 
+                ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
-                    "Ctx = init(init_ctx()),"
+                    " PUL = xqerl_update:pending_update_list(erlang:self()),",
+                    "Ctx = (init(init_ctx()))#{pul => PUL},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                    "ReturnVal = xqerl_types:rest_return_value(XQuery,#{options => _@Serial@}),",
+                    "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
                     "xqerl_context:destroy(Ctx),",
                     "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
                     " {true, cowboy_req:set_resp_body(ReturnVal, Req), State};",
                     "true -> {ReturnVal, Req, State}"
-                    "end."]),
+                    "end."]);
+                 true ->
+                 ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
+                    "_@Parts,",
+                    "Ctx = init(init_ctx()),"
+                    "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+                    "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
+                    "xqerl_context:destroy(Ctx),",
+                    "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
+                    " {true, cowboy_req:set_resp_body(ReturnVal, Req), State};",
+                    "true -> {ReturnVal, Req, State}"
+                    "end."])
+                 end,
            add_global_funs([G5]),
            
            {FunName, FRestMap}
@@ -656,7 +672,7 @@ param_fields([{body, VarName}|T],Map) ->
    {VarId, _VarType} = maps:get(VarName, Map),
    VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
    TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
-   [?P(["{ok, _@TmpAtom, _} = cowboy_req:read_body(Req),",
+   [?P(["_@TmpAtom = xqerl_http_client:read_body(Req),",
         "ContentType = cowboy_req:header(<<\"content-type\">>, Req),",
         "_@VarAtom = xqerl_http_client:parse_body(ContentType, _@TmpAtom)"
        ])|param_fields(T,Map)];

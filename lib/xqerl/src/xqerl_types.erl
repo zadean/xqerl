@@ -188,6 +188,9 @@ return_value(Seq, #{options := Opts}) ->
 
 rest_return_value([Seq], Ctx) ->
    rest_return_value(Seq, Ctx);
+rest_return_value(Seq, #{pul := Pul} = Ctx) ->
+   ok = xqerl_update:apply_updates(Ctx, Pul),
+   rest_return_value(Seq, maps:remove(pul, Ctx));
 rest_return_value(Seq, #{options := Opts}) ->
    Seq2 = xqerl_seq3:flatten(Seq),
    xqerl_serialize:serialize(Seq2, Opts).
