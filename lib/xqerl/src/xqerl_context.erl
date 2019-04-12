@@ -769,6 +769,7 @@ static_namespaces() ->
      {<<"file">>,  <<"http://expath.org/ns/file">>},
      {<<"http">>,  <<"http://expath.org/ns/http-client">>},
      {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
+     {<<"random">>,<<"http://xqerl.org/modules/random">>},
      {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].
 
 static_collations() ->

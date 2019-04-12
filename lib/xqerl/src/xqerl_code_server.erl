@@ -41,6 +41,7 @@
          xqerl_xs,
          xqerl_expath_file,
          xqerl_http_client,
+         xqerl_rand,
          xqerl_error]).
 
 -define(TIMEOUT, 60000).

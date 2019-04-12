@@ -37,6 +37,7 @@
 -define(MT, <<"http://www.w3.org/2005/xpath-functions/math">>).
 -define(FL, <<"http://expath.org/ns/file">>).
 -define(HT, <<"http://expath.org/ns/http-client">>).
+-define(RD, <<"http://xqerl.org/modules/random">>).
 
 %% map returned as 
 %%    #{deterministic      => Deterministic,
@@ -45,6 +46,24 @@
 %%      higher_order       => HigherOrder,
 %%      static_properties  => StaticProperties,
 %%      dynamic_properties => DynamicProperties}.
+get_props(#qname{namespace = ?RD, local_name = <<"double">>            }, 0) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"integer">>           }, 0) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"integer">>           }, 1) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"seeded-double">>     }, 2) -> 
+   props(false, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"seeded-integer">>    }, 2) -> 
+   props(false, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"seeded-integer">>    }, 3) -> 
+   props(false, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"gaussian">>          }, 1) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"seeded-permutation">>}, 2) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?RD, local_name = <<"uuid">>              }, 0) -> 
+   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?XS,local_name = <<"QName">>}, 2) -> 
   props(false, false, false, false, [known_namespaces], []);
 get_props(#qname{namespace = ?AR,local_name = <<"append">>}, 2) -> 
