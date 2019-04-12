@@ -136,9 +136,10 @@ init([DBDirectory, Uri]) ->
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
    JSON  = child_map(json, xqldb_json_table, [NewOpen, DBDirectory, ?JSON]),
    Index = child_map(index, mi_server, [DBDirectory ++ "/ind"]),
+   Qry   = child_map(queries, xqldb_query_server, []),
    
    {ok, {SupFlags, 
-         [Locks, Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index]}}.
+         [Locks, Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index, Qry]}}.
 
 %% ====================================================================
 %% Internal functions

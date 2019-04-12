@@ -757,19 +757,28 @@ get_string_value(Ref, #{texts := Tab}) ->
    
 iterator_to_node_set(Iter, DB) ->
    List = iterator_to_node_set_1(Iter, DB),
-   Tab = ets:new(?MODULE, [ordered_set]),
+   Tab = ets:new(?MODULE, [protected,
+                           ordered_set, 
+                           {read_concurrency, true},
+                           {write_concurrency, true}]),
    ets:insert(Tab, List),
    Tab.
 
 iterator_to_atom_set(Iter, DB) ->
    List = iterator_to_atom_set_1(Iter, DB),
-   Tab = ets:new(xqldb_nodes_atom, [ordered_set]),
+   Tab = ets:new(xqldb_nodes_atom, [protected,
+                                    ordered_set, 
+                                    {read_concurrency, true},
+                                    {write_concurrency, true}]),
    ets:insert(Tab, List),
    Tab.
 
 iterator_to_dbl_set(Iter, DB) ->
    List = iterator_to_dbl_set_1(Iter, DB),
-   Tab = ets:new(xqldb_nodes_dbl, [ordered_set]),
+   Tab = ets:new(xqldb_nodes_dbl, [protected,
+                                   ordered_set, 
+                                   {read_concurrency, true},
+                                   {write_concurrency, true}]),
    ets:insert(Tab, List),
    Tab.
 

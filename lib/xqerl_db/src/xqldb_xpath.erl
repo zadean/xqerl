@@ -252,41 +252,43 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    % that existed at the beginning of the query can exist in the query
    DB = xqerl_context:get_db(DbPid),
    #{structure := StructPid,
+     queries   := QServer,
      index     := IndxPid,
      names     := NameMap,
      namespaces:= NmspMap} = DB,
-   ResKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps, DocId, InPathId},
+%%    ResKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps, DocId, InPathId},
    ResultSet = 
-    case xqerl_lib:lget(ResKey) of
-       undefined ->
-          %io:format("~p~n",[Steps]),
-          LookupKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps},
-          PathLookup = 
-             case xqerl_lib:lget(LookupKey) of
-                undefined ->
-                   Steps1 = normalize_step_names(Steps, NameMap, NmspMap),
-                   Lookup = xqldb_structure_index:compile_path(StructPid, Steps1),
-                   xqerl_lib:lput(LookupKey, Lookup);
-                F ->
-                   F
-             end,
-          Iters = 
-            [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
-               OutPathId <- PathLookup(InPathId)],
-          IterUnion = xqldb_join:union(Iters),
-          Results = case lists:last(Steps) of
-                       atomize ->
-                          xqldb_nodes:iterator_to_atom_set(IterUnion, DB);
-                       double ->
-                          xqldb_nodes:iterator_to_dbl_set(IterUnion, DB);
-                       _ ->
-                          xqldb_nodes:iterator_to_node_set(IterUnion, DB)
-                    end,
-          xqerl_lib:lput(ResKey, Results),
-          Results;
-       Results ->
-          Results
-    end,
+      case xqldb_query_server:get(QServer, DocId, InPathId, Steps) of
+         undefined ->
+            %io:format("~p~n",[Steps]),
+            LookupKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps},
+            PathLookup = 
+               case xqerl_lib:lget(LookupKey) of
+                  undefined ->
+                     Steps1 = normalize_step_names(Steps, NameMap, NmspMap),
+                     Lookup = xqldb_structure_index:compile_path(StructPid, Steps1),
+                     xqerl_lib:lput(LookupKey, Lookup);
+                  F ->
+                     F
+               end,
+           Iters = 
+             [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
+                OutPathId <- PathLookup(InPathId)],
+           IterUnion = xqldb_join:union(Iters),
+           Results = case lists:last(Steps) of
+                        atomize ->
+                           xqldb_nodes:iterator_to_atom_set(IterUnion, DB);
+                        double ->
+                           xqldb_nodes:iterator_to_dbl_set(IterUnion, DB);
+                        _ ->
+                           xqldb_nodes:iterator_to_node_set(IterUnion, DB)
+                     end,
+            true = ets:give_away(Results, QServer, ok),
+            xqldb_query_server:put(QServer, DocId, InPathId, Steps, Results),
+            Results;
+         Results ->
+            Results
+      end,
    EachNode = 
      fun(#{id := {_,_,NodeId}}) ->
            case Steps of

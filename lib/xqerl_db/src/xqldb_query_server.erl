@@ -23,46 +23,111 @@
 %% @doc @todo Future home of xqldb_query_server.
 %% server for compiling XPath statements to use indexes, etc.
 
-
 -module(xqldb_query_server).
+
 -behaviour(gen_server).
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+-export([init/1, 
+         handle_call/3, 
+         handle_cast/2, 
+         handle_info/2, 
+         terminate/2, 
+         code_change/3]).
+
+-define(STALE, 60000).
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([]).
+-export([start_link/0,
+         sweep/1,
+         get/4,
+         put/5]).
 
 
+start_link() ->
+   {ok, Pid} = gen_server:start_link(?MODULE, [], []),
+   sweep(Pid),
+   {ok, Pid}.
+
+%% do a sweep of the cache, clearing out old stuff
+sweep(Server) ->
+   Now = erlang:system_time(),
+   Then = Now - ?STALE,
+   gen_server:cast(Server, {sweep, Then}),
+   timer:apply_after(?STALE, ?MODULE, ?FUNCTION_NAME, [Server]),
+   ok.
+
+% try to get the ets table id for this doc/query, return undefined if not there.
+get(Server, DocId, InPathId, Steps) ->
+   gen_server:call(Server, {get, DocId, InPathId, Steps}).
+
+put(Server, DocId, InPathId, Steps, Results) ->
+   gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
 
 %% ====================================================================
 %% Behavioural functions
 %% ====================================================================
--record(state, {}).
 
 init([]) ->
-    {ok, #state{}}.
+   Tab = ets:new(?MODULE, []),
+   {ok, #{tab => Tab}}.
 
+
+handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
+   Key = {DocId, InPathId, Steps},
+   Now = erlang:system_time(),
+   _ = ets:insert(Tab, {Key, Results, Now}),
+   %io:format("~p~n", [{?LINE, Now}]),
+   {reply, ok, State};
+   
+handle_call({get, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
+   Key = {DocId, InPathId, Steps},
+   Now = erlang:system_time(),
+   Reply = case ets:lookup(Tab, Key) of
+      [] ->
+         undefined;
+      [{_, undefined, _}] ->
+         undefined;
+      [{_, T, _}] ->
+         %io:format("~p~n", [{?LINE, T}]),
+         ets:update_element(Tab, Key, {3, Now}),
+         T
+   end,
+   {reply, Reply, State};
 handle_call(_Request, _From, State) ->
-    Reply = ok,
-    {reply, Reply, State}.
+   Reply = ok,
+   {reply, Reply, State}.
 
+handle_cast({sweep, Then}, #{tab := Tab} = State) ->
+   MS = [{{'$1','$2','$3'},
+          [{'<','$3',Then},{'=/=','$3',undefined}],
+          [{{'$1','$2'}}]}],
+   ToDel = ets:select(Tab, MS),
+   Del = fun({K, T}) ->
+               ets:delete(T),
+               ets:insert(Tab, {K, undefined, undefined})
+         end,               
+   ok = lists:foreach(Del, ToDel),
+   {noreply, State};
 handle_cast(_Msg, State) ->
-    {noreply, State}.
+   {noreply, State}.
 
 handle_info(_Info, State) ->
-    {noreply, State}.
+   {noreply, State}.
 
 terminate(_Reason, _State) ->
-    ok.
+   ok.
 
 code_change(_OldVsn, State, _Extra) ->
-    {ok, State}.
+   {ok, State}.
 
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+
+
 
 
 
