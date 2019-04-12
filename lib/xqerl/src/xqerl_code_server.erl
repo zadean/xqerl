@@ -453,6 +453,7 @@ save_module(#xq_module{module_name = ModName,
    code:purge(ModName),
    code:delete(ModName),
    code:purge(ModName),
+   code:load_file(ModName),
    %%%
    if RestXq == [] ->
          ModName;
