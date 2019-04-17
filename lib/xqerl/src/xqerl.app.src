@@ -16,7 +16,8 @@
       erluca,
       hackney,
       cowboy,
-      merge_index%,
+      merge_index,
+      uuid%,
       %observer, 
       %runtime_tools
    ]},
