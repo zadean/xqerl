@@ -1,9 +1,9 @@
 declare namespace _ = "http://xqerl.org/xquery/test_cases";
 declare namespace x = "http://xqerl.org/xquery";
 
-declare option db:chop 'false';
+(: declare option db:chop 'false'; :)
 
-declare variable $catalog := doc("./QT3-test-suite/catalog.xml");
+declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml");
 
 (: String helpers :)
 
@@ -421,8 +421,8 @@ declare function _:get-query($test-case) as xs:string
     if ($test/@file) then
       resolve-uri($test/@file, base-uri($test-case)) =>
       (: BaseX fallback true for invalid XML characters :)
-      file:read-text("utf-8",true())  =>
-      (: file:read-text("utf-8")   => :)
+      (: file:read-text("utf-8",true())  => :)
+      file:read-text("utf-8")   =>
       _:mask-string()
     else
       _:mask-string($test/text())
@@ -813,7 +813,10 @@ let $standardFuns       :=
   (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
-  _:mod_all($testCases, $SUITE = ('fn_collection_SUITE', 'prod_ModuleImport_SUITE', 'app_Demos_SUITE'))
+  _:mod_all($testCases, $SUITE = ('fn_collection_SUITE', 
+                                  'prod_ModuleImport_SUITE', 
+                                  'app_Demos_SUITE',
+                                  'prod_ContextItemDecl_SUITE'))
 let $usedEnvironments := _:get-used-environments($testCases)
   , $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
   , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."
