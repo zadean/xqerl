@@ -5017,14 +5017,13 @@ sum1([H|T], Sum) ->
 -spec 'tokenize'(xq_types:context(),
                  [] | xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xs_string()).
-'tokenize'(Ctx,Input) -> 
-   Str = xqerl_types:cast_as(Input, 'xs:string'),
-   Input1 = string_value(Str),
-   if Input1 == [] ->
-         [];
-      true ->
-         Stripped = xqerl_lib:trim(Input1),
-         'tokenize'(Ctx,?str(Stripped),?str(?A("(\\s)+")))
+'tokenize'(_Ctx, []) -> [];
+'tokenize'(_Ctx, Input) -> 
+   case xqerl_types:cast_as(Input, 'xs:string') of
+      <<>> -> [];
+      Str ->
+         Pat = binary:compile_pattern([<<9>>,<<10>>,<<13>>,<<32>>]),
+         binary:split(Str, Pat, [global, trim_all])
    end.
 
 %% fn:tokenize($input as xs:string?, $pattern as xs:string) as xs:string*
