@@ -1379,7 +1379,7 @@ build_mem_node_fun(Steps) ->
    end.
 
 build_mem_node_fun(Node, []) -> [Node]; % out of steps return node
-build_mem_node_fun(Node, [F]) when is_function(F) -> [F(Node)]; % out of steps return node
+%build_mem_node_fun(Node, [F]) when is_function(F) -> [F(Node)]; % out of steps return node
 build_mem_node_fun(Node, [{H,P}|Steps]) ->
    [N ||
     X <- H(Node, P),

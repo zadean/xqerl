@@ -1522,8 +1522,6 @@ numeric_add(A, B) ->
          ValC;
       'xs:double' ->
          ValC;
-      _ when is_record(ValC, xqAtomicValue) ->
-         ValC;
       _ ->
          #xqAtomicValue{type = TypeC, value = ValC}
    end.
@@ -1577,8 +1575,6 @@ numeric_subtract(A, B) ->
          ValC;
       'xs:double' ->
          ValC;
-      _ when is_record(ValC, xqAtomicValue) ->
-         ValC;
       _ ->
          #xqAtomicValue{type = TypeC, value = ValC}
    end.
@@ -1630,8 +1626,6 @@ numeric_multiply(A, B) ->
       'xs:integer' ->
          ValC;
       'xs:double' ->
-         ValC;
-      _ when is_record(ValC, xqAtomicValue) ->
          ValC;
       _ ->
          #xqAtomicValue{type = TypeC, value = ValC}

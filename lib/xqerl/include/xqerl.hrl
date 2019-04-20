@@ -184,7 +184,7 @@
 -record(annotation,
         {
          name     :: #qname{},
-         values   :: [#xqAtomicValue{}]         
+         values   :: [#xqAtomicValue{} | binary() | atom() | number()]         
         }).
 
 -record(xqFunction, {
@@ -203,7 +203,7 @@
    kind   = function :: function | map | array,
    annotations = [] :: [ #annotation{} ],
    name   :: undefined | #qname{},
-   params = any :: [#xqSeqType{}] | any,
+   params = any :: [#xqSeqType{}] | [any] | any,
    type   = any :: #xqSeqType{} | #xqKindTest{} | any
 }).
 

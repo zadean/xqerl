@@ -216,13 +216,13 @@ db_node_to_node(#{db_name := DbPid} = DB, {NodeId, [{b,Bin},{d,DocId},{p,Path}]}
    Map#{id => {DbPid, DocId, NodeId},
         pa => Path}.
 
-db_node_to_atom(_, []) -> [];
+%db_node_to_atom(_, []) -> [];
 db_node_to_atom(DB, Node) ->
    Nd = db_node_to_node(DB, Node),
    Tv = xqerl_types:atomize(Nd),
    Nd#{tv => Tv}. % typed value
 
-db_node_to_dbl(_, []) -> [];
+%db_node_to_dbl(_, []) -> [];
 db_node_to_dbl(DB, Node) ->
    Nd = db_node_to_node(DB, Node),
    Tv = xqerl_types:cast_as(Nd, 'xs:double'),

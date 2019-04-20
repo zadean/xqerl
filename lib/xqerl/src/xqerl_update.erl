@@ -645,7 +645,7 @@ check_sibling_parent(Node, AList) ->
          ?err('XUDY0029');
       P when AList == [] ->
          P;
-      #{nk := element} = P ->
+      [#{nk := element} = P] ->
          P;
       _ ->
          ?err('XUDY0030')

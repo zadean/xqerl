@@ -3558,12 +3558,12 @@ abs_ns_qname(Ctx, {N, P}) ->
               atom_or_string(N)
         end,
    E2 = if is_tuple(P) ->
-              case P of
-                 <<>> ->
-                    atom_or_string(<<>>);
-                 _ ->
-                    expr_do(Ctx, P)
-              end;
+              %case P of
+              %   <<>> ->
+              %      atom_or_string(<<>>);
+              %   _ ->
+            expr_do(Ctx, P);
+              %end;
            true ->
               atom_or_string(P)
         end,
@@ -3576,12 +3576,12 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
               atom_or_string(N)
         end,
    E2 = if is_tuple(P) ->
-              case P of
-                 <<>> ->
-                    atom_or_string(<<>>);
-                 _ ->
-                    expr_do(Ctx, P)
-              end;
+              %case P of
+              %   <<>> ->
+              %      atom_or_string(<<>>);
+              %   _ ->
+              expr_do(Ctx, P);
+              %end;
            true ->
               atom_or_string(P)
         end,

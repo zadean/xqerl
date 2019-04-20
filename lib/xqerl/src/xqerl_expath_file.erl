@@ -811,8 +811,8 @@ list(_, Dir, Recursive, Pattern) when is_binary(Dir),
                   L = do_rec_list(Dir,Pattern),
                   [?str(binary:replace(Li, Dir, <<>>)) || Li <- L];
                true ->
-                  [?str(Li) || 
-                   Li <- filelib:wildcard(Pattern, Dir)]
+                  [unicode:characters_to_binary(Li) || 
+                   Li <- file_wildcard(Pattern, Dir)]
             end
          catch
             _:_ ->
@@ -1645,7 +1645,7 @@ do_rec_delete(Path) ->
    end.
 
 do_rec_list(Dir,Pattern) ->
-   All = filelib:wildcard(Pattern, Dir),
+   All = file_wildcard(Pattern, Dir),
    F = fun(File) ->
              Abs = filename:join(Dir,File),
              case filelib:is_regular(Abs) of
@@ -1713,6 +1713,10 @@ ensure_dir(Dir) ->
       X ->
          X
    end.
+
+file_wildcard(Pat, Dir) ->
+   filelib:wildcard(unicode:characters_to_list(Pat), 
+                    unicode:characters_to_list(Dir)).
 
 -spec not_implemented() ->
    xq_types:xs_error().

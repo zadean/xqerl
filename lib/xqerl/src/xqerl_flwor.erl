@@ -573,7 +573,7 @@ optimize(FL, _) -> FL.
   
 %% STEP 1 
 -spec optimize_nested(#xqFlwor{}, digraph:graph()) ->
-   {Changed :: boolean(),Result :: #xqFlwor{}}.
+   Result :: #xqFlwor{}.
 optimize_nested(#xqFlwor{loop = L} = FL, G) ->
    Fun = fun({'let', #xqVar{expr = #xqFlwor{} = Fl2} = FV, ST}) ->
                ?dbg("Optimizing nested FLWOR", true),               
