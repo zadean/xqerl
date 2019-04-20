@@ -24,8 +24,8 @@
 
 -module(xqerl_datetime).
 
--export([get_from_now/1]).
--export([get_from_now_local/1]).
+%-export([get_from_now/1]).
+-export([get_from_now_local/2]).
 
 -export([ymd_is_valid/3]).
 
@@ -73,31 +73,26 @@
 %%                    offset   = #off_set{}
 %%                    }).
 
-get_from_now(Now) ->
-   {_,_,Micro} = Now,
-   Millis =  Micro div 1000,
-   {{Y,M,D}, {HH,MI,SS}} = calendar:now_to_universal_time(Now),
-   Ret = #xsDateTime{
-            year = Y,
-            month = M,
-            day = D,
-            hour = HH,
-            minute = MI,
-            second = SS + (Millis / 1000)
-         },
-   Str = to_string(Ret,'xs:dateTime'),
-   #xqAtomicValue{type = 'xs:dateTime', 
-                  value = Ret#xsDateTime{string_value = Str}}.
+%% get_from_now(Now) ->
+%%    {_,_,Micro} = Now,
+%%    Millis =  Micro div 1000,
+%%    {{Y,M,D}, {HH,MI,SS}} = calendar:now_to_universal_time(Now),
+%%    Ret = #xsDateTime{
+%%             year = Y,
+%%             month = M,
+%%             day = D,
+%%             hour = HH,
+%%             minute = MI,
+%%             second = SS + (Millis / 1000)
+%%          },
+%%    Str = to_string(Ret,'xs:dateTime'),
+%%    #xqAtomicValue{type = 'xs:dateTime', 
+%%                   value = Ret#xsDateTime{string_value = Str}}.
 
-get_from_now_local(Now) ->
+get_from_now_local(Now, Tz) ->
    {_,_,Micro} = Now,
    Millis =  Micro div 1000,
    {{Y,M,D}, {HH,MI,SS}} = calendar:now_to_local_time(Now),
-   Loc = calendar:datetime_to_gregorian_seconds({{Y,M,D}, {HH,MI,SS}}),
-   Ut = calendar:now_to_universal_time(Now),
-   Utc = calendar:datetime_to_gregorian_seconds(Ut),
-   Dif = Loc - Utc,
-   {{_,_,_},{Hd,Md,_}} = calendar:gregorian_seconds_to_datetime(Dif),
    Ret = #xsDateTime{
             year = Y,
             month = M,
@@ -105,7 +100,7 @@ get_from_now_local(Now) ->
             hour = HH,
             minute = MI,
             second = xqerl_numeric:decimal(SS + (Millis / 1000)),
-            offset = #off_set{hour = Hd, min = Md}
+            offset = Tz
          },
    Str = to_string(Ret,'xs:dateTime'),
    #xqAtomicValue{type = 'xs:dateTime', 

@@ -783,11 +783,15 @@ static_collations() ->
 get_local_timezone(RawCdt) ->
    Loc = calendar:now_to_local_time(RawCdt),
    UTC = calendar:now_to_universal_time(RawCdt),
-   {D,{H,M,_}} = calendar:time_difference(UTC, Loc),
-   if D == 0 ->
+   
+   LocSec = calendar:datetime_to_gregorian_seconds(Loc),
+   UtcSec = calendar:datetime_to_gregorian_seconds(UTC),
+   Dif = LocSec - UtcSec,
+   {{_,_,_},{H,M,_}} = calendar:gregorian_seconds_to_datetime(abs(Dif)),
+   if Dif >= 0 ->
          #off_set{sign = '+', hour = H, min = M};
       true ->
-         #off_set{sign = '-', hour = 24 - H, min = M}
+         #off_set{sign = '-', hour = H, min = M}
    end.
 
 
@@ -800,7 +804,8 @@ add_default_static_values(parser) ->
 
 add_default_static_values(Tab, RawCdt) ->
    set_static_base_uri(Tab, <<"http://xqerl.org">>),
-   set_implicit_timezone(Tab, get_local_timezone(RawCdt)),
+   Tz = get_local_timezone(RawCdt),
+   set_implicit_timezone(Tab, Tz),
    set_default_element_type_namespace(Tab, 'no-namespace'),
    
    StaticNsList = static_namespaces(),
@@ -810,7 +815,7 @@ add_default_static_values(Tab, RawCdt) ->
                                             value = <<"en">>}),
    
    %% non-augmentable values from dynamic context can be put here as well.
-   set_current_datetime(Tab, xqerl_datetime:get_from_now_local(RawCdt)),
+   set_current_datetime(Tab, xqerl_datetime:get_from_now_local(RawCdt, Tz)),
    Tab.
 
 %TODO annotations (private)
