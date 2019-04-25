@@ -612,16 +612,18 @@ rest_functions(Ctx, Functions) ->
 
            HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
+           % TODO stream response body
            G5 = if HasUpd -> 
                 ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                    "Ctx = (init(init_ctx()))#{pul => PUL},"
+                    " {TRA,_} = locks:begin_transaction(),",
+                    "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
                     "xqerl_context:destroy(Ctx),",
                     "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
-                    " {true, cowboy_req:set_resp_body(ReturnVal, Req), State};",
+                    " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
                     "true -> {ReturnVal, Req, State}"
                     "end."]);
                  true ->
@@ -632,7 +634,7 @@ rest_functions(Ctx, Functions) ->
                     "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
                     "xqerl_context:destroy(Ctx),",
                     "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
-                    " {true, cowboy_req:set_resp_body(ReturnVal, Req), State};",
+                    " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
                     "true -> {ReturnVal, Req, State}"
                     "end."])
                  end,
@@ -831,7 +833,8 @@ body_function(ContextMap, Body,Prolog) ->
    M = if HasUpd ->
              ?P(["main(Options) ->",
                  " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                 " Ctx0 = xqerl_context:merge(init(), Options#{pul => PUL}),",
+                 " {TRA,_} = locks:begin_transaction(),",
+                 " Ctx0 = xqerl_context:merge(init(), Options#{pul => PUL, trans => TRA}),",
                  " _@@ImportedVars,",
                  " _@@V1,",
                  "_@BodyAbs."]);

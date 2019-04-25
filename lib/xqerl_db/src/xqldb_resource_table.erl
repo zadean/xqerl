@@ -36,6 +36,7 @@
 -export([start_link/3,
          stop/1,
          insert/2,
+         delete/2,
          get/2]).
 
 -type state()::#{free_space => [{Len::non_neg_integer(),
@@ -72,6 +73,12 @@ get(Pid, PosSize) ->
 insert(Pid, Bin) ->
    gen_server:call(Pid, {insert, Bin}).
 
+% Release binary at {Pos, Len}
+-spec delete(server(), binary()) -> 
+         {Pos :: non_neg_integer(), Len :: non_neg_integer()}.
+delete(Pid, PosLen) ->
+   gen_server:cast(Pid, {delete, PosLen}).
+
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
@@ -92,6 +99,7 @@ new(DBDirectory, TableName) ->
    {ok,HeapFile} = file:open(HeapName, 
                              [read,write,binary,read_ahead,delayed_write,raw]),
    #{file => HeapFile,
+     free_space => [],
      tail => 0}.
 
 %% Opens an existing table in the DBDirectory 
@@ -119,6 +127,14 @@ close(#{file := HeapFile}) ->
    ok = file:close(HeapFile),
    ok.
 
+get_first_fit([{Len, _Pos}|T], Len0) when Len < Len0 ->
+   get_first_fit(T, Len0);
+get_first_fit([{Len, Pos}|_T], _) -> % fits
+   {Len, Pos};
+get_first_fit([], _) -> % none
+   [].
+
+
 %% ====================================================================
 %% Callbacks
 %% ====================================================================
@@ -133,6 +149,9 @@ init([open, DBDirectory, TableName]) ->
 terminate(_Reason,State) ->
    close(State).
 
+handle_cast({delete, {Pos, Len}}, #{free_space := Free} = State) ->
+   Free1 = lists:sort([{Len, Pos}|Free]),
+   {noreply, State#{free_space := Free1}};
 handle_cast(_Request, State) -> {noreply,State}.
 
 handle_call({get_bin, {Pos,Size}}, _From, #{file := File} = State) -> 
@@ -142,10 +161,24 @@ handle_call({get_bin, {Pos,Size}}, _From, #{file := File} = State) ->
            end,
    {reply,Reply,State};
 handle_call({insert, Bin}, _From, #{file := File,
-                                    tail := Tail} = State) ->
+                                    tail := Tail,
+                                    free_space := Fs} = State) ->
    Size = byte_size(Bin),
-   ok = file:pwrite(File, Tail, Bin),
-   {reply, {Tail, Size} , State#{tail := Tail + Size}}.
+   case get_first_fit(Fs, Size) of
+      [] ->
+         ok = file:pwrite(File, Tail, Bin),
+         {reply, {Tail, Size} , State#{tail := Tail + Size}};
+      {Len, Pos} = LP ->
+         Fs1 = Fs -- [LP],
+         ok = file:pwrite(File, Pos, Bin),
+         Fs2 = if Size < Len ->
+                     New = {Size - Len, Pos + Size},
+                     lists:sort([New|Fs1]);
+                  true -> % ==
+                     Fs1
+               end,
+         {reply, {Pos, Size}, State#{free_space := Fs2}}
+   end.
 
 handle_info(_Request, State) -> {noreply,State}.
 

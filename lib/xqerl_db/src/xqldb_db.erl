@@ -127,7 +127,6 @@ init([DBDirectory, Uri]) ->
                 true -> open;
                 false -> new
              end,
-   Locks = child_map(db_lock, xqldb_lock, []), 
    Strct = child_map(structure, xqldb_structure_index, [NewOpen, DBDirectory, ?STRUCT]), 
    Names = child_map(names,      xqldb_name_table, [NewOpen, DBDirectory, ?NAME]), 
    NmSps = child_map(namespaces, xqldb_name_table, [NewOpen, DBDirectory, ?NMSP]),
@@ -139,7 +138,7 @@ init([DBDirectory, Uri]) ->
    Qry   = child_map(queries, xqldb_query_server, []),
    
    {ok, {SupFlags, 
-         [Locks, Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index, Qry]}}.
+         [Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index, Qry]}}.
 
 %% ====================================================================
 %% Internal functions

@@ -17,6 +17,7 @@
       hackney,
       cowboy,
       merge_index,
+      locks,
       uuid%,
       %observer, 
       %runtime_tools

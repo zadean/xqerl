@@ -42,7 +42,8 @@
 -export([start_link/0,
          sweep/1,
          get/4,
-         put/5]).
+         put/5,
+         delete/2]).
 
 
 start_link() ->
@@ -64,6 +65,9 @@ get(Server, DocId, InPathId, Steps) ->
 
 put(Server, DocId, InPathId, Steps, Results) ->
    gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
+
+delete(Server, DocId) ->
+   gen_server:cast(Server, {delete, DocId}).
 
 %% ====================================================================
 %% Behavioural functions
@@ -107,6 +111,19 @@ handle_cast({sweep, Then}, #{tab := Tab} = State) ->
    Del = fun({K, T}) ->
                ets:delete(T),
                ets:insert(Tab, {K, undefined, undefined})
+         end,               
+   ok = lists:foreach(Del, ToDel),
+   {noreply, State};
+handle_cast({delete, {Doc, Stmp}}, #{tab := Tab} = State) ->
+   MS = [{{{{Doc, Stmp},'$1','$2'},'$3','_'},[],[{{'$1','$2','$3'}}]}],
+   ToDel = ets:select(Tab, MS),
+   Del = fun({K1, K2, undefined}) ->
+               K = {{Doc, Stmp}, K1, K2},
+               ets:delete(Tab, K);
+            ({K1, K2, T}) ->
+               ets:delete(T),
+               K = {{Doc, Stmp}, K1, K2},
+               ets:delete(Tab, K)
          end,               
    ok = lists:foreach(Del, ToDel),
    {noreply, State};

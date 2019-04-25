@@ -62,12 +62,10 @@ parse_file(DB,File,Uri) ->
 %   Struct = xqldb_structure:index_doc(Nodes),
 %   Len = byte_size(Nodes) div ?BSZ,
 %   DocPos = xqldb_node_table:insert(?NODE_TABLE_P(DB), Nodes),
-%   _ = xqldb_lock:write(?DBLOCK(DB), Self, 60000),
 %   _ = xqldb_structure_index:add(?STRUCT_INDEX_P(DB), Struct),
 %   ONsps = [{A + DocPos, B + DocPos,C,D} || {A,B,C,D} <- Nsps],
 %   _ = xqldb_ns_node_table:insert(?NS_NODE_TABLE_P(DB), ONsps),
 %   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocPos, Len}),
-%   _ = xqldb_lock:clear(?DBLOCK(DB), Self),
    ok.
    
    %{File,DocPos}.

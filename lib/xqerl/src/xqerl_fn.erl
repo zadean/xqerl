@@ -1198,7 +1198,8 @@ cp_to_bin([],Acc) -> Acc.
          ?err('FODC0004');
       _:{error, fragment} ->
          ?err('FODC0004');
-      _:_ ->
+      _:Err ->
+?dbg("Err", Err),
          ?err('FODC0002')
    end.
 

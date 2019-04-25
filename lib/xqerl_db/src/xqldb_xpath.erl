@@ -236,7 +236,6 @@ get_group_key(#{id := {Ref, _Id}}) when is_reference(Ref) ->
    mem;
 get_group_key(#{id := {Pid, DocId, Id},
                 pa := PathId}) when is_pid(Pid),
-                                    is_binary(DocId),
                                     is_binary(Id) ->
    {Pid, DocId, PathId};
 get_group_key(_) ->

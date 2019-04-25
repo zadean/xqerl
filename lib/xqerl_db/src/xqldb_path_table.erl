@@ -21,7 +21,18 @@
 %% -------------------------------------------------------------------
 
 %% Path to each document.
-%% {{MinPos, MaxPos}, Uri} ordered_set
+%% Table record :
+%%  {Name, {xml,  VersionStamp}}
+%%  {Name, {item, VersionStamp, {Pos, Len}}}
+%%  {Name, {link, VersionStamp, FileName}}
+%%  {Name, {res,  VersionStamp, {Pos, Len}}}
+%%  {Name, {json, VersionStamp, {Pos, Len}}}
+
+%% VersionStamp is systemtime in microseconds as retreived by this process.
+%%  It can be set by insertion or update
+%%  This process is always the last thing to be updated.
+
+%% Write locks should be on [DB_URI, Name].
 
 -module(xqldb_path_table).
 
@@ -42,13 +53,13 @@
 -export([start_link/4,
          stop/1,
          uri/1,
-         new_document_id/1,
          insert/2,
          lookup/2,
-         lookup_record/2,
          all/1,
          delete/2,
-         delete_all/1]).
+         delete_all/2,
+         
+maybe_delete_doc_ref/2]).
 
 -define(CLOSE_TIMEOUT, 12000000).
 
@@ -83,34 +94,39 @@ uri(Pid) when is_pid(Pid) ->
 -spec insert(server(), {Name :: binary(), 
                         Type :: res_type(),
                         {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
-                       }) -> ok.
+                       } | {Name :: binary(), xml}) -> ok.
 
-insert(Pid, {_,_,_} = Value) when is_pid(Pid) ->
+insert(Pid, {_,xml,_} = Value) when is_pid(Pid) ->
+   gen_server:call(Pid, {insert, Value});
+insert(Pid, {_,_,_,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
 
 %% Delete all values with Name
--spec delete(server(), {Name :: binary(), Type :: res_type()}) -> ok.
+-spec delete(server(), Name :: binary()) -> ok.
 
-delete(Pid, {_,_,_} = Req) when is_pid(Pid) ->
-   gen_server:call(Pid, {delete, Req});
-delete(Pid, {_,_} = Req) when is_pid(Pid) ->
-   gen_server:call(Pid, {delete, Req}).
+delete(Pid, Name) when is_pid(Pid), is_binary(Name) ->
+   gen_server:call(Pid, {delete, Name}).
 
-%% Returns [{Pos, Size}] values for the given Name and Type.
--spec lookup(server(), {Name :: binary(), Type :: res_type() | res_or_link}) -> 
-         [{Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()].
+%% Delete all values with Name
+-spec delete_all(server(), map()) -> ok.
 
-lookup(Pid, {_,_} = Req) when is_pid(Pid) ->
+delete_all(Pid, DB) when is_pid(Pid) ->
+   gen_server:call(Pid, {delete_all, DB}).
+
+%% Returns record for a given name if any.
+-spec lookup(server(), Name) ->
+         {xml,  VersionStamp :: integer()} |
+         {item, VersionStamp, {Pos, Len}} |
+         {link, VersionStamp, FileName} |
+         {res,  VersionStamp, {Pos, Len}} |
+         {json, VersionStamp, {Pos, Len}}
+   when  VersionStamp :: integer(),
+         Name :: binary(),
+         Pos :: integer(),
+         Len :: integer(),
+         FileName ::binary().
+lookup(Pid, Req) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Req}).
-
-%% Returns [{Name, Type, Pos, Size}] values for the given Name and Type.
--spec lookup_record(server(), {NPos :: non_neg_integer(), 
-                               Type :: res_type() | res_or_link}) -> 
-         [{Name :: binary(), Type :: res_type() | res_or_link, 
-           {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}].
-
-lookup_record(Pid, PosType) when is_pid(Pid) ->
-   gen_server:call(Pid, {lookup, PosType}).
 
 %% Returns all names in the table.
 -spec all(server()) -> [{Name :: binary(), 
@@ -120,18 +136,6 @@ lookup_record(Pid, PosType) when is_pid(Pid) ->
 
 all(Pid) when is_pid(Pid) ->
    gen_server:call(Pid, all).
-
-%% Delete all names in the table.
--spec delete_all(server()) -> ok | {error,_}.
-
-delete_all(Pid) when is_pid(Pid) ->
-   gen_server:call(Pid, delete_all).
-
-%% Returns the next unique document id.
--spec new_document_id(server()) -> ok | {error,_}.
-
-new_document_id(Pid) when is_pid(Pid) ->
-   gen_server:call(Pid, new_document_id).
 
 %% ====================================================================
 %% Internal functions
@@ -183,49 +187,53 @@ terminate(_Reason,#{tab  := HeapFile}) ->
 handle_call(uri, _From, #{uri := Uri} = State) ->
    {reply, Uri, State, ?CLOSE_TIMEOUT};
 
-handle_call({insert, {Name, Type, DocId}}, 
+handle_call({insert, {Name, xml, Timestamp}}, 
             _From, #{tab  := HeapFile} = State) ->
-   ok = dets:insert(HeapFile, {Name, {Type, DocId}}),
+   ok = dets:insert(HeapFile, {Name, {xml, Timestamp}}),
    {reply, ok, State, ?CLOSE_TIMEOUT};
-
-handle_call(new_document_id, _From, State) ->
-   Unique = erlang:unique_integer([positive, monotonic]),
-   Bin = int_to_base62(Unique),
-   {reply, Bin, State, ?CLOSE_TIMEOUT};
-
-handle_call(delete_all, _From, #{tab  := HeapFile} = State) ->
-   Reply = dets:delete_all_objects(HeapFile),
-   {reply, Reply, State, ?CLOSE_TIMEOUT};
+handle_call({insert, {Name, Type, Pos, Timestamp}}, 
+            _From, #{tab  := HeapFile} = State) ->
+   ok = dets:insert(HeapFile, {Name, {Type, Pos, Timestamp}}),
+   {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call(all, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{'$1',{'$2','$3'}},[],[{{'$1','$2','$3'}}]}],
-   Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
-
-handle_call({delete, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
-   Pattern = {Name, {Type, '_'}},
-   ok = dets:match_delete(HeapFile, Pattern),
-   {reply, ok, State, ?CLOSE_TIMEOUT};
-handle_call({delete, {Name, Type, DocId}}, _From, #{tab  := HeapFile} = State) ->
-   Pattern = {Name, {Type, DocId}},
-   ok = dets:match_delete(HeapFile, Pattern),
-   {reply, ok, State, ?CLOSE_TIMEOUT};
-
-handle_call({lookup, {Name, res_or_link}}, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{Name,{'$1',{'$2','$3'}}},[{'=:=','$1',res}],[{{'$2','$3'}}]},
-                {{Name,{'$1',{'$2','$3'}}},[{'=:=','$1',link}],[{{'$2','$3'}}]}],
+   MatchSpec = [{{'$1',{'$2','$3'}},[],[{{'$1','$2','$3'}}]},
+                {{'$1',{'$2','$3','$4'}},[],[{{'$1','$2','$3','$4'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
-%% handle_call({lookup, {Pos, Type}}, _From, #{tab  := HeapFile} = State) 
-%%   when is_integer(Pos) ->
-%%    MatchSpec = [{{'$1',{Type,'$2','$3'}}, 
-%%                  [{'>=',Pos,'$2'},{'=<',Pos,{'+','$3','$2'}}],['$_']}],
-%%    Got = dets:select(HeapFile, MatchSpec),
-%%    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
-handle_call({lookup, {Name, Type}}, _From, #{tab  := HeapFile} = State) ->
-   MatchSpec = [{{Name,{Type,'$1'}},[],['$1']}],
-   Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT}.
+
+handle_call({delete, Name}, _From, #{tab  := HeapFile} = State) ->
+   ok = dets:delete(HeapFile, Name),
+   {reply, ok, State, ?CLOSE_TIMEOUT};
+
+handle_call({delete_all, #{resources := Res} = DB}, _From, #{tab  := HeapFile} = State) ->
+   Delete = fun({Name, {xml, Sp}}) ->
+                  maybe_delete_doc_ref(DB, {Name, Sp}),
+                  dets:delete(HeapFile, Name),
+                  continue;
+               ({Name, {res, _, PosLen}}) ->
+                  xqldb_resource_table:delete(Res, PosLen),
+                  dets:delete(HeapFile, Name),
+                  continue;
+               ({Name, {item, _, PosLen}}) ->
+                  xqldb_resource_table:delete(Res, PosLen),
+                  dets:delete(HeapFile, Name),
+                  continue;
+               ({Name,_}) ->
+                  dets:delete(HeapFile, Name),
+                  continue
+            end,
+   dets:traverse(HeapFile, Delete),   
+   {reply, ok, State, ?CLOSE_TIMEOUT};
+
+handle_call({lookup, Name}, _From, #{tab  := HeapFile} = State) ->
+   Got = case dets:lookup(HeapFile, Name) of
+            [{Name,R}] ->
+               R;
+            [] ->
+               []
+         end,
+   {reply, Got, State, ?CLOSE_TIMEOUT}.
 
 handle_cast(_Request, State) -> {noreply,State}.
 
@@ -235,19 +243,53 @@ handle_info(timeout, #{uri := Uri} = State) ->
 handle_info(_Request, State) -> {noreply,State}.
 
 code_change(_, State, _) -> {ok, State}.
-  
--define(ALPHA, <<"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz">>).
 
-get_byte(N) ->
-   binary:at(?ALPHA, N).
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Delete procedures.
+%% Can/Should be moved out into own area that makes sense.
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+maybe_delete_doc_ref(#{index := IndexPid, 
+                       structure := StructPid,
+                       queries := QueriesPid} = _DB, DocId) ->
+   %PathDoc = merge_index:range(IndexPid, path, doc, undefined, undefined, any, fun(D,_) ->D == DocId end),
+   Stamp = erlang:system_time(),
+   Vals = merge_index:range_term(IndexPid, val, DocId, undefined, undefined, both, true),
+   Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),
+   Namespaces = merge_index:range_term(IndexPid, namespace, DocId, undefined, undefined, both, true),
+   Nodes = merge_index:range_term(IndexPid, doc, DocId, undefined, undefined, both, true),
+   ok = delete_index_vals(val, DocId, Vals, IndexPid, Stamp, []),
+   ok = delete_index_vals(path, DocId, Paths, IndexPid, Stamp, []),
+   ok = delete_index_vals(namespace, DocId, Namespaces, IndexPid, Stamp, []),
+   NodeProps = collect_delete_index_vals(doc, DocId, Nodes, IndexPid, Stamp, [], []),
+   PathCounts = path_counts(NodeProps, dict:new()),
+   PathKeys = dict:fetch_keys(PathCounts),
+   _ = merge_index:index(IndexPid, [{path, doc, P, DocId, undefined, Stamp} || 
+                                    P <- PathKeys]),
+   MinusCounts = [{K, -V} || {K,V} <- dict:to_list(PathCounts)],
+   _ = xqldb_structure_index:incr_counts(StructPid, MinusCounts),
+   _ = xqldb_query_server:delete(QueriesPid, DocId),
+   ok.
 
-int_to_base62(Int) ->
-   erlang:list_to_binary(int_to_base62(Int, [])).
+path_counts([N|Nodes], Acc) ->
+   P = proplists:get_value(p, N),
+   path_counts(Nodes, dict:update_counter(P, 1, Acc));
+path_counts([], Acc) ->
+   Acc.
 
-%int_to_base62(Int, Acc) when Int < 0 -> int_to_base62(-Int, Acc);
-int_to_base62(0, Acc) -> Acc;
-int_to_base62(Int, Acc) ->
-   Rem = Int rem 62,
-   Div = Int div 62,
-   int_to_base62(Div, [get_byte(Rem)|Acc]).
+delete_index_vals(I, F, [{T,V,_}|Rest], IndexPid, Stamp, Acc) ->
+   New = {I, F, T, V, undefined, Stamp},
+   delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc]);
+delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc) when is_function(Entries) ->
+   delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc);
+delete_index_vals(_, _, [], IndexPid, _, Acc) ->
+   merge_index:index(IndexPid, Acc),
+   ok.
 
+collect_delete_index_vals(I, F, [{T,V,N}|Rest], IndexPid, Stamp, Acc, Nodes) ->
+   New = {I, F, T, V, undefined, Stamp},
+   collect_delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc], [N|Nodes]);
+collect_delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc, Nodes) when is_function(Entries) ->
+   collect_delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc, Nodes);
+collect_delete_index_vals(_, _, [], IndexPid, _, Acc, Nodes) ->
+   merge_index:index(IndexPid, Acc),
+   Nodes.

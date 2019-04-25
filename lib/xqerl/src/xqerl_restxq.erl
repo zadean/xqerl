@@ -35,6 +35,7 @@
          endpoint_sort/1,
          parse_annos/1]).
 
+-export([stream_body/2]).
 
 %% TODO: when the first value in the return value of a RESTXQ function is
 %% an element rest:response, with possibly http:response inside,
@@ -61,6 +62,18 @@
 -define(SV(V), V).
 -define(anno(N,V),#annotation{name = N, values = V}).
 
+stream_body(ReturnVal, Req0) ->
+   Req = cowboy_req:stream_reply(200, Req0),
+   stream_body_(ReturnVal, Req).
+
+stream_body_(<<S:4096/binary, Rest/binary>>, Req) ->
+   cowboy_req:stream_body(S, nofin, Req),
+   stream_body_(Rest, Req);
+stream_body_(Bin, Req) ->
+   cowboy_req:stream_body(Bin, fin, Req),
+   ok.
+
+  
 default_rest_annos() ->
    #{method         => [], % expanded to all later if not set
      output         => [], % list of serialization parameters

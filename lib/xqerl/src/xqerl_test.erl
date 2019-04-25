@@ -870,18 +870,12 @@ handle_environment(List) ->
                        #{'base-uri' => 
                            #xqAtomicValue{type = 'xs:anyURI',
                                           value = ?LB(xqldb_lib:filename_to_uri(Base++"/dummy.xq"))}},
-                     QVals = case xqerl:run(Q,Opts) of
+                     Items = case xqerl:run(Q,Opts) of
                                 L when is_list(L) -> L;
                                 L -> [L]
                              end,
-                     BaseNames = [integer_to_binary(I + 1000) || 
-                                    I <- lists:seq(1, length(QVals))],
-                     Zipped = lists:zip(BaseNames, QVals),
-                     [begin
-                         ItemUri = xqldb_uri:join(CollectionUri, BaseName),
-                         xqldb_dml:insert_item(ItemUri, Item)
-                      end
-                      || {BaseName, Item} <- Zipped],
+                     ItemUri = xqldb_uri:join(CollectionUri, "stuff"),
+                     xqldb_dml:insert_item(ItemUri, Items),
                      ok;
                   _ ->
                      _ = [

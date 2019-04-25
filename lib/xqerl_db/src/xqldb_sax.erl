@@ -29,8 +29,8 @@
 %% ====================================================================
 -export([parse_file/2,
          parse_dir/2,
-         parse_file/3,
-         parse_list/3,
+         parse_file/4,
+         parse_list/4,
          split_parse_file/3,
          compact/1]).
 
@@ -53,52 +53,45 @@ parse_dir(DB, Dir) ->
 
 parse_file(DB,File) -> 
    Uri = unicode:characters_to_binary(File),
-   parse_file(DB,File,Uri).
+   parse_file(DB,File,Uri,erlang:system_time()).
 
-parse_file(DB,File,Uri) ->
-   DocId = xqldb_path_table:new_document_id(?PATH_TABLE_P(DB)),
-   State0 = default_state(DB,Uri,DocId),
+parse_file(DB,File,Uri,Stamp) ->
+   State0 = default_state(DB,Uri,Stamp),
    Index = maps:get(index, DB),
    Timestamp = maps:get(timestamp, State0),
    Counter = #{},
-   WFun = fun() -> index_writer([], {Index, DocId, Timestamp}, 0) end,
+   WFun = fun() -> index_writer([], {Index, {Uri, Stamp}, Timestamp}, 0) end,
    Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
    State = State0#{writer => Writer,
                    counter => Counter},
    try
-   {ok,State1,_} = 
-      xmerl_sax_parser:file(File,[{continuation_fun, 
-                                   fun default_continuation_cb/1},
-                                  {event_fun, fun event/3},
-                                  {event_state, State}]),
-    
-   
-   % Nodes is [{NodeId, NodeBin, PathId}] 
-   % Nsps  is [{ElemId, UriId, Prefix}] in-scope is then easy to find
-% make and insert all index values at all levels
-   Self = self(),   
-   ok = post_document_paths(State1),   
-   Writer ! {Self, done},
-   ok = wait_index_writer(Writer),
-   Counts = get_path_counts(maps:get(counter, State1)),
-   xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
-   _ = xqldb_lock:write(?DBLOCK(DB), Self, 60000),
-   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocId}),
-   _ = xqldb_lock:clear(?DBLOCK(DB), Self),
-   ok
+      {ok,State1,_} = 
+         xmerl_sax_parser:file(File,[{continuation_fun, 
+                                      fun default_continuation_cb/1},
+                                     {event_fun, fun event/3},
+                                     {event_state, State}]),
+       
+      
+      % make and insert all index values at all levels
+      Self = self(),   
+      ok = post_document_paths(State1),   
+      Writer ! {Self, done},
+      ok = wait_index_writer(Writer),
+      Counts = get_path_counts(maps:get(counter, State1)),
+      xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
+      ok
    catch _ : G : E ->
       [{G,E}]
    end.
 
       
-parse_list(_DB,[],_Uri) -> ok;
-parse_list(DB,List,Uri) ->
-   DocId = xqldb_path_table:new_document_id(?PATH_TABLE_P(DB)),
-   State0 = default_state(DB,Uri,DocId),
+parse_list(_DB,[],_Uri,_) -> ok;
+parse_list(DB,List,Name,Stamp) ->
+   State0 = default_state(DB,Name,Stamp),
    Index = maps:get(index, DB),
    Timestamp = maps:get(timestamp, State0),
    Counter = #{},
-   WFun = fun() -> index_writer([], {Index, DocId, Timestamp}, 0) end,
+   WFun = fun() -> index_writer([], {Index, {Name, Stamp}, Timestamp}, 0) end,
    Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
    State = State0#{writer => Writer,
                    counter => Counter},
@@ -114,7 +107,6 @@ parse_list(DB,List,Uri) ->
    ok = wait_index_writer(Writer),
    Counts = get_path_counts(maps:get(counter, State1)),
    xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
-   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocId}),
    ok
    catch _ : G : E ->
       [{G,E}]
@@ -143,11 +135,11 @@ default_continuation_cb(IoDevice) ->
 %% Internal functions
 %% ====================================================================
 
-default_state(DB, Uri, DocId) ->
+default_state(DB, Uri, Stamp) ->
    NsTab = ?NMSP_TABLE_P(DB),
    {_UriId, M1} = get_name_id(NsTab, <<>>, #{}),
    {_XmlId, M2} = get_name_id(NsTab, <<"http://www.w3.org/XML/1998/namespace">>, M1),
-   #{doc_id   => DocId,    % unique document ID, base62 binary
+   #{doc_id   => {Uri,Stamp}, % unique document ID
      writer   => [],       % index writer/collector process 
      timestamp => erlang:system_time(microsecond), 
      pos      => 0,        % current position    -> simply counts forward
