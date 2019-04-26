@@ -42,6 +42,7 @@
          xqerl_expath_file,
          xqerl_http_client,
          xqerl_rand,
+         xqerl_ext_basex,
          xqerl_error]).
 
 -define(TIMEOUT, 60000).
@@ -418,7 +419,7 @@ scan_tree_static(Tree, BaseUri) ->
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
       _:#xqError{} = E:S ->
-         %?dbg("parse_tokens e",E),
+         %?dbg("parse_tokens e",Tree),
          throw(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("scan_tree_static",E),
@@ -543,8 +544,8 @@ do_unload(Tab, Ebin, DispatchFile) ->
         #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
 
--define(PRINT,false).
-%-define(PRINT,true).
+%-define(PRINT,false).
+-define(PRINT,true).
 
 -if(?PRINT).
    % see what comes out

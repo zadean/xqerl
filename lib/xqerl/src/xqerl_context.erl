@@ -232,6 +232,12 @@ init(_) ->
 
 destroy(#{tab := Tab}) ->
    %?dbg("Tab",Tab),
+   case ets:lookup(Tab, clients) of
+      [{clients,Map}] ->
+         [Close() || {_, Close} <- maps:values(Map), is_function(Close)];
+      _ ->
+         ok
+   end,
    ets:delete(Tab),
    erlang:erase(),
    ok.
@@ -770,6 +776,7 @@ static_namespaces() ->
      {<<"http">>,  <<"http://expath.org/ns/http-client">>},
      {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
+     {<<"basex">>, <<"http://xqerl.org/modules/client/BaseX">>},
      {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].
 
 static_collations() ->

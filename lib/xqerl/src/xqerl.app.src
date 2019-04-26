@@ -1,6 +1,6 @@
 {application, xqerl, [
    {description, "XQuery 3.1 Processor"},
-   {vsn, "0.1.1"},
+   {vsn, "0.1.2"},
    {applications, [
       kernel,
       stdlib,
@@ -18,7 +18,8 @@
       cowboy,
       merge_index,
       locks,
-      uuid%,
+      uuid,
+      basexerl%,
       %observer, 
       %runtime_tools
    ]},

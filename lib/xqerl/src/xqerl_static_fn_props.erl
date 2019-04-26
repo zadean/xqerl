@@ -38,6 +38,7 @@
 -define(FL, <<"http://expath.org/ns/file">>).
 -define(HT, <<"http://expath.org/ns/http-client">>).
 -define(RD, <<"http://xqerl.org/modules/random">>).
+-define(BX, <<"http://xqerl.org/modules/client/BaseX">>).
 
 %% map returned as 
 %%    #{deterministic      => Deterministic,
@@ -46,6 +47,15 @@
 %%      higher_order       => HigherOrder,
 %%      static_properties  => StaticProperties,
 %%      dynamic_properties => DynamicProperties}.
+get_props(#qname{namespace = ?BX, local_name = <<"connect">>           }, 4) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?BX, local_name = <<"execute">>           }, 2) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?BX, local_name = <<"query">>             }, 2) -> 
+   props(true, false, false, false, [base_uri,known_namespaces], []);
+get_props(#qname{namespace = ?BX, local_name = <<"query">>             }, 3) -> 
+   props(true, false, false, false, [base_uri,known_namespaces], []);
+
 get_props(#qname{namespace = ?RD, local_name = <<"double">>            }, 0) -> 
    props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"integer">>           }, 0) -> 
