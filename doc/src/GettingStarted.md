@@ -51,7 +51,7 @@ $ cd xqerl
 $ rebar3 compile
 ```
 
-You'll see a few warnings about unused variables. (I'm working on it!!)
+You'll may see a few warnings about unused variables or the like.
 
 
 ## Step 4. Start it
@@ -68,7 +68,7 @@ From the erlang shell, run the following:
 (xqerl_node@some_machine)3> application:ensure_all_started(xqerl). 
 ```
 
-This will initialize the database and also start the code server.
+This will initialize the database, web server and also start the code server as well as a few other things.
 
 ## Step 5. Start using it
 
@@ -77,30 +77,42 @@ This will initialize the database and also start the code server.
 
 ```erlang
 (xqerl_node@some_machine)5> xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").
-[{xqAtomicValue,'xs:token',"cats"},
- {xqAtomicValue,'xs:string',"dogs"},
- {xqAtomicValue,'xs:boolean',true}]
+[{xqAtomicValue,'xs:token',<<"cats">>},<<"dogs">>,true]
 ```
+Notice here that the xs:string and xs:boolean are Erlang types, and xs:token is marked as a token.
+
+##### Using single-quotes looks cleaner:
+
+```erlang
+(xqerl_node@some_machine)5> xqerl:run("xs:token('cats'), xs:string('dogs'), true() ").
+[{xqAtomicValue,'xs:token',<<"cats">>},<<"dogs">>,true]
+```
+
 
 ##### Compile a main-query from file:
 
 ```erlang
-(xqerl_node@some_machine)6> xqerl_module:compile("doc/src/sudoku2.xq").   
+(xqerl_node@some_machine)6> xqerl:compile("doc/src/sudoku2.xq").   
 file____doc_src_sudoku2_xq
 ```
 
 This returns the name of the compiled module. Don't write it down! ;-) Save it for later:
 
 ```erlang
-(xqerl_node@some_machine)7> S = xqerl_module:compile("doc/src/sudoku2.xq").
+(xqerl_node@some_machine)7> S = xqerl:compile("doc/src/sudoku2.xq").
 ```
 
-<s>
 Now run the XQuery with an empty context map:
 
 ```erlang
 (xqerl_node@some_machine)8> S:main(#{}).
-{xqNode,<0.257.0>,[1]}
+...
+         tn => 'xs:untyped'}],
+  id => {#Ref<0.2416797336.1719664641.241369>,1},
+  nk => element,
+  nn => {<<>>,<<>>,<<"html">>},
+  ns => #{<<>> => <<>>},
+  tn => 'xs:untyped'}
 ```
 
 Well, that's not very useful!
@@ -108,25 +120,43 @@ Well, that's not very useful!
 ```erlang
 (xqerl_node@some_machine)9> Xml = S:main(#{}).
 (xqerl_node@some_machine)10> xqerl_node:to_xml(Xml).
-"<html><head><title>Sudoku - XSLT</title><style>table { ...
+<<"<html><head><title>Sudoku - XSLT</title><style>table { border-collapse: collapse; border: 1px solid black; } td { pa"...>>
 ```
 
 Okay, that's better.
 
 ##### Load an XML file into the DB:
 
-`xqldb_docstore:insert("./test/QT3-test-suite/app/FunctxFn/functx_order.xml").`
+The first argument is the document URI. The second is the file location. 
 
-*NOTE: XQuery that uses `fn:doc` should currently be compiled with its absolute file path.*
+```erlang
+(xqerl_node@some_machine)11> xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").
+```
 
-and delete it again
+Now view it using the fn:doc#1 function and the xqerl:run/1 function.
 
-`xqldb_docstore:delete("./test/QT3-test-suite/app/FunctxFn/functx_order.xml").`
+```erlang
+(xqerl_node@some_machine)12> xqerl_node:to_xml(xqerl:run("doc('http://xqerl.org/my_doc.xml')")). 
+<<"<order cust=\"0221A\" date=\"2006-09-15\" num=\"00299432\">\n  <item color=\"beige\" quantity=\"1\" num=\"557\" dept=\"WMN\"/>\n  <i"...>>
+```
+
+and delete the file again.
+
+```erlang
+(xqerl_node@some_machine)13> xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").
+ok
+```
+
+Following calls to fn:doc will throw error 'FODC0002'.
+
 
 ##### Just-for-fun load an entire directory with lots of XML files:
 
-`xqldb_parse:read_dir("./test/QT3-test-suite").`
-</s>
+Each file will use the first parameter as its base-URI. 
+
+```erlang
+(xqerl_node@some_machine)14> xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").
+```
 
 
 
