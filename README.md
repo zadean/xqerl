@@ -1,4 +1,4 @@
-![Logo](./doc/img/logo_m.png "xqerl")
+![Logo](./docs/img/logo_m.png "xqerl")
 # xqerl
 Erlang XQuery 3.1 Processor and XML Database
 
@@ -10,7 +10,7 @@ The test cases run are all taken from the [W3C QT3 test suite](https://github.co
 
 
 ##### New to Erlang?
-   Check out the Getting Started [section](./doc/src/GettingStarted.md)
+   Check out the Getting Started [section](./docs/src/GettingStarted.md)
 
 ### Features it has:
 * Module Feature

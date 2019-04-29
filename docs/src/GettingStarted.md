@@ -92,14 +92,14 @@ Notice here that the xs:string and xs:boolean are Erlang types, and xs:token is 
 ##### Compile a main-query from file:
 
 ```erlang
-(xqerl_node@some_machine)6> xqerl:compile("doc/src/sudoku2.xq").   
+(xqerl_node@some_machine)6> xqerl:compile("docs/src/sudoku2.xq").   
 file____doc_src_sudoku2_xq
 ```
 
 This returns the name of the compiled module. Don't write it down! ;-) Save it for later:
 
 ```erlang
-(xqerl_node@some_machine)7> S = xqerl:compile("doc/src/sudoku2.xq").
+(xqerl_node@some_machine)7> S = xqerl:compile("docs/src/sudoku2.xq").
 ```
 
 Now run the XQuery with an empty context map:
