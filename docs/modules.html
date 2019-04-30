@@ -8,7 +8,7 @@ title: Modules
   {% for mod in site.modules %}
     <li>
       <h2>{{ mod.title }}</h2>
-      <a href="{{ mod.url }}">{{ mod.name }}</a>
+      <a href="{{ mod.url | prepend:site.baseurl }}">{{ mod.name }}</a>
     </li>
   {% endfor %}
 </ul>
