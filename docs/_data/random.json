@@ -1,0 +1,106 @@
+{
+  "ns" : "http://xqerl.org/modules/random",
+  "px" : "random",
+  "desc" : "Helper module for creating random values.",
+  "fx" : [
+    {
+      "name" : "double",
+      "sigs" : [
+        {
+          "params" : [
+          ],
+          "type" : "xs:double"
+        }
+      ],
+      "desc" : "Returns a random <code>xs:double</code> value greater than or equal to 0 and less than 1."
+    },
+    {
+      "name" : "integer",
+      "sigs" : [
+        {
+          "params" : [
+          ],
+          "type" : "xs:integer"
+        },
+        {
+          "params" : [
+            {"name" : "max", "type" : "xs:integer"}
+          ],
+          "type" : "xs:integer"
+        }
+      ],
+      "desc" : "Returns a random <code>xs:integer</code> value greater than or equal to 0 and less than <code>$max</code>.<br/>
+      The 0-ary version of this function is the same as calling the 1-ary version using 2^64."
+    },
+    {
+      "name" : "seeded-double",
+      "sigs" : [
+        {
+          "params" : [
+            { "name" : "seed", "type" : "xs:integer"},
+            { "name" : "num",  "type" : "xs:integer"}
+          ],
+          "type" : "xs:double*"
+        }
+      ],
+      "desc" : "Returns a sequence of <code>$num</code> random <code>xs:double</code> values using <code>$seed</code> as the seed."
+    },
+    {
+      "name" : "seeded-integer",
+      "sigs" : [
+        {
+          "params" : [
+            { "name" : "seed", "type" : "xs:integer"},
+            { "name" : "num",  "type" : "xs:integer"}
+          ],
+          "type" : "xs:integer*"
+        },
+        {
+          "params" : [
+            { "name" : "seed", "type" : "xs:integer"},
+            { "name" : "num",  "type" : "xs:integer"},
+            { "name" : "max",  "type" : "xs:integer"}
+          ],
+          "type" : "xs:integer*"
+        }
+      ],
+      "desc" : "Returns a sequence of <code>$num</code> random <code>xs:integer</code> values using <code>$seed</code> as the seed and <code>$max</code> as the maximum value."
+    },
+    {
+      "name" : "gaussian",
+      "sigs" : [
+        {
+          "params" : [
+            { "name" : "num",  "type" : "xs:integer"}
+          ],
+          "type" : "xs:double*"
+        }
+      ],
+      "desc" : "Returns a sequence of <code>$num</code> normally distributed <code>xs:double</code> values."
+    },
+    {
+      "name" : "seeded-permutation",
+      "sigs" : [
+        {
+          "params" : [
+            { "name" : "seed", "type" : "xs:integer"},
+            { "name" : "items",  "type" : "item()*"}
+          ],
+          "type" : "item()*"
+        }
+      ],
+      "desc" : "Returns the sequence <code>$items</code> in a random order, using <code>$seed</code> as the seed value."
+    },
+    {
+      "name" : "uuid",
+      "sigs" : [
+        {
+          "params" : [
+          ],
+          "type" : "xs:string"
+        }
+      ],
+      "desc" : "Returns a random Universally Unique Identifer."
+    }
+  ]
+}

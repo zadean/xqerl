@@ -1,0 +1,48 @@
+---
+layout: default
+---
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+  </head>
+  <body>
+    {% include navigation.html %}
+    <h1>{{site.data.[page.name].ns}}</h1>
+    <p>This module is statically bound to the prefix "{{site.data.[page.name].px}}".</p>
+    <div id="description">{{site.data.[page.name].desc}}</div>
+
+    <div id="funcs">
+      {% for f in site.data.[page.name].fx %}
+      <br>
+        <div id="{{- f.name -}}">
+        {% capture fname  %}{{site.data.[page.name].px}}:{{- f.name -}}{% endcapture %}
+          <h3>{{- fname -}}</h3>
+          <hr>
+          <h4>Signature:</h4>
+          {%- for s in f.sigs -%}
+             {% capture alist %}
+                {%- for p in s.params -%}
+                   {%- if forloop.first == true -%}
+                      ${{- p.name }} as {{ p.type }}
+                   {%- else -%}
+                      , ${{- p.name }} as {{ p.type }}
+                   {%- endif -%}
+                {% endfor %}
+             {% endcapture%}
+             {%- if forloop.first == true -%}
+                {{ fname -}}({{- alist -}}) as {{ s.type }}
+             {%- else -%}
+                <br/>{{ fname -}}({{- alist -}}) as {{ s.type }}
+             {%- endif -%}
+          {% endfor %}
+          <h4>Description:</h4>
+          {{ f.desc }}
+        </div>
+        <br/>
+      {% endfor %}
+    </div>
+<!--    {{ content }} -->
+  </body>
+</html>

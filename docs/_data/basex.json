@@ -1,0 +1,56 @@
+{
+  "ns" : "http://xqerl.org/modules/client/BaseX",
+  "px" : "basex",
+  "fx" : [
+    {
+      "name" : "connect",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "host", "type" : "xs:string"},
+            {"name" : "port", "type" : "xs:integer"},
+            {"name" : "user", "type" : "xs:string"},
+            {"name" : "pass", "type" : "xs:string"}
+          ],
+          "type" : "xs:anyURI"
+        }
+      ],
+      "desc" : "Connect to a running BaseX server instance."
+
+    },
+    {
+      "name" : "execute",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "id", "type" : "xs:anyURI"},
+            {"name" : "command", "type" : "xs:string"}
+          ],
+          "type" : "xs:string"
+        }
+      ],
+      "desc" : "Execute a command on the server connection at <code>$id</code>."
+    },
+    {
+      "name" : "query",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "id", "type" : "xs:anyURI"},
+            {"name" : "query", "type" : "xs:string"}
+          ],
+          "type" : "item()*"
+        },
+        {
+          "params" : [
+            {"name" : "id", "type" : "xs:anyURI"},
+            {"name" : "query", "type" : "xs:string"},
+            {"name": "bindings", "type" : "map(*)?" }
+          ],
+          "type" : "item()*"
+        }
+      ],
+      "desc" : "Execute a query on the server connection at <code>$id</code>."
+    }
+  ]
+}
