@@ -1,6 +1,5 @@
 theme: jekyll-theme-cayman
 baseurl: /xqerl
-source: /docs
 collections:
   modules:
     output: true
