@@ -1,4 +1,6 @@
-module namespace su = "sudoku";
+module 
+(: declare :) 
+namespace su = "sudoku";
 
 declare variable $su:boardHard as xs:integer+ := 
   ( 5,3,0, 0,7,0, 0,0,0, 
@@ -32,14 +34,14 @@ declare variable $su:groups as xs:integer+ :=
     4,4,4, 5,5,5, 6,6,6, 
     4,4,4, 5,5,5, 6,6,6, 
     4,4,4, 5,5,5, 6,6,6, 
-    7,7,7, 8,8,8, 9,9,9, 
+    7,7,7, 8,8,8, 9,9,9,  
     7,7,7, 8,8,8, 9,9,9, 
     7,7,7, 8,8,8, 9,9,9 );
 
 declare function su:getRow($board as xs:integer+,
                            $index as xs:integer) as xs:integer+ 
 { 
-  let $rowStart := floor(($index - 1) div 9) * 9 
+  let $rowStart as xs:integer := xs:integer(floor(($index - 1) div 9) * 9)
   return 
   $board[position() > $rowStart and 
          position() <= $rowStart + 9] => one-or-more() 
@@ -239,3 +241,4 @@ function su:json($level as xs:string, $solve as xs:string)
     error('unknown')
 };
 
+(: $su:boardEasy => su:solveSudoku() => su:drawResult() :)
