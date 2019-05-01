@@ -22,7 +22,7 @@ layout: default
           <hr>
           <h4>Signature:</h4>
           {%- for s in f.sigs -%}
-             {% capture alist %}
+             {%- capture alist -%}
                 {%- for p in s.params -%}
                    {%- if forloop.first == true -%}
                       ${{- p.name }} as {{ p.type }}
@@ -30,7 +30,7 @@ layout: default
                       , ${{- p.name }} as {{ p.type }}
                    {%- endif -%}
                 {% endfor %}
-             {% endcapture%}
+             {%- endcapture -%}
              {%- if forloop.first == true -%}
                 {{ fname -}}({{- alist -}}) as {{ s.type }}
              {%- else -%}
