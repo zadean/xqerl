@@ -1,7 +1,7 @@
 {
   "ns": "http://expath.org/ns/file",
   "px": "file",
-  "desc": "Functions to perform file system related operations such as listing, reading, or writing files or directories.",
+  "desc": "Functions to perform file system related operations such as listing, reading, or writing files or directories.<br/>Specified: <a href=\"http://expath.org/spec/file\">http://expath.org/spec/file</a>",
   "fx": [
     {
       "sigs": [

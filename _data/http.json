@@ -1,0 +1,49 @@
+{
+  "ns" : "http://expath.org/ns/http-client",
+  "px" : "http",
+  "desc" : "HTTP Client Module to perform HTTP requests.<br/>Specified: <a href=\"http://expath.org/spec/http-client\">http://expath.org/spec/http-client</a>",
+  "fx" : [
+    {
+      "name" : "send-request",
+      "sigs" : [
+        {
+          "params" : [
+            { "name" : "request", "type" : "element(http:request)?"}
+          ],
+          "type" : "item()+"
+        },
+        {
+          "params" : [
+            { "name" : "request", "type" : "element(http:request)?"},
+            { "name" : "href", "type" : "xs:string?"}
+          ],
+          "type" : "item()+"
+        },
+        {
+          "params" : [
+            { "name" : "request", "type" : "element(http:request)?"},
+            { "name" : "href", "type" : "xs:string?"},
+            { "name" : "bodies", "type" : "item()*"}
+          ],
+          "type" : "item()+"
+        }
+      ],
+      "desc" : "Send an HTTP request and return the corresponding response.<br/><ul><li><p><code>$request</code> contains the various parameters of the request, for instance
+the HTTP method to use or the HTTP headers. Among other things, it can also
+contain the other param's values: the URI and the bodies. If they are not set as
+parameter to the function, their value in $request, if any, is used instead. See
+the following section for the detailed definition of the http:request element. If
+the parameter does not follow the grammar defined in this spec, this is an error
+[err:HC005].</p></li><li><p><code>$href</code> is the HTTP or HTTPS URI to send the request to. It is an
+xs:anyURI, but is declared as a string to be able to pass literal strings (without
+requiring to explicitly cast it to an xs:anyURI).</p></li><li><p><code>$bodies</code> is the request body content, for HTTP methods that can
+contain a body in the request (e.g. POST). This is an error if this param is not
+the empty sequence for methods that must be empty (e.g. DELETE). The details of
+the methods are defined in their respective specs (e.g. [RFC 2616] or
+[RFC 4918]). In case of a multipart request, it can be a sequence
+of several items, each one is the body of the corresponding body descriptor in
+<code>$request</code>. See below for details.</p></li></ul>"
+    }
+  ]
+}
+
