@@ -13,7 +13,7 @@
         }
       ],
       "name": "exists",
-      "desc": "<p>Tests if the file or directory pointed by <code>$path<\/code> exists.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Tests if the file or directory pointed by <code>$path</code> exists.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -25,7 +25,7 @@
         }
       ],
       "name": "is-dir",
-      "desc": "<p>Tests if <code>$path<\/code> points to a directory. On UNIX-based systems the root and the volume roots are considered directories.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Tests if <code>$path</code> points to a directory. On UNIX-based systems the root and the volume roots are considered directories.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -40,7 +40,7 @@
         }
       ],
       "name": "is-file",
-      "desc": "<p>Tests if <code>$path<\/code> points to a file.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Tests if <code>$path</code> points to a file.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -55,7 +55,7 @@
         }
       ],
       "name": "last-modified",
-      "desc": "<p>Returns the last modification time of a file or directory.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the last modification time of a file or directory.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -70,7 +70,7 @@
         }
       ],
       "name": "size",
-      "desc": "<p>Returns the byte size of a file, or the value <code>0<\/code> for directories.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the byte size of a file, or the value <code>0</code> for directories.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -106,7 +106,7 @@
         }        
       ],
       "name": "append",
-      "desc": "<p>Appends a sequence of items to a file. If the file pointed by <code>$file<\/code> does not exist, a new file will be created.<\/p><p><code>$params<\/code> controls the way the <code>$items<\/code> items are serialized. The semantics of <code>$params<\/code> is the same as for the <code>fn:serialize<\/code> function. This consists of an <code>output:serialization-parameters<\/code> element or map. In contrast to <code>fn:serialize,<\/code> the encoding stage will not be skipped by this function.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Appends a sequence of items to a file. If the file pointed by <code>$file</code> does not exist, a new file will be created.</p><p><code>$params</code> controls the way the <code>$items</code> items are serialized. The semantics of <code>$params</code> is the same as for the <code>fn:serialize</code> function. This consists of an <code>output:serialization-parameters</code> element or map. In contrast to <code>fn:serialize,</code> the encoding stage will not be skipped by this function.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -125,7 +125,7 @@
         }
       ],
       "name": "append-binary",
-      "desc": "<p>Appends a Base64 item as binary to a file. If the file pointed by <code>$file<\/code> does not exist, a new file will be created.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Appends a Base64 item as binary to a file. If the file pointed by <code>$file</code> does not exist, a new file will be created.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -161,7 +161,7 @@
         }
       ],
       "name": "append-text",
-      "desc": "<p>Appends a string to a file. If the file pointed by <code>$file<\/code> does not exist, a new file will be created.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Appends a string to a file. If the file pointed by <code>$file</code> does not exist, a new file will be created.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -197,7 +197,7 @@
         }
       ],
       "name": "append-text-lines",
-      "desc": "<p>Appends a sequence of strings to a file, each followed by the system-dependent newline character. If the file pointed by <code>$file<\/code> does not exist, a new file will be created.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Appends a sequence of strings to a file, each followed by the system-dependent newline character. If the file pointed by <code>$file</code> does not exist, a new file will be created.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -212,7 +212,7 @@
         }
       ],
       "name": "children",
-      "desc": "<p>Returns the paths of all files and directories that are located in the given directory. The order of the items in the resulting sequence is not defined. The \".\" and \"..\" items are never returned.<\/p><p>The inverse function is <code>file:parent<\/code>; a related function is <code>file:list<\/code>.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the paths of all files and directories that are located in the given directory. The order of the items in the resulting sequence is not defined. The \".\" and \"..\" items are never returned.</p><p>The inverse function is <code>file:parent</code>; a related function is <code>file:list</code>.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -231,7 +231,7 @@
         }
       ],
       "name": "copy",
-      "desc": "<p>Copies a file or a directory given a source and a target path\/URI. The following cases may occur if <code>$source<\/code> points to a file:<\/p><ol type=\"a\">\n  <li>if <code>$target<\/code> does not exist, it will be created.<\/li>\n  <li>if <code>$target<\/code> is a file, it will be overwritten.<\/li>\n  <li>if <code>$target<\/code> is a directory, the file will be created in that\n                      directory with the name of the source file. If a file already exists, it will be\n                      overwritten.<\/li>\n<\/ol><p>The following cases may occur if <code>$source<\/code> points to a directory:<\/p><ol type=\"a\">\n  <li>if <code>$target<\/code> does not exist, it will be created as directory, and all\n                      files of the source directory are copied to this directory with their existing\n                      local names.<\/li>\n  <li>if <code>$target<\/code> is a directory, the source directory with all its files\n                      will be copied into the target directory.  At each level, if a file already exists\n                      in the target with the same name as in the source, it is overwritten.  If a directory\n                      already exists in the target with the same name as in the source, it is not removed,\n                      it is recursed in place (if it does not exist, it is created before recursing).<\/li>\n<\/ol><p>Other cases will raise one of the errors listed below.<\/p><p>The function returns the empty sequence if the operation is successful. If an error\n                   occurs during the operation, no rollback to the original state will be possible<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Copies a file or a directory given a source and a target path/URI. The following cases may occur if <code>$source</code> points to a file:</p><ol type=\"a\">\n  <li>if <code>$target</code> does not exist, it will be created.</li>\n  <li>if <code>$target</code> is a file, it will be overwritten.</li>\n  <li>if <code>$target</code> is a directory, the file will be created in that\n                      directory with the name of the source file. If a file already exists, it will be\n                      overwritten.</li>\n</ol><p>The following cases may occur if <code>$source</code> points to a directory:</p><ol type=\"a\">\n  <li>if <code>$target</code> does not exist, it will be created as directory, and all\n                      files of the source directory are copied to this directory with their existing\n                      local names.</li>\n  <li>if <code>$target</code> is a directory, the source directory with all its files\n                      will be copied into the target directory.  At each level, if a file already exists\n                      in the target with the same name as in the source, it is overwritten.  If a directory\n                      already exists in the target with the same name as in the source, it is not removed,\n                      it is recursed in place (if it does not exist, it is created before recursing).</li>\n</ol><p>Other cases will raise one of the errors listed below.</p><p>The function returns the empty sequence if the operation is successful. If an error\n                   occurs during the operation, no rollback to the original state will be possible</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -246,7 +246,7 @@
         }
       ],
       "name": "create-dir",
-      "desc": "<p>Creates a directory, or does nothing if the directory already exists. The operation\n                   will create all non-existing parent directories.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Creates a directory, or does nothing if the directory already exists. The operation\n                   will create all non-existing parent directories.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -282,7 +282,7 @@
         }
       ],
       "name": "create-temp-dir",
-      "desc": "<p>Creates a temporary directory and all non-existing parent directories and returns the full path to the created directory.<\/p><p>The temporary directory will not be automatically deleted after query execution. It is guaranteed to not already exist when the function is called.<\/p><p>If <code>$dir<\/code> is not given, the directory will be created inside the system-dependent default temporary-file directory.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Creates a temporary directory and all non-existing parent directories and returns the full path to the created directory.</p><p>The temporary directory will not be automatically deleted after query execution. It is guaranteed to not already exist when the function is called.</p><p>If <code>$dir</code> is not given, the directory will be created inside the system-dependent default temporary-file directory.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -318,7 +318,7 @@
         }
       ],
       "name": "create-temp-file",
-      "desc": "<p>Creates a temporary file and all non-existing parent directories and returns the full path to the created file.<\/p><p>The temporary file will not be automatically deleted after query execution. It is guaranteed to not already exist when the function is called.<\/p><p>If <code>$dir<\/code> is not given, the directory will be created inside the system-dependent default temporary-file directory.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Creates a temporary file and all non-existing parent directories and returns the full path to the created file.</p><p>The temporary file will not be automatically deleted after query execution. It is guaranteed to not already exist when the function is called.</p><p>If <code>$dir</code> is not given, the directory will be created inside the system-dependent default temporary-file directory.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -346,7 +346,7 @@
         }
       ],
       "name": "delete",
-      "desc": "<p>Deletes a file or a directory from the file system.<\/p><p>If the optional parameter <code>$recursive<\/code> is set to <code>true()<\/code>, sub-directories will be deleted as well.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Deletes a file or a directory from the file system.</p><p>If the optional parameter <code>$recursive</code> is set to <code>true()</code>, sub-directories will be deleted as well.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -391,7 +391,7 @@
         }
       ],
       "name": "list",
-      "desc": "<p>Lists all files and directories in a given directory. The order of the items in the resulting sequence is not defined. The \".\" and \"..\" items are never returned. The returned paths are relative to the provided directory <code>$dir<\/code>.<\/p><p>If the optional parameter <code>$recursive<\/code> is set to <code>true()<\/code>, all directories and files will be returned that are found while recursively traversing the given directory.<\/p><p>The optional <code>$pattern<\/code> parameter defines a name pattern in the glob syntax. If this is provided, only the paths of the files and directories whose names are matching the pattern will be returned.<\/p><p>An implementation must support at least the following glob syntax for the pattern:<ul> <li> <code>*<\/code> for matching any number of unknown characters and<\/li><li> <code>?<\/code> for matching one unknown character.<\/li> <\/ul> <\/p><p>A related function is <code>file:children<\/code>.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Lists all files and directories in a given directory. The order of the items in the resulting sequence is not defined. The \".\" and \"..\" items are never returned. The returned paths are relative to the provided directory <code>$dir</code>.</p><p>If the optional parameter <code>$recursive</code> is set to <code>true()</code>, all directories and files will be returned that are found while recursively traversing the given directory.</p><p>The optional <code>$pattern</code> parameter defines a name pattern in the glob syntax. If this is provided, only the paths of the files and directories whose names are matching the pattern will be returned.</p><p>An implementation must support at least the following glob syntax for the pattern:<ul> <li> <code>*</code> for matching any number of unknown characters and</li><li> <code>?</code> for matching one unknown character.</li> </ul> </p><p>A related function is <code>file:children</code>.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -410,7 +410,7 @@
         }
       ],
       "name": "move",
-      "desc": "<p>Moves a file or a directory given a source and a target path\/URI. The following cases may occur if <code>$source<\/code> points to a file:<\/p><ol type=\"a\"> <li>if <code>$target<\/code> does not exist, it will be created.<\/li> <li>if <code>$target<\/code> is a file, it will be overwritten.<\/li> <li>if <code>$target<\/code> is a directory, the file will be created in that directory with the name of the source file. If a file already exists, it will be overwritten.<\/li> <\/ol><p>The following cases may occur if <code>$source<\/code> points to a directory:<\/p><ol type=\"a\"> <li>if <code>$target<\/code> does not exist, it will be created as directory, and all files of the source directory are moved to this directory with their existing local names.<\/li> <li>if <code>$target<\/code> is a directory, the source directory with all its files will be moved into the target directory. If the target directory contains a directory with the same name as the source, the error <code>[file:is-dir]<\/code>is raised.<\/li> <\/ol><p>Other cases will raise one of the errors listed below.<\/p><p>The function returns the empty sequence if the operation is successful. If an error occurs during the operation, no rollback to the original state will be possible<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Moves a file or a directory given a source and a target path/URI. The following cases may occur if <code>$source</code> points to a file:</p><ol type=\"a\"> <li>if <code>$target</code> does not exist, it will be created.</li> <li>if <code>$target</code> is a file, it will be overwritten.</li> <li>if <code>$target</code> is a directory, the file will be created in that directory with the name of the source file. If a file already exists, it will be overwritten.</li> </ol><p>The following cases may occur if <code>$source</code> points to a directory:</p><ol type=\"a\"> <li>if <code>$target</code> does not exist, it will be created as directory, and all files of the source directory are moved to this directory with their existing local names.</li> <li>if <code>$target</code> is a directory, the source directory with all its files will be moved into the target directory. If the target directory contains a directory with the same name as the source, the error <code>[file:is-dir]</code>is raised.</li> </ol><p>Other cases will raise one of the errors listed below.</p><p>The function returns the empty sequence if the operation is successful. If an error occurs during the operation, no rollback to the original state will be possible</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -425,7 +425,7 @@
         }
       ],
       "name": "path-to-uri",
-      "desc": "<p>Transforms a file system path into a URI with the <code>file:\/\/<\/code> scheme. If the path is relative, it is first resolved against the current working directory.<\/p><p>This function is ·deterministic· (no path existence check is made).<\/p>"
+      "desc": "<p>Transforms a file system path into a URI with the <code>file://</code> scheme. If the path is relative, it is first resolved against the current working directory.</p><p>This function is ·deterministic· (no path existence check is made).</p>"
     },
     {
       "sigs": [
@@ -470,7 +470,7 @@
         }
       ],
       "name": "read-binary",
-      "desc": "<p>Returns the content of a file in its Base64 representation.<\/p><p>The optional parameters <code>$offset<\/code> and <code>$length<\/code> can be used to read chunks of a file.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the content of a file in its Base64 representation.</p><p>The optional parameters <code>$offset</code> and <code>$length</code> can be used to read chunks of a file.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -498,7 +498,7 @@
         }
       ],
       "name": "read-text",
-      "desc": "<p>Returns the content of a file in its string representation.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the content of a file in its string representation.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -526,7 +526,7 @@
         }
       ],
       "name": "read-text-lines",
-      "desc": "<p>Returns the contents of a file as a sequence of strings, separated at newline boundaries.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>The newline handling is the same as for the <code>fn:unparsed-text-lines<\/code> function.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the contents of a file as a sequence of strings, separated at newline boundaries.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>The newline handling is the same as for the <code>fn:unparsed-text-lines</code> function.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -562,7 +562,7 @@
         }
       ],
       "name": "write",
-      "desc": "<p>Writes a sequence of items to a file. If <code>$file<\/code> already exists, it will be overwritten; otherwise, it will be created.<\/p><p><code>$params<\/code> controls the way the <code>$items<\/code> items are serialized. The semantics of <code>$params<\/code> is the same as for the <code>fn:serialize<\/code> function. This consists of an <code>output:serialization-parameters<\/code> element or map. In contrast to fn:serialize, the encoding stage will not be skipped by this function.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Writes a sequence of items to a file. If <code>$file</code> already exists, it will be overwritten; otherwise, it will be created.</p><p><code>$params</code> controls the way the <code>$items</code> items are serialized. The semantics of <code>$params</code> is the same as for the <code>fn:serialize</code> function. This consists of an <code>output:serialization-parameters</code> element or map. In contrast to fn:serialize, the encoding stage will not be skipped by this function.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -598,7 +598,7 @@
         }
       ],
       "name": "write-binary",
-      "desc": "<p>Writes a Base64 item as binary to a file. If <code>$file<\/code> already exists, it will be overwritten; otherwise, it will be created.<\/p><p>If the optional parameter <code>$offset<\/code> is specified, data will be written to this file position. An existing file may be resized by that operation.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Writes a Base64 item as binary to a file. If <code>$file</code> already exists, it will be overwritten; otherwise, it will be created.</p><p>If the optional parameter <code>$offset</code> is specified, data will be written to this file position. An existing file may be resized by that operation.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -634,7 +634,7 @@
         }
       ],
       "name": "write-text",
-      "desc": "<p>Writes a strings to a file. If <code>$file<\/code> already exists, it will be overwritten.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Writes a strings to a file. If <code>$file</code> already exists, it will be overwritten.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -670,7 +670,7 @@
         }
       ],
       "name": "write-text-lines",
-      "desc": "<p>Writes a sequence of strings to a file, each followed by the system-dependent newline character. If <code>$file<\/code> already exists, it will be overwritten; otherwise, it will be created.<\/p><p>The optional parameter <code>$encoding<\/code>, if not provided, is considered to be <code>UTF-8<\/code>.<\/p><p>The function returns the empty sequence if the operation is successful.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Writes a sequence of strings to a file, each followed by the system-dependent newline character. If <code>$file</code> already exists, it will be overwritten; otherwise, it will be created.</p><p>The optional parameter <code>$encoding</code>, if not provided, is considered to be <code>UTF-8</code>.</p><p>The function returns the empty sequence if the operation is successful.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -685,7 +685,7 @@
         }
       ],
       "name": "name",
-      "desc": "<p>Returns the name of a file or directory.<\/p><p>An empty string is returned if the path points to the root directory, or if it contains no directory separators.<\/p><p>This function is ·deterministic· (no path existence check is made).<\/p>"
+      "desc": "<p>Returns the name of a file or directory.</p><p>An empty string is returned if the path points to the root directory, or if it contains no directory separators.</p><p>This function is ·deterministic· (no path existence check is made).</p>"
     },
     {
       "sigs": [
@@ -700,7 +700,7 @@
         }
       ],
       "name": "parent",
-      "desc": "<p>Transforms the given path into an absolute path, as specified by <code>file:resolve-path<\/code>, and returns the parent directory.<\/p><p>The inverse function is <code>file:children<\/code>.<\/p><p>An empty sequence is returned if the path points to a root directory.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Transforms the given path into an absolute path, as specified by <code>file:resolve-path</code>, and returns the parent directory.</p><p>The inverse function is <code>file:children</code>.</p><p>An empty sequence is returned if the path points to a root directory.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -715,7 +715,7 @@
         }
       ],
       "name": "path-to-native",
-      "desc": "<p>Transforms a URI, an absolute path, or relative path to a canonical, system-dependent path representation. A canonical path is both absolute and unique and thus contains no redirections such as references to parent directories or symbolic links.<\/p><p>If the resulting path points to a directory, it will be suffixed with the system-specific directory separator.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Transforms a URI, an absolute path, or relative path to a canonical, system-dependent path representation. A canonical path is both absolute and unique and thus contains no redirections such as references to parent directories or symbolic links.</p><p>If the resulting path points to a directory, it will be suffixed with the system-specific directory separator.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -730,7 +730,7 @@
         }
       ],
       "name": "resolve-path",
-      "desc": "<p>Transforms a relative path into an absolute operating system path by resolving it against the current working directory.<\/p><p>If the resulting path points to a directory, it will be suffixed with the system-specific directory separator.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Transforms a relative path into an absolute operating system path by resolving it against the current working directory.</p><p>If the resulting path points to a directory, it will be suffixed with the system-specific directory separator.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -741,7 +741,7 @@
         }
       ],
       "name": "dir-separator",
-      "desc": "<p>Returns the value of the operating system-specific directory separator, which usually is <code>\/<\/code> on UNIX-based systems and <code>\\<\/code> on Windows systems.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the value of the operating system-specific directory separator, which usually is <code>/</code> on UNIX-based systems and <code>\\</code> on Windows systems.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -752,7 +752,7 @@
         }
       ],
       "name": "path-separator",
-      "desc": "<p>Returns the value of the operating system-specific path separator, which usually is <code>:<\/code> on UNIX-based systems and <code>;<\/code> on Windows systems.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the value of the operating system-specific path separator, which usually is <code>:</code> on UNIX-based systems and <code>;</code> on Windows systems.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -763,7 +763,7 @@
         }
       ],
       "name": "line-separator",
-      "desc": "<p>Returns the value of the operating system-specific line separator, which usually is <code>&amp;#10;<\/code> on UNIX-based systems, <code>&amp;#13;&amp;#10;<\/code> on Windows systems and <code>&amp;#13;<\/code> on Mac systems.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the value of the operating system-specific line separator, which usually is <code>&amp;#10;</code> on UNIX-based systems, <code>&amp;#13;&amp;#10;</code> on Windows systems and <code>&amp;#13;</code> on Mac systems.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -774,7 +774,7 @@
         }
       ],
       "name": "temp-dir",
-      "desc": "<p>Returns the path to the default temporary-file directory of an operating system.<\/p><p>This function is ·nondeterministic·.<\/p>"
+      "desc": "<p>Returns the path to the default temporary-file directory of an operating system.</p><p>This function is ·nondeterministic·.</p>"
     },
     {
       "sigs": [
@@ -785,7 +785,7 @@
         }
       ],
       "name": "current-dir",
-      "desc": "<p>Returns the current working directory. - This function returns the same result as the function call <code>file:resolve-path('.')<\/code>.<\/p>"
+      "desc": "<p>Returns the current working directory. - This function returns the same result as the function call <code>file:resolve-path('.')</code>.</p>"
     },
     {
       "sigs": [
@@ -796,7 +796,7 @@
         }
       ],
       "name": "base-dir",
-      "desc": "<p>Returns the parent directory of the static base URI. If the Base URI property is undefined, the empty sequence is returned. - If a static base URI exists, and it points to a local file path, this function returns the same result as the expression <code>file:parent(static-base-uri())<\/code>.<\/p>"
+      "desc": "<p>Returns the parent directory of the static base URI. If the Base URI property is undefined, the empty sequence is returned. - If a static base URI exists, and it points to a local file path, this function returns the same result as the expression <code>file:parent(static-base-uri())</code>.</p>"
     }
   ]
 }
