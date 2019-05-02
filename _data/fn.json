@@ -1,0 +1,3341 @@
+{
+  "ns": "http://www.w3.org/2005/xpath-functions",
+  "px": "fn",
+  "desc": "<p>XPath and XQuery built-in functions.</p>
+  <p>The optional functions <code>fn:load-xquery-module</code> and <code>fn:transform</code> are not implemented and will throw errors when used.</p>",
+  "fx": [
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            }
+          ],
+          "type": "xs:numeric?"
+        }
+      ],
+      "name": "abs",
+      "desc": "<p>Returns the absolute value of <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            }
+          ],
+          "type": "xs:date?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            },
+            {
+              "name": "timezone",
+              "type": "xs:dayTimeDuration?"
+            }
+          ],
+          "type": "xs:date?"
+        }
+      ],
+      "name": "adjust-date-to-timezone",
+      "desc": "<p>Adjusts an <code>xs:date</code> value to a specific timezone, or to no timezone at all; the result is the date in the target timezone that contains the starting instant of the supplied date.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:dateTime?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            },
+            {
+              "name": "timezone",
+              "type": "xs:dayTimeDuration?"
+            }
+          ],
+          "type": "xs:dateTime?"
+        }
+      ],
+      "name": "adjust-dateTime-to-timezone",
+      "desc": "<p>Adjusts an <code>xs:dateTime</code> value to a specific timezone, or to no timezone at all.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:time?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            },
+            {
+              "name": "timezone",
+              "type": "xs:dayTimeDuration?"
+            }
+          ],
+          "type": "xs:time?"
+        }
+      ],
+      "name": "adjust-time-to-timezone",
+      "desc": "<p>Adjusts an <code>xs:time</code> value to a specific timezone, or to no timezone at all.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            }
+          ],
+          "type": "element(fn:analyze-string-result)"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            },
+            {
+              "name": "flags",
+              "type": "xs:string"
+            }
+          ],
+          "type": "element(fn:analyze-string-result)"
+        }
+      ],
+      "name": "analyze-string",
+      "desc": "<p>Analyzes a string using a regular expression, returning an XML structure that identifies which parts of the input string matched or failed to match the regular expression, and in the case of matched substrings, which substrings matched each capturing group in the regular expression.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "function",
+              "type": "function(*)"
+            },
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "apply",
+      "desc": "<p>Makes a dynamic call on a function with an argument list supplied in the form of an array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string*"
+        }
+      ],
+      "name": "available-environment-variables",
+      "desc": "<p>Returns a list of environment variable names that are suitable for passing to <code>fn:environment-variable</code>, as a (possibly empty) sequence of strings.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        }
+      ],
+      "name": "avg",
+      "desc": "<p>Returns the average of the values in the input sequence <code>$arg</code>, that is, the sum of the values divided by the number of values.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyURI?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "base-uri",
+      "desc": "<p>Returns the base URI of a node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "boolean",
+      "desc": "<p>Computes the effective boolean value of the sequence <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            }
+          ],
+          "type": "xs:numeric?"
+        }
+      ],
+      "name": "ceiling",
+      "desc": "<p>Rounds <code>$arg</code> upwards to a whole number.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "comparand1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "comparand2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean?"
+        }
+      ],
+      "name": "codepoint-equal",
+      "desc": "<p>Returns true if two strings are equal, considered codepoint-by-codepoint.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:integer*"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "codepoints-to-string",
+      "desc": "<p>Returns an <code>xs:string</code> whose characters have supplied codepoints.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "key",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:base64Binary"
+        },
+        {
+          "params": [
+            {
+              "name": "key",
+              "type": "xs:string"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:base64Binary"
+        }
+      ],
+      "name": "collation-key",
+      "desc": "<p>Given a string value and a collation, generates an internal value called a collation key, with the property that the matching and ordering of collation keys reflects the matching and ordering of strings under the specified collation.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "item()*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "collection",
+      "desc": "<p>Returns a sequence of items identified by a collection URI; or a default collection if no URI is supplied.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "comparand1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "comparand2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:integer?"
+        },
+        {
+          "params": [
+            {
+              "name": "comparand1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "comparand2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "compare",
+      "desc": "<p>Returns -1, 0, or 1, depending on whether <code>$comparand1</code> collates before, equal to, or after <code>$comparand2</code> according to the rules of a selected collation.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:anyAtomicType?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:anyAtomicType?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "concat",
+      "desc": "<p>Returns the concatenation of the string values of the arguments.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "contains",
+      "desc": "<p>Returns true if the string <code>$arg1</code> contains <code>$arg2</code> as a substring, taking collations into account.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string*"
+            },
+            {
+              "name": "token",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string*"
+            },
+            {
+              "name": "token",
+              "type": "xs:string"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "contains-token",
+      "desc": "<p>Determines whether or not any of the supplied strings, when tokenized at whitespace boundaries, contains the supplied token, under the rules of the supplied collation.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "count",
+      "desc": "<p>Returns the number of items in a sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:date"
+        }
+      ],
+      "name": "current-date",
+      "desc": "<p>Returns the current date.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:dateTimeStamp"
+        }
+      ],
+      "name": "current-dateTime",
+      "desc": "<p>Returns the current date and time (with timezone).</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:time"
+        }
+      ],
+      "name": "current-time",
+      "desc": "<p>Returns the current time.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyAtomicType*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:anyAtomicType*"
+        }
+      ],
+      "name": "data",
+      "desc": "<p>Returns the result of atomizing a sequence. This process flattens arrays, and replaces nodes by their typed values.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:date?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:dateTime?"
+        }
+      ],
+      "name": "dateTime",
+      "desc": "<p>Returns an <code>xs:dateTime</code> value created by combining an <code>xs:date</code> and an <code>xs:time</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "day-from-date",
+      "desc": "<p>Returns the day component of an <code>xs:date</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "day-from-dateTime",
+      "desc": "<p>Returns the day component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "days-from-duration",
+      "desc": "<p>Returns the number of days in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "parameter1",
+              "type": "item()*"
+            },
+            {
+              "name": "parameter2",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "parameter1",
+              "type": "item()*"
+            },
+            {
+              "name": "parameter2",
+              "type": "item()*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "deep-equal",
+      "desc": "<p>This function assesses whether two sequences are deep-equal to each other. To be deep-equal, they must contain items that are pairwise deep-equal; and for two items to be deep-equal, they must either be atomic values that compare equal, or nodes of the same kind, with the same name, whose children are deep-equal, or maps with matching entries, or arrays with matching members.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "default-collation",
+      "desc": "<p>Returns the value of the default collation property from the static context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:language"
+        }
+      ],
+      "name": "default-language",
+      "desc": "<p>Returns the value of the default language property from the dynamic context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:anyAtomicType*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:anyAtomicType*"
+        }
+      ],
+      "name": "distinct-values",
+      "desc": "<p>Returns the values that appear in a sequence, with duplicates eliminated.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "uri",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "document-node()?"
+        }
+      ],
+      "name": "doc",
+      "desc": "<p>Retrieves a document using a URI supplied as an <code>xs:string</code>, and returns the corresponding document node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "uri",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "doc-available",
+      "desc": "<p>The function returns true if and only if the function call <code>fn:doc($uri)</code> would return a document node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyURI?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "document-uri",
+      "desc": "<p>Returns the URI of a resource where a document can be found, if available.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            }
+          ],
+          "type": "element()*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            },
+            {
+              "name": "node",
+              "type": "node()"
+            }
+          ],
+          "type": "element()*"
+        }
+      ],
+      "name": "element-with-id",
+      "desc": "<p>Returns the sequence of element nodes that have an <code>ID</code> value matching the value of one or more of the <code>IDREF</code> values supplied in <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "empty",
+      "desc": "<p>Returns true if the argument is the empty sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "uri-part",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "encode-for-uri",
+      "desc": "<p>Encodes reserved characters in a string that is intended to be used in the path segment of a URI.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "ends-with",
+      "desc": "<p>Returns true if the string <code>$arg1</code> contains <code>$arg2</code> as a trailing substring, taking collations into account.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "name",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "environment-variable",
+      "desc": "<p>Returns the value of a system environment variable, if it exists.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "none"
+        },
+        {
+          "params": [
+            {
+              "name": "code",
+              "type": "xs:QName?"
+            }
+          ],
+          "type": "none"
+        },
+        {
+          "params": [
+            {
+              "name": "code",
+              "type": "xs:QName?"
+            },
+            {
+              "name": "description",
+              "type": "xs:string"
+            }
+          ],
+          "type": "none"
+        },
+        {
+          "params": [
+            {
+              "name": "code",
+              "type": "xs:QName?"
+            },
+            {
+              "name": "description",
+              "type": "xs:string"
+            },
+            {
+              "name": "error-object",
+              "type": "item()*"
+            }
+          ],
+          "type": "none"
+        }
+      ],
+      "name": "error",
+      "desc": "<p>Calling the <code>fn:error</code> function raises an application-defined error.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "uri",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "escape-html-uri",
+      "desc": "<p>Escapes a URI in the same way that HTML user agents handle attribute values expected to contain URIs.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()"
+        }
+      ],
+      "name": "exactly-one",
+      "desc": "<p>Returns <code>$arg</code> if it contains exactly one item. Otherwise, raises an error.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "exists",
+      "desc": "<p>Returns true if the argument is a non-empty sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "false",
+      "desc": "<p>Returns the <code>xs:boolean</code> value <code>false</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "item()*"
+            },
+            {
+              "name": "f",
+              "type": "function(item()) as xs:boolean"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "filter",
+      "desc": "<p>Returns those items from the sequence <code>$seq</code> for which the supplied function <code>$f</code> returns true.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            }
+          ],
+          "type": "xs:numeric?"
+        }
+      ],
+      "name": "floor",
+      "desc": "<p>Rounds <code>$arg</code> downwards to a whole number.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "item()*"
+            },
+            {
+              "name": "zero",
+              "type": "item()*"
+            },
+            {
+              "name": "f",
+              "type": "function(item()*, item()) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "fold-left",
+      "desc": "<p>Processes the supplied sequence from left to right, applying the supplied function repeatedly to each item in turn, together with an accumulated result value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "item()*"
+            },
+            {
+              "name": "zero",
+              "type": "item()*"
+            },
+            {
+              "name": "f",
+              "type": "function(item(), item()*) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "fold-right",
+      "desc": "<p>Processes the supplied sequence from right to left, applying the supplied function repeatedly to each item in turn, together with an accumulated result value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "item()*"
+            },
+            {
+              "name": "action",
+              "type": "function(item()) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "for-each",
+      "desc": "<p>Applies the function item <code>$action</code> to every item from the sequence <code>$seq</code> in turn, returning the concatenation of the resulting sequences in order.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq1",
+              "type": "item()*"
+            },
+            {
+              "name": "seq2",
+              "type": "item()*"
+            },
+            {
+              "name": "action",
+              "type": "function(item(), item()) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "for-each-pair",
+      "desc": "<p>Applies the function item <code>$action</code> to successive pairs of items taken one from <code>$seq1</code> and one from <code>$seq2</code>, returning the concatenation of the resulting sequences in order.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:date?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:date?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            },
+            {
+              "name": "language",
+              "type": "xs:string?"
+            },
+            {
+              "name": "calendar",
+              "type": "xs:string?"
+            },
+            {
+              "name": "place",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "format-date",
+      "desc": "<p>Returns a string containing an <code>xs:date</code> value formatted for display.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:dateTime?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:dateTime?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            },
+            {
+              "name": "language",
+              "type": "xs:string?"
+            },
+            {
+              "name": "calendar",
+              "type": "xs:string?"
+            },
+            {
+              "name": "place",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "format-dateTime",
+      "desc": "<p>Returns a string containing an <code>xs:dateTime</code> value formatted for display.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:integer?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:integer?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            },
+            {
+              "name": "lang",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "format-integer",
+      "desc": "<p>Formats an integer according to a given picture string, using the conventions of a given natural language if specified.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:numeric?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:numeric?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            },
+            {
+              "name": "decimal-format-name",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "format-number",
+      "desc": "<p>Returns a string containing a number formatted according to a given picture string, taking account of decimal formats specified in the static context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:time?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:time?"
+            },
+            {
+              "name": "picture",
+              "type": "xs:string"
+            },
+            {
+              "name": "language",
+              "type": "xs:string?"
+            },
+            {
+              "name": "calendar",
+              "type": "xs:string?"
+            },
+            {
+              "name": "place",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "format-time",
+      "desc": "<p>Returns a string containing an <code>xs:time</code> value formatted for display.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "func",
+              "type": "function(*)"
+            }
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "function-arity",
+      "desc": "<p>Returns the arity of the function identified by a function item.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "name",
+              "type": "xs:QName"
+            },
+            {
+              "name": "arity",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "function(*)?"
+        }
+      ],
+      "name": "function-lookup",
+      "desc": "<p>Returns the function having a given name and arity, if there is one.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "func",
+              "type": "function(*)"
+            }
+          ],
+          "type": "xs:QName?"
+        }
+      ],
+      "name": "function-name",
+      "desc": "<p>Returns the name of the function identified by a function item.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "generate-id",
+      "desc": "<p>This function returns a string that uniquely identifies a given node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "node",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "has-children",
+      "desc": "<p>Returns true if the supplied node has one or more child nodes (of any kind).</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()?"
+        }
+      ],
+      "name": "head",
+      "desc": "<p>Returns the first item in a sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "hours-from-dateTime",
+      "desc": "<p>Returns the hours component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "hours-from-duration",
+      "desc": "<p>Returns the number of hours in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "hours-from-time",
+      "desc": "<p>Returns the hours component of an <code>xs:time</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            }
+          ],
+          "type": "element()*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            },
+            {
+              "name": "node",
+              "type": "node()"
+            }
+          ],
+          "type": "element()*"
+        }
+      ],
+      "name": "id",
+      "desc": "<p>Returns the sequence of element nodes that have an <code>ID</code> value matching the value of one or more of the <code>IDREF</code> values supplied in <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            }
+          ],
+          "type": "node()*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string*"
+            },
+            {
+              "name": "node",
+              "type": "node()"
+            }
+          ],
+          "type": "node()*"
+        }
+      ],
+      "name": "idref",
+      "desc": "<p>Returns the sequence of element or attribute nodes with an <code>IDREF</code> value matching the value of one or more of the <code>ID</code> values supplied in <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:dayTimeDuration"
+        }
+      ],
+      "name": "implicit-timezone",
+      "desc": "<p>Returns the value of the implicit timezone property from the dynamic context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "element",
+              "type": "element()"
+            }
+          ],
+          "type": "xs:string*"
+        }
+      ],
+      "name": "in-scope-prefixes",
+      "desc": "<p>Returns the prefixes of the in-scope namespaces for an element node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "search",
+              "type": "xs:anyAtomicType"
+            }
+          ],
+          "type": "xs:integer*"
+        },
+        {
+          "params": [
+            {
+              "name": "seq",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "search",
+              "type": "xs:anyAtomicType"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:integer*"
+        }
+      ],
+      "name": "index-of",
+      "desc": "<p>Returns a sequence of positive integers giving the positions within the sequence <code>$seq</code> of items that are equal to <code>$search</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "nodes",
+              "type": "node()*"
+            }
+          ],
+          "type": "node()*"
+        }
+      ],
+      "name": "innermost",
+      "desc": "<p>Returns every node within the input sequence that is not an ancestor of another member of the input sequence; the nodes are returned in document order with duplicates eliminated.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "target",
+              "type": "item()*"
+            },
+            {
+              "name": "position",
+              "type": "xs:integer"
+            },
+            {
+              "name": "inserts",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "insert-before",
+      "desc": "<p>Returns a sequence constructed by inserting an item or a sequence of items at a given position within an existing sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "iri",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "iri-to-uri",
+      "desc": "<p>Converts a string containing an IRI into a URI according to the rules of [RFC 3987].</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "item()?"
+        },
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "item()?"
+        }
+      ],
+      "name": "json-doc",
+      "desc": "<p>Reads an external resource containing JSON, and returns the result of parsing the resource as JSON.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "json-text",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "document-node()?"
+        },
+        {
+          "params": [
+            {
+              "name": "json-text",
+              "type": "xs:string?"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "document-node()?"
+        }
+      ],
+      "name": "json-to-xml",
+      "desc": "<p>Parses a string supplied in the form of a JSON text, returning the results in the form of an XML document node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "testlang",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "testlang",
+              "type": "xs:string?"
+            },
+            {
+              "name": "node",
+              "type": "node()"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "lang",
+      "desc": "<p>This function tests whether the language of <code>$node</code>, or the context item if the second argument is omitted, as specified by <code>xml:lang</code> attributes is the same as, or is a sublanguage of, the language specified by <code>$testlang</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "last",
+      "desc": "<p>Returns the context size from the dynamic context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "module-uri",
+              "type": "xs:string"
+            }
+          ],
+          "type": "map(*)"
+        },
+        {
+          "params": [
+            {
+              "name": "module-uri",
+              "type": "xs:string"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "load-xquery-module",
+      "desc": "<p>Throws error FOQM0006 when used.</p><del><p>Provides access to the public functions and global variables of a dynamically-loaded XQuery library module.</p></del>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "local-name",
+      "desc": "<p>Returns the local part of the name of <code>$arg</code> as an <code>xs:string</code> that is either the zero-length string, or has the lexical form of an <code>xs:NCName</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:QName?"
+            }
+          ],
+          "type": "xs:NCName?"
+        }
+      ],
+      "name": "local-name-from-QName",
+      "desc": "<p>Returns the local part of the supplied QName.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "lower-case",
+      "desc": "<p>Converts a string to lower case.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            },
+            {
+              "name": "flags",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "matches",
+      "desc": "<p>Returns true if the supplied string matches a given regular expression.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        }
+      ],
+      "name": "max",
+      "desc": "<p>Returns a value that is equal to the highest value appearing in the input sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        }
+      ],
+      "name": "min",
+      "desc": "<p>Returns a value that is equal to the lowest value appearing in the input sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "minutes-from-dateTime",
+      "desc": "<p>Returns the minute component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "minutes-from-duration",
+      "desc": "<p>Returns the number of minutes in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "minutes-from-time",
+      "desc": "<p>Returns the minutes component of an <code>xs:time</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "month-from-date",
+      "desc": "<p>Returns the month component of an <code>xs:date</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "month-from-dateTime",
+      "desc": "<p>Returns the month component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "months-from-duration",
+      "desc": "<p>Returns the number of months in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "name",
+      "desc": "<p>Returns the name of a node, as an <code>xs:string</code> that is either the zero-length string, or has the lexical form of an <code>xs:QName</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyURI"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:anyURI"
+        }
+      ],
+      "name": "namespace-uri",
+      "desc": "<p>Returns the namespace URI part of the name of <code>$arg</code>, as an <code>xs:anyURI</code> value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "prefix",
+              "type": "xs:string?"
+            },
+            {
+              "name": "element",
+              "type": "element()"
+            }
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "namespace-uri-for-prefix",
+      "desc": "<p>Returns the namespace URI of one of the in-scope namespaces for <code>$element</code>, identified by its namespace prefix.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:QName?"
+            }
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "namespace-uri-from-QName",
+      "desc": "<p>Returns the namespace URI part of the supplied QName.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:boolean?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:boolean?"
+        }
+      ],
+      "name": "nilled",
+      "desc": "<p>Returns true for an element that is <b>nilled</b>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:QName?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:QName?"
+        }
+      ],
+      "name": "node-name",
+      "desc": "<p>Returns the name of a node, as an <code>xs:QName</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "normalize-space",
+      "desc": "<p>Returns the value of <code>$arg</code> with leading and trailing whitespace removed, and sequences of internal whitespace reduced to a single space character.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            },
+            {
+              "name": "normalizationForm",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "normalize-unicode",
+      "desc": "<p>Returns the value of <code>$arg</code> after applying Unicode normalization.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "not",
+      "desc": "<p>Returns <code>true</code> if the effective boolean value of <code>$arg</code> is <code>false</code>, or <code>false</code> if it is <code>true</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:double"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType?"
+            }
+          ],
+          "type": "xs:double"
+        }
+      ],
+      "name": "number",
+      "desc": "<p>Returns the value indicated by <code>$arg</code>or, if <code>$arg</code> is not specified, the context item after atomization, converted to an <code>xs:double</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()+"
+        }
+      ],
+      "name": "one-or-more",
+      "desc": "<p>Returns <code>$arg</code> if it contains one or more items. Otherwise, raises an error.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "nodes",
+              "type": "node()*"
+            }
+          ],
+          "type": "node()*"
+        }
+      ],
+      "name": "outermost",
+      "desc": "<p>Returns every node within the input sequence that has no ancestor that is itself a member of the input sequence; the nodes are returned in document order with duplicates eliminated.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:dateTime?"
+        }
+      ],
+      "name": "parse-ietf-date",
+      "desc": "<p>Parses a string containing the date and time in IETF format, returning the corresponding <code>xs:dateTime</code> value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "json-text",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "item()?"
+        },
+        {
+          "params": [
+            {
+              "name": "json-text",
+              "type": "xs:string?"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "item()?"
+        }
+      ],
+      "name": "parse-json",
+      "desc": "<p>Parses a string supplied in the form of a JSON text, returning the results typically in the form of a map or array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "document-node(element(*))?"
+        }
+      ],
+      "name": "parse-xml",
+      "desc": "<p>This function takes as input an XML document represented as a string, and returns the document node at the root of an XDM tree representing the parsed document.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "document-node()?"
+        }
+      ],
+      "name": "parse-xml-fragment",
+      "desc": "<p>This function takes as input an XML external entity represented as a string, and returns the document node at the root of an XDM tree representing the parsed document fragment.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "path",
+      "desc": "<p>Returns a path expression that can be used to select the supplied node relative to the root of its containing document.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "position",
+      "desc": "<p>Returns the context position from the dynamic context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:QName?"
+            }
+          ],
+          "type": "xs:NCName?"
+        }
+      ],
+      "name": "prefix-from-QName",
+      "desc": "<p>Returns the prefix component of the supplied QName.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "paramURI",
+              "type": "xs:string?"
+            },
+            {
+              "name": "paramQName",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:QName"
+        }
+      ],
+      "name": "QName",
+      "desc": "<p>Returns an <code>xs:QName</code> value formed using a supplied namespace URI and lexical QName.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "map(xs:string, item())"
+        },
+        {
+          "params": [
+            {
+              "name": "seed",
+              "type": "xs:anyAtomicType?"
+            }
+          ],
+          "type": "map(xs:string, item())"
+        }
+      ],
+      "name": "random-number-generator",
+      "desc": "<p>Returns a random number generator, which can be used to generate sequences of random numbers.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "target",
+              "type": "item()*"
+            },
+            {
+              "name": "position",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "remove",
+      "desc": "<p>Returns a new sequence containing all the items of <code>$target</code> except the item at position <code>$position</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            },
+            {
+              "name": "replacement",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            },
+            {
+              "name": "replacement",
+              "type": "xs:string"
+            },
+            {
+              "name": "flags",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "replace",
+      "desc": "<p>Returns a string produced from the input string by replacing any substrings that match a given regular expression with a supplied replacement string.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "qname",
+              "type": "xs:string?"
+            },
+            {
+              "name": "element",
+              "type": "element()"
+            }
+          ],
+          "type": "xs:QName?"
+        }
+      ],
+      "name": "resolve-QName",
+      "desc": "<p>Returns an <code>xs:QName</code> value (that is, an expanded-QName) by taking an <code>xs:string</code> that has the lexical form of an <code>xs:QName</code> (a string in the form \"prefix:local-name\" or \"local-name\") and resolving it using the in-scope namespaces for a given element.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "relative",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:anyURI?"
+        },
+        {
+          "params": [
+            {
+              "name": "relative",
+              "type": "xs:string?"
+            },
+            {
+              "name": "base",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "resolve-uri",
+      "desc": "<p>Resolves a relative IRI reference against an absolute IRI.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "reverse",
+      "desc": "<p>Reverses the order of items in a sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "node()"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "node()?"
+            }
+          ],
+          "type": "node()?"
+        }
+      ],
+      "name": "root",
+      "desc": "<p>Returns the root of the tree to which <code>$arg</code> belongs. This will usually, but not necessarily, be a document node.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            }
+          ],
+          "type": "xs:numeric?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            },
+            {
+              "name": "precision",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "xs:numeric?"
+        }
+      ],
+      "name": "round",
+      "desc": "<p>Rounds a value to a specified number of decimal places, rounding upwards if two such values are equally near.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            }
+          ],
+          "type": "xs:numeric?"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:numeric?"
+            },
+            {
+              "name": "precision",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "xs:numeric?"
+        }
+      ],
+      "name": "round-half-to-even",
+      "desc": "<p>Rounds a value to a specified number of decimal places, rounding to make the last digit even if two such values are equally near.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:decimal?"
+        }
+      ],
+      "name": "seconds-from-dateTime",
+      "desc": "<p>Returns the seconds component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:decimal?"
+        }
+      ],
+      "name": "seconds-from-duration",
+      "desc": "<p>Returns the number of seconds in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:decimal?"
+        }
+      ],
+      "name": "seconds-from-time",
+      "desc": "<p>Returns the seconds component of an <code>xs:time</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            },
+            {
+              "name": "params",
+              "type": "item()?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "serialize",
+      "desc": "<p>This function serializes the supplied input sequence <code>$arg</code> as described in [XSLT and XQuery Serialization 3.1], returning the serialized representation of the sequence as a string.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "item()*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "item()*"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "item()*"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string?"
+            },
+            {
+              "name": "key",
+              "type": "function(item()) as xs:anyAtomicType*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "sort",
+      "desc": "<p>Sorts a supplied sequence, based on the value of a sort key supplied as a function.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "starts-with",
+      "desc": "<p>Returns true if the string <code>$arg1</code> contains <code>$arg2</code> as a leading substring, taking collations into account.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyURI?"
+        }
+      ],
+      "name": "static-base-uri",
+      "desc": "<p>This function returns the value of the <b>static base URI</b> property from the static context.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "string",
+      "desc": "<p>Returns the value of <code>$arg</code> represented as an <code>xs:string</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "string-join",
+      "desc": "<p>Returns a string created by concatenating the items in a sequence, with a defined separator between adjacent items.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:integer"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "string-length",
+      "desc": "<p>Returns the number of characters in a string.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:integer*"
+        }
+      ],
+      "name": "string-to-codepoints",
+      "desc": "<p>Returns the sequence of codepoints that constitute an <code>xs:string</code> value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "sourceSeq",
+              "type": "item()*"
+            },
+            {
+              "name": "startingLoc",
+              "type": "xs:double"
+            }
+          ],
+          "type": "item()*"
+        },
+        {
+          "params": [
+            {
+              "name": "sourceSeq",
+              "type": "item()*"
+            },
+            {
+              "name": "startingLoc",
+              "type": "xs:double"
+            },
+            {
+              "name": "length",
+              "type": "xs:double"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "subsequence",
+      "desc": "<p>Returns the contiguous sequence of items in the value of <code>$sourceSeq</code> beginning at the position indicated by the value of <code>$startingLoc</code> and continuing for the number of items indicated by the value of <code>$length</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "sourceString",
+              "type": "xs:string?"
+            },
+            {
+              "name": "start",
+              "type": "xs:double"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "sourceString",
+              "type": "xs:string?"
+            },
+            {
+              "name": "start",
+              "type": "xs:double"
+            },
+            {
+              "name": "length",
+              "type": "xs:double"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "substring",
+      "desc": "<p>Returns the portion of the value of <code>$sourceString</code> beginning at the position indicated by the value of <code>$start</code> and continuing for the number of characters indicated by the value of <code>$length</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "substring-after",
+      "desc": "<p>Returns the part of <code>$arg1</code> that follows the first occurrence of <code>$arg2</code>, taking collations into account.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        },
+        {
+          "params": [
+            {
+              "name": "arg1",
+              "type": "xs:string?"
+            },
+            {
+              "name": "arg2",
+              "type": "xs:string?"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "substring-before",
+      "desc": "<p>Returns the part of <code>$arg1</code> that precedes the first occurrence of <code>$arg2</code>, taking collations into account.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "xs:anyAtomicType"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:anyAtomicType*"
+            },
+            {
+              "name": "zero",
+              "type": "xs:anyAtomicType?"
+            }
+          ],
+          "type": "xs:anyAtomicType?"
+        }
+      ],
+      "name": "sum",
+      "desc": "<p>Returns a value obtained by adding together the values in <code>$arg</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "tail",
+      "desc": "<p>Returns all but the first item in a sequence.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            }
+          ],
+          "type": "xs:dayTimeDuration?"
+        }
+      ],
+      "name": "timezone-from-date",
+      "desc": "<p>Returns the timezone component of an <code>xs:date</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:dayTimeDuration?"
+        }
+      ],
+      "name": "timezone-from-dateTime",
+      "desc": "<p>Returns the timezone component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:time?"
+            }
+          ],
+          "type": "xs:dayTimeDuration?"
+        }
+      ],
+      "name": "timezone-from-time",
+      "desc": "<p>Returns the timezone component of an <code>xs:time</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string*"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string*"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "xs:string?"
+            },
+            {
+              "name": "pattern",
+              "type": "xs:string"
+            },
+            {
+              "name": "flags",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string*"
+        }
+      ],
+      "name": "tokenize",
+      "desc": "<p>Returns a sequence of strings constructed by splitting the input wherever a separator is found; the separator is any substring that matches a given regular expression.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        },
+        {
+          "params": [
+            {
+              "name": "value",
+              "type": "item()*"
+            },
+            {
+              "name": "label",
+              "type": "xs:string"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "trace",
+      "desc": "<p>Provides an execution trace intended to be used in debugging queries.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "transform",
+      "desc": "<p>Throws error FOXT0004 when invoked.</p><del><p>Invokes a transformation using a dynamically-loaded XSLT stylesheet.</p></del>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            },
+            {
+              "name": "mapString",
+              "type": "xs:string"
+            },
+            {
+              "name": "transString",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "translate",
+      "desc": "<p>Returns the value of <code>$arg</code> modified by replacing or removing individual characters.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "true",
+      "desc": "<p>Returns the <code>xs:boolean</code> value <code>true</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "sourceSeq",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "unordered",
+      "desc": "<p>Returns the items of <code>$sourceSeq</code> in an implementation-dependent order.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            },
+            {
+              "name": "encoding",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "unparsed-text",
+      "desc": "<p>The <code>fn:unparsed-text</code> function reads an external resource (for example, a file) and returns a string representation of the resource.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:boolean"
+        },
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            },
+            {
+              "name": "encoding",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "unparsed-text-available",
+      "desc": "<p>Because errors in evaluating the <code>fn:unparsed-text</code> function are non-recoverable, these two functions are provided to allow an application to determine whether a call with particular arguments would succeed.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string*"
+        },
+        {
+          "params": [
+            {
+              "name": "href",
+              "type": "xs:string?"
+            },
+            {
+              "name": "encoding",
+              "type": "xs:string"
+            }
+          ],
+          "type": "xs:string*"
+        }
+      ],
+      "name": "unparsed-text-lines",
+      "desc": "<p>The <code>fn:unparsed-text-lines</code> function reads an external resource (for example, a file) and returns its contents as a sequence of strings, one for each line of text in the string representation of the resource.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:string"
+        }
+      ],
+      "name": "upper-case",
+      "desc": "<p>Converts a string to upper case.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:anyURI*"
+        },
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "xs:anyURI*"
+        }
+      ],
+      "name": "uri-collection",
+      "desc": "<p>Returns a sequence of <code>xs:anyURI</code> values representing the URIs in a URI collection.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "node()?"
+            }
+          ],
+          "type": "xs:string?"
+        },
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "node()?"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "xs:string?"
+        }
+      ],
+      "name": "xml-to-json",
+      "desc": "<p>Converts an XML tree, whose format corresponds to the XML representation of JSON defined in this specification, into a string conforming to the JSON grammar.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:date?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "year-from-date",
+      "desc": "<p>Returns the year component of an <code>xs:date</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:dateTime?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "year-from-dateTime",
+      "desc": "<p>Returns the year component of an <code>xs:dateTime</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:duration?"
+            }
+          ],
+          "type": "xs:integer?"
+        }
+      ],
+      "name": "years-from-duration",
+      "desc": "<p>Returns the number of years in a duration.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()?"
+        }
+      ],
+      "name": "zero-or-one",
+      "desc": "<p>Returns <code>$arg</code> if it contains zero or one items. Otherwise, raises an error.</p>"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "ns": "http://www.w3.org/2005/xpath-functions/map",
+  "px": "map",
+  "desc": "<p>The functions defined in this section use a conventional namespace prefix map, which is assumed to be bound to the namespace URI http://www.w3.org/2005/xpath-functions/map.</p>
+           <p>A map is an additional kind of item.</p>
+           <p>A map consists of a set of entries. Each entry comprises a key which is an arbitrary atomic value, and an arbitrary sequence called the associated value.</p>",
+  "fx": [
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            },
+            {
+              "name": "key",
+              "type": "xs:anyAtomicType"
+            }
+          ],
+          "type": "xs:boolean"
+        }
+      ],
+      "name": "contains",
+      "desc": "<p>Tests whether a supplied map contains an entry for a given key</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "key",
+              "type": "xs:anyAtomicType"
+            },
+            {
+              "name": "value",
+              "type": "item()*"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "entry",
+      "desc": "<p>Returns a map that contains a single entry (a key-value pair).</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "item()*"
+            },
+            {
+              "name": "key",
+              "type": "xs:anyAtomicType"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "find",
+      "desc": "<p>Searches the supplied input sequence and any contained maps and arrays for a map entry with the supplied key, and returns the corresponding values.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            },
+            {
+              "name": "action",
+              "type": "function(xs:anyAtomicType, item()*) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "for-each",
+      "desc": "<p>Applies a supplied function to every entry in a map, returning the concatenation of the results.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            },
+            {
+              "name": "key",
+              "type": "xs:anyAtomicType"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "get",
+      "desc": "<p>Returns the value associated with a supplied key in a given map.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            }
+          ],
+          "type": "xs:anyAtomicType*"
+        }
+      ],
+      "name": "keys",
+      "desc": "<p>Returns a sequence containing all the keys present in a map</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "maps",
+              "type": "map(*)*"
+            }
+          ],
+          "type": "map(*)"
+        },
+        {
+          "params": [
+            {
+              "name": "maps",
+              "type": "map(*)*"
+            },
+            {
+              "name": "options",
+              "type": "map(*)"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "merge",
+      "desc": "<p>Returns a map that combines the entries from a number of existing maps.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            },
+            {
+              "name": "key",
+              "type": "xs:anyAtomicType"
+            },
+            {
+              "name": "value",
+              "type": "item()*"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "put",
+      "desc": "<p>Returns a map containing all the contents of the supplied map, but with an additional entry, which replaces any existing entry for the same key.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            },
+            {
+              "name": "keys",
+              "type": "xs:anyAtomicType*"
+            }
+          ],
+          "type": "map(*)"
+        }
+      ],
+      "name": "remove",
+      "desc": "<p>Returns a map containing all the entries from a supplied map, except those having a specified key.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "map",
+              "type": "map(*)"
+            }
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "size",
+      "desc": "<p>Returns the number of entries in the supplied map.</p>"
+    }
+  ]
+}
