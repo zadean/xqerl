@@ -60,6 +60,9 @@ close(Uri) ->
    case get_pid(Uri) of
       {Id, Pid} when is_pid(Pid) ->
          xqldb_db_server:close({Uri, Id}),
+         % close index nicely then sup
+         #{index := Ind} = db_ref(Pid),
+         merge_index:stop(Ind),
          _ = supervisor:terminate_child(xqldb_db_sup, Pid),
          ok;
       _ ->

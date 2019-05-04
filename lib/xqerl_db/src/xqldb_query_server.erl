@@ -61,7 +61,16 @@ sweep(Server) ->
 
 % try to get the ets table id for this doc/query, return undefined if not there.
 get(Server, DocId, InPathId, Steps) ->
-   gen_server:call(Server, {get, DocId, InPathId, Steps}).
+   Key = {?MODULE, ?FUNCTION_NAME, Server, DocId, InPathId, Steps},
+   case erlang:get(Key) of
+      undefined ->
+         Val = gen_server:call(Server, {get, DocId, InPathId, Steps}),
+         _ = erlang:put(Key, Val),
+         Val;
+      V ->
+         gen_server:cast(Server, {touch, DocId, InPathId, Steps}),
+         V
+   end.
 
 put(Server, DocId, InPathId, Steps, Results) ->
    gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
@@ -87,14 +96,13 @@ handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
    
 handle_call({get, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
    Key = {DocId, InPathId, Steps},
-   Now = erlang:system_time(),
    Reply = case ets:lookup(Tab, Key) of
       [] ->
          undefined;
       [{_, undefined, _}] ->
          undefined;
       [{_, T, _}] ->
-         %io:format("~p~n", [{?LINE, T}]),
+         Now = erlang:system_time(),
          ets:update_element(Tab, Key, {3, Now}),
          T
    end,
@@ -103,6 +111,18 @@ handle_call(_Request, _From, State) ->
    Reply = ok,
    {reply, Reply, State}.
 
+handle_cast({touch, DocId, InPathId, Steps}, #{tab := Tab} = State) ->
+   Key = {DocId, InPathId, Steps},
+   _ = case ets:lookup(Tab, Key) of
+      [] ->
+         undefined;
+      [{_, undefined, _}] ->
+         undefined;
+      [{_, _, _}] ->
+         Now = erlang:system_time(),
+         ets:update_element(Tab, Key, {3, Now})
+   end,
+   {noreply, State};
 handle_cast({sweep, Then}, #{tab := Tab} = State) ->
    MS = [{{'$1','$2','$3'},
           [{'<','$3',Then},{'=/=','$3',undefined}],
