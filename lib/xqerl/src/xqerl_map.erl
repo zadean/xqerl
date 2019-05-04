@@ -136,6 +136,7 @@ find1([_|T], Key) ->
                  xq_types:xq_map(),
                  xq_types:xq_function()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
+'for-each'(Ctx,[Map],F) -> 'for-each'(Ctx,Map,F);
 'for-each'(_Ctx,Map,[]) when is_map(Map) -> Map;
 'for-each'(Ctx,Map,Action) when is_map(Map), is_function(Action) ->
    lists:map(fun({K,V}) ->
@@ -151,6 +152,7 @@ find1([_|T], Key) ->
             xq_types:xq_map(),
             xq_types:xs_anyAtomicType()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
+'get'(Ctx,[Map],Key) -> 'get'(Ctx,Map,Key);
 'get'(_Ctx,Map,Key) when is_map(Map) -> 
    MKey = xqerl_operators:key_val(Key),
    if is_map_key(MKey, Map) ->
