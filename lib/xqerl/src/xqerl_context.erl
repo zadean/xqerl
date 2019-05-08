@@ -777,6 +777,7 @@ static_namespaces() ->
      {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
      {<<"basex">>, <<"http://xqerl.org/modules/client/BaseX">>},
+     {<<"csv">>,   <<"http://xqerl.org/modules/csv">>},
      {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].
 
 static_collations() ->
