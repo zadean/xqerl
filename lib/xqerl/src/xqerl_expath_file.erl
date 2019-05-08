@@ -1660,9 +1660,9 @@ do_rec_list(Dir,Pattern) ->
 do_read_from(Fd,Offset) ->
    case file:position(Fd, Offset) of
       {ok,_} ->
-         case file:read(Fd,1024*56) of
+         case io:get_chars(Fd, "", 1024*56) of
             eof -> eof;
-            {ok,Bin} ->
+            Bin when is_binary(Bin) ->
                {ok,do_read(Fd,Bin)};
             {error,_} = E ->
                E
