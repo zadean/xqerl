@@ -1,0 +1,49 @@
+{
+  "ns" : "http://xqerl.org/modules/csv",
+  "px" : "csv",
+  "desc": "<p>Module for reading and writing CSV data.</p>
+  <p>The option map is used to control how data is parsed or written.</p>
+  <p>Three separator values are supported: tab, comma and semicolon.</p>
+  <p>The quote boolean value is tells the serializer to wrap each value in double-quotes.</p>",
+  "fx" : [
+    {
+      "name" : "parse",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "input", "type" : "xs:string?"}
+          ],
+          "type" : "array(array(xs:string))?"
+        },
+        {
+          "params" : [
+            {"name" : "input", "type" : "xs:string?"},
+            {"name" : "options", "type" : "map(*)?"}
+          ],
+          "type" : "array(array(xs:string))?"
+        }
+      ],
+      "desc" : "Parse string as CSV input. Returns array of arrays. The optional parameter <var>$options</var> is a map of <code>map{'separator' : [tab|comma|semicolon]}</code>"
+
+    },
+    {
+      "name" : "serialize",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "input", "type" : "array(array(xs:string))?"}
+          ],
+          "type" : "xs:string?"
+        },
+        {
+          "params" : [
+            {"name" : "input", "type" : "array(array(xs:string))?"},
+            {"name" : "options", "type" : "map(*)?"}
+          ],
+          "type" : "xs:string?"
+        }
+      ],
+      "desc" : "Serialize an array of arrays to CSV. The optional parameter <var>$options</var> is a map of <code>map{'separator' : [tab|comma|semicolon], 'quotes' : xs:boolean}</code>"
+    }
+  ]
+}
