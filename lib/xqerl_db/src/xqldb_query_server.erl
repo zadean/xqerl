@@ -68,7 +68,7 @@ get(Server, DocId, InPathId, Steps) ->
          _ = erlang:put(Key, Val),
          Val;
       V ->
-         gen_server:cast(Server, {touch, DocId, InPathId, Steps}),
+         gen_server:call(Server, {touch, DocId, InPathId, Steps}),
          V
    end.
 
@@ -87,6 +87,18 @@ init([]) ->
    {ok, #{tab => Tab}}.
 
 
+handle_call({touch, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
+   Key = {DocId, InPathId, Steps},
+   _ = case ets:lookup(Tab, Key) of
+      [] ->
+         undefined;
+      [{_, undefined, _}] ->
+         undefined;
+      [{_, _, _}] ->
+         Now = erlang:system_time(),
+         ets:update_element(Tab, Key, {3, Now})
+   end,
+   {reply, ok, State};
 handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
    Key = {DocId, InPathId, Steps},
    Now = erlang:system_time(),
@@ -111,18 +123,6 @@ handle_call(_Request, _From, State) ->
    Reply = ok,
    {reply, Reply, State}.
 
-handle_cast({touch, DocId, InPathId, Steps}, #{tab := Tab} = State) ->
-   Key = {DocId, InPathId, Steps},
-   _ = case ets:lookup(Tab, Key) of
-      [] ->
-         undefined;
-      [{_, undefined, _}] ->
-         undefined;
-      [{_, _, _}] ->
-         Now = erlang:system_time(),
-         ets:update_element(Tab, Key, {3, Now})
-   end,
-   {noreply, State};
 handle_cast({sweep, Then}, #{tab := Tab} = State) ->
    MS = [{{'$1','$2','$3'},
           [{'<','$3',Then},{'=/=','$3',undefined}],
