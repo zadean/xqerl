@@ -579,21 +579,21 @@ select_preceding_siblings(Set, Prefix) ->
 %% their full size if need be. Also get all nested nodes and add as children.
 %% leave their ID as-is, this will allow getting 
 %% parent/ancestor/preceding/following axes later
-deep_copy_node(#{id := {DbPid, _, Id},
+deep_copy_node(#{id := {_DbPid, _, Id},
                  nk := Nk,
-                 sv := Sv} = N) 
+                 sv := _Sv } = N) 
    when Nk =:= text;
         Nk =:= comment;
         Nk =:= attribute;
         Nk =:= 'processing-instruction' ->
-   if byte_size(Sv) =:= 64 ->
-         #{texts := Tab} = xqerl_context:get_db(DbPid),
-         S = xqldb_string_table2:lookup(Tab, Sv),
-         N#{id := {0,Id},
-            sv := S};
-      true ->
-         N#{id := {0,Id}} 
-   end;
+   %if byte_size(Sv) =:= 64 ->
+   %      #{texts := Tab} = xqerl_context:get_db(DbPid),
+   %      S = xqldb_string_table2:lookup(Tab, Sv),
+   %      N#{id := {0,Id},
+   %         sv := S};
+   %   true ->
+         N#{id := {0,Id}};
+   %end;
 %% element and document node copies should pull in all descendant nodes at one 
 %% time. This can be an iterator list. Also, get the inscope-namespaces.
 deep_copy_node(#{id := {DbPid, DocId, NodeId}}) ->
