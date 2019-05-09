@@ -179,10 +179,10 @@
   {xqSeqType, 'xs:string', one}, [], {'read_text', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX,<<"read-text-lines">>}, 
-  {xqSeqType, 'xs:string', one}, [], {'read_text_lines', 2}, 1, 
+  {xqSeqType, 'xs:string', zero_or_many}, [], {'read_text_lines', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX,<<"read-text-lines">>}, 
-  {xqSeqType, 'xs:string', one}, [], {'read_text_lines', 3}, 2, 
+  {xqSeqType, 'xs:string', zero_or_many}, [], {'read_text_lines', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX,<<"write">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write', 3}, 2, 
@@ -1676,9 +1676,9 @@ do_read_lines(Fd) ->
    {ok,lists:reverse(L)}.
 
 do_read_lines(Fd,Acc) ->
-   case file:read_line(Fd) of
+   case io:get_line(Fd, "") of
       eof -> Acc;
-      {ok,Str} ->
+      Str when is_binary(Str) ->
          do_read_lines(Fd,[string:trim(Str, trailing, "\n")|Acc]);
       {error,_} = E ->
          E
