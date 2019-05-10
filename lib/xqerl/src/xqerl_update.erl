@@ -70,13 +70,11 @@ lock_targets(Agent, PulMap) ->
            DB <- DBs,
            {Nm, _Ts} <- maps:keys(maps:get(DB, PulMap))],
    Objs = lists:usort(OIDs),
-   ?dbg("Objs", Objs),
    case Objs of
       [] ->
          ok;
       _ ->
          locks:lock_objects(Agent, Objs),
-         ?dbg("Info", locks_agent:lock_info(Agent)),
          {have_all_locks, _} = locks:await_all_locks(Agent),
          ok
    end.
@@ -91,9 +89,7 @@ apply_local_updates(Ctx, Pid, Vars) when is_pid(Pid) ->
       {Pid, Pul} ->
          %io:format("~p~n", [Pul]),
          ok = compatibilityCheck(Pul),
-         %?dbg("Pul",Pul),
          PulMap = mergeUpdates(Pul),
-         %?dbg("PulMap",PulMap),
          applyUpdates(Ctx, PulMap, Vars)         
    end.
 
@@ -101,10 +97,8 @@ apply_updates(Ctx, Pid) when is_pid(Pid) ->
    Pid ! done,
    receive
       {Pid, Pul} ->
-         %io:format("~p~n", [Pul]),
          ok = compatibilityCheck(Pul),
          PulMap = mergeUpdates(Pul),
-         ?dbg("PulMap",PulMap),
          applyUpdates(Ctx, PulMap)
    end.
 
@@ -129,7 +123,6 @@ put(Node, Uri, Params) ->
 %% upd:compatibilityCheck(
 %%    $pul as pending-update-list)
 compatibilityCheck(Pul) ->
-   %?dbg("Pul",Pul),
    %% Two or more upd:rename primitives in $pul have the same target node
    _ = if_dupe([Target || {rename, Target, _} <- Pul], 'XUDY0015'),
    %% Two or more upd:replaceNode primitives in $pul have the same target node
@@ -177,10 +170,7 @@ do_merge(Acc, Db, Type, {DocId, Pos}, Val) -> % db nodes
 
 do_put(Ctx, Node, DocUri) ->
    SaxList = xqerl_node:new_fragment_list(Ctx, Node),
-   {DbUri,Name} = xqldb_uri:split_uri(DocUri),
-   DB = xqldb_db:database(DbUri),
-   Stamp = erlang:system_time(),
-   xqldb_sax:parse_list(DB, SaxList, Name, Stamp).
+   xqldb_dml:insert_doc_sax(DocUri, SaxList).
    
 % applies updates to persisted DB nodes, non DB nodes ignored
 applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
@@ -188,10 +178,8 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                  not is_reference(Key),
                  Key =/= put],
    Puts = maps:get(put, PulMap, []),
-   ?dbg("PulMap",PulMap),
    ok = lock_targets(Agent, PulMap),
    % wait for all locks 
-   ?dbg("PulMap",ok),
    % check that all documents being changed are the same as selected
    % if any are not, throw error and do not continue
    % Optimistic Concurrency
@@ -228,7 +216,6 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                SaxList = xqerl_node:new_fragment_list(Ctx#{updating => true}, Frank),
                DocUri = xqldb_nodes:document_uri(Root),
                {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
-               %?dbg("DocUri",DocUri),
                Stamp = erlang:system_time(),
                ok = xqldb_sax:parse_list(DB, SaxList, DocName, Stamp),
                xqldb_path_table:insert(Paths, {DocName, xml, Stamp}),

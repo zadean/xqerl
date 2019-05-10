@@ -35,6 +35,7 @@
 -define(svg,    <<"http://www.w3.org/2000/svg">>).
 -define(mathml, <<"http://www.w3.org/1998/Math/MathML">>).
 
+serialize([], _Opts) -> <<>>;
 serialize(Seq, Opts) ->
    Opts1 = maps:merge(default_opts(), Opts),
    Ser = do_serialize(Seq, Opts1),
@@ -539,7 +540,7 @@ do_serialize_html(#{nk := document} = Doc, Opts, NsInScope) ->
    Ch = xqldb_mem_nodes:children(Doc),
    IsWellFormed = is_well_formed(Ch),
    [L|_] = [L ||#{nn := {_,_,L}, nk := element} <- Ch],
-   Decl = do_xml_declaration(IsWellFormed, L, Opts),
+   Decl = do_xml_declaration(IsWellFormed, L, Opts#{'omit-xml-declaration' := true}),
    Body = << <<(do_serialize_html(C, Opts, NsInScope))/binary>> ||
       C <- Ch>>,
    <<Decl/binary, Body/binary>>;   

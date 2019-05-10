@@ -621,22 +621,26 @@ rest_functions(Ctx, Functions) ->
                     "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
-                    "xqerl_context:destroy(Ctx),",
-                    "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
-                    " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
-                    "true -> {ReturnVal, Req, State}"
-                    "end."]);
+                    "xqerl_context:destroy(Ctx),{ReturnVal, Req, State}." %,
+                    %"if Method == <<\"POST\">>; Method == <<\"GET\">> -> ",
+                    %"  "
+                    %" {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
+                    %"true -> {ReturnVal, Req, State}"
+                    %"end."
+                     ]);
                  true ->
                  ?P(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     "Ctx = init(init_ctx()),"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
-                    "xqerl_context:destroy(Ctx),",
-                    "if Method == <<\"POST\">>; Method == <<\"PUT\">> -> ",
-                    " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
-                    "true -> {ReturnVal, Req, State}"
-                    "end."])
+                    "xqerl_context:destroy(Ctx), {ReturnVal, Req, State}."%,
+                    %"if Method == <<\"POST\">>; Method == <<\"GET\">> -> ",
+                   % " "
+                   % " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
+                   % "true -> {ReturnVal, Req, State}"
+                   % "end."
+                     ])
                  end,
            add_global_funs([G5]),
            

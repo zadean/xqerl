@@ -77,9 +77,10 @@ double(_) ->
 integer(_) ->
    rand:uniform(?MAXINT).
 
-integer(_, Max) when is_integer(Max), Max >= 1 ->
-   rand:uniform(Max);
-integer(_, Max) when is_integer(Max), Max < 1 ->
+integer(_, 1) -> 0;
+integer(_, Max) when is_integer(Max), Max >= 2 ->
+   rand:uniform(Max - 1);
+integer(_, Max) when is_integer(Max), Max < 2 ->
    throw({error, negative});
 integer(Ctx, Max) ->
    case xqerl_types:cast_as(Max, 'xs:integer') of

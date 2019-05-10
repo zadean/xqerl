@@ -47,6 +47,7 @@
 -export([exists_doc/1,
          select_doc/1,
          insert_doc/2,
+         insert_doc_sax/2,
          delete_doc/1]).
 
 %% JSON
@@ -204,6 +205,22 @@ insert_doc(DocUri, Filename) when is_binary(DocUri) ->
          locks:end_transaction(Agent)
    end;
 ?ENSURE_BIN2(insert_doc).
+
+insert_doc_sax(DocUri, Filename) when is_binary(DocUri) ->
+   {DbUri,Name} = xqldb_uri:split_uri(DocUri),
+   {Agent, _} = locks:begin_transaction(),
+   _ = locks:lock(Agent, [DbUri,Name]),
+   #{paths := Paths} = DB = xqldb_db:database(DbUri),
+   case xqldb_path_table:lookup(Paths, Name) of
+      [] -> 
+         Stamp = erlang:system_time(),
+         ok = xqldb_sax:parse_list(DB,Filename,Name,Stamp),
+         xqldb_path_table:insert(Paths, {Name, xml, Stamp}),
+         locks:end_transaction(Agent);
+      _ ->
+         locks:end_transaction(Agent)
+   end;
+?ENSURE_BIN2(insert_doc_sax).
 
 delete_doc(DocUri) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),

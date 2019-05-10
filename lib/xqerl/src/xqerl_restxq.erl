@@ -62,6 +62,8 @@
 -define(SV(V), V).
 -define(anno(N,V),#annotation{name = N, values = V}).
 
+stream_body(ReturnVal, Req0) when byte_size(ReturnVal) < 52000 ->
+   cowboy_req:set_resp_body(ReturnVal, Req0);
 stream_body(ReturnVal, Req0) ->
    Req = cowboy_req:stream_reply(200, Req0),
    stream_body_(ReturnVal, Req).
@@ -70,10 +72,9 @@ stream_body_(<<S:4096/binary, Rest/binary>>, Req) ->
    cowboy_req:stream_body(S, nofin, Req),
    stream_body_(Rest, Req);
 stream_body_(Bin, Req) ->
-   cowboy_req:stream_body(Bin, fin, Req),
-   ok.
+   cowboy_req:stream_body(Bin, fin, maps:remove(resp_body, Req)).
 
-  
+
 default_rest_annos() ->
    #{method         => [], % expanded to all later if not set
      output         => [], % list of serialization parameters
