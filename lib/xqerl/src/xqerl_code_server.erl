@@ -545,8 +545,8 @@ do_unload(Tab, Ebin, DispatchFile) ->
         #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
 
-%-define(PRINT,false).
--define(PRINT,true).
+-define(PRINT,false).
+%-define(PRINT,true).
 
 -if(?PRINT).
    % see what comes out

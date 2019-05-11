@@ -39,7 +39,7 @@
 -export([orderbyclause/2]).
 -export([groupbyclause/1]).
 
--export([optimize/2]).
+-export([optimize/3]).
 
 %% -export([test/1]).
 %% test(Term) ->
@@ -537,24 +537,24 @@ bool(T) -> xqerl_operators:eff_bool_val(T).
 
 %% Attempts to optimize a FLWOR statement by reordering clauses 
 %% and removing unused variables 
--spec optimize(#xqFlwor{}, digraph:graph()) ->
+-spec optimize(#xqFlwor{}, digraph:graph(), fun()) ->
    Result :: #xqFlwor{} | any().
-optimize(#xqFlwor{} = FL, Digraph) ->
-   FL0 = optimize_nested(FL, Digraph),
-   {B2, F2} = fold_changes(FL0, Digraph),
+optimize(#xqFlwor{} = FL, Digraph, Det) ->
+   FL0 = optimize_nested(FL, Digraph, Det),
+   {B2, F2} = fold_changes(FL0, Digraph, Det),
    case strip_empty_flwor(F2) of
       #xqFlwor{} = _F000 ->
          %?dbg("1",FL),
          %?dbg("2",F2),
          %?dbg("3",_F000),
-         {B3,F3} = replace_trailing_for_in_return(F2, Digraph),
+         {B3,F3} = replace_trailing_for_in_return(F2, Digraph, Det),
          {B4,F4} = fold_for_count(F3, Digraph),
-         {B5,F5} = maybe_lift_simple_return(F4, Digraph),
-         {B6,F6} = maybe_lift_lets_in_return(F5, Digraph),
+         {B5,F5} = maybe_lift_simple_return(F4, Digraph, Det),
+         {B6,F6} = maybe_lift_lets_in_return(F5, Digraph, Det),
          F7 = if B2 orelse B3 orelse B4 orelse B5 orelse B6 ->
                     %?dbg("F6",F6),
                     % keep cycling until completely optimized
-                    optimize(F6, Digraph);
+                    optimize(F6, Digraph, Det);
                  true ->
                     F6
               end,
@@ -562,22 +562,22 @@ optimize(#xqFlwor{} = FL, Digraph) ->
          case F7 of
             #xqFlwor{} ->
                Cl8 = combine_wheres(F7#xqFlwor.loop),
-               leading_where_as_if(F7#xqFlwor{loop = Cl8}, Digraph);
+               leading_where_as_if(F7#xqFlwor{loop = Cl8}, Digraph, Det);
             Other ->
                Other
          end;
       Empty ->
          Empty
    end;
-optimize(FL, _) -> FL.
+optimize(FL, _, _) -> FL.
   
 %% STEP 1 
--spec optimize_nested(#xqFlwor{}, digraph:graph()) ->
+-spec optimize_nested(#xqFlwor{}, digraph:graph(), fun()) ->
    Result :: #xqFlwor{}.
-optimize_nested(#xqFlwor{loop = L} = FL, G) ->
+optimize_nested(#xqFlwor{loop = L} = FL, G, Det) ->
    Fun = fun({'let', #xqVar{expr = #xqFlwor{} = Fl2} = FV, ST}) ->
                ?dbg("Optimizing nested FLWOR", true),               
-               {'let', FV#xqVar{expr = optimize(Fl2, G)}, ST};
+               {'let', FV#xqVar{expr = optimize(Fl2, G, Det)}, ST};
             (E) ->
                E
          end,
@@ -585,12 +585,12 @@ optimize_nested(#xqFlwor{loop = L} = FL, G) ->
    FL#xqFlwor{loop = NewLoop}.
 
 %% STEP 2 
--spec fold_changes(#xqFlwor{}, digraph:graph()) ->
+-spec fold_changes(#xqFlwor{}, digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-fold_changes(#xqFlwor{} = FL, G) ->
+fold_changes(#xqFlwor{} = FL, G, Det) ->
    {B0,F0} = maybe_replace_for_with_let(FL),
    {B0a,F0a} = maybe_split_for(F0, G),
-   {B1,F1} = maybe_lift_let(F0a, G),
+   {B1,F1} = maybe_lift_let(F0a, G, Det),
    {B2,F2} = maybe_inline_let(F1, G),
    {B2a,F2a} = maybe_remove_redundant_let(F2, G),
    {B3,F3} = remove_unused_variables(F2a, G),
@@ -598,7 +598,7 @@ fold_changes(#xqFlwor{} = FL, G) ->
    {B8,F8} = maybe_split_comparisons_in_where_clause(F4, G),
    {B5,F5} = maybe_lift_nested_let_clause(F8),
    {B5a,F5a} = maybe_lift_nested_for_clause(F5, G),
-   {B6,F6} = maybe_lift_where_clause(F5a, G),
+   {B6,F6} = maybe_lift_where_clause(F5a, G, Det),
    {B7,F7} = where_clause_as_predicate(F6, G),
    B = B0 orelse B0a orelse B1 orelse B2 orelse B2a orelse B3 orelse 
        B4 orelse B5 orelse B5a orelse B6 orelse B7 orelse B8, 
@@ -687,24 +687,24 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
 %% STEP 2.1.b 
 %% attempts to lift 'let' clauses above other statements that do not use 
 %% them, returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
--spec maybe_lift_let(#xqFlwor{}, digraph:graph()) ->
+-spec maybe_lift_let(#xqFlwor{}, digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G) ->
+maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G, Det) ->
    PosList = to_pos_list(Clauses),
    Lets = [{P,V} || 
            {P,V} <- PosList,
            element(1, V) == 'let',
-           shiftable_expression(V),
+           shiftable_expression(V, Det),
            P > 1],
    %?dbg("Lets",Lets),
    F = fun({P,Let},{Ch,All}) ->
-             {Ch1,All1} = do_lift_let({P,Let},All,G),
+             {Ch1,All1} = do_lift_let({P,Let},All,G,Det),
              {Ch1 orelse Ch, All1}
        end,  
    {Changed,NewPosList} = lists:foldl(F, {false,PosList}, Lets),
    {Changed,FL#xqFlwor{loop = from_pos_list(NewPosList)}}.
 
-do_lift_let({P,Let},All,G) ->
+do_lift_let({P,Let},All,G, Det) ->
    Seq = lists:reverse(lists:seq(1, P - 1)),
    Pred = fun(Pos) ->
                 case lists:keyfind(Pos, 1, All) of
@@ -712,7 +712,8 @@ do_lift_let({P,Let},All,G) ->
                       false;
                    {_,Val} ->
                       (not relies_on(Let, Val, G)) andalso
-                        element(2,vertex_name(Let)) =/= element(2,vertex_name(Val))
+                        element(2,vertex_name(Let)) =/= element(2,vertex_name(Val)) andalso
+                        shiftable_expression(Val, Det)
                 end
           end,
    Skip = [lists:keyfind(A, 1, All) || A <- lists:takewhile(Pred, Seq)],
@@ -789,41 +790,44 @@ maybe_inline_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G)
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
 -spec maybe_remove_redundant_let(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = Clauses, return = _Return} = FL, G) ->
-   % for each let clause look through the others for one with an identical
-   % expression. If found, remove the 2nd let clause expression and replace 
-   % it with the 1st let variable reference
-   % add dependancy between the variables
-
-   PosList = to_pos_list(Clauses),
-   Lets = [{P,V} || 
-           {P,V} <- PosList,
-           element(1, V) == 'let'
-           ],
-   Dups = [{{P1,L1},{P2,L2}} ||
-           {P1,{'let',#xqVar{expr = E1},_} = L1} <- Lets,
-           {P2,{'let',#xqVar{expr = E2},_} = L2} <- Lets,
-           expressions_equal(E1, E2),
-           P1 < P2],
-   % only remove the first
-   % this works because path and postfix statements have unique ids
-   case Dups of
-      [] ->
-         {false,FL};
-      [{{_,{'let',#xqVar{name = N1},_} = L1},
-        {P2,{'let',#xqVar{} = V,_} = L2}}|_] ->
-         ?dbg("Removing reduntant let expression:", V),
-         VN1 = vertex_name(L1),
-         VN2 = vertex_name(L2),
-         _ = digraph:add_edge(G, VN1, VN2),
-         New = {P2,setelement(2, L2, V#xqVar{expr = #xqVarRef{name = N1}})},
-         NewList = lists:map(fun({P,_}) when P == P2 ->
-                                   New;
-                                (O) ->
-                                   O
-                             end, PosList),
-         {true, FL#xqFlwor{loop = from_pos_list(NewList)}}
-   end.
+maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G) ->
+   %% turn off for now
+   {false, FL}.
+%%    
+%%    % for each let clause look through the others for one with an identical
+%%    % expression. If found, remove the 2nd let clause expression and replace 
+%%    % it with the 1st let variable reference
+%%    % add dependancy between the variables
+%% 
+%%    PosList = to_pos_list(Clauses),
+%%    Lets = [{P,V} || 
+%%            {P,V} <- PosList,
+%%            element(1, V) == 'let'
+%%            ],
+%%    Dups = [{{P1,L1},{P2,L2}} ||
+%%            {P1,{'let',#xqVar{expr = E1},_} = L1} <- Lets,
+%%            {P2,{'let',#xqVar{expr = E2},_} = L2} <- Lets,
+%%            expressions_equal(E1, E2),
+%%            P1 < P2],
+%%    % only remove the first
+%%    % this works because path and postfix statements have unique ids
+%%    case Dups of
+%%       [] ->
+%%          {false,FL};
+%%       [{{_,{'let',#xqVar{name = N1},_} = L1},
+%%         {P2,{'let',#xqVar{} = V,_} = L2}}|_] ->
+%%          ?dbg("Removing reduntant let expression:", V),
+%%          VN1 = vertex_name(L1),
+%%          VN2 = vertex_name(L2),
+%%          _ = digraph:add_edge(G, VN1, VN2),
+%%          New = {P2,setelement(2, L2, V#xqVar{expr = #xqVarRef{name = N1}})},
+%%          NewList = lists:map(fun({P,_}) when P == P2 ->
+%%                                    New;
+%%                                 (O) ->
+%%                                    O
+%%                              end, PosList),
+%%          {true, FL#xqFlwor{loop = from_pos_list(NewList)}}
+%%    end.
 
 %% STEP 2.3 
 %% removes any unused variables created in let or count clauses
@@ -935,14 +939,14 @@ maybe_lift_nested_for_clause(#xqFlwor{loop = Clauses} = FL, G) ->
 %% STEP 2.6
 %% lift 'where' clauses above other statements that do not use them 
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
--spec maybe_lift_where_clause(#xqFlwor{}, digraph:graph()) ->
+-spec maybe_lift_where_clause(#xqFlwor{}, digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G) ->
+maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G, Det) ->
    PosList = to_pos_list(Clauses),
    Lets = [{P,V} || 
            {P,V} <- PosList,
            element(1, V) == 'where',
-           shiftable_expression(V),
+           shiftable_expression(V, Det),
            P > 1],
    F = fun({P,Let},{Ch,All}) ->
              {Ch1,All1} = do_lift_where({P,Let},All,G),
@@ -1140,11 +1144,11 @@ strip_empty_flwor(#xqFlwor{} = FL) ->
 %% if last clause is 'for' loop or 'let' and 'return' is simply that variable 
 %% replace return with 'for'/'let' expression
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
--spec replace_trailing_for_in_return(#xqFlwor{}, digraph:graph()) ->
+-spec replace_trailing_for_in_return(#xqFlwor{}, digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 replace_trailing_for_in_return(#xqFlwor{id = _Id,
                                         loop = Clauses,
-                                        return = Return} = FL, G) 
+                                        return = Return} = FL, G, Det) 
    when Clauses =/= [] ->
    case lists:last(Clauses) of
       {for,#xqVar{name = N, expr = E, type = Ty},_} = F ->
@@ -1159,7 +1163,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
                {false,FL}
          end;
       {'let',#xqVar{name = N, expr = E, type = Ty},_} = F ->
-         CanShift = shiftable_expression(F),
+         CanShift = shiftable_expression(F, Det),
          if Return == #xqVarRef{name = N} andalso CanShift ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
@@ -1174,7 +1178,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
       _ ->
          {false,FL}
    end;
-replace_trailing_for_in_return(FL,_) ->
+replace_trailing_for_in_return(FL,_,_) ->
    {false,FL}.
 
 %swap_vertex(Old,New,G) ->
@@ -1275,40 +1279,40 @@ maybe_lift_count_clause_to_let(#xqFlwor{} = FL, _) ->
 %% if return is a simple-flwor lift body into current clauses
 %% replace return with sub-return
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
--spec maybe_lift_simple_return(#xqFlwor{}, digraph:graph()) ->
+-spec maybe_lift_simple_return(#xqFlwor{}, digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{} | any()}.
 maybe_lift_simple_return(
   #xqFlwor{loop = Clauses,
            return = #xqFlwor{loop = Loop0,
-                             return = Return0} = Return} = FL, G) ->
+                             return = Return0} = Return} = FL, G, Det) ->
    case is_simple_flwor(Return) of
       true ->
          %?dbg("simplfying FLWOR",Return0),
          {true, optimize(FL#xqFlwor{loop = Clauses ++ Loop0,
-                                    return = Return0}, G)};
+                                    return = Return0}, G, Det)};
       false ->
          {false,FL}
    end;
-maybe_lift_simple_return(#xqFlwor{} = FL, _) ->
+maybe_lift_simple_return(#xqFlwor{} = FL, _, _) ->
    {false,FL}.
 
 %% STEP 7
 %% if return is a flwor lift leading lets in body into current clauses
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
--spec maybe_lift_lets_in_return(#xqFlwor{} | any(), digraph:graph()) ->
+-spec maybe_lift_lets_in_return(#xqFlwor{} | any(), digraph:graph(), fun()) ->
    {Changed :: boolean(),Result :: #xqFlwor{} | any()}.
 maybe_lift_lets_in_return(
   #xqFlwor{loop = Clauses,
-           return = #xqFlwor{loop = [{'let',_,_} = L|T]} = F2} = FL, G) ->
+           return = #xqFlwor{loop = [{'let',_,_} = L|T]} = F2} = FL, G, Det) ->
    case [ok || {group_by,_,_} <- T] == [] of
       true ->
          Loop = Clauses ++ [L],
          {true, optimize(FL#xqFlwor{loop = Loop,
-                                    return = F2#xqFlwor{loop = T}},G) };
+                                    return = F2#xqFlwor{loop = T}},G, Det) };
       false ->
          {false,FL}
    end;
-maybe_lift_lets_in_return(FL, _) ->
+maybe_lift_lets_in_return(FL, _, _) ->
    {false,FL}.
 
 
@@ -1328,18 +1332,18 @@ combine_wheres([H|T]) ->
 
 %% STEP 9
 %% should the first clause be 'where', change to logical branch
--spec leading_where_as_if(#xqFlwor{}, digraph:graph()) ->
+-spec leading_where_as_if(#xqFlwor{}, digraph:graph(), fun()) ->
          {'if-then-else',_, _, _} | #xqFlwor{}.
 leading_where_as_if(#xqFlwor{id = Id, loop = [{where, I, A}], return = Ret}, 
-                    _) ->
+                    _,_) ->
    {'if-then-else',A, {Id,Ret}, {I,'empty-sequence'}};
 leading_where_as_if(#xqFlwor{id = Id, loop = [{where, I, A}|Rest]} = F, 
-                    Digraph) ->
+                    Digraph, Det) ->
    {'if-then-else',
     A, 
-    {Id,optimize(F#xqFlwor{loop = Rest},Digraph)}, 
+    {Id,optimize(F#xqFlwor{loop = Rest},Digraph, Det)}, 
     {I,'empty-sequence'}};
-leading_where_as_if(O,_) -> O.
+leading_where_as_if(O,_,_) -> O.
 
 
 
@@ -1364,17 +1368,27 @@ vertex_name({Type,I,_}) when is_atom(Type) ->
    {I,Type}.
   
 %% can this clause be moved? based on it's expression 
--spec shiftable_expression(any()) -> boolean().
-shiftable_expression({'let',#xqVar{expr = Expr},_}) -> 
-   shiftable_expression_1(Expr);
-shiftable_expression({where,_,Expr}) -> 
-   shiftable_expression_1(Expr);
-shiftable_expression(_) -> 
+-spec shiftable_expression(any(), any()) -> boolean().
+shiftable_expression({'let',#xqVar{expr = Expr},_}, Det) -> 
+   shiftable_expression_1(Expr, Det);
+shiftable_expression({where,_,Expr}, Det) -> 
+   shiftable_expression_1(Expr, Det);
+shiftable_expression(_,_) -> 
    false.
 
-shiftable_expression_1(Expr) ->
+shiftable_expression_1(Expr, Det) ->
    F = fun O([]) ->
             true;
+           O({'function-call',#qname{},_,_} = F) ->
+              O(Det(F));
+           O(#annotation{name = 
+                           #qname{namespace = <<"http://xqerl.org/xquery">>,
+                                  local_name = <<"non-deterministic">>}}) ->
+              false;
+           O(#annotation{name = 
+                           #qname{namespace = <<"http://www.w3.org/2012/xquery">>,
+                                  local_name = <<"updating">>}}) ->
+              false;
            O(T) when is_tuple(T) ->
             O(tuple_to_list(T));
            O(L) when is_list(L) ->
@@ -1552,10 +1566,10 @@ delete_edges(G, V1, V2) ->
     {_,_,V3,_} = E <- [digraph:edge(G, Ed)],
     V3 == V2].
 
-expressions_equal(E1, E2) ->
-   E1 == E2.
+%% expressions_equal(E1, E2) ->
+%%    E1 == E2.
 
-print_digraph(G) -> ok.
+print_digraph(_G) -> ok.
 %%   [?dbg("D",E) ||
 %%    Edge <- digraph:edges(G),
 %%    E <- [digraph:edge(G, Edge)],

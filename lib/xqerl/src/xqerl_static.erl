@@ -1963,7 +1963,15 @@ handle_node(State, {'array', Expr}) ->
 %% 3.11.3.2 Postfix Lookup
 %% 3.12 FLWOR Expressions
 handle_node(State, #xqFlwor{} = FL) ->
-   case xqerl_flwor:optimize(FL, State#state.digraph) of
+   Det = fun({'function-call', Name, Arity, _}) ->
+               case catch get_static_function(State, {Name, Arity}) of
+                  #xqFunction{annotations = Annos} ->
+                     Annos;
+                  _ ->
+                     []
+               end
+         end,
+   case xqerl_flwor:optimize(FL, State#state.digraph, Det) of
       #xqFlwor{id = Id, loop = Loop, return = Return} = _FLW ->
          %?dbg("FLW",FLW),
          % fold each section into the context
