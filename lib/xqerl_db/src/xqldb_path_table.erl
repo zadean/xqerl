@@ -111,7 +111,7 @@ delete(Pid, Name) when is_pid(Pid), is_binary(Name) ->
 -spec delete_all(server(), map()) -> ok.
 
 delete_all(Pid, DB) when is_pid(Pid) ->
-   gen_server:call(Pid, {delete_all, DB}).
+   gen_server:call(Pid, {delete_all, DB}, 60000).
 
 %% Returns record for a given name if any.
 -spec lookup(server(), Name) ->
@@ -206,7 +206,8 @@ handle_call({delete, Name}, _From, #{tab  := HeapFile} = State) ->
    ok = dets:delete(HeapFile, Name),
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
-handle_call({delete_all, #{resources := Res} = DB}, _From, #{tab  := HeapFile} = State) ->
+handle_call({delete_all, #{resources := Res,
+                           index := Index} = DB}, _From, #{tab  := HeapFile} = State) ->
    Delete = fun({Name, {xml, Sp}}) ->
                   maybe_delete_doc_ref(DB, {Name, Sp}),
                   dets:delete(HeapFile, Name),
@@ -223,7 +224,8 @@ handle_call({delete_all, #{resources := Res} = DB}, _From, #{tab  := HeapFile} =
                   dets:delete(HeapFile, Name),
                   continue
             end,
-   dets:traverse(HeapFile, Delete),   
+   dets:traverse(HeapFile, Delete),
+   merge_index:compact(Index),
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call({lookup, Name}, _From, #{tab  := HeapFile} = State) ->
