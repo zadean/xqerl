@@ -39,6 +39,7 @@
 -define(HT, <<"http://expath.org/ns/http-client">>).
 -define(RD, <<"http://xqerl.org/modules/random">>).
 -define(BX, <<"http://xqerl.org/modules/client/BaseX">>).
+-define(CV, <<"http://xqerl.org/modules/csv">>).
 
 %% map returned as 
 %%    #{deterministic      => Deterministic,
@@ -47,33 +48,43 @@
 %%      higher_order       => HigherOrder,
 %%      static_properties  => StaticProperties,
 %%      dynamic_properties => DynamicProperties}.
+get_props(#qname{namespace = ?CV, local_name = <<"parse">>}, 1) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?CV, local_name = <<"parse">>}, 2) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?CV, local_name = <<"serialize">>}, 1) -> 
+   props(true, false, false, false, [], []);
+get_props(#qname{namespace = ?CV, local_name = <<"serialize">>}, 2) -> 
+   props(true, false, false, false, [], []);
+
 get_props(#qname{namespace = ?BX, local_name = <<"connect">>           }, 4) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?BX, local_name = <<"execute">>           }, 2) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?BX, local_name = <<"query">>             }, 2) -> 
-   props(true, false, false, false, [base_uri,known_namespaces], []);
+   props(false, false, false, false, [base_uri,known_namespaces], []);
 get_props(#qname{namespace = ?BX, local_name = <<"query">>             }, 3) -> 
-   props(true, false, false, false, [base_uri,known_namespaces], []);
+   props(false, false, false, false, [base_uri,known_namespaces], []);
 
 get_props(#qname{namespace = ?RD, local_name = <<"double">>            }, 0) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"integer">>           }, 0) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"integer">>           }, 1) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"seeded-double">>     }, 2) -> 
-   props(false, false, false, false, [], []);
+   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"seeded-integer">>    }, 2) -> 
-   props(false, false, false, false, [], []);
+   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"seeded-integer">>    }, 3) -> 
-   props(false, false, false, false, [], []);
+   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"gaussian">>          }, 1) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"seeded-permutation">>}, 2) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?RD, local_name = <<"uuid">>              }, 0) -> 
-   props(true, false, false, false, [], []);
+   props(false, false, false, false, [], []);
+
 get_props(#qname{namespace = ?XS,local_name = <<"QName">>}, 2) -> 
   props(false, false, false, false, [known_namespaces], []);
 get_props(#qname{namespace = ?AR,local_name = <<"append">>}, 2) -> 
