@@ -29,6 +29,8 @@
 
 -define(NS,<<"http://xqerl.org/modules/client/BaseX">>).
 -define(PX,<<"basex">>).
+-define(XL,<<"http://xqerl.org/xquery">>).
+-define(ND,<<"non-deterministic">>).
 
 -define(uri(V), #xqAtomicValue{type = 'xs:anyURI', value = V}).
 -define(b2l(B), unicode:characters_to_list(B)).
@@ -46,21 +48,25 @@
 -variables([]).
 -functions([
  {{qname,?NS, ?PX, <<"connect">>}, 
-  {xqSeqType, 'xs:anyURI', one}, [], {'connect', 5}, 4, 
+  {xqSeqType, 'xs:anyURI', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {'connect', 5}, 4, 
   [{xqSeqType, 'xs:string', one},
    {xqSeqType, 'xs:integer', one},
    {xqSeqType, 'xs:string', one},
    {xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"execute">>}, 
-  {xqSeqType, 'xs:string', one}, [], {'execute', 3}, 2, 
+  {xqSeqType, 'xs:string', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {'execute', 3}, 2, 
   [{xqSeqType, 'xs:anyURI', one},
    {xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"query">>}, 
-  {xqSeqType, 'item', zero_or_many}, [], {'query', 3}, 2, 
+  {xqSeqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {'query', 3}, 2, 
   [{xqSeqType, 'xs:anyURI', one},
    {xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"query">>}, 
-  {xqSeqType, 'item', zero_or_many}, [], {'query', 4}, 3, 
+  {xqSeqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {'query', 4}, 3, 
   [{xqSeqType, 'xs:anyURI', one},
    {xqSeqType, 'xs:string', one},
    {xqSeqType, {xqFunTest,map,[],undefined,any,any}, zero_or_one}]}]).

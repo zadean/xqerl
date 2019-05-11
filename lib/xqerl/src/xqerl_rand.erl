@@ -9,18 +9,21 @@
 
 -define(NS,<<"http://xqerl.org/modules/random">>).
 -define(PX,<<"random">>).
+-define(XL,<<"http://xqerl.org/xquery">>).
+-define(ND,<<"non-deterministic">>).
+-define(NDA,{annotation,{qname, ?XL, <<>>, ?ND},[]}).
 
 -functions([
 {{qname, ?NS, ?PX, <<"double">>}, 
- {xqSeqType, 'xs:double', one}, [], 
+ {xqSeqType, 'xs:double', one}, [?NDA], 
  {'double', 1}, 0, 
  []},
 {{qname, ?NS, ?PX, <<"integer">>},
- {xqSeqType, 'xs:integer',one},[], 
+ {xqSeqType, 'xs:integer',one},[?NDA], 
  {'integer', 1}, 0,
  []},
 {{qname, ?NS, ?PX, <<"integer">>},
- {xqSeqType, 'xs:integer',one},[], 
+ {xqSeqType, 'xs:integer',one},[?NDA], 
  {'integer', 2}, 1,
  [{xqSeqType, 'xs:integer',one}]},
 {{qname, ?NS, ?PX, <<"seeded-double">>},
@@ -40,16 +43,16 @@
   {xqSeqType, 'xs:integer',one},
   {xqSeqType, 'xs:integer',one}]},
 {{qname, ?NS, ?PX, <<"gaussian">>},
- {xqSeqType, 'xs:double',zero_or_many},[], 
+ {xqSeqType, 'xs:double',zero_or_many},[?NDA], 
  {'gaussian', 2}, 1,
  [{xqSeqType, 'xs:integer',one}]},
 {{qname, ?NS, ?PX, <<"seeded-permutation">>},
- {xqSeqType, item, zero_or_many},[], 
+ {xqSeqType, item, zero_or_many},[?NDA], 
  {'seeded_permutation', 3}, 2,
  [{xqSeqType, 'xs:integer',one},
   {xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX, <<"uuid">>},
- {xqSeqType, 'xs:string',one},[], 
+ {xqSeqType, 'xs:string',one},[?NDA], 
  {'uuid', 1}, 0,
  []}]).
 
