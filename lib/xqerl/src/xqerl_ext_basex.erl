@@ -93,7 +93,7 @@ connect(Ctx, Host, Port, User, Pass)
       {ok, Pid} ->
          Uri = new_connection_uri(),
          true = add_connection_pid(Ctx, Uri, Pid),
-         Uri;
+         ?uri(Uri);
       {error, _} ->
          throw_error(connect)
    end;
@@ -319,6 +319,6 @@ add_connection_pid(#{tab := Tab}, Uri, Pid) ->
    end.
 
 new_connection_uri() ->
-   _ = uuid:new(self()),
+   quickrand:seed(),
    UUID = uuid:uuid_to_string(uuid:get_v4_urandom(), binary_standard),
    <<"http://xqerl.org/modules/client/BaseX/", UUID/binary>>.
