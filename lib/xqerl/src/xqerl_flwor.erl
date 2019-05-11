@@ -1300,9 +1300,14 @@ maybe_lift_simple_return(#xqFlwor{} = FL, _) ->
 maybe_lift_lets_in_return(
   #xqFlwor{loop = Clauses,
            return = #xqFlwor{loop = [{'let',_,_} = L|T]} = F2} = FL, G) ->
-   Loop = Clauses ++ [L],
-   {true, optimize(FL#xqFlwor{loop = Loop,
-                              return = F2#xqFlwor{loop = T}},G) };
+   case [ok || {group_by,_,_} <- T] == [] of
+      true ->
+         Loop = Clauses ++ [L],
+         {true, optimize(FL#xqFlwor{loop = Loop,
+                                    return = F2#xqFlwor{loop = T}},G) };
+      false ->
+         {false,FL}
+   end;
 maybe_lift_lets_in_return(FL, _) ->
    {false,FL}.
 
