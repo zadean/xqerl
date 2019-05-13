@@ -3145,6 +3145,9 @@ compare_convert_seq([[]|T], Acc, SeqType) ->
    compare_convert_seq(T, Acc, SeqType);
 compare_convert_seq([#array{data = L}|T], Acc, SeqType) ->
    compare_convert_seq(L ++ T, Acc, SeqType);
+compare_convert_seq([#{nk := _,
+                       tv := Tv}|T], Acc, SeqType) ->
+   compare_convert_seq([Tv|T], Acc, SeqType);
 compare_convert_seq([#{nk := _} = H|T], Acc, SeqType) ->
    H1 = xqerl_seq3:singleton_value(xqerl_types:atomize(H)),
    compare_convert_seq([H1|T], Acc, SeqType);
