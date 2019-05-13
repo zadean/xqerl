@@ -294,13 +294,15 @@ endpoint_sort(Paths) ->
                      output_media_types = OMeds} 
      <- Sorted,
      Mthd <- Mthds],
-   % now merge any identical paths
+   % now merge/override any identical paths
    FoldR = fun({P,M,S} = Rec, Acc) ->
                  case lists:keyfind(P, 1, Acc) of
                     false ->
                        [Rec|Acc];
                     {_,M,S1} ->
-                       lists:keyreplace(P, 1, Acc, {P,M,merge_media_types(S,S1)})
+                       lists:keyreplace(P, 1, Acc, {P,M,merge_media_types(S,S1)});
+                    {_,M1,S1} ->
+                       lists:keyreplace(P, 1, Acc, {P,M1,S1})
                  end
            end,
    lists:foldr(FoldR, [], PreGroup).
