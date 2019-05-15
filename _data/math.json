@@ -1,0 +1,222 @@
+{
+  "ns": "http://www.w3.org/2005/xpath-functions/math",
+  "px": "math",
+  "desc": "<p>The functions in this section perform trigonometric and other mathematical calculations on xs:double values. They are provided primarily for use in applications performing geometrical computation, for example when generating SVG graphics.</p>
+           <p>Functions are provided to support the six most commonly used trigonometric calculations: sine, cosine and tangent, and their inverses arc sine, arc cosine, and arc tangent. Other functions such as secant, cosecant, and cotangent are not provided because they are easily computed in terms of these six.</p>",
+  "fx": [
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "acos",
+      "desc": "<p>Returns the arc cosine of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "asin",
+      "desc": "<p>Returns the arc sine of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "atan",
+      "desc": "<p>Returns the arc tangent of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "y",
+              "type": "xs:double"
+            },
+            {
+              "name": "x",
+              "type": "xs:double"
+            }
+          ],
+          "type": "xs:double"
+        }
+      ],
+      "name": "atan2",
+      "desc": "<p>Returns the angle in radians subtended at the origin by the point on a plane with coordinates (x, y) and the positive x-axis.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "cos",
+      "desc": "<p>Returns the cosine of the argument. The argument is an angle in radians.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "exp",
+      "desc": "<p>Returns the value of <var>e</var><sup><var>x</var></sup>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "exp10",
+      "desc": "<p>Returns the value of <code>10</code><sup><var>x</var></sup>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "log",
+      "desc": "<p>Returns the natural logarithm of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "log10",
+      "desc": "<p>Returns the base-ten logarithm of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+          ],
+          "type": "xs:double"
+        }
+      ],
+      "name": "pi",
+      "desc": "<p>Returns an approximation to the mathematical constant <span style=\"font-family:Times; font-style:italic\">&#960;</span>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "x",
+              "type": "xs:double?"
+            },
+            {
+              "name": "y",
+              "type": "xs:numeric"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "pow",
+      "desc": "<p>Returns the result of raising the first argument to the power of the second.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "sin",
+      "desc": "<p>Returns the sine of the argument. The argument is an angle in radians.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arg",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "sqrt",
+      "desc": "<p>Returns the non-negative square root of the argument.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "",
+              "type": "xs:double?"
+            }
+          ],
+          "type": "xs:double?"
+        }
+      ],
+      "name": "tan",
+      "desc": "<p>Returns the tangent of the argument. The argument is an angle in radians.</p>"
+    }
+  ]
+}

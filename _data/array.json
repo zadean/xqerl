@@ -1,0 +1,389 @@
+{
+  "ns": "http://www.w3.org/2005/xpath-functions/array",
+  "px": "array",
+  "desc": "<p>An array is an additional kind of item. An array of size N is a mapping from the integers (1 to N) to a set of values, called the members of the array, each of which is an arbitrary sequence. Because an array is an item, and therefore a sequence, arrays can be nested.</p>
+           <p>The functions defined in this section use a conventional namespace prefix array, which is assumed to be bound to the namespace URI http://www.w3.org/2005/xpath-functions/array.</p>",
+  "fx": [
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "appendage",
+              "type": "item()*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "append",
+      "desc": "<p>Returns an array containing all the members of a supplied array, plus one additional\r\n                           member at the end.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "function",
+              "type": "function(item()*) as xs:boolean"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "filter",
+      "desc": "<p>Returns an array containing those members of the<code>$array</code>for which<code>$function</code>returns true.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "input",
+              "type": "item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "flatten",
+      "desc": "<p>Replaces any array appearing in a supplied sequence with the members of the array,\r\n                           recursively.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "zero",
+              "type": "item()*"
+            },
+            {
+              "name": "function",
+              "type": "function(item()*, item()*) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "fold-left",
+      "desc": "<p>Evaluates the supplied function cumulatively on successive members of the supplied\r\n                           array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "zero",
+              "type": "item()*"
+            },
+            {
+              "name": "function",
+              "type": "function(item()*, item()*) as item()*"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "fold-right",
+      "desc": "<p>Evaluates the supplied function cumulatively on successive values of the supplied\r\n                           array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "action",
+              "type": "function(item()*) as item()*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "for-each",
+      "desc": "<p>Returns an array whose size is the same as<code>array:size($array)</code>, in which\r\n                           each member is computed by applying<code>$function</code>to the corresponding member of<code>$array</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array1",
+              "type": "array(*)"
+            },
+            {
+              "name": "array2",
+              "type": "array(*)"
+            },
+            {
+              "name": "function",
+              "type": "function(item()*, item()*) as item()*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "for-each-pair",
+      "desc": "<p>Returns an array obtained by evaluating the supplied function once for each pair of\r\n                           members at the same position in\r\n                           the two supplied arrays.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "position",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "get",
+      "desc": "<p>Returns the value at the specified position in the supplied array (counting from 1).</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "item()*"
+        }
+      ],
+      "name": "head",
+      "desc": "<p>Returns the first member of an array, that is<code>$array(1)</code>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "position",
+              "type": "xs:integer"
+            },
+            {
+              "name": "member",
+              "type": "item()*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "insert-before",
+      "desc": "<p>Returns an array containing all the members of the supplied array, with one additional\r\n                           member at a specified position.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "arrays",
+              "type": "array(*)*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "join",
+      "desc": "<p>Concatenates the contents of several arrays into a single array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "position",
+              "type": "xs:integer"
+            },
+            {
+              "name": "member",
+              "type": "item()*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "put",
+      "desc": "<p>Returns an array containing all the members of a supplied array, except for one member\r\n                           which is replaced with a new value.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "positions",
+              "type": "xs:integer*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "remove",
+      "desc": "<p>Returns an array containing all the members of the supplied array, except for the<span>members at specified positions</span>.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "reverse",
+      "desc": "<p>Returns an array containing all the members of a supplied array, but in reverse order.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "xs:integer"
+        }
+      ],
+      "name": "size",
+      "desc": "<p>Returns the number of members in the supplied array.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "array(*)"
+        },
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string?"
+            }
+          ],
+          "type": "array(*)"
+        },
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "collation",
+              "type": "xs:string?"
+            },
+            {
+              "name": "key",
+              "type": "function(item()*) as xs:anyAtomicType*"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "sort",
+      "desc": "<p>Returns an array containing all the members of the supplied array, sorted\r\n                           according to the value of a sort key supplied as a function.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "start",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "array(*)"
+        },
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            },
+            {
+              "name": "start",
+              "type": "xs:integer"
+            },
+            {
+              "name": "length",
+              "type": "xs:integer"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "subarray",
+      "desc": "<p>Returns an array containing all members from a supplied array starting at a supplied\r\n                           position, up to a specified length.</p>"
+    },
+    {
+      "sigs": [
+        {
+          "params": [
+            {
+              "name": "array",
+              "type": "array(*)"
+            }
+          ],
+          "type": "array(*)"
+        }
+      ],
+      "name": "tail",
+      "desc": "<p>Returns an array containing all members except the first from a supplied array.</p>"
+    }
+  ]
+}

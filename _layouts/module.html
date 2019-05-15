@@ -9,37 +9,56 @@ layout: default
   </head>
   <body>
     {% include navigation.html %}
-    <h1>{{site.data.[page.name].ns}}</h1>
-    <p>This module is statically bound to the prefix "{{site.data.[page.name].px}}".</p>
-    <div id="description">{{site.data.[page.name].desc}}</div>
-
+    <h1>{{ site.data[page.name].ns }}</h1>
+    <p>This module is statically bound to the prefix "{{site.data[page.name].px}}".</p>
+    <dl>
+      <dt>Description</dt><dd>{{site.data[page.name].desc}}</dd>
+      <dt>Functions</dt>
+      <dd>
+       <div id="toc">
+         <ul>
+         {% for f in site.data[page.name].fx %}
+            <li><a href="#{{- f.name -}}">{{- f.name -}}</a></li>
+         {% endfor %}
+         </ul>
+       </div>
+      </dd>
+    </dl>
+    
     <div id="funcs">
-      {% for f in site.data.[page.name].fx %}
+      {% for f in site.data[page.name].fx %}
       <br>
         <div id="{{- f.name -}}">
-        {% capture fname  %}{{site.data.[page.name].px}}:{{- f.name -}}{% endcapture %}
+        {% capture fname  %}{{site.data[page.name].px}}:{{- f.name -}}{% endcapture %}
           <h3>{{- fname -}}</h3>
           <hr>
-          <h4>Signature:</h4>
-          {%- for s in f.sigs -%}
-             {% capture alist %}
-                {%- for p in s.params -%}
-                   {%- if forloop.first == true -%}
-                      ${{- p.name }} as {{ p.type }}
-                   {%- else -%}
-                      , ${{- p.name }} as {{ p.type }}
-                   {%- endif -%}
-                {% endfor %}
-             {% endcapture%}
-             {%- if forloop.first == true -%}
-                {{ fname -}}({{- alist -}}) as {{ s.type }}
-             {%- else -%}
-                <br/>{{ fname -}}({{- alist -}}) as {{ s.type }}
-             {%- endif -%}
-          {% endfor %}
-          <h4>Description:</h4>
-          {{ f.desc }}
+          <dl>
+            <dt>Signature</dt>
+            <dd>
+             {%- for s in f.sigs -%}
+                {%- capture alist -%}
+                   {%- for p in s.params -%}
+                      {%- if forloop.first == true -%}
+                         ${{- p.name }} as {{ p.type }}
+                      {%- else -%}
+                         , ${{- p.name }} as {{ p.type }}
+                      {%- endif -%}
+                   {% endfor %}
+                {%- endcapture -%}
+                <code>
+                {%- if forloop.first == true -%}
+                   {{ fname -}}({{- alist -}}) as {{ s.type }}
+                {%- else -%}
+                   <br/>{{ fname -}}({{- alist -}}) as {{ s.type }}
+                {%- endif -%}
+                </code>
+             {% endfor %}
+            </dd>
+            <dt>Description</dt>
+            <dd>{{ f.desc }}</dd>
+          </dl>
         </div>
+        <a href="#toc">back to top</a>
         <br/>
       {% endfor %}
     </div>

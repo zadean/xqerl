@@ -1,0 +1,13 @@
+---
+layout: default
+title: Examples
+---
+{% include navigation.html %}
+<h1>Examples</h1>
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url | prepend:site.baseurl}}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

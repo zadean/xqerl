@@ -3,3 +3,6 @@ baseurl: /xqerl
 collections:
   modules:
     output: true
+
+google_analytics: UA-139594054-1
+

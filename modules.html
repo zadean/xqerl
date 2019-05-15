@@ -4,11 +4,11 @@ title: Modules
 ---
 {% include navigation.html %}
 <h1>Modules</h1>
-<ul>
-  {% for mod in site.modules %}
-    <li>
-      <h2>{{ mod.title }}</h2>
-      <a href="{{ mod.url | prepend:site.baseurl }}">{{ mod.name }}</a>
-    </li>
-  {% endfor %}
-</ul>
+<table>
+  {%- for mod in site.modules -%}
+    <tr>
+      <td><h4>{{ mod.title }}</h4></td>
+      <td><a href="{{ mod.url | prepend:site.baseurl }}">{{ mod.name }}</a></td>
+    </tr>
+  {%- endfor -%}
+</table>
