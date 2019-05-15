@@ -1,7 +1,0 @@
-<employee dept="Toys" mgr="true">
-    <name>Smith</name>
-    <salary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-  </employee><employee dept="Shoes" mgr="true">
-    <name>Roberts</name>
-    <salary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-  </employee>

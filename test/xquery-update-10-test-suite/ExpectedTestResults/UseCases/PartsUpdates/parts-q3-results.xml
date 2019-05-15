@@ -1,1 +1,0 @@
-<part name="car" partid="0"/><part name="skateboard" partid="10"/><part name="board" partid="11" partof="10"/><part name="wheel" partid="12" partof="10"/><part name="canoe" partid="20"/>

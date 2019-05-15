@@ -1,7 +1,0 @@
-<employee mgr="true" dept="Toys">
-    <name>Smith</name>
-    
-  </employee><employee mgr="true" dept="Toys">
-    <name>Smith</name>
-    <salary>100000</salary>
-  </employee>

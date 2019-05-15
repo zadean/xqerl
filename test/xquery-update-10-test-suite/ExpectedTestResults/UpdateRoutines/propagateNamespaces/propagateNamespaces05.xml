@@ -1,4 +1,0 @@
-<result xmlns="http://example.org">
-  <x>foo a-ns</x>
-  <y>http://example.org a-ns</y>
-</result>
