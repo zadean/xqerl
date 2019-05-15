@@ -5,3 +5,5 @@ deps
 *.plt
 .rebar
 /_build/
+/_site/
+/.sass-cache/
