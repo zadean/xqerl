@@ -69,7 +69,7 @@ function _:people-by-route-summary()
       $r := $id
     return
       element entry {
-        attribute route {$r => trace()},
+        attribute route {$r},
         element count {sum($cnt)},
         element age { sum($age) div sum($cnt) }
       }
@@ -205,13 +205,27 @@ function _:people-by-route-summary-json()
 
 (: ~~~~~~~ Dummy data stuff ~~~~~~~ :)
 
+declare 
+  %updating
+  %rest:GET
+  %rest:path('/insert')
+function _:insert-random-stuff()
+{
+  (
+    for $r in ('a','b','c','d','e')
+      , $j in 1 to 100
+    let $doc := _:random-document($r)
+    return
+      fn:put($doc,'http://xqerl.org/lists/' || $doc/*/@id)
+  )
+};
 
-declare function _:random-document($r, $u)
+declare function _:random-document($r)
 {
   document {
     element list {
       attribute route { $r },
-      attribute id { $u },
+      attribute id { random:uuid() },
       (1 to (random:integer(40) + 10) ) ! _:random-person()
     }
   }
@@ -250,20 +264,4 @@ declare function _:random-person()
     },
     element age { $a }
   }
-};
-
-declare 
-  %updating
-  %rest:GET
-  %rest:path('/insert')
-function _:insert-random-stuff()
-{
-  (
-    for $r in ('a','b','c','d','e')
-      , $j in 1 to 100
-    let $u := random:uuid()
-    let $doc := _:random-document($r, $u)
-    return
-      fn:put($doc,'http://xqerl.org/lists/' || $doc/*/@id)
-  )
 };
