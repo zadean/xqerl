@@ -1,9 +1,6 @@
 module namespace _ = 'http://xqerl.org/xquery/examples/client/basex';
 
-import module namespace u = 'http://xqerl.org/xquery/examples/rest/util' 
- at 'C:\Users\Zack\Dropbox\gh-pages\xqerl\assets\rest\util.xq';
-
-(: declare namespace basex = 'http://basex.org/modules/client'; :)
+import module namespace u = 'http://xqerl.org/xquery/examples/rest/util';
 
 declare %private function _:html-head()
 {
@@ -63,7 +60,7 @@ declare function _:people-by-route-summary($conn)
 {
   let $qry := 
   "<summary>{
-    for $doc in fn:collection('LISTS/')[./list]
+    for $doc in fn:collection('LISTS/')
     let $id  := $doc/list/@route
       , $cnt := count($doc/list/person)
       , $age := sum($doc/list/person/age)
@@ -191,7 +188,7 @@ declare function _:insert-nodes($conn, $inserts)
   basex:execute($conn, 'close')
 };
 
-(: Wrap an insert into a fun to run later :)
+(: Wrap an insert into a fun to run later (lazy) :)
 declare function _:insert-fun($conn, $node)
 {
   let $id := $node/*/@id
@@ -209,6 +206,8 @@ function _:insert-random-stuff()
 {
   let $conn := _:new-connection()
   let $init := _:init($conn)
+  (: let the lib function make the lazy funs :)
+  (: partially evaluate the fun to close the connection into it :)
   let $inserts := u:do-random-stuff(_:insert-fun($conn, ?))
   return
     _:insert-nodes($conn, $inserts)

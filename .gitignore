@@ -7,3 +7,4 @@ deps
 /_build/
 /_site/
 /.sass-cache/
+.project

@@ -71,7 +71,7 @@ declare function _:insert-nodes($conn, $inserts)
   basex:execute($conn, 'close')
 };
 
-(: Wrap an insert into a fun to run later :)
+(: Wrap an insert into a fun to run later (lazy) :)
 declare function _:insert-fun($conn, $node)
 {
   let $id := $node/*/@id
@@ -89,6 +89,8 @@ function _:insert-random-stuff()
 {
   let $conn := _:new-connection()
   let $init := _:init($conn)
+  (: let the lib function make the lazy funs :)
+  (: partially evaluate the fun to close the connection into it :)
   let $inserts := u:do-random-stuff(_:insert-fun($conn, ?))
   return
     _:insert-nodes($conn, $inserts)
@@ -99,42 +101,16 @@ Notice the partially implemented function? This is a **really** helpful feature 
 
 #### Offloading some work
 
-The functions that used to 
+The functions that used to access the collections in xqerl now need to be pointed at the external DB.
 
-Before making a bunch of HTML pages, we'll save some typing and make a few simple wrapper functions. 
-We could add whatever CSS stuff later if need be but for this example it is left out.
-
-```xquery
-declare %private function _:html-head()
-{
-  element head {
-    element style {
-      text {'body {font-family: Arial, Helvetica, sans-serif;}'}
-    }
-  }
-};
-
-declare %private function _:html-wrap($contents)
-{
-  element html {
-    _:html-head(),
-    element body { $contents }
-  }
-};
-```
-
-So, now on to the real stuff.
-
-First, we'll need a function that does the summarizing. We might as well create a REST endpoint for that function since we may not always need HTML.
+The easiest way to do that is to just make the original function body into a string. Both xqerl and BaseX speak the same language, so that's a breeze! We'll also need the connection to use as a parameter.
 
 ```xquery
-declare 
-  %rest:GET
-  %rest:path('/route/summary')
-function _:people-by-route-summary()
+declare function _:people-by-route-summary($conn)
 {
-  <summary>{
-    for $doc in fn:collection('http://xqerl.org/lists')
+  let $qry := 
+  "<summary>{
+    for $doc in fn:collection('LISTS/')
     let $id  := $doc/list/@route
       , $cnt := count($doc/list/person)
       , $age := sum($doc/list/person/age)
@@ -148,79 +124,27 @@ function _:people-by-route-summary()
         element count {sum($cnt)},
         element age { sum($age) div sum($cnt) }
       }
-  }</summary>
-};
-```
-
-Now a function to build the table and another as the REST endoint that wraps the table with our html function. 
-
-Notice the "href" in the anchor tag. That will be the endpoint we need next.
-
-```xquery
-declare 
-  %rest:GET
-  %rest:path('/')
-  %output:method('html')
-  %rest:produces('text/html')
-function _:landing()
-{
-  _:people-by-route-summary-table() => _:html-wrap()
-};
-
-declare %private function _:people-by-route-summary-table()
-{
-  let $sum := _:people-by-route-summary()
+  }</summary>"
   return
-  <table>
-    <tr>
-      <th>Route</th>
-      <th>Count</th> 
-      <th>Age</th>
-    </tr>
-    {
-      for $ent in $sum/entry
-      let $r := $ent/@route => string()
-      return
-      <tr>
-        <td><a href='/route/detail?id={$r}'>{ $r }</a></td>
-        <td>{ $ent/count => xs:integer() }</td>
-        <td>{ $ent/age => xs:double() }</td>
-      </tr>
-    }
-  </table>
+    basex:query($conn, $qry)
 };
 ```
 
-#### The Route Detail, or was that a Summarized List?
-
-When the user clicks the link from the last page they want to see each "list" summarized with the count of people and their average age.
-
-This can be accomplished almost exactly as with the last function.
-
-Notice here the use of a query parameter in the URL for the "route" ID and also the "href" for the next step, the details.
+Now here we'll also need to inject the <code>$id</code> parameter into the string.
 
 ```xquery
-declare 
-  %rest:GET
-  %rest:path('/route/detail')
-  %rest:query-param("id", "{$id}")
-  %output:method('html')
-  %rest:produces('text/html')
-function _:people-by-route-id($id)
-{
-  _:people-by-route-table($id) => _:html-wrap()
-};  
 
-declare function _:people-by-route-table($id)
+declare function _:people-by-route-table($conn, $id)
 {
-  <table>
+  let $qry := 
+  "<table>
     <tr>
       <th>Id</th>
       <th>Count</th> 
       <th>Age</th>
     </tr>
     {
-      for $doc in fn:collection('http://xqerl.org/lists')[./list/@route eq $id]
+      for $doc in fn:collection('LISTS')[./list/@route eq '"||$id||"']
       let $h := $doc/list/@id => string()
       return
         <tr>
@@ -229,36 +153,26 @@ declare function _:people-by-route-table($id)
           <td>{ avg($doc/list/person/age) }</td>
         </tr>
     }
-  </table>
+  </table>"
+  return
+     basex:query($conn, $qry)
 };
 ```
 
-#### Details, details, details
-
-Here, we're pretty much just transforming the original XML file to an HTML table:
+... just like here ...
 
 ```xquery
-declare 
-  %rest:GET
-  %rest:path('/list/detail')
-  %rest:query-param("id", "{$id}")
-  %output:method('html')
-  %rest:produces('text/html')
-function _:people-by-list($id)
+declare function _:people-by-list-table($conn, $id)
 {
-  _:people-by-list-table($id) => _:html-wrap()
-};  
-
-declare function _:people-by-list-table($id)
-{
-  <table>
+  let $qry := 
+  "<table>
     <tr>
       <th>Last Name</th>
       <th>First Name</th> 
       <th>Age</th>
     </tr>
     {
-      let $doc := fn:doc('http://xqerl.org/lists/' || $id)
+      let $doc := fn:doc('LISTS/' || '" || $id || "' )
       for $p in $doc/list/person
       order by 
         $p/name/last, 
@@ -270,13 +184,59 @@ declare function _:people-by-list-table($id)
           <td>{ $p/age/text() }</td>
         </tr>
     }
-  </table>
+  </table>"
+  return
+    basex:query($conn, $qry)
 };
+```
+
+And as a last step, we'll need to change the calling functions to make the client connection and pass it on:
+
+```xquery
+declare 
+  %rest:GET
+  %rest:path('/')
+  %output:method('html')
+  %rest:produces('text/html')
+function _:landing()
+{
+  let $conn := _:new-connection()
+  return
+    _:people-by-route-summary-table($conn) => _:html-wrap()
+};
+...
+declare 
+  %rest:GET
+  %rest:path('/route/detail')
+  %rest:query-param("id", "{$id}")
+  %output:method('html')
+  %rest:produces('text/html')
+function _:people-by-route-id($id)
+{
+  let $conn := _:new-connection()
+  return
+    _:people-by-route-table($conn, $id) => _:html-wrap()
+};  
+...
+declare 
+  %rest:GET
+  %rest:path('/list/detail')
+  %rest:query-param("id", "{$id}")
+  %output:method('html')
+  %rest:produces('text/html')
+function _:people-by-list($id)
+{
+  let $conn := _:new-connection()
+  return
+    _:people-by-list-table($conn, $id) => _:html-wrap()
+};  
 ```
 
 ### XQuery
 
-The XQuery for this example is in one file [here](/xqerl/assets/rest/rest.xq).
+The XQuery for this example for is in two files.
+* The "util" module [here](/xqerl/assets/rest/util.xq)
+* The changed front-facing module [here](/xqerl/assets/clients/basex.xq)
 
 ### Deploying
 
@@ -284,15 +244,17 @@ Assuming:
 
 * the XQuery module is in the directory /tmp/data/xqerl/
 * xqerl is running
+* BaseX is running as a server locally using the default user settings
 * you have an Erlang shell open on the node where xqerl is running
 * port 8081 was open when xqerl was started, or a different port was specified in ./xqerl/config/xqerl.config
 
-1. Compile the XQuery
-   * `xqerl:compile("/tmp/data/xqerl/rest.xq").`
-1. Actually, that was it... you are already up and running. 
-1. But, we need some data, so call up http://localhost:8081/insert
+
+1. Compile the XQueries
+   * `xqerl:compile("/tmp/data/xqerl/util.xq").`
+   * `xqerl:compile("/tmp/data/xqerl/basex.xq").`
+1. Load the data, so call up http://localhost:8081/insert
    * This may take a moment, 500 documents are being inserted.
 1. Go to http://localhost:8081/ in a browser
    * You should see the summary table and be able to click through it
 
-Mission accomplished :-)
+You're now using an external XML database as the source for a xqerl front-end! :-)
