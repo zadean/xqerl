@@ -340,11 +340,11 @@ insert_resource(DocUri, Bin) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    {Agent, _} = locks:begin_transaction(),
    _ = locks:lock(Agent, [DbUri,Name]),
-   #{resources := Resources} = DB = xqldb_db:database(DbUri),
+   DB = xqldb_db:database(DbUri),
    case xqldb_path_table:lookup(DB, Name) of
       [] -> 
          Stamp = erlang:system_time(),
-         PosSize = xqldb_resource_table:insert(Resources, Bin),
+         PosSize = xqldb_resource_table:insert(DB, Bin),
          xqldb_path_table:insert(DB, {Name, res, Stamp, PosSize}),
          locks:end_transaction(Agent);
       _ ->
