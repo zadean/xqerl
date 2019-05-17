@@ -22,6 +22,10 @@ It is passing 99.85% of 29,587 test cases it runs (43 failures).
 1,778 other cases that test optional features not implemented in xqerl are skipped. 
 The test cases run are all taken from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
 
+### Modules
+
+The modules available to XQuery code in xqerl are documented in the [xqerl documentation](https://zadean.github.io/xqerl/modules.html)
+
 ### Features it has:
 * Module Feature
 * Serialization Feature
