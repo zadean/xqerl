@@ -60,7 +60,7 @@ sweep(Server) ->
    ok.
 
 % try to get the ets table id for this doc/query, return undefined if not there.
-get(Server, DocId, InPathId, Steps) ->
+get(#{queries := Server}, DocId, InPathId, Steps) ->
    Key = {?MODULE, ?FUNCTION_NAME, Server, DocId, InPathId, Steps},
    case erlang:get(Key) of
       undefined ->
@@ -72,10 +72,11 @@ get(Server, DocId, InPathId, Steps) ->
          V
    end.
 
-put(Server, DocId, InPathId, Steps, Results) ->
+put(#{queries := Server}, DocId, InPathId, Steps, Results) ->
+   true = ets:give_away(Results, Server, ok),
    gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
 
-delete(Server, DocId) ->
+delete(#{queries := Server}, DocId) ->
    gen_server:cast(Server, {delete, DocId}).
 
 %% ====================================================================

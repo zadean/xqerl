@@ -33,7 +33,7 @@
          string_to_json_bin/1]).
 
 build_object(DB, Min, Size) ->
-   Bin = xqldb_json_table:get(?JSON_TABLE_P(DB), {Min, Size}),
+   Bin = xqldb_json_table:get(DB, {Min, Size}),
    {Obj,_} = to_obj(Bin),
    Obj.
 

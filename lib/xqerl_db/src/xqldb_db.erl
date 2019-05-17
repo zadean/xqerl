@@ -132,7 +132,6 @@ init([DBDirectory, Uri]) ->
              end,
    Strct = child_map(structure, xqldb_structure_index, [NewOpen, DBDirectory, ?STRUCT]), 
    Names = child_map(names,      xqldb_name_table, [NewOpen, DBDirectory, ?NAME]), 
-   NmSps = child_map(namespaces, xqldb_name_table, [NewOpen, DBDirectory, ?NMSP]),
    Texts = child_map(texts, xqldb_string_table2, [NewOpen, DBDirectory, ?TEXT]), 
    Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH, Uri]),
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
@@ -141,7 +140,7 @@ init([DBDirectory, Uri]) ->
    Qry   = child_map(queries, xqldb_query_server, []),
    
    {ok, {SupFlags, 
-         [Strct, Names, NmSps, Texts, Paths, JSON, Ress, Index, Qry]}}.
+         [Strct, Names, Texts, Paths, JSON, Ress, Index, Qry]}}.
 
 %% ====================================================================
 %% Internal functions
@@ -167,9 +166,6 @@ db_ref(SupRef, Uri, Id) ->
                             db_uri => Uri}).
 
 get_pid_tids([], Map) -> Map;
-get_pid_tids([{Id,Pid,_,[Mod]}|T], Map) when Id == names;
-                                             Id == namespaces ->
-   get_pid_tids(T, Map#{Id => {Pid, Mod:tid(Pid)}});
 get_pid_tids([{Id,Pid,_,_}|T], Map) ->
    get_pid_tids(T, Map#{Id => Pid}).
 

@@ -889,15 +889,10 @@ get_db(DbPid) ->
    DbKey = {'$_db', DbPid},
    case xqerl_lib:lget(DbKey) of
       undefined ->
-         #{names     := NamesPid,
-           namespaces:= NmspPid,
-           paths     := PathPid 
-          } = DB1 = xqldb_db:database(DbPid),
-         Names = xqldb_name_table:id_map(NamesPid),
-         Nmsps = xqldb_name_table:id_map(NmspPid),
+         DB1 = xqldb_db:database(DbPid),
+         Names = xqldb_name_table:id_map(DB1),
          New = DB1#{names     := Names,
-                    namespaces:= Nmsps,
-                    uri       => xqldb_path_table:uri(PathPid)},
+                    uri       => xqldb_path_table:uri(DB1)},
          xqerl_lib:lput(DbKey, New);
       EDb ->
          EDb

@@ -250,29 +250,26 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    % caching this stuff in the query is okay, because only the stuff
    % that existed at the beginning of the query can exist in the query
    DB = xqerl_context:get_db(DbPid),
-   #{structure := StructPid,
-     queries   := QServer,
-     index     := IndxPid,
-     names     := NameMap,
-     namespaces:= NmspMap} = DB,
+   #{index     := IndxPid,
+     names     := NameMap} = DB,
 %%    ResKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps, DocId, InPathId},
    ResultSet = 
-      case xqldb_query_server:get(QServer, DocId, InPathId, Steps) of
+      case xqldb_query_server:get(DB, DocId, InPathId, Steps) of
          undefined ->
             %io:format("~p~n",[Steps]),
             LookupKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps},
             PathLookup = 
                case xqerl_lib:lget(LookupKey) of
                   undefined ->
-                     Steps1 = normalize_step_names(Steps, NameMap, NmspMap),
-                     Lookup = xqldb_structure_index:compile_path(StructPid, Steps1),
+                     Steps1 = normalize_step_names(Steps, NameMap),
+                     Lookup = xqldb_structure_index:compile_path(DB, Steps1),
                      xqerl_lib:lput(LookupKey, Lookup);
                   F ->
                      F
                end,
            Iters = 
              [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
-                OutPathId <- PathLookup(InPathId)],
+                OutPathId <- PathLookup(InPathId)], %% TODO remove this
            IterUnion = xqldb_join:union(Iters),
            Results = case lists:last(Steps) of
                         atomize ->
@@ -282,8 +279,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
                         _ ->
                            xqldb_nodes:iterator_to_node_set(IterUnion, DB)
                      end,
-            true = ets:give_away(Results, QServer, ok),
-            xqldb_query_server:put(QServer, DocId, InPathId, Steps, Results),
+            xqldb_query_server:put(DB, DocId, InPathId, Steps, Results),
             Results;
          Results ->
             Results
@@ -301,24 +297,24 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
      end,
    lists:flatmap(EachNode, Nodes).
    
-normalize_step_names([atomize|T], NameMap, NmspMap) ->
-   normalize_step_names(T, NameMap, NmspMap);
-normalize_step_names([double|T], NameMap, NmspMap) ->
-   normalize_step_names(T, NameMap, NmspMap);
-normalize_step_names([{Ax,H}|T], NameMap, NmspMap) ->
+normalize_step_names([atomize|T], NameMap) ->
+   normalize_step_names(T, NameMap);
+normalize_step_names([double|T], NameMap) ->
+   normalize_step_names(T, NameMap);
+normalize_step_names([{Ax,H}|T], NameMap) ->
    NewH = 
       case H of
          {att, A, B} ->
-            {att, lookup_name(A, NmspMap), lookup_name(B, NameMap)};
+            {att, lookup_name(A, NameMap), lookup_name(B, NameMap)};
          {pi,B} ->
             {pi, lookup_name(B, NameMap)};
          {A,B} ->
-            {lookup_name(A, NmspMap), lookup_name(B, NameMap)};
+            {lookup_name(A, NameMap), lookup_name(B, NameMap)};
          Other ->
             Other
       end,
-   [{Ax,NewH} | normalize_step_names(T, NameMap, NmspMap)];
-normalize_step_names([], _, _) ->
+   [{Ax,NewH} | normalize_step_names(T, NameMap)];
+normalize_step_names([], _) ->
    [].
 
 lookup_name('_', _) -> '_';

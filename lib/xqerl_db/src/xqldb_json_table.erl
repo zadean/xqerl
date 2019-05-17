@@ -42,7 +42,6 @@
                                  Pos::non_neg_integer()}],
                  file => file:io_device(),
                  tail => Pos::non_neg_integer()}.
--type server() :: Pid::pid().
  
 %% ====================================================================
 %% API functions
@@ -53,21 +52,21 @@ start_link(new, DBDirectory, TableName) ->
 start_link(open, DBDirectory, TableName) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
 
-stop(Pid) ->
+stop(#{json := Pid}) ->
    gen_server:stop(Pid).
 
 %% returns entire binary for a JSON object with PosSize
 %% returns Binary
-get(Pid, PosSize) ->
+get(#{json := Pid}, PosSize) ->
    gen_server:call(Pid, {get_bin, PosSize}).
 
-insert(Pid, Bin) ->
+insert(#{json := Pid}, Bin) ->
    gen_server:call(Pid, {insert, Bin}).
 
--spec delete(Server::server(), 
+-spec delete(Server::db(), 
              {Pos::non_neg_integer(), Len::non_neg_integer()}) -> ok.
 
-delete(Pid, {Pos, Len}) ->
+delete(#{json := Pid}, {Pos, Len}) ->
    gen_server:cast(Pid, {delete, {Pos, Len}}).
 
 %% ====================================================================

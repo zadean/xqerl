@@ -36,72 +36,29 @@
 -define(att_id,   1).
 -define(att_idref,2).
 
-
--record(xqldb_doc,
-        {uri,
-         bin}).
-
--record(xqldb_res,
-        {uri,
-         bin}).
-
--record(xqldb_collection,
-        {uri,
-         uris}).
-
--record(xqldb_namespace,
-        {uri,
-         id}).
-
--record(xqldb_name,
-        {name,
-         id}).
-
-% for use with mnesia:dirty_update_counter
--record(xqldb_counter,
-        {key,
-         value}).
-
-%-define(BSZ,13).
-%-define(BUSZ,104).
-
 -define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(trace(A,B),io:format("~p: ~p~n",[A,B])).
 
 -define(IS_LOCAL(Ref), erlang:node(Ref) == erlang:node()).
 
--define(TEXT, "text").
--define(TEXT_TABLE(Database), {Database, ?TEXT}).
--define(TEXT_TABLE_P(Database), maps:get(texts, Database)).
-
--define(NAME, "name").
--define(NAME_TABLE(Database), {Database, ?NAME}).
--define(NAME_TABLE_P(Database), maps:get(names, Database)).
-
--define(NMSP, "nmsp").
--define(NMSP_TABLE(Database), {Database, ?NMSP}).
--define(NMSP_TABLE_P(Database), maps:get(namespaces, Database)).
-
--define(STRUCT, "struct").
--define(STRUCT_INDEX(Database), {Database, ?STRUCT}).
--define(STRUCT_INDEX_P(Database), maps:get(structure, Database)).
-
--define(PATH, "path").
--define(PATH_TABLE(Database), {Database, ?PATH}).
--define(PATH_TABLE_P(Database), maps:get(paths, Database)).
-
--define(JSON, json).
--define(JSON_TABLE(Database), {Database, ?JSON}).
--define(JSON_TABLE_P(Database), maps:get(json, Database)).
-
+-define(TEXT,      "text").
+-define(NAME,      "name").
+-define(STRUCT,    "struct").
+-define(PATH,      "path").
+-define(JSON,      json).
 -define(RESOURCES, res).
--define(RESOURCES_TABLE(Database), {Database, ?RESOURCES}).
--define(RESOURCES_TABLE_P(Database), maps:get(resources, Database)).
-
--define(DBURI(Database), maps:get(db_uri, Database)).
--define(DBNAME(Database), maps:get(db_name, Database)).
--define(DBLOCK(Database), maps:get(db_lock, Database)).
 
 -type res_type() :: xml | json | res | item | link.
 
+-type db() :: #{texts := pid(),
+                names := pid(),
+                namespaces := pid(),
+                structure := pid(),
+                paths := pid(),
+                json := pid(),
+                resources := pid(),
+                db_uri := pid(),
+                db_name := pid(),
+                db_lock := pid(),
+                _ => _}.

@@ -44,8 +44,6 @@
                  file => file:io_device(),
                  tail => Pos::non_neg_integer()}.
 
--type server() :: Pid::pid().
- 
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -56,27 +54,27 @@ start_link(open, DBDirectory, TableName) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
 
 %% Shutdown this server. 
--spec stop(server()) -> ok | {ok,_}.
-stop(Pid) ->
+-spec stop(db()) -> ok | {ok,_}.
+stop(#{resources := Pid}) ->
    gen_server:stop(Pid).
 
 %% returns entire binary for a Resource with PosSize
 %% returns Binary
--spec get(server(), {Pos :: non_neg_integer(), Size :: non_neg_integer()}) -> 
+-spec get(db(), {Pos :: non_neg_integer(), Size :: non_neg_integer()}) -> 
          binary().
-get(Pid, PosSize) ->
+get(#{resources := Pid}, PosSize) ->
    gen_server:call(Pid, {get_bin, PosSize}).
 
 % inserts new resource as binary, returns Position and Size
--spec insert(server(), binary()) -> 
+-spec insert(db(), binary()) -> 
          {Pos :: non_neg_integer(), Size :: non_neg_integer()}.
-insert(Pid, Bin) ->
+insert(#{resources := Pid}, Bin) ->
    gen_server:call(Pid, {insert, Bin}).
 
 % Release binary at {Pos, Len}
--spec delete(server(), binary()) -> 
+-spec delete(db(), binary()) -> 
          {Pos :: non_neg_integer(), Len :: non_neg_integer()}.
-delete(Pid, PosLen) ->
+delete(#{resources := Pid}, PosLen) ->
    gen_server:cast(Pid, {delete, PosLen}).
 
 %% ====================================================================

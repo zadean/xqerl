@@ -58,8 +58,6 @@
 
 -type(state() :: #{indx_file => file:io_device()}).
 
--type(server() :: Pid::pid()).
-
 %% Open or create a new string table server.  
 -spec start_link(open | new,
                  DBDirectory::file:name_all(),
@@ -71,28 +69,28 @@ start_link(open, DBDirectory, TableName) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
 
 %% Shutdown this server. 
--spec stop(server()) -> ok | {ok, _}.
+-spec stop(db()) -> ok | {ok, _}.
 
-stop(Pid) when is_pid(Pid) ->
+stop(#{texts := Pid}) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
 %% Returns the binary value for the given ID, or error if no such ID exists.
--spec lookup(server(), Id::binary()) -> 
+-spec lookup(db(), Id::binary()) -> 
          Value::binary() | error.
 
-lookup(Pid, Id) when is_pid(Pid), byte_size(Id) =< 63 ->
+lookup(#{texts := Pid}, Id) when is_pid(Pid), byte_size(Id) =< 63 ->
    Id;
-lookup(Pid, Id) when is_pid(Pid), byte_size(Id) =:= 64 ->
+lookup(#{texts := Pid}, Id) when is_pid(Pid), byte_size(Id) =:= 64 ->
    gen_server:call(Pid, {lookup, Id});
 lookup(_, _) -> error.
 
 %% Returns the ID for a binary value in the table.
 %% If no such value exists, creates a new value in the table and returns its ID.
--spec insert(server(), Value::binary()) -> Id::binary().
+-spec insert(db(), Value::binary()) -> Id::binary().
 
-insert(Pid, Value) when is_pid(Pid), byte_size(Value) =< 63 ->
+insert(#{texts := Pid}, Value) when is_pid(Pid), byte_size(Value) =< 63 ->
    Value;
-insert(Pid, Value) when is_pid(Pid) ->
+insert(#{texts := Pid}, Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
 
 %% ====================================================================

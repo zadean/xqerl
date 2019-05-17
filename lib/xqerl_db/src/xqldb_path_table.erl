@@ -57,7 +57,7 @@
          lookup/2,
          all/1,
          delete/2,
-         delete_all/2,
+         delete_all/1,
          
 maybe_delete_doc_ref/2]).
 
@@ -65,7 +65,6 @@ maybe_delete_doc_ref/2]).
 
 -type state() :: #{tab => dets:tab_name(),
                    next => non_neg_integer()}.
--type server() :: pid().
 
 %% Open or create a new string table server.  
 -spec start_link(open | new,
@@ -79,42 +78,42 @@ start_link(open, DBDirectory, TableName, Uri) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName, Uri], []).
 
 %% Shutdown this server. 
--spec stop(server()) -> ok | {ok,_}.
+-spec stop(db()) -> ok | {ok,_}.
 
-stop(Pid) when is_pid(Pid) ->
+stop(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
 %% Insert new value
--spec uri(server()) -> binary().
+-spec uri(db()) -> binary().
 
-uri(Pid) when is_pid(Pid) ->
+uri(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, uri).
 
 %% Insert new value
--spec insert(server(), {Name :: binary(), 
-                        Type :: res_type(),
-                        {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
-                       } | {Name :: binary(), xml}) -> ok.
+-spec insert(db(), {Name :: binary(), 
+                    Type :: res_type(),
+                    {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+                   } | {Name :: binary(), xml}) -> ok.
 
-insert(Pid, {_,xml,_} = Value) when is_pid(Pid) ->
+insert(#{paths := Pid}, {_,xml,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value});
-insert(Pid, {_,_,_,_} = Value) when is_pid(Pid) ->
+insert(#{paths := Pid}, {_,_,_,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
 
 %% Delete all values with Name
--spec delete(server(), Name :: binary()) -> ok.
+-spec delete(db(), Name :: binary()) -> ok.
 
-delete(Pid, Name) when is_pid(Pid), is_binary(Name) ->
-   gen_server:call(Pid, {delete, Name}).
+delete(#{paths := Pid} = DB, Name) when is_pid(Pid), is_binary(Name) ->
+   gen_server:call(Pid, {delete, Name, DB}).
 
 %% Delete all values with Name
--spec delete_all(server(), map()) -> ok.
+-spec delete_all(db()) -> ok.
 
-delete_all(Pid, DB) when is_pid(Pid) ->
+delete_all(#{paths := Pid} = DB) ->
    gen_server:call(Pid, {delete_all, DB}, 60000).
 
 %% Returns record for a given name if any.
--spec lookup(server(), Name) ->
+-spec lookup(db(), Name) ->
          {xml,  VersionStamp :: integer()} |
          {item, VersionStamp, {Pos, Len}} |
          {link, VersionStamp, FileName} |
@@ -125,16 +124,16 @@ delete_all(Pid, DB) when is_pid(Pid) ->
          Pos :: integer(),
          Len :: integer(),
          FileName ::binary().
-lookup(Pid, Req) when is_pid(Pid) ->
+lookup(#{paths := Pid}, Req) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Req}).
 
 %% Returns all names in the table.
--spec all(server()) -> [{Name :: binary(), 
+-spec all(db()) -> [{Name :: binary(), 
                          Type :: res_type(),
                          {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
                         }].
 
-all(Pid) when is_pid(Pid) ->
+all(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, all).
 
 %% ====================================================================
@@ -202,8 +201,25 @@ handle_call(all, _From, #{tab  := HeapFile} = State) ->
    Got = dets:select(HeapFile, MatchSpec),
    {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
 
-handle_call({delete, Name}, _From, #{tab  := HeapFile} = State) ->
-   ok = dets:delete(HeapFile, Name),
+handle_call({delete, Name, #{resources := Res} = DB}, _From, 
+            #{tab  := HeapFile} = State) ->
+   case dets:lookup(HeapFile, Name) of
+      [{Name, {xml, Sp}}] ->
+         _ = spawn(fun() ->
+                         maybe_delete_doc_ref(DB, {Name, Sp})
+                   end),
+         dets:delete(HeapFile, Name);
+      [{Name, {res, _, PosLen}}] ->
+         xqldb_resource_table:delete(Res, PosLen),
+         dets:delete(HeapFile, Name);
+      [{Name, {item, _, PosLen}}] ->
+         xqldb_resource_table:delete(Res, PosLen),
+         dets:delete(HeapFile, Name);
+      [{Name,_}] ->
+         dets:delete(HeapFile, Name);
+      _ ->
+         ok
+   end,
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call({delete_all, #{resources := Res,
@@ -250,26 +266,34 @@ code_change(_, State, _) -> {ok, State}.
 %% Delete procedures.
 %% Can/Should be moved out into own area that makes sense.
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-maybe_delete_doc_ref(#{index := IndexPid, 
-                       structure := StructPid,
-                       queries := QueriesPid} = _DB, DocId) ->
-   %PathDoc = merge_index:range(IndexPid, path, doc, undefined, undefined, any, fun(D,_) ->D == DocId end),
+maybe_delete_doc_ref(#{index := IndexPid} = DB, DocId) ->
    Stamp = erlang:system_time(),
-   Vals = merge_index:range_term(IndexPid, val, DocId, undefined, undefined, both, true),
-   Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),
-   Namespaces = merge_index:range_term(IndexPid, namespace, DocId, undefined, undefined, both, true),
-   Nodes = merge_index:range_term(IndexPid, doc, DocId, undefined, undefined, both, true),
-   ok = delete_index_vals(val, DocId, Vals, IndexPid, Stamp, []),
-   ok = delete_index_vals(path, DocId, Paths, IndexPid, Stamp, []),
-   ok = delete_index_vals(namespace, DocId, Namespaces, IndexPid, Stamp, []),
-   NodeProps = collect_delete_index_vals(doc, DocId, Nodes, IndexPid, Stamp, [], []),
-   PathCounts = path_counts(NodeProps, dict:new()),
-   PathKeys = dict:fetch_keys(PathCounts),
-   _ = merge_index:index(IndexPid, [{path, doc, P, DocId, undefined, Stamp} || 
-                                    P <- PathKeys]),
-   MinusCounts = [{K, -V} || {K,V} <- dict:to_list(PathCounts)],
-   _ = xqldb_structure_index:incr_counts(StructPid, MinusCounts),
-   _ = xqldb_query_server:delete(QueriesPid, DocId),
+   io:format("~p~n", [{?LINE, erlang:system_time()}]),
+   F1 = fun() ->
+              Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),
+              ok = delete_index_vals(path, DocId, Paths, IndexPid, Stamp, []),
+              ok
+        end,
+   F2 = fun() ->
+              Namespaces = merge_index:range_term(IndexPid, namespace, DocId, undefined, undefined, both, true),
+              ok = delete_index_vals(namespace, DocId, Namespaces, IndexPid, Stamp, []),
+              ok
+        end,
+   F3 = fun() ->
+              Nodes = merge_index:range_term(IndexPid, doc, DocId, undefined, undefined, both, true),
+              NodeProps = collect_delete_index_vals(doc, DocId, Nodes, IndexPid, Stamp, [], []),
+              PathCounts = path_counts(NodeProps, dict:new()),
+              PathKeys = dict:fetch_keys(PathCounts),
+              _ = merge_index:index(IndexPid, [{path, doc, P, DocId, undefined, Stamp} ||
+                                               P <- PathKeys]),
+              MinusCounts = [{K, -V} || {K,V} <- dict:to_list(PathCounts)],
+              _ = xqldb_structure_index:incr_counts(DB, MinusCounts),
+              ok
+        end,
+   _ = spawn(F1),
+   _ = spawn(F2),
+   _ = spawn(F3),
+   _ = xqldb_query_server:delete(DB, DocId),
    ok.
 
 path_counts([N|Nodes], Acc) ->
@@ -278,6 +302,9 @@ path_counts([N|Nodes], Acc) ->
 path_counts([], Acc) ->
    Acc.
 
+delete_index_vals(I, F, List, IndexPid, Stamp, Acc) when length(Acc) > 100 ->
+   merge_index:index(IndexPid, Acc),
+   delete_index_vals(I, F, List, IndexPid, Stamp, []);
 delete_index_vals(I, F, [{T,V,_}|Rest], IndexPid, Stamp, Acc) ->
    New = {I, F, T, V, undefined, Stamp},
    delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc]);
@@ -287,6 +314,9 @@ delete_index_vals(_, _, [], IndexPid, _, Acc) ->
    merge_index:index(IndexPid, Acc),
    ok.
 
+collect_delete_index_vals(I, F, List, IndexPid, Stamp, Acc, Nodes) when length(Acc) > 100 ->
+   merge_index:index(IndexPid, Acc),
+   collect_delete_index_vals(I, F, List, IndexPid, Stamp, [], Nodes);
 collect_delete_index_vals(I, F, [{T,V,N}|Rest], IndexPid, Stamp, Acc, Nodes) ->
    New = {I, F, T, V, undefined, Stamp},
    collect_delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc], [N|Nodes]);

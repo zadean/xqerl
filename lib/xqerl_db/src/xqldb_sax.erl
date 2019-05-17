@@ -37,7 +37,7 @@
 -type state()::#{pos      => non_neg_integer(),
                  parent   => [non_neg_integer()],
                  uri      => binary(),
-                 db       => string(),
+                 db       => db(),
                  node_stk => list(#{}),
                  chld_stk => list(#{}),
                  nsp_on   => list({_,_}),
@@ -57,10 +57,9 @@ parse_file(DB,File) ->
 
 parse_file(DB,File,Uri,Stamp) ->
    State0 = default_state(DB,Uri,Stamp),
-   Index = maps:get(index, DB),
    Timestamp = maps:get(timestamp, State0),
    Counter = #{},
-   WFun = fun() -> index_writer([], {Index, {Uri, Stamp}, Timestamp}, 0) end,
+   WFun = fun() -> index_writer([], {DB, {Uri, Stamp}, Timestamp}, 0) end,
    Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
    State = State0#{writer => Writer,
                    counter => Counter},
@@ -78,7 +77,7 @@ parse_file(DB,File,Uri,Stamp) ->
       Writer ! {Self, done},
       ok = wait_index_writer(Writer),
       Counts = get_path_counts(maps:get(counter, State1)),
-      xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
+      xqldb_structure_index:incr_counts(DB, Counts),
       ok
    catch _ : G : E ->
       [{G,E}]
@@ -88,10 +87,9 @@ parse_file(DB,File,Uri,Stamp) ->
 parse_list(_DB,[],_Uri,_) -> ok;
 parse_list(DB,List,Name,Stamp) ->
    State0 = default_state(DB,Name,Stamp),
-   Index = maps:get(index, DB),
    Timestamp = maps:get(timestamp, State0),
    Counter = #{},
-   WFun = fun() -> index_writer([], {Index, {Name, Stamp}, Timestamp}, 0) end,
+   WFun = fun() -> index_writer([], {DB, {Name, Stamp}, Timestamp}, 0) end,
    Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
    State = State0#{writer => Writer,
                    counter => Counter},
@@ -106,7 +104,7 @@ parse_list(DB,List,Name,Stamp) ->
    Writer ! {Self, done},
    ok = wait_index_writer(Writer),
    Counts = get_path_counts(maps:get(counter, State1)),
-   xqldb_structure_index:incr_counts(?STRUCT_INDEX_P(DB), Counts),
+   xqldb_structure_index:incr_counts(DB, Counts),
    ok
    catch _ : G : E ->
       [{G,E}]
@@ -136,9 +134,8 @@ default_continuation_cb(IoDevice) ->
 %% ====================================================================
 
 default_state(DB, Uri, Stamp) ->
-   NsTab = ?NMSP_TABLE_P(DB),
-   {_UriId, M1} = get_name_id(NsTab, <<>>, #{}),
-   {_XmlId, M2} = get_name_id(NsTab, <<"http://www.w3.org/XML/1998/namespace">>, M1),
+   {_UriId, M1} = get_name_id(DB, <<>>, #{}),
+   {_XmlId, M2} = get_name_id(DB, <<"http://www.w3.org/XML/1998/namespace">>, M1),
    #{doc_id   => {Uri,Stamp}, % unique document ID
      writer   => [],       % index writer/collector process 
      timestamp => erlang:system_time(microsecond), 
@@ -154,10 +151,7 @@ default_state(DB, Uri, Stamp) ->
      ignore_ws => false,   % ignore all WS text nodes or not
      has_ns   => false,    % the next element has a namespace
      % tables
-     text_tab => ?TEXT_TABLE_P(DB),
-     struct_idx => ?STRUCT_INDEX_P(DB),
-     name_tab => ?NAME_TABLE_P(DB),
-     nmsp_tab => ?NMSP_TABLE_P(DB)
+     db => DB
     }.
 
 default_split_state(Fun, Path) ->
@@ -175,34 +169,32 @@ default_split_state(Fun, Path) ->
          
 %% startDocument
 event(startDocument, _L, #{doc_id := DocId,
-                           text_tab := TextTab,
-                           struct_idx := Struct,
+                           db := DB,
                            paths := Paths,
                            writer := Writer,
                            counter := Counter,
                            timestamp := Timestamp,
                            uri := Uri} = State) ->
    NodeId = <<>>,
-   UriRef = xqldb_string_table2:insert(TextTab, Uri),
+   UriRef = xqldb_string_table2:insert(DB, Uri),
    NodeBin = xqldb_nodes:document(UriRef),
-   {PathId, Paths1} = get_path_id(Struct, [], Paths),
+   {PathId, Paths1} = get_path_id(DB, [], Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := 1,
           paths := Paths1,
           counter := Counter1,
           parent := NodeId};
 event(startFragment, _L, #{doc_id := DocId,
-                           text_tab := TextTab,
-                           struct_idx := Struct,
+                           db := DB,
                            paths := Paths,
                            writer := Writer,
                            counter := Counter,
                            timestamp := Timestamp,
                            uri := Uri} = State) ->
    NodeId = <<>>,
-   UriRef = xqldb_string_table2:insert(TextTab, Uri),
+   UriRef = xqldb_string_table2:insert(DB, Uri),
    NodeBin = xqldb_nodes:document(UriRef),
-   {PathId, Paths1} = get_path_id(Struct, [], Paths),
+   {PathId, Paths1} = get_path_id(DB, [], Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := 1,
           paths := Paths1,
@@ -212,7 +204,7 @@ event(endDocument, _L, #{parent := <<>>} = State) -> State;
 event(endFragment, _L, #{parent := <<>>} = State) ->
    State;
 event({startPrefixMapping, PrefixS, UriS}, _, #{doc_id := DocId,
-                                                nmsp_tab := NmspTab,
+                                                db := DB,
                                                 parent := Par,
                                                 pos := Pos,
                                                 writer := Writer,
@@ -221,8 +213,8 @@ event({startPrefixMapping, PrefixS, UriS}, _, #{doc_id := DocId,
    ElemId = add_pos(Par, Pos),
    Prefix = ?u2b(PrefixS),
    Uri = ?u2b(UriS),
-   {UriId, Scp1} = get_name_id(NmspTab, Uri, Scp),
-   {_PrefixId, Scp2} = get_name_id(NmspTab, Prefix, Scp1),
+   {UriId, Scp1} = get_name_id(DB, Uri, Scp),
+   {_PrefixId, Scp2} = get_name_id(DB, Prefix, Scp1),
    ok = post_namespace_node(Writer, DocId, ElemId, UriId, Prefix, Timestamp),
    State#{nsps := Scp2, has_ns := true}; % flag next element that it has a NS
 event({endPrefixMapping, _}, _, State) ->
@@ -230,9 +222,7 @@ event({endPrefixMapping, _}, _, State) ->
 
 event({startElement, UriS, LocalNameS, {PrefixS,_}, Attributes}, _, 
       #{doc_id := DocId,
-        nmsp_tab := NmspTab,
-        struct_idx := Struct,
-        name_tab := NameTab,
+        db := DB,
         pos := Pos,
         parent := Ps,
         paths := Paths,
@@ -248,11 +238,11 @@ event({startElement, UriS, LocalNameS, {PrefixS,_}, Attributes}, _,
    LocalName = ?u2b(LocalNameS),
    NodeId = add_pos(Ps, Pos),
    #{UK := UriId} = Scp,
-   {PrefixId, Scp1} = get_name_id(NmspTab, Prefix, Scp),
-   {NameId, NameMap1} = get_name_id(NameTab, LocalName, NameMap),
+   {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
+   {NameId, NameMap1} = get_name_id(DB, LocalName, NameMap),
    PathKey = {UriId, NameId},
    CPath1 = [PathKey|CPath],
-   {PathId, Paths1} = get_path_id(Struct, CPath1, Paths), 
+   {PathId, Paths1} = get_path_id(DB, CPath1, Paths), 
    NodeBin = xqldb_nodes:element(NameId, UriId, PrefixId, HasNs, AttLen),
    #{counter := Counter1} = 
      State1 = att_events(Attributes, State#{parent := NodeId,
@@ -275,8 +265,7 @@ event({endElement, _, _, {_,_}}, _, #{parent := Ps,
 event(startCDATA, _, State) -> State;
 event(endCDATA, _, State) -> State;
 event({characters, String}, _, #{doc_id := DocId,
-                                 struct_idx := Struct,
-                                 text_tab := TextTab,
+                                 db := DB,
                                  pos := Pos,
                                  parent := Ps,
                                  paths := Paths,
@@ -287,10 +276,10 @@ event({characters, String}, _, #{doc_id := DocId,
                                 } = State) -> 
    NodeId = add_pos(Ps, Pos),
    Bin = ?u2b(String),
-   TextRef = get_text_id(TextTab, Bin),
+   TextRef = get_text_id(DB, Bin),
    NodeBin = xqldb_nodes:text(TextRef),
    CPath1 = [text|CPath], 
-   {PathId, Paths1} = get_path_id(Struct, CPath1, Paths),
+   {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := Pos + 1,
           paths := Paths1,
@@ -303,9 +292,7 @@ event({ignorableWhitespace, String}, L, State) ->
 
 event({processingInstruction, Target, Data}, _,
       #{ doc_id := DocId,
-         text_tab := TextTab,
-         name_tab := NameTab,
-         struct_idx := Struct,
+         db := DB,
          pos := Pos,
          parent := Ps,
          paths := Paths,
@@ -316,19 +303,18 @@ event({processingInstruction, Target, Data}, _,
          timestamp := Timestamp} = State) -> 
    NodeId = add_pos(Ps, Pos),
    Bin = ?u2b(Data),
-   TextRef = get_text_id(TextTab, Bin),
-   {NameRef, NameMap1} = get_name_id(NameTab, ?u2b(Target), NameMap),
+   TextRef = get_text_id(DB, Bin),
+   {NameRef, NameMap1} = get_name_id(DB, ?u2b(Target), NameMap),
    NodeBin = xqldb_nodes:proc_inst(NameRef, TextRef),
    CPath1 = [{pi, NameRef}|CPath], 
-   {PathId, Paths1} = get_path_id(Struct, CPath1, Paths),
+   {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := Pos + 1,
           names := NameMap1,
           paths := Paths1,
           counter := Counter1};
 event({comment, String}, _, #{doc_id := DocId,
-                              text_tab := TextTab,
-                              struct_idx := Struct,
+                              db := DB,
                               pos := Pos,
                               parent := Ps,
                               paths := Paths,
@@ -338,10 +324,10 @@ event({comment, String}, _, #{doc_id := DocId,
                               timestamp := Timestamp} = State) -> 
    NodeId = add_pos(Ps, Pos),
    Bin = ?u2b(String),
-   TextRef = get_text_id(TextTab, Bin),
+   TextRef = get_text_id(DB, Bin),
    NodeBin = xqldb_nodes:comment(TextRef),
    CPath1 = [comment|CPath], 
-   {PathId, Paths1} = get_path_id(Struct, CPath1, Paths),
+   {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    State#{pos := Pos + 1,
           paths := Paths1,
@@ -370,10 +356,7 @@ event(Event,_,State) ->
 
 att_events([{UriS, PrefixS, AttributeNameS, ValueS}|T], 
       #{doc_id := DocId,
-        name_tab := NameTab,
-        nmsp_tab := NmspTab,
-        text_tab := AttTextTab,
-        struct_idx := Struct,
+        db := DB,
         pos := Pos,
         parent := Ps,
         paths := Paths,
@@ -391,14 +374,14 @@ att_events([{UriS, PrefixS, AttributeNameS, ValueS}|T],
    AttributeName = ?u2b(AttributeNameS),
    #{Uri := UriId} = Scp,
    Type = get_att_type({ElementLocalName, AttributeName}, AttDec),
-   TextRef = get_text_id(AttTextTab, Bin),
-   {PrefixId, Scp1} = get_name_id(NmspTab, Prefix, Scp),
-   {NameId, NameMap1} = get_name_id(NameTab, AttributeName, NameMap),
+   TextRef = get_text_id(DB, Bin),
+   {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
+   {NameId, NameMap1} = get_name_id(DB, AttributeName, NameMap),
    
    NodeBin = xqldb_nodes:attribute(NameId, UriId, PrefixId, TextRef, Type),
    PathKey = {att, UriId, NameId},
    CPath1 = [PathKey|CPath], 
-   {PathId, Paths1} = get_path_id(Struct, CPath1, Paths),
+   {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter),
    att_events(T, 
               State#{names := NameMap1,
@@ -540,27 +523,27 @@ wait_index_writer(Pid) ->
 %%    pop_uri(T,Prefix,[M|Acc]).
 
    
-get_name_id(NameTab, Key, NameMap) ->
+get_name_id(DB, Key, NameMap) ->
    case NameMap of
       #{Key := Id} ->
          {Id, NameMap};
       _ ->
-         Id = xqldb_name_table:insert(NameTab, Key),
+         Id = xqldb_name_table:insert(DB, Key),
          {Id, NameMap#{Key => Id}}
    end.
 
 % Path is a reversed list
-get_path_id(StructIndex, Path, Paths) ->
+get_path_id(DB, Path, Paths) ->
    case Paths of
       #{Path := Id} ->
          {Id, Paths};
       _ ->
-         Id = xqldb_structure_index:add(StructIndex, lists:reverse(Path)),
+         Id = xqldb_structure_index:add(DB, lists:reverse(Path)),
          {Id, Paths#{Path => Id}}
    end.
 
-get_text_id(TextTab, Text) ->
-   xqldb_string_table2:insert(TextTab, Text).
+get_text_id(DB, Text) ->
+   xqldb_string_table2:insert(DB, Text).
 
 post_document_paths(#{paths := Paths, writer := Writer}) ->
    Writer ! {path_doc, maps:values(Paths)},
@@ -573,7 +556,7 @@ post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Timestamp, Counter) ->
    Counter2 = update_counter(Counter, PathId, 1),
    Postings = 
      [{path, DocId, PathId,                       NodeId, Props, Timestamp},
-      {val,  DocId, NodeBin,                      NodeId, Props, Timestamp},
+      %{val,  DocId, NodeBin,                      NodeId, Props, Timestamp},
       {doc,  DocId, xqldb_nodes:trunc_id(NodeId), NodeId, Props, Timestamp}
       ],
    Writer ! {postings, Postings},
@@ -585,10 +568,10 @@ post_namespace_node(Writer, DocId, NodeId, UriId, Prefix, Timestamp) ->
    Writer ! {postings, Postings},
    ok.
 
-index_writer(Postings, {Server, _, _} = State, Count) when Count > ?MAX_POST ->
+index_writer(Postings, {#{index := Server}, _, _} = State, Count) when Count > ?MAX_POST ->
    ok = merge_index:index(Server, lists:append(Postings)),
    index_writer([[]], State, 0);
-index_writer(Postings, {Server, DocId, Timestamp} = State, Count) ->
+index_writer(Postings, {#{index := Server}, DocId, Timestamp} = State, Count) ->
    receive
       {postings, P} ->
          index_writer([P | Postings], State, Count + length(P));

@@ -79,10 +79,9 @@
 select_paths(Uri) ->
    DBs = xqldb_db:databases(Uri),
    Fun = fun(DB) ->
-               PathPid = ?PATH_TABLE_P(DB),
-               DbUri = xqldb_path_table:uri(PathPid),
+               DbUri = xqldb_path_table:uri(DB),
                [xqldb_uri:join(DbUri, element(1, Rec)) 
-               || Rec <- xqldb_path_table:all(PathPid)]
+               || Rec <- xqldb_path_table:all(DB)]
          end,
    lists:flatmap(Fun, DBs).
 
@@ -97,9 +96,9 @@ select_collection(Uri) ->
           ({_,json,_,{Pos,Len}}, DB) ->
              xqldb_json_objs:build_object(DB, Pos, Len);
           ({_,res,_,{Pos,Len}}, DB) ->
-             xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), {Pos,Len});
+             xqldb_resource_table:get(DB, {Pos,Len});
           ({_,item,_,{Pos,Len}}, DB) ->
-             Res = xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), {Pos,Len}),
+             Res = xqldb_resource_table:get(DB, {Pos,Len}),
              binary_to_term(Res, [safe]);
           (Other, _) ->
              ?dbg("Other",Other),
@@ -107,14 +106,14 @@ select_collection(Uri) ->
        end,         
              
    Fun = fun(DB) ->
-               [G(P, DB) || P <- xqldb_path_table:all(?PATH_TABLE_P(DB))]
+               [G(P, DB) || P <- xqldb_path_table:all(DB)]
          end,
    lists:flatmap(Fun, DBs).
 
 delete_collection(Uri) ->
    DBs = xqldb_db:databases(Uri),
    _ = [begin
-         xqldb_path_table:delete_all(?PATH_TABLE_P(DB), DB)
+         xqldb_path_table:delete_all(DB)
         end || DB <- DBs],
    ok.
    
@@ -125,7 +124,7 @@ analyze(DocUri) when is_binary(DocUri) ->
       false -> {error, not_exists};
       true ->
          DB = xqldb_db:database(DbUri),
-         xqldb_structure_index:analyze(?STRUCT_INDEX_P(DB))
+         xqldb_structure_index:analyze(DB)
    end;
 ?ENSURE_BIN(analyze).
 
@@ -135,19 +134,19 @@ select(DocUri) when is_binary(DocUri) ->
       false -> {error, not_exists};
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), Name) of
+         case xqldb_path_table:lookup(DB, Name) of
             {xml, Stamp} ->
                DBId = maps:get(db_name, DB),
                NodeId = {DBId, {Name, Stamp}, <<>>},
                xqldb_nodes:get_doc(NodeId);
             {item, _Stamp, {Pos, Len}} ->
-               Res = xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), {Pos, Len}),
+               Res = xqldb_resource_table:get(DB, {Pos, Len}),
                binary_to_term(Res, [safe]);
             {link, _Stamp, FileName} ->
                {ok, Bin} = file:read_file(FileName),
                Bin;
             {res,  _Stamp, {Pos, Len}} ->
-               xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), {Pos, Len});
+               xqldb_resource_table:get(DB, {Pos, Len});
             {json, _Stamp, {Pos, Len}} ->
                xqldb_json_objs:build_object(DB, Pos, Len);
             _ ->
@@ -168,8 +167,8 @@ exists_doc(DocUri) when is_binary(DocUri) ->
          timer:sleep(1),
          exists_doc(DocUri);
       _ -> 
-         #{paths := Paths} = xqldb_db:database(DbUri),
-         xqldb_path_table:lookup(Paths, Name) =/= []
+         DB = xqldb_db:database(DbUri),
+         xqldb_path_table:lookup(DB, Name) =/= []
    end;
 ?ENSURE_BIN(exists_doc).
 
@@ -178,9 +177,8 @@ select_doc(DocUri) when is_binary(DocUri) ->
    case xqldb_db:exists(DbUri) of
       false -> {error, not_exists};
       true ->
-         #{paths   := Paths,
-           db_name := DBId} = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(Paths, Name) of
+         #{db_name := DBId} = DB = xqldb_db:database(DbUri),
+         case xqldb_path_table:lookup(DB, Name) of
             {xml,Stamp} ->
                NodeId = {DBId, {Name,Stamp}, <<>>},
                xqldb_nodes:get_doc(NodeId);
@@ -194,12 +192,12 @@ insert_doc(DocUri, Filename) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    {Agent, _} = locks:begin_transaction(),
    _ = locks:lock(Agent, [DbUri,Name]),
-   #{paths := Paths} = DB = xqldb_db:database(DbUri),
-   case xqldb_path_table:lookup(Paths, Name) of
+   DB = xqldb_db:database(DbUri),
+   case xqldb_path_table:lookup(DB, Name) of
       [] -> 
          Stamp = erlang:system_time(),
          ok = xqldb_sax:parse_file(DB,Filename,Name,Stamp),
-         xqldb_path_table:insert(Paths, {Name, xml, Stamp}),
+         xqldb_path_table:insert(DB, {Name, xml, Stamp}),
          locks:end_transaction(Agent);
       _ ->
          locks:end_transaction(Agent)
@@ -210,12 +208,12 @@ insert_doc_sax(DocUri, Filename) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    {Agent, _} = locks:begin_transaction(),
    _ = locks:lock(Agent, [DbUri,Name]),
-   #{paths := Paths} = DB = xqldb_db:database(DbUri),
-   case xqldb_path_table:lookup(Paths, Name) of
+   DB = xqldb_db:database(DbUri),
+   case xqldb_path_table:lookup(DB, Name) of
       [] -> 
          Stamp = erlang:system_time(),
          ok = xqldb_sax:parse_list(DB,Filename,Name,Stamp),
-         xqldb_path_table:insert(Paths, {Name, xml, Stamp}),
+         xqldb_path_table:insert(DB, {Name, xml, Stamp}),
          locks:end_transaction(Agent);
       _ ->
          locks:end_transaction(Agent)
@@ -227,8 +225,8 @@ delete_doc(DocUri) when is_binary(DocUri) ->
    case xqldb_db:exists(DbUri) of
       false -> ok;
       true ->
-         #{paths := Paths} = xqldb_db:database(DbUri),
-         xqldb_path_table:delete(Paths, Name)
+         DB = xqldb_db:database(DbUri),
+         xqldb_path_table:delete(DB, Name)
    end;
 ?ENSURE_BIN(delete_doc).
 
@@ -237,8 +235,8 @@ exists_json_doc(DocUri) when is_binary(DocUri) ->
    case xqldb_db:exists(DbUri) of
       false -> false;
       true ->
-         #{paths := Paths} = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(Paths, Name) of
+         DB = xqldb_db:database(DbUri),
+         case xqldb_path_table:lookup(DB, Name) of
             [{json,_,_}] -> true;
             _ -> false
          end
@@ -251,7 +249,7 @@ select_json_doc(DocUri) when is_binary(DocUri) ->
       false -> {error, not_exists};
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), Name) of
+         case xqldb_path_table:lookup(DB, Name) of
             {json, _Stamp, {Pos, Len}} ->
                xqldb_json_objs:build_object(DB, Pos, Len);
             _ ->
@@ -268,9 +266,9 @@ insert_json_doc(DocUri, String) when is_binary(DocUri) ->
          DB = xqldb_db:database(DbUri),
          case xqldb_json_objs:string_to_json_bin(String) of
             Bin when is_binary(Bin) ->
-               PosSize = xqldb_json_table:insert(?JSON_TABLE_P(DB), Bin),
+               PosSize = xqldb_json_table:insert(DB, Bin),
                Stamp = erlang:system_time(),
-               xqldb_path_table:insert(?PATH_TABLE_P(DB), {Name,json,PosSize,Stamp});
+               xqldb_path_table:insert(DB, {Name,json,PosSize,Stamp});
             Error ->
                Error
          end
@@ -283,7 +281,7 @@ delete_json_doc(DocUri) when is_binary(DocUri) ->
       false -> ok;
       true ->
          DB = xqldb_db:database(DbUri),
-         xqldb_path_table:delete(?PATH_TABLE_P(DB), {Name, json})
+         xqldb_path_table:delete(DB, {Name, json})
    end;
 ?ENSURE_BIN(delete_json_doc).
 
@@ -294,7 +292,7 @@ exists_resource(DocUri) when is_binary(DocUri) ->
       false -> false;
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), Name) of
+         case xqldb_path_table:lookup(DB, Name) of
             {res,_,_} ->
                true;
             {link,_,_} ->
@@ -319,9 +317,9 @@ select_resource(DocUri) when is_binary(DocUri) ->
          end;
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), Name) of
+         case xqldb_path_table:lookup(DB, Name) of
             {res,_,PosSize} ->
-               xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), PosSize);
+               xqldb_resource_table:get(DB, PosSize);
             {link,_,Filename} ->
                {ok, Bin} = file:read_file(Filename),
                Bin;
@@ -342,13 +340,12 @@ insert_resource(DocUri, Bin) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
    {Agent, _} = locks:begin_transaction(),
    _ = locks:lock(Agent, [DbUri,Name]),
-   #{paths := Paths,
-     resources := Resources} = xqldb_db:database(DbUri),
-   case xqldb_path_table:lookup(Paths, Name) of
+   #{resources := Resources} = DB = xqldb_db:database(DbUri),
+   case xqldb_path_table:lookup(DB, Name) of
       [] -> 
          Stamp = erlang:system_time(),
          PosSize = xqldb_resource_table:insert(Resources, Bin),
-         xqldb_path_table:insert(Paths, {Name, res, Stamp, PosSize}),
+         xqldb_path_table:insert(DB, {Name, res, Stamp, PosSize}),
          locks:end_transaction(Agent);
       _ ->
          locks:end_transaction(Agent)
@@ -361,8 +358,8 @@ delete_resource(DocUri) when is_binary(DocUri) ->
       false -> ok;
       true ->
          DB = xqldb_db:database(DbUri),
-         _ = xqldb_path_table:delete(?PATH_TABLE_P(DB), {Name, res}),
-         xqldb_path_table:delete(?PATH_TABLE_P(DB), {Name, link})
+         _ = xqldb_path_table:delete(DB, {Name, res}),
+         xqldb_path_table:delete(DB, {Name, link})
    end;
 ?ENSURE_BIN(delete_resource).
 
@@ -376,9 +373,9 @@ link_resource(DocUri, Filename) when is_binary(DocUri) ->
               xqldb_db:database(DbUri)
         end,
    Bin = unicode:characters_to_binary(Filename),
-   PosSize = xqldb_resource_table:insert(?RESOURCES_TABLE_P(DB), Bin),
+   PosSize = xqldb_resource_table:insert(DB, Bin),
    Stamp = erlang:system_time(),
-   xqldb_path_table:insert(?PATH_TABLE_P(DB), {Name, link, PosSize, Stamp});
+   xqldb_path_table:insert(DB, {Name, link, PosSize, Stamp});
 ?ENSURE_BIN2(link_resource).
 
 exists_item(DocUri) when is_binary(DocUri) ->
@@ -387,7 +384,7 @@ exists_item(DocUri) when is_binary(DocUri) ->
       false -> false;
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), {Name, item}) of
+         case xqldb_path_table:lookup(DB, {Name, item}) of
             [_] ->
                true;
             _ ->
@@ -402,9 +399,9 @@ select_item(DocUri) when is_binary(DocUri) ->
       false -> {error, not_exists};
       true ->
          DB = xqldb_db:database(DbUri),
-         case xqldb_path_table:lookup(?PATH_TABLE_P(DB), {Name, item}) of
+         case xqldb_path_table:lookup(DB, {Name, item}) of
             [PosSize] ->
-               Res = xqldb_resource_table:get(?RESOURCES_TABLE_P(DB), PosSize),
+               Res = xqldb_resource_table:get(DB, PosSize),
                binary_to_term(Res, [safe]);
             [] ->
                {error, not_exists}
@@ -423,8 +420,8 @@ insert_item(DocUri, Item) when is_binary(DocUri) ->
         end,
    Stamp = erlang:system_time(),
    Bin = term_to_binary(Item),
-   PosSize = xqldb_resource_table:insert(?RESOURCES_TABLE_P(DB), Bin),
-   xqldb_path_table:insert(?PATH_TABLE_P(DB), {Name, item, Stamp, PosSize});
+   PosSize = xqldb_resource_table:insert(DB, Bin),
+   xqldb_path_table:insert(DB, {Name, item, Stamp, PosSize});
 ?ENSURE_BIN2(insert_item).
 
 delete_item(DocUri) when is_binary(DocUri) ->
@@ -433,7 +430,7 @@ delete_item(DocUri) when is_binary(DocUri) ->
       false -> ok;
       true ->
          DB = xqldb_db:database(DbUri),
-         xqldb_path_table:delete(?PATH_TABLE_P(DB), Name)
+         xqldb_path_table:delete(DB, Name)
    end;
 ?ENSURE_BIN(delete_item).
 
@@ -448,7 +445,6 @@ insert_doc_as_collection(DocUri, Filename, BasePath) when is_binary(DocUri) ->
            true ->
               xqldb_db:database(DbUri)
         end,
-   PathTab = ?PATH_TABLE_P(DB),
    InsFun = fun(Events) ->
                   F = fun() ->
                             Self = self(),
@@ -458,7 +454,7 @@ insert_doc_as_collection(DocUri, Filename, BasePath) when is_binary(DocUri) ->
                             Name1 = <<Name/binary,$-,NName/binary>>,
                             Stamp = erlang:system_time(),
                             xqldb_sax:parse_list(DB, Events, Name1,Stamp),
-                            _ = xqldb_path_table:insert(PathTab, {Name1, xml, Stamp}),
+                            _ = xqldb_path_table:insert(DB, {Name1, xml, Stamp}),
                             ReplyTo ! {Self, done} 
                       end,
                   erlang:spawn_link(F)                                               
@@ -489,7 +485,7 @@ import_from_directory(BaseUri, Directory) when is_list(Directory) ->
                             [try
                                 Stamp = erlang:system_time(),
                                 xqldb_sax:parse_file(DB, FN, Name, Stamp),
-                                _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Name, xml, Stamp}),
+                                _ = xqldb_path_table:insert(DB, {Name, xml, Stamp}),
                                 ok
                              catch _:_ -> ok
                              end ||

@@ -38,8 +38,6 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([test/0]).
-
 -export([start_link/3,
          stop/1,
          add/2,
@@ -51,8 +49,6 @@
 -type(state() :: #{'axes' := atom() | ets:tid(), 
                    'idx' := atom() | ets:tid(), 
                    'table' := any()}).
-
--type(server() :: {DBName::string(), TableName::string()} | pid()).
 
 -type(xpath() :: [{UriId::integer(), NameId::integer()}]).
 
@@ -67,33 +63,33 @@ start_link(open, DBDirectory, TableName) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
 
 %% Shutdown this server. 
--spec stop(server()) -> ok.
+-spec stop(db()) -> ok.
 
-stop(Pid) when is_pid(Pid) ->
+stop(#{structure := Pid}) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
 %% Adds Path to DB, returning its ID.
--spec add(server(), Path::xpath()) -> integer().
+-spec add(db(), Path::xpath()) -> integer().
 
-add(Pid, Path) when is_pid(Pid) ->
+add(#{structure := Pid}, Path) when is_pid(Pid) ->
    gen_server:call(Pid, {add, Path}).
 
 %% Returns all paths beginning with Pattern.
--spec get(server(), [{integer(), integer()}]) -> [{integer(), Path::xpath()}].
+-spec get(db(), [{integer(), integer()}]) -> [{integer(), Path::xpath()}].
 
-get(Pid, Pattern) when is_pid(Pid) ->
+get(#{structure := Pid}, Pattern) when is_pid(Pid) ->
    gen_server:call(Pid, {get, Pattern}).
 
 %% Adds usage counts to Paths.
--spec incr_counts(server(), PathCounts :: list({integer(), integer()})) -> ok.
+-spec incr_counts(db(), PathCounts :: list({integer(), integer()})) -> ok.
 
-incr_counts(Pid, PathCounts) when is_pid(Pid) ->
+incr_counts(#{structure := Pid}, PathCounts) when is_pid(Pid) ->
    gen_server:cast(Pid, {incr_counts, PathCounts}).
 
-analyze(Pid) when is_pid(Pid) ->
+analyze(#{structure := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, analyze).
 
-compile_path(Pid, Path) when is_pid(Pid) ->
+compile_path(#{structure := Pid}, Path) when is_pid(Pid) ->
    case check_path(Path) of
       undefined ->
          undefined;
@@ -501,16 +497,6 @@ map_fun(Map) ->
                []
          end
    end.
-
-
-test() ->
-   DB = xqldb_db:database("file:///g/"),
-   Str = ?STRUCT_INDEX_P(DB),
-   %{20,[{1,1},{1,2},{1,3},{1,4},{1,7},{1,12},{1,13},{1,14},text],1}
-   %Path = [{child,{1,68}},{descendent,text}],
-   Path = [{child,{1,4}},{descendant,{1,13}},{child,{1,14}},{child, text}],
-   ?MODULE:compile_path(Str, Path).
-
 
 check_path([]) -> [];
 check_path([{following, _}|_]) -> undefined;

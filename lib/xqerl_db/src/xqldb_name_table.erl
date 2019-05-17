@@ -45,15 +45,12 @@
          match/2,
          id_map/1]).
 
--export([tid/1]).
-
 -type(state() :: #{tab => ets:tid(),
                    file => file:io_device(),
                    next => non_neg_integer()}).
--type(server() :: {Pid::pid(), Tid::ets:tid()}).
 -type(name() :: LocalName::binary()).
 
-%% Open or create a new string table server.  
+%% Open or create a new name table server.  
 -spec start_link(open | new,
                  DBDirectory::file:name_all(),
                  TableName::string()) ->
@@ -63,52 +60,38 @@ start_link(new, DBDirectory, TableName) ->
 start_link(open, DBDirectory, TableName) ->
    gen_server:start_link(?MODULE, [open, DBDirectory, TableName], []).
 
-%% Internal function 
--spec tid(pid()) -> ets:tid().
-
-tid(Pid) when is_pid(Pid) ->
-   gen_server:call(Pid, tid).
-
 %% Shutdown this server. 
--spec stop(server()) -> ok.
+-spec stop(db()) -> ok.
 
-stop({Pid,_}) when is_pid(Pid) ->
+stop(#{names := Pid}) when is_pid(Pid) ->
    gen_server:stop(Pid).
 
-%% Shutdown this server. 
--spec id_map(server()) -> map().
+-spec id_map(db()) -> map().
 
-id_map({Pid,_}) when is_pid(Pid) ->
+id_map(#{names := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, id_map).
 
 %% Returns the ID for a name in the table.
 %% If no such value exists, creates a new value in the table and returns its ID.
--spec insert(server(), Value::name()) -> Id::non_neg_integer().
+-spec insert(db(), Value::name()) -> Id::non_neg_integer().
 
-insert({Pid, Tid}, Value) when is_pid(Pid), ?IS_LOCAL(Pid) ->
-   case ets:lookup(Tid, Value) of
-      [{Value,Id}] ->
-         Id;
-      [] ->
-         gen_server:call(Pid, {insert, Value})
-   end;
-insert({Pid, _Tid}, Value) when is_pid(Pid) ->
+insert(#{names := Pid}, Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value}).
 
 
 %% Returns the {LocalName,Prefix} value for the given ID, 
 %% or the ID for the given {LocalName,Prefix} tuple or error.
--spec lookup(server(), Id::non_neg_integer() | name()) -> 
+-spec lookup(db(), Id::non_neg_integer() | name()) -> 
          Name::name() | non_neg_integer() | error.
 
-lookup({Pid,_Tid}, Id) when is_pid(Pid) ->
+lookup(#{names := Pid}, Id) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Id}).
 
 %% Returns a list of IDs for all names that contain the LocalName.
--spec match(server(), LocalName::binary()) -> 
+-spec match(db(), LocalName::binary()) -> 
          [non_neg_integer()].
 
-match({Pid,_Tid}, LocalName) when is_pid(Pid) ->
+match(#{names := Pid}, LocalName) when is_pid(Pid) ->
    gen_server:call(Pid, {match, LocalName}).
 
 %% ====================================================================

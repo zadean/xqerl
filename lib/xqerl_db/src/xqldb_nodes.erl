@@ -234,24 +234,22 @@ db_node_to_dbl(DB, Node) ->
 %%    {NodeId, Map#{id => {DbPid, DocId, NodeId},
 %%                  pa => Path}}.
 
-map_from_node_bin(#{names      := Names,
-                    namespaces := Nmsps},
+map_from_node_bin(#{names      := Names},
                   <<?element, NameRef:24/integer, 
                         NsRef:12/integer, PxRef:12/integer, 
                         H:1/integer, AttCnt:7/integer>>) ->
    #{nk => element,
-     nn => get_name(NsRef, PxRef, NameRef, Names, Nmsps),
+     nn => get_name(NsRef, PxRef, NameRef, Names),
      hn => if H == 1 -> true; true -> false end,
      at => AttCnt};
 map_from_node_bin(DB, <<?text, TextRef/binary>>) ->
    #{nk => text,
      sv => get_string_value(TextRef, DB)};
-map_from_node_bin(#{names      := Names,
-                    namespaces := Nmsps} = DB, 
+map_from_node_bin(#{names      := Names} = DB, 
                   <<?attribute:4, Type:4/integer, NameRef:24/integer, 
                     NsRef:12/integer, PxRef:12/integer, TextRef/binary>>) ->
    #{nk => attribute,
-     nn => get_name(NsRef, PxRef, NameRef, Names, Nmsps),
+     nn => get_name(NsRef, PxRef, NameRef, Names),
      tn => attribute_type_to_name(Type),
      sv => get_string_value(TextRef, DB)};
 map_from_node_bin(_, <<?document, UriRef/binary>>) ->
@@ -267,10 +265,10 @@ map_from_node_bin(#{names := Names} = DB, <<?proc_inst, NameRef:24/integer,
      sv => get_string_value(TextRef, DB)}.
 
 
-get_name(NsRef, PxRef, NameRef, Names, Nmsps) ->
-   #{NameRef := Name} = Names,
-   #{PxRef   := Px,
-     NsRef   := Ns} = Nmsps,
+get_name(NsRef, PxRef, NameRef, Names) ->
+   #{NameRef := Name,
+     PxRef   := Px,
+     NsRef   := Ns} = Names,
    {Ns, Px, Name}.
 
 attribute_type_to_name(?att_id) -> 'xs:ID';
@@ -741,7 +739,7 @@ take_attributes(List, Atts, _DB, _Ref) ->
    {Atts, List}.
    
 get_namespaces(#{index := Index,
-                 namespaces := NmspMap},  DocId, NodeId) ->
+                 names := NmspMap},  DocId, NodeId) ->
    List = merge_index:lookup_sync(Index, namespace, DocId, NodeId, true),
    List1 = [begin
                #{UriId := Ns} = NmspMap,
@@ -751,8 +749,8 @@ get_namespaces(#{index := Index,
 
 get_string_value(Ref, _) when byte_size(Ref) < 64 ->
    Ref;
-get_string_value(Ref, #{texts := Tab}) ->
-   xqldb_string_table2:lookup(Tab, Ref).
+get_string_value(Ref, DB) ->
+   xqldb_string_table2:lookup(DB, Ref).
    
    
 iterator_to_node_set(Iter, DB) ->
