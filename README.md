@@ -5,7 +5,7 @@ Erlang XQuery 3.1 Processor and XML Database
 ##### New to Erlang?
    Check out the Getting Started [section](./docs/src/GettingStarted.md)
 
-###What is xqerl?
+### What is xqerl?
 
 xqerl is a self-contained XQuery 3.1 processor and XML database written in Erlang.
 
@@ -16,7 +16,7 @@ xqerl is a self-contained XQuery 3.1 processor and XML database written in Erlan
 
 xqerl is being actively developed and is not yet to a stable release. Changes can occur without notice. If you save data with it, that data may not be compatible with the most recent version of this repository in the master branch.
 
-The first stable release will be changing soon, but isn't quite there yet.
+The first stable release will be coming soon, but isn't quite there yet.
 
 It is passing 99.85% of 29,587 test cases it runs (43 failures). 
 1,778 other cases that test optional features not implemented in xqerl are skipped. 
