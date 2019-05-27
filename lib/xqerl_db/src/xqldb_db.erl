@@ -62,7 +62,7 @@ close(Uri) ->
          xqldb_db_server:close({Uri, Id}),
          % close index nicely then sup
          #{index := Ind} = db_ref(Pid),
-         merge_index:stop(Ind),
+         ?INDEX:stop(Ind),
          _ = supervisor:terminate_child(xqldb_db_sup, Pid),
          ok;
       _ ->
@@ -136,11 +136,12 @@ init([DBDirectory, Uri]) ->
    Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH, Uri]),
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
    JSON  = child_map(json, xqldb_json_table, [NewOpen, DBDirectory, ?JSON]),
-   Index = child_map(index, mi_server, [DBDirectory ++ "/ind"]),
+   Index = child_map(index, ?INDEX, [DBDirectory ++ "/ind"]),
+   PIndx = child_map(pindex, ?PINDEX, [DBDirectory ++ "/emp"]),
    Qry   = child_map(queries, xqldb_query_server, []),
    
    {ok, {SupFlags, 
-         [Strct, Names, Texts, Paths, JSON, Ress, Index, Qry]}}.
+         [Strct, Names, Texts, Paths, JSON, Ress, Index, PIndx, Qry]}}.
 
 %% ====================================================================
 %% Internal functions

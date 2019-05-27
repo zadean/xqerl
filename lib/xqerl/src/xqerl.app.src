@@ -19,7 +19,8 @@
       merge_index,
       locks,
       uuid,
-      basexerl%,
+      basexerl,
+      emojipoo
       %observer, 
       %runtime_tools
    ]},

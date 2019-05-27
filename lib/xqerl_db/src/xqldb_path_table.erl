@@ -241,7 +241,6 @@ handle_call({delete_all, #{resources := Res,
                   continue
             end,
    dets:traverse(HeapFile, Delete),
-   merge_index:compact(Index),
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call({lookup, Name}, _From, #{tab  := HeapFile} = State) ->
@@ -266,62 +265,7 @@ code_change(_, State, _) -> {ok, State}.
 %% Delete procedures.
 %% Can/Should be moved out into own area that makes sense.
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-maybe_delete_doc_ref(#{index := IndexPid} = DB, DocId) ->
-   Stamp = erlang:system_time(),
-   io:format("~p~n", [{?LINE, erlang:system_time()}]),
-   F1 = fun() ->
-              Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),
-              ok = delete_index_vals(path, DocId, Paths, IndexPid, Stamp, []),
-              ok
-        end,
-   F2 = fun() ->
-              Namespaces = merge_index:range_term(IndexPid, namespace, DocId, undefined, undefined, both, true),
-              ok = delete_index_vals(namespace, DocId, Namespaces, IndexPid, Stamp, []),
-              ok
-        end,
-   F3 = fun() ->
-              Nodes = merge_index:range_term(IndexPid, doc, DocId, undefined, undefined, both, true),
-              NodeProps = collect_delete_index_vals(doc, DocId, Nodes, IndexPid, Stamp, [], []),
-              PathCounts = path_counts(NodeProps, dict:new()),
-              PathKeys = dict:fetch_keys(PathCounts),
-              _ = merge_index:index(IndexPid, [{path, doc, P, DocId, undefined, Stamp} ||
-                                               P <- PathKeys]),
-              MinusCounts = [{K, -V} || {K,V} <- dict:to_list(PathCounts)],
-              _ = xqldb_structure_index:incr_counts(DB, MinusCounts),
-              ok
-        end,
-   _ = spawn(F1),
-   _ = spawn(F2),
-   _ = spawn(F3),
+maybe_delete_doc_ref(DB, DocId) ->
+   ok = ?INDEX:delete(DB, DocId),
    _ = xqldb_query_server:delete(DB, DocId),
    ok.
-
-path_counts([N|Nodes], Acc) ->
-   P = proplists:get_value(p, N),
-   path_counts(Nodes, dict:update_counter(P, 1, Acc));
-path_counts([], Acc) ->
-   Acc.
-
-delete_index_vals(I, F, List, IndexPid, Stamp, Acc) when length(Acc) > 100 ->
-   merge_index:index(IndexPid, Acc),
-   delete_index_vals(I, F, List, IndexPid, Stamp, []);
-delete_index_vals(I, F, [{T,V,_}|Rest], IndexPid, Stamp, Acc) ->
-   New = {I, F, T, V, undefined, Stamp},
-   delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc]);
-delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc) when is_function(Entries) ->
-   delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc);
-delete_index_vals(_, _, [], IndexPid, _, Acc) ->
-   merge_index:index(IndexPid, Acc),
-   ok.
-
-collect_delete_index_vals(I, F, List, IndexPid, Stamp, Acc, Nodes) when length(Acc) > 100 ->
-   merge_index:index(IndexPid, Acc),
-   collect_delete_index_vals(I, F, List, IndexPid, Stamp, [], Nodes);
-collect_delete_index_vals(I, F, [{T,V,N}|Rest], IndexPid, Stamp, Acc, Nodes) ->
-   New = {I, F, T, V, undefined, Stamp},
-   collect_delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc], [N|Nodes]);
-collect_delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc, Nodes) when is_function(Entries) ->
-   collect_delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc, Nodes);
-collect_delete_index_vals(_, _, [], IndexPid, _, Acc, Nodes) ->
-   merge_index:index(IndexPid, Acc),
-   Nodes.

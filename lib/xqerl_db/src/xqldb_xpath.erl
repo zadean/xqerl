@@ -27,6 +27,8 @@
 
 -module(xqldb_xpath).
 
+-include("xqerl_db.hrl").
+
 -compile({inline,[name_type_match/3,
                   name_match/2]}).
 
@@ -234,9 +236,8 @@ merge_nodes([N|T], Map) ->
 
 get_group_key(#{id := {Ref, _Id}}) when is_reference(Ref) ->
    mem;
-get_group_key(#{id := {Pid, DocId, Id},
-                pa := PathId}) when is_pid(Pid),
-                                    is_binary(Id) ->
+get_group_key(#{id := {Pid, DocId, _Id},
+                pa := PathId}) when is_pid(Pid) ->
    {Pid, DocId, PathId};
 get_group_key(_) ->
    xqerl_error:error('XPTY0019').
@@ -250,8 +251,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    % caching this stuff in the query is okay, because only the stuff
    % that existed at the beginning of the query can exist in the query
    DB = xqerl_context:get_db(DbPid),
-   #{index     := IndxPid,
-     names     := NameMap} = DB,
+   #{names     := NameMap} = DB,
 %%    ResKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps, DocId, InPathId},
    ResultSet = 
       case xqldb_query_server:get(DB, DocId, InPathId, Steps) of
@@ -268,8 +268,8 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
                      F
                end,
            Iters = 
-             [merge_index:lookup(IndxPid, path, DocId, OutPathId, true) ||
-                OutPathId <- PathLookup(InPathId)], %% TODO remove this
+             [?INDEX:lookup_path(DB, DocId, OutPathId) ||
+                OutPathId <- PathLookup(InPathId)],
            IterUnion = xqldb_join:union(Iters),
            Results = case lists:last(Steps) of
                         atomize ->

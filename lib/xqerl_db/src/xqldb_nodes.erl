@@ -32,7 +32,6 @@
 -export([string_value/1,
          parent/1,
          ancestors/1,
-         descendants/1,
          following/1,
          preceding/1,
          siblings/1,
@@ -109,18 +108,10 @@ nodes_to_postings(Index, Field, Nodes, Timestamp) ->
    [{Index, Field, Id, Bin, [], Timestamp} || {Id, Bin} <- Nodes].
 
 
-% Path to root from binary node id 
-ids_to_root(<<>>) -> [<<>>];
+% Path to root from list node id 
+ids_to_root([]) -> [[]];
 ids_to_root(NodeId) ->
-   [NodeId|ids_to_root(binary:part(NodeId, {0, byte_size(NodeId) - 4}))].
-%% ids_to_root(NodeId) ->
-%%    Size = byte_size(NodeId) div 4,
-%%    [begin
-%%        B = I * 4,
-%%        <<N:B/binary,_/binary>> = NodeId,
-%%        N
-%%     end ||
-%%     I <- lists:seq(0, Size)].
+   [NodeId|ids_to_root(lists:droplast(NodeId))].
 
 %% Returns if this NodeBin is an element with Name, NameId is a list.
 -spec is_element(Name :: {UriId  :: '_' | non_neg_integer(), 
@@ -200,7 +191,7 @@ is_document(<<?document, _/binary>>) ->
 is_document(_) -> false.
 
 
-get_doc({DbPid, DocId, <<>>} = XNode) ->
+get_doc({DbPid, DocId, []} = XNode) ->
    Node = erlang:node(DbPid),
    case Node == node() of
       false ->
@@ -287,8 +278,7 @@ iterator_to_node_list([], _) ->
    
 local_doc(DbPid, DocId) ->
    DB = xqerl_context:get_db(DbPid),
-   Server = maps:get(index, DB),
-   [Node] = merge_index:lookup_sync(Server, doc, DocId, <<>>, true),
+   [Node] = ?INDEX:lookup_node(DB, DocId, []),
    db_node_to_node(DB, Node).
 
 namespace_nodes(#{id := {DbPid, DocId, NodeId}}) ->
@@ -301,16 +291,15 @@ namespace_nodes(#{id := {DbPid, DocId, NodeId}}) ->
    maps:to_list(IsNss).
 
 
-document_uri(#{id := {DbPid, _, <<>>},
+document_uri(#{id := {DbPid, _, []},
                du := U}) ->
    #{uri   := DbUri} = xqerl_context:get_db(DbPid),
    xqldb_uri:join(DbUri, U);
 document_uri(_) -> [].
 
 base_uri(#{id := {DbPid, DocId, _}} = Node) ->
-   #{index := Indx,
-     uri   := DbUri} = DB = xqerl_context:get_db(DbPid),
-   [Doc] = merge_index:lookup_sync(Indx, doc, DocId, <<>>, true),
+   #{uri   := DbUri} = DB = xqerl_context:get_db(DbPid),
+   [Doc] = ?INDEX:lookup_node(DB, DocId, []),
    #{du := U} = db_node_to_node(DB, Doc),
    Base = xqldb_uri:join(DbUri, U),
    Ancestors = ancestors(Node),
@@ -321,12 +310,17 @@ base_uri(#{id := {DbPid, DocId, _}} = Node) ->
           end,
    lists:foldl(Fold, Base, BaseAtts).
 
-trunc_id(<<>>) -> <<>>;
-trunc_id(<<_:4/binary>> = A) -> A;
-trunc_id(<<_:8/binary>> = A) -> A;
-trunc_id(<<_:12/binary>> = A) -> A;
-%trunc_id(<<_:16/binary>> = A) -> A;
-trunc_id(<<A:12/binary,_/binary>>) -> A.  
+trunc_id([]) -> [];
+trunc_id([_] = A) -> A;
+trunc_id([_,_] = A) -> A;
+trunc_id([_,_,_] = A) -> A;
+trunc_id([A,B,C|_]) -> [A,B,C].  
+
+%% trunc_id(<<>>) -> <<>>;
+%% trunc_id(<<_:4/binary>> = A) -> A;
+%% trunc_id(<<_:8/binary>> = A) -> A;
+%% trunc_id(<<_:12/binary>> = A) -> A;
+%% trunc_id(<<A:12/binary,_/binary>>) -> A.  
 
 test() -> ok.
 
@@ -341,8 +335,11 @@ test() -> ok.
 %% c - Kind:8 | Text:32 |                 = 40
 %% p - Kind:8 | Text:32 | Name:24         = 64
 
-parent_id(Par) ->
-   binary:part(Par, {0, byte_size(Par) - 4}).
+parent_id([]) -> [];
+parent_id(Id) -> lists:droplast(Id).
+
+%% parent_id(Par) ->
+%%    binary:part(Par, {0, byte_size(Par) - 4}).
 
 
 preceding(#{id := {DbPid, DocId, NodeId},
@@ -350,17 +347,10 @@ preceding(#{id := {DbPid, DocId, NodeId},
    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
    case xqerl_lib:lget(Key) of
       undefined ->
-         AnsIds = ids_to_root(NodeId),
-         #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-         TruncH = trunc_id(NodeId),
-         Filter = fun(I, L) when I < NodeId ->
-                        not is_attribute({'_','_'}, '_', proplists:get_value(b, L)) andalso
-                        not lists:member(I, AnsIds);
-                     (_, _) -> false
-                  end,
-         Iter = merge_index:range(Indx, doc, DocId, <<>>, TruncH, all, Filter),
+         DB = xqerl_context:get_db(DbPid),
+         Res = ?INDEX:lookup_preceding(DB, DocId, NodeId),
          % reversed results for predicates
-         Out = lists:reverse(iterator_to_node_list(Iter, DB)),
+         Out = lists:reverse(iterator_to_node_list(Res, DB)),
          xqerl_lib:lput(Key, Out);
       Out ->
          Out
@@ -372,50 +362,15 @@ following(#{id := {DbPid, DocId, NodeId},
    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
    case xqerl_lib:lget(Key) of
       undefined ->
-         #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-         {_Low, High} = get_node_id_range(NodeId),
-         TruncL = trunc_id(NodeId),
-         Filter = fun(I, L) when byte_size(I) == 4, I >= High -> 
-                        not is_text('_', proplists:get_value(b, L)); % block document text
-                     (I, L) when I >= High -> 
-                        not is_attribute({'_','_'}, '_', proplists:get_value(b, L));
-                     (_, _) -> false
-                  end,
-         Iter = merge_index:range(Indx, doc, DocId, TruncL, undefined, all, Filter),
-         Out = iterator_to_node_list(Iter, DB),
+         DB = xqerl_context:get_db(DbPid),
+         Res = ?INDEX:lookup_following(DB, DocId, NodeId),
+         Out = iterator_to_node_list(Res, DB),
          xqerl_lib:lput(Key, Out);
       Out ->
          Out
    end;
 following(_) -> [].
 
-descendants(#{id := {DbPid, DocId, NodeId},
-              nk := Nk} = _) when Nk == element;
-                                  Nk == document ->
-   Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
-   case xqerl_lib:lget(Key) of
-      undefined ->
-         #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-         {Low, High} = get_node_id_range(NodeId),
-         Filter = filter_fun(Low, High),
-         Iter = case NodeId of
-                   <<>> ->
-                      merge_index:range(Indx, doc, DocId, undefined, undefined, all, Filter);
-                   _ ->
-                      TruncL = trunc_id(Low),
-                      TruncH = trunc_id(High),
-                      if TruncL == TruncH ->
-                            merge_index:lookup(Indx, doc, DocId, TruncH, Filter);
-                         true ->
-                            merge_index:range(Indx, doc, DocId, TruncL, TruncH, all, Filter)
-                      end
-                end,
-         Out = iterator_to_node_list(Iter, DB),
-         xqerl_lib:lput(Key, Out);
-      Out ->
-         Out
-   end;
-descendants(_) -> [].
 
 ancestors(#{id := {DbPid, DocId, NodeId},
             nk := Nk} = _) when Nk =/= document ->
@@ -445,13 +400,8 @@ parent(#{id := {DbPid, DocId, ChildId},
    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, ParentId},
    case xqerl_lib:lget(Key) of
       undefined ->
-         #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-         Seg = trunc_id(ParentId),
-         Filter = fun(I, _) when I == ParentId -> 
-                        true;
-                     (_, _) -> false
-                  end,
-         Res = merge_index:lookup(Indx, doc, DocId, Seg, Filter),
+         DB = xqerl_context:get_db(DbPid),
+         Res = ?INDEX:lookup_node(DB, DocId, ParentId),
          [Out] = iterator_to_node_list(Res, DB),
          xqerl_lib:lput(Key, Out);
       Out ->
@@ -466,26 +416,15 @@ children(#{id := {DbPid, DocId, NodeId},
    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
    case xqerl_lib:lget(Key) of
       undefined ->
-   #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-   Bs = byte_size(NodeId),
-   Bp = Bs + 4,
-   Low  = <<NodeId:Bs/binary,0,0,0,0>>,
-   High = <<NodeId:Bs/binary,255,255,255,255>>,
-   LowT  = trunc_id(Low),
-   HighT = trunc_id(High),
-   Filter = fun(I, P) when Nk == document, byte_size(I) == Bp, I > Low, I < High -> 
-                  not is_text('_', proplists:get_value(b, P)); % block document text
-               (I, L) when byte_size(I) == Bp, I > Low, I < High -> 
-                  not is_attribute({'_','_'}, '_', proplists:get_value(b, L));
-               (_, _) -> false
-            end,
-   Res = if LowT == HighT ->
-               merge_index:lookup(Indx, doc, DocId, LowT, Filter);
-            true ->
-               merge_index:range(Indx, doc, DocId, LowT, HighT, all, Filter)
-         end,
-   Out = iterator_to_node_list(Res, DB),
-   xqerl_lib:lput(Key, Out);
+         DB = xqerl_context:get_db(DbPid),
+         Res = ?INDEX:lookup_children(DB, DocId, NodeId),
+         Out = case iterator_to_node_list(Res, DB) of
+                  O when Nk == document ->
+                     [I || #{nk := Ik} = I <- O, Ik /= text];
+                  O ->
+                     O
+               end,
+         xqerl_lib:lput(Key, Out);
       Out ->
          Out
    end;
@@ -495,38 +434,10 @@ attributes(#{id := _,%{DbPid, DocId, NodeId},
              nk := element,
              at := Atc} = Nd) when Atc > 0  ->
    xqldb_xpath:simple_path(Nd, [{attribute, {att, '_', '_'}}]);
-%%    Key = {?MODULE, ?FUNCTION_NAME, DbPid, DocId, NodeId},
-%%    case xqerl_lib:lget(Key) of
-%%       undefined ->
-%%          #{index := Indx} = DB = xqerl_context:get_db(DbPid),
-%%          Bs = byte_size(NodeId),
-%%          Bp = Bs + 4,
-%%          Low  = <<NodeId:Bs/binary,0,0,0,0>>,
-%%          High = <<NodeId:Bs/binary,255,255,255,255>>,
-%%          LowT  = trunc_id(Low),
-%%          HighT = trunc_id(High),
-%%          Filter = fun(I, L) when byte_size(I) == Bp, I > Low, I < High -> 
-%%                         is_attribute({'_','_'}, '_', proplists:get_value(b, L));
-%%                      (_, _) -> false
-%%                   end,
-%%          Res = if LowT == HighT ->
-%%                      merge_index:lookup(Indx, doc, DocId, LowT, Filter);
-%%                   true ->
-%%                      merge_index:range(Indx, doc, DocId, LowT, HighT, all, Filter)
-%%                end,
-%%          Out = iterator_to_node_list(Res, DB),
-%%          xqerl_lib:lput(Key, Out);
-%%       Out ->
-%%          Out
-%%    end;
 attributes(_) -> [].
 
-get_single_node(#{index := Indx} = DB, DocId, NodeId) ->
-   Seg = trunc_id(NodeId),
-   Filter = fun(I, _) when I == NodeId -> true;
-               (_, _) -> false
-            end,
-   Res = merge_index:lookup_sync(Indx, doc, DocId, Seg, Filter),
+get_single_node(DB, DocId, NodeId) ->
+   Res = ?INDEX:lookup_node(DB, DocId, NodeId),
    [Out] = iterator_to_node_list(Res, DB),
    Out.   
 
@@ -547,12 +458,14 @@ string_value(_) -> [].
 
 
 select_with_prefix(Set, Prefix) ->
-   L = split_id(Prefix),
+   L = Prefix,
+   %L = split_id(Prefix),
    MS = [{{lists:append(L, '_'),'$1'},[],['$1']}],
    ets:select(Set, MS).
 
 select_following_siblings(Set, Prefix) ->
-   L = split_id(Prefix),
+   L = Prefix,
+   %L = split_id(Prefix),
    [C|R] = lists:reverse(L),
    M = lists:reverse(['$1'|R]),
    MS = [{{M,'$2'},[{'>', '$1', C}],['$2']}],
@@ -565,7 +478,8 @@ select_following_siblings(Set, Prefix) ->
 %%    [B || {A,B} <- ets:select(Set, MS), A > L].
 
 select_preceding_siblings(Set, Prefix) ->
-   L = split_id(Prefix),
+   L = Prefix,
+   %L = split_id(Prefix),
    [C|R] = lists:reverse(L),
    M = lists:reverse(['$1'|R]),
    MS = [{{M,'$2'},[{'<', '$1', C}],['$2']}],
@@ -584,17 +498,11 @@ deep_copy_node(#{id := {_DbPid, _, Id},
         Nk =:= comment;
         Nk =:= attribute;
         Nk =:= 'processing-instruction' ->
-   %if byte_size(Sv) =:= 64 ->
-   %      #{texts := Tab} = xqerl_context:get_db(DbPid),
-   %      S = xqldb_string_table2:lookup(Tab, Sv),
-   %      N#{id := {0,Id},
-   %         sv := S};
-   %   true ->
-         N#{id := {0,Id}};
-   %end;
+   N#{id := {0,Id}};
 %% element and document node copies should pull in all descendant nodes at one 
 %% time. This can be an iterator list. Also, get the inscope-namespaces.
-deep_copy_node(#{id := {DbPid, DocId, NodeId}}) ->
+deep_copy_node(#{id := {DbPid, DocId, NodeId},
+                 nk := Nk}) ->
    DB = xqerl_context:get_db(DbPid),
    IdsToRoot = ids_to_root(NodeId), % list from current to root
    NsMaps = [get_namespaces(DB, DocId, Id) || Id <- IdsToRoot],
@@ -602,50 +510,19 @@ deep_copy_node(#{id := {DbPid, DocId, NodeId}}) ->
    IsNss = lists:foldr(fun(M, A) ->
                              maps:merge(A, M)
                        end, #{}, NsMaps),
-   Server = maps:get(index, DB),
-   {Low, High} = get_node_id_range(NodeId),
-   Filter = filter_fun(Low, High),
-   Iter = case NodeId of
-             <<>> ->
-                merge_index:range(Server, doc, DocId, undefined, undefined, all, Filter);
-             _ ->
-                TruncL = trunc_id(Low),
-                TruncH = trunc_id(High),
-                if TruncL == TruncH ->
-                      merge_index:lookup(Server, doc, DocId, TruncH, Filter);
-                   true ->
-                      merge_index:range(Server, doc, DocId, TruncL, TruncH, all, Filter)
-                end
+   Iter = ?INDEX:lookup_tree(DB, DocId, NodeId),
+   List = if Nk == document ->
+                Filter = fun(#{nk := text, id := {_,_,[_]}}) -> false;
+                            (_) -> true
+                         end,
+                lists:filter(Filter, iterator_to_node_list(Iter, DB));
+             true ->
+                iterator_to_node_list(Iter, DB)
           end,
-   List = iterator_to_node_list(Iter, DB),
    {[B], []} = build_node_from_list(List, DB#{inscope_ns => IsNss}, node_depth(NodeId), [], erlang:make_ref()),
    B.
 
-get_node_id_range(<<>>) -> {undefined, undefined};
-get_node_id_range(NodeId) ->
-   Bs = byte_size(NodeId),
-   Ps = Bs - 4,
-   <<Pre:Ps/binary,L:32/integer>> = NodeId,
-   N = L + 1, 
-   High = <<Pre:Ps/binary,N:32/integer>>,
-   {NodeId, High}.
 
-filter_fun(undefined, undefined) -> 
-   fun(I,P) when byte_size(I) == 4 ->
-         % no root text items
-         not is_text('_', proplists:get_value(b, P));
-      (_,_) -> true         
-   end;
-filter_fun(Low, High) ->
-   fun(I,P) when I >= Low andalso I < High ->
-         if byte_size(I) == 4 ->
-               % no root text items
-               not is_text('_', proplists:get_value(b, P));
-            true ->
-               true
-         end;
-      (_,_) -> false         
-   end.
 
 
 %% at = attributes
@@ -718,18 +595,18 @@ build_node_from_list([#{nk := document,
    Sv = get_string_value(Sr, DB),
    {Ch, Rest} = build_node_from_list(T, DB, 1, [], Ref), 
    {[N#{du := Sv,
-        id := {Ref,<<>>},
+        id := {Ref, []},
         ch => Ch}], Rest}.
 
 
 
 
 node_depth(#{id := {_,_,NdId}}) ->
-   byte_size(NdId) div 4;
+   length(NdId);
 node_depth({_,_,NdId}) ->
-   byte_size(NdId) div 4;
-node_depth(NdId) when is_binary(NdId) ->
-   byte_size(NdId) div 4.
+   length(NdId);
+node_depth(NdId) when is_list(NdId) ->
+   length(NdId).
 
 % expand all attributes at head of the list return {Atts, Rest}
 take_attributes([#{nk := attribute,
@@ -738,14 +615,8 @@ take_attributes([#{nk := attribute,
 take_attributes(List, Atts, _DB, _Ref) ->
    {Atts, List}.
    
-get_namespaces(#{index := Index,
-                 names := NmspMap},  DocId, NodeId) ->
-   List = merge_index:lookup_sync(Index, namespace, DocId, NodeId, true),
-   List1 = [begin
-               #{UriId := Ns} = NmspMap,
-               {Prefix, Ns}
-            end || {{_, UriId, Prefix},_} <- List],
-   maps:from_list(List1).
+get_namespaces(DB,  DocId, NodeId) ->
+   ?INDEX:lookup_namespaces(DB, DocId, NodeId).
 
 get_string_value(Ref, _) when byte_size(Ref) < 64 ->
    Ref;
@@ -785,7 +656,7 @@ iterator_to_node_set_1(Iter, DB) when is_function(Iter) ->
 iterator_to_node_set_1([Iter], DB) when is_function(Iter) ->
    iterator_to_node_set_1(Iter(), DB);
 iterator_to_node_set_1([{I,_} = H|T], DB) ->
-   [{split_id(I), db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
+   [{I, db_node_to_node(DB, H)} | iterator_to_node_set_1(T, DB)];
 iterator_to_node_set_1([], _) ->
    [].
 
@@ -794,7 +665,7 @@ iterator_to_atom_set_1(Iter, DB) when is_function(Iter) ->
 iterator_to_atom_set_1([Iter], DB) when is_function(Iter) ->
    iterator_to_atom_set_1(Iter(), DB);
 iterator_to_atom_set_1([{I,_} = H|T], DB) ->
-   [{split_id(I), db_node_to_atom(DB, H)} | iterator_to_atom_set_1(T, DB)];
+   [{I, db_node_to_atom(DB, H)} | iterator_to_atom_set_1(T, DB)];
 iterator_to_atom_set_1([], _) ->
    [].
 
@@ -803,18 +674,18 @@ iterator_to_dbl_set_1(Iter, DB) when is_function(Iter) ->
 iterator_to_dbl_set_1([Iter], DB) when is_function(Iter) ->
    iterator_to_dbl_set_1(Iter(), DB);
 iterator_to_dbl_set_1([{I,_} = H|T], DB) ->
-   [{split_id(I), db_node_to_dbl(DB, H)} | iterator_to_dbl_set_1(T, DB)];
+   [{I, db_node_to_dbl(DB, H)} | iterator_to_dbl_set_1(T, DB)];
 iterator_to_dbl_set_1([], _) ->
    [].
 
-split_id(<<A:32/integer, B:32/integer, C:32/integer, D:32/integer, Rest/binary>>) ->
-   [A,B,C,D|split_id(Rest)];
-split_id(<<A:32/integer, B:32/integer, C:32/integer, Rest/binary>>) ->
-   [A,B,C|split_id(Rest)];
-split_id(<<A:32/integer, B:32/integer, Rest/binary>>) ->
-   [A,B|split_id(Rest)];
-split_id(<<A:32/integer, Rest/binary>>) ->
-   [A|split_id(Rest)];
-split_id(<<>>) -> [].
+%% split_id(<<A:32/integer, B:32/integer, C:32/integer, D:32/integer, Rest/binary>>) ->
+%%    [A,B,C,D|split_id(Rest)];
+%% split_id(<<A:32/integer, B:32/integer, C:32/integer, Rest/binary>>) ->
+%%    [A,B,C|split_id(Rest)];
+%% split_id(<<A:32/integer, B:32/integer, Rest/binary>>) ->
+%%    [A,B|split_id(Rest)];
+%% split_id(<<A:32/integer, Rest/binary>>) ->
+%%    [A|split_id(Rest)];
+%% split_id(<<>>) -> [].
   
 

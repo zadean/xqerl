@@ -22,6 +22,12 @@
 
 -include_lib("kernel/include/logger.hrl").
 
+%% node index module
+%-define(INDEX, xqldb_idx_dets).
+%-define(INDEX, xqldb_idx_ets).
+-define(INDEX, xqldb_idx_mi).
+-define(PINDEX, emojipoo).
+
 % node kinds
 -define(fragment, 7). % non-conformant xml
 -define(document, 0).

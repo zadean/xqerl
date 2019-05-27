@@ -88,7 +88,7 @@ select_paths(Uri) ->
 select_collection(Uri) ->
    DBs = xqldb_db:databases(Uri),
    G = fun({N,xml,Sp}, #{db_name := DbPid}) ->
-             NodeId = {DbPid, {N, Sp}, <<>>},
+             NodeId = {DbPid, {N, Sp}, []},
              xqldb_nodes:get_doc(NodeId);
           ({_,link,_,Filename}, _) ->
              {ok, Bin} = file:read_file(Filename),
@@ -137,7 +137,7 @@ select(DocUri) when is_binary(DocUri) ->
          case xqldb_path_table:lookup(DB, Name) of
             {xml, Stamp} ->
                DBId = maps:get(db_name, DB),
-               NodeId = {DBId, {Name, Stamp}, <<>>},
+               NodeId = {DBId, {Name, Stamp}, []},
                xqldb_nodes:get_doc(NodeId);
             {item, _Stamp, {Pos, Len}} ->
                Res = xqldb_resource_table:get(DB, {Pos, Len}),
@@ -180,7 +180,7 @@ select_doc(DocUri) when is_binary(DocUri) ->
          #{db_name := DBId} = DB = xqldb_db:database(DbUri),
          case xqldb_path_table:lookup(DB, Name) of
             {xml,Stamp} ->
-               NodeId = {DBId, {Name,Stamp}, <<>>},
+               NodeId = {DBId, {Name,Stamp}, []},
                xqldb_nodes:get_doc(NodeId);
             _ ->
                {error, not_exists}
