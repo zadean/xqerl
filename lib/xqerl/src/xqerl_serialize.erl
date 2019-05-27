@@ -35,7 +35,6 @@
 -define(svg,    <<"http://www.w3.org/2000/svg">>).
 -define(mathml, <<"http://www.w3.org/1998/Math/MathML">>).
 
-serialize([], _Opts) -> <<>>;
 serialize(Seq, Opts) ->
    Opts1 = maps:merge(default_opts(), Opts),
    Ser = do_serialize(Seq, Opts1),
