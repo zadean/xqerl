@@ -174,6 +174,7 @@ exists_doc(DocUri) when is_binary(DocUri) ->
 
 select_doc(DocUri) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
+   {Agent, _} = locks:begin_transaction([{[DbUri,Name], read}]),
    case xqldb_db:exists(DbUri) of
       false -> {error, not_exists};
       true ->
@@ -181,8 +182,11 @@ select_doc(DocUri) when is_binary(DocUri) ->
          case xqldb_path_table:lookup(DB, Name) of
             {xml,Stamp} ->
                NodeId = {DBId, {Name,Stamp}, []},
-               xqldb_nodes:get_doc(NodeId);
+               Node = xqldb_nodes:get_doc(NodeId),
+               _ = locks:end_transaction(Agent),
+               Node;
             _ ->
+               _ = locks:end_transaction(Agent),
                {error, not_exists}
          end
    end;
@@ -190,8 +194,7 @@ select_doc(DocUri) when is_binary(DocUri) ->
 
 insert_doc(DocUri, Filename) when is_binary(DocUri) ->
    {DbUri,Name} = xqldb_uri:split_uri(DocUri),
-   {Agent, _} = locks:begin_transaction(),
-   _ = locks:lock(Agent, [DbUri,Name]),
+   {Agent, _} = locks:begin_transaction([{[DbUri,Name], write}]),
    DB = xqldb_db:database(DbUri),
    case xqldb_path_table:lookup(DB, Name) of
       [] -> 
