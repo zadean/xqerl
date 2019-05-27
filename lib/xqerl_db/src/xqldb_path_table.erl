@@ -222,18 +222,17 @@ handle_call({delete, Name, #{resources := Res} = DB}, _From,
    end,
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
-handle_call({delete_all, #{resources := Res,
-                           index := Index} = DB}, _From, #{tab  := HeapFile} = State) ->
+handle_call({delete_all, DB}, _From, #{tab  := HeapFile} = State) ->
    Delete = fun({Name, {xml, Sp}}) ->
                   maybe_delete_doc_ref(DB, {Name, Sp}),
                   dets:delete(HeapFile, Name),
                   continue;
                ({Name, {res, _, PosLen}}) ->
-                  xqldb_resource_table:delete(Res, PosLen),
+                  xqldb_resource_table:delete(DB, PosLen),
                   dets:delete(HeapFile, Name),
                   continue;
                ({Name, {item, _, PosLen}}) ->
-                  xqldb_resource_table:delete(Res, PosLen),
+                  xqldb_resource_table:delete(DB, PosLen),
                   dets:delete(HeapFile, Name),
                   continue;
                ({Name,_}) ->
