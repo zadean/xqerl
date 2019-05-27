@@ -456,14 +456,14 @@ val_map(Fun,[H|T]) ->
                ?dbg("Err",Stack),
                ?err('XPTY0004') 
          end,
-   if T == [] ->
+   if is_list(Val) andalso T == [] ->
          Val;
+      is_list(Val) ->
+         Val ++ val_map(Fun, T);
+      T == [] ->
+         [Val];
       true ->
-         if is_list(Val) ->
-               Val ++ val_map(Fun, T);
-            true ->
-               [Val | val_map(Fun, T)]
-         end
+         [Val | val_map(Fun, T)]
    end.
 
 rangemap(_,[]) -> [];
