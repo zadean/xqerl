@@ -108,7 +108,7 @@ select_collection(Uri) ->
    Fun = fun(DB) ->
                [G(P, DB) || P <- xqldb_path_table:all(DB)]
          end,
-   lists:flatmap(Fun, DBs).
+   lists:flatten(lists:flatmap(Fun, DBs)).
 
 delete_collection(Uri) ->
    DBs = xqldb_db:databases(Uri),
