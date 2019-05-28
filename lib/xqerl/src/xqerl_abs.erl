@@ -255,17 +255,21 @@ scan_mod(#xqModule{prolog = Prolog,
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, 
                                                                Namespaces),
    ModName = xqerl_static:string_atom(ModNs),
-   EmptyMap = Map#{module => ModName,
-                   namespaces => ConstNamespaces},
+   EmptyMap0 = Map#{module => ModName,
+                    namespaces => ConstNamespaces},
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, N};
                                      (_) -> false
                                   end,Prolog),
+   Imports     = xqerl_static:pro_mod_imports(Prolog),
+   {_Functions1, _Variables1, StaticProps} = 
+     xqerl_context:get_module_exports(Imports),
    
-   StatProps0 = maps:get(stat_props, EmptyMap),
-   CtxItemType = maps:get(context_item_type, EmptyMap),
+   StatProps0 = lists:usort(maps:get(stat_props, EmptyMap0) ++ StaticProps),
+   CtxItemType = maps:get(context_item_type, EmptyMap0),
    StatProps = [{context_item_type, CtxItemType}|StatProps0],
+   EmptyMap = EmptyMap0#{stat_props := StatProps0}, 
    
    P1a = {attribute,1,file,{binary_to_list(ModNs),2}},
    P1 = scan_variables(EmptyMap,Variables, public), 
@@ -664,7 +668,7 @@ join_functions(Funs) ->
 
 
 init_ctx_function(Ctx) ->
-   MapItems = init_fun_abs(Ctx, maps:get(stat_props, Ctx) ++ [options,module]),
+   MapItems = init_fun_abs(Ctx, lists:usort(maps:get(stat_props, Ctx) ++ [options,module] )),
    G = ?P(["init_ctx() ->",
            "  _ = xqerl_lib:lnew(),",
            "  Tab = xqerl_context:init(),",
