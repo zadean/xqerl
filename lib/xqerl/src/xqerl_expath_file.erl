@@ -499,7 +499,7 @@ append_text_lines(_, Path, Values, Encoding) when is_binary(Path),
          W = fun(S) ->
                   write_line(Fd,S)
              end,
-         ok = lists:foreach(W, Values),
+         ok = lists:foreach(W, l(Values)),
          _ = file:close(Fd),
          [];
       {error,eisdir} ->
@@ -1250,7 +1250,7 @@ write_text_lines(_, Path, Values, Encoding) when is_binary(Path),
          W = fun(S) ->
                   write_line(Fd,S)
              end,
-         ok = lists:foreach(W, Values),
+         ok = lists:foreach(W, l(Values)),
          _ = file:close(Fd),
          [];
       {error,eisdir} ->
@@ -1383,7 +1383,7 @@ path_to_uri(Ctx,Path) ->
 %% This function is -nondeterministic-.
 resolve_path(_, Path) when is_binary(Path) ->
    try
-      R = xqerl_lib:resolve_against_base_uri(filename:absname(<<>>), Path),
+      R = xqerl_lib:resolve_against_base_uri(filename:absname(<<".">>), Path),
       N = filename:nativename(strip_scheme(R)),
       case filelib:is_file(N) of
          false ->
@@ -1750,3 +1750,8 @@ strip_scheme(<<"file:///", Path/binary>>) ->
 strip_scheme(<<"file://", Path/binary>>) -> Path;
 strip_scheme(<<"file:/", Path/binary>>) -> Path;
 strip_scheme(Path) -> Path.
+
+l(L) when is_list(L) -> L;
+l(L) -> [L].
+  
+   
