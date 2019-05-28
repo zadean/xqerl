@@ -564,7 +564,6 @@ do_unload(Tab, Ebin, DispatchFile) ->
 %io:format(PP),
       io:put_chars(FP, PP),
       file:close(FP),
-      ok = file:write_file(Filename, list_to_binary(PP)),
       Flat.   
 -elif(true).
    print_erl(_,_) -> ok.

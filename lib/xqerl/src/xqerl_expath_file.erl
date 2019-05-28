@@ -1566,7 +1566,7 @@ get_encoding_1(<<"utf-32">>) -> utf32;
 get_encoding_1(E) -> err_unknown_encoding(E).
 
 write_line(Fd, S) when is_binary(S) ->
-   case file:write(Fd, S) of
+   case io:put_chars(Fd, S) of
       ok ->
          io:nl(Fd);
       _ ->
