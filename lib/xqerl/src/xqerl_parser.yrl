@@ -852,14 +852,14 @@ end.
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   {update, modify, [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+   {update, modify, next_id(), [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
       #xqVarRef{name = Nm}, 
       #xqVarRef{name = Nm}}.
 'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' 'Expr' '}' :
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   {update, modify, [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+   {update, modify, next_id(), [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
       {'simple-map', next_id(), #xqVarRef{name = Nm}, '$5'}, 
       #xqVarRef{name = Nm}}.
 'TransformWithExpr' -> 'UnaryExpr' : '$1'.
