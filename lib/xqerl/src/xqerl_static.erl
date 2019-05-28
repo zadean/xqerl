@@ -1079,7 +1079,8 @@ handle_node(State, {postfix, Id, #xqVarRef{name = Name} = Ref,
    NewArgs = lists:map(fun({S,_C}) ->
                            S
                        end, CheckArgs),
-   set_statement_and_type(State, {postfix, Id, Ref, [{arguments,NewArgs}]}, Type);
+   Ref1 = get_statement(handle_node(State, Ref)),
+   set_statement_and_type(State, {postfix, Id, Ref1, [{arguments,NewArgs}]}, Type);
 
 % predicate on variable
 handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
