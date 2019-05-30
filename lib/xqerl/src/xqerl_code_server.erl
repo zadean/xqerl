@@ -40,6 +40,7 @@
          xqerl_array,
          xqerl_xs,
          xqerl_expath_file,
+         xqerl_expath_binary,
          xqerl_http_client,
          xqerl_rand,
          xqerl_ext_basex,
@@ -420,7 +421,7 @@ scan_tree_static(Tree, BaseUri) ->
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
       _:#xqError{} = E:S ->
-         %?dbg("parse_tokens e",Tree),
+         ?dbg("parse_tokens e",S),
          throw(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("scan_tree_static",E),

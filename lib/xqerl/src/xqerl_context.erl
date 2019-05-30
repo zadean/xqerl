@@ -773,6 +773,7 @@ static_namespaces() ->
      {<<"array">>, <<"http://www.w3.org/2005/xpath-functions/array">>},
      {<<"output">>,<<"http://www.w3.org/2010/xslt-xquery-serialization">>},
      {<<"file">>,  <<"http://expath.org/ns/file">>},
+     {<<"bin">>,   <<"http://expath.org/ns/binary">>},
      {<<"http">>,  <<"http://expath.org/ns/http-client">>},
      {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
