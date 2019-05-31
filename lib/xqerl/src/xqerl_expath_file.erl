@@ -85,9 +85,9 @@
          resolve_path/2
         ]).
 %% 6 System Properties
--export([dir_seperator/1,
-         line_seperator/1,
-         path_seperator/1,
+-export([dir_separator/1,
+         line_separator/1,
+         path_separator/1,
          temp_dir/1,
          base_dir/1,
          current_dir/1
@@ -107,7 +107,7 @@
  {{qname,?NS, ?PX,<<"last-modified">>}, 
   {xqSeqType, 'xs:dateTime', one}, [?NDA], {'last_modified', 2}, 1, [{xqSeqType, 'xs:string', one}]},
  {{qname,?NS, ?PX,<<"size">>}, 
-  {xqSeqType, 'xs:integer', one}, [?NDA], {'size', 2}, 1, [{xqSeqType, 'xs:dateTime', one}]},
+  {xqSeqType, 'xs:integer', one}, [?NDA], {'size', 2}, 1, [{xqSeqType, 'xs:string', one}]},
 %% 4 Input/Output
  {{qname,?NS, ?PX,<<"append">>}, 
   {xqSeqType, 'empty-sequence', zero}, [?NDA], {'append', 3}, 2, 
@@ -255,7 +255,8 @@
 %%    Tests if the file or directory pointed by $path exists.
 %% This function is -nondeterministic-.
 exists(_, Path) when is_binary(Path) ->
-   ?bool(filelib:is_file(Path));
+   APath = filenameify(Path),
+   ?bool(filelib:is_file(APath));
 exists(Ctx,Path) ->
    exists(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
 
@@ -267,7 +268,8 @@ exists(Ctx,Path) ->
 %%    root and the volume roots are considered directories.
 %% This function is -nondeterministic-.
 is_dir(_, Path) when is_binary(Path) ->
-   ?bool(filelib:is_dir(Path));
+   APath = filenameify(Path),
+   ?bool(filelib:is_dir(APath));
 is_dir(Ctx,Path) ->
    is_dir(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
 
@@ -278,7 +280,8 @@ is_dir(Ctx,Path) ->
 %%    Tests if $path points to a file.
 %% This function is -nondeterministic-.
 is_file(_, Path) when is_binary(Path) ->
-   ?bool(filelib:is_regular(Path));
+   APath = filenameify(Path),
+   ?bool(filelib:is_regular(APath));
 is_file(Ctx,Path) ->
    is_file(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
 
@@ -292,8 +295,9 @@ is_file(Ctx,Path) ->
 %%    [file:not-found] is raised if $path does not exist.
 %%    [file:io-error] is raised if any other error occurs.
 last_modified(_, Path) when is_binary(Path) ->
-   case filelib:last_modified(Path) of
-      0 -> err_not_found(Path);
+   APath = filenameify(Path),
+   case filelib:last_modified(APath) of
+      0 -> err_not_found(APath);
       {{Y,M,D},{H,Mi,S}} ->
          DT = #xsDateTime{year = Y,
                           month = M,
@@ -301,7 +305,7 @@ last_modified(_, Path) when is_binary(Path) ->
                           hour = H,
                           minute = Mi,
                           second = xqerl_numeric:decimal(S),
-                          offset = []},
+                          offset = xqerl_context:get_implicit_timezone()},
          Str = xqerl_datetime:to_string(DT, 'xs:dateTime'),
          #xqAtomicValue{type = 'xs:dateTime', 
                         value = DT#xsDateTime{string_value = Str}}
@@ -319,16 +323,22 @@ last_modified(Ctx,Path) ->
 %%    [file:not-found] is raised if $path does not exist.
 %%    [file:io-error] is raised if any other error occurs.
 size(_, Path) when is_binary(Path) ->
-   case filelib:file_size(Path) of
+   APath = filenameify(Path),
+   case filelib:file_size(APath) of
       0 ->
-         case filelib:is_file(Path) of
+         case filelib:is_file(APath) of
             false -> 
-               err_not_found(Path);
+               err_not_found(APath);
             true ->
-               ?intv(0)
+               0
          end;
       Size ->
-         ?intv(Size)
+         case filelib:is_dir(APath) of
+            true ->
+               0;
+            false ->
+               Size
+         end
    end;
 size(Ctx,Path) ->
    size(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -358,10 +368,15 @@ size(Ctx,Path) ->
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
 %% NOTE: Params as item to allow map instead of element 
-append(_, File, Items) when is_binary(File) ->
+append(C, Path, Items) ->
+   append(C, Path, Items, []).
+
+append(C, Path, Items, Params) when is_binary(Path) ->
+   File = filenameify(Path),
+   Ser = xqerl_fn:serialize(C, Items, Params),
    case file:open(File, [append,binary]) of
       {ok,Fd} ->
-         case file:write(Fd, erlang:term_to_binary(Items)) of
+         case io:put_chars(Fd, Ser) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -373,17 +388,13 @@ append(_, File, Items) when is_binary(File) ->
          err_is_dir(File);
       {error,enotdir} ->
          err_no_dir(File);
+      {error,enoent} ->
+         err_no_dir(File);
       {error,_} ->
          err_io_error(File)
    end;
-append(Ctx,File,Items) ->
-   append(Ctx,xqerl_types:cast_as(File, 'xs:string'),Items).
-
--spec append(_,_,_,_) ->
-   xq_types:xs_error().
-append(_,_File,_Items,_Params) ->
-   % serialization
-   not_implemented().
+append(Ctx,File,Items,Params) ->
+   append(Ctx,xqerl_types:cast_as(File, 'xs:string'),Items,Params).
 
 %% 4.2 file:append-binary
 %% Signature
@@ -398,10 +409,11 @@ append(_,_File,_Items,_Params) ->
 %%    [file:no-dir] is raised if the parent directory of $file does not exist.
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
-append_binary(_, Path, ?bin(Value)) when is_binary(Path) ->
+append_binary(_, Path0, ?bin(Value)) when is_binary(Path0) ->
+   Path = filenameify(Path0),
    case file:open(Path, [append,binary]) of
       {ok,Fd} ->
-         case file:write(Fd, Value) of
+         case io:put_chars(Fd, Value) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -412,6 +424,8 @@ append_binary(_, Path, ?bin(Value)) when is_binary(Path) ->
       {error,eisdir} ->
          err_is_dir(Path);
       {error,enotdir} ->
+         err_no_dir(Path);
+      {error,enoent} ->
          err_no_dir(Path);
       {error,_} ->
          err_io_error(Path)
@@ -442,13 +456,14 @@ append_binary(Ctx,Path,Value) ->
 append_text(Ctx,Path,Value) ->
    append_text(Ctx,Path,Value,?str(<<"UTF-8">>)).
 
-append_text(_, Path, Value, Encoding) when is_binary(Path),
-                                           is_binary(Value),
-                                           is_binary(Encoding) ->
+append_text(_, Path0, Value, Encoding) when is_binary(Path0),
+                                            is_binary(Value),
+                                            is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
+   Path = filenameify(Path0),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
-         case file:write(Fd, Value) of
+         case io:put_chars(Fd, Value) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -460,7 +475,10 @@ append_text(_, Path, Value, Encoding) when is_binary(Path),
          err_is_dir(Path);
       {error,enotdir} ->
          err_no_dir(Path);
-      {error,_} ->
+      {error,enoent} ->
+         err_no_dir(Path);
+      {error, _Err} ->
+         %?dbg("Err",Err),
          err_io_error(Path)
    end;
 append_text(Ctx,Path,Value,Encoding) ->
@@ -491,9 +509,10 @@ append_text(Ctx,Path,Value,Encoding) ->
 append_text_lines(Ctx,Path,Values) ->
    append_text_lines(Ctx,Path,Values,?str(<<"UTF-8">>)).
 
-append_text_lines(_, Path, Values, Encoding) when is_binary(Path),
-                                                  is_binary(Encoding) ->
+append_text_lines(_, Path0, Values, Encoding) when is_binary(Path0),
+                                                   is_binary(Encoding) ->
    Enc = get_encoding(Encoding),
+   Path = filenameify(Path0),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          W = fun(S) ->
@@ -505,6 +524,8 @@ append_text_lines(_, Path, Values, Encoding) when is_binary(Path),
       {error,eisdir} ->
          err_is_dir(Path);
       {error,enotdir} ->
+         err_no_dir(Path);
+      {error,enoent} ->
          err_no_dir(Path);
       {error,_} ->
          err_io_error(Path)
@@ -551,8 +572,10 @@ append_text_lines(Ctx,Path,Values,Encoding) ->
 %%       to a directory, in which a subdirectory exists with the name of the 
 %%       source file.
 %%    [file:io-error] is raised if any other error occurs.
-copy(_, Source, Target) when is_binary(Source),
-                             is_binary(Target) ->
+copy(_, Source0, Target0) when is_binary(Source0),
+                               is_binary(Target0) ->
+   Source = filenameify(Source0),
+   Target = filenameify(Target0),
    case filelib:is_file(Source) of
       false -> err_not_found(Source);
       true ->
@@ -560,9 +583,10 @@ copy(_, Source, Target) when is_binary(Source),
             true -> 
                case filelib:is_dir(Target) of
                   true -> % copy file into directory 
-                     NewTarget = filename:join(Source, Target),
+                     NewTarget = filename:join(Target, filename:basename(Source)),
                      case filelib:is_dir(NewTarget) of
                         true -> % file to existing sub-directory
+                           ?dbg("NewTarget is dir", NewTarget),
                            err_is_dir(NewTarget);
                         false ->
                            do_copy(Source, NewTarget)
@@ -601,7 +625,8 @@ copy(Ctx,Source,Target) ->
 %%    [file:exists] is raised if the specified path, or any of its parent 
 %%       directories, points to an existing file.
 %%    [file:io-error] is raised if any other error occurs.
-create_dir(_, Dir) when is_binary(Dir) ->
+create_dir(_, Dir0) when is_binary(Dir0) ->
+   Dir = filenameify(Dir0),
    case filelib:ensure_dir(Dir) of
       ok ->
          case ensure_dir(Dir) of
@@ -810,11 +835,14 @@ list(_, Dir, Recursive, Pattern) when is_binary(Dir),
       false -> err_no_dir(Dir);
       true ->
          try
+            NDir = maybe_add_dir_sep(filename:nativename(Dir)),
+            %?dbg("NDir",NDir),
             if Recursive ->
-                  L = do_rec_list(Dir,Pattern),
-                  [?str(binary:replace(Li, Dir, <<>>)) || Li <- L];
+                  L = do_rec_list(Dir),
+                  %?dbg("L",L),
+                  [binary:replace(filename:nativename(Li), NDir, <<>>) || Li <- L];
                true ->
-                  [unicode:characters_to_binary(Li) || 
+                  [binary:replace(maybe_add_dir_sep(filename:nativename(Li)), NDir, <<>>) || 
                    Li <- file_wildcard(Pattern, Dir)]
             end
          catch
@@ -1099,7 +1127,7 @@ read_text_lines(Ctx,File,Encoding) ->
 write(_, File, Items) when is_binary(File) ->
    case file:open(File, [write,binary]) of
       {ok,Fd} ->
-         case file:write(Fd, erlang:term_to_binary(Items)) of
+         case io:put_chars(Fd, erlang:term_to_binary(Items)) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -1110,6 +1138,8 @@ write(_, File, Items) when is_binary(File) ->
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
+         err_no_dir(File);
+      {error,enoent} ->
          err_no_dir(File);
       {error,_} ->
          err_io_error(File)
@@ -1152,7 +1182,7 @@ write_binary(_, File, ?bin(Value), Offset) when is_binary(File),
       {ok,Fd} ->
          case file:position(Fd, Offset) of
             {ok,_} ->
-               case file:write(Fd, Value) of
+               case io:put_chars(Fd, Value) of
                   ok ->
                      _ = file:close(Fd),
                      [];
@@ -1166,6 +1196,8 @@ write_binary(_, File, ?bin(Value), Offset) when is_binary(File),
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
+         err_no_dir(File);
+      {error,enoent} ->
          err_no_dir(File);
       {error,_} ->
          err_io_error(File)
@@ -1208,6 +1240,8 @@ write_text(_, File, Value, Encoding) when is_binary(File),
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
+         err_no_dir(File);
+      {error,enoent} ->
          err_no_dir(File);
       {error,E} ->
          ?dbg("E",E),
@@ -1257,6 +1291,8 @@ write_text_lines(_, Path, Values, Encoding) when is_binary(Path),
          err_is_dir(Path);
       {error,enotdir} ->
          err_no_dir(Path);
+      {error,enoent} ->
+         err_no_dir(Path);
       {error,_} ->
          err_io_error(Path)
    end;
@@ -1297,7 +1333,7 @@ parent(_, Path) when is_binary(Path) ->
    if D == Abs -> % root
          [];
       true ->
-         ?str(D)
+         filename:nativename(maybe_add_dir_sep(D))
    end;
 parent(Ctx,Path) ->
    parent(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1333,23 +1369,18 @@ children(Ctx,Dir) ->
 %%    [file:io-error] is raised if an error occurs while trying to obtain the 
 %%       native path.
 path_to_native(_, Path) when is_binary(Path) ->
-   try
-      R = xqerl_lib:resolve_against_base_uri(<<".">>, Path),
-      N = filename:nativename(strip_scheme(R)),
-      case filelib:is_file(N) of
-         false ->
-            err_not_found(N);
-         true ->
-            case filelib:is_dir(N) of
-               true ->
-                  <<N/binary, (get_dir_sep())/binary>>;
-               false ->
-                  N
-            end
-      end
-   catch
-      _:_ ->
-         err_io_error(Path)
+   APath = filenameify(Path),
+   Native = filename:nativename(APath),
+   case filelib:is_file(Native) of
+      false ->
+         err_not_found(Native);
+      true ->
+         case filelib:is_dir(Native) of
+            true ->
+               <<Native/binary, (get_dir_sep())/binary>>;
+            false ->
+               Native
+         end
    end;
 path_to_native(Ctx,Path) ->
    path_to_native(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1364,7 +1395,8 @@ path_to_native(Ctx,Path) ->
 %% This function is -deterministic- (no path existence check is made).
 path_to_uri(_, Path) when is_binary(Path) ->
    try
-      ?uri(xqerl_lib:resolve_against_base_uri(<<".">>, Path))
+      EPath = filename:absname(Path),
+      ?uri(xqldb_lib:filename_to_uri(EPath))
    catch
       _:_ ->
          err_invalid_path(Path)
@@ -1383,22 +1415,17 @@ path_to_uri(Ctx,Path) ->
 %% This function is -nondeterministic-.
 resolve_path(_, Path) when is_binary(Path) ->
    try
-      R = xqerl_lib:resolve_against_base_uri(filename:absname(<<".">>), Path),
-      N = filename:nativename(strip_scheme(R)),
+      EPath = ensure_flat_path(filename:absname(Path)),
+      N = filename:nativename(EPath),
       case filelib:is_file(N) of
          false ->
             err_not_found(N);
          true ->
-            case filelib:is_dir(N) of
-               true ->
-                  <<N/binary, (get_dir_sep())/binary>>;
-               false ->
-                  N
-            end
+            maybe_add_dir_sep(N)
       end
    catch
       _:_ ->
-         err_io_error(Path)
+         err_invalid_path(Path)
    end;
 resolve_path(Ctx,Path) ->
    resolve_path(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1412,7 +1439,7 @@ resolve_path(Ctx,Path) ->
 %%    Returns the value of the operating system-specific directory separator, 
 %%       which usually is / on UNIX-based systems and \ on Windows systems.
 %% This function is -nondeterministic-.
-dir_seperator(_) -> ?str(get_dir_sep()).
+dir_separator(_) -> ?str(get_dir_sep()).
 
 %% 6.2 file:line-separator
 %% Signature
@@ -1422,7 +1449,7 @@ dir_seperator(_) -> ?str(get_dir_sep()).
 %%       which usually is &#10; on UNIX-based systems, &#13;&#10; on Windows 
 %%       systems and &#13; on Mac systems.
 %% This function is -nondeterministic-.
-line_seperator(_) -> ?str(get_line_sep()).
+line_separator(_) -> ?str(get_line_sep()).
 
 %% 6.3 file:path-separator
 %% Signature
@@ -1432,7 +1459,7 @@ line_seperator(_) -> ?str(get_line_sep()).
 %%       usually is : on UNIX-based systems and ; on Windows systems.
 %% 
 %% This function is -nondeterministic-.
-path_seperator(_) -> ?str(get_path_sep()).
+path_separator(_) -> ?str(get_path_sep()).
 
 %% 6.4 file:temp-dir
 %% Signature
@@ -1459,7 +1486,8 @@ base_dir(#{'base-uri' := ?uri(B)}) ->
          [];
       true ->
          parent([],B)
-   end.
+   end;
+base_dir(_) -> [].
 
 %% 6.6 file:current-dir
 %% Signature
@@ -1468,7 +1496,9 @@ base_dir(#{'base-uri' := ?uri(B)}) ->
 %%    Returns the current working directory. - This function returns the same 
 %%       result as the function call file:resolve-path('.').
 current_dir(_) ->
-   resolve_path([], ?str(<<"">>)).
+   Cwd = filename:absname(<<"">>),
+   Nat = filename:nativename(Cwd),
+   maybe_add_dir_sep(Nat).
 
 %% A References
 %% XSLT and XQuery Serialization 3.0
@@ -1495,63 +1525,52 @@ current_dir(_) ->
 %% A generic file system error occurred.
 %% 
 
+-define(Q(V), #xqAtomicValue{type = 'xs:QName', 
+                             value = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = V}}).
 
 err_not_found(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " does not exist.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"not-found">>}
+   E = #xqError{description = <<Path/binary, " does not exist.">>,
+                name = ?Q(<<"not-found">>)
                 },
    exit(E).
 err_invalid_path(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " is invalid.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"invalid-path">>}
+   E = #xqError{description = <<Path/binary, " is invalid.">>,
+                name = ?Q(<<"invalid-path">>)
                 },
    exit(E).
 err_exists(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " already exists.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"exists">>}
+   E = #xqError{description = <<Path/binary, " already exists.">>,
+                name = ?Q(<<"exists">>)
                 },
    exit(E).
 err_no_dir(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " does not point to a directory.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"no-dir">>}
+   E = #xqError{description = <<Path/binary, " does not point to a directory.">>,
+                name = ?Q(<<"no-dir">>)
                 },
    exit(E).
 err_is_dir(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " points to a directory.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"is-dir">>}
+   E = #xqError{description = <<Path/binary, " points to a directory.">>,
+                name = ?Q(<<"is-dir">>)
                 },
    exit(E).
 err_unknown_encoding(Path) ->
-   E = #xqError{description = unicode:characters_to_list(Path) ++ 
-                                " encoding is not supported.",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"unknown-encoding">>}
+   E = #xqError{description = <<Path/binary, " encoding is not supported.">>,
+                name = ?Q(<<"unknown-encoding">>)
                 },
    exit(E).
 err_out_of_range(Path) ->
-   E = #xqError{description = "The specified offset or length ("
-                              ++ unicode:characters_to_list(Path) ++
+   E = #xqError{description = <<"The specified offset or length (",
+                              Path/binary,
                               ") is negative, or the chosen values"
-                              " would exceed the file bounds",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"out-of-range">>}
+                              " would exceed the file bounds">>,
+                name = ?Q(<<"out-of-range">>)
                 },
    exit(E).
 err_io_error(File) ->
-   E = #xqError{description = "A generic file system error occurred. ("
-               ++ unicode:characters_to_list(File) ++ ")",
-                name = #qname{namespace = ?NS,prefix = ?PX,
-                              local_name = <<"io-error">>}
+   E = #xqError{description = <<"A generic file system error occurred. (",
+               File/binary, ")">>,
+                name = ?Q(<<"io-error">>)
                 },
    exit(E).
 
@@ -1647,18 +1666,17 @@ do_rec_delete(Path) ->
          err_io_error(Path)
    end.
 
-do_rec_list(Dir,Pattern) ->
-   All = file_wildcard(Pattern, Dir),
-   F = fun(File) ->
-             Abs = filename:join(Dir,File),
-             case filelib:is_regular(Abs) of
+do_rec_list(Dir) ->
+   Level = file_wildcard(<<"*">>, Dir),
+   F = fun(Name) ->
+             case filelib:is_regular(Name) of
                 true ->
-                   [Abs];
+                   [Name];
                 false ->
-                   [Abs|do_rec_list(Abs, Pattern)]
+                   [Name|do_rec_list(Name)]
              end
        end,
-   lists:flatmap(F, All).
+   lists:flatmap(F, Level).
 
 do_read_from(Fd,Offset) ->
    case file:position(Fd, Offset) of
@@ -1718,8 +1736,11 @@ ensure_dir(Dir) ->
    end.
 
 file_wildcard(Pat, Dir) ->
-   filelib:wildcard(unicode:characters_to_list(Pat), 
-                    unicode:characters_to_list(Dir)).
+   %maybe_add_dir_sep
+   Names = filelib:wildcard(unicode:characters_to_list(Pat),
+                            unicode:characters_to_list(Dir)),
+   [filename:join(Dir, Name)
+    || Name <- Names].
 
 -spec not_implemented() ->
    xq_types:xs_error().
@@ -1754,4 +1775,32 @@ strip_scheme(Path) -> Path.
 l(L) when is_list(L) -> L;
 l(L) -> [L].
   
-   
+maybe_add_dir_sep(Name) ->
+   case filelib:is_dir(Name) of
+      true ->
+         <<Name/binary, (get_dir_sep())/binary>>;
+      false ->
+         Name
+   end.
+
+ensure_flat_path(Path) ->
+   Fun = fun(<<".">>, Acc) ->
+               Acc;
+            (<<"..">>, []) ->
+               [];
+            (<<"..">>, Acc) ->
+               tl(Acc);
+            (S, Acc) ->
+               [S|Acc]
+         end,
+   Sim = lists:foldl(Fun, [], filename:split(Path)),
+   filename:join(lists:reverse(Sim)).
+
+filenameify(Path) ->
+   case catch xqldb_lib:uri_to_filename(Path) of
+      {'EXIT', _} ->
+         filename:absname(Path);
+      P ->
+         P
+   end.
+  
