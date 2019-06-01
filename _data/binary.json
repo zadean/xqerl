@@ -1,0 +1,703 @@
+{
+   "ns": "http://expath.org/ns/binary",
+   "px": "binary",
+   "desc": "Extension functions to process data from binary files, including extracting subparts, searching, basic binary operations and conversion between binary and structured forms.",
+   "fx": [
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:string?"
+                  }
+               ],
+               "type": "xs:string?"
+            }
+         ],
+         "name": "hex",
+         "desc": "<p>\n        <code>$in</code> will be effectively zero-padded from the left to generate an integral\n        number of octets, i.e. an even number of hexadecimal digits. If <code>$in</code> is an empty\n        string, then the result will be a <code>xs:base64Binary</code> with no embedded data.</p><p>Byte order in the result follows (per-octet) character order in the string.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:string?"
+                  }
+               ],
+               "type": "xs:string?"
+            }
+         ],
+         "name": "binary",
+         "desc": "<p>\n        <code>$in</code> will be effectively zero-padded from the left to generate an integral\n        number of octets. If <code>$in</code> is an empty string, then the result will be a\n          <code>xs:base64Binary</code> with no embedded data.</p><p>Byte order in the result follows (per-octet) character order in the string.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:string?"
+                  }
+               ],
+               "type": "xs:string?"
+            }
+         ],
+         "name": "octal",
+         "desc": "<p>\n        <code>$in</code> will be effectively zero-padded from the left to generate an integral\n        number of octets. If <code>$in</code> is an empty string, then the result will be a\n          <code>xs:base64Binary</code> with no embedded data.</p><p>Byte order in the result follows (per-octet) character order in the string.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  }
+               ],
+               "type": "xs:base64Binary"
+            }
+         ],
+         "name": "to-octets",
+         "desc": "<p>If <code>$in</code> is a zero length binary data then the empty sequence is returned.</p><p>Octets are returned as integers from 0 to 255.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:integer*"
+                  }
+               ],
+               "type": "xs:integer*"
+            }
+         ],
+         "name": "from-octets",
+         "desc": "<p>Octets are integers from 0 to 255.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns zero-sized\n        binary data.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  }
+               ],
+               "type": "xs:base64Binary"
+            }
+         ],
+         "name": "length",
+         "desc": "<p>Returns the size of binary data in octets.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            }
+         ],
+         "name": "part",
+         "desc": "<p>Returns a section of binary data starting at the <code>$offset</code> octet. If\n          <code>$size</code> is defined, the size of the returned binary data is <code>$size</code>\n        octets. If <code>$size</code> is absent, all remaining data from <code>$offset</code> is\n        returned.</p><p>The <code>$offset</code> is zero based.</p><p>The values of <code>$offset</code> and <code>$size</code>\n        <strong>must</strong> be non-negative integers.</p><p>It is a dynamic error if <code>$offset</code> + <code>$size</code> is larger than the size\n        of the binary data in <code>$in</code>.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary*"
+                  }
+               ],
+               "type": "xs:base64Binary*"
+            }
+         ],
+         "name": "join",
+         "desc": "<p>The function returns an <code>xs:base64Binary</code> created by concatenating the items in\n        the sequence <code>$in</code>, in order.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns a binary item\n        containing no data bytes.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "extra",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            }
+         ],
+         "name": "insert-before",
+         "desc": "<p>Returns binary data consisting sequentially of the data from <code>$in</code> upto and\n        including the <code>$offset - 1</code> octet, followed by all the data from\n          <code>$extra</code>, and then the remaining data from <code>$in</code>.</p><p>The <code>$offset</code> is zero based.</p><p>The value of <code>$offset</code>\n        <strong>must</strong> be a non-negative integer.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p><p>If the value of <code>$extra</code> is the empty sequence, the function returns\n          <code>$in</code>.</p><p>If <code>$offset eq 0</code> the result is the binary concatenation of <code>$extra</code>\n        and <code>$in</code>, i.e. equivalent to <code>bin:join(($extra,$in))</code>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            }
+         ],
+         "name": "pad-left",
+         "desc": "<p>The function returns an <code>xs:base64Binary</code> created by padding the input with\n          <code>$size</code> octets <em>in front of</em> the input. If <code>$octet</code> is\n        specified, the padding octets each have that value, otherwise they are initialized to 0.</p><p>\n  <code>$size</code>\n        <strong>must</strong> be a non-negative integer.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            }
+         ],
+         "name": "pad-right",
+         "desc": "<p>The function returns an <code>xs:base64Binary</code> created by padding the input with\n          <code>$size</code> blank octets <em>after</em> the input. If <code>$octet</code> is\n        specified, the padding octets each have that value, otherwise they are initialized to 0.</p><p>\n  <code>$size</code>\n        <strong>must</strong> be a non-negative integer.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "search",
+                     "type": "xs:base64Binary"
+                  }
+               ],
+               "type": "xs:base64Binary"
+            }
+         ],
+         "name": "index-of",
+         "desc": "<p>The function returns the first location of the binary search sequence in the input, or if\n        not found, the empty sequence.</p><p>If <code>$search</code> is empty <code>$offset</code> is returned.</p><p>The value of <code>$offset</code>\n        <strong>must</strong> be a non-negative integer.</p><p>The <code>$offset</code> is zero based.</p><p>The returned location is zero based.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "encoding",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "encoding",
+                     "type": "xs:string"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "encoding",
+                     "type": "xs:string"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            }
+         ],
+         "name": "decode-string",
+         "desc": "<p>If <code>$offset</code> and <code>$size</code> are provided, the <code>$size</code> octets\n        from <code>$offset</code> are decoded. If <code>$offset</code> alone is provided, octets\n        from <code>$offset</code> to the end are decoded, otherwise the entire octet sequence is\n        used.</p><p>The <code>$encoding</code> argument is the name of an encoding. The values for this\n        attribute follow the same rules as for the <code>encoding</code> attribute in an XML\n        declaration. The only values which every implementation is <strong>required</strong> to\n        recognize are <code>utf-8</code> and <code>utf-16</code>.</p><p>If <code>$encoding</code> is ommitted, <code>utf-8</code> encoding is assumed.</p><p>The values of <code>$offset</code> and <code>$size</code>\n        <strong>must</strong> be non-negative integers.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p><p>\n  <code>$offset</code> is zero based.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:string?"
+                  }
+               ],
+               "type": "xs:string?"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:string?"
+                  },
+                  {
+                     "name": "encoding",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "encode-string",
+         "desc": "<p>The <code>$encoding</code> argument is the name of an encoding. The values for this\n        attribute follow the same rules as for the <code>encoding</code> attribute in an XML\n        declaration. The only values which every implementation is <strong>required</strong> to\n        recognize are <code>utf-8</code> and <code>utf-16</code>.</p><p>If <code>$encoding</code> is ommitted, <code>utf-8</code> encoding is assumed.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:double"
+                  }
+               ],
+               "type": "xs:double"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:double"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "pack-double",
+         "desc": "<p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The binary representation will correspond with that of the IEEE double-precision 64-bit\n        floating point type <a href=\"http://expath.org/spec/binary#ieee754\">[IEEE 754-1985]</a>. For more details see <a href=\"http://expath.org/spec/binary#floating\">\n    <b>8.3 Representation of floating point numbers</b>\n  </a>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:float"
+                  }
+               ],
+               "type": "xs:float"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:float"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "pack-float",
+         "desc": "<p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The binary representation will correspond with that of the IEEE single-precision 32-bit\n        floating point type <a href=\"http://expath.org/spec/binary#ieee754\">[IEEE 754-1985]</a>. For more details see <a href=\"http://expath.org/spec/binary#floating\">\n    <b>8.3 Representation of floating point numbers</b>\n  </a>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "pack-integer",
+         "desc": "<p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>Specifying a <code>$size</code> of zero yields an empty binary data.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "unpack-double",
+         "desc": "<p>Extract the <a href=\"http://www.w3.org/TR/xmlschema-2/#double\">double</a> value stored\n        in the 8 successive octets from the <code>$offset</code> octet of the binary data of\n          <code>$in</code>.</p><p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The value of <code>$offset</code>\n        <strong>must</strong> be a non-negative integer.</p><p>The <code>$offset</code> is zero based.</p><p>The binary representation is expected to correspond with that of the IEEE double-precision\n        64-bit floating point type <a href=\"http://expath.org/spec/binary#ieee754\">[IEEE 754-1985]</a>. For more details see <a href=\"http://expath.org/spec/binary#floating\">\n    <b>8.3 Representation of floating point numbers</b>\n  </a>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "unpack-float",
+         "desc": "<p>Extract the <a href=\"http://www.w3.org/TR/xmlschema-2/#float\">float</a> value stored in\n        the 4 successive octets from the <code>$offset</code> octet of the binary data of\n          <code>$in</code>.</p><p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The value of <code>$offset</code>\n        <strong>must</strong> be a non-negative integer.</p><p>The <code>$offset</code> is zero based.</p><p>The binary representation is expected to correspond with that of the IEEE single-precision\n        32-bit floating point type <a href=\"http://expath.org/spec/binary#ieee754\">[IEEE 754-1985]</a>. For more details see <a href=\"http://expath.org/spec/binary#floating\">\n    <b>8.3 Representation of floating point numbers</b>\n  </a>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "unpack-integer",
+         "desc": "<p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The values of <code>$offset</code> and <code>$size</code>\n        <strong>must</strong> be non-negative integers.</p><p>\n  <code>$offset</code> is zero based.</p><p>Specifying a <code>$size</code> of zero yields the integer <code>0</code>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            },
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary"
+                  },
+                  {
+                     "name": "offset",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "size",
+                     "type": "xs:integer"
+                  },
+                  {
+                     "name": "octet-order",
+                     "type": "xs:string"
+                  }
+               ],
+               "type": "xs:string"
+            }
+         ],
+         "name": "unpack-unsigned-integer",
+         "desc": "<p>Most-significant-octet-first number representation is assumed unless the\n          <code>$octet-order</code> parameter is specified. Acceptable values for\n          <code>$octet-order</code> are described in <a href=\"http://expath.org/spec/binary#endianness\">\n    <b>8.1 Number 'endianness'</b>\n  </a>.</p><p>The values of <code>$offset</code> and <code>$size</code>\n        <strong>must</strong> be non-negative integers.</p><p>The <code>$offset</code> is zero based.</p><p>Specifying a <code>$size</code> of zero yields the integer <code>0</code>.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "a",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "b",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            }
+         ],
+         "name": "or",
+         "desc": "<p>Returns \"bitwise or\" applied between <code>$a</code> and <code>$b</code>.</p><p>If either argument is the empty sequence, an empty sequence is returned.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "a",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "b",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            }
+         ],
+         "name": "xor",
+         "desc": "<p>Returns \"bitwise exclusive or\" applied between <code>$a</code> and <code>$b</code>.</p><p>If either argument is the empty sequence, an empty sequence is returned.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "a",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "b",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            }
+         ],
+         "name": "and",
+         "desc": "<p>Returns \"bitwise and\" applied between <code>$a</code> and <code>$b</code>.</p><p>If either argument is the empty sequence, an empty sequence is returned.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  }
+               ],
+               "type": "xs:base64Binary?"
+            }
+         ],
+         "name": "not",
+         "desc": "<p>Returns \"bitwise not\" applied to <code>$in</code>.</p><p>If the argument is the empty sequence, an empty sequence is returned.</p>"
+      },
+      {
+         "sigs": [
+            {
+               "params": [
+                  {
+                     "name": "in",
+                     "type": "xs:base64Binary?"
+                  },
+                  {
+                     "name": "by",
+                     "type": "xs:integer"
+                  }
+               ],
+               "type": "xs:integer"
+            }
+         ],
+         "name": "shift",
+         "desc": "<p>If <code>$by</code> is positive then bits are shifted <code>$by</code> times to the\n        left.</p><p>If <code>$by</code> is negative then bits are shifted <code>-$by</code> times to the\n        right.</p><p>If <code>$by</code> is zero, the result is identical to <code>$in</code>.</p><p>If <code>|$by|</code> is greater than the bit-length of <code>$in</code> then an all-zeros\n        result, of the same length as <code>$in</code>, is returned.</p><p>\n  <code>|$by|</code> can be greater than 8, implying multi-byte shifts.</p><p>The result always has the same size as <code>$in</code>.</p><p>The shifting is logical: zeros are placed into discarded bits.</p><p>If the value of <code>$in</code> is the empty sequence, the function returns an empty\n        sequence.</p>"
+      }
+   ]
+}
