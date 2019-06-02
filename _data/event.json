@@ -1,0 +1,43 @@
+{
+  "ns" : "http://xqerl.org/modules/event",
+  "px" : "event",
+  "desc": "<p>Module for sending asynchronous events from XQuery to Erlang event handlers.</p><p>Event handler callback modules can be listed in the configuration under &apos;event_handlers&apos;.</p><p>All events are tuples with the first element `xqerl_event` followed with the arguments from the calling function.</p><p>{xqerl_event, Arg1, Arg2}</p>",
+  "fx" : [
+    {
+      "name" : "notify",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "arg1", "type" : "item()*"}
+          ],
+          "type" : "empty-sequence()"
+        },
+        {
+          "params" : [
+            {"name" : "arg1", "type" : "item()*"},
+            {"name" : "arg2", "type" : "item()*"}
+          ],
+          "type" : "empty-sequence()"
+        },
+        {
+          "params" : [
+            {"name" : "arg1", "type" : "item()*"},
+            {"name" : "arg2", "type" : "item()*"},
+            {"name" : "arg3", "type" : "item()*"}
+          ],
+          "type" : "empty-sequence()"
+        },
+        {
+          "params" : [
+            {"name" : "arg1", "type" : "item()*"},
+            {"name" : "arg2", "type" : "item()*"},
+            {"name" : "arg3", "type" : "item()*"},
+            {"name" : "arg4", "type" : "item()*"}
+          ],
+          "type" : "empty-sequence()"
+        }
+      ],
+      "desc" : "Notify the locally registered `xqerl_event_man` event manager and its handlers."
+    }
+  ]
+}
