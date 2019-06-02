@@ -5072,9 +5072,8 @@ sum1([H|T], Sum) ->
 -spec 'trace'(xq_types:context(),
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
-'trace'(_Ctx,Arg1) -> 
-   Meta = #{domain => [trace]},
-   ?LOG_INFO("~p~n", [Arg1], Meta),
+'trace'(_Ctx, Arg1) -> 
+   gen_event:notify(xqerl_trace_man, {trace, Arg1}),
    Arg1.
 
 %% fn:trace($value as item()*, $label as xs:string) as item()*
@@ -5083,10 +5082,8 @@ sum1([H|T], Sum) ->
               xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'trace'(_Ctx,Arg1,Arg2) ->
-   AtStr = xqerl_xs:xs_string([], Arg2),
-   Str = xqerl_types:value(AtStr),
-   Meta = #{domain => [trace]},
-   ?LOG_INFO("~s:~p~n", [Str,Arg1], Meta),
+   Label = xqerl_types:string_value(Arg2),
+   gen_event:notify(xqerl_trace_man, {trace, Label, Arg1}),
    Arg1.
 
 %% Invokes a transformation using a dynamically-loaded XSLT stylesheet. 

@@ -93,17 +93,17 @@ uri_to_filename(<<"file:///",Rest/binary>>) ->
    case Rest of
       <<L,$:,_/binary>> when L >= $A, L =< $Z;
                              L >= $a, L =< $z ->
-         filename:absname(Rest);
+         do_decode_binary(filename:absname(Rest));
       _ ->
-         filename:absname(<<$/,Rest/binary>>)
+         do_decode_binary(filename:absname(<<$/,Rest/binary>>))
    end;
 uri_to_filename("file:///"++Rest) ->
    case Rest of
       [L,$:|_] when L >= $A, L =< $Z; 
                     L >= $a, L =< $z ->
-         filename:absname(Rest);
+         do_decode(filename:absname(Rest));
       _ ->
-         filename:absname([$/|Rest])
+         do_decode(filename:absname([$/|Rest]))
    end.
 
 normalize_uri(Uri) ->
@@ -140,7 +140,7 @@ normalize_uri(Uri) ->
 has_for_high_codepoint_or_space(Bin) ->
    [C || <<C/utf8>> <= Bin, is_legacy(C)] =/= [].
 
-% list of legacy characters excepted in XQuery
+% list of legacy characters accepted in XQuery
 is_legacy(16#20) -> true;
 is_legacy(16#3c) -> true;
 is_legacy(16#3e) -> true;
@@ -409,6 +409,19 @@ is_default_port(Scheme,Port) ->
          false
    end.
 
+do_decode_binary(<<$%, Hex:2/binary, Rest/bits>>) ->
+   <<(binary_to_integer(Hex, 16)), (do_decode_binary(Rest))/binary>>;
+do_decode_binary(<<First:1/binary, Rest/bits>>) ->
+   <<First/binary, (do_decode_binary(Rest))/binary>>;
+do_decode_binary(<<>>) ->
+   <<>>.
+
+do_decode([$%,Hex1,Hex2|Rest]) ->
+   [list_to_integer([Hex1, Hex2], 16)|do_decode(Rest)];
+do_decode([First|Rest]) ->
+   [First|do_decode(Rest)];
+do_decode([]) ->
+   [].
 
 opts() ->
    [{scheme_defaults,

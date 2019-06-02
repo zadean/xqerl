@@ -46,8 +46,10 @@ start_link() ->
 init([]) ->
    SupFlags = #{strategy => one_for_one},
    Server = child_map(worker, xqerl_code_server, []),
+   Trace = event_child_map(xqerl_trace_man),
+   Event = event_child_map(xqerl_event_man),
    
-   {ok, {SupFlags, [Server]}}.
+   {ok, {SupFlags, [Server, Trace, Event]}}.
 
 %% ====================================================================
 %% Internal functions
@@ -59,3 +61,9 @@ child_map(Type, Module, Args) ->
      shutdown  => brutal_kill,
      start     => {Module, start_link, Args},
      modules   => [Module]}.
+
+event_child_map(Name) ->
+   #{id        => Name,
+     start     => {gen_event, start_link, [{local, Name}]},
+     modules   => dynamic}.
+

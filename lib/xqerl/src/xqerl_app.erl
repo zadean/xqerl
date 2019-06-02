@@ -41,6 +41,15 @@ start(_StartType, _StartArgs) ->
    case xqerl_sup:start_link() of
       {ok,Pid} ->
          _ = logger:add_handlers(xqerl),
+         
+         Trace = application:get_env(xqerl, trace_handler, xqerl_trace_h),
+         ok = gen_event:add_handler(xqerl_trace_man, Trace, []),
+         
+         Events = application:get_env(xqerl, event_handlers, []),
+         AddEvent = fun(H) ->
+                          ok = gen_event:add_handler(xqerl_event_man, H, [])
+                    end,
+         ok = lists:foreach(AddEvent, Events),
          {ok,Pid};
       Error ->
          Error

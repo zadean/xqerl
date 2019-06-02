@@ -83,10 +83,10 @@ logger(RelFile) ->
      logger_handler(
        xqerl_handler, {file, AbsFile}, all, xqerl, true, 
        [time, " [", level,"] ", mfa, "(",line,") ", pid, ": ", msg,"\n"],
-       4000),
-     logger_handler(
-       trace_handler, standard_io, info, trace, false, 
-       ["TRACE: ", msg, "\n"], unlimited)
+       4000)%,
+     %logger_handler(
+     %  trace_handler, standard_io, info, trace, false, 
+     %  ["TRACE: ", msg, "\n"], unlimited)
    ]
    .
 
