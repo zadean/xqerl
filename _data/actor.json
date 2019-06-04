@@ -1,7 +1,7 @@
 {
 	"ns": "http://xqerl.org/modules/actor",
 	"px": "actor",
-	"desc": "<p>Module for spawning processes mid-query and asynchronous message-passing between these processes.</p>",
+	"desc": "<div><p>Module for spawning processes mid-query and asynchronous message-passing between these processes.</p><pre>(: Save the address of the current actor :)<br>let $replyTo := actor:self()<br>(: Spawn 10,000 child actors and save their addresses in $children :)<br>let $children := (<br>    for $a in 1 to 10000<br>    (: Build a 0-arity function to spawn  :)<br>    let $fun := <br>      function()<br>        {<br>          (: Build a nice message and send it to the actor addressed by $replyTo :)<br>          let $cmt := ``[From `{ $a }`: Hi, my name is `{ actor:self() }`.]``<br>          return<br>            actor:send($replyTo, $cmt)<br>        }<br>    return<br>      (: Spawn the actor :)<br>      actor:spawn($fun)<br>  )<br>return<br>  (: Collect the responses sent to this actor by their 'from' address<br>     These will be in the order sent :)<br>  $children ! actor:receive(.)<br>  (: $children ! actor:receive() would return in a possibly different order<br>     as the messages would be taken in the order received and not by address :)</pre></div>",
 	"fx": [
 		{
 			"name": "spawn",
