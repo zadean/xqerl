@@ -1,0 +1,93 @@
+{
+	"ns": "http://xqerl.org/modules/actor",
+	"px": "actor",
+	"desc": "<p>Module for spawning processes mid-query and asynchronous message-passing between these processes.</p>",
+	"fx": [
+		{
+			"name": "spawn",
+			"sigs": [
+				{
+					"params": [
+						{
+							"name": "fun",
+							"type": "function() as item()*"
+						}
+					],
+					"type": "xs:base64Binary"
+				}
+			],
+			"desc": "Spawns a child actor that begins executing the 0-arity function passed to it. Returns the address of the child actor."
+		},
+		{
+			"name": "self",
+			"sigs": [
+				{
+					"params": [],
+					"type": "xs:base64Binary"
+				}
+			],
+			"desc": "Returns the address of the actor executing the function."
+		},
+		{
+			"name": "parent",
+			"sigs": [
+				{
+					"params": [],
+					"type": "xs:base64Binary?"
+				}
+			],
+			"desc": "Returns the address of the actor which spawned the current actor, or the empty-sequence if this is the root actor."
+		},
+		{
+			"name": "send",
+			"sigs": [
+				{
+					"params": [
+						{
+							"name": "address",
+							"type": "xs:base64Binary"
+						},
+						{
+							"name": "payload",
+							"type": "item()*"
+						}
+					],
+					"type": "empty-sequence()"
+				}
+			],
+			"desc": "Sends an asynchronous message containing <code>$payload</code> to <code>$address</code>."
+		},
+		{
+			"name": "receive",
+			"sigs": [
+				{
+					"params": [],
+					"type": "item()*"
+				},
+				{
+					"params": [
+						{
+							"name": "from",
+							"type": "xs:base64Binary"
+						}
+					],
+					"type": "item()*"
+				},
+				{
+					"params": [
+						{
+							"name": "from",
+							"type": "xs:base64Binary"
+						},
+						{
+							"name": "timeout",
+							"type": "xs:integer"
+						}
+					],
+					"type": "item()*"
+				}
+			],
+			"desc": "Receives a message. When no parameters are given, receives the next message in the queue. When <code>$from</code> is given, will block until a message from that actor is received (optionally with a timeout in milliseconds). Upon timeout, an error will be raised."
+		}
+	]
+}
