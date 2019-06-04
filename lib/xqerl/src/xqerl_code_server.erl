@@ -44,6 +44,7 @@
          xqerl_http_client,
          xqerl_rand,
          xqerl_ext_basex,
+         xqerl_actor,
          xqerl_csv,
          xqerl_event,
          xqerl_error]).

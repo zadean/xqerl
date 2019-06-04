@@ -511,7 +511,7 @@ pformap(From,[#xqRange{min = Min, max = Max} = R|T],{Fun, Ctx, Tuple} = FCT,Limi
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(Ctx, Tuple, ?int_rec(Min))} 
+                 Self ! {self(), catch Fun(Ctx#{parent => Self}, Tuple, ?int_rec(Min))} 
            end),
    pformap(From,[R#xqRange{min = Min + 1}|T],
            FCT,Limit,Left - 1,Pids ++ [Pid], Acc);
@@ -521,7 +521,7 @@ pformap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(Ctx, Tuple, H)} 
+                 Self ! {self(), catch Fun(Ctx#{parent => Self}, Tuple, H)} 
            end),
    pformap(From,T,FCT,Limit,Left - 1,Pids ++ [Pid], Acc);
 pformap(From,NL,FCT,Limit,Left,Pids,Acc) when not is_list(NL) ->
@@ -563,7 +563,7 @@ pmap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    %Pid = erlang:spawn(
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(Ctx, Tuple, H)} 
+                 Self ! {self(), catch Fun(Ctx#{parent => Self}, Tuple, H)} 
            end),
    pmap(From,T,FCT,Limit,Left - 1,[Pid|Pids], Acc).
 

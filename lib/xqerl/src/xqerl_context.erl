@@ -776,6 +776,7 @@ static_namespaces() ->
      {<<"bin">>,   <<"http://expath.org/ns/binary">>},
      {<<"http">>,  <<"http://expath.org/ns/http-client">>},
      {<<"rest">>,  <<"http://exquery.org/ns/restxq">>},
+     {<<"actor">>, <<"http://xqerl.org/modules/actor">>},
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
      {<<"basex">>, <<"http://xqerl.org/modules/client/BaseX">>},
      {<<"csv">>,   <<"http://xqerl.org/modules/csv">>},

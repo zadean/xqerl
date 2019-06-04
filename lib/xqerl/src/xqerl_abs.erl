@@ -1738,6 +1738,17 @@ expr_do(#{context_variable := _} = Ctx,
 %%    Ctx = clear_context_variables(Ctx0),
 %%    expr_do(Ctx,{'function-call', FC});
 
+%% special case spawn_
+expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
+                                           body = {xqerl_actor,spawn_,_A}}}) ->
+   NextCtxVar = next_ctx_var_name(),
+   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+   CtxName = {var,?L,get_context_variable_name(Ctx)},
+   Ctx1Name = {var,?L,get_context_variable_name(Ctx1)},
+   NewArgs = lists:map(fun(P) ->
+                             expr_do(Ctx1,P)
+                       end, Params),
+   ?P("begin _@Ctx1Name = _@CtxName#{parent => erlang:self()}, xqerl_actor:spawn_(_@Ctx1Name,_@@NewArgs) end");
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
                                            body = {M,F,_A}}}) when is_atom(M),
                                                                    is_atom(F) ->
