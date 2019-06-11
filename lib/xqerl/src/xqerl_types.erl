@@ -278,6 +278,7 @@ type(Seq) ->
    #xqSeqType{type = T, occur = _One} = xqerl_seq3:get_seq_type(Seq),
    T.
 
+ensure_empty([A]) -> ensure_empty(A);
 ensure_empty({array, []} = A) -> A;
 ensure_empty(M) when is_map(M) -> 
    case maps:size(M) of
