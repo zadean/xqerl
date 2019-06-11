@@ -50,7 +50,7 @@
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 -'module-namespace'({?NS, ?PX}).
 -variables([]).
 -functions([

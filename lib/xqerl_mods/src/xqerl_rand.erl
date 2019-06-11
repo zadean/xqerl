@@ -3,7 +3,7 @@
 
 -module(xqerl_rand).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 
 -define(MAXINT, (1 bsl 64) - 1).
 

@@ -26,7 +26,7 @@
 
 -module(xqerl_http_client).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 
 -define(NS, <<"http://expath.org/ns/http-client">>).
 -define(PX, <<"http">>).

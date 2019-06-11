@@ -177,7 +177,7 @@
 -export([xs_IDREFS/2]).
 -export([xs_error/2]).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 
 xs_ENTITIES(_S, []) -> [];
 xs_ENTITIES(_S, Arg1) -> 

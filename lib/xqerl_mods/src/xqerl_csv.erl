@@ -25,7 +25,7 @@
 
 -module(xqerl_csv).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 
 -define(NS,<<"http://xqerl.org/modules/csv">>).
 -define(PX,<<"csv">>).

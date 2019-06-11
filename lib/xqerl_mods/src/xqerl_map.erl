@@ -25,7 +25,7 @@
 
 -module(xqerl_map).
 
--include("xqerl.hrl").
+-include_lib("../../xqerl/include/xqerl.hrl").
 -compile(inline_list_funcs).
 
 -define(val(V), xqerl_seq3:singleton_value(V)).
