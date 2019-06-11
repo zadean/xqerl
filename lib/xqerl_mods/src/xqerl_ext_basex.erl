@@ -279,6 +279,8 @@ key_to_name(_) ->
    ?err('XPST0004').
 
 
+-dialyzer({[no_return], [throw_error/1]}).
+
 throw_error(command) ->
    do_throw(<<"command">>, <<"An error occurred while executing a command.">>);
 throw_error(connect) ->

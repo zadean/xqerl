@@ -224,6 +224,8 @@ parse_options1([_|T], M) ->
    parse_options1(T, M);
 parse_options1([], M) -> M.
 
+-dialyzer({[no_return], [throw_error/1]}).
+
 throw_error(options) ->
    ?err('XPST0004');
 throw_error(parse) ->

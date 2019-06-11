@@ -376,7 +376,7 @@ append(C, Path, Items, Params) when is_binary(Path) ->
    Ser = xqerl_fn:serialize(C, Items, Params),
    case file:open(File, [append,binary]) of
       {ok,Fd} ->
-         case io:put_chars(Fd, Ser) of
+         case catch io:put_chars(Fd, Ser) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -413,7 +413,7 @@ append_binary(_, Path0, ?bin(Value)) when is_binary(Path0) ->
    Path = filenameify(Path0),
    case file:open(Path, [append,binary]) of
       {ok,Fd} ->
-         case io:put_chars(Fd, Value) of
+         case catch io:put_chars(Fd, Value) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -463,7 +463,7 @@ append_text(_, Path0, Value, Encoding) when is_binary(Path0),
    Path = filenameify(Path0),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
-         case io:put_chars(Fd, Value) of
+         case catch io:put_chars(Fd, Value) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -1127,7 +1127,7 @@ read_text_lines(Ctx,File,Encoding) ->
 write(_, File, Items) when is_binary(File) ->
    case file:open(File, [write,binary]) of
       {ok,Fd} ->
-         case io:put_chars(Fd, erlang:term_to_binary(Items)) of
+         case catch io:put_chars(Fd, erlang:term_to_binary(Items)) of
             ok ->
                _ = file:close(Fd),
                [];
@@ -1182,7 +1182,7 @@ write_binary(_, File, ?bin(Value), Offset) when is_binary(File),
       {ok,Fd} ->
          case file:position(Fd, Offset) of
             {ok,_} ->
-               case io:put_chars(Fd, Value) of
+               case catch io:put_chars(Fd, Value) of
                   ok ->
                      _ = file:close(Fd),
                      [];
@@ -1585,7 +1585,7 @@ get_encoding_1(<<"utf-32">>) -> utf32;
 get_encoding_1(E) -> err_unknown_encoding(E).
 
 write_line(Fd, S) when is_binary(S) ->
-   case io:put_chars(Fd, S) of
+   case catch io:put_chars(Fd, S) of
       ok ->
          io:nl(Fd);
       _ ->
@@ -1709,15 +1709,6 @@ do_read(Fd,Acc) when is_binary(Acc) ->
    case file:read(Fd,1024*56) of
       {ok,Bin} ->
          do_read(Fd,<<Acc/binary,Bin/binary>>);
-      eof ->
-         Acc;
-      _ ->
-         Acc
-   end;
-do_read(Fd,Acc) ->
-   case file:read(Fd,1024*56) of
-      {ok,Bin} ->
-         do_read(Fd,Acc ++ Bin);
       eof ->
          Acc;
       _ ->
