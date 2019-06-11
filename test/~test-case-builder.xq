@@ -813,7 +813,8 @@ let $standardFuns       :=
   (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
-  _:mod_all($testCases, $SUITE = ('fn_collection_SUITE', 
+  _:mod_all($testCases, $SUITE = ('expath_file_SUITE',
+                                  'fn_collection_SUITE', 
                                   'prod_ModuleImport_SUITE', 
                                   'app_Demos_SUITE',
                                   'prod_ContextItemDecl_SUITE'))
@@ -828,3 +829,7 @@ return
   file:write-text($suiteFile, $mod, "utf-8")
 
 
+(: SD = filename:dirname(filename:dirname(filename:dirname(filename:dirname(?config(priv_dir, Config))))),
+Zip = filename:join([SD,"sandpit.zip"]),
+{ok,_} = file:copy("/git/expath/expath-cg/tests/qt3/file/sandpit.zip", Zip),
+zip:extract(Zip), :)
