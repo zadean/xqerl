@@ -1898,7 +1898,7 @@ handle_node(State, {'string-constructor', Expr}) ->
 %% 3.11.1 Maps
 %% 3.11.1.1 Map Constructors
 handle_node(State, {'map', Vals}) -> 
-   {KVSts, {FKeyTy, FValTy}} = 
+   {KVSts, {_FKeyTy, _FValTy}} = 
      lists:mapfoldl(
        fun(KV, Types) ->
              KVS1 = handle_node(State, KV),
@@ -2857,7 +2857,7 @@ handle_node(State, {'function-call',#qname{namespace = ?XS,
                 Type == <<"float">> ->
                    xqerl_types:cast_as(Av0, TypeAtom);
                 NoCast ->
-                   #xqAtomicValue{type = TypeAtom, value = AtVal};
+                   atomic_value(TypeAtom, AtVal);
                 Type == <<"NOTATION">> ->
                    ?err('XPST0017');
                 Type == <<"QName">> andalso AtType == 'xs:untypedAtomic' ->
@@ -5220,8 +5220,7 @@ get_list_type([#xqSeqType{type =
 get_list_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
 get_list_type([#xqSeqType{} = S]) -> S;
 get_list_type(Types) when is_list(Types) ->
-   get_list_type(Types, []);
-get_list_type(S) -> S.
+   get_list_type(Types, []).
 
 get_list_type([], []) ->
    #xqSeqType{type = 'empty-sequence', occur = zero};

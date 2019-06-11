@@ -3592,11 +3592,7 @@ abs_ns_qname(Ctx, {N, P}) ->
    {E1, E2};
 abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
    _ = add_used_record_type(qname),
-   E1 = if is_tuple(N) ->
-              expr_do(Ctx, N);
-           true ->
-              atom_or_string(N)
-        end,
+   E1 = atom_or_string(N),
    E2 = if is_tuple(P) ->
               %case P of
               %   <<>> ->

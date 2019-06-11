@@ -93,7 +93,7 @@ uri(#{paths := Pid}) when is_pid(Pid) ->
 -spec insert(db(), {Name :: binary(), 
                     Type :: res_type(),
                     {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
-                   } | {Name :: binary(), xml}) -> ok.
+                   } | {Name :: binary(), xml, Stamp :: integer()}) -> ok.
 
 insert(#{paths := Pid}, {_,xml,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value});

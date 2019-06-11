@@ -588,9 +588,9 @@ xml_escape(?CP_REST($/,T), Acc) ->
 
 xml_escape(<<$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2,T/binary>>,Acc) ->
    try
-      _High = list_to_integer([A,B,C,D],16),
-      _Low  = list_to_integer([A2,B2,C2,D2],16),
-       xml_escape(T, <<Acc/binary,$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2>>)
+      _ = list_to_integer([A,B,C,D],16),
+      _ = list_to_integer([A2,B2,C2,D2],16),
+      xml_escape(T, <<Acc/binary,$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2>>)
    catch
       _:_ ->
          ?err('FOJS0007')

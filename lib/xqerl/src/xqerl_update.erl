@@ -186,12 +186,12 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
    ok = lists:foreach(
           fun(put) -> ok;
              (DbPid) ->
-                #{paths := Paths} = xqldb_db:database(DbPid),
+                DB = xqldb_db:database(DbPid),
                 DocMap = maps:get(DbPid, PulMap),
                 DocIds = maps:keys(DocMap),
                 Ok = lists:all(
                        fun({Nm, Ts}) ->
-                             {xml, Ts1} = xqldb_path_table:lookup(Paths, Nm),
+                             {xml, Ts1} = xqldb_path_table:lookup(DB, Nm),
                              Ts1 == Ts
                        end, DocIds),
                 if Ok ->
@@ -206,11 +206,11 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
      fun(DbPid) ->
            DocMap = maps:get(DbPid, PulMap),
            DocIds = maps:keys(DocMap),
-           #{paths := Paths} = DB = xqldb_db:database(DbPid),
+           DB = xqldb_db:database(DbPid),
            NewPuts =
            [begin
                Upds = maps:get(DocId, DocMap),
-               Root = xqldb_nodes:get_single_node(DB, DocId, <<>>),
+               Root = xqldb_nodes:get_single_node(DB, DocId, []),
                MemDoc = xqldb_nodes:deep_copy_node(Root),
                Frank = do_updates(MemDoc, Upds), 
                SaxList = xqerl_node:new_fragment_list(Ctx#{updating => true}, Frank),
@@ -218,7 +218,7 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
                Stamp = erlang:system_time(),
                ok = xqldb_sax:parse_list(DB, SaxList, DocName, Stamp),
-               xqldb_path_table:insert(Paths, {DocName, xml, Stamp}),
+               xqldb_path_table:insert(DB, {DocName, xml, Stamp}),
                xqldb_path_table:maybe_delete_doc_ref(DB, DocId),               
                %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
                in_put_list(Frank, Puts)
