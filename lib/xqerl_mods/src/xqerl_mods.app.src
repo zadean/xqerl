@@ -1,0 +1,13 @@
+{application, xqerl_mods,
+ [
+  {description, "Statically bound XQuery modules for xqerl"},
+  {vsn, "0.1.0"},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  xqerl
+                 ]},
+  %{mod, { xqldb_app, []}},
+  {env, [
+   ]}
+ ]}.
