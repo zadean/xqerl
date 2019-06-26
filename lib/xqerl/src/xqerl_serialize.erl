@@ -870,23 +870,21 @@ encode_html_text(Bin) ->
    encode_html_text(Bin, <<>>).
 
 encode_html_text(<<>>,Acc) -> Acc;
-encode_html_text(?STR_REST("\"",Tail),Acc) ->
-   encode_html_text(Tail,<<Acc/binary,"&quot;">>);
-encode_html_text(?STR_REST("'",Tail),Acc) ->
-   encode_html_text(Tail,<<Acc/binary,"&apos;">>);
 encode_html_text(?STR_REST("<",Tail),Acc) ->
    encode_html_text(Tail,<<Acc/binary,"&lt;">>);
 encode_html_text(?STR_REST(">",Tail),Acc) ->
    encode_html_text(Tail,<<Acc/binary, "&gt;">>);
 encode_html_text(?STR_REST("&", Tail),Acc) ->
    encode_html_text(Tail,<<Acc/binary,"&amp;">>);
-encode_html_text(?CP_REST(H, Tail),Acc) when H == 16#0d ->
+encode_html_text(?CP_REST(16#0d, Tail),Acc) ->
    encode_html_text(Tail,<<Acc/binary,"&#xD;">>);
-encode_html_text(?CP_REST(H, Tail), Acc) when H >= 127 ->
-   Ref = reference(H),
-   encode_html_text(Tail,<<Acc/binary, Ref/binary>>);
-encode_html_text(?CP_REST(H, Tail),Acc) ->
-   encode_html_text(Tail,<<Acc/binary,H/utf8>>).
+encode_html_text(?CP_REST(H, Tail), Acc) ->
+   if H >= 127 ->
+         Ref = reference(H),
+         encode_html_text(Tail,<<Acc/binary, Ref/binary>>);
+      true ->
+         encode_html_text(Tail,<<Acc/binary,H/utf8>>)
+   end.
 
 encode_cdata(Txt) -> encode_cdata(Txt, <<"<![CDATA[">>).
 
@@ -1134,17 +1132,17 @@ is_empty_element({_,_,<<"isindex">>}) -> true;
 is_empty_element({_,_,<<"param">>}) -> true;
 is_empty_element({_,_,_}) -> false.
 
-is_void_element({_,_,<<"area">>}) -> true;
-is_void_element({_,_,<<"base">>}) -> true;
 is_void_element({_,_,<<"br">>}) -> true;
-is_void_element({_,_,<<"col">>}) -> true;
-is_void_element({_,_,<<"embed">>}) -> true;
 is_void_element({_,_,<<"hr">>}) -> true;
-is_void_element({_,_,<<"img">>}) -> true;
-is_void_element({_,_,<<"input">>}) -> true;
-is_void_element({_,_,<<"keygen">>}) -> true;
 is_void_element({_,_,<<"link">>}) -> true;
 is_void_element({_,_,<<"meta">>}) -> true;
+is_void_element({_,_,<<"img">>}) -> true;
+is_void_element({_,_,<<"area">>}) -> true;
+is_void_element({_,_,<<"base">>}) -> true;
+is_void_element({_,_,<<"col">>}) -> true;
+is_void_element({_,_,<<"embed">>}) -> true;
+is_void_element({_,_,<<"input">>}) -> true;
+is_void_element({_,_,<<"keygen">>}) -> true;
 is_void_element({_,_,<<"param">>}) -> true;
 is_void_element({_,_,<<"source">>}) -> true;
 is_void_element({_,_,<<"track">>}) -> true;

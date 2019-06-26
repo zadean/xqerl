@@ -684,7 +684,7 @@ param_fields([{body, VarName}|T],Map) ->
    TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
    [?P(["_@TmpAtom = xqerl_http_client:read_body(Req),",
         "ContentType = cowboy_req:header(<<\"content-type\">>, Req),",
-        "_@VarAtom = xqerl_http_client:parse_body(ContentType, _@TmpAtom)"
+        "_@VarAtom = xqerl_http_client:parse_body(ContentType, _@TmpAtom, <<>>)"
        ])|param_fields(T,Map)];
 param_fields([{Atom, VarName}|T],Map) ->
    {VarId, VarType} = maps:get(VarName, Map),

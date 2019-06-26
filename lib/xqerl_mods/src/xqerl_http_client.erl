@@ -58,7 +58,7 @@
 -export(['send-request'/2,'send-request'/3,'send-request'/4]).
 
 -export([get_content_media_type/1,
-         parse_body/2,
+         parse_body/3,
          read_body/1]).
 
 %% http:send-request($request as element(http:request)?,
@@ -299,14 +299,20 @@ do_req(Ctx, #{href := URL,
               end,
    case hackney:request(Method, URL, Headers, Serial, Redirect) of
       {error, timeout} -> err_timeout();
+      {error, connect_timeout} -> err_timeout();
+      {error, _} -> err_generic();
       {ok, StatusCode, RespHeaders, ClientRef} ->
-         {ok, Body1} = hackney:body(ClientRef),
-         resp_element(Ctx, StatusCode, RespHeaders, Body1, Opts);
+         case hackney:body(ClientRef) of
+            {ok, Body1} ->
+               resp_element(Ctx, StatusCode, RespHeaders, Body1, Opts);
+            _ ->
+               err_generic()
+         end;
       {ok, StatusCode, RespHeaders} -> % head
          resp_element(Ctx, StatusCode, RespHeaders, <<>>, Opts)
    end.
 
-resp_element(Ctx, StatusCode, Headers0, Body, Opts) ->
+resp_element(Ctx, StatusCode, Headers0, Body, #{href := URL} = Opts) ->
    Headers = normalize_headers(Headers0),
    HdElems = resp_headers_to_elements(Headers),
    ContTyp = proplists:get_value(<<"content-type">>, Headers, <<"text/xml">>),
@@ -322,7 +328,7 @@ resp_element(Ctx, StatusCode, Headers0, Body, Opts) ->
                         local_name = <<"response">>}, 
                        StatAtts, 
                        HdElems ++ [ContElem]),
-   ParsedBody = parse_body(ContTyp2, Body),
+   ParsedBody = parse_body(ContTyp2, Body, URL),
    [xqerl_node:new_fragment(Ctx, Elem), ParsedBody].
 
 resp_headers_to_elements(Headers) ->
@@ -357,17 +363,17 @@ read_body(Req, Acc) ->
          <<Acc/binary, Bin/binary>>
    end.
 
-parse_body(MediaTyp, Body) ->
+parse_body(MediaTyp, Body, URL) ->
    try
       case get_content_media_type(MediaTyp) of
          xml when Body == <<>> ->
             [];
          xml ->
-            xqldb_mem_nodes:parse_binary(Body, {<<>>, <<>>});
+            xqldb_mem_nodes:parse_binary(Body, {<<>>, URL});
          json ->
             xqerl_json:string(Body, []);
          html ->
-            xqldb_mem_nodes:parse_binary(Body, {<<>>, <<>>});
+            xqldb_mem_nodes:parse_binary_html(Body, URL);
          text ->
             Body;
          binary ->

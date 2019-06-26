@@ -38,7 +38,8 @@
          
 -export([parse_file/1,
          parse_list/2,
-         parse_binary/2]).
+         parse_binary/2,
+         parse_binary_html/2]).
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 %%          Constructors             %%
@@ -122,6 +123,18 @@ parse_binary(Bin, {Cwd, BaseUri}) ->
                                    {current_location, Cwd},
                                    {event_fun, fun event/3},
                                    {event_state, State}]),
+   case Tree of
+      #{du := _} ->
+         Tree#{du := []};
+      _ ->
+         Tree
+   end.
+
+parse_binary_html(Bin, BaseUri) ->
+   State = default_state(unicode:characters_to_binary(BaseUri)),
+   {ok,Tree,_} = 
+      htmerl:sax(Bin,[{event_fun, fun event/3},
+                      {user_state, State}]),
    case Tree of
       #{du := _} ->
          Tree#{du := []};
@@ -988,6 +1001,8 @@ lookup_node([_|T],Id) ->
    lookup_node(T,Id).
 
 % Base is the parent base-uri
+augment_base_uri(#{bu := BU} = N, BU) ->
+   N;
 augment_base_uri(#{bu := _} = N, Base) when is_tuple(Base) ->
    N;
 augment_base_uri(#{bu := BU} = N, Base) ->

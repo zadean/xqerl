@@ -4475,7 +4475,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'serialize'(Ctx, Arg1, Arg2) ->
    Nss = maps:get(namespaces, Ctx, []),
    Opts = xqerl_options:serialization_option_map(Arg2, Nss),
-   Ser = xqerl_serialize:serialize(Arg1, Opts),
+   Ser = xqerl_serialize:serialize(xqerl_seq3:flatten(Arg1), Opts),
    ?str(Ser).
 
 %% Sorts a supplied sequence, based on the value of a sort key supplied as 

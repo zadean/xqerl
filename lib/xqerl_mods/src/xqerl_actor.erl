@@ -118,7 +118,9 @@ receive_(_, FromAddress) when is_pid(FromAddress) ->
    receive
       #{from := FromAddress,
         value := Items} ->
-         Items
+         Items;
+      {'DOWN', _, FromAddress, Err} ->
+         Err
    end;
 receive_(C, ?bin(FromAddress)) ->
    FromPid = pid_from_bin(FromAddress),
@@ -143,7 +145,9 @@ receive_(_, FromAddress, Timeout) when is_pid(FromAddress),
    receive
       #{from  := FromAddress,
         value := Items} ->
-         Items
+         Items;
+      {'DOWN', _, FromAddress, Err} ->
+         Err
    after
       Timeout ->
          do_throw(timeout)
