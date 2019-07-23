@@ -4,8 +4,7 @@
   {vsn, "0.1.0"},
   {applications, [
                   kernel,
-                  stdlib,
-                  xqerl
+                  stdlib
                  ]},
   %{mod, { xqldb_app, []}},
   {env, [
