@@ -21,7 +21,9 @@
       locks,
       uuid,
       basexerl,
-      emojipoo
+      htmerl,
+      emojipoo,
+      sext
       %observer, 
       %runtime_tools
    ]},
@@ -29,4 +31,4 @@
    {env, [
       
    ]}
- ]}. 
+ ]}.
