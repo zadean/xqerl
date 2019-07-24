@@ -234,23 +234,24 @@ maybe_delete_doc_ref(#{index := IndexPid,
    Stamp = erlang:system_time(),
    io:format("~p~n", [{?LINE, erlang:system_time()}]),
    F1 = fun() ->
-              io:format("~p~n", [{?LINE, erlang:system_time()}]),
+              %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),
               ok = delete_index_vals(path, DocId, Paths, IndexPid, Stamp, []),
               ok
         end,
    F2 = fun() ->
-              io:format("~p~n", [{?LINE, erlang:system_time()}]),
+              %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               Namespaces = merge_index:range_term(IndexPid, namespace, DocId, undefined, undefined, both, true),
               ok = delete_index_vals(namespace, DocId, Namespaces, IndexPid, Stamp, []),
               F1()
         end,
    F3 = fun() ->
-              io:format("~p~n", [{?LINE, erlang:system_time()}]),
+              %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               PathCollect = erlang:spawn(fun() -> 
                                                path_collector(dict:new())
                                          end),
               MinusCounts = node_delete(PIndexPid, DocId, PathCollect),
+              %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               _ = xqldb_structure_index:incr_counts(DB, MinusCounts),
               ok
         end,
@@ -280,7 +281,7 @@ path_collector(Acc) ->
          Dest ! {counts, [{K, -V} || {K,V} <- dict:to_list(Acc)]},
          ok
    after 
-      10000 ->
+      60000 ->
          ok 
    end.
 
