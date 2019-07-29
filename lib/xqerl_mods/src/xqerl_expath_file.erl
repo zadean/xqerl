@@ -1706,8 +1706,8 @@ do_read_lines(Fd,Acc) ->
    end.
 
 do_read(Fd,Acc) when is_binary(Acc) ->
-   case file:read(Fd,1024*56) of
-      {ok,Bin} ->
+   case io:get_chars(Fd, "", 1024*56) of
+      Bin when is_binary(Bin) ->
          do_read(Fd,<<Acc/binary,Bin/binary>>);
       eof ->
          Acc;
