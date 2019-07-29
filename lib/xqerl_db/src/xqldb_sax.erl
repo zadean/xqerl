@@ -553,21 +553,23 @@ post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter) ->
      [{path, {DocId, PathId}, NodeId},
       {node, sext:encode({DocId, NodeId}), Props}
       ],
-   Writer ! {postings, Postings},
+   Writer ! {postings, self(), Postings},
+   _ = receive continue -> ok end,
    Counter2.
 
 post_namespace_node(Writer, DocId, NodeId, UriId, Prefix) ->
    Postings = 
      [{namespace, {DocId, NodeId}, {UriId, Prefix}}],
-   Writer ! {postings, Postings},
-   ok.
+   Writer ! {postings, self(), Postings},
+   receive continue -> ok end.
 
 index_writer(Postings, {DB, _} = State, Count) when Count > ?MAX_POST ->
    ok = ?INDEX:index(DB, lists:append(Postings)),
    index_writer([[]], State, 0);
 index_writer(Postings, {DB, DocId} = State, Count) ->
    receive
-      {postings, P} ->
+      {postings, Par, P} ->
+         Par ! continue,
          index_writer([P | Postings], State, Count + length(P));
       {path_doc, Paths} ->
          PathDocs = [{path_doc, P, DocId} ||
