@@ -3868,7 +3868,6 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
       true ->
          BaseUri1 = xqerl_types:string_value(BaseUri),
          try
-            Bin = unicode:characters_to_binary(String),
             Cwd = case 
                      catch(filename:dirname(
                              xqldb_lib:uri_to_filename(BaseUri1)))
@@ -3878,7 +3877,7 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
                      C ->
                         C
                   end,
-            xqldb_mem_nodes:parse_binary(Bin, {Cwd, BaseUri1})
+            xqldb_mem_nodes:parse_binary(String, {Cwd, BaseUri1})
          catch 
             _:E:S ->
                ?dbg("E",E),
