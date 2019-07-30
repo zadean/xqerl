@@ -53,9 +53,8 @@ start_link() ->
 
 %% do a sweep of the cache, clearing out old stuff
 sweep(Server) ->
-   Now = erlang:system_time(),
-   Then = Now - ?STALE,
-   gen_server:cast(Server, {sweep, Then}),
+   Now = erlang:system_time(millisecond),
+   gen_server:cast(Server, {sweep, Now}),
    timer:apply_after(?STALE, ?MODULE, ?FUNCTION_NAME, [Server]),
    ok.
 
@@ -96,13 +95,13 @@ handle_call({touch, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
       [{_, undefined, _}] ->
          undefined;
       [{_, _, _}] ->
-         Now = erlang:system_time(),
+         Now = expire(),
          ets:update_element(Tab, Key, {3, Now})
    end,
    {reply, ok, State};
 handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
    Key = {DocId, InPathId, Steps},
-   Now = erlang:system_time(),
+   Now = expire(),
    _ = ets:insert(Tab, {Key, Results, Now}),
    %io:format("~p~n", [{?LINE, Now}]),
    {reply, ok, State};
@@ -115,7 +114,7 @@ handle_call({get, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
       [{_, undefined, _}] ->
          undefined;
       [{_, T, _}] ->
-         Now = erlang:system_time(),
+         Now = expire(),
          ets:update_element(Tab, Key, {3, Now}),
          T
    end,
@@ -166,6 +165,8 @@ code_change(_OldVsn, State, _Extra) ->
 %% ====================================================================
 
 
+expire() ->
+   erlang:system_time(millisecond) + ?STALE.
 
 
 
