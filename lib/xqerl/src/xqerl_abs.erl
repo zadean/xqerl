@@ -2166,7 +2166,9 @@ expr_do(_Ctx, 'empty-expr') -> {nil,?L};
 expr_do(Ctx, #xqFlwor{id = RetId, loop = Loop, return = Return}) ->
    Ctx1 = Ctx#{grp_variables => []}, % Clear any grouping variables
    VarTup = get_variable_tuple_name(Ctx1),
-   {_NewCtx,In,Out} = flwor(Ctx1, Loop, RetId, Return, [], [],VarTup, false),
+   %% find when variables are used last
+   Rems = scan_variable_usage(Loop, Return),
+   {_NewCtx,In,Out} = flwor(Ctx1, Loop, RetId, Return, [], [],VarTup, false, Rems),
    add_global_funs(Out),
    %?P("(begin _@In end)");
    ?P("xqerl_seq3:flatten(begin _@In end)");
@@ -2328,11 +2330,11 @@ step_expr_do(Ctx, Other, _) ->
    expr_do(Ctx, Other).
 
 % return clause end loop and returns {NewCtx,Internal,Global}
-flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,true) ->
+flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,true, _) ->
    {NewCtx,FunAbs} = return_part(Ctx, {RetId,Return},false),
    NewCtx1 = set_variable_tuple_name(NewCtx, revert(TupleVar)),
    {NewCtx1,Internal,FunAbs ++ Global};
-flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,_Inline) ->
+flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,_Inline, _) ->
    FunctionName = glob_fun_name({return,RetId}),
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    NextTupleVar = next_var_tuple_name(),
@@ -2344,7 +2346,7 @@ flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,_Inline) ->
    {NewCtx1,NewInt,FunAbs ++ Global};
 
 % (for|let)/return
-flwor(Ctx, [{Curr,_,_} = F], RetId, Return, Internal, Global,TupleVar,Inline) 
+flwor(Ctx, [{Curr,_,_} = F], RetId, Return, Internal, Global,TupleVar,Inline, [Rem|Rems]) 
    when Curr =:= 'let';
         Curr =:= 'for' ->
    IsList = if Internal =:= [] ->
@@ -2368,9 +2370,9 @@ flwor(Ctx, [{Curr,_,_} = F], RetId, Return, Internal, Global,TupleVar,Inline)
    ThisFun = glob_fun_name(F),
    NextFun = glob_fun_name({return, RetId}),
    {NewCtx,FunAbs} = if Curr =:= 'let' ->
-                           let_part(Ctx, F, NextFun, IsList);
+                           let_part(Ctx, F, NextFun, IsList, Rem);
                         true ->
-                           for_loop(Ctx, F, NextFun, IsList)
+                           for_loop(Ctx, F, NextFun, IsList, Rem)
                      end,
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -2383,11 +2385,11 @@ flwor(Ctx, [{Curr,_,_} = F], RetId, Return, Internal, Global,TupleVar,Inline)
                  end,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, [], RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,true);
+         FunAbs ++ Global,NextTupleVar,true,Rems);
 
 % for/let
 flwor(Ctx, [{Curr,_,_} = F,{Next,_,_} = N|T], RetId, Return, Internal, 
-      Global,TupleVar,Inline) 
+      Global,TupleVar,Inline,[Rem|Rems]) 
    when Curr == 'let' andalso Next == 'let';
         Curr == 'let' andalso Next == 'for';
         Curr == 'for' andalso Next == 'let';
@@ -2413,9 +2415,9 @@ flwor(Ctx, [{Curr,_,_} = F,{Next,_,_} = N|T], RetId, Return, Internal,
    ThisFun = glob_fun_name(F),
    NextFun = glob_fun_name(N),
    {NewCtx,FunAbs} = if Curr =:= 'let' ->
-                           let_part(Ctx, F, NextFun, IsList);
+                           let_part(Ctx, F, NextFun, IsList, Rem);
                         true ->
-                           for_loop(Ctx, F, NextFun, IsList)
+                           for_loop(Ctx, F, NextFun, IsList, Rem)
                      end,
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -2428,10 +2430,10 @@ flwor(Ctx, [{Curr,_,_} = F,{Next,_,_} = N|T], RetId, Return, Internal,
                  end,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, [N|T], RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,true);
+         FunAbs ++ Global,NextTupleVar,true,Rems);
 
 % for/other
-flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline) 
+flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline,[Rem|Rems]) 
    when Curr =:= 'let';
         Curr =:= 'for' ->
    Vars = case get_variable_tuple(Ctx) of
@@ -2447,9 +2449,9 @@ flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline)
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name(F),
    {NewCtx,FunAbs} = if Curr =:= 'let' ->
-                           let_part(Ctx, F, [], not Inline andalso Internal =/= []);
+                           let_part(Ctx, F, [], not Inline andalso Internal =/= [], Rem);
                         true ->
-                           for_loop(Ctx, F, [], not Inline andalso Internal =/= [])
+                           for_loop(Ctx, F, [], not Inline andalso Internal =/= [], Rem)
                      end,
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -2462,10 +2464,10 @@ flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline)
                  end,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false);
+         FunAbs ++ Global,NextTupleVar,false,Rems);
 
 flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId, 
-      Return, Internal, Global,TupleVar,Inline) ->
+      Return, Internal, Global,TupleVar,Inline,[Rem|Rems]) ->
    Vars = case get_variable_tuple(Ctx) of
              {nil,_} -> {atom,?L,new};
              O -> O
@@ -2478,7 +2480,7 @@ flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId,
                   end,
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name({window,Id}),
-   {NewCtx,FunAbs} = window_loop(Ctx, F, [], Internal == []),
+   {NewCtx,FunAbs} = window_loop(Ctx, F, [], Internal == [], Rem),
    
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -2491,25 +2493,25 @@ flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId,
                  end,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false);
+         FunAbs ++ Global,NextTupleVar,false,Rems);
 
 % where
 flwor(Ctx, [{where,Id,_} = W|T], RetId, Return, Internal, 
-      Global,TupleVar,_Inline) ->
+      Global,TupleVar,_Inline,[Rem|Rems]) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name({where,Id}),
-   {NewCtx,FunAbs} = where_part(Ctx, W, []),
+   {NewCtx,FunAbs} = where_part(Ctx, W, [], Rem),
    
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
    NewInternal = Internal ++ Call2,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false);
+         FunAbs ++ Global,NextTupleVar,false,Rems);
 
 % count
 flwor(Ctx, [{count,_} = C|T], RetId, Return, Internal, 
-      Global,TupleVar,_Inline) ->
+      Global,TupleVar,_Inline,[_Rem|Rems]) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name(C),
@@ -2518,24 +2520,24 @@ flwor(Ctx, [{count,_} = C|T], RetId, Return, Internal,
    NewInternal = Internal ++ Call2,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false);
+         FunAbs ++ Global,NextTupleVar,false,Rems);
 
 % group
 flwor(Ctx, [{group_by,Id,_} = F|T], RetId, Return, Internal, 
-      Global,TupleVar,_Inline) ->
+      Global,TupleVar,_Inline,[Rem|Rems]) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name({group_by,Id}),
-   {NewCtx,FunAbs} = group_part(Ctx, F),
+   {NewCtx,FunAbs} = group_part(Ctx, F, Rem),
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
    NewInternal = Internal ++ Call2,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false);
+         FunAbs ++ Global,NextTupleVar,false,Rems);
 
 % order
 flwor(Ctx, [{order_by,Id,_} = F|T], RetId, Return, Internal, 
-      Global,TupleVar,_Inline) ->
+      Global,TupleVar,_Inline,[Rem,Rem2|Rems]) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name({order_by,Id}),
@@ -2544,7 +2546,50 @@ flwor(Ctx, [{order_by,Id,_} = F|T], RetId, Return, Internal,
    NewInternal = Internal ++ Call2,
    NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
    flwor(NewCtx1, T, RetId, Return, NewInternal, 
-         FunAbs ++ Global,NextTupleVar,false).
+         FunAbs ++ Global,NextTupleVar,false,[Rem ++ Rem2|Rems]).
+
+scan_variable_usage(Loop, Return) -> % 2170
+   FMap = fun({'for', #xqVar{id = Id, position = #xqPosVar{id = PId}}, _}) ->
+                {true, [local_variable_name(Id), local_variable_name(PId)]};
+             ({'for', #xqVar{id = Id}, _}) ->
+                {true, [local_variable_name(Id)]};
+             ({'let', #xqVar{id = Id}, _}) ->
+                {true, [local_variable_name(Id)]};
+             ({'count', #xqVar{id = Id}, _}) ->
+                {true, [local_variable_name(Id)]};
+             (#xqWindow{win_variable = #xqVar{id = Id}}) ->
+                {true, [local_variable_name(Id)]};
+             (_) ->
+                false
+          end,
+   Local = lists:append(lists:filtermap(FMap, Loop)),
+   
+   UMap = fun(Exp) ->
+                A = collect_variable_refs(Exp),
+                U = lists:usort(A),
+                [I || I <- U, lists:member(I, Local)]
+          end,
+   Used = lists:map(UMap, Loop ++ [Return]),
+   
+   RFold = fun(U, Acc) ->
+                 {[I || I <- U, not lists:member(I, Acc)], U ++ Acc}
+           end,
+   {Last,  _} = lists:mapfoldr(RFold, [], Used),
+   %?dbg("Last", Last),
+   Last.
+
+
+collect_variable_refs(Expr) ->
+   collect_variable_refs(Expr, []).
+
+collect_variable_refs({variable, Var}, Acc) ->
+   [Var|Acc];
+collect_variable_refs(Tup, Acc) when is_tuple(Tup) ->
+   collect_variable_refs(erlang:tuple_to_list(Tup), Acc);
+collect_variable_refs(List, Acc) when is_list(List) ->
+   lists:flatten([collect_variable_refs(L) || L <- List]) ++ Acc;
+collect_variable_refs(_, Acc) ->
+   Acc.
 
 return_part(Ctx,{Id, Expr},IsList) ->
    FunctionName = glob_fun_name({return,Id}),
@@ -2568,21 +2613,23 @@ return_part(Ctx,{Id, Expr},IsList) ->
    %{Ctx,[InLine, R]}.
    {Ctx,[R]}.
 
-where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
+where_part(Ctx,{'where',Id, Expr},_NextFunAtom, Rem) ->
    FunctionName = glob_fun_name({where, Id}),
    OldVariableTupleMatch = get_variable_tuple(Ctx),
+   Ctx1 = remove_variables(Rem, Ctx),
+   NewVariableTupleMatch = get_variable_tuple(Ctx1),
    %InLine = attribute(compile, {inline,{FunctionName,2}}),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
 
    E1 = expr_do(LocCtx,Expr),
    R =?P(["'@FunctionName@'(_,[]) -> [];",
           "'@FunctionName@'(__Ctx,List) ->",
-          "[I || _@OldVariableTupleMatch = I <- List,",
+          "[_@NewVariableTupleMatch || _@OldVariableTupleMatch <- List,",
           " _@E1 =:= true]."
          ]),
    
    %{Ctx,[InLine,WhereFun]}.
-   {Ctx,[R]}.
+   {Ctx1, [R]}.
 
 order_part(Ctx,{'order_by',Id, Exprs}) ->
    Collations = [C || {order,_,{modifier,_,_,{_,C}}} <- alist(Exprs)],
@@ -2636,7 +2683,7 @@ count_part(Ctx,{'count',#xqVar{id = Id,
    {NewCtx,[R1,R2]}.
 
 group_part(#{grp_variables := GrpVars,
-             variables     := Vars} = Ctx, {group_by,Id,Clauses}) ->
+             variables     := Vars} = Ctx, {group_by,Id,Clauses}, Rem) ->
    % 1. seperate the local/group-able variables from the out-of-scope variables.
    AllInScopeVars = [N || {_,_,_,N} <- Vars, is_atom(N)],
    GroupVars      = [N || {_,_,_,N} <- GrpVars],
@@ -2701,7 +2748,9 @@ group_part(#{grp_variables := GrpVars,
    ToGroupTuple = {tuple,?L,[KeyTuple,GroupedTup]},
    OutputTuple  = {tuple,?L,KeyNamesTup ++ GroupedTups},
    % 4. send back entire tuple
-   OutgoingVarTup = get_variable_tuple(Ctx),
+   Ctx1 = remove_variables(Rem, Ctx),
+   OutgoingVarTup0 = get_variable_tuple(Ctx),
+   OutgoingVarTup = get_variable_tuple(Ctx1),
 
    FunctionName = glob_fun_name({group_by, Id}),
    
@@ -2715,24 +2764,25 @@ group_part(#{grp_variables := GrpVars,
          "   _@@CollMatch, Split = _@Flatten, Rest = _@Rest,",
          "   '@FunctionName@'(Ctx,Split,Rest)."]),
    GrpFun2 =
-     ?P(["'@FunctionName@'(_Ctx,_@OutgoingVarTup,_@CollNT) -> _@ToGroupTuple;",
+     ?P(["'@FunctionName@'(_Ctx,_@OutgoingVarTup0,_@CollNT) -> _@ToGroupTuple;",
          "'@FunctionName@'(_Ctx,Split,_@OuterTups) -> ",
          "   Grouped = xqerl_flwor:groupbyclause(Split), ",
          "   [_@OutgoingVarTup || _@OutputTuple <- Grouped]."]),
-   {Ctx,[GrpFun1,GrpFun2]}.
+   {Ctx1, [GrpFun1,GrpFun2]}.
 
 let_part(Ctx,{'let',#xqVar{id = Id,
                            name = Name,
                            type = Type,
                            expr = Expr,
                            anno = Line},
-              AType} = Part,NextFunAtom,IsList) ->
+              AType} = Part,NextFunAtom,IsList, Rem) ->
    _ = set_line(Line),
    VarName = local_variable_name(Id),
    NewVar  = {Name,Type,[],VarName},
    FunctionName = glob_fun_name(Part),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
-   NewCtx  = add_grouping_variable(NewVar, Ctx),
+   NewCtx0  = add_grouping_variable(NewVar, Ctx),
+   NewCtx = remove_variables(Rem, NewCtx0),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
                               {nil,_} ->
                                  {var,?L, '_'};
@@ -2794,7 +2844,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                            enext = ENext,
                            only  = Only,
                            start_expr = StartExpr,
-                           end_expr = EndExpr}, NextFunAtom, IsInitial) ->
+                           end_expr = EndExpr}, NextFunAtom, IsInitial, Rem) ->
    _ = set_line(Line),
    OldCtxname = get_context_variable_name(Ctx),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
@@ -2874,7 +2924,7 @@ window_loop(Ctx, #xqWindow{type = Type,
    WVn = local_variable_name(WId),
    WVar = {WName,WType,[],WVn},
    Ctx21 = add_grouping_variable(WVar, Ctx16),
-   {WinVar,Ctx20} = {WVar,Ctx21},
+   {WinVar,Ctx20} = {WVar, remove_variables(Rem, Ctx21)},
    % first check for bad name shadows
    AllVars = [SVar,SPosVar,SPrevVar,SNextVar,
               EVar,EPosVar,EPrevVar,ENextVar,
@@ -2924,6 +2974,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                               O ->
                                  O
                            end,
+   
    NewVariableTupleMatch = get_variable_tuple(Ctx20),
 
    TempStreamVar = {var,?L,next_var_name()},
@@ -2960,14 +3011,14 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            expr = Expr, 
                            position = undefined,
                            anno = Line},
-              AType} = Part, NextFunAtom, IsList) ->
+              AType} = Part, NextFunAtom, IsList, Rem) ->
    _ = set_line(Line),
 %?dbg("list?",{Id,IsList}),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
    NoEmptyType = (Type#xqSeqType.occur == one orelse 
                   Type#xqSeqType.occur == one_or_many), 
-   NewCtx  = add_grouping_variable(NewVar, Ctx),
+   NewCtx  = add_grouping_variable(NewVar, remove_variables(Rem, Ctx)),
    FunctionName = glob_fun_name(Part),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
@@ -3057,7 +3108,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            position = #xqPosVar{id = PId, 
                                                 name = PName},
                            anno = Line},
-              AType} = Part, NextFunAtom, IsList) ->
+              AType} = Part, NextFunAtom, IsList, Rem) ->
    _ = set_line(Line),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
@@ -3068,7 +3119,8 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
    NoEmptyType = (Type#xqSeqType.occur == one orelse 
                   Type#xqSeqType.occur == one_or_many), 
    NewCtx      = add_grouping_variable(NewPosVar, 
-                                       add_grouping_variable(NewVar, Ctx)),
+                                       add_grouping_variable(NewVar, 
+                                                             remove_variables(Rem, Ctx))),
    FunctionName = glob_fun_name(Part),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
@@ -3177,6 +3229,22 @@ add_param(Variable, Map) ->
    Key = element(1, Variable),
    NewVars = lists:keystore(Key, 1, Vars, Variable),
    maps:put(parameters, NewVars, NewMap).
+
+remove_variables(Vars, Map) ->
+   F = fun(V, M) ->
+             remove_variable(V, M)
+       end,
+   lists:foldl(F, Map, Vars).
+   
+remove_variable(AtomName, #{variables := Vars,
+                            grp_variables := GVars} = Map) ->
+   RemFun = fun({_,_,_,N}) when N == AtomName -> false;
+               (_) -> true
+            end,
+   Vars1 = [V || V <- Vars, RemFun(V)],
+   GVars1 = [V || V <- GVars, RemFun(V)],
+   Map#{variables := Vars1,
+        grp_variables := GVars1}.
 
 %% {name,type,annos,Name}
 add_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
