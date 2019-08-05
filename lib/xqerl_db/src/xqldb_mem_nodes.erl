@@ -81,7 +81,9 @@
          parent/1,
          children/1,
          children_p/1, % adds parent
+         children_no_p/1, % no parent added, used in serialization
          attributes/1,
+         attributes_no_p/1,% no parent added, used in serialization
          string_value/1]).
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
@@ -277,6 +279,11 @@ attributes(#{nk := element,
    At;
 attributes(_) -> [].
 
+attributes_no_p(#{nk := element,
+                  at := At}) -> 
+   At;
+attributes_no_p(_) -> [].
+
 base_uri(#{bu := B}) -> B;
 base_uri(#{nk := Nk} = N) when Nk == text;
                                Nk == attribute;
@@ -298,6 +305,14 @@ children_p(#{nk := document} = D) ->
    #{ch := Ch} = add_self_to_children(D),
    Ch;
 children_p(_) -> [].
+
+children_no_p(#{nk := element,
+                ch := Ch}) ->
+   Ch;
+children_no_p(#{nk := document,
+                ch := Ch}) ->
+   Ch;
+children_no_p(_) -> [].
 
 document_uri(#{nk := document,
                du := Du}) -> Du;

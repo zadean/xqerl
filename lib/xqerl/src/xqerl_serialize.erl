@@ -359,7 +359,16 @@ do_serialize(Seq, #{method := text} = Opts) ->
    do_serialize_text(Seq, Opts);
 do_serialize(Seq, #{method := xml} = Opts) ->
    Norm = normalize_seq(Seq, Opts),
-   do_serialize_xml(Norm, Opts);
+   TextPattern = binary:compile_pattern([<<"<">>,<<">">>,<<"&">>,<<"\r">>]),
+   TextEncoder = 
+      fun(Bin) ->
+            case binary:match(Bin, TextPattern) of
+               nomatch -> Bin;
+               _ ->
+                  encode_text_(Bin)
+            end
+      end,                       
+   do_serialize_xml(Norm, Opts#{text_encoder => TextEncoder});
 do_serialize(Seq, #{method := xhtml} = Opts) ->
    Norm = normalize_seq(Seq, Opts),
    do_serialize_xhtml(Norm, Opts);
@@ -427,7 +436,16 @@ do_serialize_adaptive(Seq, #{'item-separator' := Sep} = Opts) when is_list(Seq) 
    Seq1 = [do_serialize_adaptive(S, Opts) || S <- Seq],
    string_join(Seq1, Sep);
 do_serialize_adaptive(#{nk := _} = Node, Opts) ->
-   do_serialize_xml(Node, Opts);
+   TextPattern = binary:compile_pattern([<<"<">>,<<">">>,<<"&">>,<<"\r">>]),
+   TextEncoder = 
+      fun(Bin) ->
+            case binary:match(Bin, TextPattern) of
+               nomatch -> Bin;
+               _ ->
+                  encode_text_(Bin)
+            end
+      end,                       
+   do_serialize_xml(Node, Opts#{text_encoder => TextEncoder});
 do_serialize_adaptive(true, _Opts) ->
    <<"true()">>;
 do_serialize_adaptive(false, _Opts) ->
@@ -576,11 +594,11 @@ do_serialize_html(#{nk := element,
                    #{'html-version' := HtmlV} = Opts, InScopeNamespaces) ->
    At = xqldb_mem_nodes:attributes(Node),
    QNm = encode_qname(NodeName),
-   %NewNs = get_new_namespaces(Ns, InScopeNamespaces),
+   NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
-   NsStr = <<>>,
-   %NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
-   %           {P,N} <- NewNs>>,
+   %NsStr = <<>>,
+   NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
+              {P,N} <- NewNs>>,
    Atts = << <<" ", (do_serialize_html(A, Opts, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
@@ -733,10 +751,11 @@ do_serialize_xhtml(_, _, _) ->
 
 
 do_serialize_xml(Seq, Opts) ->
-   do_serialize_xml(Seq, Opts, #{<<>> => <<>>}).
+   IoList = do_serialize_xml(Seq, Opts, #{<<>> => <<>>}),
+   iolist_to_binary(IoList).
 
 do_serialize_xml(#{nk := document} = Doc, Opts, NsInScope) ->
-   Ch = xqldb_mem_nodes:children(Doc),
+   Ch = xqldb_mem_nodes:children_no_p(Doc),
    IsWellFormed = is_well_formed(Ch),
    Decl = if IsWellFormed ->
                 [L|_] = [L ||#{nn := {_,_,L}, nk := element} <- Ch],
@@ -744,9 +763,9 @@ do_serialize_xml(#{nk := document} = Doc, Opts, NsInScope) ->
              true ->
                 do_xml_declaration(IsWellFormed, <<>>, Opts)
           end,
-   Body = << <<(do_serialize_xml(C, Opts, NsInScope))/binary>> ||
-      C <- Ch>>,
-   <<Decl/binary, Body/binary>>;   
+   Body = [ do_serialize_xml(C, Opts, NsInScope) ||
+              C <- Ch ],
+   [Decl | Body];   
 do_serialize_xml(#{nk := 'processing-instruction',
                    nn := {_,_,Ln}} = Node, _Opts, _) ->
    Tgt = xqldb_mem_nodes:string_value(Node),
@@ -757,10 +776,10 @@ do_serialize_xml(#{nk := 'processing-instruction',
    end;
 do_serialize_xml(#{nk := comment} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
-   <<"<!--", Txt/binary, "-->">>;
-do_serialize_xml(#{nk := text} = Node, _Opts, _) ->
+   [<<"<!--">>, Txt, <<"-->">>];
+do_serialize_xml(#{nk := text} = Node, Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
-   encode_text(Txt);
+   encode_text(Txt, Opts);
 do_serialize_xml(#{nk := cdata} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    encode_cdata(Txt);
@@ -769,22 +788,21 @@ do_serialize_xml(#{nk := attribute,
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = encode_att_text(Txt),
-   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
-
+   [QNm, "=\"", AttTxt, "\""];
 do_serialize_xml(#{nk := element,
                    ch := _,
                    ns := Ns,
                    nn := NodeName} = Node, Opts, InScopeNamespaces) ->
-   At = xqldb_mem_nodes:attributes(Node),
+   At = xqldb_mem_nodes:attributes_no_p(Node),
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
-   NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
-              {P,N} <- NewNs, P =/= <<"xml">>>>,
-   Atts = << <<" ", (do_serialize_xml(A, Opts, InScopeNamespaces1))/binary>> ||
-             A <- At>>,
+   NsStr = [ [<<" ">>, encode_namespace(P, N) ] ||
+             {P,N} <- NewNs, P =/= <<"xml">> ],
+   Atts = [ [<<" ">>, do_serialize_xml(A, Opts, InScopeNamespaces1)] ||
+             A <- At ],
    IsCdataNode = is_cdata_node(NodeName, Opts),
-   ChNds = xqldb_mem_nodes:children(Node),
+   ChNds = xqldb_mem_nodes:children_no_p(Node),
    Ch = if IsCdataNode ->
               lists:map(fun(#{nk := text} = Txt) ->
                               Txt#{nk := cdata};
@@ -798,13 +816,12 @@ do_serialize_xml(#{nk := element,
                        true -> {<<"\n">>, Opts};
                        false -> {<<>>, Opts#{indent := false}}
                     end,
-   Chld = << <<Indent/binary, (do_serialize_xml(C, Opts2, InScopeNamespaces1))/binary>> ||
-             C <- Ch>>,
+   Chld = [ [Indent, do_serialize_xml(C, Opts2, InScopeNamespaces1)] ||
+             C <- Ch ],
    if Ch == [] ->
-         <<"<", QNm/binary, NsStr/binary, Atts/binary, "/>",Indent/binary>>;
+         [<<"<">>, QNm, NsStr, Atts, <<"/>">>, Indent];
       true ->
-         <<"<", QNm/binary, NsStr/binary, Atts/binary, ">",
-           Chld/binary, Indent/binary, "</", QNm/binary, ">">>
+         [<<"<">>, QNm, NsStr, Atts, <<">">>, Chld, Indent, <<"</">>, QNm, <<">">>]
    end;
 
 do_serialize_xml(_, _, _) ->
@@ -850,21 +867,34 @@ normalize_prefixes(#{nk := element,
 normalize_prefixes(Node, _) ->
    Node.
 
-encode_text(Bin) -> encode_text(Bin,<<>>).
+encode_text(Bin, #{text_encoder := TextEncoder}) -> %% XXX move encoders to nifs 
+   TextEncoder(Bin).
 
-encode_text(<<>>,Acc) -> Acc;
-encode_text(?STR_REST("<",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&lt;">>);
-encode_text(?STR_REST(">",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary, "&gt;">>);
-encode_text(?STR_REST("&", Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&amp;">>);
-encode_text(?CP_REST(H, Tail),Acc) when H == 16#0d ->
-   encode_text(Tail,<<Acc/binary,"&#xD;">>);
-encode_text(?CP_REST(H, Tail), Acc) when H >= 127 ->
-   encode_text(Tail,<<Acc/binary,"&#x",(integer_to_binary(H,16))/binary,";">>);
-encode_text(?CP_REST(H, Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,H/utf8>>).
+encode_text_(Bin) ->
+   <<
+     <<(case B of
+           $& -> <<"&amp;">>;
+           $< -> <<"&lt;">>;
+           $> -> <<"&gt;">>;
+           $" -> <<"&quot;">>;
+           $' -> <<"&apos;">>;
+           _ -> <<B>>
+        end)/binary>>
+   || <<B>> <= Bin >>.   
+
+%% encode_text(<<>>,Acc) -> Acc;
+%% encode_text(?STR_REST("<",Tail),Acc) ->
+%%    encode_text(Tail,<<Acc/binary,"&lt;">>);
+%% encode_text(?STR_REST(">",Tail),Acc) ->
+%%    encode_text(Tail,<<Acc/binary, "&gt;">>);
+%% encode_text(?STR_REST("&", Tail),Acc) ->
+%%    encode_text(Tail,<<Acc/binary,"&amp;">>);
+%% encode_text(<<H, Tail/binary>>, Acc) when H == 16#0d ->
+%%    encode_text(Tail,<<Acc/binary,"&#xD;">>);
+%% encode_text(<<H, Tail/binary>>, Acc) when H < 127 ->
+%%    encode_text(Tail,<<Acc/binary, H>>);
+%% encode_text(?CP_REST(H, Tail), Acc) when H >= 127 ->
+%%    encode_text(Tail,<<Acc/binary,"&#x",(integer_to_binary(H,16))/binary,";">>).
 
 encode_html_text(Bin) -> 
    encode_html_text(Bin, <<>>).
