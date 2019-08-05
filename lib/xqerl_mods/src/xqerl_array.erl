@@ -115,7 +115,10 @@
 'filter'(Ctx,#array{data = List},Function) when is_function(Function) -> 
    try
       Fx = fun(I) ->
-                 Function(Ctx,I)
+                 case Function(Ctx,I) of
+                    [B] -> B;
+                    B -> B
+                 end        
            end,
       Data = lists:filter(Fx, List),
       #array{data = Data}
