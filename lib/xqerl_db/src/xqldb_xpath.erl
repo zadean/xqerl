@@ -210,7 +210,7 @@ simple_path([InitCtxItems], [{'following-sibling', _}] = Steps) ->
    Db = get_group_key(InitCtxItems),
    select_fun(Db, [InitCtxItems], Steps);
 simple_path(InitCtxItems, Steps) when is_list(InitCtxItems) ->
-   MergedNodes = merge_nodes(InitCtxItems, #{}),
+   MergedNodes = merge_nodes(InitCtxItems),
    % group IDs by Type and DB
    % mem nodes all together
    % DB nodes grouped by DB then by DocId
@@ -221,6 +221,12 @@ simple_path(InitCtxItems, Steps) when is_list(InitCtxItems) ->
 simple_path(InitCtxItems, Steps) ->
    simple_path([InitCtxItems], Steps).
   
+
+merge_nodes([N]) ->
+   Key = get_group_key(N),
+   [{Key, [N]}];
+merge_nodes(Nodes) ->
+   merge_nodes(Nodes, #{}).
 
 % merges nodes by DB, node output is reversed
 merge_nodes([], Map) ->
@@ -234,6 +240,8 @@ merge_nodes([N|T], Map) ->
       _ ->
          merge_nodes(T, Map#{Key => [N]})
    end.
+
+-compile({inline, {get_group_key, 1}}).
 
 get_group_key(#{id := {Ref, _Id}}) when is_reference(Ref) ->
    mem;
@@ -252,8 +260,6 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
    % caching this stuff in the query is okay, because only the stuff
    % that existed at the beginning of the query can exist in the query
    DB = xqerl_context:get_db(DbPid),
-   #{names     := NameMap} = DB,
-%%    ResKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps, DocId, InPathId},
    ResultSet = 
       case xqldb_query_server:get(DB, DocId, InPathId, Steps) of
          undefined ->
@@ -262,6 +268,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
             PathLookup = 
                case xqerl_lib:lget(LookupKey) of
                   undefined ->
+                     #{names     := NameMap} = DB,
                      Steps1 = normalize_step_names(Steps, NameMap),
                      Lookup = xqldb_structure_index:compile_path(DB, Steps1),
                      xqerl_lib:lput(LookupKey, Lookup);
@@ -296,7 +303,12 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
                  xqldb_nodes:select_with_prefix(ResultSet, NodeId)
            end
      end,
-   lists:flatmap(EachNode, Nodes).
+   case Nodes of
+      [Node] ->
+         EachNode(Node);
+      _ ->
+         lists:flatmap(EachNode, Nodes)
+   end.
    
 normalize_step_names([atomize|T], NameMap) ->
    normalize_step_names(T, NameMap);
@@ -1230,6 +1242,8 @@ self_text(#{nk := text} = Node, {Preds}) ->
    do_predicates([Node], Preds);
 self_text(#{nk := _}, _) -> [].
 
+document_order([_] = NodeList) -> NodeList;
+document_order([]) -> [];
 document_order(NodeList) when is_list(NodeList) ->
    case catch (doc_ord(NodeList)) of
       {'EXIT',_} ->

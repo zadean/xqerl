@@ -140,16 +140,9 @@ handle_cast({delete, {Doc, Stmp}}, #{tab := Tab} = State) ->
    ok = lists:foreach(Del, ToDel),
    {noreply, State};
 handle_cast({touch, DocId, InPathId, Steps}, #{tab := Tab} = State) ->
+   Now = expire(),
    Key = {DocId, InPathId, Steps},
-   _ = case ets:lookup(Tab, Key) of
-      [] ->
-         undefined;
-      [{_, undefined, _}] ->
-         undefined;
-      [{_, _, _}] ->
-         Now = expire(),
-         ets:update_element(Tab, Key, {3, Now})
-   end,
+   _ = ets:update_element(Tab, Key, {3, Now}),
    {noreply, State};
 handle_cast(_Msg, State) ->
    {noreply, State}.

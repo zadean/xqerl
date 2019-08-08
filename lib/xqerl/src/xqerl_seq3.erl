@@ -126,7 +126,8 @@ path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = fun() -> length(List) end,
    try
-      lists:flatten(do_path_map(Fun, List,1,Size))
+      do_path_map(Fun, List,1,Size)
+      %lists:flatten(do_path_map(Fun, List,1,Size))
    of Mapped ->
       case Mapped of
          [#{nk := _}|_] ->
@@ -146,7 +147,12 @@ path_map(#xqFunction{body = Fun},List) ->
 
 do_path_map(_,[],_,_) -> [];
 do_path_map(F,[H|T],P,S) ->
-   [F(H,P,S)|do_path_map(F,T,P + 1,S)].
+   case F(H,P,S) of
+      L when is_list(L) ->
+         L ++ do_path_map(F,T,P + 1,S);
+      I ->
+         [I|do_path_map(F,T,P + 1,S)]
+   end.
 
    
    

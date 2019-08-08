@@ -458,29 +458,18 @@ string_value(_) -> [].
 
 
 select_with_prefix(Set, Prefix) ->
-   L = Prefix,
-   %L = split_id(Prefix),
-   MS = [{{lists:append(L, '_'),'$1'},[],['$1']}],
+   MS = [{{Prefix ++ '_','$1'},[],['$1']}],
+   %MS = [{{lists:append(Prefix, '_'),'$1'},[],['$1']}],
    ets:select(Set, MS).
 
 select_following_siblings(Set, Prefix) ->
-   L = Prefix,
-   %L = split_id(Prefix),
-   [C|R] = lists:reverse(L),
+   [C|R] = lists:reverse(Prefix),
    M = lists:reverse(['$1'|R]),
    MS = [{{M,'$2'},[{'>', '$1', C}],['$2']}],
    ets:select(Set, MS).
-%% select_following_siblings(Set, Prefix) ->
-%%    L = split_id(Prefix),
-%%    [_C|R] = lists:reverse(L),
-%%    M = lists:reverse(['_'|R]),
-%%    MS = [{{M,'_'},[],['$_']}],
-%%    [B || {A,B} <- ets:select(Set, MS), A > L].
 
 select_preceding_siblings(Set, Prefix) ->
-   L = Prefix,
-   %L = split_id(Prefix),
-   [C|R] = lists:reverse(L),
+   [C|R] = lists:reverse(Prefix),
    M = lists:reverse(['$1'|R]),
    MS = [{{M,'$2'},[{'<', '$1', C}],['$2']}],
    ets:select(Set, MS).
