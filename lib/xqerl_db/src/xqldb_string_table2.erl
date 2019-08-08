@@ -126,13 +126,14 @@ init_state(DBDirectory, TableName) ->
    {ok,IndxFile} = dets:open_file(IndxName, []),
    #{indx_file => IndxFile}.
 
-lookup_string_from_id(Id, #{indx_file := IndxFile} = State) ->
-   case dets:lookup(IndxFile, Id) of
+lookup_string_from_id(Id, IndxFile, ReplyTo) ->
+   Reply = case dets:lookup(IndxFile, Id) of
       [] ->
-         {error, State};
+         error;
       [{_, String}] ->
-         {String, State}
-   end.
+         String
+   end,
+   gen_server:reply(ReplyTo, Reply).
 
 upsert_string_value(String, #{indx_file := IndxFile} = State) ->
    Hash = hash(String), 
@@ -165,9 +166,12 @@ handle_call({insert, Value}, _From, State) ->
    {Reply, State1} = upsert_string_value(Value, State),
    {reply, Reply, State1};
 
-handle_call({lookup, Id}, _From, State) ->
-   {Reply, State1} = lookup_string_from_id(Id, State),
-   {reply, Reply, State1}.
+handle_call({lookup, Id}, From, #{indx_file := IndxFile} = State) ->
+   Fun = fun() ->
+               lookup_string_from_id(Id, IndxFile, From)
+         end,
+   _ = erlang:spawn_link(Fun),
+   {noreply, State}.
 
 handle_info(_Request, State) -> {noreply,State}.
 
