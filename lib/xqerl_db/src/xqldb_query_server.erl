@@ -67,7 +67,7 @@ get(#{queries := Server}, DocId, InPathId, Steps) ->
          _ = erlang:put(Key, Val),
          Val;
       V ->
-         gen_server:call(Server, {touch, DocId, InPathId, Steps}),
+         gen_server:cast(Server, {touch, DocId, InPathId, Steps}),
          V
    end.
 
@@ -83,22 +83,10 @@ delete(#{queries := Server}, DocId) ->
 %% ====================================================================
 
 init([]) ->
-   Tab = ets:new(?MODULE, []),
+   Tab = ets:new(?MODULE, [public]),
    {ok, #{tab => Tab}}.
 
 
-handle_call({touch, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
-   Key = {DocId, InPathId, Steps},
-   _ = case ets:lookup(Tab, Key) of
-      [] ->
-         undefined;
-      [{_, undefined, _}] ->
-         undefined;
-      [{_, _, _}] ->
-         Now = expire(),
-         ets:update_element(Tab, Key, {3, Now})
-   end,
-   {reply, ok, State};
 handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
    Key = {DocId, InPathId, Steps},
    Now = expire(),
@@ -106,19 +94,23 @@ handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
    %io:format("~p~n", [{?LINE, Now}]),
    {reply, ok, State};
    
-handle_call({get, DocId, InPathId, Steps}, _, #{tab := Tab} = State) ->
-   Key = {DocId, InPathId, Steps},
-   Reply = case ets:lookup(Tab, Key) of
-      [] ->
-         undefined;
-      [{_, undefined, _}] ->
-         undefined;
-      [{_, T, _}] ->
-         Now = expire(),
-         ets:update_element(Tab, Key, {3, Now}),
-         T
-   end,
-   {reply, Reply, State};
+handle_call({get, DocId, InPathId, Steps}, ReplyTo, #{tab := Tab} = State) ->
+   Fun = fun() ->
+               Key = {DocId, InPathId, Steps},
+               Reply = case ets:lookup(Tab, Key) of
+                  [] ->
+                     undefined;
+                  [{_, undefined, _}] ->
+                     undefined;
+                  [{_, T, _}] ->
+                     Now = expire(),
+                     ets:update_element(Tab, Key, {3, Now}),
+                     T
+               end,
+               gen_server:reply(ReplyTo, Reply)
+         end,
+   _ = erlang:spawn_link(Fun),
+   {noreply, State};
 handle_call(_Request, _From, State) ->
    Reply = ok,
    {reply, Reply, State}.
@@ -146,6 +138,18 @@ handle_cast({delete, {Doc, Stmp}}, #{tab := Tab} = State) ->
                ets:delete(Tab, K)
          end,               
    ok = lists:foreach(Del, ToDel),
+   {noreply, State};
+handle_cast({touch, DocId, InPathId, Steps}, #{tab := Tab} = State) ->
+   Key = {DocId, InPathId, Steps},
+   _ = case ets:lookup(Tab, Key) of
+      [] ->
+         undefined;
+      [{_, undefined, _}] ->
+         undefined;
+      [{_, _, _}] ->
+         Now = expire(),
+         ets:update_element(Tab, Key, {3, Now})
+   end,
    {noreply, State};
 handle_cast(_Msg, State) ->
    {noreply, State}.
