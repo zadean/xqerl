@@ -88,7 +88,7 @@ index(#{index := Server,
    Timestamp = erlang:system_time(microsecond),
    
    {SetPostings, BagPostings} = split_transform_postings(Postings, Timestamp, [], []),
-   _ = emojipoo:batch(PServer, SetPostings),
+   _ = ?PINDEX:batch(PServer, SetPostings),
    _ = merge_index:index(Server, BagPostings),
    ok.
 
@@ -100,7 +100,7 @@ delete(DB, DocId) ->
 -spec lookup_node(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_node(#{pindex := Server}, DocId, NodeId) ->
    Key = sext:encode({DocId, NodeId}),
-   case emojipoo:get(Server, Key) of
+   case ?PINDEX:get(Server, Key) of
       not_found ->
          [];
       {ok, Value} ->
@@ -142,7 +142,7 @@ lookup_children(#{pindex := Server}, DocId, NodeId) ->
                   false
             end
       end,
-   emojipoo:prefix(Server, Prefix, FilterMap).
+   ?PINDEX:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_tree(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_tree(#{pindex := Server}, DocId, NodeId) ->
@@ -155,7 +155,7 @@ lookup_tree(#{pindex := Server}, DocId, NodeId) ->
                               {d, DocId},
                               {p, PathId}]}}
       end,
-   emojipoo:prefix(Server, Prefix, FilterMap).
+   ?PINDEX:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_following(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_following(#{pindex := Server}, DocId, NodeId) ->
@@ -183,7 +183,7 @@ lookup_following(#{pindex := Server}, DocId, NodeId) ->
                   false
             end            
       end,
-   emojipoo:prefix(Server, Prefix, FilterMap).
+   ?PINDEX:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_preceding(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_preceding(#{pindex := Server}, DocId, NodeId) ->
@@ -206,7 +206,7 @@ lookup_preceding(#{pindex := Server}, DocId, NodeId) ->
                                     {p, PathId}]}}
                   end
             end,
-   emojipoo:range(Server, Range, Filter).
+   ?PINDEX:range(Server, Range, Filter).
 
 -spec lookup_path(db(), DocId :: term(), PathId :: integer()) -> [db_node()].
 lookup_path(#{index := Server,
@@ -248,7 +248,7 @@ maybe_delete_doc_ref(#{index := IndexPid,
    F3 = fun() ->
               %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               PathCollect = erlang:spawn(fun() -> 
-                                               path_collector(dict:new())
+                                               path_collector(#{})
                                          end),
               MinusCounts = node_delete(PIndexPid, DocId, PathCollect),
               %io:format("~p~n", [{?LINE, erlang:system_time()}]),
@@ -261,29 +261,47 @@ maybe_delete_doc_ref(#{index := IndexPid,
    ok.
 
 node_delete(PIndexPid, DocId, PathCollect) ->
+   DelPid = erlang:spawn_link(fun() -> delete_collector(PIndexPid) end),
    Fun = fun({K,V}) ->
-               emojipoo:delete_async(PIndexPid, K),
+               DelPid ! K,
                {_, PathId} = binary_to_term(V),
                PathCollect ! {path, PathId},
                false         
          end,
    Prefix = sext:prefix({DocId, '_'}),
-   _ = emojipoo:prefix(PIndexPid, Prefix, Fun),
+   _ = ?PINDEX:prefix(PIndexPid, Prefix, Fun),
+   DelPid ! {done, PIndexPid},
    PathCollect ! {done, self()},
    receive {counts, X} -> X end.
-               
+
+delete_collector(PIndex) ->
+   delete_collector(PIndex, [], 0).
+
+delete_collector(PIndex, Acc, Cnt) ->
+   receive
+      Key when is_binary(Key), Cnt > 10000 ->
+         ?PINDEX:batch(PIndex, Acc),
+         delete_collector(PIndex, [{delete, Key}], 0);
+      Key when is_binary(Key) ->
+         delete_collector(PIndex, [{delete, Key}|Acc], Cnt + 1);
+      {done, PIndex} ->
+         ?PINDEX:batch(PIndex, Acc),
+         ok
+   end.
 
 path_collector(Acc) ->
    receive
       {path, P} ->
-         path_collector(dict:update_counter(P, 1, Acc));
+         path_collector(maps:update_with(P, fun update_counter/1, 1, Acc));
       {done, Dest} ->
-         Dest ! {counts, [{K, -V} || {K,V} <- dict:to_list(Acc)]},
+         Dest ! {counts, [{K, -V} || {K,V} <- maps:to_list(Acc)]},
          ok
    after 
       60000 ->
          ok 
    end.
+
+update_counter(Val) -> Val + 1.
 
 delete_index_vals(I, F, List, IndexPid, Stamp, Acc) when length(Acc) > ?MAX_ITER ->
    merge_index:index(IndexPid, Acc),
@@ -322,7 +340,7 @@ split_transform_postings([], _, SetAcc, BagAcc) ->
 lookup_node_from_iter(_, _, []) -> [];
 lookup_node_from_iter(NodeServer, DocId, [{NodeId, _}|T]) ->
    Key = sext:encode({DocId, NodeId}),
-   case emojipoo:get(NodeServer, Key) of
+   case ?PINDEX:get(NodeServer, Key) of
       not_found ->
          ?dbg("Key not found! ", Key),
          lookup_node_from_iter(NodeServer, DocId, T);
