@@ -136,7 +136,10 @@ default_continuation_cb(IoDevice) ->
 default_state(DB, Uri, Stamp) ->
    {_UriId, M1} = get_name_id(DB, <<>>, #{}),
    {_XmlId, M2} = get_name_id(DB, <<"http://www.w3.org/XML/1998/namespace">>, M1),
-   #{doc_id   => {Uri,Stamp}, % unique document ID
+   DocId = {Uri,Stamp},
+	% pre-encode the doc id
+   DocIdEnc = patch_encode({DocId}),
+   #{doc_id   => {DocId, DocIdEnc}, % unique document ID
      writer   => [],       % index writer/collector process 
      pos      => 0,        % current position    -> simply counts forward
      parent   => <<>>,     % node stack  -> each node Pos is appended, makes up the unique NodeId
@@ -498,7 +501,7 @@ wait_yield(Pids) ->
        timeout
    end.
 
--define(MAX_POST, 200).
+-define(MAX_POST, 5000).
 
 
 wait_index_writer(Pid) ->
@@ -546,18 +549,18 @@ post_document_paths(#{paths := Paths, writer := Writer}) ->
    ok.
 
 
-post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter) ->
+post_node_indexes(Writer, {DocId, DocIdEnc}, NodeId, NodeBin, PathId, Counter) ->
    Props = term_to_binary({NodeBin, PathId}),
    Counter2 = update_counter(Counter, PathId, 1),
    Postings = 
      [{path, {DocId, PathId}, NodeId},
-      {node, sext:encode({DocId, NodeId}), Props}
+      {node, encode(NodeId, DocIdEnc), Props}
       ],
    Writer ! {postings, self(), Postings},
    _ = receive continue -> ok end,
    Counter2.
 
-post_namespace_node(Writer, DocId, NodeId, UriId, Prefix) ->
+post_namespace_node(Writer, {DocId, _}, NodeId, UriId, Prefix) ->
    Postings = 
      [{namespace, {DocId, NodeId}, {UriId, Prefix}}],
    Writer ! {postings, self(), Postings},
@@ -594,5 +597,16 @@ update_counter(Map, Key, Increment) ->
          Map#{Key := OldVal + Increment};
       _ ->
          Map#{Key => Increment}
+   end.
+
+% append the node id to the pre-encoded doc id
+encode(NodeId, DocIdEnc) ->
+   <<DocIdEnc/binary, (sext:encode(NodeId))/binary>>.   
+
+% path the doc id to have a count of 2 instead of 1.
+patch_encode(Term) ->
+   case sext:encode(Term) of
+      <<16,0,0,0,1,Rest/binary>> ->
+         <<16,0,0,0,2,Rest/binary>>
    end.
 
