@@ -4697,7 +4697,7 @@ handle_direct_constructor(
   State, #xqProcessingInstructionNode{name =#qname{local_name = Ln}} = Node) ->
    case string:lowercase(Ln) of
       ?A("xml") ->
-         xqerl_error:error('XPST0003');
+         ?err('XPST0003');
       _ ->
          ok
    end,

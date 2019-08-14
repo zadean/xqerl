@@ -953,7 +953,7 @@ variable_functions(ContextMap, Variables) ->
                   ?P(["'@Name@'(__Ctx) ->",
                       "   Tmp = begin _@Expr1 end,",
                       "   case maps:get(_@QNameStr@,__Ctx,Tmp) of",
-                      "      undefined -> xqerl_error:error('XPDY0002');",
+                      "      undefined -> erlang:exit(xqerl_error:error('XPDY0002'));",
                       "      X -> xqerl_types:promote(X, _@Type@) end."]);
                 true ->
                   ?P(["'@Name@'(__Ctx) ->",
@@ -988,7 +988,7 @@ internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr,
          ?P(["fun() ->",
              "   Tmp = begin _@Expr1 end,",
              "   case maps:get(_@QNameStr@,_@CtxVar,Tmp) of",
-             "      undefined -> xqerl_error:error('XPDY0002');",
+             "      undefined -> erlang:exit(xqerl_error:error('XPDY0002'));",
              "      X -> xqerl_types:promote(X, _@Type@) end end()"]);
        true ->
          ?P(["fun() ->",
@@ -1273,7 +1273,7 @@ expr_do(Ctx, #xqNameTest{name = Name}) ->
 
 % inline errors
 expr_do(_Ctx, {error, ErrCode}) when is_atom(ErrCode) ->
-   ?P("xqerl_error:error(_@ErrCode@)");
+   ?P("erlang:exit(xqerl_error:error(_@ErrCode@))");
 
 % bang operator
 expr_do(Ctx, {'simple-map',SeqExpr,MapExpr}) ->
@@ -2231,12 +2231,12 @@ path_expr_do(Ctx0, {_PathExpr, _Id, [ Base | Steps ]}) ->
          ?P(["_@CtxItems"]);
       [] ->
          ?P(["case xqldb_xpath:document_order(begin  _@CtxItems end) of",
-                " {error, non_node} -> xqerl_error:error('XPTY0019');",
+                " {error, non_node} -> erlang:exit(xqerl_error:error('XPTY0019'));",
                 " C -> C end"]);
       _ ->
          CtxSeq = ?P(["InitCtxItem = begin _@CtxItems end"]), % steps will order it
 %%          CtxSeq = ?P(["InitCtxItem = case xqldb_xpath:document_order(begin _@CtxItems end) of",
-%%                 " {error, non_node} -> xqerl_error:error('XPTY0019');",
+%%                 " {error, non_node} -> erlang:exit(xqerl_error:error('XPTY0019'));",
 %%                 " C -> C end"]),
          [CtxSeq | compile_path_statement(Ctx, CtxVar, Steps)]
    end.
@@ -2278,8 +2278,8 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
             "      fun(#{nk := document} = _@NodeVar,_@PosVar,_@SizVar) ->",
             "              _@NodeVar",
             "        ;(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
-            "              xqerl_error:error('XPDY0050')",
-            "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
+            "              erlang:exit(xqerl_error:error('XPDY0050'))",
+            "        ;(_,_,_) -> erlang:exit(xqerl_error:error('XPTY0019'))",
             "      end, xqerl_fn:root(_@CurrCtxVar, _@SourceVar))"
            ]), 
    [O1|R1];
@@ -2296,7 +2296,7 @@ step_expr_do(Ctx, [#xqAxisStep{predicates = []} = Step1|Rest], SourceVar) ->
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
    O1 = ?P([" _@NextVar = ",
             "case catch xqldb_xpath:document_order(lists:append([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)]))",
-            "of {'EXIT',{function_clause,_}} -> xqerl_error:error('XPTY0019'); ",
+            "of {'EXIT',{function_clause,_}} -> erlang:exit(xqerl_error:error('XPTY0019')); ",
             "{'EXIT',_@ErrVar} -> erlang:throw(_@ErrVar); ",
             "_@TempVar -> _@TempVar end"
            ]), 
@@ -2316,7 +2316,7 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) -> % stepping on an unknown
             "      fun(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
             "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
             "             _@E1",
-            "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
+            "        ;(_,_,_) -> erlang:exit(xqerl_error:error('XPTY0019'))",
             "      end, _@SourceVar)"
            ]),
    if is_list(O1) ->
@@ -3051,7 +3051,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3,",
             "   if List =:= [] -> ",
-            "         xqerl_error:error('XPTY0004');",
+            "         erlang:exit(xqerl_error:error('XPTY0004'));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
@@ -3071,7 +3071,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
             "   if List =:= [] -> ",
-            "         xqerl_error:error('XPTY0004');",
+            "         erlang:exit(xqerl_error:error('XPTY0004'));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
@@ -3153,7 +3153,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         xqerl_error:error('XPTY0004');",
+            "         erlang:exit(xqerl_error:error('XPTY0004'));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
@@ -3173,7 +3173,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         xqerl_error:error('XPTY0004');",
+            "         erlang:exit(xqerl_error:error('XPTY0004'));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
@@ -3972,7 +3972,7 @@ handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    NextVar2    = {var,?L,next_var_name()},
    CtxAbs = context_map_abs(Ctx),
    Fun1 = ?P(["fun([]) ->",
-              "     xqerl_error:error('XPTY0004');",
+              "     erlang:exit(xqerl_error:error('XPTY0004'));",
               "   (_@NextVar2) ->",
               "     xqerl_seq3:do_call(_@CtxAbs,_@NextVar2,{_@@ArgAbs})",
               "end"]),
@@ -4029,7 +4029,7 @@ ensure_type(Ctx,Var,Type,_AType) ->
    T = expr_do(Ctx,Type),
    ?P("_ = case xqerl_types:instance_of(_@Var,_@T) of "
       "true -> _@Var; "
-      "_ -> xqerl_error:error('XPTY0004') end").
+      "_ -> erlang:exit(xqerl_error:error('XPTY0004')) end").
 
 
 ensure_param_type(_Ctx,Var,TVar,#xqSeqType{type = item, occur = zero_or_many}) ->

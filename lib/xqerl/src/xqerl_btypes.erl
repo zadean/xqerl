@@ -373,7 +373,7 @@ get_type(10376293541715904512 ) ->  'xs:IDREFS'               ;
 get_type(10376293541704894464 ) ->  'xs:NMTOKENS'             ;
 get_type(10376293541716428800 ) ->  'xs:ENTITIES'             ;
 % unknown type
-get_type(Atom) when is_atom(Atom) -> xqerl_error:error('XPST0017').
+get_type(Atom) when is_atom(Atom) -> exit(xqerl_error:error('XPST0017')).
 
 
 

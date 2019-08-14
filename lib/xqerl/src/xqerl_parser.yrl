@@ -980,7 +980,7 @@ end.
                                                 #xqKindTest{kind = 'attribute'} ->
                                                   {'attribute', '$1'};
                                                 #xqKindTest{kind = 'namespace'} ->
-                                                  xqerl_error:error('XQST0134'); % no abbrev namespace allowed
+                                                  ?err('XQST0134'); % no abbrev namespace allowed
                                                 _ ->
                                                   {'child', '$1'}
                                              end.

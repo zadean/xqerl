@@ -51,32 +51,32 @@
 error(#qname{} = Name) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = ?str(msg('FOER0000'))},
-   exit(Err);
+   Err;
 error(Code) when is_atom(Code) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
                                           #qname{namespace = ?NS, 
                                 prefix = ?PX, 
                                 local_name = atom_to_binary(Code,latin1)}},
                   description = ?str(msg(Code))},
-   exit(Err).
+   Err.
 
 error(#qname{} = Name, Msg) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = Msg},
-   exit(Err);
+   Err;
 error(Code, Msg) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
                                           #qname{namespace = ?NS, 
                                 prefix = ?PX, 
                                 local_name = atom_to_binary(Code, latin1)}},
                   description = Msg},
-   exit(Err).
+   Err.
 
 error(#qname{} = Name, Msg, Obj) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = Msg,
                   value = Obj},
-   exit(Err);
+   Err;
 error(Code, Msg, Obj) ->
    Err = #xqError{name = 
                     #xqAtomicValue{type = 'xs:QName',
@@ -86,7 +86,7 @@ error(Code, Msg, Obj) ->
                                                     atom_to_binary(Code, latin1)}},
                   description = Msg,
                   value = Obj},
-   exit(Err).
+   Err.
 
 
 %% 2.1 Functions and Operators

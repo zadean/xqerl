@@ -249,7 +249,7 @@ get_group_key(#{id := {Pid, DocId, _Id},
                 pa := PathId}) when is_pid(Pid) ->
    {Pid, DocId, PathId};
 get_group_key(_) ->
-   xqerl_error:error('XPTY0019').
+   exit(xqerl_error:error('XPTY0019')).
 
 %% do_predicates(Ds, Preds)
 

@@ -1919,16 +1919,16 @@ distinct_vals(Vals,Fun) ->
 %% fn:error() as none
 -spec 'error'(xq_types:context()) -> xq_types:xs_error().
 'error'(_Ctx) -> 
-   xqerl_error:error('FOER0000').
+   ?err('FOER0000').
 
 %% Calling the fn:error function raises an application-defined error.
 %% fn:error($code as xs:QName?) as none
 -spec 'error'(xq_types:context(),
               [] | xq_types:xs_QName()) -> xq_types:xs_error().
 'error'(_Ctx,[]) ->
-   xqerl_error:error('FOER0000');
+   ?err('FOER0000');
 'error'(_Ctx,QName) ->
-   xqerl_error:error(xqerl_types:value(QName)).
+   ?err(xqerl_types:value(QName)).
 
 %% Calling the fn:error function raises an application-defined error.
 %% fn:error($code as xs:QName?, $description as xs:string) as none
@@ -1936,9 +1936,9 @@ distinct_vals(Vals,Fun) ->
               [] | xq_types:xs_QName(),
               xq_types:xs_string()) -> xq_types:xs_error().
 'error'(_Ctx,[],Description) -> 
-   xqerl_error:error('FOER0000',Description);
+   exit(xqerl_error:error('FOER0000',Description));
 'error'(_Ctx,QName,Description) -> 
-   xqerl_error:error(xqerl_types:value(QName),Description).
+   exit(xqerl_error:error(xqerl_types:value(QName),Description)).
 
 %% Calling the fn:error function raises an application-defined error.
 %% fn:error(
@@ -1951,9 +1951,9 @@ distinct_vals(Vals,Fun) ->
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          xq_types:xs_error().
 'error'(_Ctx,[],Description,Object) ->
-   xqerl_error:error('FOER0000',Description, Object);
+   exit(xqerl_error:error('FOER0000',Description, Object));
 'error'(_Ctx,QName,Description,Object) ->
-   xqerl_error:error(xqerl_types:value(QName),Description, Object).
+   exit(xqerl_error:error(xqerl_types:value(QName),Description, Object)).
 
 %% Escapes a URI in the same way that HTML user agents handle attribute 
 %% values expected to contain URIs. 

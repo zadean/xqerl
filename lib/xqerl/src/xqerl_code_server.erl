@@ -106,7 +106,7 @@ get_signatures(ModNamespace) ->
    Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, ?TIMEOUT),
    case Rep of
       {error, unknown_namespace} ->
-         xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, ModNamespace);
+         exit(xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, ModNamespace));
       _ ->
          {ok, Rep}
    end.
@@ -400,7 +400,7 @@ scan_tokens(Str) ->
       _:E:StackTrace ->
          ?dbg("scan_tokens",E),
          ?dbg("scan_tokens",StackTrace),
-         xqerl_error:error('XPST0003')
+         ?err('XPST0003')
    end.
 
 parse_tokens(Tokens) ->
@@ -415,7 +415,7 @@ parse_tokens(Tokens) ->
          ?dbg("parse_tokens e",E),
          ?dbg("parse_tokens e",StackTrace),
          ?dbg("parse_tokens e",Tokens),
-         xqerl_error:error('XPST0003')
+         ?err('XPST0003')
    end.
 
 scan_tree_static(Tree, BaseUri) ->
@@ -428,7 +428,7 @@ scan_tree_static(Tree, BaseUri) ->
       _:E:StackTrace ->
          ?dbg("scan_tree_static",E),
          ?dbg("scan_tree_static",StackTrace),
-         xqerl_error:error('XPST0003')
+         ?err('XPST0003')
    end.
 
 scan_tree(Tree) ->
@@ -442,7 +442,7 @@ scan_tree(Tree) ->
          ?dbg("scan_tree",E),
          ?dbg("scan_tree",StackTrace),
          io:format("~p~n",[StackTrace]),
-         xqerl_error:error('XPST0003')
+         ?err('XPST0003')
    end.
 
 save_module(#xq_module{module_name = ModName,

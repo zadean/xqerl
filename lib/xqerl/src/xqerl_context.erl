@@ -286,7 +286,7 @@ get_statically_known_namespace_from_prefix(parser,Prefix) ->
    case dict:find(Prefix, Dict) of
       error ->
          ?dbg("get_statically_known_namespace_from_prefix",Prefix),
-         xqerl_error:error('XPST0081');
+         ?err('XPST0081');
       {ok, V} ->
          V
    end;
@@ -295,7 +295,7 @@ get_statically_known_namespace_from_prefix(Tab,Prefix) ->
    case dict:find(Prefix, Dict) of
       error ->
          ?dbg("get_statically_known_namespace_from_prefix",Prefix),
-         xqerl_error:error('XPST0081');
+         ?err('XPST0081');
       {ok, V} ->
          V
    end.
@@ -306,7 +306,7 @@ get_statically_known_prefix_from_namespace(parser,Namespace) ->
    case lists:keyfind(Namespace, 2, List) of
       false ->
          ?dbg("get_statically_known_prefix_from_namespace",Namespace),
-         xqerl_error:error('XPST0081');
+         ?err('XPST0081');
       {V,_} ->
          V
    end;
@@ -316,7 +316,7 @@ get_statically_known_prefix_from_namespace(Tab,Namespace) ->
    case lists:keyfind(Namespace, 2, List) of
       false ->
          ?dbg("get_statically_known_prefix_from_namespace",Namespace),
-         xqerl_error:error('XPST0081');
+         ?err('XPST0081');
       {V,_} ->
          V
    end.
@@ -417,7 +417,7 @@ set_default_collation(Ctx, Value) ->
       true ->
          Ctx#{'default-collation' => Value};
       _ ->
-         xqerl_error:error('XQST0038')
+         ?err('XQST0038')
    end.
 get_construction_mode(Tab) ->
    get(Tab, 'construction-mode').
@@ -845,9 +845,9 @@ get_module_exports(Imports) when is_list(Imports) ->
                            {FunsAcc1,VarsAcc1,PropsAcc1}
                      catch 
                         _:_ ->
-                           xqerl_error:error('XQST0059', 
+                           exit(xqerl_error:error('XQST0059', 
                                            <<"Unknown ModNamespace">>, 
-                                           Ns)
+                                           Ns))
                      end
                end, Acc, Imports);
 get_module_exports({Ns,_Px}) ->
@@ -859,9 +859,9 @@ get_module_exports({Ns,_Px}) ->
          {Funs,Vars,Props}
    catch 
       _:_ ->
-         xqerl_error:error('XQST0059', 
+         exit(xqerl_error:error('XQST0059', 
                          <<"Unknown ModNamespace">>, 
-                         Ns)
+                         Ns))
    end.
 
 import_functions(Functions,Tab) ->

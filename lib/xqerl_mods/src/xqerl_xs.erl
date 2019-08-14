@@ -245,7 +245,7 @@ xs_duration(_S, Arg1) ->
 %xs_error(_S, {1,_} = E) -> E; % can also be 'XPTY0004' or 'XPST0005'
 -dialyzer({[no_return], [xs_error/2]}).
 xs_error(_S, _Arg1) ->
-   xqerl_error:error('XPTY0004'). % no direct error constructor
+   ?err('XPTY0004'). % no direct error constructor
 xs_float(_S, []) -> [];
 xs_float(_S, Arg1) -> 
    ?sin(xqerl_types:cast_as( Arg1, 'xs:float' )).

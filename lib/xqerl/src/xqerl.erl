@@ -47,7 +47,7 @@ run(Mod, Options) when is_atom(Mod) ->
       _:E:S ->
          ?dbg("run",E),
          ?dbg("run",S),
-         {'EXIT',E1} = (catch xqerl_error:error('XPST0003')),
+         {'EXIT',E1} = (catch ?err('XPST0003')),
          E1#xqError{additional = xqerl_lib:format_stacktrace(S)}
    end;
 run(#xqError{} = E, _Options) -> E;
