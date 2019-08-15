@@ -463,13 +463,19 @@ append_text(_, Path0, Value, Encoding) when is_binary(Path0),
    Path = filenameify(Path0),
    case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
-         case catch io:put_chars(Fd, Value) of
-            ok ->
-               _ = file:close(Fd),
-               [];
-            _ ->
-               _ = file:close(Fd),
+         try
+            % not a fan of this, but it is like this in the test-suite
+            % BOM for every append...
+            if Enc == utf16 -> ok = io:put_chars(Fd, [16#FEFF]);
+               true -> ok
+            end,
+            ok = io:put_chars(Fd, Value),
+            []
+         catch
+            _:_ ->
                err_io_error(Path)
+         after
+             _ = file:close(Fd)
          end;
       {error,eisdir} ->
          err_is_dir(Path);
@@ -599,12 +605,25 @@ copy(_, Source0, Target0) when is_binary(Source0),
                   true -> % copy directory to existing file
                      err_exists(Target);
                   false ->
-                     % Target may or may not exist, ensure base dir
-                     case filelib:ensure_dir(Target) of
-                        ok ->
-                           do_rec_copy(Source,Target);
-                        {error,_} ->
-                           err_io_error(Target)
+                     % check if target exists already
+                     case filelib:is_dir(Target) of
+                        true -> % copy directory into this directory 
+                           NewTarget = filename:join(Target, filename:basename(Source)),
+                           case filelib:is_dir(NewTarget) of
+                              true -> % file to existing sub-directory
+                                 ?dbg("NewTarget is dir", NewTarget),
+                                 err_is_dir(NewTarget);
+                              false ->
+                                 do_rec_copy(Source, NewTarget)
+                           end;
+                        false ->
+                           % Target does not exist, ensure base dir
+                           case filelib:ensure_dir(Target) of
+                              ok ->
+                                 do_rec_copy(Source,Target);
+                              {error,_} ->
+                                 err_io_error(Target)
+                           end
                      end
                end
          end
@@ -629,15 +648,22 @@ create_dir(_, Dir0) when is_binary(Dir0) ->
    Dir = filenameify(Dir0),
    case filelib:ensure_dir(Dir) of
       ok ->
-         case ensure_dir(Dir) of
-            ok ->
-               [];
-            {error,_} ->
-               err_io_error(Dir)
+         case filelib:is_regular(Dir) of
+            true ->
+               err_exists(Dir);
+            false ->
+               case ensure_dir(Dir) of
+                  ok ->
+                     [];
+                  {error, _} ->
+                     err_io_error(Dir)
+               end
          end;
       {error,enoent} ->
          err_exists(Dir);
       {error,enotdir} ->
+         err_exists(Dir);
+      {error,eexist} ->
          err_exists(Dir);
       {error,_} ->
          err_io_error(Dir)
@@ -836,14 +862,18 @@ list(_, Dir, Recursive, Pattern) when is_binary(Dir),
       true ->
          try
             NDir = maybe_add_dir_sep(filename:nativename(Dir)),
+            Rep = fun(Li) ->
+                        binary:replace(
+                          maybe_add_dir_sep(
+                            filename:nativename(Li)), NDir, <<>>)
+                  end,
             %?dbg("NDir",NDir),
             if Recursive ->
                   L = do_rec_list(Dir),
                   %?dbg("L",L),
-                  [binary:replace(filename:nativename(Li), NDir, <<>>) || Li <- L];
+                  [Rep(Li) || Li <- L];
                true ->
-                  [binary:replace(maybe_add_dir_sep(filename:nativename(Li)), NDir, <<>>) || 
-                   Li <- file_wildcard(Pattern, Dir)]
+                  [Rep(Li) || Li <- file_wildcard(Pattern, Dir)]
             end
          catch
             _:_ ->
@@ -956,7 +986,7 @@ read_binary(_, File, Offset) when is_binary(File),
          case do_read_from(Fd,Offset) of
             eof ->
                _ = file:close(Fd),
-               err_out_of_range(File);
+               err_out_of_range(Offset);
             {ok,Bin} ->
                _ = file:close(Fd),
                ?bin(Bin);
@@ -989,7 +1019,10 @@ read_binary(_, File, Offset, Length) when is_binary(File),
          case file:pread(Fd, Offset, Length) of
             eof ->
                _ = file:close(Fd),
-               err_out_of_range(File);
+               err_out_of_range(Offset);
+            {ok,Bin} when byte_size(Bin) < Length ->
+               _ = file:close(Fd),
+               err_out_of_range(Length);
             {ok,Bin} ->
                _ = file:close(Fd),
                ?bin(Bin);
@@ -1037,6 +1070,9 @@ read_text(_, File, Encoding) when is_binary(File),
             {ok,Str} ->
                _ = file:close(Fd),
                ?str(Str);
+            eof ->
+               _ = file:close(Fd),
+               ?str(<<>>);
             X ->
                _ = file:close(Fd),
                ?dbg("X",X),
@@ -1177,25 +1213,55 @@ write(_,_File,_Items,_Params) ->
 %%    [file:out-of-range] is raised if $offset is negative, or if it exceeds 
 %%       the current file size.
 %%    [file:io-error] is raised if any other error occurs.
-write_binary(Ctx,File,Value) ->
-   write_binary(Ctx,File,Value,?intv(0)).
+write_binary(_, File, ?bin(Value)) when is_binary(File) ->
+   % truncate the file if possible when no offset
+   case file:open(File, [write,binary]) of
+      {ok, Fd} ->
+         try
+            ok = file:write(Fd, Value),
+            []
+         catch
+            _:_ ->
+               err_io_error(File)
+         after
+             file:close(Fd)
+         end;
+      {error,eisdir} ->
+         err_is_dir(File);
+      {error,enotdir} ->
+         err_no_dir(File);
+      {error,enoent} ->
+         err_no_dir(File);
+      {error,_} ->
+         err_io_error(File)
+   end;
+write_binary(Ctx, File, Value) ->
+   write_binary(Ctx,xqerl_types:cast_as(File, 'xs:string'),
+                    xqerl_types:cast_as(Value, 'xs:base64Binary')).
 
+
+write_binary(_, _, _, Offset) when is_integer(Offset),
+                                   Offset < 0->
+   err_out_of_range(Offset);
 write_binary(_, File, ?bin(Value), Offset) when is_binary(File),
                                                 is_integer(Offset) ->
-   case file:open(File, [write,binary]) of
+   case file:open(File, [write,read,binary]) of
       {ok,Fd} ->
-         case file:position(Fd, Offset) of
-            {ok,_} ->
-               case catch io:put_chars(Fd, Value) of
-                  ok ->
-                     _ = file:close(Fd),
-                     [];
-                  _ ->
-                     _ = file:close(Fd),
+         {ok, Size} = file:position(Fd, eof),
+         if Offset > Size -> % out of bounds
+               _ = file:close(Fd),
+               err_out_of_range(Offset);
+            true ->
+               {ok, Offset} = file:position(Fd, Offset),
+               try
+                  ok = file:write(Fd, Value),
+                  []
+               catch
+                  _:_ ->
                      err_io_error(File)
-               end;
-            {error,einval} ->
-               err_out_of_range(Offset)
+               after
+                   file:close(Fd)
+               end
          end;
       {error,eisdir} ->
          err_is_dir(File);
@@ -1238,7 +1304,10 @@ write_text(_, File, Value, Encoding) when is_binary(File),
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [write,binary,{encoding,Enc}]) of
       {ok,Fd} ->
-         ok = io:fwrite(Fd,"~ts",[Value]),
+         if Enc == utf16 -> ok = io:put_chars(Fd, [16#FEFF]);
+            true -> ok
+         end,
+         ok = io:put_chars(Fd, Value),
          _ = file:close(Fd),
          [];
       {error,eisdir} ->
@@ -1338,7 +1407,7 @@ parent(_, Path) when is_binary(Path) ->
    if D == Abs -> % root
          [];
       true ->
-         filename:nativename(maybe_add_dir_sep(D))
+         maybe_add_dir_sep(filename:nativename(D))
    end;
 parent(Ctx,Path) ->
    parent(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1355,8 +1424,23 @@ parent(Ctx,Path) ->
 %% Error Conditions
 %%    [file:no-dir] is raised if $path does not point to an existing directory.
 %%    [file:io-error] is raised if any other error occurs.
-children(Ctx,Dir) ->
-   list(Ctx,Dir,?bool(false),?str(<<"*">>)).
+children(_, Dir) when is_binary(Dir) ->
+   case filelib:is_dir(Dir) of
+      false -> err_no_dir(Dir);
+      true ->
+         try
+            Rep = fun(Li) ->
+                        maybe_add_dir_sep(
+                          filename:nativename(Li))
+                  end,
+            [Rep(Li) || Li <- file_wildcard(<<"*">>, Dir)]
+         catch
+            _:_ ->
+               err_io_error(Dir)
+         end
+   end;
+children(Ctx, Dir) ->
+   children(Ctx, xqerl_types:cast_as(Dir, 'xs:string')).
 
 %% 5.4 file:path-to-native
 %% Signature
@@ -1565,9 +1649,9 @@ err_unknown_encoding(Path) ->
                 name = ?Q(<<"unknown-encoding">>)
                 },
    exit(E).
-err_out_of_range(Path) ->
+err_out_of_range(Offset) ->
    E = #xqError{description = <<"The specified offset or length (",
-                              Path/binary,
+                              (integer_to_binary(Offset))/binary,
                               ") is negative, or the chosen values"
                               " would exceed the file bounds">>,
                 name = ?Q(<<"out-of-range">>)
