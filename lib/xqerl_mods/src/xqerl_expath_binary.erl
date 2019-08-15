@@ -501,15 +501,15 @@ join(C, L) ->
 %%    equivalent to:
 %%       bin:join((bin:part($in,0,$offset - 1),$extra,bin:part($in,$offset)))
 insert_before(_, [], _, _) -> [];
-insert_before(_, ?bin(_) = In, _, []) -> In;
 insert_before(_, _, Off, _) when is_integer(Off),
                                  Off < 0 -> 
    do_throw('index-out-of-range');
 insert_before(_, ?bin(I), Off, _) when is_integer(Off),
                                        Off > byte_size(I) -> 
    do_throw('index-out-of-range');
+insert_before(_, ?bin(_) = In, _, []) -> In;
 insert_before(_, ?bin(I), Off, ?bin(E)) when Off == byte_size(I) -> 
-   ?bin(<<E/binary, I/binary>>);
+   ?bin(<<I/binary, E/binary>>);
 insert_before(_, ?bin(I), 0, ?bin(E)) ->
    ?bin(<<E/binary, I/binary>>);
 insert_before(_, ?bin(I), O, ?bin(E)) when is_integer(O) ->
@@ -731,15 +731,18 @@ decode_string(_, ?bin(I), E, O, S) when is_binary(E),
    Enc = check_encoding(E),
    <<_:O/binary, Part:S/binary, _/binary>> = I,
    
-   Part1 = % strip BOM that could be hiding in the binary
+   {Enc1, Part1} = % strip BOM that could be hiding in the binary
       case unicode:bom_to_encoding(Part) of
-         {_, 0} -> Part;
+         {_, 0} -> {Enc, Part};
+         {{utf16, _} = BomEnc, Len} when Enc == utf16 ->
+            <<_:Len/binary,Bin1/binary>> = Part,
+            {BomEnc, Bin1};
          {_, Len} ->
             <<_:Len/binary,Bin1/binary>> = Part,
-            Bin1
+            {Enc, Bin1}
       end,
 
-   case unicode:characters_to_binary(Part1, Enc, utf8) of
+   case unicode:characters_to_binary(Part1, Enc1, utf8) of
       {error, _, _} ->
          do_throw('conversion-error');
       {incomplete, _, _} ->
@@ -788,6 +791,9 @@ encode_string(_, I, E) when is_binary(I),
          do_throw('conversion-error');
       {incomplete, _, _} ->
          do_throw('conversion-error');
+      Bin when Enc == utf16 ->
+         BOM = unicode:encoding_to_bom(utf16),
+         ?bin(<<BOM/binary, Bin/binary>>);
       Bin ->
          ?bin(Bin)
    end;
@@ -1404,6 +1410,8 @@ check_encoding(E) ->
          utf8;
       <<"UTF-16">> ->
          utf16;
+      <<"US-ASCII">> ->
+         latin1;
       <<>> ->
          utf8;
       _ ->

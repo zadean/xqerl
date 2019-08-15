@@ -1042,6 +1042,8 @@ read_text(_, File, Encoding) when is_binary(File),
                ?dbg("X",X),
                err_io_error(File)
          end;
+      {error,enoent} ->
+         err_not_found(File);
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
@@ -1090,6 +1092,8 @@ read_text_lines(_, File, Encoding) when is_binary(File),
                _ = file:close(Fd),
                err_io_error(File)
          end;
+      {error,enoent} ->
+         err_not_found(File);
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
@@ -1328,7 +1332,8 @@ name(Ctx,Path) ->
 %%    An empty sequence is returned if the path points to a root directory.
 %% This function is -nondeterministic-.
 parent(_, Path) when is_binary(Path) ->
-   Abs = filename:absname(Path),
+   Stripped = strip_scheme(Path),
+   Abs = filename:absname(Stripped),
    D = filename:dirname(Abs),
    if D == Abs -> % root
          [];
@@ -1481,11 +1486,12 @@ temp_dir(_) ->
 %%       returns the same result as the expression 
 %%       file:parent(static-base-uri()).
 base_dir(#{'base-uri' := ?uri(B)}) ->
-   case filelib:is_file(B) of
+   Stripped = strip_scheme(B),
+   case filename:pathtype(Stripped) =/= relative of
       false ->
          [];
       true ->
-         parent([],B)
+         parent([],Stripped)
    end;
 base_dir(_) -> [].
 
