@@ -794,6 +794,9 @@ encode_string(_, I, E) when is_binary(I),
       Bin when Enc == utf16 ->
          BOM = unicode:encoding_to_bom(utf16),
          ?bin(<<BOM/binary, Bin/binary>>);
+      Bin when Enc == latin1 -> % here it is ascii so just check
+         _ = [do_throw('conversion-error') || <<C>> <= Bin, C > 127],
+         ?bin(Bin);
       Bin ->
          ?bin(Bin)
    end;
