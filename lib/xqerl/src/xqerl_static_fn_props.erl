@@ -57,6 +57,9 @@ get_props(#qname{namespace = ?CV, local_name = <<"serialize">>}, 1) ->
 get_props(#qname{namespace = ?CV, local_name = <<"serialize">>}, 2) -> 
    props(true, false, false, false, [], []);
 
+get_props(#qname{namespace = ?FL,local_name = <<"base-dir">>}, 0) -> 
+  props(true, true, false, false, [base_uri], []);
+
 get_props(#qname{namespace = ?BX, local_name = <<"connect">>           }, 4) -> 
    props(false, false, false, false, [], []);
 get_props(#qname{namespace = ?BX, local_name = <<"execute">>           }, 2) -> 
