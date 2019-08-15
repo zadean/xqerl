@@ -45,6 +45,8 @@ start_child(Uri) ->
          {closed, DBDirectory, Id} ->
             {ok, P} = supervisor:start_child(?MODULE, [DBDirectory, Uri]),
             {ok, P, Id};
+         {opening, Id} ->
+            {error, {already_started, Id}};
          {DBDirectory, Id} ->
             ok = filelib:ensure_dir(DBDirectory ++ "/x"),
             {ok, P} = supervisor:start_child(?MODULE, [DBDirectory, Uri]),

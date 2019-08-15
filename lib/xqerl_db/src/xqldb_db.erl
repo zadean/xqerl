@@ -50,8 +50,14 @@ open(Uri) ->
          open(Uri);
       Other ->
          io:format("~p~n", [Other]),
-         {ok, Pid, Id} = xqldb_db_sup:start_child(Uri),
-         {ok, Pid, Id}
+         case xqldb_db_sup:start_child(Uri) of
+            {ok, Pid, Id} ->
+               {ok, Pid, Id};
+            {error, {already_started, _}} -> 
+               % could have been started under our nose
+               timer:sleep(1),
+               open(Uri)
+         end
    end.
 
 %% Closes an open DB

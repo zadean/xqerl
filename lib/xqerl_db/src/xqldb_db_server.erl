@@ -232,8 +232,8 @@ handle_call({new, Path}, _From, #{meta := TabName,
          DbDir = filename:join([DataDir, int_to_path(Id)]),
          {reply, {DbDir, Id}, State};
       [{{_, Id}, undefined, opening}] ->
-         DbDir = filename:join([DataDir, int_to_path(Id)]),
-         {reply, {DbDir, Id}, State}
+         %DbDir = filename:join([DataDir, int_to_path(Id)]),
+         {reply, {opening, Id}, State}
    end
    catch
       _:ER:St ->
