@@ -2203,28 +2203,39 @@ pct_encode3([H|T]) ->
                         [] | xq_types:xs_string(),
                         [] | xq_types:xs_string()) -> 
          [] | xq_types:xs_string().
-'format-dateTime'(Ctx,Date,Picture,_Language,Calendar,_Place) ->
+'format-dateTime'(Ctx, Date, Picture, Language, Calendar, Place) ->
+   LanVal = xqerl_types:string_value(Language),
    CalVal = xqerl_types:string_value(Calendar),
-   if CalVal == <<>> ->
-         'format-dateTime'(Ctx,Date,Picture);
-      true ->
-         try
-            Nss = maps:get(namespaces, Ctx),
-            QN = xqerl_types:cast_as(Calendar, 'xs:QName', Nss),
-            ?atm('xs:QName',#qname{namespace = CNs, local_name = CLn}) = QN,
-            true = is_valid_calendar({CNs,CLn}),
-            if CLn =:= ?A("AD");
-               CLn =:= ?A("ISO") ->
-                  'format-dateTime'(Ctx,Date,Picture);
-               true ->
-                  Fmt = 'format-dateTime'(Ctx,Date,Picture),
-                  NewVal = xqerl_types:string_value(Fmt),
-                  ?str(<<"[Calendar: AD]", NewVal/binary>>)
-            end
-         catch
-            _:_ ->
-               ?err('FOFD1340')
-         end
+   PlcVal = xqerl_types:string_value(Place),
+   Val1 = if LanVal == <<>>;
+             LanVal == <<"en">> -> <<>>; 
+             true -> <<"[Language: en]">> 
+          end,
+   try
+      Val2 = 
+         if CalVal == <<>> -> Val1; 
+            true -> 
+               Nss = maps:get(namespaces, Ctx),
+               % can throw FORG0001
+               QN = xqerl_types:cast_as(Calendar, 'xs:QName', Nss),  
+               ?atm('xs:QName',#qname{namespace = CNs, local_name = CLn}) = QN,
+               true = is_valid_calendar({CNs,CLn}),
+               if CLn == <<"AD">>;
+                  CLn == <<"ISO">> -> Val1;
+                  true -> <<Val1/binary, "[Calendar: AD]">>
+               end
+         end,
+      Val3 = if PlcVal == <<>> -> Val2; true -> <<Val2/binary, "[Place: ]">> end,
+      Fmt = 'format-dateTime'(Ctx,Date,Picture),
+      NewVal = xqerl_types:string_value(Fmt),
+      ?str(<<Val3/binary, NewVal/binary>>)
+   catch
+      ?ERROR_MATCH(?A("FORG0001")) ->
+         ?err('FOFD1340');
+      _:#xqError{} = E->
+         throw(E);
+      _:_ -> 
+         ?err('FOFD1340')
    end.
 
 is_valid_calendar({Ns,Name}) when Ns =:= 'no-namespace';

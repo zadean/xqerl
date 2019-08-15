@@ -1165,6 +1165,37 @@ maybe_truncate(String,Min,none) when is_integer(Min) ->
 maybe_truncate(String,Min,Max) when is_integer(Min),is_integer(Max) ->
    string:pad(string:slice(String, 0, Max), Min, trailing).
 
+maybe_truncate_dow(String, Min, _) when is_integer(Min),
+                                        Min > byte_size(String) ->
+   string:pad(String, Min, trailing);
+% handle some common English abbreviations
+maybe_truncate_dow("Monday",    _, 2) -> "Mo";
+maybe_truncate_dow("Tuesday",   _, 2) -> "Tu";
+maybe_truncate_dow("Wednesday", _, 2) -> "We";
+maybe_truncate_dow("Thursday",  _, 2) -> "Th";
+maybe_truncate_dow("Friday",    _, 2) -> "Fr";
+maybe_truncate_dow("Saturday",  _, 2) -> "Sa";
+maybe_truncate_dow("Sunday",    _, 2) -> "Su";
+
+maybe_truncate_dow("Monday",    _, 3) -> "Mon";
+maybe_truncate_dow("Tuesday",   _, 3) -> "Tue";
+maybe_truncate_dow("Wednesday", _, 3) -> "Wed";
+maybe_truncate_dow("Thursday",  _, 3) -> "Thu";
+maybe_truncate_dow("Friday",    _, 3) -> "Fri";
+maybe_truncate_dow("Saturday",  _, 3) -> "Sat";
+maybe_truncate_dow("Sunday",    _, 3) -> "Sun";
+
+maybe_truncate_dow("Monday",    3, M) when M == 4; M == 5 -> "Mon";
+maybe_truncate_dow("Tuesday",   3, M) when M == 4; M == 5 -> "Tues";
+maybe_truncate_dow("Wednesday", 3, M) when M == 4; M == 5 -> "Weds";
+maybe_truncate_dow("Thursday",  3, 4) -> "Thur";
+maybe_truncate_dow("Thursday",  3, 5) -> "Thurs"; % special
+maybe_truncate_dow("Friday",    3, M) when M == 4; M == 5 -> "Fri";
+maybe_truncate_dow("Saturday",  3, M) when M == 4; M == 5 -> "Sat";
+maybe_truncate_dow("Sunday",    3, M) when M == 4; M == 5 -> "Sun";
+maybe_truncate_dow(String, Min, Max) ->
+   maybe_truncate(String, Min, Max).
+
 % Second variable has the modifiers 
 % a = alpha, t = traditional, c = cardinal, o = ordinal
 format_datetime_part_as_int(Int,{_,{[],_,_}}) ->
@@ -1259,12 +1290,16 @@ format_datetime_part_as_int_1({one, ModifierType},Int,
    format_integer(Int, Format, ModifierType);
 format_datetime_part_as_int_1({name_upper, _},Int,
                               {Part,{_,_,{MinLen,MaxLen}}}) ->
-   V1 = string:uppercase(integer_name(Int,en,Part)),
-   maybe_truncate(V1,MinLen,MaxLen);
+   V1 = integer_name(Int,en,Part),
+   string:uppercase(maybe_truncate(V1,MinLen,MaxLen));
 format_datetime_part_as_int_1({name_lower, _},Int,
                               {Part,{_,_,{MinLen,MaxLen}}}) ->
-   V1 = string:lowercase(integer_name(Int,en,Part)),
-   maybe_truncate(V1,MinLen,MaxLen);
+   V1 = integer_name(Int,en,Part),
+   string:lowercase(maybe_truncate(V1,MinLen,MaxLen));
+format_datetime_part_as_int_1({name_title, _},Int,
+                              {dow,{_,_,{MinLen,MaxLen}}}) ->
+   V1 = integer_name(Int,en,dow),
+   maybe_truncate_dow(V1,MinLen,MaxLen);
 format_datetime_part_as_int_1({name_title, _},Int,
                               {Part,{_,_,{MinLen,MaxLen}}}) ->
    V1 = integer_name(Int,en,Part),
