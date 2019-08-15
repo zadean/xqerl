@@ -64,6 +64,14 @@ error(#qname{} = Name, Msg) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = Msg},
    Err;
+error(Code, {Module, Line}) when is_atom(Code) ->
+   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
+                                          #qname{namespace = ?NS, 
+                                prefix = ?PX, 
+                                local_name = atom_to_binary(Code,latin1)}},
+                  location = {Module, Line, 0},
+                  description = ?str(msg(Code))},
+   Err;
 error(Code, Msg) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
                                           #qname{namespace = ?NS, 

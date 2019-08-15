@@ -40,13 +40,14 @@
 -include("xqerl_parser.hrl").
 
 -include_lib("syntax_tools/include/merl.hrl").
-
+%-undef(Q).
+%-define(Q(Text), merl:quote(?LINE, Text)).
 % revert everything from merl
--define(P(Text), revert(?Q(Text))).
-%-define(P1(Text), revert(erl_syntax:add_ann(?L, ?Q(Text)))).
+-define(P(Text), update_line_numbers(?Q(Text))).
+%-define(P1(Text), revert(?e:add_ann(?L, ?Q(Text)))).
 
 -compile(inline_list_funcs).
-
+%-compile({parse_transform, merl_transform}).
 
 used_records() ->
    Recs = static_records(),
@@ -78,24 +79,42 @@ static_records() ->
     {xqRange,                     "-record(xqRange,{min,max,cnt})."}
    ].
 
-% revert to abstract form and ensure filename and line are in it
-% XXX rethink this, keep everything in syntax-tree form until last minute
-% set line and file for each leaf and node, then big revert at the end.
-% later, remove `merl` from everything and set the annos inline.
-revert(L) when is_list(L) ->
-   [revert(I) || I <- L];
-revert(I) ->
-   try
-      A = erl_anno:new(0),
-      B = erl_anno:set_file(get_filename(), A),
-      C = erl_anno:set_line(get_line(), B),
-      Set = erl_syntax:set_pos(I, C),
-      erl_syntax:revert(Set)
-   catch
-      _:E:S ->
-         ?dbg("{E,S}", {E,S}),
-         erl_syntax:revert(I)
+% revert to erl_parse form
+revert_all(L) when is_list(L) ->
+   [revert_all(I) || I <- L];
+revert_all(I) ->
+   ?e:revert(I).
+
+% recursively set all line numbers
+update_line_numbers(Trees) when is_list(Trees) ->
+   [update_line_numbers(Tree) || Tree <- Trees, Tree =/= {nil, -1}];
+%% patched #2348
+update_line_numbers({map_field_assoc, _, Name, Value}) ->
+   ?e:set_pos(?e:map_field_assoc(Name, Value), current_position());
+%% patched #2348
+update_line_numbers({map_field_exact, _, Name, Value}) ->
+   ?e:set_pos(?e:map_field_exact(Name, Value), current_position());
+update_line_numbers({atom, _, Atom}) -> 
+   ?e:set_pos(?e:atom(Atom), current_position());
+update_line_numbers({var, _, Atom}) -> 
+   ?e:set_pos(?e:variable(Atom), current_position());
+update_line_numbers(Tree) ->
+   %?dbg("Tree",Tree),
+   Tree1 = ?e:set_pos(Tree, current_position()),
+   case ?e:subtrees(Tree1) of
+      [] -> Tree1;
+      List ->
+         Sub = [[update_line_numbers(Subtree)
+                || Subtree <- Group,
+                   Subtree =/= {nil, -1}]
+               || Group <- List],
+         ?e:update_tree(Tree1, Sub)
    end.
+
+current_position() ->
+   A = erl_anno:new(0),
+   B = erl_anno:set_file(get_filename(), A),
+   erl_anno:set_line(get_line(), B).
 
 get_line() ->
    erlang:get(line_number).
@@ -301,7 +320,7 @@ scan_mod(#xqModule{prolog = Prolog,
     ImportedMods,
     P1,
     P2,
-    P10,
+    revert_all(P10),
     RestWrappers
    };
 
@@ -384,7 +403,7 @@ scan_mod(#xqModule{prolog = Prolog,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    AllAbs,
+    revert_all(AllAbs),
     [] %RestWrappers
    };
 
@@ -441,7 +460,7 @@ scan_mod(#xqModule{prolog = Prolog,
             "  maps:remove(named_functions,Map) end()"]),
    P4 = expression_body(EmptyMap, Body, Prolog, Variables, P3), % this will also setup the global variable match
    PAll = lists:flatten([[P1],[P2],[P4]]),
-   Exp = erl_expand_records:module(revert(PAll), []),
+   Exp = erl_expand_records:module(revert_all(PAll), []),
    [{clause,_,_,_,Block}] = [Cla || {function,_,dummy,_, [Cla]} <- Exp],
    {undefined,
     expression,
@@ -483,7 +502,7 @@ init_function(Variables,Prolog) ->
    %            ],
    Imps = ?P("_@@ImportedVars"),
    Body = lists:flatten([Imps, VarSetAbs, [LastCtx]]),
-   [{function,?L,init,1,[{clause,?L,[{var,?L,'Ctx'}],[],Body}]}].
+   [{function,?L,init,1,[{clause,?L,[{var,?L,'Ctx'}],[],revert_all(Body)}]}].
 
 % RESTXQ functions:
 % needs to init like a main module, and like a library
@@ -662,10 +681,12 @@ rest_fun_name(Id) ->
 % each function has been created by ?P("afun(_@A,_@B) -> _@X."
 % join their clauses to one function.
 join_functions([]) -> [];
-join_functions(Funs) ->
-   [{function,L,N,A,_}|_] = Funs,
-   {function,L,N,A,[C || {_,_,_,_,Cs} <- Funs, C <- Cs]}.
-
+join_functions([H|_] = Funs) ->
+   Name = ?e:function_name(H),
+   Clauses = lists:flatten([?e:function_clauses(H) || 
+                              F <- Funs, 
+                              ?e:type(F) == function]),
+   ?e:function(Name, Clauses).
 
 init_ctx_function(Ctx) ->
    MapItems = init_fun_abs(Ctx, lists:usort(maps:get(stat_props, Ctx) ++ [options,module] )),
@@ -778,8 +799,11 @@ global_variable_map_match(Modules,Locals) ->
 global_variable_map_set(Modules,Locals) ->
    Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
 %?dbg("Vars",Vars),
-   Matches = [{map_field_assoc,?L,{atom,?L,V},V1} || {_,_,V} = V1 <- Vars ++ Locals],
-   O = {map,?L,Matches},
+   Match = fun({_,_,V} = _V1) ->
+                 ?e:map_field_assoc(V, ?e:variable(V))
+           end,
+   Matches =  [Match(V1) || V1 <- Vars ++ Locals],
+   O = ?e:map_expr(Matches), 
    erlang:put(global_var_set, O),
    ok.
 
@@ -804,12 +828,11 @@ body_function(ContextMap, Body,Prolog) ->
    
    VarSetFun = 
       fun({_N,_T,_A,{V,1},_Ext}, CtxVar) ->
-            AV = {var,?L,next_var_name()},
+            AV = ?e:variable(next_var_name()),
             NC = next_ctx_var_name(),
             NV = {var,?L,NC},
-            P = [{match,?L,AV, {call,?L,{atom,?L,V},[CtxVar]}},
-                 {match,?L,NV, {map,?L,CtxVar,
-                                [{map_field_assoc,?L,{atom,?L,V},AV}]}}],
+            P = ?P(["_@AV = '@V@'(_@CtxVar),",
+                    "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             {P, NV};
          ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
             NC = next_ctx_var_name(),
@@ -1223,50 +1246,46 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    ClsFun = 
      fun({Errors,DoExpr}) ->
            DoExprAbs = expr_do(Ctx6, DoExpr),
+           D = alist(?Q("_@DoExprAbs")),
            lists:map(
              fun(#xqNameTest{name = #qname{namespace = ?A("*"),local_name = ?A("*")}}) ->
-                   C = ?Q("{_,#xqError{name = _@CodeVar1,
+                   C = ?Q("#xqError{name = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
-                   D = revert(?Q("_@DoExprAbs")),
-                   {clause,?L,[revert(C)],[],[D]};
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
+                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = ?A("*"),local_name = Ln}}) ->
                    _ = add_used_record_type(qname),
-                   C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
+                   C = ?Q("#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
-                   D = revert(?Q("_@DoExprAbs")),
-                   {clause,?L,[revert(C)],[],[D]};
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
+                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = ?A("*")}}) ->
                    _ = add_used_record_type(qname),
-                   C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
+                   C = ?Q("#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
-                   D = revert(?Q("_@DoExprAbs")),
-                   {clause,?L,[revert(C)],[],[D]};
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
+                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
                    _ = add_used_record_type(qname),
-                   C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@,
+                   C = ?Q("#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@,
                                                      local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_@AddlVar1}"),
-                   D = revert(?Q("_@DoExprAbs")),
-                   {clause,?L,[revert(C)],[],[D]}
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
+                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   ?e:clause(alist(Q), [], D)
                end, Errors)
      end,
    
    TryAbs = alist(expr_do(Ctx, Expr)),
-   Clauses = revert(lists:flatmap(ClsFun, CatchClauses)),
-   {'try',?L,
-     TryAbs,
-     [], % guard
-     alist(revert(Clauses)),
-     [] % after
-   };
+   Clauses = lists:flatmap(ClsFun, CatchClauses),
+   ?e:try_expr(TryAbs, [], alist(Clauses));
 
 expr_do(Ctx, #xqNameTest{name = Name}) ->
    abs_qname(Ctx, Name);
@@ -1435,8 +1454,8 @@ expr_do(Ctx, {'string-constructor', Expr}) ->
              end;
           (I,Abs) ->
              V = expr_do(Ctx,I),
-             ?dbg("I",I),
-             {_,_,[B]} = ?P("<<(xqerl_types:string_value(_@V))/binary>>"),
+             %?dbg("I",I),
+             {_,_,[B]} = ?e:revert(?Q("<<(xqerl_types:string_value(_@V))/binary>>")),
              [B|Abs]          
        end,
    Es = lists:foldr(F, [], alist(Expr)),
@@ -2297,7 +2316,7 @@ step_expr_do(Ctx, [#xqAxisStep{predicates = []} = Step1|Rest], SourceVar) ->
    O1 = ?P([" _@NextVar = ",
             "case catch xqldb_xpath:document_order(lists:append([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)]))",
             "of {'EXIT',{function_clause,_}} -> erlang:exit(xqerl_error:error('XPTY0019')); ",
-            "{'EXIT',_@ErrVar} -> erlang:throw(_@ErrVar); ",
+            "{'EXIT',_@ErrVar} -> erlang:exit(_@ErrVar); ",
             "_@TempVar -> _@TempVar end"
            ]), 
    [O1|R1];
@@ -2332,7 +2351,7 @@ step_expr_do(Ctx, Other, _) ->
 % return clause end loop and returns {NewCtx,Internal,Global}
 flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,true, _) ->
    {NewCtx,FunAbs} = return_part(Ctx, {RetId,Return},false),
-   NewCtx1 = set_variable_tuple_name(NewCtx, revert(TupleVar)),
+   NewCtx1 = set_variable_tuple_name(NewCtx, TupleVar),
    {NewCtx1,Internal,FunAbs ++ Global};
 flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,_Inline, _) ->
    FunctionName = glob_fun_name({return,RetId}),
@@ -3013,6 +3032,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            anno = Line},
               AType} = Part, NextFunAtom, IsList, Rem) ->
    _ = set_line(Line),
+   Filename = get_filename(),
 %?dbg("list?",{Id,IsList}),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
@@ -3051,7 +3071,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3,",
             "   if List =:= [] -> ",
-            "         erlang:exit(xqerl_error:error('XPTY0004'));",
+            "         erlang:exit(xqerl_error:error('XPTY0004', {_@Filename@, _@Line@}));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
@@ -3071,7 +3091,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
             "   if List =:= [] -> ",
-            "         erlang:exit(xqerl_error:error('XPTY0004'));",
+            "         erlang:exit(xqerl_error:error('XPTY0004', {_@Filename@, _@Line@}));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
@@ -3110,6 +3130,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            anno = Line},
               AType} = Part, NextFunAtom, IsList, Rem) ->
    _ = set_line(Line),
+   Filename = get_filename(),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
    PosVarName = local_variable_name(PId),
@@ -3153,7 +3174,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         erlang:exit(xqerl_error:error('XPTY0004'));",
+            "         erlang:exit(xqerl_error:error('XPTY0004', {_@Filename@, _@Line@}));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
@@ -3173,7 +3194,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         erlang:exit(xqerl_error:error('XPTY0004'));",
+            "         erlang:exit(xqerl_error:error('XPTY0004', {_@Filename@, _@Line@}));",
             "      true -> ",
             "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
@@ -3853,13 +3874,16 @@ add_global_funs(Funs) ->
          erlang:put(global_funs,Funs ++ Gs)
    end.
 
-global_fun_exists(Name0, Arity0) ->
-   [1 || 
-    {function,_,Name,Arity,_} <- get_global_funs(), 
-    Name == Name0, Arity == Arity0] == [1].
+global_fun_exists(Name, Arity) ->
+   F = fun(Fun) ->
+             FName = ?e:atom_value(?e:function_name(Fun)),
+             FArity = ?e:function_arity(Fun),
+             Name == FName andalso Arity == FArity
+       end,
+   lists:any(F, get_global_funs()).
 
 a_term(Term) ->
-   erl_syntax:revert(erl_syntax:abstract(Term)).
+   ?e:abstract(Term).
 
 handle_predicate({Ctx, {LU, wildcard}}, Abs) 
    when LU =:= map_lookup;
@@ -4006,14 +4030,14 @@ param_prefix() -> "__Param__var_".
 %%    ?P("{_@Ns@,_@Ln@}").
 
 ensure_type(_,_,#xqSeqType{type = item, occur = zero_or_many},_) ->
-   {nil,?L};
+   {nil, -1};
 ensure_type(_,_,#xqSeqType{type = Type, 
                            occur = zero_or_many},_) when ?node(Type) ->
-   {nil,?L};
+   {nil, -1};
 ensure_type(_,_,#xqSeqType{type = #xqFunTest{}},_) ->
-   {nil,?L};
+   {nil, -1};
 ensure_type(_,_,Type,Type) ->
-   {nil,?L};
+   {nil, -1};
 ensure_type(_,_,
             #xqSeqType{type = Type,
                        occur = Occ1},
@@ -4022,7 +4046,7 @@ ensure_type(_,_,
    when Occ1 == zero_or_many;
         Occ1 == zero_or_one, Occ2 == one;
         Occ1 == one_or_many, Occ2 == one ->
-   {nil,?L};
+   {nil, -1};
 ensure_type(Ctx,Var,Type,_AType) ->
    _ = add_used_record_type(xqAtomicValue),
    %?dbg("ensure_type         ",{Var,Type,AType}),

@@ -43,7 +43,8 @@
 
 -define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
--define(err(Code),exit(xqerl_error:error(Code))).
+-define(err(Code),erlang:exit(xqerl_error:error(Code))).
+-define(err(Code, Anno), erlang:exit(xqerl_error:error(Code, Anno))).
 
 -define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
 
