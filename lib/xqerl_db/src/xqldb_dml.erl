@@ -198,10 +198,13 @@ insert_doc(DocUri, Filename) when is_binary(DocUri) ->
    DB = xqldb_db:database(DbUri),
    case xqldb_path_table:lookup(DB, Name) of
       [] -> 
-         Stamp = erlang:system_time(),
-         ok = xqldb_sax:parse_file(DB,Filename,Name,Stamp),
-         xqldb_path_table:insert(DB, {Name, xml, Stamp}),
-         locks:end_transaction(Agent);
+         try
+            Stamp = erlang:system_time(),
+            ok = xqldb_sax:parse_file(DB,Filename,Name,Stamp),
+            xqldb_path_table:insert(DB, {Name, xml, Stamp})
+         after
+            locks:end_transaction(Agent)
+         end;
       _ ->
          locks:end_transaction(Agent)
    end;
@@ -213,11 +216,14 @@ insert_doc_sax(DocUri, Filename) when is_binary(DocUri) ->
    _ = locks:lock(Agent, [DbUri,Name]),
    DB = xqldb_db:database(DbUri),
    case xqldb_path_table:lookup(DB, Name) of
-      [] -> 
-         Stamp = erlang:system_time(),
-         ok = xqldb_sax:parse_list(DB,Filename,Name,Stamp),
-         xqldb_path_table:insert(DB, {Name, xml, Stamp}),
-         locks:end_transaction(Agent);
+      [] ->
+         try
+            Stamp = erlang:system_time(),
+            ok = xqldb_sax:parse_list(DB,Filename,Name,Stamp),
+            xqldb_path_table:insert(DB, {Name, xml, Stamp})
+         after
+            locks:end_transaction(Agent)
+         end;
       _ ->
          locks:end_transaction(Agent)
    end;
