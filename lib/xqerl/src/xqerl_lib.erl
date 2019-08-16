@@ -332,7 +332,13 @@ bin_to_utf8(Binary) ->
       {latin1, 0} ->
          case unicode:characters_to_binary(Binary, unicode) of
             {error,_,_} ->
-               ?err('FOUT1200');
+               % maybe latin1
+               case unicode:characters_to_binary(Binary, latin1) of
+                  Bin1 when is_binary(Bin1) ->
+                     Bin1;
+                  _ ->
+                     ?err('FOUT1200')
+               end;
             {incomplete,_,_} ->
                ?err('FOUT1200');
             Bin ->
