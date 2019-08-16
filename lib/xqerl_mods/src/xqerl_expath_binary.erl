@@ -1048,7 +1048,7 @@ unpack_double(C, I, O, E) ->
                  xqerl_types:cast_as(E, 'xs:string')).
 
 unpack_double_big(<<128,0,0,0,0,0,0,0>>) -> neg_zero;
-unpack_double_big(<<255,240,0,0,0,0,0,0>>) -> neg_infintiy;
+unpack_double_big(<<255,240,0,0,0,0,0,0>>) -> neg_infinity;
 unpack_double_big(<<127,240,0,0,0,0,0,0>>) -> infinity;
 %% ["11111111 1111 0000 000000000000000000000000000000000000000000000001",
 %%  "11111111 1111 0111 111111111111111111111111111111111111111111111111",
@@ -1058,7 +1058,7 @@ unpack_double_big(<<255,15:4,_:4,_,_,_,_,_,_>>) -> nan;
 unpack_double_big(<<F:64/big-float>>) -> F.
 
 unpack_double_little(<<0,0,0,0,0,0,0,128>>) -> neg_zero;
-unpack_double_little(<<0,0,0,0,0,0,240,255>>) -> neg_infintiy;
+unpack_double_little(<<0,0,0,0,0,0,240,255>>) -> neg_infinity;
 unpack_double_little(<<0,0,0,0,0,0,240,127>>) -> infinity;
 unpack_double_little(<<_,_,_,_,_,_,15:4,_:4,127>>) -> nan;
 unpack_double_little(<<_,_,_,_,_,_,15:4,_:4,255>>) -> nan;
@@ -1112,14 +1112,14 @@ unpack_float(C, I, O, E) ->
                 xqerl_types:cast_as(E, 'xs:string')).
 
 unpack_float_big(<<128,0,0,0>>) -> neg_zero;
-unpack_float_big(<<255,128,0,0>>) -> neg_infintiy;
+unpack_float_big(<<255,128,0,0>>) -> neg_infinity;
 unpack_float_big(<<127,128,0,0>>) -> infinity;
 unpack_float_big(<<127,1:1,_/bitstring>>) -> nan;
 unpack_float_big(<<255,1:1,_/bitstring>>) -> nan;
 unpack_float_big(<<F:32/big-float>>) -> F.
 
 unpack_float_little(<<0,0,0,128>>) -> neg_zero;
-unpack_float_little(<<0,0,128,255>>) -> neg_infintiy;
+unpack_float_little(<<0,0,128,255>>) -> neg_infinity;
 unpack_float_little(<<0,0,128,127>>) -> infinity;
 unpack_float_little(<<_:23,1:1,127>>) -> nan;
 unpack_float_little(<<_:23,1:1,255>>) -> nan;
