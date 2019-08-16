@@ -1089,7 +1089,7 @@ format_datetime_part(#xsDateTime{offset = []}, _, {tz, _}) -> [];
 format_datetime_part(_Date, _Type, {_Other, _Part}) -> not_ok.
 
 format_datetime_part_as_fract(Fract,{First,_Second,{MinLen,MaxLen}}) ->
-   Format = lists:reverse(parse_decimal_digit_pattern(lists:reverse(First))),
+   Format = lists:reverse(parse_decimal_fract_pattern(lists:reverse(First))),
    FormLen = length(Format),
    OptLen = length([S || {optional_digit} = S <- Format]),
    ManLen = length([S || {digit, _} = S <- Format]),
@@ -1305,6 +1305,17 @@ format_datetime_part_as_int_1({name_title, _},Int,
    V1 = integer_name(Int,en,Part),
    maybe_truncate(V1,MinLen,MaxLen);
 format_datetime_part_as_int_1(_,_,_) -> [].
+
+parse_decimal_fract_pattern(Pattern) ->
+   {ok,Dig} = re:compile("(\\p{Nd}|\\p{Nl}|\\p{No})", [unicode, ucp]),
+   case is_match(Pattern, Dig) of
+      true ->
+         % has a digit so pass on
+         % otherwise just treat as a single digit
+         parse_decimal_digit_pattern(Pattern);
+      false ->
+         [{digit, 1}]
+   end.
 
 %% A decimal-digit-pattern made up of optional-digit-signs, 
 %%    mandatory-digit-signs, and grouping-separator-signs.
