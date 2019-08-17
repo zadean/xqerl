@@ -1458,8 +1458,8 @@ build_irregular_pattern([],[], Acc) ->
    Acc;
 build_irregular_pattern([],[{optional_digit}|_], Acc) ->
    Acc;
-build_irregular_pattern([],[{separator, C}|_], Acc) ->
-   [C|Acc];
+build_irregular_pattern([],[{separator, _}|_], Acc) ->
+   Acc;
 build_irregular_pattern([H|T],[], Acc) ->
    build_irregular_pattern(T,[], [H|Acc]);
 build_irregular_pattern([H|T],[{separator, C}|FT], Acc) ->
