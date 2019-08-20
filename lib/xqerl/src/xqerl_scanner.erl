@@ -221,7 +221,7 @@ scan_dc_token("{" ++ T, _A, Depth) ->
    %currently in a direct constructor, 
    %enclosed expressions can happen here, 
    %read ahead to get the entire expression
-   {Expr, T1} = scan_enclosed_expr(strip_ws_c(T), [], 1, 0, 0),
+   {Expr, T1} = scan_enclosed_expr(strip_ws_c(T), [], 1, 0, 0, false),
    %io:format("Expr: ~p T: ~p~n", [Expr, T1]),
    Encl = tokens_encl(strip_ws_c(Expr), [{'{', 99, '{'}]),
    %io:format("Encl: ~p~n", [Encl]),
@@ -336,7 +336,7 @@ scan_dir_attr_apos_value([H|T], Acc) ->
             true ->
                %% in an attribute and got an expression
                % scan ahead to the end of the enclosed statement
-               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
+               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
                %SExpr = remove_all_comments(Expr),
                Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
                scan_dir_attr_apos_value(T1, [Encl | Acc])
@@ -386,7 +386,7 @@ scan_dir_attr_quot_value([H|T], Acc) ->
             true ->
                %% in an attribute and got an expression
                % scan ahead to the end of the enclosed statement
-               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
+               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
                %?dbg("scan_dir_attr_quot_value Expr",Expr),
                %SExpr = remove_all_comments(Expr),
                Encl = tokens_encl(Expr, [{'{', ?L, '{'}]),
@@ -1646,37 +1646,43 @@ scan_entity_ref([H|T], Acc) ->
    ?INC(H),
    scan_entity_ref(T, [H|Acc]).
 
-scan_enclosed_expr("(:" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
+scan_enclosed_expr("(:" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
    T1 = trim_comment(T),   
-   scan_enclosed_expr(T1, Acc, CurlyDepth, AposDepth, QuotDepth);
-scan_enclosed_expr("''" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ->
-   scan_enclosed_expr(T, "''"++Acc, CurlyDepth, AposDepth, QuotDepth);
-scan_enclosed_expr("'" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ->
-   scan_enclosed_expr(T, "'"++Acc, CurlyDepth, AposDepth -1, QuotDepth);
-scan_enclosed_expr("'" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when QuotDepth == 0 ->
-   scan_enclosed_expr(T, "'"++Acc, CurlyDepth, AposDepth +1, QuotDepth);
-scan_enclosed_expr("\"\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when QuotDepth > 0 ->
-   scan_enclosed_expr(T, "\"\""++Acc, CurlyDepth, AposDepth, QuotDepth);
-scan_enclosed_expr("\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when QuotDepth > 0 ->
-   scan_enclosed_expr(T, "\""++Acc, CurlyDepth, AposDepth, QuotDepth -1);
-scan_enclosed_expr("\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth == 0 ->
-   scan_enclosed_expr(T, "\""++Acc, CurlyDepth, AposDepth, QuotDepth +1);
-scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ;
+   scan_enclosed_expr(T1, Acc, CurlyDepth, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("''" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when AposDepth > 0 ->
+   scan_enclosed_expr(T, "''"++Acc, CurlyDepth, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("'" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when AposDepth > 0 ->
+   scan_enclosed_expr(T, "'"++Acc, CurlyDepth, AposDepth -1, QuotDepth, Q);
+scan_enclosed_expr("'" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when QuotDepth == 0 ->
+   scan_enclosed_expr(T, "'"++Acc, CurlyDepth, AposDepth +1, QuotDepth, Q);
+scan_enclosed_expr("\"\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when QuotDepth > 0 ->
+   scan_enclosed_expr(T, "\"\""++Acc, CurlyDepth, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when QuotDepth > 0 ->
+   scan_enclosed_expr(T, "\""++Acc, CurlyDepth, AposDepth, QuotDepth -1, Q);
+scan_enclosed_expr("\"" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) when AposDepth == 0 ->
+   scan_enclosed_expr(T, "\""++Acc, CurlyDepth, AposDepth, QuotDepth +1, Q);
+scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth, Q) when AposDepth > 0 ;
                                                                       QuotDepth > 0 ->
-   scan_enclosed_expr(T, [H|Acc], CurlyDepth, AposDepth, QuotDepth);
-scan_enclosed_expr("{" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   scan_enclosed_expr(T, "{"++Acc, CurlyDepth +1, AposDepth, QuotDepth);
+   scan_enclosed_expr(T, [H|Acc], CurlyDepth, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("`{" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   scan_enclosed_expr(T, "{`"++Acc, CurlyDepth +1, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("{" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   scan_enclosed_expr(T, "{"++Acc, CurlyDepth +1, AposDepth, QuotDepth, Q);
 
-scan_enclosed_expr("}" ++ T, Acc, 1, _AposDepth, _QuotDepth) ->
+scan_enclosed_expr("}`" ++ T, Acc, 1, _AposDepth, _QuotDepth, true) ->
+   { lists:flatten(lists:reverse([$`,$}|Acc])), T};
+scan_enclosed_expr("}" ++ T, Acc, 1, _AposDepth, _QuotDepth, _Q) ->
    { lists:flatten(lists:reverse([$}|Acc])), T};
-scan_enclosed_expr("}" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   scan_enclosed_expr(T, "}"++Acc, CurlyDepth -1, AposDepth, QuotDepth);
+scan_enclosed_expr("}`" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   scan_enclosed_expr(T, "`}"++Acc, CurlyDepth -1, AposDepth, QuotDepth, Q);
+scan_enclosed_expr("}" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   scan_enclosed_expr(T, "}"++Acc, CurlyDepth -1, AposDepth, QuotDepth, Q);
 
-scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   scan_enclosed_expr(T, [H|Acc], CurlyDepth, AposDepth, QuotDepth);
+scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   scan_enclosed_expr(T, [H|Acc], CurlyDepth, AposDepth, QuotDepth, Q);
 
-scan_enclosed_expr(Str, Acc, CurlyDepth, AposDepth, QuotDepth) ->
-   ?dbg("scan_enclosed_expr", {Str, Acc, CurlyDepth, AposDepth, QuotDepth}),
+scan_enclosed_expr(Str, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
+   ?dbg("scan_enclosed_expr", {Str, Acc, CurlyDepth, AposDepth, QuotDepth, Q}),
    ?err('XPST0003').
 
 % normalize end-of-line characters 
@@ -1718,36 +1724,17 @@ scan_str_const([], _A, _L) ->
    ?err('XPST0003');
 scan_str_const("`{" ++ T, A, L) ->
    New = {'`{', ?L, '`{'},
-   {Int, T1} = scan_str_const_interp(T, []),
+   {Encl, T1} = scan_enclosed_expr(T, [], 1, 0, 0, true),
+   Toks = tokens_encl(Encl, [New]),
    Chars = {'StringConstructorChars', ?L, lists:reverse(A)},
-   scan_str_const(T1, [], [Int,New,Chars|L]);
+   scan_str_const(T1, [], [Toks,Chars|L]);
 scan_str_const("``[" ++ T, A, []) ->
    scan_str_const(T, A, [{'``[', ?L, '``['}]);
-%% scan_str_const("``[" ++ T, A, L) ->
-%%    scan_str_const(T, A, [{'``[', ?L, '``['}|L]);
 scan_str_const("]``" ++ T, A, L) ->
    List = lists:reverse([{']``', ?L, ']``'},{'StringConstructorChars', ?L, lists:reverse(A)} |L]),
-   ?dbg("T",T),
    {List, T};
 scan_str_const([H|T], A, L) ->
    scan_str_const(T, [H|A], L).
-
-
-scan_str_const_interp([], _A) -> 
-   ?dbg(?LINE,'XPST0003'),
-   ?err('XPST0003');
-scan_str_const_interp(Str = "``[" ++ _, A) ->
-   {Toks,Tail} = scan_str_const(Str, [], []),
-   {IToks,ITail} = scan_str_const_interp(Tail, A),
-   ?dbg("Toks",Toks),
-   ?dbg("IToks",IToks),
-   {Toks++IToks,ITail};
-scan_str_const_interp("}`" ++ T, A) ->
-   Expr = lists:reverse(A),
-   Toks = tokens_encl(Expr, []),
-   {[Toks|[{'}`', ?L, '}`'}]], T};
-scan_str_const_interp([H|T], A) -> 
-   scan_str_const_interp(T, [H|A]).
 
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
 scan_pragma("(#" ++ T, _A, _L) ->

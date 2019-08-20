@@ -42,7 +42,7 @@
          new_fragment/2,
          new_fragment_list/2]).
 
--export([atomize_nodes/1]).
+-export([atomize_nodes/1, atomize_node/2]).
 -export([to_xml/1]).
 -export([nodes_equal/3]).
 
@@ -1443,6 +1443,7 @@ atomize_node([]) -> ?str(<<>>);
 atomize_node([S]) -> atomize_node(S);
 atomize_node(#xqAtomicValue{} = Av) ->
    Av;
+atomize_node(Bin) when is_binary(Bin) -> Bin;
 atomize_node(#{nk := _} = Node) ->
    xqerl_types:atomize(Node);
 atomize_node(#xqElementNode{content = S}) -> atomize_node(S);
@@ -1453,6 +1454,12 @@ atomize_node(#xqProcessingInstructionNode{string_value = S}) ->
    ?str(string:trim(xqerl_types:string_value(S), leading));
 atomize_node(#xqCommentNode{string_value = S}) -> ?str(xqerl_types:string_value(S));
 atomize_node(#xqTextNode{string_value = S}) -> ?untyp(xqerl_types:string_value(S)).
+
+atomize_node(Ctx, F) when is_function(F, 1) -> atomize_node(Ctx, F(Ctx));
+atomize_node(Ctx, #xqElementNode{content = S}) -> atomize_node(Ctx, S);
+atomize_node(_, Bin) when is_binary(Bin) -> Bin;
+atomize_node(_, N) ->
+   atomize_node(N).
 
 names_equal({N1,_,L1},{N1,_,L1}) -> true;
 names_equal(_,_) -> false.

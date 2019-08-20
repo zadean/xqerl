@@ -33,6 +33,8 @@
 -export(['string-constructor-024'/1]).
 -export(['string-constructor-025'/1]).
 -export(['string-constructor-026'/1]).
+-export(['string-constructor-027'/1]).
+-export(['string-constructor-028'/1]).
 -export(['string-constructor-901'/1]).
 -export(['string-constructor-902'/1]).
 -export(['string-constructor-903'/1]).
@@ -97,6 +99,8 @@ groups() -> [
     'string-constructor-024', 
     'string-constructor-025', 
     'string-constructor-026', 
+    'string-constructor-027', 
+    'string-constructor-028', 
     'string-constructor-901', 
     'string-constructor-902', 
     'string-constructor-903', 
@@ -712,6 +716,47 @@ bottles\"") of
    Out =    case xqerl_test:assert_eq(Res,"\" *2012-05-05* \"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'string-constructor-027'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>Today is `{xs:date('2012-05-05')}`</a>", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "string-constructor-027.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"\"Today is `2012-05-05`\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'string-constructor-028'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+        declare variable $n external := <e>10</e>; 
+        <a>`{``[There were `{<b>{``[at least `{$n}`]``}</b>}` green bottles]``}`</a>
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "string-constructor-028.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_type(Res,"element(a)") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_eq(Res,"\"`There were at least 10 green bottles`\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

@@ -31,7 +31,7 @@
 
 -export([value/1]).
 -export([atomize/1]).
--export([string_value/1]).
+-export([string_value/1, string_value/2]).
 -export([type/1]).
 
 -export([promote/2,
@@ -242,6 +242,18 @@ string_value(Fun) when is_function(Fun) ->
 string_value([H|T]) ->
    T2 = << <<" ", (string_value(Av))/binary>> || Av <- T  >>, 
    << (string_value(H))/binary, T2/binary >>.
+
+string_value(Ctx, N) when 
+                     is_record(N, xqElementNode);
+                     is_record(N, xqDocumentNode);
+                     is_record(N, xqAttributeNode);
+                     is_record(N, xqCommentNode);
+                     is_record(N, xqTextNode);
+                     is_record(N, xqProcessingInstructionNode);
+                     is_record(N, xqNamespaceNode) ->
+   string_value(cast_as(xqerl_node:atomize_node(Ctx, N), 'xs:string'));
+string_value(_, N) ->
+   string_value(N).
 
 value(#{nk := _} = N) ->
    value(atomize(N));

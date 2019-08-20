@@ -1443,6 +1443,7 @@ expr_do(_Ctx, #xqAtomicValue{type = T, value = V}) ->
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}");
 
 expr_do(Ctx, {'string-constructor', Expr}) ->
+   C = {var,?L,get_context_variable_name(Ctx)},
    F = fun(V, Abs) when is_binary(V) ->
              if V == <<>> ->
                    Abs;
@@ -1455,7 +1456,7 @@ expr_do(Ctx, {'string-constructor', Expr}) ->
           (I,Abs) ->
              V = expr_do(Ctx,I),
              %?dbg("I",I),
-             {_,_,[B]} = ?e:revert(?Q("<<(xqerl_types:string_value(_@V))/binary>>")),
+             {_,_,[B]} = ?e:revert(?Q("<<(xqerl_types:string_value(_@C, _@V))/binary>>")),
              [B|Abs]          
        end,
    Es = lists:foldr(F, [], alist(Expr)),
