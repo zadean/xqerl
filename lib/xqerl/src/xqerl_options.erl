@@ -231,19 +231,17 @@ validate2(#{version := Vers,
             method := html} = Opts) when not is_map_key('html-version', Opts) ->
    validate2(Opts#{version := 1.0,
                    'html-version' => Vers});
-validate2(Opts) ->
-   if is_map_key(version, Opts), map_get(version, Opts) =/= 1.0 ->
-         ?err('SESU0013');      
-      is_map_key('omit-xml-declaration', Opts), map_get('omit-xml-declaration', Opts) == true,
-      is_map_key(standalone, Opts), map_get(standalone, Opts) =/= omit ->
-         ?err('SEPM0009');
-      is_map_key('undeclare-prefixes', Opts), map_get('undeclare-prefixes', Opts) == true,
-      is_map_key(version, Opts), map_get(version, Opts) == 1.0,
-      is_map_key(method, Opts), ((map_get(method, Opts) == xml) orelse (map_get(method, Opts) == xhtml)) ->
-         ?err('SEPM0010');
-      true ->
-         Opts
-   end.
+validate2(#{version := Vers}) when Vers =/= 1.0 -> ?err('SESU0013');
+validate2(#{'omit-xml-declaration' := true,
+            standalone := Val}) when Val =/= omit -> ?err('SEPM0009');
+validate2(#{'undeclare-prefixes' := true,
+            version := 1.0,
+            method := Method}) when Method == xml;
+                                    Method == xhtml -> ?err('SEPM0010');
+validate2(#{'omit-xml-declaration' := _} = Opts) -> Opts;
+validate2(#{method := xml} = Opts) ->
+   Opts#{'omit-xml-declaration' => false};
+validate2(Opts) -> Opts.
 
 true_false(Val) -> 
    true_false_(xqerl_lib:trim(Val)).
