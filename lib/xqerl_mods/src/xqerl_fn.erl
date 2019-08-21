@@ -907,6 +907,8 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    Pos1 = Start + End,
    if NStart < Pos1 orelse NEnd == 0;
       {Start,End} == {NStart,NEnd} -> % overlap/empty group
+         %% XXX The second group may also be not contained in the first group,
+         %% there is no way to tell...
          End1 = NStart - Start,
          Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End1))},
          Att1 = #xqAttributeNode{name = 
@@ -2827,7 +2829,8 @@ head_1(H) -> H.
    'json-doc'(Ctx,Arg1,maps:remove(?A("validate"),Arg2));
 'json-doc'(#{'base-uri' := _BaseUri0} = Ctx,Href,Opts) -> 
    try
-      Txt = 'unparsed-text'(Ctx,Href),
+      % using utf8+ to disallow latin1
+      Txt = 'unparsed-text'(Ctx, Href, <<"utf8+">>),
       ok = check_json_doc_opts(Opts),
       'parse-json'(Ctx,Txt,Opts)
    catch 

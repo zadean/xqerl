@@ -360,6 +360,29 @@ bin_to_utf8(Binary) ->
 
 bin_to_utf8(Bin,[]) ->
    bin_to_utf8(Bin);
+bin_to_utf8(Binary, <<"utf8+">>) -> % special case not allowing latin1
+   case unicode:bom_to_encoding(Binary) of
+      % no BOM UTF-8 assumed
+      {latin1, 0} ->
+         case unicode:characters_to_binary(Binary, unicode) of
+            {error,_,_} ->
+               ?err('FOUT1200');
+            {incomplete,_,_} ->
+               ?err('FOUT1200');
+            Bin ->
+               Bin
+         end;
+      {Enc, L} ->
+         <<_:L/binary, Bin/binary>> = Binary,
+         case unicode:characters_to_binary(Bin, Enc, unicode) of
+            {error,_,_} ->
+               ?err('FOUT1190');
+            {incomplete,_,_} ->
+               ?err('FOUT1190');
+            BinOut ->
+               BinOut
+         end
+    end;   
 bin_to_utf8(<<>>,_) ->
     ?err('FOUT1200'); 
 bin_to_utf8(Binary,Enc) ->
