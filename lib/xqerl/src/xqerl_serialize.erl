@@ -1099,11 +1099,12 @@ do_xml_declaration(Wellformed, ElementName,
             Encoding == utf16 -> <<"UTF-16">>;
             Encoding == utf32 -> <<"UTF-32">>            
          end,
-   DocType = if Method == html, D == <<>>, P == <<>>, HtmlVers == 5.0, ElementName == <<"html">> -> 
-                  <<"<!DOCTYPE ", ElementName/binary, ">\n">>;
+   ElementNameL = string:lowercase(ElementName),
+   DocType = if Method == html, D == <<>>, P == <<>>, HtmlVers == 5.0, ElementNameL == <<"html">> -> 
+                  <<"<!DOCTYPE ", ElementNameL/binary, ">\n">>;
                 Method == html, D == <<>>, P == <<>> -> <<>>;
                 Method == html, D == <<>> -> 
-                   <<"<!DOCTYPE ", ElementName/binary, " PUBLIC \"",P/binary,"\">\n">>;
+                   <<"<!DOCTYPE ", ElementNameL/binary, " PUBLIC \"",P/binary,"\">\n">>;
                 D == <<>> -> <<>>;
                 true ->
                    if P == <<>> ->
