@@ -34,12 +34,30 @@ declare function _:all-of($result) as xs:string
   "      _ -> false " ||$_:n|| 
   "   end"
 };
+declare function _:all-of($result, $null) as xs:string
+{
+  "   case lists:all(fun({comment,_}) -> true; (_) -> false end, ["||$_:n|| 
+  (for $t in $result/* return _:print-result($t, $null)) => _:join-cnl() ||
+  "   ]) of "||$_:n|| 
+  "      true -> {comment, ""all-of""};" ||$_:n|| 
+  "      _ -> false " ||$_:n|| 
+  "   end"
+};
 
 (: Any test must pass :)
 declare function _:any-of($result) as xs:string
 {
   "   case lists:any(fun({comment,_}) -> true; (_) -> false end, ["||$_:n|| 
   (for $t in $result/* return _:print-result($t)) => _:join-cnl() ||
+  "   ]) of "||$_:n|| 
+  "      true -> {comment, ""any-of""};" ||$_:n|| 
+  "      _ -> false " ||$_:n|| 
+  "   end"
+};
+declare function _:any-of($result, $null) as xs:string
+{
+  "   case lists:any(fun({comment,_}) -> true; (_) -> false end, ["||$_:n|| 
+  (for $t in $result/* return _:print-result($t, $null)) => _:join-cnl() ||
   "   ]) of "||$_:n|| 
   "      true -> {comment, ""any-of""};" ||$_:n|| 
   "      _ -> false " ||$_:n|| 
@@ -118,6 +136,17 @@ declare function _:error($result) as xs:string
   "   end"
 };
 
+(: Error expected :)
+declare function _:assert-serialization-error($result) as xs:string
+{
+  let $ec := """"||$result/@code||""""
+  return
+  "   case xqerl_test:assert_serialization_error(Res,"||$ec||") of " ||$_:n|| 
+  "      true -> {comment, ""Correct error""};" ||$_:n|| 
+  "      {false, F} -> F " ||$_:n|| 
+  "   end"
+};
+
 (: Values equal :)
 declare function _:assert-eq($result) as xs:string
 {
@@ -139,11 +168,29 @@ declare function _:assert-type($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+declare function _:assert-type($result, $null) as xs:string
+{
+  let $ec := _:mask-string(replace($result/data(), 'j:', 'Q{http://www.w3.org/2005/xpath-functions}', 'q'))
+  return
+  "   case xqerl_test:assert_type(Res,"||$ec||") of " ||$_:n|| 
+  "      true -> {comment, ""Correct type""};" ||$_:n|| 
+  "      {false, F} -> F " ||$_:n|| 
+  "   end"
+};
 
 (: Value exists or is true :)
 declare function _:assert($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
+  return
+  "   case xqerl_test:assert(Res,"||$ec||") of " ||$_:n|| 
+  "      true -> {comment, ""Correct results""};" ||$_:n|| 
+  "      {false, F} -> F " ||$_:n|| 
+  "   end"
+};
+declare function _:assert($result, $null) as xs:string
+{
+  let $ec := _:mask-string(replace($result/data(), 'j:', 'Q{http://www.w3.org/2005/xpath-functions}', 'q'))
   return
   "   case xqerl_test:assert(Res,"||$ec||") of " ||$_:n|| 
   "      true -> {comment, ""Correct results""};" ||$_:n|| 
@@ -221,7 +268,8 @@ declare function _:print-result($result) as xs:string
     if ($name = "assert-false") then _:assert-false#1 else
     if ($name = "assert-count") then _:assert-count#1 else
     if ($name = "assert-string-value") then _:assert-string-value#1 else
-    if ($name = ("error","assert-serialization-error")) then _:error#1 else
+    if ($name = "error") then _:error#1 else
+    if ($name = "assert-serialization-error") then _:assert-serialization-error#1 else
     if ($name = "assert-eq") then _:assert-eq#1 else
     if ($name = "assert-type") then _:assert-type#1 else
     if ($name = "assert") then _:assert#1 else
@@ -233,11 +281,21 @@ declare function _:print-result($result) as xs:string
   return
   $f($result)
 };
+declare function _:print-result($result, $null) as xs:string
+{
+  let $name := local-name($result)
+  return
+    if ($name = "all-of") then _:all-of($result, $null) else
+    if ($name = "any-of") then _:any-of($result, $null) else
+    if ($name = "assert-type") then _:assert-type($result, $null) else
+    if ($name = "assert") then _:assert($result, $null) else
+    _:print-result($result)
+};
 
 (: Returns a test-case text as either being skipped due to some feature 
    restriction, or the actual test-case text. 
    Has all the skipping logic which could be moved out. :)
-declare function _:print-testcase($test-case) as xs:string
+declare function _:print-testcase($test-case, $suite) as xs:string
 {
   let $inscope-schema-envs := 
     ($test-case/../*:environment[*:source[@validation]]/@name union 
@@ -246,13 +304,17 @@ declare function _:print-testcase($test-case) as xs:string
     , $deps := $test-case//*:dependency  | 
                $test-case/parent::*/*:dependency 
     , $env  := $test-case/*:environment/@ref/string()
-    , $f    := function(){ _:print-testcase2($test-case, $name, $env) }
+    , $f    := function(){ _:print-testcase2($test-case, $name, $env, $suite) }
+    , $skip := _:skip-catalog($suite, $name)
   return
   "'"||$name||"'(Config) ->"||$_:n||
   "   __BaseDir = ?config(base_dir, Config),"||$_:n||
   (
+    (: skip catalog :)
+    if (not(empty($skip))) then
+    "   {skip,"""||$skip||"""}"
     (: validation environments :)
-    if ($env = $inscope-schema-envs) then 
+    else if ($env = $inscope-schema-envs) then 
     "   {skip,""Validation Environment""}"
     else if ($test-case/*:environment/*:schema) then 
     "   {skip,""Validation Environment""}"
@@ -437,19 +499,23 @@ declare function _:get-used-environments($test-cases) as xs:string*
 };
 
 (: The actual test-case text if being run :)
-declare function _:print-testcase2($test-case, $name, $env)
+declare function _:print-testcase2($test-case, $name, $env, $suite)
 {
+  let $modImport := $test-case/*:module => fn:boolean()
+  return
   _:get-query($test-case) ||$_:cn||
   (: compile any imported modules, local imports will unload these :)
   (
-    if ($test-case/*:module) then
-      let $f := function($a)
+    if ($modImport) then
+      let $f := function($a, $p)
                 {
-                  "   try xqerl_code_server:compile(filename:join(__BaseDir, """||
-                  string($a/@file)||""")) catch _:_ -> ok end" 
+                  "    try xqerl_code_server:compile(filename:join(__BaseDir, """||
+                  string($a/@file)||""")) catch _:Error_"||$p||" -> Error_"||$p||" end" 
                 }
       return
-      ( reverse($test-case/*:module) ! $f(.) ) => _:join-cnl() || ', &#10;'
+      '   LibList = [&#10;'||
+      ( reverse($test-case/*:module) ! $f(., position()) ) => _:join-cnl()
+      ||'], &#10;'
     else
       ""
   ) ||
@@ -469,15 +535,32 @@ declare function _:print-testcase2($test-case, $name, $env)
   (: print final query :)
   "   io:format(""Qry1: ~p~n"",[Qry1]),"||$_:n||
   (: add options if there is an environment :)
+  "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
   (
-    if ($test-case/*:environment) then
-      "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
+    if ($modImport and $test-case/*:environment) then
+      "             xqerl:run(Mod,Opts) of " ||$_:n||
+      "                Etup when is_tuple(Etup), element(1, Etup) == xqError -> "||$_:n||
+      "                   xqerl_test:combined_error(Etup, LibList);"||$_:n||
+      "                D -> D "||$_:n||
+      "         catch _:E -> xqerl_test:combined_error(E, LibList) end,"||$_:n
+    else if ($test-case/*:environment) then
       "             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,"||$_:n
+    else if ($modImport) then
+      "             xqerl:run(Mod) of " ||$_:n||
+      "                Etup when is_tuple(Etup), element(1, Etup) == xqError -> "||$_:n||
+      "                   xqerl_test:combined_error(Etup, LibList);"||$_:n||
+      "                D -> D "||$_:n||
+      "         catch _:E -> xqerl_test:combined_error(E, LibList) end,"||$_:n
     else
-      "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
       "             xqerl:run(Mod) of D -> D catch _:E -> E end,"||$_:n
   ) ||
-  "   Out = " || _:print-result($test-case/*:result/*) ||', &#10;'||
+  (: special case json-to-xml test :)
+  (
+    if ($suite = 'fn-json-to-xml') then
+    "   Out = " || _:print-result($test-case/*:result/*, 0) ||', &#10;'
+    else
+    "   Out = " || _:print-result($test-case/*:result/*) ||', &#10;'
+  )||
   "   case Out of"||$_:n||
   "      {comment, C} -> {comment, C};"||$_:n||
   "      Err -> ct:fail(Err)"||$_:n||
@@ -687,8 +770,13 @@ declare function _:do-file-uri-type($files, $is-local) as xs:string?
                 "filename:join(__BaseDir, ""../" 
             ) ||
             string($a/@file) ||
-            """),""" ||
-            $a/@uri||"""}"
+            """)," ||
+            (
+              if (_:uri-is-absolute($a/@uri)) then """" || $a/@uri || """}"
+              else
+              "xqldb_lib:filename_to_uri(filename:join(__BaseDir, """ || $a/@uri || """))}"
+            )
+            
           }
   return
   ( reverse($files) ! $f(.) ) => _:join-cnl()  
@@ -755,6 +843,61 @@ declare function _:mod_environments($globals, $locals, $usedEnvironments)
   if (empty($a)) then "" else _:join-scnl(($g,$l)) || "."
 };
 
+declare function _:uri-is-absolute($uri)
+{
+  if (fn:starts-with($uri, 'http://')) then true() else
+  if (fn:starts-with($uri, 'https://')) then true() else
+  if (fn:starts-with($uri, 'file://')) then true() else false()  
+};
+
+declare variable $_:SKIP_CATALOG := 
+  map{
+   'prod-OptionDecl.serialization' : 
+    map{
+      'Serialization-001' : 'output:doctype is none',
+      'Serialization-003' : 'output:parameter-document',
+      'Serialization-007' : 'output:parameter-document',
+      'Serialization-035' : 'output:parameter-document'
+    },
+   'prod-BaseURIDecl' :
+    map{
+      'K2-BaseURIProlog-5' : 'assumed *.xml base-uri'
+    },
+   'method-xml' :
+    map{
+      'K2-Serialization-35'  : 'us-ascii encoding',
+      'Serialization-xml-03' : 'output:parameter-document',
+      'Serialization-xml-04' : 'output:parameter-document'
+    },
+   'method-json' :
+    map{
+      'Serialization-json-34' : 'output:parameter-document',
+      'Serialization-json-35' : 'output:parameter-document',
+      'Serialization-json-36' : 'output:parameter-document',
+      'Serialization-json-37' : 'output:parameter-document',
+      'Serialization-json-38' : 'output:parameter-document',
+      'Serialization-json-39' : 'output:parameter-document',
+      'Serialization-json-53' : 'output:parameter-document',
+      'Serialization-json-54' : 'output:parameter-document',
+      'Serialization-json-55' : 'output:parameter-document'
+    },
+   'fn-serialize' :
+    map{
+      'serialize-json-114' : 'ISO-8859-1 encoding'
+    },
+   'app-Walmsley' :
+    map{
+      'd1e42362' : 'serialized response checked for map(*) type'
+    }
+  };
+
+declare function _:skip-catalog($suite, $test)
+{
+  for $s in $_:SKIP_CATALOG($suite)
+  return
+  $s($test)
+};
+
 (: Erlang SUITE :)
 
 (: All test case sets from catalog :)
@@ -765,7 +908,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set(: [@name = "fn-static-base-uri"] :)
+      $catalog/*:catalog/*:test-set(: [@name = "prod-ModuleImport"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
@@ -820,7 +963,7 @@ let $standardFuns       :=
                                   'prod_ContextItemDecl_SUITE'))
 let $usedEnvironments := _:get-used-environments($testCases)
   , $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
-  , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."
+  , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(., $catalogTestSet/@name))) || "."
   , $mod                := $header       ||$_:n||
                            $standardFuns ||$_:n||
                            $environments ||$_:n||
