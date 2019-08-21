@@ -185,7 +185,7 @@ Nonassoc 2200 ':' ' :' ': '.
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
                            : if '$5' == <<>> -> ?err('XQST0088');
                                 true ->
-                                 check_schema_prefix_namespace(bin_value_of('$3'), '$5'),
+                                 check_prefix_namespace(bin_value_of('$3'), '$5'),
                                  Ns = list_to_binary(["Q{", '$5',"}"]),
                                  xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
                                         {Ns, bin_value_of('$3')}
@@ -316,7 +316,7 @@ Nonassoc 2200 ':' ' :' ': '.
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : check_schema_prefix_namespace(bin_value_of('$3'), '$5'), 
+                           : check_prefix_namespace(bin_value_of('$3'), '$5'), 
                              xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
                              {namespace, {'$5', bin_value_of('$3')}}.
 
@@ -2055,6 +2055,10 @@ split_where_statement(#xqLogicalExpr{comp = 'and', lhs = A, rhs = B}) ->
 split_where_statement(A) ->
    [{'where', next_id(), A}].
 
+check_prefix_namespace(_, <<>>) -> ok;
+check_prefix_namespace(P, N) ->
+   check_schema_prefix_namespace(P, N).
+  
 check_schema_prefix_namespace(<<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
 check_schema_prefix_namespace(<<"xml">>,_) -> ?err('XQST0070');
 check_schema_prefix_namespace(_,<<"http://www.w3.org/XML/1998/namespace">>) -> ?err('XQST0070');
