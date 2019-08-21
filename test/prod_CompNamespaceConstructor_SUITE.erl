@@ -664,8 +664,8 @@ environment('cnc-schema',__BaseDir) ->
         return
           element { resolve-QName(\"z:f\", $elem) } {}
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-027.xq"), Qry1),
@@ -689,8 +689,8 @@ environment('cnc-schema',__BaseDir) ->
         let $ns := mod1:one()
         return ($ns is $ns, $ns is mod1:one())
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-028.xq"), Qry1),
@@ -861,8 +861,8 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-035.xq"), Qry1),
@@ -889,8 +889,8 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-036.xq"), Qry1),
@@ -917,8 +917,8 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-037.xq"), Qry1),
@@ -945,8 +945,8 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-038.xq"), Qry1),

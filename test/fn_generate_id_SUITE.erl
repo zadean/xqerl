@@ -354,8 +354,8 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*))
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -379,8 +379,8 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy((//@*)[1]))
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -404,8 +404,8 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*)) eq generate-id(/*)
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,8 +429,8 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

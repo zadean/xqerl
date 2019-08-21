@@ -56,7 +56,8 @@
 %% ====================================================================
 -export([start_link/0,
          stop/0,
-         compile/1, compile/2, compile/3]).
+         compile/1, compile/2, compile/3,
+         compile_files/1]).
 
 -export([get_static_signatures/0,
          get_signatures/1,
@@ -132,6 +133,11 @@ compile(Filename, [], Hints) ->
    do_compile(Filename, Str, Hints);
 compile(Filename, Str, Hints) ->
    do_compile(Filename, Str, Hints).
+
+%% takes a list of [{Filename, QNamespace}]
+compile_files(Hints) -> 
+   do_compile_files(Hints).
+
 
 %% ====================================================================
 %% Behavioural functions
@@ -285,7 +291,7 @@ add_stacktrace(E, StackTrace) ->
    E#xqError{additional = xqerl_lib:format_stacktrace(StackTrace)}.
 
 -define(NOT_FOUND(V), 
-        _:#xqError{name =
+        #xqError{name =
                      #xqAtomicValue{value = 
                                       #qname{prefix = <<"err">>,
                                              local_name = <<"XQST0059">>}},
@@ -324,9 +330,11 @@ do_compile(Filename, Str, false) ->
       _ = erlang:erase(),
       _ = [erlang:put(K, V) || {K, V} <- OldProcDict]
    end;   
-do_compile(Filename, Str, Hints) ->
-   OldProcDict = erlang:erase(),
+
+do_compile(Filename, Str, []) ->
+   OldProcDict = erlang:get(), 
    try
+      erlang:erase(),
    %%%
       Toks = scan_tokens(Str),
 %io:format("~p~n", [Toks]),
@@ -340,7 +348,7 @@ do_compile(Filename, Str, Hints) ->
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
       xqerl_context:destroy(Static),
 %io:format("~p~n", [Forms]),
-   
+
       {ok,M,B} = compile:forms(Forms,
                                [debug_info, verbose,
                                 return_errors, no_auto_import,
@@ -360,35 +368,100 @@ do_compile(Filename, Str, Hints) ->
       code:purge(M),
       gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT)
    catch 
-      ?NOT_FOUND(V) = Error ->
-      ?dbg("Error",Error),
-         KN1 = trim_q(V),
-         case lists:keyfind(KN1, 2, Hints) of
-            false ->
-               Error;
-            {F1,_} = G ->
-               case compile(F1, [], Hints -- [G]) of
-                  #xqError{} = Ex ->
-                     Ex;
-                  _ -> % try again
-                     compile(Filename, Str, Hints)
-               end
-         end;
+      _:?NOT_FOUND(_) = Error:StackTrace ->
+         ?dbg("Error",Error),
+         ?dbg("Error",StackTrace),
+         _ = erlang:erase(),
+         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
+         Error;
       _:#xqError{} = Error:StackTrace ->
          ?dbg("Error",Error),
          ?dbg("Error",StackTrace),
          % TODO save the error
+         _ = erlang:erase(),
+         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
          add_stacktrace(Error, StackTrace);
       _:Error:StackTrace ->
          ?dbg("Error",Error),
          ?dbg("Error",StackTrace),
+         _ = erlang:erase(),
+         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
          % TODO save the error
          Error
    %%%
-   after
-      _ = erlang:erase(),
-      _ = [erlang:put(K, V) || {K, V} <- OldProcDict]
+   end;
+do_compile(_, _, Hints) ->
+   Failed = [{Hint, R} ||
+             {Filename, _} = Hint <- Hints,
+             R <- [compile(Filename)],
+             not is_atom(R)
+            ],
+   if Failed == [] ->
+         ok;
+      length(Failed) == length(Hints) ->
+         {_, H} = hd(Failed),
+         H;
+      true ->
+         NewFailed = [H || {H,_} <- Failed],
+         do_compile(a, a, NewFailed)
    end.
+
+do_compile_files(List) ->
+   Errors = do_compile_files(List, []),
+   [A || {A,_,_} <- Errors].
+
+do_compile_files([], Acc) ->
+   %?dbg("Acc",Acc),
+   Early = [E || {?NOT_FOUND(_),_,_} = E <- Acc],
+   Failed = lists:subtract([E || {#xqError{},_,_} = E <- Acc], Early),
+   Passed = [B || {A,_,_} = B <- Acc, is_atom(A)],
+   %?dbg("Early",Early),
+   %?dbg("Failed",Failed),
+   %?dbg("Passed",Passed),
+   if Passed == [] ->
+         Failed ++ Early;
+      true ->
+         Failed ++ do_compile_files(Early, [])
+   end;
+do_compile_files([{Filename, Uri}|Rest], Acc) ->
+   case file:read_file(Filename) of
+      {ok, Bin} ->
+         Str = binary_to_list(Bin),
+         Res = do_compile(Filename, Str, []),
+         do_compile_files(Rest, [{Res, Str, Uri}|Acc]);
+      Err ->
+         ?dbg("Err",Err),
+         do_compile_files(Rest, [{xqerl_error:error('XQST0059'), [], Uri}|Acc])
+   end;
+do_compile_files([{_, Str, Uri}|Rest], Acc) ->
+   Res = do_compile(Uri, Str, []),
+   do_compile_files(Rest, [{Res, Str, Uri}|Acc]).
+   
+   
+%% ?dbg("Filename", Filename),
+%% ?dbg("F1",Hints),
+%%    case do_compile(Filename, Str, []) of
+%%       ?NOT_FOUND(Ns) = Error ->
+%% ?dbg("here", ok),   
+%%          case lists:keyfind(Ns, 2, Hints) of
+%%             false ->
+%% ?dbg("here", ok),   
+%%                ?dbg("Filename",Filename),
+%%                Error;
+%%             {F1,_} = G ->
+%% ?dbg("here", ok),   
+%%                ?dbg("F1",F1),
+%%                compile(F1, [], Hints -- G),
+%%                ?dbg("F1",Filename),
+%%                compile(Filename, [], Hints)
+%%          end;
+%%       #xqError{} = Error ->
+%% ?dbg("here", ok),   
+%%          Error;
+%%       Other ->
+%% ?dbg("here", Other),   
+%%          Other
+%%    end.
 
 
 scan_tokens(Str) ->
@@ -423,8 +496,8 @@ scan_tree_static(Tree, BaseUri) ->
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
       _:#xqError{} = E:S ->
-         ?dbg("parse_tokens e",S),
-         throw(add_stacktrace(E, S));
+         ?dbg("parse_tokens e",{E, S}),
+         exit(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("scan_tree_static",E),
          ?dbg("scan_tree_static",StackTrace),
@@ -529,6 +602,10 @@ write_dispatch(Filename, Term) ->
 %% trim_q(<<"Q{", Namespace0/binary>>) ->
 %%    binary:part(Namespace0, 0, byte_size(Namespace0) - 1);
 trim_q(Namespace0) -> Namespace0.
+
+add_q(Namespace) ->
+   <<"Q{",Namespace/binary,"}">>.
+
 
 do_unload(Tab, Ebin, DispatchFile) ->
    All = dets:match(Tab, '$1'),

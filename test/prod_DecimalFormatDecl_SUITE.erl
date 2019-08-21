@@ -426,8 +426,8 @@ groups() -> [
         declare decimal-format df001 grouping-separator=\"!\";
         format-number(123456.789,'#!###!###.###','df001')||'-'||m:do()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "DecimalFormatDecl/dfd-module-001.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "DecimalFormatDecl/dfd-module-001.xq"), <<"Q{http://www.w3.org/TestModules/dfd-module-001}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "decimal-format-21.xq"), Qry1),

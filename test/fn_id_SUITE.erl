@@ -263,8 +263,8 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,8 +756,8 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//comment())[1]))
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -781,8 +781,8 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//processing-instruction())[1]))
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -806,8 +806,8 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy(/*))
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,8 +831,8 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

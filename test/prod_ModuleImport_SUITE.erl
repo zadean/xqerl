@@ -322,6 +322,7 @@ environment('user-defined-types',__BaseDir) ->
 {modules, []}
 ].
 'K2-ModuleProlog-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "module namespace example = \"http://example.com/\"; \"an expression\"", 
    Qry1 = Qry,
@@ -337,13 +338,13 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-simple'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-simple.xq"), Qry1),
@@ -361,14 +362,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-bad-ns'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\";
         <result>{test2:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-bad-ns.xq"), Qry1),
@@ -386,13 +387,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"  http://www.w3.org/TestModules/test \";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-1.xq"), Qry1),
@@ -410,13 +412,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-2'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-2.xq"), Qry1),
@@ -434,13 +437,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-3'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris2-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris2-lib.xq"), <<"Q{http://www.w3.org/Test Modules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-3.xq"), Qry1),
@@ -458,13 +462,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-4'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test/../../TestModules/./test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-urisi1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-urisi1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-4.xq"), Qry1),
@@ -482,13 +487,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-7'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules./test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris3-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris3-lib.xq"), <<"Q{http://www.w3.org/TestModules./test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-7.xq"), Qry1),
@@ -506,13 +512,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-8'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/.TestModules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris4-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris4-lib.xq"), <<"Q{http://www.w3.org/.TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-8.xq"), Qry1),
@@ -530,13 +537,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-9'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules../test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris5-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris5-lib.xq"), <<"Q{http://www.w3.org/TestModules../test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-9.xq"), Qry1),
@@ -554,13 +562,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-10'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/..TestModules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris6-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris6-lib.xq"), <<"Q{http://www.w3.org/..TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-10.xq"), Qry1),
@@ -578,13 +587,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-11'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#xd0a4;/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris7-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris7-lib.xq"), <<"Q{http://www.w3.org/TestModules/키/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-11.xq"), Qry1),
@@ -602,13 +612,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-12'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris8-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris8-lib.xq"), <<"Q{http://www.w3.org/TestModules/<=>@/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-12.xq"), Qry1),
@@ -626,13 +637,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-13'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"urn:example:animal:ferret:nose\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris9-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris9-lib.xq"), <<"Q{urn:example:animal:ferret:nose}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-13.xq"), Qry1),
@@ -650,13 +662,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-14'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris10-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris10-lib.xq"), <<"Q{ftp://www.w3.org/TestModules/test;type=A}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-14.xq"), Qry1),
@@ -674,13 +687,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-15'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test?hello=world\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris11-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris11-lib.xq"), <<"Q{http://www.w3.org/TestModules/test?hello=world}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-15.xq"), Qry1),
@@ -698,13 +712,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-16'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test#world\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris12-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris12-lib.xq"), <<"Q{http://www.w3.org/TestModules/test#world}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-16.xq"), Qry1),
@@ -722,13 +737,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-17'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris13-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris13-lib.xq"), <<"Q{ftp://www.w3.org/TestModules/test;type=A?hello=world&q#world}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-17.xq"), Qry1),
@@ -746,13 +762,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-18'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"#1\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris14-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris14-lib.xq"), <<"Q{#1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-18.xq"), Qry1),
@@ -770,13 +787,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-19'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http:test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris15-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris15-lib.xq"), <<"Q{http:test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-19.xq"), Qry1),
@@ -794,13 +812,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-20'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://user@www.w3.org/TestModules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris16-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris16-lib.xq"), <<"Q{ftp://user@www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-20.xq"), Qry1),
@@ -818,13 +837,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-21'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris17-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris17-lib.xq"), <<"Q{http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-21.xq"), Qry1),
@@ -842,13 +862,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-22'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org:7334/TestModules/test\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris18-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris18-lib.xq"), <<"Q{http://www.w3.org:7334/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-22.xq"), Qry1),
@@ -866,13 +887,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-23'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"mailto:jane.doe@w3c.org\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris19-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris19-lib.xq"), <<"Q{mailto:jane.doe@w3c.org}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-23.xq"), Qry1),
@@ -890,13 +912,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-24'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"fax:+1-234-567-890\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris20-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris20-lib.xq"), <<"Q{fax:+1-234-567-890}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-24.xq"), Qry1),
@@ -914,13 +937,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'module-URIs-25'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ldap://[2001:db8::7]/c=GB?objectClass?one\";
         <result>{test:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-uris21-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-uris21-lib.xq"), <<"Q{ldap://[2001:db8::7]/c=GB?objectClass?one}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "module-URIs-25.xq"), Qry1),
@@ -938,15 +962,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-two-import'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         import module namespace test2=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-two-import.xq"), Qry1),
@@ -964,14 +988,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-two-import-ok'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-two-import-ok.xq"), Qry1),
@@ -989,13 +1013,13 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-collide-var-001'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1collide1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1collide1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-collide-var-001.xq"), Qry1),
@@ -1013,14 +1037,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-collide-var-002'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare variable $test1:flag := 1; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-collide-var-002.xq"), Qry1),
@@ -1038,14 +1063,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-collide-fn-001'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1collide2-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1collide2-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-collide-fn-001.xq"), Qry1),
@@ -1063,14 +1088,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-collide-fn-002'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare function test1:ok () { \"ok\" }; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-collide-fn-002.xq"), Qry1),
@@ -1088,13 +1114,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-emptyns'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1= \"\"; 
         <result>ok</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/emptyns-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/emptyns-lib.xq"), <<"Q{}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-emptyns.xq"), Qry1),
@@ -1112,14 +1139,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-circular'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test2c1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1c1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1c1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test2c1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-circular.xq"), Qry1),
@@ -1137,15 +1164,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         <foo:anElement>some Content</foo:anElement>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:Error_3 -> Error_3 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-1.xq"), Qry1),
@@ -1163,16 +1189,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-2'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         declare namespace foo = \"http://example.org\"; 
         <foo:anElement>some Content</foo:anElement>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:Error_3 -> Error_3 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-2.xq"), Qry1),
@@ -1190,15 +1215,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-3'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $test1:flag + 1 return $var
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:Error_3 -> Error_3 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-3.xq"), Qry1),
@@ -1216,15 +1240,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-4'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var1+ 1 return $var
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:Error_3 -> Error_3 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-4.xq"), Qry1),
@@ -1242,15 +1265,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-5'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var2 + 1 return $var
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:Error_3 -> Error_3 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-5.xq"), Qry1),
@@ -1268,6 +1290,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-6'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
@@ -1275,9 +1298,8 @@ environment('user-defined-types',__BaseDir) ->
         declare variable $foo:flag := 3; 
         let $var := $test1:flag + $foo:flag 
         return $var", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-6.xq"), Qry1),
@@ -1295,14 +1317,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-7'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
         return $var", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-7.xq"), Qry1),
@@ -1320,6 +1342,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-8'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
@@ -1327,9 +1350,8 @@ environment('user-defined-types',__BaseDir) ->
         declare function foo:ok () { \"ok\" }; 
         let $var := fn:concat(test1:ok(),foo:ok()) 
         return $var", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-8.xq"), Qry1),
@@ -1347,13 +1369,13 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-9'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:upper-case(test1:ok())", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-9.xq"), Qry1),
@@ -1371,14 +1393,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-10'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:lower-case(test1:ok())
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-10.xq"), Qry1),
@@ -1396,13 +1418,13 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-11'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:string-length(test1:ok())", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-11.xq"), Qry1),
@@ -1420,14 +1442,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-12'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\";
         $test1:flag + $test1:flag
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-12.xq"), Qry1),
@@ -1445,14 +1467,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-13'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         $test1:flag - $test1:flag
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-13.xq"), Qry1),
@@ -1470,14 +1492,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-14'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         xs:integer($test1:flag)
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>},{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-14.xq"), Qry1),
@@ -1495,13 +1517,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-15'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\"; 
         \"aaa\"
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test2-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test2-lib.xq"), <<"Q{http://www.w3.org/TestModules/test2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-15.xq"), Qry1),
@@ -1519,13 +1542,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-16'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace xml=\"http://www.w3.org/TestModules/test1\"; 
         xs:string($xml:flag)
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-16.xq"), Qry1),
@@ -1543,13 +1567,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-17'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/diffns\"; 
         \"abc\"
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/modulesdiffns-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/modulesdiffns-lib.xq"), <<"Q{http://www.w3.org/TestModules/diffns}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-17.xq"), Qry1),
@@ -1567,14 +1592,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-18'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/module1\"; 
         import module namespace mod2=\"http://www.w3.org/TestModules/module2\"; 
         mod1:x(),mod2:y()", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module2-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module1-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module1-lib.xq"), <<"Q{http://www.w3.org/TestModules/module1}">>},{filename:join(__BaseDir, "ModuleImport/module2-lib.xq"), <<"Q{http://www.w3.org/TestModules/module2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-18.xq"), Qry1),
@@ -1592,50 +1617,62 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-19'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-19b'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
 'modules-20'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-20b'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
 'modules-21'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
 'modules-22'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-23'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-24'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
 'modules-25'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-26'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-27'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-28'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'modules-28a'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs1 = \"http://www.w3.org/TestModules/defs1\"; 
         $defs1:var
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/modules-recursive2.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/modules-recursive1.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/modules-recursive1.xq"), <<"Q{http://www.w3.org/TestModules/defs1}">>},{filename:join(__BaseDir, "ModuleImport/modules-recursive2.xq"), <<"Q{http://www.w3.org/TestModules/defs2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-28a.xq"), Qry1),
@@ -1653,13 +1690,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-29'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace xmlns=\"http://www.w3.org/TestModules/test\"; 
         xmlns:ok ()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/test1-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-29.xq"), Qry1),
@@ -1677,6 +1715,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'K-ModuleImport-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "import(::)module \"\"; 1 eq 1", 
    Qry1 = Qry,
@@ -1692,6 +1731,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'K-ModuleImport-2'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "import(::)module \"\" at \"http://example.com/\", \"http://example.com/2\"; 1 eq 1", 
    Qry1 = Qry,
@@ -1707,6 +1747,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'K-ModuleImport-3'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace NCName := \"http://example.com/Dummy\"; 1", 
    Qry1 = Qry,
@@ -1722,6 +1763,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'K2-ModuleImport-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "import ne import", 
    Qry1 = Qry,
@@ -1737,38 +1779,46 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'errata6-001'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'errata6-002'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'errata6-003'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}. 
 'errata6-004'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'errata6-005'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
 'errata6-006'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
 'errata6-007'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
 'errata8-001'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'errata8-001a'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_1a=\"http://www.w3.org/TestModules/errata8_1a\"; 
         errata8_1a:fun()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module1b.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module1a.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/errata8-module1a.xq"), <<"Q{http://www.w3.org/TestModules/errata8_1a}">>},{filename:join(__BaseDir, "ModuleImport/errata8-module1b.xq"), <<"Q{http://www.w3.org/TestModules/errata8_1b}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "errata8-001a.xq"), Qry1),
@@ -1786,16 +1836,17 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'errata8-002'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"XQ10+"}. 
 'errata8-002a'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_2a=\"http://www.w3.org/TestModules/errata8_2a\"; 
         errata8_2a:fun()", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module2b.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module2a.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/errata8-module2a.xq"), <<"Q{http://www.w3.org/TestModules/errata8_2a}">>},{filename:join(__BaseDir, "ModuleImport/errata8-module2b.xq"), <<"Q{http://www.w3.org/TestModules/errata8_2b}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "errata8-002a.xq"), Qry1),
@@ -1813,14 +1864,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'errata8-003'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_3a=\"http://www.w3.org/TestModules/errata8_3a\"; 
         errata8_3a:fun()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module3b.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/errata8-module3a.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/errata8-module3a.xq"), <<"Q{http://www.w3.org/TestModules/errata8_3a}">>},{filename:join(__BaseDir, "ModuleImport/errata8-module3b.xq"), <<"Q{http://www.w3.org/TestModules/errata8_3b}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "errata8-003.xq"), Qry1),
@@ -1838,13 +1889,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-1'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g(42)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-1.xq"), Qry1),
@@ -1862,13 +1914,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-2'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-2.xq"), Qry1),
@@ -1886,13 +1939,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-3'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:one)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-3.xq"), Qry1),
@@ -1910,13 +1964,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-4'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:two)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-4.xq"), Qry1),
@@ -1934,6 +1989,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-5'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
@@ -1954,6 +2010,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-6'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
@@ -1974,6 +2031,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-7'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
@@ -1992,6 +2050,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-8'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
@@ -2010,6 +2069,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-9'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
@@ -2034,6 +2094,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-10'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
@@ -2058,6 +2119,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-11'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
@@ -2080,6 +2142,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-12'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
@@ -2102,6 +2165,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-13'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2110,8 +2174,8 @@ environment('user-defined-types',__BaseDir) ->
         };
         <a>{local:test()}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-13.xq"), Qry1),
@@ -2129,6 +2193,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-14'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2137,8 +2202,8 @@ environment('user-defined-types',__BaseDir) ->
         };
         <a>{local:test()}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-14.xq"), Qry1),
@@ -2156,6 +2221,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-15'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2164,8 +2230,8 @@ environment('user-defined-types',__BaseDir) ->
         };
         <a>{local:test()}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-15.xq"), Qry1),
@@ -2183,6 +2249,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-16'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2191,8 +2258,8 @@ environment('user-defined-types',__BaseDir) ->
         };
         <a>{local:test()}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-16.xq"), Qry1),
@@ -2210,6 +2277,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-17'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
@@ -2233,6 +2301,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-18'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
@@ -2256,6 +2325,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-19'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
@@ -2277,6 +2347,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-20'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
@@ -2298,6 +2369,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-21'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2306,8 +2378,8 @@ environment('user-defined-types',__BaseDir) ->
 
         <a>{$test}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-21.xq"), Qry1),
@@ -2325,6 +2397,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-22'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2333,8 +2406,8 @@ environment('user-defined-types',__BaseDir) ->
 
         <a>{$test}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-22.xq"), Qry1),
@@ -2352,6 +2425,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-23'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2360,8 +2434,8 @@ environment('user-defined-types',__BaseDir) ->
 
         <a>{$test}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-23.xq"), Qry1),
@@ -2379,6 +2453,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-24'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
@@ -2387,8 +2462,8 @@ environment('user-defined-types',__BaseDir) ->
 
         <a>93.7</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-24.xq"), Qry1),
@@ -2406,14 +2481,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-25'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
         <a>{defs:h(42)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-25.xq"), Qry1),
@@ -2431,14 +2507,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-26'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
         <a>{$defs:ninety}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-26.xq"), Qry1),
@@ -2456,14 +2533,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-27'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv3\"; 
         <a>{defs:f(42)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv3.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>},{filename:join(__BaseDir, "ModuleImport/module-pub-priv3.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv3}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-27.xq"), Qry1),
@@ -2481,14 +2558,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-28'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv2\"; 
         <a>{defs:fails()}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv2.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>},{filename:join(__BaseDir, "ModuleImport/module-pub-priv2.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-28.xq"), Qry1),
@@ -2506,6 +2583,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-29'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %public function local:foo() { () };
@@ -2524,6 +2602,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-30'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
@@ -2543,6 +2622,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-31'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public %public function local:foo() { () };
@@ -2561,6 +2641,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-32'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %private function local:foo() { () };
@@ -2579,6 +2660,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-33'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %public variable $foo := ();
@@ -2597,6 +2679,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-34'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
@@ -2616,6 +2699,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-35'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %private variable $foo := ();
@@ -2634,6 +2718,7 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-36'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public %public variable $foo := ();
@@ -2652,13 +2737,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-37'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f#0()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-37.xq"), Qry1),
@@ -2676,13 +2762,14 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'modules-pub-priv-38'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g#1(42)}</a>
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/module-pub-priv.xq"), <<"Q{http://www.w3.org/TestModules/module-pub-priv}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "modules-pub-priv-38.xq"), Qry1),
@@ -2700,17 +2787,19 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'cbcl-module-001'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
 'cbcl-module-002'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
       	import module namespace lib=\"http://www.xqsharp.com/test/baseuri-lib\"; 
       	declare base-uri \"http://www.example.org/wrong/\"; 
       	base-uri($lib:node/node())
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/baseuri-lib.xq")) catch _:Error_1 -> Error_1 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/baseuri-lib.xq"), <<"Q{http://www.xqsharp.com/test/baseuri-lib}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-module-002.xq"), Qry1),
@@ -2728,15 +2817,15 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'cbcl-module-003'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    Qry = "
       	import module namespace foo=\"http://www.xqsharp.com/test/variabledeclaration\"; 
       	import module namespace bar=\"http://www.xqsharp.com/test/variablereference\"; 
       	bar:test()
       ", 
-   LibList = [
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/variablereference-lib.xq")) catch _:Error_1 -> Error_1 end, 
-    try xqerl_code_server:compile(filename:join(__BaseDir, "ModuleImport/variabledeclaration-lib.xq")) catch _:Error_2 -> Error_2 end], 
+   Hints = [{filename:join(__BaseDir, "ModuleImport/variabledeclaration-lib.xq"), <<"Q{http://www.xqsharp.com/test/variabledeclaration}">>},{filename:join(__BaseDir, "ModuleImport/variablereference-lib.xq"), <<"Q{http://www.xqsharp.com/test/variablereference}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "cbcl-module-003.xq"), Qry1),
@@ -2754,5 +2843,6 @@ environment('user-defined-types',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'cbcl-module-004'(Config) ->
+   _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.

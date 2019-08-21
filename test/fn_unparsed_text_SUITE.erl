@@ -1128,22 +1128,7 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-         for $t1 in unparsed-text('http://date.jsontest.com') return
-         every $i in 1 to 50 satisfies unparsed-text(translate(concat('http://date.jsontest.com', $i), '0123456789', '')) eq $t1 
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-unparsed-text-054.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"remote_http"}. 
 'fn-unparsed-text-055'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
