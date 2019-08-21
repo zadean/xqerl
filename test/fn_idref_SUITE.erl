@@ -261,12 +261,17 @@ environment('functx_book',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:idref(\"argument1\", $var)
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-idref-4.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

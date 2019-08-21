@@ -143,18 +143,6 @@ environment('sales-json',__BaseDir) ->
 {schemas, []}, 
 {resources, []}, 
 {modules, []}
-]; 
-environment('Wikipedia-Origami.xml',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "UseCaseR31/Wikipedia-Origami.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseR31/Wikipedia-Origami.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]}, 
-{params, []}, 
-{vars, [{"uri","xs:string","'Wikipedia-Origami.xml'"}]}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
 ].
 'UseCaseR31-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
@@ -952,7 +940,7 @@ return map {
   }
  }
 }", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('Wikipedia-Origami.xml',__BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseR31-030.xq"), Qry1),

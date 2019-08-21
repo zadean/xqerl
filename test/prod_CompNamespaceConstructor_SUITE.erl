@@ -664,11 +664,16 @@ environment('cnc-schema',__BaseDir) ->
         return
           element { resolve-QName(\"z:f\", $elem) } {}
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-027.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_xml(Res,"<z:f xmlns:z=\"http://www.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -684,11 +689,16 @@ environment('cnc-schema',__BaseDir) ->
         let $ns := mod1:one()
         return ($ns is $ns, $ns is mod1:one())
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-028.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
@@ -851,11 +861,16 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-035.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" xmlns:out=\"http://out.zorba-xquery.com/\" xmlns:in=\"http://in.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -874,11 +889,16 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-036.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:in=\"http://in.zorba-xquery.com/\" xmlns:out=\"http://out.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -897,11 +917,16 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-037.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_xml(Res,"<inner xmlns:new=\"http://new.zorba-xquery.com/\" />") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
@@ -920,11 +945,16 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-038.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_xml(Res,"<inner/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 

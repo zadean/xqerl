@@ -1244,7 +1244,7 @@ return [ $html ]
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xhtml-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1260,7 +1260,6 @@ declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
 declare option output:method  \"xhtml\";
 declare option output:indent  \"no\";
 declare option output:html-version  \"5.0\";
-declare option output:include-content-type  \"yes\";
 
 <h:html xmlns:h=\"http://www.w3.org/1999/xhtml\">
   <h:head><h:title>Test doc</h:title></h:head>

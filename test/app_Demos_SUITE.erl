@@ -277,12 +277,13 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         	string-join( for $channel in raytracer:plot-pixel($scene, $x-recentered, $y-recentered) 
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/math.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/materials.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/shapes.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/vector.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/scene.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/math.xq")) catch _:Error_1 -> Error_1 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/materials.xq")) catch _:Error_2 -> Error_2 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/shapes.xq")) catch _:Error_3 -> Error_3 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/vector.xq")) catch _:Error_4 -> Error_4 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/scene.xq")) catch _:Error_5 -> Error_5 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "Demos/raytracer.xq")) catch _:Error_6 -> Error_6 end], 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "Demos/scene.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -303,7 +304,11 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "raytracer.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"starts-with(normalize-space(string-join($result, ' ')), 'P3 64 64 255 0 0 0')") of 
       true -> {comment, "Correct results"};

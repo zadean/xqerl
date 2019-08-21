@@ -579,7 +579,7 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string", 
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string", 
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

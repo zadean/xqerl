@@ -118,14 +118,12 @@ groups() -> [
 
 'K2-Serialization-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        attribute name {<anElement/>}", 
+   Qry = "attribute name {<anElement/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -135,14 +133,12 @@ groups() -> [
    end. 
 'K2-Serialization-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <e/>, attribute name {<anElement/>}", 
+   Qry = "<e/>, attribute name {<anElement/>}", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -152,14 +148,12 @@ groups() -> [
    end. 
 'K2-Serialization-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        attribute name {<anElement/>}, <e/>", 
+   Qry = "attribute name {<anElement/>}, <e/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -169,14 +163,12 @@ groups() -> [
    end. 
 'K2-Serialization-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <e/>, attribute name {<anElement/>}, <e/>", 
+   Qry = "<e/>, attribute name {<anElement/>}, <e/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -186,9 +178,7 @@ groups() -> [
    end. 
 'K2-Serialization-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a>&#xD;&#x85;&#x2028;</a>", 
+   Qry = "<a>&#xD;&#x85;&#x2028;</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-5.xq"), Qry1),
@@ -211,9 +201,7 @@ groups() -> [
    end. 
 'K2-Serialization-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a attr=\"&#xD;&#xA;&#x9;&#x85;&#x2028;\"/>", 
+   Qry = "<a attr=\"&#xD;&#xA;&#x9;&#x85;&#x2028;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-6.xq"), Qry1),
@@ -239,9 +227,7 @@ groups() -> [
    {skip,"XML version 1.1"}. 
 'K2-Serialization-7a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a>{codepoints-to-string(1 to 31)}</a>", 
+   Qry = "<a>{codepoints-to-string(1 to 31)}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-7a.xq"), Qry1),
@@ -263,9 +249,7 @@ groups() -> [
    {skip,"XML version 1.1"}. 
 'K2-Serialization-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a attr=\"{codepoints-to-string(1 to 31)}\"></a>", 
+   Qry = "<a attr=\"{codepoints-to-string(1 to 31)}\"></a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-8a.xq"), Qry1),
@@ -280,9 +264,7 @@ groups() -> [
    end. 
 'K2-Serialization-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a attr=\"{codepoints-to-string(127 to 159)}\"/>", 
+   Qry = "<a attr=\"{codepoints-to-string(127 to 159)}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-9.xq"), Qry1),
@@ -305,9 +287,7 @@ groups() -> [
    end. 
 'K2-Serialization-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        <a>{codepoints-to-string(127 to 159)}</a>", 
+   Qry = "<a>{codepoints-to-string(127 to 159)}</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-10.xq"), Qry1),
@@ -330,9 +310,7 @@ groups() -> [
    end. 
 'K2-Serialization-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        \"a&#xD;aa&#xD;&#xA;a&#xD;&#xA;\"", 
+   Qry = "\"a&#xD;aa&#xD;&#xA;a&#xD;&#xA;\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-11.xq"), Qry1),
@@ -509,7 +487,6 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:omit-xml-declaration \"no\";
         declare option output:standalone \"yes\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
@@ -538,7 +515,6 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:omit-xml-declaration \"no\";
         declare option output:standalone \"no\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
@@ -559,7 +535,6 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:omit-xml-declaration \"no\";
         declare option output:standalone \"omit\";
         <chapter><section><para><b>bold</b>{\" \"}<i>italic</i></para></section></chapter>
       ", 
@@ -906,33 +881,7 @@ groups() -> [
    end. 
 'K2-Serialization-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-      	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:method \"xml\";
-        declare option output:encoding \"us-ascii\";
-        declare option output:cdata-section-elements \"b\";
-        <chapter><para><b>bold&#xa0;as brass</b></para></chapter>
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-Serialization-35.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"SESU0007") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"<!\\[CDATA\\[bold\\]\\]>&#(xa0|xA0|160);<!\\[CDATA\\[as brass\\]\\]>"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"us-ascii encoding"}. 
 'K2-Serialization-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1036,7 +985,6 @@ groups() -> [
    Qry = "
       	declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
         declare option output:method \"xml\";
-        declare option output:omit-xml-declaration \"no\";
         declare option output:item-separator \"|\";
         [1, 2, 3, 4, 5]
       ", 
@@ -1065,7 +1013,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-02.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1075,63 +1023,7 @@ groups() -> [
    end. 
 'Serialization-xml-03'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"xml/xml-character-map.xml\";
-        
-        <out att=\"abc\">XabcX</out>
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-03.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"<out att=['\"]AAABBBCCC['\"]>XAAABBBCCCX</out>"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-xml-04'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:indent \"no\";
-        declare option output:parameter-document \"xml/param-doc-04.xml\";
-        declare option output:omit-xml-declaration \"yes\";
-        
-        <out><in>XXX</in></out>
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-04.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"^<out><in><!\\[CDATA\\[XXX\\]\\]></in></out>$"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+   {skip,"output:parameter-document"}.

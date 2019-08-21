@@ -43,12 +43,12 @@ environment('speech-representation.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/qt3/app/UseCaseNLP/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),"http://www.w3.org/qt3/app/UseCaseNLP/speech-representation.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "speech-representation.json"))}]}, 
 {modules, []}
 ].
 'UseCaseNLP-001'(Config) ->

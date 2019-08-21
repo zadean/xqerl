@@ -108,28 +108,7 @@ groups() -> [
 
 'Serialization-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:cdata-section-elements \"\";
-         declare option output:doctype-public \"\";
-         declare option output:doctype-system \"\";
-         declare option output:indent \"no\";
-         declare option output:method \"xml\";
-         declare option output:suppress-indentation \"\";
-         declare option output:undeclare-prefixes \"no\";
-         <result>ok</result>
-        ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-001.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:doctype is none"}. 
 'Serialization-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -150,31 +129,7 @@ groups() -> [
    end. 
 'Serialization-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-         import module namespace test=\"http://www.w3.org/TestModules/test\";
-         <result>{test:ok()}</result>
-      ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "Serialization/serialization1-lib.xq")) catch _:_ -> ok end, 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-003.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_error(Res,"XQST0108") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0059") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -240,31 +195,7 @@ groups() -> [
    end. 
 'Serialization-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
-         declare option output:indent \"yes\";
-         <result>ok</result>
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-007.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
-      true -> {comment, "XML Deep equal"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
@@ -280,7 +211,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -306,7 +237,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -332,7 +263,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -358,7 +289,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -384,11 +315,11 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SESU0007") of 
+   case xqerl_test:assert_serialization_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -414,7 +345,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -440,7 +371,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -466,7 +397,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -493,7 +424,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -520,7 +451,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -546,7 +477,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SESU0011") of 
+   case xqerl_test:assert_serialization_error(Res,"SESU0011") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -572,7 +503,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -598,7 +529,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -624,7 +555,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -650,7 +581,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0016") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -695,7 +626,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SESU0013") of 
+   case xqerl_test:assert_serialization_error(Res,"SESU0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -722,7 +653,7 @@ groups() -> [
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0014") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0014") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -750,7 +681,7 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0004") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -781,7 +712,7 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0004") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -812,7 +743,7 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0004") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -840,7 +771,7 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SEPM0004") of 
+   case xqerl_test:assert_serialization_error(Res,"SEPM0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -884,7 +815,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SEPM0009") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SEPM0009") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -905,7 +836,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SEPM0009") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SEPM0009") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -951,66 +882,7 @@ groups() -> [
    end. 
 'Serialization-035'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-         declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-         declare option output:parameter-document \"Serialization/serialization-eqnames.xml\";
-         <result>
-           <e xmlns=\"http://example.com/a\">ta</e>
-           <e xmlns=\"http://example.com/b\">tb</e>
-           <e xmlns=\"http://example.com/c\">tc</e>
-           <e xmlns=\"http://example.com/d\">td</e>
-           <e xmlns=\"http://example.com/e\">te</e>
-           <e>tt</e>
-         </result>
-        ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-035.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[ta\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tb\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tc\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[td\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case (   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[te\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end) of 
-      {comment,C6} -> C6; _ -> {comment,ok}
-   end, 
-   case (   case xqerl_test:assert_serialization_match(Res,<<"CDATA\\[tt\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end) of 
-      {comment,C6} -> C6; _ -> {comment,ok}
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";

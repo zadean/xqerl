@@ -346,11 +346,16 @@ environment('user-defined-types',__BaseDir) ->
    Qry = "
         import module namespace m=\"http://example.com/hof-003\"; 
         let $f := m:f#1 return $f(17)", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-hof-003.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-hof-003.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "hof-003.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_eq(Res,"18") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2222,11 +2227,16 @@ key: z, value: (zebra)\"") of
          let $f := func:curry(concat#5)
          return $f(\"foo\")(\" bar\")(\" baz\")(\" what's\")(\" next?\")
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/functional.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/functional.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_eq(Res,"\"foo bar baz what's next?\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
@@ -2269,11 +2279,16 @@ return string($a)
 , \"
 \")
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/functional.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/functional.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_eq(Res,"\"0
 0
 1
@@ -2602,11 +2617,16 @@ return string($a)
          fn:static-base-uri#0(),
          fn:static-base-uri()
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof16.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"fn:ends-with($result[1], \"lib\")") of 
       true -> {comment, "Correct results"};
@@ -2636,11 +2656,16 @@ return string($a)
          <main/>/name#0(),
          <main/>/name()
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof17.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lib\", \"main\", \"main\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
@@ -2659,11 +2684,16 @@ return string($a)
          function-lookup#2(xs:QName(\"fn:static-base-uri\"),0)(),
          function-lookup(xs:QName(\"fn:static-base-uri\"),0)()
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof18.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"fn:ends-with($result[1], \"lib\")") of 
       true -> {comment, "Correct results"};
@@ -2693,11 +2723,16 @@ return string($a)
          <main/>/function-lookup#2(xs:QName(\"fn:name\"),0)(),
          <main/>/function-lookup(xs:QName(\"fn:name\"),0)()
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof19.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_deep_eq(Res,"\"lib\", \"main\", \"main\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 

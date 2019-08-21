@@ -426,11 +426,16 @@ groups() -> [
         declare decimal-format df001 grouping-separator=\"!\";
         format-number(123456.789,'#!###!###.###','df001')||'-'||m:do()
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "DecimalFormatDecl/dfd-module-001.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "DecimalFormatDecl/dfd-module-001.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "decimal-format-21.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_string_value(Res, "123!456.789-123'456.789") of 
       true -> {comment, "String correct"};
       {false, F} -> F 

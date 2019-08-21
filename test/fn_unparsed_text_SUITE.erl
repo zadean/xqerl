@@ -971,10 +971,6 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"FOUT1200") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
@@ -1029,10 +1025,6 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 

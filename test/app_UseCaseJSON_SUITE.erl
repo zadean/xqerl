@@ -55,110 +55,110 @@ environment('mildred.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/mildred.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/mildred.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/mildred.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "mildred.json"))}]}, 
 {modules, []}
 ]; 
 environment('employees.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/employees.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/employees.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/employees.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "employees.json"))}]}, 
 {modules, []}
 ]; 
 environment('bookinfo.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/bookinfo.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "bookinfo.json"))}]}, 
 {modules, []}
 ]; 
 environment('users.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/users.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/users.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/users.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "users.json"))}]}, 
 {modules, []}
 ]; 
 environment('sales.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/stores.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/stores.json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseJSON/products.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/products.json"}, 
-{"application/json", filename:join(__BaseDir, "UseCaseJSON/sales.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/sales.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/stores.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "stores.json"))}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/products.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "products.json"))}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/sales.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "sales.json"))}]}, 
 {modules, []}
 ]; 
 environment('satellites.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/satellites.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/satellites.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/satellites.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "satellites.json"))}]}, 
 {modules, []}
 ]; 
 environment('colors.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/colors.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/colors.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/colors.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "colors.json"))}]}, 
 {modules, []}
 ]; 
 environment('incoming.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/incoming.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/incoming.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/incoming.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "incoming.json"))}]}, 
 {modules, []}
 ]; 
 environment('table.json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]}, 
+{'static-base-uri', []}, 
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/table.json"),"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/table.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/table.json"),xqldb_lib:filename_to_uri(filename:join(__BaseDir, "table.json"))}]}, 
 {modules, []}
 ]; 
 environment('Wikipedia-Origami.xml',__BaseDir) ->

@@ -29,6 +29,8 @@
 -export(['fn-id-20'/1]).
 -export(['fn-id-21'/1]).
 -export(['fn-id-23'/1]).
+-export(['fn-id-24'/1]).
+-export(['fn-id-25'/1]).
 -export(['fn-id-dtd-5'/1]).
 -export(['fn-id-dtd-6'/1]).
 -export(['fn-id-dtd-7'/1]).
@@ -108,8 +110,10 @@ groups() -> [
     'fn-id-20', 
     'fn-id-21', 
     'fn-id-23', 
-    'fn-id-dtd-5']}, 
+    'fn-id-24']}, 
    {group_1, [parallel], [
+    'fn-id-25', 
+    'fn-id-dtd-5', 
     'fn-id-dtd-6', 
     'fn-id-dtd-7', 
     'fn-id-dtd-8', 
@@ -131,10 +135,10 @@ groups() -> [
     'K2-SeqIDFunc-1', 
     'K2-SeqIDFunc-2', 
     'K2-SeqIDFunc-3', 
-    'K2-SeqIDFunc-4', 
-    'K2-SeqIDFunc-5', 
-    'K2-SeqIDFunc-6']}, 
+    'K2-SeqIDFunc-4']}, 
    {group_2, [parallel], [
+    'K2-SeqIDFunc-5', 
+    'K2-SeqIDFunc-6', 
     'K2-SeqIDFunc-7', 
     'K2-SeqIDFunc-8', 
     'K2-SeqIDFunc-9', 
@@ -259,12 +263,17 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-id-4.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -327,6 +336,72 @@ environment('auction-xq',__BaseDir) ->
 'fn-id-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
+'fn-id-24'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $data := document {
+            <stuff>
+               <thing xml:id=\" a123 \">once</thing>
+               <thing xml:id=\" a456 \">twice</thing>
+               <thing xml:id=\" 789x \">thrice</thing>
+            </stuff>
+          }
+          return $data/id('a123')/string()  
+         
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-id-24.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQDY0091") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_eq(Res,"\"once\"") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'fn-id-25'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $data := document {
+            <stuff>
+               <thing xml:id=\" a123 \">once</thing>
+               <thing xml:id=\" a456 \">twice</thing>
+               <thing xml:id=\"789x\">thrice</thing>
+            </stuff>
+          }  
+          return $data/id('789x')
+         
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-id-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XQDY0091") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'fn-id-dtd-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1\", /IDS[1])/string(@anId)", 
@@ -681,12 +756,17 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//comment())[1]))
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIDFunc-4.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -701,12 +781,17 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//processing-instruction())[1]))
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIDFunc-5.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -721,12 +806,17 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy(/*))
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIDFunc-6.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -741,12 +831,17 @@ environment('auction-xq',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-SeqIDFunc-7.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"FODC0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

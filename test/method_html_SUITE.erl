@@ -1355,7 +1355,7 @@ return [ $html ]
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-html-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 

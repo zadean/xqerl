@@ -430,7 +430,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0020") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -452,7 +452,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0020") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -474,7 +474,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0020") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -496,7 +496,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0020") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0020") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -688,7 +688,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -710,7 +710,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -732,7 +732,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -754,7 +754,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -848,7 +848,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -926,185 +926,22 @@ groups() -> [
    end. 
 'Serialization-json-34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        
-        [\"abc\",\"XabcX\"]
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-34.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\[\"AAABBBCCC\",\"XAAABBBCCCX\"\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        declare option output:normalization-form \"NFC\";
-        
-        \"|z|\"
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-35.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\"\\|suçon\\|\""/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        
-        map { \"|y|\" : \"y\" }
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-36.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\{\"\\|\"\\|\":\"\"\"\\}"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        
-        map { \"w\" : 1, \"x\" : 1 }
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-37.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\{\"k\":1,\"k\":1\\}"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        
-        xs:QName(\"abc\")
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-38.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\"AAABBBCCC\""/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-39'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-character-map.xml\";
-        
-        [123, \"123\", xs:gDay(\"---11\")]
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-39.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\[123,\"one23\",\"---oneone\"\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-40'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1170,11 +1007,11 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SESU0007") of 
+   case xqerl_test:assert_serialization_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SERE0008") of 
+   case xqerl_test:assert_serialization_error(Res,"SERE0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -1267,7 +1104,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1289,7 +1126,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-47.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1335,7 +1172,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-49.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1358,7 +1195,7 @@ groups() -> [
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-50.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -1414,100 +1251,13 @@ groups() -> [
    end. 
 'Serialization-json-53'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-node-serialization.xml\";
-        
-        <e>hi</e>
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-53.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\"hi\""/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-54'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-allow-duplicates.xml\";
-        
-        map { \"one\" : 1, xs:QName(\"one\") : 1 }  
-
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-54.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\{\"one\":1,\"one\":1\\}"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-55'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
- 
-        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
-        declare option output:parameter-document \"json/json-allow-duplicates.xml\";
-        [text { \"&#xd;\" }, \"&#xd;\"]
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-55.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_serialization_match(Res,<<"\\[\"&#13;\",\"\\\\r\"\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"\\[\"&#xD;\",\"\\\\r\"\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_serialization_match(Res,<<"\\[\"&#xd;\",\"\\\\r\"\\]"/utf8>>,<<"">>) of 
-      true -> {comment, "Correct serialization"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XQST0119") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"output:parameter-document"}. 
 'Serialization-json-56'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1547,11 +1297,11 @@ groups() -> [
       true -> {comment, "Correct serialization"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SERE0008") of 
+   case xqerl_test:assert_serialization_error(Res,"SERE0008") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_error(Res,"SESU0007") of 
+   case xqerl_test:assert_serialization_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end   ]) of 
@@ -2547,7 +2297,7 @@ map {
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-73.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
@@ -2581,7 +2331,7 @@ map {
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-json-74.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
+   Out =    case xqerl_test:assert_serialization_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 

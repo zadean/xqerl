@@ -941,16 +941,16 @@ environment('atomic-xq',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-html-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"matches($result,'DOCTYPE HTML')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"matches($result,'DOCTYPE html')") of 
+   case xqerl_test:assert(Res,"matches($result,'<meta http-equiv')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
-      true -> {comment, "any-of"};
+      true -> {comment, "all-of"};
       _ -> false 
    end, 
    case Out of
@@ -971,16 +971,16 @@ environment('atomic-xq',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-html-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"matches($result,'DOCTYPE HTML')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"matches($result,'DOCTYPE html')") of 
+   case xqerl_test:assert(Res,"matches($result,'<meta http-equiv')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
-      true -> {comment, "any-of"};
+      true -> {comment, "all-of"};
       _ -> false 
    end, 
    case Out of
@@ -1552,28 +1552,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-json-114'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "let $r := serialize('𝄞', map{'method':'json', 'encoding':'ISO-8859-1'}) return
-            translate(normalize-space($r), 'abcdef', 'ABCDEF')", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "serialize-json-114.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_string_value(Res, "\"\\uD834\\uDD1E\"") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"SESU0007") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"ISO-8859-1 encoding"}. 
 'serialize-json-115'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $r := serialize('

@@ -643,7 +643,7 @@ environment('empty',__BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-integer-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_eq(Res,"'(602)347-826'") of 
+   Out =    case xqerl_test:assert_eq(Res,"'602)347-826'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 

@@ -662,12 +662,17 @@ environment('xqdy0084',__BaseDir) ->
 'combined-errors-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \"ABC\"", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/test1-lib.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/test1-lib.xq")) catch _:Error_1 -> Error_1 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq")) catch _:Error_2 -> Error_2 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combined-errors-1.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "ABC") of 
       true -> {comment, "String correct"};
@@ -3786,11 +3791,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; true()", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_02.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3929,11 +3939,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_09'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://www.w3.org/\" at \"%gg\"; 1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_09.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3953,11 +3968,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"%gg\"; true()", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_10.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -3977,11 +3997,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.w3.org/\" at \"%gg\"; 1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_11.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
@@ -4029,11 +4054,16 @@ environment('xqdy0084',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\";
          1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0047_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0047_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0047.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0047") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4045,11 +4075,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0048'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/foo\"; 1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0048_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0048_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0048.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0048") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4116,11 +4151,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0059_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0059_2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4150,11 +4190,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0059_5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/\"; foo:bar()", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0059_5.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0059") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4306,11 +4351,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0070_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = 'http://www.example.org/'; 1 + 2", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0070_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0070_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0070_3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0070") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4436,11 +4486,16 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0088_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; 1", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0088_lib.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0088_lib.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0088_2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_error(Res,"XQST0088") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
@@ -4485,12 +4540,17 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0093a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = " import module namespace foo=\"http://www.example.org/foo\"; $foo:variable2 ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq")) catch _:_ -> ok end, 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq")) catch _:Error_1 -> Error_1 end, 
+    try xqerl_code_server:compile(filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq")) catch _:Error_2 -> Error_2 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0093a.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 

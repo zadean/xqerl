@@ -75,6 +75,7 @@
 -export(['UCA-params-031'/1]).
 -export(['UCA-params-032'/1]).
 -export(['UCA-params-033'/1]).
+-export(['UCA-params-034'/1]).
 -export(['UCA-maxVariable-001'/1]).
 -export(['UCA-maxVariable-002'/1]).
 -export(['UCA-maxVariable-003'/1]).
@@ -186,10 +187,11 @@ groups() -> [
     'UCA-params-031', 
     'UCA-params-032', 
     'UCA-params-033', 
+    'UCA-params-034', 
     'UCA-maxVariable-001', 
-    'UCA-maxVariable-002', 
-    'UCA-maxVariable-003']}, 
+    'UCA-maxVariable-002']}, 
    {group_3, [parallel], [
+    'UCA-maxVariable-003', 
     'UCA-maxVariable-004', 
     'UCA-maxVariable-005', 
     'UCA-maxVariable-006', 
@@ -1662,6 +1664,31 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert_error(Res,"FOCH0002") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'UCA-params-034'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collation-key('CHAP1', concat($collation,'strength=secondary;numeric=yes;fallback=no')) =
+         collation-key('chap1', concat($collation,'strength=secondary;numeric=yes;fallback=no'))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UCA-params-034.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 

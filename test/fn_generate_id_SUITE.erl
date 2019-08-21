@@ -354,12 +354,17 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*))
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "generate-id-014.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -374,12 +379,17 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy((//@*)[1]))
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "generate-id-015.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert(Res,"matches($result, '^[A-Za-z][A-Za-z0-9]*$')") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
@@ -394,12 +404,17 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*)) eq generate-id(/*)
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "generate-id-016.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
@@ -414,12 +429,17 @@ environment('collection',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
       ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "id/copy.xq")) catch _:Error_1 -> Error_1 end], 
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "generate-id-017.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 

@@ -744,27 +744,7 @@ groups() -> [
    end. 
 'K2-BaseURIProlog-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "declare base-uri \"\"; contains(fn:static-base-uri(), \"BaseURI\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-BaseURIProlog-5.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_error(Res,"XPST0001") of 
-      true -> {comment, "Correct error"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"assumed *.xml base-uri"}. 
 'K2-BaseURIProlog-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/BASEURI\"; <e xml:base=\"../\"> {fn:static-base-uri()} </e>", 
@@ -801,11 +781,16 @@ groups() -> [
           import module namespace m =\"http://www.w3.org/TestModules/module-001\";
           static-base-uri() eq m:static-base-uri()
     ", 
-   try xqerl_code_server:compile(filename:join(__BaseDir, "BaseURIDecl/module-001.xq")) catch _:_ -> ok end, 
+   LibList = [
+    try xqerl_code_server:compile(filename:join(__BaseDir, "BaseURIDecl/module-001.xq")) catch _:Error_1 -> Error_1 end], 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "base-URI-modules-001.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
    Out =    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
