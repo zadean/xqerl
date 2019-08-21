@@ -185,6 +185,7 @@ Nonassoc 2200 ':' ' :' ': '.
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
                            : if '$5' == <<>> -> ?err('XQST0088');
                                 true ->
+                                 check_schema_prefix_namespace(bin_value_of('$3'), '$5'),
                                  Ns = list_to_binary(["Q{", '$5',"}"]),
                                  xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
                                         {Ns, bin_value_of('$3')}
@@ -315,7 +316,8 @@ Nonassoc 2200 ':' ' :' ': '.
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
+                           : check_schema_prefix_namespace(bin_value_of('$3'), '$5'), 
+                             xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
                              {namespace, {'$5', bin_value_of('$3')}}.
 
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' 
