@@ -709,11 +709,14 @@ handle_content(#{'base-uri' := BU,
                BU;
             true ->
                try
-                  Path = xqerl_lib:resolve_against_base_uri(
+                  xqerl_lib:resolve_against_base_uri(
                         xqerl_types:value(BU),
-                        xqerl_types:value(hd(NewBase))),
-                  %?dbg("Path",Path),
-                  #xqAtomicValue{type = 'xs:anyURI', value = Path}
+                        xqerl_types:value(hd(NewBase)))
+               of
+                  {error, invalid_uri} ->
+                     ?err('XQST0046');
+                  Path ->
+                     #xqAtomicValue{type = 'xs:anyURI', value = Path}
                catch 
                   _:_ -> 
                      % invalid base uri in xml:base is empty
