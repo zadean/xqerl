@@ -35,12 +35,14 @@
          assert_error/2,
          assert_string_value/2,
          assert_norm_string_value/2,
-         assert_serialization_match/3]).
+         assert_serialization_match/3,
+         assert_serialization_error/2]).
 
 -export([run/1,
          run_suite/1]).
 
--export([handle_environment/1]).
+-export([handle_environment/1,
+         combined_error/2]).
 -export([load_qt3_xml/0]).
 
 -include("xqerl.hrl").
@@ -273,7 +275,7 @@ assert_norm_string_value(Result, String) ->
 
 assert_serialization_match(#xqError{} = Err, _, _) ->
    {false, Err};
-assert_serialization_match(Result, SchemaRegex, Flags) ->
+assert_serialization_match(Result, SchemaRegex, Flags) when is_binary(Result) ->
    {ok, NormResult} = xs_regex:normalize(string_value(Result)),
    {ok, Norm} = xs_regex:normalize(SchemaRegex),
    {_, RE} = xs_regex:compile(Norm, Flags),
@@ -283,7 +285,10 @@ assert_serialization_match(Result, SchemaRegex, Flags) ->
       _ ->
          ?dbg("Result,SchemaRegex", {NormResult, Norm}),
          {false, {assert_serialization_match,NormResult,SchemaRegex}}      
-   end.
+   end;
+assert_serialization_match(Item, SchemaRegex, Flags) ->
+   Ser = xqerl_serialize:serialize(Item, #{}),
+   assert_serialization_match(Ser, SchemaRegex, Flags).
    
 %% assert_error
 assert_error(Result, ErrorCode) when is_list(ErrorCode) ->
@@ -310,6 +315,33 @@ assert_error(Result, ErrorCode) ->
       _ ->
          %StrVal = string_value(Result),
          {false, {assert_error,Result,ErrorCode}}
+   end.
+
+assert_serialization_error(Result, ErrorCode) when is_list(ErrorCode) ->
+   assert_serialization_error(Result, list_to_binary(ErrorCode));
+assert_serialization_error(#xqError{name = 
+                 #xqAtomicValue{value = 
+                                  #qname{namespace = ErrNs, 
+                                         local_name = Err}}}, ErrorCode) ->
+   if Err == ErrorCode;
+      ErrorCode == <<"*">> ->
+         true;
+      true ->
+         case <<"Q{}",Err/binary>> == ErrorCode andalso ErrNs == 'no-namespace'
+            orelse <<"Q{",ErrNs/binary,"}",Err/binary>> == ErrorCode 
+         of
+            true ->
+               true;
+            _ ->
+               {false,{Err,ErrorCode}}
+         end
+   end;
+assert_serialization_error(Result, ErrorCode) ->
+   case catch xqerl_serialize:serialize(Result, #{}) of 
+      {_, #xqError{} = Err} ->
+         assert_serialization_error(Err, ErrorCode);
+      Result1 ->
+         {false, {assert_serialization_error,Result1,ErrorCode}}
    end.
 
 % normalize end-of-line characters 
@@ -803,6 +835,31 @@ get_value(Key, List) ->
 get_value(Key, List, Default) ->
    proplists:get_value(Key, List, Default).
 
+
+-define(ERR_NAME(A, B), 
+        #xqError{name =
+                   #xqAtomicValue{value =
+                                    #qname{namespace = A,local_name = B}}}).
+-define(ERR_LOC(E), ((E#xqError.name)#xqAtomicValue.value)#qname.local_name).
+
+
+%% ensure that errors from imported libraries are reported in the tests.
+combined_error(Err, LibReturns) ->
+   Sort = fun(?ERR_NAME(AN, AL), ?ERR_NAME(BN, BL)) ->
+                {AN, AL} == {BN, BL}
+          end,
+   LibErrors = lists:usort(Sort, [E || 
+                                  #xqError{} = E <- LibReturns,
+                                  ?ERR_LOC(E) =/= <<"XQST0059">> % mod not found
+                                  ]),
+   ?dbg("LibErrors", LibErrors),
+   case LibErrors of
+      [H|_] ->
+         %when ?ERR_LOC(Err) == <<"XQST0059">> ->
+         H;
+      _ ->
+         Err
+   end.
 
 handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
