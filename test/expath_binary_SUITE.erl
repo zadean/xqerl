@@ -3026,7 +3026,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_eq(Res,"-0.0") of 
+   case xqerl_test:assert_eq(Res,"-0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end   ]) of 
@@ -3202,7 +3202,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_eq(Res,"-0.0") of 
+   case xqerl_test:assert_eq(Res,"-0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end   ]) of 
@@ -3543,7 +3543,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_eq(Res,"-1") of 
+   case xqerl_test:assert_eq(Res,"18446744073709551615") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end   ]) of 
