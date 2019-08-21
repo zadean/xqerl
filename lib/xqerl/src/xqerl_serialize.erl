@@ -50,7 +50,7 @@ default_opts() ->
      'encoding'               => utf8,
      'escape-uri-attributes'  => false,
      'html-version'           => 5.0,
-     'include-content-type'   => false,
+     'include-content-type'   => true,
      'indent'                 => false,
      'item-separator'         => <<>>,
      'json-node-output-method'=> xml,
@@ -229,8 +229,8 @@ html_head_meta(#{nn := {Ns,_,_},
                  {Ref,0}, {<<>>,<<>>,<<"content">>}, ContText, 
                  false, false, none),
    Meta = xqldb_mem_nodes:element({Ref,0}, {Ns,<<>>,<<"meta">>}, none),
-   Meta1 = xqldb_mem_nodes:add_attribute(Meta, HttpEquiv),
-   Meta2 = xqldb_mem_nodes:add_attribute(Meta1, Content),
+   Meta1 = xqldb_mem_nodes:add_attribute(Meta, Content),
+   Meta2 = xqldb_mem_nodes:add_attribute(Meta1, HttpEquiv),
    Meta3 = xqldb_mem_nodes:add_children(Meta2, []),
    #{ch := Ch} = Elem1 = delete_old_meta(Elem),
    Elem1#{ch := [Meta3|Ch]};
@@ -1115,16 +1115,16 @@ do_xml_declaration(Wellformed, ElementName,
                    end
              end,
                    
-   if O == false, Standalone == omit ->
-         <<DocType/binary, "<?xml version=\"1.0\" encoding=\"",Enc/binary,"\"?>">>;
+   if Wellformed == false, D =/= <<>> ->
+         ?err('SEPM0004');
       Standalone == true, Wellformed == false ->
          ?err('SEPM0004');
-      Wellformed == false, D =/= <<>> ->
-         ?err('SEPM0004');
+      O == false, Standalone == omit ->
+         <<"<?xml version=\"1.0\" encoding=\"",Enc/binary,"\"?>", DocType/binary>>;
       O == false, Standalone == true ->
-         <<DocType/binary, "<?xml version=\"1.0\" encoding=\"",Enc/binary,"\" standalone=\"yes\"?>">>;
+         <<"<?xml version=\"1.0\" encoding=\"",Enc/binary,"\" standalone=\"yes\"?>", DocType/binary>>;
       O == false ->
-         <<DocType/binary, "<?xml version=\"1.0\" encoding=\"",Enc/binary,"\" standalone=\"no\"?>">>;
+         <<"<?xml version=\"1.0\" encoding=\"",Enc/binary,"\" standalone=\"no\"?>", DocType/binary>>;
       true ->
          DocType
    end.
