@@ -928,43 +928,7 @@ return map {
    end. 
 'UseCaseR31-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "array {
- for $page in doc(\"UseCaseR31/Wikipedia-Origami.xml\")//page
- return map {
-  \"title\": string($page/title),
-  \"id\" : string($page/id),
-  \"last updated\" : string($page/revision[1]/timestamp),
-  \"authors\" : array {
-       for $a in $page/revision/contributor/username
-       return string($a)
-  }
- }
-}", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "UseCaseR31-030.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"array:get($result,1)?authors = \"Myasuda\"") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"array:get($result,1)?title = \"Kawasaki's theorem\"") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"array:get($result,1)?id = \"14511776\"") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"PR* missing environment"}. 
 'UseCaseR31-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

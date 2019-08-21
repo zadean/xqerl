@@ -308,11 +308,17 @@ declare function _:print-testcase($test-case, $suite) as xs:string
     , $skip := _:skip-catalog($suite, $name)
   return
   "'"||$name||"'(Config) ->"||$_:n||
+  (
+    if ($suite = 'prod-ModuleImport') then
+    "   _ = xqerl_code_server:unload(all),"||$_:n
+    else ""
+  ) ||
   "   __BaseDir = ?config(base_dir, Config),"||$_:n||
   (
     (: skip catalog :)
     if (not(empty($skip))) then
     "   {skip,"""||$skip||"""}"
+    
     (: validation environments :)
     else if ($env = $inscope-schema-envs) then 
     "   {skip,""Validation Environment""}"
@@ -407,7 +413,8 @@ declare function _:print-testcase($test-case, $suite) as xs:string
         let $d := $deps[@type = "feature"]
         let $v := $d/@value
         return
-        if ($v = ("advanced-uca-fallback",
+        if ($v = ("remote_http",
+                  "advanced-uca-fallback",
                   "staticTyping",
                   "schemaValidation",
                   "schemaImport",
@@ -441,7 +448,8 @@ declare function _:print-testcase($test-case, $suite) as xs:string
       let $d := $deps[@type = "feature"]
       let $v := $d/@value
       return
-      if ($v = ("advanced-uca-fallback",
+      if ($v = ("remote_http",
+                "advanced-uca-fallback",
                 "staticTyping",
                 "schemaValidation",
                 "schemaImport",
@@ -510,12 +518,14 @@ declare function _:print-testcase2($test-case, $name, $env, $suite)
       let $f := function($a, $p)
                 {
                   "    try xqerl_code_server:compile(filename:join(__BaseDir, """||
-                  string($a/@file)||""")) catch _:Error_"||$p||" -> Error_"||$p||" end" 
+                  string($a/@file)||"""), [], Hints) catch _:Error_"||$p||" -> Error_"||$p||" end" 
                 }
       return
-      '   LibList = [&#10;'||
+      '   Hints = ['||($test-case/*:module ! ('{filename:join(__BaseDir, "' || string(./@file)||'"), <<"Q{'||./@uri||'}">>}') ) => string-join(',')||'],' ||$_:n||
+      '   LibList = xqerl_code_server:compile_files(Hints),&#10;'
+      (: [&#10;'||
       ( reverse($test-case/*:module) ! $f(., position()) ) => _:join-cnl()
-      ||'], &#10;'
+      ||'], &#10;' :)
     else
       ""
   ) ||
@@ -883,11 +893,37 @@ declare variable $_:SKIP_CATALOG :=
     },
    'fn-serialize' :
     map{
-      'serialize-json-114' : 'ISO-8859-1 encoding'
+      'serialize-json-114' : 'ISO-8859-1 encoding',
+      'serialize-html-001' : 'PR * html can be either case',
+      'serialize-html-002' : 'PR * html can be either case'
     },
    'app-Walmsley' :
     map{
       'd1e42362' : 'serialized response checked for map(*) type'
+    },
+   'fn-format-dateTime' :
+    map{
+      'format-dateTime-025b' : 'place parameter us',
+      'format-dateTime-025c' : 'place parameter / missing olson time flag',
+      'format-dateTime-025d' : 'place parameter us',
+      'format-dateTime-025e' : 'place parameter / missing olson time flag'
+    },
+   'fn-format-time' :
+    map{
+      'format-time-025b' : 'place parameter us',
+      'format-time-025c' : 'place parameter / missing olson time flag'
+    },
+   'fn-matches.re' :
+    map{
+      're00984' : 'Issue #6 unicode catagory of 2 characters'
+    },
+   'fn-matches' :
+    map{
+      'cbcl-matches-038' : 'Erlang quantifier overflow at 65536'
+    },
+   'app-UseCaseR31' :
+    map{
+      'UseCaseR31-030' : 'PR* missing environment'
     }
   };
 

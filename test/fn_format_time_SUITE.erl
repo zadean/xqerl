@@ -1373,92 +1373,10 @@ groups() -> [
    end. 
 'format-time-025b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-         <out>{
-           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:time('12:00:00' || .)
-           for $f in ('[ZN]') 
-              return <time format=\"{$f}\">{
-                 for $t in $times
-                 return <s>{format-time($t, $f, (), (), \"us\")}</s>
-            }</time>   
-         }</out>     
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-time-025b.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"$result/self::out/time/s[1] = 'HST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[2] = 'EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[4] = 'IST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[5] = '+13:00'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"place parameter us"}. 
 'format-time-025c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "
-         <out>{
-           let $times := ('-10:00', '-05:00', 'Z', '+05:30', '+13:00') ! xs:time('12:00:00' || .)
-           for $f in ('[H00]:[m00] [ZN]') 
-              return <time format=\"{$f}\">{
-                 for $t in $times
-                 return <s>{format-time($t, $f, (), (), \"America/New_York\")}</s>
-            }</time>   
-         }</out>     
-      ", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-time-025c.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"$result/self::out/time/s[1] = '17:00 EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[2] = '12:00 EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[3] = '07:00 EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[4] = '01:30 EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"$result/self::out/time/s[5] = '18:00 EST'") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"place parameter / missing olson time flag"}. 
 'format-time-809err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[Y]', 'en', (), ())", 
