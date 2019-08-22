@@ -18,9 +18,10 @@ xqerl is being actively developed and is not yet to a stable release. Changes ca
 
 The first stable release will be coming soon, but isn't quite there yet.
 
-It is passing 99.85% of 29,587 test cases it runs (43 failures). 
-1,778 other cases that test optional features not implemented in xqerl are skipped. 
-The test cases run are all taken from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
+It is passing **99.9%** of **30,819** test cases it runs (31 failures). 
+1,899 other cases that test optional features not implemented in xqerl are skipped. 
+Most of the test cases run are taken directly from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
+Others are from the [EXPath test suite](https://github.com/expath/expath-cg). 
 
 ### Modules
 
@@ -79,8 +80,6 @@ This doesn't just mean hacking Erlang, but could include adding documentation, t
 
 ### TODO's:
 
-Certain XQuery types that match a type in Erlang should use their Erlang equivalent internally instead of a tagged-tuple.
-  
 A query-rewrite phase is missing. A cost-based implementation that can be run at the database level should be added. 
 
 Serialization is not implemented 100%. Most cases should work, but some corner-cases may not work properly. 
