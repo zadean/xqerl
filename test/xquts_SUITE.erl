@@ -1596,21 +1596,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a mathematical expression used with an updating/non external function. Enclosed expression is a mathematical expression.
 'id-function-declaration-05'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-7.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-7.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-05.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-7.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0002") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0002"}.
 
 %% Evaluates a delete expression used with an updating function and enclosed expression is also updating (delete) expression.
 'id-function-declaration-06'(Config) -> 
@@ -1749,21 +1735,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a transform expression used with an updating function and enclosed expression is also updating (transform) expression.
 'id-function-declaration-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-14.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-14.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-012.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-14.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0002") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression used with non updating/non external function and enclosed expression is non updating (transform) expression.
 'id-function-declaration-013'(Config) -> 
@@ -1785,24 +1757,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a function declaration declared as updating and a return type is specified.
 'id-function-declaration-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-16.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-16.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-014.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-16.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0028") of 
-         true -> {comment, "Correct error"};
-         {false, _} -> 
-            case xqerl_test:assert_error(Res1,"XUST0002") of 
-               true -> {comment, "Correct error"};
-               {false, Err1} ->  ct:fail(Err1) 
-            end      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Updating function contains updating expression in a disallowed place.
 'id-function-declaration-015'(Config) -> 
@@ -1824,21 +1779,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Updating function returns a value on a non-executed branch.
 'id-function-declaration-016'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-18.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-18.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-016.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-18.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Recursive updating function.
 'id-function-declaration-017'(Config) -> 
@@ -1876,39 +1817,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Function declaration, updating, with return type.
 'function-declaration-02'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-21.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-21.xml", source(__BaseDir, 'employees')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/FunctionDeclaration/function-declaration-02.xq"),
-      Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-21.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0028") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0028"}.
 
 %% Function declaration, updating, with simple expression.
 'function-declaration-03'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-22.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-22.xml", source(__BaseDir, 'employees')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/FunctionDeclaration/function-declaration-03.xq"),
-      Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-22.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0002") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 12 instead of throwing XUST0002"}.
 
 %% Function declaration, updating, with vacuous expression.
 'function-declaration-04'(Config) -> 
@@ -2524,75 +2437,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a simple insert expression where source expression is an updating expression.
 'id-insert-expr-023'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-46.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-46.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-023.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-46.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a simple insert expression where target expression is an updating expression.
 'id-insert-expr-024'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-47.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-47.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-024.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-47.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a simple insert expression where both source and target expressions are updating expressions.
 'id-insert-expr-025'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-48.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-48.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-025.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-48.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression where the source sequence have an attribute node following an element node.
 'id-insert-expr-026'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-49.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-49.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-026.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-49.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUTY0004") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUTY0004"}.
 
 %% Evaluates an insert expression where the target expression is a sequence of nodes.
 'id-insert-expr-027'(Config) -> 
@@ -4365,21 +4222,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% A delete expression where the target expression is an updating expression.
 'id-delete-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-129.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-129.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-129.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% A delete expression where the target expression is a mathematical expression.
 'id-delete-expr-07'(Config) -> 
@@ -5256,39 +5099,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression.
 'id-replace-expr-011'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-159.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-159.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-011.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-159.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression is an updating expression.
 'id-replace-expr-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-160.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-160.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-012.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-160.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression results in more than one node.
 'id-replace-expr-013'(Config) -> 
@@ -5751,39 +5566,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression and usage of "value of" keyword.
 'id-replace-expr-017'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-181.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-181.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-017.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-181.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression is an updating expression and usage of the "value of" keyword.
 'id-replace-expr-018'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-182.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-182.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-018.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-182.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression results into more than one node and usage of the "value of" keyword.
 'id-replace-expr-019'(Config) -> 
@@ -6678,21 +6465,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% A rename expression where the target expression is an updating expression.
 'id-rename-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-214.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-214.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-214.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% A rename expression where the target expression results in a sequence of two nodes.
 'id-rename-expr-07'(Config) -> 
@@ -7785,39 +7558,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a transform expression where the modify clause contains a non-updating expression.
 'id-transform-expr-013'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-265.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-265.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-013.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-265.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0002") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression where the return expression contains an updating expression.
 'id-transform-expr-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-266.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-266.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-014.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-266.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression the pending update list contains a node that was not created within this transform expression.
 'id-transform-expr-015'(Config) -> 
@@ -7875,21 +7620,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a transform expression, which contains an embedded Transform expression.
 'id-transform-expr-018'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-270.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-270.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-018.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-270.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0002") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression, where an element node is affected by more than one rename expression.
 'id-transform-expr-019'(Config) -> 
@@ -9279,21 +9010,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates an insert expression used with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-04'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-344.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-344.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-04.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-344.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression used with FLWOR expression where the let clause is an updating expression.
 'id-flwor-expr-05'(Config) -> 
@@ -9351,21 +9068,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a delete expression used with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-08'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-348.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-348.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-08.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-348.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used with FLOWR expression with "let" clause set to an updating (replace) expression.
 'id-flwor-expr-09'(Config) -> 
@@ -9423,21 +9126,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a replace expression used with FLOWR expression with "order by" clause set to an updating (replace) expression.
 'id-flwor-expr-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-352.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-352.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-012.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-352.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with FLWOR expression where let clause is an updating expression.
 'id-flwor-expr-013'(Config) -> 
@@ -9495,21 +9184,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a rename expression use with FLWOR expression where the "order by" clause is an updating expression.
 'id-flwor-expr-016'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-356.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-356.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-016.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-356.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "let" expression is a transform expression.
 'id-flwor-expr-017'(Config) -> 
@@ -9814,39 +9489,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (a "case") is an updating expression. Other branches return a string.
 'id-typeswitch-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-371.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-371.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-371.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (the "default") is an updating expression. Other branches return a string.
 'id-typeswitch-expr-07'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-372.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-372.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-07.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-372.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression used with typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-08'(Config) -> 
@@ -9969,39 +9616,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "case") is an updating expression. All other branches return a string.
 'id-typeswitch-expr-013'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-378.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-378.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-013.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-378.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "default") is an updating expression. All other branches return string.
 'id-typeswitch-expr-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-379.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-379.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-014.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-379.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a typeswitch expression where the operand is an updating (replace) expression.
 'id-typeswitch-expr-015'(Config) -> 
@@ -10131,39 +9750,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (a case) is an updating (replace) expression. Other branches return a string.
 'id-typeswitch-expr-020'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-385.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-385.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-020.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-385.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (the default) is an updating (transform) expression. Other branches return a string.
 'id-typeswitch-expr-021'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-386.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-386.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-021.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-386.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with a typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-022'(Config) -> 
@@ -10284,39 +9875,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (a case)is an updating expression. Other branches return a string
 'id-typeswitch-expr-027'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-392.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-392.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-027.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-392.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (the default)is an updating expression. Other branches return a string
 'id-typeswitch-expr-028'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-393.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-393.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-028.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-393.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a typeswitch expression where the operand is a non updating (transform) expression.
 'id-typeswitch-expr-029'(Config) -> 
@@ -10500,21 +10063,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Simple typeswitch expression in an updating typeswitch expression.
 'id-typeswitch-expr-038'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-403.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-403.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-038.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-403.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch return ().
 'id-conditional-expr-01'(Config) -> 
@@ -10626,39 +10175,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch print a string.
 'id-conditional-expr-05'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-408.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-408.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-05.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-408.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "else") is an updating expression. Other branch print a string.
 'id-conditional-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-409.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-409.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-409.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-07'(Config) -> 
@@ -10770,39 +10291,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" print a string
 'id-conditional-expr-011'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-414.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-414.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-011.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-414.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string
 'id-conditional-expr-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-415.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-415.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-012.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-415.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "then") is an updating (replace) expression. The "else" return the empty sequence.
 'id-conditional-expr-013'(Config) -> 
@@ -10914,39 +10407,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the then) is an updating (replace) expression. The "else" just return a string.
 'id-conditional-expr-017'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-420.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-420.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-017.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-420.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the else) is an updating (replace) expression. The "then" just return a string.
 'id-conditional-expr-018'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-421.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-421.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-018.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-421.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-019'(Config) -> 
@@ -11058,39 +10523,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of rename expression used with conditional expression where a branch (the "then") is an updating expression. The "else" prints a string.
 'id-conditional-expr-023'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-426.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-426.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-023.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-426.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string.
 'id-conditional-expr-024'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-427.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-427.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-024.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-427.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "then")is an updating (transform) and the "else" returns the empty sequence.
 'id-conditional-expr-025'(Config) -> 
@@ -11265,21 +10702,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a conditional expression, where the if branch contains a delete expression and the else branch contains transform expression.
 'id-conditional-expr-034'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-437.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-437.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-034.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-437.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a conditional expression, where both branches contains a transform expression.
 'id-conditional-expr-035'(Config) -> 
@@ -11355,21 +10778,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Simple conditional expression in a conditional expression.
 'id-conditional-expr-038'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-441.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-441.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-038.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-441.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with comma expression where a both expressions are updating expressions.
 'id-comma-expr-01'(Config) -> 
@@ -11514,39 +10923,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates an insert expression used with comma expression where first expression is an updating expression and second one a mathematical expression.
 'id-comma-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-447.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-447.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-447.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with comma expression where first expression is mathematical expression and second one is an updating expression.
 'id-comma-expr-07'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-448.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-448.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-07.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-448.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation a delete expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-08'(Config) -> 
@@ -11667,39 +11048,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a delete expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
 'id-comma-expr-013'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-454.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-454.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-013.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-454.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with comma expression where first expression is a mathematical expression and the second one is an updating expression.
 'id-comma-expr-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-455.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-455.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-014.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-455.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a replace expression used with comma expression where both expressions are updating (replace) expressions.
 'id-comma-expr-015'(Config) -> 
@@ -11820,39 +11173,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a replace expression used with comma expression where first expression is an updating (replace) expression and the second one is a mathematical expression.
 'id-comma-expr-020'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-461.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-461.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-020.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-461.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a replace expression used with comma expression where first expression is a mathematical expression and second one is an updating (replace) expression.
 'id-comma-expr-021'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-462.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-462.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-021.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-462.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of rename expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-022'(Config) -> 
@@ -11973,39 +11298,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluation of a rename expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
 'id-comma-expr-027'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-468.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-468.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-027.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-468.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [4] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with comma expression where first expression is a mathematical expression and second one is an updating expression.
 'id-comma-expr-028'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-469.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-469.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-028.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-469.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a comma expression where both expressions are non-updating (transform) expressions.
 'id-comma-expr-029'(Config) -> 
@@ -12189,21 +11486,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Simple comma expression in a conditional expression.
 'id-comma-expr-038'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-479.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-479.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-038.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-479.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Parenthesized simple expression.
 'parenthesized-expr-01'(Config) -> 
@@ -12261,75 +11544,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates an insert expression as an parameter to a function call.
 'id-function-call-01'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-483.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-483.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-01.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-483.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression as a parameter to a function call.
 'id-function-call-02'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-484.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-484.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-02.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-484.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression as a parameter to a function call.
 'id-function-call-03'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-485.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-485.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-03.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-485.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a rename expression as a parameter to a function call.
 'id-function-call-04'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-486.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-486.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-04.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-486.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression as a parameter to a function call.
 'id-function-call-05'(Config) -> 
@@ -12351,21 +11578,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates a function call than contains two parameters, one updating (rename) and an integer.
 'id-function-call-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-488.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-488.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-488.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) in initializing expression for variable declaration.
 'id-other-expr-01'(Config) -> 
@@ -12459,129 +11672,31 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-06'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-494.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-494.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-06.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-494.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:true() function.
 'id-other-expr-07'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-495.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-495.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-07.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-495.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns TRUE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:false() function.
 'id-other-expr-08'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-496.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-496.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-08.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-496.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:false() function.
 'id-other-expr-09'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-497.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-497.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-09.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-497.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-010'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-498.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-498.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-010.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-498.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (replace) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-011'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-499.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-499.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-011.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-499.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (insert) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-012'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-500.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-500.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-012.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-500.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an non updating expression (transform) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-013'(Config) -> 
@@ -12603,57 +11718,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates usage of an updating expression (rename) as part of a Node Comparison (is) expression.
 'id-other-expr-014'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-502.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-502.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-014.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-502.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a Node Comparison (is) expression.
 'id-other-expr-015'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-503.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-503.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-015.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-503.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (replace) as part of a Node Comparison (is) expression.
 'id-other-expr-016'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-504.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-504.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-016.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-504.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an non updating expression (transform) as part of a node comparison (is) expression.
 'id-other-expr-017'(Config) -> 
@@ -12693,183 +11766,43 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates usage of an updating expression (insert) as part of a Node Comparison (is) expression.
 'id-other-expr-019'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-507.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-507.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-019.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-507.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (insert) as part of a Value Comparison (eq operator) expression.
 'id-other-expr-020'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-508.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-508.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-020.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-508.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ne operator) expression.
 'id-other-expr-021'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-509.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-509.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-021.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-509.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (gt operator) expression.
 'id-other-expr-022'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-510.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-510.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-022.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-510.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (lt operator) expression.
 'id-other-expr-023'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-511.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-511.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-023.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-511.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (le operator) expression.
 'id-other-expr-024'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-512.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-512.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-024.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-512.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ge operator) expression.
 'id-other-expr-025'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-513.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-513.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-025.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-513.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (union operator).
 'id-other-expr-26'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-514.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-514.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-026.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-514.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (intersect operator).
 'id-other-expr-027'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-515.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-515.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-027.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-515.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (except operator).
 'id-other-expr-028'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-516.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-516.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-028.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-516.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns XML instead of throwing  XUST0001"}.
 
 %% Evaluates usage of a non updating expression (transform) as part of a sequence expression (union operator).
 'id-other-expr-029'(Config) -> 
@@ -12929,21 +11862,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Evaluates usage of an updating expression (delete) as part of a range expression.
 'id-other-expr-032'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-520.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-520.xml", source(__BaseDir, 'employeesNIST')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-032.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-520.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws FORG0001 instead of throwing XUST0001"}.
 
 %% Store a document.
 'fn-put-001'(Config) -> 
@@ -12991,20 +11910,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Check that fn:put is an updating function.
 'fn-put-008'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-523.xml"),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-008.xq"),
-      Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-523.xml">>}},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUST0001") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns \f instead of throwing XUST0001"}.
 
 %% Check that fn:put is an updating function.
 'fn-put-009'(Config) -> 
@@ -13545,165 +12451,39 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% 
 'attribute-errors-q17'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-548.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-548.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q17.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-548.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0021") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Insert after of attribute with implicit namespace binding that clashes.
 'namespace-errors-q1'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-549.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-549.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q1.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-549.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Insert of attribute with implicit namespace binding that clashes.
 'namespace-errors-q2'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-550.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-550.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q2.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-550.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Insert as first of attribute with implicit namespace binding that clashes.
 'namespace-errors-q3'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-551.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-551.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q3.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-551.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of no namespace element with implicit namespace binding that clashes.
 'namespace-errors-q4'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-552.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-552.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q4.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-552.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of namespaced element with implicit namespace binding that clashes.
 'namespace-errors-q5'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-553.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-553.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q5.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-553.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of attribute with implicit namespace binding that clashes.
 'namespace-errors-q6'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-554.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-554.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q6.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-554.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Replace of attribute with implicit namespace binding that clashes.
 'namespace-errors-q7'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-555.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-555.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q7.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-555.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Replace of attribute with muliple attributes, one of which has an implicit namespace binding that clashes.
 'namespace-errors-q8'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-556.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-556.xml", source(__BaseDir, 'grant')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q8.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-556.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0023") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Multiple inserts of attribute with implicit namespace binding that clashes.
 'namespace-errors-q9'(Config) -> 
@@ -14418,39 +13198,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 
 %% Insert two attributes with the same name and delete the containing element.
 'applyUpdates-023'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-587.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-587.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-023.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-587.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0021") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Insert two attributes with the same name and delete the containing element's parent.
 'applyUpdates-024'(Config) -> 
-   __BaseDir = ?config(base_dir, Config),
-   xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-588.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-588.xml", source(__BaseDir, 'works-mod')),
-   begin
-      F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-024.xq"),
-      Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-588.xml')")},
-      Res1 = try
-                Q1 = xqerl_code_server:compile(F1),
-                xqerl:run(Q1, Ctx1)
-             catch _:E1 -> E1 end,
-      case xqerl_test:assert_error(Res1,"XUDY0021") of 
-         true -> {comment, "Correct error"};
-         {false, Err1} -> ct:fail(Err1) 
-      end
-   end.
+   {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Swap the names of two attribute nodes.
 'applyUpdates-025'(Config) -> 

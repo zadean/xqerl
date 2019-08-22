@@ -14,6 +14,100 @@ declare variable $XQueryFileExtension   := $d/*/@XQueryFileExtension/string();
 declare variable $base-uri := 'http://xqerl.org/tests/XQUTS/1.0/';
 declare variable $n := '&#10;';
 
+(: Tests that are incompatible with XQuery Update 3.0 :)
+declare variable $SKIP_CATALOG :=
+  map{
+    'id-other-expr-032' : 'throws FORG0001 instead of throwing XUST0001',
+    'id-function-declaration-016' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-conditional-expr-038' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-comma-expr-038' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-call-01' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-call-02' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-call-03' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-call-04' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-call-06' : 'throws XPTY0004 instead of throwing XUST0001',
+    'id-function-declaration-05' : 'throws XPTY0004 instead of throwing XUST0002',
+    'function-declaration-02' : 'throws XPTY0004 instead of throwing XUST0028',
+    'id-flwor-expr-04' : 'throws XQST0076 instead of throwing XUST0001',
+    'id-flwor-expr-08' : 'throws XQST0076 instead of throwing XUST0001',
+    'id-flwor-expr-012' : 'throws XQST0076 instead of throwing XUST0001',
+    'id-flwor-expr-016' : 'throws XQST0076 instead of throwing XUST0001',
+    'namespace-errors-q1' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q2' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q3' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q4' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q5' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q6' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q7' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'namespace-errors-q8' : 'throws XUDY0024 instead of throwing XUDY0023',
+    'id-insert-expr-024' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-insert-expr-025' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-replace-expr-012' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-replace-expr-018' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-rename-expr-06' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-typeswitch-expr-027' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-typeswitch-expr-028' : 'throws XUDY0027 instead of throwing XUST0001',
+    'id-conditional-expr-024' : 'throws XUDY0027 instead of throwing XUST0001',
+    'fn-put-008' : 'returns \f instead of throwing XUST0001',
+    'id-function-declaration-012' : 'returns XML instead of throwing  XUST0002',
+    'id-function-declaration-014' : 'returns XML instead of throwing  XUST0002',
+    'id-transform-expr-013' : 'returns XML instead of throwing  XUST0002',
+    'id-transform-expr-018' : 'returns XML instead of throwing  XUST0002',
+    'id-other-expr-26' : 'returns XML instead of throwing  XUST0001',
+    'id-other-expr-028' : 'returns XML instead of throwing  XUST0001',
+    'attribute-errors-q17' : 'returns [] instead of throwing XUDY0021',
+    'applyUpdates-023' : 'returns [] instead of throwing XUDY0021',
+    'applyUpdates-024' : 'returns [] instead of throwing XUDY0021',
+    'id-insert-expr-023' : 'returns [] instead of throwing XUST0001',
+    'id-delete-expr-06' : 'returns [] instead of throwing XUST0001',
+    'id-replace-expr-011' : 'returns [] instead of throwing XUST0001',
+    'id-replace-expr-017' : 'returns [] instead of throwing XUST0001',
+    'id-transform-expr-014' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-06' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-07' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-013' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-014' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-020' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-021' : 'returns [] instead of throwing XUST0001',
+    'id-typeswitch-expr-038' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-05' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-06' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-011' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-012' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-017' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-018' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-023' : 'returns [] instead of throwing XUST0001',
+    'id-conditional-expr-034' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-014' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-015' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-016' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-019' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-020' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-021' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-022' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-023' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-024' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-025' : 'returns [] instead of throwing XUST0001',
+    'id-other-expr-027' : 'returns [] instead of throwing XUST0001',
+    'id-insert-expr-026' : 'returns [] instead of throwing XUTY0004',
+    'id-comma-expr-027' : 'returns [4] instead of throwing XUST0001',
+    'function-declaration-03' : 'returns 12 instead of throwing XUST0002',
+    'id-comma-expr-06' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-07' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-013' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-014' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-020' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-021' : 'returns 4 instead of throwing XUST0001',
+    'id-comma-expr-028' : 'returns 4 instead of throwing XUST0001',
+    'id-other-expr-06' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-08' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-09' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-010' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-011' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-012' : 'returns FALSE instead of throwing XUST0001',
+    'id-other-expr-07' : 'returns TRUE instead of throwing XUST0001'
+  };
+
 (:~ 
   XML      : The XML InfoSets should be canonicalized and compared.
   Fragment : A 'fragment' refers to an XML based instance which has multiple 
@@ -124,9 +218,12 @@ declare function _:print-test-case($case as element(_:test-case),
     , $desc := $case/_:description/text()
     , $inputs := ($case/_:state/_:input-file/text()) => distinct-values()
     , $states := $case/_:state
+    , $skip := $SKIP_CATALOG($name)
   return
   '%% ' || $desc => normalize-space() || $n ||
   "'" || $name || "'(Config) -> " || $n ||
+  (
+  if (empty($skip)) then
   "   __BaseDir = ?config(base_dir, Config)," || $n ||
   (
     (: docs to copy :)
@@ -225,7 +322,10 @@ declare function _:print-test-case($case as element(_:test-case),
     ) => string-join("," || $n)
     
   ) => string-join("," || $n) ||
-  "." || $n
+  "."
+  else
+  '   {skip, "'||$skip||'"}.'
+ ) || $n
 };
 
 (: Children of test-case @name, @FilePath, @scenario
