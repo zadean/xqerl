@@ -286,7 +286,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$3' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    Ns = list_to_binary(["Q{", '$3', "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri('$3'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
                                     {Ns, <<>>}
                               end.
@@ -294,7 +294,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$6' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    Ns = list_to_binary(["Q{", '$6', "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri('$6'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
                                     {Ns, bin_value_of('$4')}
                               end.
@@ -302,7 +302,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$3' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    Ns = list_to_binary(["Q{", '$3', "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri('$3'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
                                     {Ns, <<>>}
                               end.
@@ -310,13 +310,13 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$6' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    Ns = list_to_binary(["Q{", '$6', "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri('$6'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
                                     {Ns, bin_value_of('$4')}
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : check_prefix_namespace(bin_value_of('$3'), '$5'), 
+                           : check_prefix_namespace(bin_value_of('$3'), check_import_uri('$5')), 
                              xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
                              {namespace, {'$5', bin_value_of('$3')}}.
 
@@ -2066,6 +2066,14 @@ check_schema_prefix_namespace(<<"xmlns">>,_) -> ?err('XQST0070');
 check_schema_prefix_namespace(_,<<"http://www.w3.org/2000/xmlns/">>) -> ?err('XQST0070');
 check_schema_prefix_namespace(_,<<>>) -> ?err('XQST0057');
 check_schema_prefix_namespace(_,_) -> ok.
+
+check_import_uri(Uri) ->
+   case xqerl_lib:check_uri_string(Uri) of
+      {error,_} ->
+         ?err('XQST0046');
+      Val ->
+         Val
+   end.
 
 %check_uri_hints(Hints) -> Hints;
 check_uri_hints(Hints) when not is_list(Hints) -> check_uri_hints([Hints]);
