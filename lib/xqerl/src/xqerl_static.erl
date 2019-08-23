@@ -3980,18 +3980,26 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
                                       ({'module-import', N}) -> {true,N};
                                       (_) -> false
                                    end, Prolog)],
-   Namespaces1 = if ModNsPx == [] ->
-                       Namespaces;
-                    true ->
-                       [ModNsPx|Namespaces]
+   Namespaces1 = case ModNsPx of
+                    [] -> Namespaces;
+                    _ ->
+                        [ModNsPx|Namespaces]
                  end,
    % check for dup prefixes
    _ = lists:foldl(fun({N1,Px},Dict) ->
+                         N2 = case N1 of
+                                 _ when is_atom(N1) -> N1;
+                                 <<"Q{",_/binary>> -> N1;
+                                 _ -> <<"Q{",N1/binary,"}">>
+                                end,  
                          case dict:is_key(Px, Dict) of
                             true ->
-                               ?err('XQST0033');
+                               case dict:fetch(Px, Dict) of
+                                  N2 -> Dict;
+                                  _ -> ?err('XQST0033')
+                               end;
                             _ ->
-                               dict:store(Px, N1, Dict)
+                               dict:store(Px, N2, Dict)
                          end
                    end, dict:new(), Namespaces1),
    % check for overwritten namespaces
