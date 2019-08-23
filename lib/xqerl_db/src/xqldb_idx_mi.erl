@@ -164,7 +164,7 @@ lookup_following(#{pindex := Server}, DocId, NodeId) ->
    FilterMap = 
       fun({Key, Value}) ->
             {_, NodeId0} = sext:decode(Key),
-            if NodeId0 > High ->
+            if NodeId0 >= High ->
                   {NodeBin, PathId} = binary_to_term(Value),
                   IsAtt = xqldb_nodes:is_attribute({'_','_'}, '_', NodeBin),
                   if IsAtt -> false;
