@@ -221,7 +221,7 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                xqldb_path_table:insert(DB, {DocName, xml, Stamp}),
                xqldb_path_table:maybe_delete_doc_ref(DB, DocId),               
                %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
-               in_put_list(Frank, Puts)
+               in_put_list(Frank, Puts, {DbPid, DocId})
             end 
            || DocId <- DocIds],
            NewPuts
@@ -255,13 +255,24 @@ merge_puts(OldPuts, NewPuts) ->
        end,
    lists:foldl(F, OldPuts, NewPuts).
 
-in_put_list([Frank], Puts) -> in_put_list(Frank, Puts);
-in_put_list(#{id := {Db, _Pos}} = Frank, Puts) ->
-   [{put, N, U, O} ||
-    {put, #{id := {D,I}}, U, O} <- Puts,
-    D == Db,
-    %Pos >= I,
-    N <- do_find_node({D,I}, Frank)].
+in_put_list([Frank], Puts, OldId) -> in_put_list(Frank, Puts, OldId);
+in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, #{id := {OPid, ODoc, OPos}}, U, O}|_], {OPid, ODoc}) ->
+   case do_find_node({Ref, OPos}, Frank) of
+      [] ->
+         [];
+      List ->
+         [{put, N, U, O} || N <- List]
+   end;
+in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, #{id := {ORef, OPos}}, U, O}|_], ORef) ->
+   case do_find_node({Ref, OPos}, Frank) of
+      [] ->
+         [];
+      List ->
+         [{put, N, U, O} || N <- List]
+   end;
+in_put_list(Frank, [_|Puts], Id) ->
+   in_put_list(Frank, Puts, Id);
+in_put_list(_, [], _) -> [].
 
    
 
