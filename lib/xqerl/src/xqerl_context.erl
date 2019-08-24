@@ -239,7 +239,7 @@ destroy(#{tab := Tab}) ->
          ok
    end,
    ets:delete(Tab),
-   erlang:erase(),
+   %erlang:erase(),
    ok.
 
 
@@ -833,35 +833,31 @@ add_default_static_values(Tab, RawCdt) ->
 get_module_exports(Imports) when is_list(Imports) ->
    Acc = xqerl_code_server:get_static_signatures(),
    lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
-                     {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
                      try
-                        Name:static_props()
-                     of 
-                        Props ->
-                           %?dbg("{Funs,Vars}",{Funs,Vars}),
-                           FunsAcc1 = Funs ++ FunsAcc, 
-                           VarsAcc1 = Vars ++ VarsAcc,
-                           PropsAcc1 = Props ++ PropsAcc,
-                           {FunsAcc1,VarsAcc1,PropsAcc1}
+                        {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
+                        Props = Name:static_props(),
+                        %?dbg("{Funs,Vars}",{Funs,Vars}),
+                        FunsAcc1 = Funs ++ FunsAcc, 
+                        VarsAcc1 = Vars ++ VarsAcc,
+                        PropsAcc1 = Props ++ PropsAcc,
+                        {FunsAcc1,VarsAcc1,PropsAcc1}
                      catch 
                         _:_ ->
-                           exit(xqerl_error:error('XQST0059', 
-                                           <<"Unknown ModNamespace">>, 
-                                           Ns))
+                           {FunsAcc, VarsAcc, 
+                            [xqerl_error:error('XQST0059', 
+                                                      <<"Unknown ModNamespace">>, 
+                                                      Ns)|PropsAcc]}
                      end
                end, Acc, Imports);
 get_module_exports({Ns,_Px}) ->
-   {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
    try
-      Name:static_props()
-   of 
-      Props ->
-         {Funs,Vars,Props}
+      {ok,{Name,Funs,Vars}} = xqerl_code_server:get_signatures(Ns),
+      Props = Name:static_props(),
+      {Funs,Vars,Props}
    catch 
       _:_ ->
-         exit(xqerl_error:error('XQST0059', 
-                         <<"Unknown ModNamespace">>, 
-                         Ns))
+         {[], [], xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, Ns)}
+         
    end.
 
 import_functions(Functions,Tab) ->

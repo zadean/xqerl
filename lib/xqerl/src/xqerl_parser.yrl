@@ -164,10 +164,10 @@ Nonassoc 2200 ':' ' :' ': '.
 
 %Right 9999 'NCName'.
 
-'Module'                 -> 'VersionDecl' 'MainModule'   : erlang:put(var_id, 1), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
-'Module'                 -> 'VersionDecl' 'LibraryModule': erlang:put(var_id, 1), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
-'Module'                 -> 'MainModule'                 : erlang:put(var_id, 1), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = main,    declaration = [],               prolog = element(2, '$1'), body = element(3, '$1')}.
-'Module'                 -> 'LibraryModule'              : erlang:put(var_id, 1), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = library, declaration = element(1, '$1'), prolog = element(2, '$1'), body = []}.
+'Module'                 -> 'VersionDecl' 'MainModule'   : _ = next_id(), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
+'Module'                 -> 'VersionDecl' 'LibraryModule': _ = next_id(), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
+'Module'                 -> 'MainModule'                 : _ = next_id(), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = main,    declaration = [],               prolog = element(2, '$1'), body = element(3, '$1')}.
+'Module'                 -> 'LibraryModule'              : _ = next_id(), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = library, declaration = element(1, '$1'), prolog = element(2, '$1'), body = []}.
 
 'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'encoding' 'StringLiteral' 'Separator' 
                               : {bin_value_of('$3'), bin_value_of('$5')}.
@@ -325,12 +325,18 @@ Nonassoc 2200 ':' ' :' ': '.
 case '$5' of
    <<>> -> {'element-namespace', 'no-namespace'};
    _ ->
-      xqerl_context:add_statically_known_namespace(parser,'$5', <<>>),
+      Ns = list_to_binary(["Q{", '$5',"}"]),
+      xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
       xqerl_context:set_default_element_type_namespace(parser,'$5'),
       {'element-namespace', '$5'}
 end.
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
-                           : xqerl_context:set_default_function_namespace(parser,'$5'), 
+                           : Ns =   case '$5' of 
+                                       <<>> -> '$5'; 
+                                       <<"http://www.w3.org/2005/xpath-functions">> -> '$5';
+                                       _ -> list_to_binary(["Q{", '$5',"}"])
+                                    end,
+                             xqerl_context:set_default_function_namespace(parser,Ns), 
                              {'function-namespace', '$5'}.
 
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2', anno = line('$1')}.

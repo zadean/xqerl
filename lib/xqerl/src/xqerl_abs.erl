@@ -282,14 +282,28 @@ scan_mod(#xqModule{prolog = Prolog,
                                      (_) -> false
                                   end,Prolog),
    Imports     = xqerl_static:pro_mod_imports(Prolog),
-   {_Functions1, _Variables1, StaticProps} = 
+   {_Functions1, _Variables1, StaticProps0} = 
      xqerl_context:get_module_exports(Imports),
-   
+   StaticProps = [Sp || Sp <- StaticProps0, not is_record(Sp, xqError)], 
    StatProps0 = lists:usort(maps:get(stat_props, EmptyMap0) ++ StaticProps),
    CtxItemType = maps:get(context_item_type, EmptyMap0),
    StatProps = [{context_item_type, CtxItemType}|StatProps0],
    EmptyMap = EmptyMap0#{stat_props := StatProps0}, 
-   
+   %[base_uri,default_calendar,default_language,default_place,dynamic_known_functions,known_collations,known_decimal_formats,known_namespaces]
+   LibCtxClosure = revert_all(
+                     init_fun_abs(
+                       EmptyMap, 
+                       StatProps0 -- [dynamic_known_functions, named_functions])),
+   %?dbg("StatProps0",StatProps0),
+   LibCtxClosureFun =
+      case StatProps0 of
+         [] ->
+            ?P("close_context(C) -> C.");
+         _ ->
+            {map, L, B} = LibCtxClosure,
+            CloseMap = {map, L, {var, ?L, 'C'}, B},
+            ?P("close_context(C) -> _@CloseMap.")
+      end,
    P1a = {attribute,1,file,{binary_to_list(ModNs),2}},
    P1 = scan_variables(EmptyMap,Variables, public), 
    P2 = scan_functions(EmptyMap,Functions,ModName, public),
@@ -301,9 +315,9 @@ scan_mod(#xqModule{prolog = Prolog,
             "-compile(inline).",
             "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
-   P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
+   P6 = init_function(ModName,scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
-   P8 = function_functions(EmptyMap, Functions),
+   P8 = function_functions(EmptyMap, Functions, library),
    {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
    P4 = lists:flatten([
@@ -312,7 +326,7 @@ scan_mod(#xqModule{prolog = Prolog,
          RestExports,
          ?P(used_records())
         ]),
-   P10 = lists:flatten([P3, [P1a|P4], P5, P6, P7, P8, P9]),
+   P10 = lists:flatten([P3, [P1a|P4], P5, P6, LibCtxClosureFun, P7, P8, P9]),
 %?dbg("ImportedMods",ImportedMods),
 %?dbg("AllAbs",P10),
    {ModNs,
@@ -345,8 +359,14 @@ scan_mod(#xqModule{prolog = Prolog,
             end,
    Variables   = lists:filtermap(VarFun, Prolog),
    Functions   = xqerl_static:pro_glob_functions(Prolog,[]),
-   {Functions1, Variables1, StaticProps} = 
+   {Functions1, Variables1, StaticProps0} = 
      xqerl_context:get_module_exports(Imports),
+   StaticProps = [case Sp of
+                     #xqError{} ->
+                        throw(Sp);
+                     _ ->
+                        Sp
+                  end || Sp <- StaticProps0], 
    
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
@@ -471,14 +491,14 @@ scan_mod(#xqModule{prolog = Prolog,
    }.
 
 %% used in library modules instead of main init 
-init_function(Variables,Prolog) ->
+init_function(ModName,Variables,Prolog) ->
    Stats = [N || {_,N} <- xqerl_context:static_namespaces()],
    ImportedMods = [E || 
                    {'module-import',{N,P} = E} <- Prolog,
                    not lists:member(N, Stats),
                    P =/= <<>>],
    %?dbg("{Variables,ImportedMods}",{Variables,ImportedMods}),
-   
+   Ctx0 = ?P("Ctx0 = Ctx#{'@ModName@' => imported}"), 
    ImpSetFun = fun({I,_} = _M, CtxVar) ->
                      NC0 = next_ctx_var_name(),
                      NV0 = {var,?L,NC0},
@@ -486,7 +506,7 @@ init_function(Variables,Prolog) ->
                      O = ?P("_@NV0 = '@At@':init(_@CtxVar)"),
                      {O,NV0}
                end,
-   {ImportedVars,FCtx} = lists:mapfoldl(ImpSetFun, {var,?L,'Ctx'}, ImportedMods),
+   {ImportedVars,FCtx} = lists:mapfoldl(ImpSetFun, {var,?L,'Ctx0'}, ImportedMods),
    
    VarSetFun = fun({_N,_T,_A,V,_Ext}, CtxVar) -> %%% mapfold here to make new ctx for each variable
                      NC = next_ctx_var_name(),
@@ -497,12 +517,17 @@ init_function(Variables,Prolog) ->
                      {O,NV}
                end,
    {VarSetAbs,LastCtx} = lists:mapfoldl(VarSetFun, FCtx, lists:reverse(Variables)),
-   %VarList = [{var,?L,V} || {_,_,_A,V,_} <- lists:sort(Variables)%,
-   %                         %not_private(A)
-   %            ],
+   
    Imps = ?P("_@@ImportedVars"),
-   Body = lists:flatten([Imps, VarSetAbs, [LastCtx]]),
-   [{function,?L,init,1,[{clause,?L,[{var,?L,'Ctx'}],[],revert_all(Body)}]}].
+   Body = lists:flatten([Ctx0, Imps, VarSetAbs, [LastCtx]]),
+   Clauses =[{clause,?L,[{var,?L,'Ctx'}],
+              [[{call,?L,
+                 {remote,?L,{atom,?L,erlang},
+                  {atom,?L,is_map_key}},
+                 [{atom,?L,ModName},{var,?L,'Ctx'}]}]],
+              [{var,?L,'Ctx'}]},
+             {clause,?L,[{var,?L,'Ctx'}],[],revert_all(Body)}],
+   [{function,?L,init,1,Clauses}].
 
 % RESTXQ functions:
 % needs to init like a main module, and like a library
@@ -835,6 +860,7 @@ body_function(ContextMap, Body,Prolog) ->
                     "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             {P, NV};
          ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
+            %% TODO add type promote for all imported libs context type
             NC = next_ctx_var_name(),
             NV = {var,?L,NC},
             NextVar = {var,?L,next_var_name()},
@@ -1019,6 +1045,9 @@ internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr,
     end.
 
 function_functions(ContextMap, Functions) ->
+   function_functions(ContextMap, Functions, main).
+
+function_functions(ContextMap, Functions, ModType) ->
    CtxName = get_context_variable_name(ContextMap),
    F =fun(#xqFunction{id = _,
                       name = FxName,
@@ -1046,11 +1075,16 @@ function_functions(ContextMap, Functions) ->
             C1 = {var,?L,CtxName},
             C2 = {var,?L,CtxName2},
             % do not allow functions to access the current context item
-            Out = ?P(["'@FName@'(_@C1,_@@List) ->",
-                "   _@C2 = xqerl_context:set_empty_context_item(_@C1),",
-                "   _@E1."]),
-                %"   xqerl_types:promote(_@E1, _@RType@)."]),
-            Out
+            case ModType of
+               library ->
+                  ?P(["'@FName@'(_@C1,_@@List) ->",
+                      "   _@C2 = close_context(xqerl_context:set_empty_context_item(_@C1)),",
+                      "   _@E1."]);
+               _ ->
+                  ?P(["'@FName@'(_@C1,_@@List) ->",
+                      "   _@C2 = xqerl_context:set_empty_context_item(_@C1),",
+                      "   _@E1."])
+            end
      end,
    [ F(V)
      || #xqFunction{} = V <- Functions].

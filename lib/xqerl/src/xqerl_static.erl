@@ -33,7 +33,8 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([handle_tree/2]).
+-export([handle_tree/2,
+         handle_tree/3]).
 
 -export([variable_hash_name/1]).
 -export([function_hash_name/2]).
@@ -134,12 +135,19 @@
          digraph
    }).
 
+handle_tree(Mod, BaseUri) -> handle_tree(Mod, BaseUri, []).
+
 handle_tree(#xqModule{version = {Version,Encoding}, 
                       prolog = Prolog,
                       declaration = Decl, 
                       type = ModuleType,% main|library, 
                       body = Body} = Mod,
-            BaseUri) ->
+            BaseUri, ImportAst) ->
+   {ImportAstFuns, ImportSigFuns, 
+    ImportAstVars, ImportSigVars} = case ImportAst of
+                                       _ when is_tuple(ImportAst) -> ImportAst;
+                                       [] -> {[],[],[],[]}
+                                    end,
    State = #state{base_uri = BaseUri, module_type = ModuleType},
    _ = erlang:put(var_id, 1),
    _ = valid_ver(Version),
@@ -153,18 +161,20 @@ handle_tree(#xqModule{version = {Version,Encoding},
    Setters     = pro_setters(Prolog),
    ModNs       = pro_module_ns(Decl),
    Namespaces  = pro_namespaces(Prolog,ModNs,DefElNs),
-   Imports     = pro_mod_imports(Prolog),
+   Imports     = pro_mod_imports(Prolog, Decl),
    Options     = pro_options(Prolog, ModuleType), % use later
    Variables   = pro_glob_variables(Prolog, ModNs),
    Functions   = pro_glob_functions(Prolog, ModNs),
    StaticNamespaces = xqerl_context:static_namespaces(),
    ConstNamespaces  = overwrite_static_namespaces(StaticNamespaces, Namespaces),
    StaticImports = [],
-   {Functions1, Variables1, StaticProps} = % any errors are in the static props
+   {Functions1_, Variables1_, StaticProps} = % any errors are in the static props
      xqerl_context:get_module_exports(Imports ++ StaticImports),
    % analyze for cyclical references
-   DiGraph = xqerl_static_analysis:analyze(Body, Functions1 ++ Functions, 
-                              ContextItem ++ Variables1 ++ Variables),
+   DiGraph = xqerl_static_analysis:analyze(Body, ImportAstFuns ++ Functions1_ ++ Functions ++ ImportSigFuns, 
+                              ContextItem ++ ImportAstVars ++ Variables1_ ++ Variables ++ ImportSigVars),
+   Functions1 = maybe_append_imports(Functions1_, ImportSigFuns), 
+   Variables1 = maybe_append_imports(Variables1_, ImportSigVars),
    LU = {?FN,?A("function-lookup")},
    _ = case lists:member({0,LU,2}, digraph:vertices(DiGraph)) of
           true ->
@@ -198,19 +208,22 @@ handle_tree(#xqModule{version = {Version,Encoding},
                  [N || {A,{N,_},_} <- digraph:vertices(DiGraph), A =/= 0]),
                    
    AllImports = [N || {N,_} <- Imports],
-   UnusedImports = AllImports -- UsedImports,
+   UnusedImports = [], %AllImports -- UsedImports,
 %?dbg("edges",digraph:edges(DiGraph,main)),
    %?dbg("UsedImports",UsedImports),
    %?dbg("UnusedImports",UnusedImports),
 %?dbg("StaticProps",StaticProps),
    
    % check all imports for any errors
-   [throw(ImpErr) || 
-    #xqError{value = ImpE} = ImpErr <- StaticProps,
-     ImpU <- AllImports,
-     ImpU == ImpE
-     ],
-   
+   _ = if ModuleType == main ->
+             [throw(ImpErr) ||
+                #xqError{value = ImpE} = ImpErr <- StaticProps,
+                ImpU <- AllImports,
+                ImpU == ImpE
+             ];
+          true ->
+             ok
+       end,
    OrderedGraph = 
      case digraph_utils:topsort(DiGraph) of
         false ->
@@ -1198,26 +1211,17 @@ handle_node(State, {partial_postfix, Id, {'function-call',#qname{}, Arity, Args}
       true ->
          ok
    end,
-%   ?dbg("here",ok),
    FState = handle_node(State, Ref),
-%   ?dbg("here",ok),
    Fx = get_statement(FState),
-%   ?dbg("here",ok),
    {_,#xqFunction{params = _Params, type = Type}} = Fx,
-%   ?dbg("here",ok),
    StateC = set_in_constructor(State, false),
-%   ?dbg("here",ok),
    SimpArgs = handle_list(StateC, Args2),
-%   ?dbg("here",ok),
    %CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
    NewArgs = lists:map(fun(S) ->
                            get_statement(S)
                        end, SimpArgs),
-%   ?dbg("NewArgs",NewArgs),
    PlaceHolders = placeholders(Args2),
-%   ?dbg("PlaceHolders",PlaceHolders),
    AnonArity = length(PlaceHolders),
-%   ?dbg("AnonArity",AnonArity),
    AnonParamTypes = lists:filtermap(fun({'?',_}) ->
                                           {true,#xqSeqType{}};
                                        (_) ->
@@ -3985,23 +3989,15 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
                     _ ->
                         [ModNsPx|Namespaces]
                  end,
-   % check for dup prefixes
+   % check for dup prefixes not including module namespace
    _ = lists:foldl(fun({N1,Px},Dict) ->
-                         N2 = case N1 of
-                                 _ when is_atom(N1) -> N1;
-                                 <<"Q{",_/binary>> -> N1;
-                                 _ -> <<"Q{",N1/binary,"}">>
-                                end,  
                          case dict:is_key(Px, Dict) of
-                            true ->
-                               case dict:fetch(Px, Dict) of
-                                  N2 -> Dict;
-                                  _ -> ?err('XQST0033')
-                               end;
+                            true -> 
+                               ?err('XQST0033');
                             _ ->
-                               dict:store(Px, N2, Dict)
+                               dict:store(Px, N1, Dict)
                          end
-                   end, dict:new(), Namespaces1),
+                   end, dict:new(), Namespaces),
    % check for overwritten namespaces
    _ = lists:foreach(fun({_,?A("xmlns")}) ->
                            ?err('XQST0070');
@@ -4020,6 +4016,17 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
    %?dbg("Namespaces1",Namespaces1),
    Namespaces1.
 
+pro_mod_imports(Prolog, []) -> pro_mod_imports(Prolog);
+pro_mod_imports(Prolog, {ModNs, _}) -> 
+   % block self import in library
+   Prolog1 = [E || 
+              E <- Prolog, 
+              not (is_tuple(E) andalso size(E) == 2 andalso 
+                     element(1, E) == 'module-import' andalso 
+                     element(1, element(2, E)) == ModNs)
+              ],
+   pro_mod_imports(Prolog1).
+   
 pro_mod_imports(Prolog) ->
    Imports = [E || {'module-import', E} <- Prolog],
    % check for dup imports
@@ -6256,5 +6263,21 @@ atomic_value('xs:double', V) -> V;
 atomic_value('xs:boolean', V) -> V;
 atomic_value(T, V) -> 
    #xqAtomicValue{type = T, value = V}.
+
+maybe_append_imports(Compiled, Imported) ->
+   InComp = fun(K) ->
+                  lists:any(fun(E) ->
+                                  element(4,E) == K
+                            end, Compiled)
+            end,
+   Ins = fun(Imp, Acc) ->
+               case InComp(element(4,Imp)) of
+                  true ->
+                     Acc;
+                  false ->
+                     [Imp|Acc]
+               end
+         end,
+   lists:foldl(Ins, Compiled, Imported).
 
   

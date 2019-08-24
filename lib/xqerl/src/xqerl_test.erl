@@ -849,8 +849,8 @@ combined_error(Err, LibReturns) ->
                 {AN, AL} == {BN, BL}
           end,
    LibErrors = lists:usort(Sort, [E || 
-                                  #xqError{} = E <- LibReturns,
-                                  ?ERR_LOC(E) =/= <<"XQST0059">> % mod not found
+                                  #xqError{} = E <- LibReturns%,
+                                  %?ERR_LOC(E) =/= <<"XQST0059">> % mod not found
                                   ]),
    ?dbg("LibErrors", LibErrors),
    case LibErrors of

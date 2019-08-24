@@ -534,7 +534,7 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
 %%                end,
                case is_axis_parent(Parent) of 
                   true ->
-                     ?dbg("Axis Parent", {Id,Nm,Ar}),
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
                      add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
                   false ->
                      add_edge(G, {Id,Nm,Ar}, Parent, local)
@@ -546,7 +546,7 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
          add_vertex(G, {-1,Nm,Ar}),
          case is_axis_parent(Parent) of 
             true ->
-               ?dbg("Axis Parent", {-1,Nm,Ar}),
+               %?dbg("Axis Parent", {-1,Nm,Ar}),
                add_edge(G, {-1,Nm,Ar}, Parent, {path, maps:get(path, Map)});
             false ->
                add_edge(G, {-1,Nm,Ar}, Parent, ext)
@@ -680,9 +680,14 @@ add_glob_variables(G, Variables) ->
                   true ->
                      Sim = sim_name(Nm),
                      add_vertex(G, {0,sim_name(Nm)}),
-                     case maps:is_key(Sim, Map) of
-                        true -> ?err('XQST0049');
-                        _ -> maps:put(Sim, 0, Map)
+                     case Map of
+                        #{Sim := 0} ->
+                           Map;
+                        #{Sim := _} ->
+                           ?dbg("Sim",Sim),
+                           ?err('XQST0049');
+                        _ ->
+                           maps:put(Sim, 0, Map)
                      end
                end;
             (#xqVar{id = Id, name = Nm}, Map) ->
@@ -715,7 +720,9 @@ add_glob_funs(G, Functions, Map0) ->
                                      Pos + 1
                                   end, 1, Params),
                case maps:is_key({S, Ar}, Map) of
-                  true -> ?err('XQST0034');
+                  true ->
+                     ?dbg("XQST0034", {S, Ar}),
+                     ?err('XQST0034');
                   _ -> maps:put({S, Ar}, Id, Map)
                end;
             ({#qname{} = Nm,_,Annos,_,Ar,_}, Map) ->
@@ -725,9 +732,14 @@ add_glob_funs(G, Functions, Map0) ->
                   true ->
                      S = sim_name(Nm),
                      add_properties(G, Nm, Ar),
-                     case maps:is_key({S, Ar}, Map) of
-                        true -> ?err('XQST0034');
-                        _ -> maps:put({S, Ar}, 0, Map)
+                     TempKey = {S, Ar}, 
+                     case Map of
+                        #{TempKey := 0} ->
+                           Map;
+                        #{TempKey := _} ->
+                           ?err('XQST0034');
+                        _ ->
+                           maps:put(TempKey, 0, Map)
                      end
                end
          end,

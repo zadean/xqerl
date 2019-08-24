@@ -308,7 +308,7 @@ do_compile(Filename, Str, false) ->
       Tree = parse_tokens(Toks),
 %io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-      Static = scan_tree_static(Tree, FileUri),
+      Static = scan_tree_static(Tree, FileUri, []),
 %io:format("~p~n", [maps:get(body, Static)]),
       {_,_,_,_,_,Forms,_} = scan_tree(Static),
       xqerl_context:destroy(Static),
@@ -340,33 +340,7 @@ do_compile(Filename, Str, []) ->
 %io:format("~p~n", [Toks]),
       _ = xqerl_context:init(parser),
       Tree = parse_tokens(Toks),
-%io:format("~p~n", [Tree]),
-      FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-      Static = scan_tree_static(Tree, FileUri),
-%io:format("~p~n", [Tree]),
-%io:format("~p~n", [maps:get(body, Static)]),
-      {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
-      xqerl_context:destroy(Static),
-%io:format("~p~n", [Forms]),
-
-      {ok,M,B} = compile:forms(Forms,
-                               [debug_info, verbose,
-                                return_errors, no_auto_import,
-                                binary]),
-      Rec =        
-        #xq_module{target_namespace = ModNs,
-                   type = ModType,
-                   status = compiled,
-                   module_name = M,
-                   full_text = {text, Str},
-                   error = undefined,
-                   last_compile_time = erlang:system_time(),
-                   imported_modules = ImportedMods,
-                   function_sigs = patch(FunSigs,M),
-                   variable_sigs = patch(VarSigs,M),
-                   rest_xq = RestXQ},
-      code:purge(M),
-      gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT)
+      do_compile_tree(Filename, Tree, Str, [])
    catch 
       _:?NOT_FOUND(_) = Error:StackTrace ->
          ?dbg("Error",Error),
@@ -406,64 +380,117 @@ do_compile(_, _, Hints) ->
          do_compile(a, a, NewFailed)
    end.
 
+do_compile_tree(Filename, Tree, Str, Imports) ->
+%io:format("~p~n", [Tree]),
+   FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+   Static = scan_tree_static(Tree, FileUri, Imports),
+%io:format("~p~n", [Tree]),
+%io:format("~p~n", [maps:get(body, Static)]),
+   {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
+   xqerl_context:destroy(Static),
+%io:format("~p~n", [Forms]),
+
+   {ok,M,B} = compile:forms(Forms,
+                            [debug_info, verbose,
+                             return_errors, no_auto_import,
+                             binary]),
+   Rec =        
+     #xq_module{target_namespace = ModNs,
+                type = ModType,
+                status = compiled,
+                module_name = M,
+                full_text = {text, Str},
+                error = undefined,
+                last_compile_time = erlang:system_time(),
+                imported_modules = ImportedMods,
+                function_sigs = patch(FunSigs,M),
+                variable_sigs = patch(VarSigs,M),
+                rest_xq = RestXQ},
+   code:purge(M),
+   ?dbg("WORKED", M),
+   gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT).
+
+%% {Uri, Tree, Str, Filename} -> {Uri, Tree, Str, Filename, Imports}
+append_imports(Parsed) ->
+   UriTrees = [{Uri, Tree} || {Uri, Tree, _, _} <- Parsed],
+   Imports = xqerl_module:expand_imports(UriTrees),
+   %?dbg("Imports",Imports),
+   [{Uri, Tree, Str, Filename, proplists:get_value(Uri, Imports, [])} 
+   || {Uri, Tree, Str, Filename} <- Parsed].
+   
+%% {Uri, Tree, Str, Filename}
+parse_files(Filenames) ->
+   OldProcDict = erlang:erase(),
+   _ = xqerl_context:init(parser),
+   F1 = fun(Filename) ->
+            try
+               case file:read_file(Filename) of
+                  {ok, Bin} ->
+                     Str = binary_to_list(Bin),
+                     Toks = scan_tokens(Str),
+                     Tree = parse_tokens(Toks),
+                     {xqerl_module:module_namespace(Tree, Filename), 
+                      Tree, Str, Filename};
+                  _ ->
+                     ?err('XQST0059') % non-recoverable
+               end
+            catch
+               _:E:_S ->
+                  {Filename, E, [], Filename}
+            end
+        end,
+   Out = merge_mods(lists:map(F1, Filenames)),
+   _ = erlang:erase(),
+   _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
+   Out.
+
+
+
 do_compile_files(List) ->
-   Errors = do_compile_files(List, []),
-   [A || {A,_,_} <- Errors].
+   Files = lists:usort([Name || {Name, _} <- List]),
+   %?dbg("List",List),
+   %Merged = merge_files(List),
+   %?dbg("Merged",Merged),
+   Parsed = parse_files(Files),
+   Imports = append_imports(Parsed),
+   %?dbg("Imports",Imports),
+   Errors = do_compile_files(Imports, []),
+   %?dbg("Errors",Errors),
+   [A || {_,A,_,_,_} <- Errors].
 
 do_compile_files([], Acc) ->
    %?dbg("Acc",Acc),
-   Early = [E || {?NOT_FOUND(_),_,_} = E <- Acc],
-   Failed = lists:subtract([E || {#xqError{},_,_} = E <- Acc], Early),
-   Passed = [B || {A,_,_} = B <- Acc, is_atom(A)],
-   %?dbg("Early",Early),
-   %?dbg("Failed",Failed),
-   %?dbg("Passed",Passed),
+   Early = [E || {_,?NOT_FOUND(_),_,_,_} = E <- Acc],
+   Failed = lists:subtract([E || {_,#xqError{},_,_,_} = E <- Acc], Early),
+   Passed = [B || {_,A,_,_,_} = B <- Acc, is_atom(A)],
+   %?dbg("Early", Early),
+   %?dbg("Failed",length(Failed)),
+   %?dbg("Passed",length(Passed)),
    if Passed == [] ->
          Failed ++ Early;
       true ->
          Failed ++ do_compile_files(Early, [])
    end;
-do_compile_files([{Filename, Uri}|Rest], Acc) ->
-   case file:read_file(Filename) of
-      {ok, Bin} ->
-         Str = binary_to_list(Bin),
-         Res = do_compile(Filename, Str, []),
-         do_compile_files(Rest, [{Res, Str, Uri}|Acc]);
-      Err ->
-         ?dbg("Err",Err),
-         do_compile_files(Rest, [{xqerl_error:error('XQST0059'), [], Uri}|Acc])
-   end;
-do_compile_files([{_, Str, Uri}|Rest], Acc) ->
-   Res = do_compile(Uri, Str, []),
-   do_compile_files(Rest, [{Res, Str, Uri}|Acc]).
+do_compile_files([{Uri, #xqError{} = Res, [], Filename, I}|Rest], Acc) ->
+   ?dbg("NOT TRYING", Uri),
+   do_compile_files(Rest, [{Uri, Res, [], Filename, I}|Acc]);
+do_compile_files([{Uri, #xqError{}, Str, Filename, I}|Rest], Acc) ->
+   ?dbg("TRYING", Uri),
+   Res = try do_compile(Filename, Str, []) catch _:E -> E end,
+   %?dbg("TRIED", {Uri, Res}),
+   do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]);
+do_compile_files([{Uri, Tree, Str, Filename, I}|Rest], Acc) ->
+   ?dbg("TRYING", Uri),
+   Res = try
+            do_compile_tree(Filename, Tree, Str, I)
+         catch
+            _:E ->
+               E
+         end,   
+   %?dbg("TRIED", {Uri, Res, Tree}),
+   do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]).
    
    
-%% ?dbg("Filename", Filename),
-%% ?dbg("F1",Hints),
-%%    case do_compile(Filename, Str, []) of
-%%       ?NOT_FOUND(Ns) = Error ->
-%% ?dbg("here", ok),   
-%%          case lists:keyfind(Ns, 2, Hints) of
-%%             false ->
-%% ?dbg("here", ok),   
-%%                ?dbg("Filename",Filename),
-%%                Error;
-%%             {F1,_} = G ->
-%% ?dbg("here", ok),   
-%%                ?dbg("F1",F1),
-%%                compile(F1, [], Hints -- G),
-%%                ?dbg("F1",Filename),
-%%                compile(Filename, [], Hints)
-%%          end;
-%%       #xqError{} = Error ->
-%% ?dbg("here", ok),   
-%%          Error;
-%%       Other ->
-%% ?dbg("here", Other),   
-%%          Other
-%%    end.
-
-
 scan_tokens(Str) ->
    try 
       xqerl_scanner:tokens(Str) 
@@ -491,9 +518,9 @@ parse_tokens(Tokens) ->
          ?err('XPST0003')
    end.
 
-scan_tree_static(Tree, BaseUri) ->
+scan_tree_static(Tree, BaseUri, Imports) ->
    try 
-      xqerl_static:handle_tree(Tree, BaseUri)
+      xqerl_static:handle_tree(Tree, BaseUri, Imports)
    catch
       _:#xqError{} = E:S ->
          ?dbg("parse_tokens e",{E, S}),
@@ -505,7 +532,6 @@ scan_tree_static(Tree, BaseUri) ->
    end.
 
 scan_tree(Tree) ->
-   %?dbg("Tree",Tree),
    try 
       xqerl_abs:scan_mod(Tree)
    catch
@@ -603,8 +629,8 @@ write_dispatch(Filename, Term) ->
 %%    binary:part(Namespace0, 0, byte_size(Namespace0) - 1);
 trim_q(Namespace0) -> Namespace0.
 
-add_q(Namespace) ->
-   <<"Q{",Namespace/binary,"}">>.
+%% add_q(Namespace) ->
+%%    <<"Q{",Namespace/binary,"}">>.
 
 
 do_unload(Tab, Ebin, DispatchFile) ->
@@ -624,6 +650,19 @@ do_unload(Tab, Ebin, DispatchFile) ->
         A <- All,
         #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
    ok.
+
+merge_mods(List) ->
+   merge_mods(List, #{}).
+
+%% {Uri, Tree, Str, Filename}
+merge_mods([{Ns, Mod, Str, Name}|Mods], Acc) ->
+   Up = fun({O, Str0, Name0}) -> {[Mod|O], Str0, Name0} end, 
+   merge_mods(Mods, maps:update_with(Ns, Up, {[Mod], Str, Name}, Acc));
+merge_mods([], Acc) ->
+   List = maps:to_list(Acc),
+   [{Uri, xqerl_module:merge_library_trees(Mods), Str, Name}
+    || {Uri, {Mods, Str, Name}} <- List].
+
 
 -define(PRINT,false).
 %-define(PRINT,true).
