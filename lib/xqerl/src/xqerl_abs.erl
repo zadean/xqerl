@@ -409,7 +409,9 @@ scan_mod(#xqModule{prolog = Prolog,
             "  Map = maps:put(tab,Tab,_@MapItems),",
             "  xqerl_context:set_named_functions(Tab,maps:get(named_functions,Map,[])),",
             "  maps:remove(named_functions,Map)."]),
-   P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
+   ContextTypes = [Ty || {context_item_type, Ty} <- StaticProps,
+                         Ty =/= #xqSeqType{type = item, occur = zero_or_many}],
+   P4 = body_function(EmptyMap, Body, Prolog, ContextTypes), % this will also setup the global variable match
    P5 = variable_functions(EmptyMap, Variables), 
    P6 = function_functions(EmptyMap, Functions),
    %{RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
@@ -833,7 +835,7 @@ global_variable_map_set(Modules,Locals) ->
    ok.
 
 
-body_function(ContextMap, Body,Prolog) ->
+body_function(ContextMap, Body, Prolog, ContextTypes) ->
    _ = set_line(1),
    Stats = [N || {_,N} <- xqerl_context:static_namespaces()],
    ImportedMods = [E || 
@@ -860,20 +862,23 @@ body_function(ContextMap, Body,Prolog) ->
                     "_@NV = (_@CtxVar)#{'@V@' => _@AV}"]),
             {P, NV};
          ({'context-item',{CType,External,Expr}}, {_,_,C} = CtxVar1) ->
-            %% TODO add type promote for all imported libs context type
-            NC = next_ctx_var_name(),
-            NV = {var,?L,NC},
-            NextVar = {var,?L,next_var_name()},
             Occ = if External =:= external -> zero_or_one;
                      Expr =/= []           -> one;
                      true                  -> zero_or_one
                   end,
+            C1 = #xqSeqType{type = CType, occur = Occ},
+            Unique = lists:usort(ContextTypes),
+            Dmy = {var, ?L, 'CI'},
+            Checks = [?P("_ = xqerl_types:check(_@Dmy, _@U@)") || U <- Unique],
+            NC = next_ctx_var_name(),
+            NV = {var,?L,NC},
+            NextVar = {var,?L,next_var_name()},
             NewC = set_context_variable_name(ContextMap, C),
-            E1 = expr_do(NewC, #xqSeqType{type = CType, occur = Occ}),
             E2 = expr_do(NewC, Expr),
             P = ?P(["_@NV = begin ",
                     " {CI,_} = maps:get('context-item', Options, {_@E2, 1}),"
-                    " _@NextVar = xqerl_types:promote(CI,_@E1),",
+                    " _@@Checks ,"
+                    " _@NextVar = xqerl_types:promote(CI,_@C1@),",
                     " xqerl_context:set_context_item(_@CtxVar1,_@NextVar,1,",
                     "      xqerl_seq3:size(_@NextVar))"
                     "end"]),
