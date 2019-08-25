@@ -581,6 +581,19 @@ do_serialize_html(#{nk := cdata} = Node, _Opts, _) ->
 do_serialize_html(#{nk := script} = Node, _Opts, _) ->
    xqldb_mem_nodes:string_value(Node);
 do_serialize_html(#{nk := attribute,
+                     nn := NodeName} = Node, #{'escape-uri-attributes' := true,
+                                               parent_name := ParentNodeName}, _) ->
+   Txt = xqldb_mem_nodes:string_value(Node),
+   QNm = encode_qname(NodeName),
+   AttTxt = 
+      case is_uri_attribute(ParentNodeName, NodeName) of
+         true ->
+            encode_uri_att_text(Txt);
+         false ->
+            encode_att_text(Txt)
+      end,
+   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
+do_serialize_html(#{nk := attribute,
                      nn := NodeName} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
@@ -599,7 +612,7 @@ do_serialize_html(#{nk := element,
    %NsStr = <<>>,
    NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
               {P,N} <- NewNs>>,
-   Atts = << <<" ", (do_serialize_html(A, Opts, InScopeNamespaces1))/binary>> ||
+   Atts = << <<" ", (do_serialize_html(A, Opts#{parent_name => NodeName}, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
    Node1 = if Ln == <<"head">> ->
@@ -685,6 +698,19 @@ do_serialize_xhtml(#{nk := cdata} = Node, _Opts, _) ->
 do_serialize_xhtml(#{nk := script} = Node, _Opts, _) ->
    xqldb_mem_nodes:string_value(Node);
 do_serialize_xhtml(#{nk := attribute,
+                     nn := NodeName} = Node, #{'escape-uri-attributes' := true,
+                                               parent_name := ParentNodeName}, _) ->
+   Txt = xqldb_mem_nodes:string_value(Node),
+   QNm = encode_qname(NodeName),
+   AttTxt = 
+      case is_uri_attribute(ParentNodeName, NodeName) of
+         true ->
+            encode_uri_att_text(Txt);
+         false ->
+            encode_att_text(Txt)
+      end,
+   <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
+do_serialize_xhtml(#{nk := attribute,
                      nn := NodeName} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
@@ -702,7 +728,7 @@ do_serialize_xhtml(#{nk := element,
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
    NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
               {P,N} <- NewNs>>,
-   Atts = << <<" ", (do_serialize_xhtml(A, Opts, InScopeNamespaces1))/binary>> ||
+   Atts = << <<" ", (do_serialize_xhtml(A, Opts#{parent_name => NodeName}, InScopeNamespaces1))/binary>> ||
              A <- At>>,
    IsCdataNode = is_cdata_node(NodeName, Opts),
    Node1 = if Ln == <<"head">> ->
@@ -958,6 +984,16 @@ encode_att_text(?STR_REST("}", Tail),Acc) ->
 encode_att_text(?CP_REST(H, Tail),Acc) ->
    encode_att_text(Tail,<<Acc/binary,H/utf8>>).
 
+encode_uri_att_text(Bin) -> 
+   Nfc = unicode:characters_to_nfc_binary(Bin),
+   Enc = << if C >= 32, C =< 126 ->
+                  <<C>>;
+               true ->
+                  <<"%", (integer_to_binary(C, 16))/binary>>
+            end || <<C>> <= Nfc
+           >>,
+   encode_att_text(Enc,<<>>).
+
 encode_ns_text(Bin) -> encode_ns_text(Bin,<<>>).
 
 encode_ns_text(<<>>,Acc) -> Acc;
@@ -988,6 +1024,48 @@ encode_qname({_, Px, Ln}) ->
 encode_binary(Val, utf8) -> Val;
 encode_binary(Val, Enc) -> 
    unicode:characters_to_binary(Val, unicode, Enc).
+
+is_uri_attribute({PNs, _, PLn}, {Ns, _, Ln}) 
+   when PNs == <<>> orelse PNs == ?xhtml,
+        Ns == <<>> ->
+   Pn = string:lowercase(PLn),
+   case string:lowercase(Ln) of
+      <<"action">> -> Pn == <<"form">>;    
+      <<"archive">> -> Pn == <<"object">>;   
+      <<"background">> -> Pn == <<"body">>;
+      <<"cite">> -> 
+         lists:member(Pn, [<<"blockquote">>, <<"del">>, <<"ins">>, <<"q">>]);
+      <<"classid">> -> Pn == <<"object">>;
+      <<"codebase">> -> 
+         lists:member(Pn, [<<"applet">>, <<"object">>]);
+      <<"data">> -> Pn == <<"object">>;
+      <<"datasrc">> -> 
+         lists:member(Pn, [<<"button">>, <<"div">>, <<"input">>, <<"object">>, 
+                           <<"select">>, <<"span">>, <<"table">>, 
+                           <<"textarea">>]);
+      <<"for">> -> Pn == <<"script">>;
+      <<"formaction">> -> 
+         lists:member(Pn, [<<"button">>, <<"input">>]);
+      <<"href">> -> 
+         lists:member(Pn, [<<"a">>, <<"area">>, <<"base">>, <<"link">>]);
+      <<"icon">> -> Pn == <<"command">>;
+      <<"longdesc">> -> 
+         lists:member(Pn, [<<"frame">>, <<"iframe">>, <<"img">>]);
+      <<"manifest">> -> Pn == <<"html">>;
+      <<"name">> -> Pn == <<"a">>;
+      <<"poster">> -> Pn == <<"video">>;
+      <<"profile">> -> Pn == <<"head">>;
+      <<"src">> -> 
+         lists:member(Pn, [<<"audio">>, <<"embed">>, <<"frame">>, <<"iframe">>, 
+                           <<"img">>, <<"input">>, <<"script">>, <<"source">>, 
+                           <<"track">>, <<"video">>]);
+      <<"usemap">> -> 
+         lists:member(Pn, [<<"img">>, <<"input">>, <<"object">>]);
+      <<"value">> -> Pn == <<"input">>;
+      _ ->
+         false
+   end;
+is_uri_attribute(_, _) -> false.
 
 string_join([], _With) -> <<>>;
 string_join([H], _With) -> H;
