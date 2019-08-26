@@ -133,7 +133,7 @@ if_empty(Value,_Default) -> Value.
 
 xml_to_json(State, #{nk := _} = Doc) ->
    Tree = xqerl_node:node_to_content(Doc, preserve),
-   % Attributes are in 'expr', not in 'attributes'
+   % Attributes are in 'attributes'
    case xml_to_json(State, Tree) of
       {_K,V,_EscKey0} -> % key with no map, internal node
          V;
@@ -147,7 +147,9 @@ xml_to_json(State, [#xqElementNode{} = E]) ->
 xml_to_json(State = #state{indent = Indent},
              #xqElementNode{name = ?q(#qname{namespace = ?ns, 
                                           local_name = <<"array">>}),
-                            content = Expr}) ->
+                            attributes = Attrs,
+                            children = Children}) ->
+   Expr = Attrs ++ Children,
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Content = lists:map(fun(V) ->
                           xml_to_json(State, V)
@@ -161,7 +163,9 @@ xml_to_json(State = #state{indent = Indent},
    end;
 xml_to_json(State = #state{indent = Indent}, 
             #xqElementNode{name = ?q(#qname{namespace = ?ns, local_name = <<"map">>}),
-                           content = Expr}) ->
+                           attributes = Attrs,
+                           children = Children}) ->
+   Expr = Attrs ++ Children,
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Fold = fun(V,Check) ->
                 case xml_to_json(State, V) of
@@ -192,7 +196,9 @@ xml_to_json(State = #state{indent = Indent},
    end;
 xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
                                                 local_name = <<"boolean">>}),
-                                  content = Expr}) -> 
+                                  attributes = Attrs,
+                                  children = Children}) ->
+   Expr = Attrs ++ Children,
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       Txt = xqerl_node:atomize_nodes(Rest),
@@ -210,7 +216,9 @@ xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
                                                 local_name = <<"null">>}),
-                                  content = Expr}) -> 
+                                  attributes = Attrs,
+                                  children = Children}) ->
+   Expr = Attrs ++ Children,
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
    if Rest =/= [] ->
          ?err('FOJS0006');
@@ -223,7 +231,9 @@ xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
                                                 local_name = <<"number">>}),
-                                  content = Expr})->
+                                  attributes = Attrs,
+                                  children = Children}) ->
+   Expr = Attrs ++ Children,
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       Txt = xqerl_node:atomize_nodes(Rest),
@@ -246,7 +256,9 @@ xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns,
    end;
 xml_to_json(State, #xqElementNode{name = ?q(#qname{namespace = ?ns, 
                                                 local_name = <<"string">>}),
-                                  content = Expr}) ->
+                                  attributes = Attrs,
+                                  children = Children}) ->
+   Expr = Attrs ++ Children,
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
    case Rest of
       [#xqTextNode{}] when Key =:= [] ->
@@ -332,7 +344,7 @@ json_to_xml(State, Key, {array, Values}) ->
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = Content};
+                  children = Content};
 json_to_xml(#state{duplicates = Dupes,
                    escape = Escape} = State, 
             Key, {object, Members}) ->
@@ -363,19 +375,19 @@ json_to_xml(#state{duplicates = Dupes,
                   attributes = att_key(Key, Escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = Content};
+                  children = Content};
 json_to_xml(State, Key, true) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = true}; %% TODO make this a string node
+                  children = [#xqTextNode{string_value = <<"true">>}]};
 json_to_xml(State, Key, false) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = false}; %% TODO make this a string node
+                  children = [#xqTextNode{string_value = <<"false">>}]};
 json_to_xml(State, Key, null) -> 
    #xqElementNode{name = ?qn("null"),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
@@ -390,15 +402,15 @@ json_to_xml(State, Key, {Val, Lex})
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = Lex}; %% TODO make this a string node
+                  children = [#xqTextNode{string_value = Lex}]};
 json_to_xml(State, Key, Val) ->
    Norm = normalize_string(State, Val),
    Esc = att_esc(Norm, State#state.escape),
    #xqElementNode{name = ?qn("string"),
-                  attributes = [Esc|att_key(Key, State#state.escape)],
+                  attributes = Esc ++ att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  content = Norm}. %% TODO make this a string node
+                  children = [#xqTextNode{string_value = Norm}]}.
 
 json_to_map(State, {array, Values}) ->
    {array,lists:map(fun(V) ->

@@ -316,7 +316,7 @@ scan_mod(#xqModule{prolog = Prolog,
             "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
    P6 = init_function(ModName,scan_variables(EmptyMap,Variables),Prolog),
-   P7 = variable_functions(EmptyMap, Variables),
+   P7 = variable_functions(EmptyMap, Variables, library),
    P8 = function_functions(EmptyMap, Functions, library),
    {RestExports, RestWrappers} = rest_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
@@ -981,6 +981,9 @@ expression_body(ContextMap, Body, Prolog, Variables, Init) ->
 
 
 variable_functions(ContextMap, Variables) ->
+   variable_functions(ContextMap, Variables, main).
+
+variable_functions(ContextMap, Variables, ModType) ->
    LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
    F = fun(#xqVar{id = _, name = QName, expr = Expr, 
                   external = Ext, type = Type0, anno = LineNum}) ->
@@ -1010,8 +1013,16 @@ variable_functions(ContextMap, Variables) ->
                       "      undefined -> erlang:exit(xqerl_error:error('XPDY0002'));",
                       "      X -> xqerl_types:promote(X, _@Type@) end."]);
                 true ->
-                  ?P(["'@Name@'(__Ctx) ->",
-                      "   _@Expr1."])
+                   % close the context in lib variables
+                   case ModType of
+                      library ->
+                         ?P(["'@Name@'(__Ctx0) ->",
+                             "   __Ctx = close_context(__Ctx0),",
+                             "   _@Expr1."]);
+                      _ ->
+                         ?P(["'@Name@'(__Ctx) ->",
+                             "   _@Expr1."])
+                   end
              end
      end,
    [begin _ = set_line(Line), F(V) end || 
@@ -1612,13 +1623,6 @@ expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
    C = {var,?L,get_context_variable_name(Ctx)},
    E = expr_do(Ctx, Expr),
    ?P("xqerl_node:new_fragment(_@C, _@E)");
-%% expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
-%%                                 Cons =:= comp_cons ->
-%%    C = {var,?L,get_context_variable_name(Ctx)},
-%%    E = expr_do(Ctx, Expr),
-%%    B = maps:get('base-uri', Ctx),
-%%    %?P("_@E");
-%%    ?P("xqerl_node:new_fragment((_@C)#{'base-uri' => _@B@},_@E)");
 
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
    expr_do(Ctx, Expr1#xqFunction{body = {atomize, Body}});
@@ -3471,9 +3475,7 @@ abs_element_node(#{namespaces := Nss} =
                  Ctx, #xqElementNode{name = N, 
                                      attributes = A1, % namespaces in here
                                      content = E0, 
-                                     type = Type, 
-                                     base_uri = BU, 
-                                     inscope_ns = IsNs}) ->
+                                     type = Type}) ->
    _ = add_used_record_type(xqElementNode),
    NssN = [{P, U} ||
            #xqNamespaceNode{uri = U, prefix = P} <- A1],
@@ -3495,20 +3497,19 @@ abs_element_node(#{namespaces := Nss} =
            _ ->
               {atom,?L,Type}
         end,
-   E4 = expr_do(Ctx,BU),
    NextCtxName = next_ctx_var_name(),
    NextCtx = {var, ?L, NextCtxName},
    Ctx1 = set_context_variable_name(Ctx, NextCtxName),
    if E0 == [undefined];
       E0 == [] -> 
          ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
-             " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, ",
+             " inscope_ns = [], type = _@E3, base_uri = [], ",
              "content = []}"]);
-           true ->
-              E5 = expr_do(Ctx1#{namespaces => NssN1},E0),
-              ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
-                  " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, ",
-                  "content = fun(_@NextCtx) -> _@E5 end}"])
+      true ->
+          E5 = expr_do(Ctx1#{namespaces => NssN1},E0),
+          ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
+              " inscope_ns = [], type = _@E3, base_uri = [], ",
+              "content = fun(_@NextCtx) -> _@E5 end}"])
    end.
 
 abs_attribute_node(Ctx, #xqAttributeNode{name = N, string_value = E}) ->

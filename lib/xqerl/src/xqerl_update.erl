@@ -292,7 +292,9 @@ applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
                    Ref = element(1,Id),
                    case maps:find(Ref, PulMap) of
                       error ->
-                         V;
+                         % ensure a copy of the node even when no update
+                         % this will rebuild namespace scopes
+                         xqerl_node:new_fragment(Ctx#{updating => true}, V);
                       {ok, Val} ->
                          Frank = do_updates(V, Val),
                          xqerl_node:new_fragment(Ctx#{updating => true}, Frank)

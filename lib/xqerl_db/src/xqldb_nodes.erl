@@ -498,7 +498,7 @@ deep_copy_node(#{id := {DbPid, DocId, NodeId},
    %?dbg("NsMaps",NsMaps),
    IsNss = lists:foldr(fun(M, A) ->
                              maps:merge(A, M)
-                       end, #{}, NsMaps),
+                       end, #{<<>> => <<>>}, NsMaps),
    Iter = ?INDEX:lookup_tree(DB, DocId, NodeId),
    List = if Nk == document ->
                 Filter = fun(#{nk := text, id := {_,_,[_]}}) -> false;

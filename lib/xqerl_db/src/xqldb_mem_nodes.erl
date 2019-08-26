@@ -120,9 +120,10 @@ parse_file(File) ->
 
 parse_binary(Bin, {Cwd, BaseUri}) ->
    State = default_state(unicode:characters_to_binary(BaseUri)),
+   CwdL = unicode:characters_to_list(Cwd),
    {ok,Tree,_} = 
       xmerl_sax_parser:stream(Bin,[{continuation_fun, undefined},
-                                   {current_location, Cwd},
+                                   {current_location, CwdL},
                                    {event_fun, fun event/3},
                                    {event_state, State}]),
    case Tree of
