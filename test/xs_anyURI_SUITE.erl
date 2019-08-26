@@ -122,7 +122,7 @@ groups() -> [
    end. 
 'cbcl-anyURI-004b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-anyURI-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.org/%0Ad%E2%9C%90%F0%98%9A%A0/\")", 
@@ -155,7 +155,7 @@ groups() -> [
    end. 
 'cbcl-anyURI-006b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-anyURI-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.org/:/@/\")", 
@@ -203,7 +203,7 @@ groups() -> [
    end. 
 'cbcl-anyURI-009b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-anyURI-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.org/?:@\")", 
@@ -251,7 +251,7 @@ groups() -> [
    end. 
 'cbcl-anyURI-012b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-anyURI-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.org/#:@\")", 

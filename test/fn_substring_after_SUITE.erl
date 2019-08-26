@@ -748,7 +748,7 @@ groups() -> [
    end. 
 'fn-substring-after-31'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-substring-after-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(\"dâtabase\", \"dâtab\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -766,7 +766,7 @@ groups() -> [
    end. 
 'fn-substring-after-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-substring-after-34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
@@ -889,10 +889,10 @@ groups() -> [
    end. 
 'fn-substring-after-42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-substring-after-43'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'K-SubstringAfterFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "substring-after()", 

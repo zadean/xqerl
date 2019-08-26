@@ -269,7 +269,7 @@ groups() -> [
    end. 
 'fn-contains-token-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-contains-token-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "contains-token(codepoints-to-string((97, 98, 99, 160, 100, 101, 102)), \"abc\")", 
@@ -467,7 +467,7 @@ groups() -> [
    end. 
 'fn-contains-token-50'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-contains-token-51'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "contains-token(codepoints-to-string((97, 98, 99, 160, 100, 101, 102)), \"abc\")", 

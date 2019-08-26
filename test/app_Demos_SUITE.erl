@@ -256,7 +256,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
    end. 
 'itunes'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'raytracer'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

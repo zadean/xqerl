@@ -305,10 +305,10 @@ environment('has-children',__BaseDir) ->
    end. 
 'fn-has-children-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-has-children-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-has-children-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(., 1) ! fn:has-children()", 
@@ -407,10 +407,10 @@ environment('has-children',__BaseDir) ->
    end. 
 'fn-has-children-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-has-children-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-has-children-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "/root/comment()/fn:has-children()", 

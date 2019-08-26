@@ -1314,7 +1314,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-derived-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-cast-byte-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(128)", 
@@ -2028,7 +2028,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-nmtoken-001b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ10+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-cast-nmtoken-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN('NMTOKEN') cast as xs:NMTOKEN", 
@@ -2126,7 +2126,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-normalizedString-001b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ10+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-cast-positiveInteger-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(0)", 
@@ -2239,7 +2239,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-token-001b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ10+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-cast-unsignedByte-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(256)", 
@@ -2761,7 +2761,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-gYear-003a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'cbcl-cast-gYearMonth-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"0000-05\" cast as xs:gYearMonth", 
@@ -2779,7 +2779,7 @@ environment('derived',__BaseDir) ->
    end. 
 'cbcl-cast-gYearMonth-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'cbcl-case-anyUri-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"http://example.com?query=\" cast as xs:anyURI", 

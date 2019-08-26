@@ -596,7 +596,7 @@ groups() -> [
    end. 
 'fn-string-join-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10 XP30 XQ30"}. 
+   {skip,"spec:XP20 XQ10 XP30 XQ30"}. 
 'fn-string-join-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-join(1 to 5, \"\")", 
@@ -676,7 +676,7 @@ groups() -> [
    end. 
 'K-StringJoinFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'K-StringJoinFunc-1a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "string-join(\"a string\")", 

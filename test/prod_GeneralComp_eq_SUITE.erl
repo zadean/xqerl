@@ -3478,7 +3478,7 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'GenCompEq-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'GenCompEq-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   {skip,"feature:schemaImport"}.

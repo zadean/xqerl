@@ -519,7 +519,7 @@ groups() -> [
    end. 
 'fn-starts-with-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-starts-with-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(\"dâtabase\", \"dâtabasen\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -537,7 +537,7 @@ groups() -> [
    end. 
 'fn-starts-with-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-starts-with-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
@@ -660,10 +660,10 @@ groups() -> [
    end. 
 'fn-starts-with-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-starts-with-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'K-StartsWithFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "starts-with()", 

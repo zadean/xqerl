@@ -83,67 +83,67 @@ environment('notation',__BaseDir) ->
 ].
 'Comp-notation-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Comp-notation-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaValidation, feature:schemaImport"}.

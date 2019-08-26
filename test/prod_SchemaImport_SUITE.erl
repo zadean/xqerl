@@ -461,421 +461,421 @@ environment('validate',__BaseDir) ->
 ].
 'schema-import-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-30'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'modules-schema-context'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'schema-import-31'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema032a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema032b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema032c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema040a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, feature:schema-location-hint"}. 
 'qischema042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, feature:schema-location-hint"}. 
 'qischema043'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema044'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema061'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema062'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema063'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema063q02-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema064'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema065'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema070'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-01'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-03'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-04'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-05'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema072-06'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema080'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema083'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, feature:schema-location-hint"}. 
 'qischema265'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema266'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90031-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90041-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90042-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90051-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90061-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90071-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90081-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90082-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90101-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90102-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90131-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90151-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90171-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90172-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90401-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'qischema90431-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'qischema90431-no-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90611-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90612-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90613-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90614-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90621-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90631-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90701-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90702-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'qischema90703-err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-025'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"feature:schemaImport, xsd-version:1.1"}. 
 'substitution-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'substitution-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-element-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-validated-schema-element-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-validated-schema-element-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-validated-schema-element-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-validated-schema-element-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-attribute-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-schema-attribute-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-default-attribute-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-default-attribute-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-fixed-attribute-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-fixed-attribute-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaImport"}.

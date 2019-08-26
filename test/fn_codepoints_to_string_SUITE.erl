@@ -616,7 +616,7 @@ groups() -> [
    end. 
 'K-CodepointToStringFunc-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K-CodepointToStringFunc-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "codepoints-to-string(9) eq \"	\"", 
@@ -665,7 +665,7 @@ groups() -> [
    end. 
 'K-CodepointToStringFunc-11b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K-CodepointToStringFunc-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "codepoints-to-string(12)", 
@@ -683,7 +683,7 @@ groups() -> [
    end. 
 'K-CodepointToStringFunc-12b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K-CodepointToStringFunc-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "codepoints-to-string(13) eq \"&#xD;\"", 

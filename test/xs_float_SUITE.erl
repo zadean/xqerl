@@ -40,13 +40,13 @@ groups() -> [
 
 'xs-float-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'xs-float-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'xs-float-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'xs-float-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "exists(xs:float(\"+INF\"))", 

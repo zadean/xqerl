@@ -280,7 +280,7 @@ environment('unparsed-text-available-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-available-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-available-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available(
@@ -305,7 +305,7 @@ environment('unparsed-text-available-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-available-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-available-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available( 
@@ -332,7 +332,7 @@ environment('unparsed-text-available-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-available-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-available-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available( 

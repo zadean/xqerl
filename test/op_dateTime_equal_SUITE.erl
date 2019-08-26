@@ -1288,7 +1288,7 @@ environment('union-List-defined-Types',__BaseDir) ->
    end. 
 'UnionType-equal-01'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'UnionType-equal-02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   {skip,"feature:schemaImport"}.

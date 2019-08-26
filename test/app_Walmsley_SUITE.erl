@@ -4623,7 +4623,7 @@ declare variable $map2 := map {};
    end. 
 'd1e78807'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'd1e78807c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -4830,10 +4830,10 @@ parse-json('{
    end. 
 'd1e78807i'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:fn-load-xquery-module"}. 
 'd1e78807j'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:fn-load-xquery-module"}. 
 'd1e78807k'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}.
+   {skip,"feature:fn-load-xquery-module"}.

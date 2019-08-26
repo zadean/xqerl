@@ -1024,7 +1024,7 @@ groups() -> [
    end. 
 'Serialization-adaptive-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'Serialization-adaptive-38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -484,7 +484,7 @@ groups() -> [
    end. 
 'fn-iri-to-uri-18A'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'fn-iri-to-uri-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example=example\")", 

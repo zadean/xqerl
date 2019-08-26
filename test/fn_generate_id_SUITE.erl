@@ -261,7 +261,7 @@ environment('collection',__BaseDir) ->
    end. 
 'generate-id-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:namespace-axis, spec:XP20+"}. 
 'generate-id-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "generate-id() eq generate-id(/)", 
@@ -313,7 +313,7 @@ environment('collection',__BaseDir) ->
    end. 
 'generate-id-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:namespace-axis, spec:XP20+"}. 
 'generate-id-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := collection()
@@ -450,7 +450,7 @@ environment('collection',__BaseDir) ->
    end. 
 'generate-id-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP20+, feature:xpath-1.0-compatibility"}. 
 'generate-id-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 

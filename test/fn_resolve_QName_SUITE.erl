@@ -438,16 +438,16 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-resolve-qname-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'fn-resolve-qname-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'fn-resolve-qname-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'fn-resolve-qname-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'K-ResolveQNameConstructFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName()", 

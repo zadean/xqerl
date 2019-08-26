@@ -72,7 +72,7 @@ groups() -> [
    end. 
 'cbcl-normalizedstring-002b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-normalizedstring-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:normalizedString(5)", 

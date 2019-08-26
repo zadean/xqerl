@@ -694,7 +694,7 @@ groups() -> [
    end. 
 'Serialization-026a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   {skip,"feature:serialization"}. 
 'Serialization-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -725,7 +725,7 @@ groups() -> [
    end. 
 'Serialization-027a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}. 
+   {skip,"feature:serialization"}. 
 'Serialization-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

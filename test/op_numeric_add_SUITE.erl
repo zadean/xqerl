@@ -2725,46 +2725,46 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'op-numeric-add-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'op-numeric-add-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'op-numeric-add-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'op-numeric-add-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'op-numeric-add-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   {skip,"feature:schemaImport"}.

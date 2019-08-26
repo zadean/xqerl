@@ -220,7 +220,7 @@ environment('math',__BaseDir) ->
    end. 
 'fn-function-arity-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-function-arity-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))
@@ -243,7 +243,7 @@ environment('math',__BaseDir) ->
    end. 
 'fn-function-arity-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-function-arity-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:function-arity( if (current-date() eq xs:date('1900-01-01'))

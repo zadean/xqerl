@@ -640,16 +640,16 @@ newline characters.\")",
    end. 
 'fn-normalize-space-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-normalize-space-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-normalize-space-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-normalize-space-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'K-NormalizeSpaceFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\"a string\", \"wrong param\")", 

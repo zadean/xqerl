@@ -956,7 +956,7 @@ environment('map',__BaseDir) ->
    end. 
 'fn-string-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-string-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "string(string#1)", 
@@ -1022,7 +1022,7 @@ environment('map',__BaseDir) ->
    end. 
 'fn-string-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"feature:namespace-axis, spec:XP20+"}. 
 'fn-string-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "string((//processing-instruction())[1])", 

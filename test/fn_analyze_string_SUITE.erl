@@ -485,10 +485,10 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
    end. 
 'analyzeString-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'analyzeString-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'analyzeString-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $result := analyze-string(\"banana\", \"(b)(anana)\") return string($result)", 
@@ -521,10 +521,10 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
    end. 
 'analyzeString-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'analyzeString-025'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'analyzeString-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(fn:analyze-string(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')/fn:non-match)/string()", 

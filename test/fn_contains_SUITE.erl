@@ -541,7 +541,7 @@ groups() -> [
    end. 
 'fn-contains-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"dâtabase\", \"âtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -559,7 +559,7 @@ groups() -> [
    end. 
 'fn-contains-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"database\", \"DATA\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
@@ -682,13 +682,13 @@ groups() -> [
    end. 
 'fn-contains-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"abc-def\", \"c-d\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")", 
@@ -706,7 +706,7 @@ groups() -> [
    end. 
 'fn-contains-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-contains-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(\"---\", \"-\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked\")", 
@@ -724,7 +724,7 @@ groups() -> [
    end. 
 'fn-contains-38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'K-ContainsFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "contains()", 

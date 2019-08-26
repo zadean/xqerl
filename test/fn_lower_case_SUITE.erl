@@ -405,7 +405,7 @@ groups() -> [
    end. 
 'fn-lower-case-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-version"}. 
+   {skip,"unicode-version:7.0"}. 
 'fn-lower-case-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-to-codepoints(fn:lower-case(fn:codepoints-to-string(459)))", 

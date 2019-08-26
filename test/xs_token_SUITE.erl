@@ -72,7 +72,7 @@ groups() -> [
    end. 
 'cbcl-token-002b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-token-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:token(5)", 

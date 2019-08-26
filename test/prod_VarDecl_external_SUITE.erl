@@ -1353,7 +1353,7 @@ environment('CPPGlobals',__BaseDir) ->
    end. 
 'K2-ExternalVariablesWithout-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-ExternalVariablesWithout-18b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var external := 1; 1", 
@@ -2517,10 +2517,22 @@ declare function local:report() as element()+
    end. 
 'K2-ExternalVariablesWith-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}. 
+   {skip,"feature:typedData"}. 
 'K2-ExternalVariablesWith-22a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}. 
+   Qry = "declare variable $v as element(*, xs:untyped?)+ := <e/>; exists($v/*)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-22a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_false(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'K2-ExternalVariablesWith-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(elementName, xs:anyType?)+ := <elementName/>; 1", 

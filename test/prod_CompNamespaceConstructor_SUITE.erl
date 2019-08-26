@@ -994,10 +994,10 @@ environment('cnc-schema',__BaseDir) ->
    end. 
 'nscons-040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'nscons-041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'nscons-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -561,10 +561,10 @@ environment('orderdata2',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'orderBy29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'orderBy29a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'orderBy30'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
@@ -630,10 +630,10 @@ environment('orderdata2',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'orderBy52'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'orderBy52a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'orderBy53'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 

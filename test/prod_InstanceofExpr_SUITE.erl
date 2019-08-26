@@ -2358,31 +2358,31 @@ environment('union-List-defined-Types',__BaseDir) ->
    end. 
 'instanceof112'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof113'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof114'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof115'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof116'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof117'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof118'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof119'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof120'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof121'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2624,28 +2624,28 @@ environment('union-List-defined-Types',__BaseDir) ->
    end. 
 'instanceof135'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof136'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof137'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof138'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof139'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof140'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof141'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'instanceof142'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'K-SeqExprInstanceOf-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "1 instance of item()", 

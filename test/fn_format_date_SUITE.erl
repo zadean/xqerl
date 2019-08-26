@@ -2970,10 +2970,7 @@ groups() -> [
    end. 
 'format-date-en151'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language xib "}. 
-'format-date-en152'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "format-date($b, '[M01]', 'en', 'CB', ())", 
+   Qry = "format-date($b, '[MNn]', 'xib', (), ())", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -2988,14 +2985,14 @@ groups() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-date-en152.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-date-en151.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
+   case xqerl_test:assert(Res,"matches($result, \"en\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"matches($result, \"03\")") of 
+   case xqerl_test:assert(Res,"matches($result, \"March\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
@@ -3006,6 +3003,9 @@ groups() -> [
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'format-date-en152'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"calendar:CB"}. 
 'format-date-en153'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

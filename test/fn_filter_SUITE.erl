@@ -373,16 +373,16 @@ groups() -> [
    end. 
 'fn-filter-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:filter( (), function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) } )", 
@@ -515,7 +515,7 @@ groups() -> [
    end. 
 'fn-filter-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then 0 else fn:true()})", 
@@ -548,7 +548,7 @@ groups() -> [
    end. 
 'fn-filter-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()})", 
@@ -581,7 +581,7 @@ groups() -> [
    end. 
 'fn-filter-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-filter-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}.
+   {skip,"feature:staticTyping"}.

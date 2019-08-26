@@ -1372,7 +1372,7 @@ groups() -> [
    end. 
 'compare-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:compare(\"databases\", \"Database\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower\")", 
@@ -1405,10 +1405,10 @@ groups() -> [
    end. 
 'compare-034'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-035'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:compare(\"DATABASE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes\")", 
@@ -1426,7 +1426,7 @@ groups() -> [
    end. 
 'compare-037'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-038'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:compare(\"DATABÃSE\", \"DÃTABASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")", 
@@ -1444,13 +1444,13 @@ groups() -> [
    end. 
 'compare-039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical\") = 0", 
@@ -1468,7 +1468,7 @@ groups() -> [
    end. 
 'compare-043'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'compare-044'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:compare(\"database\", \"data base\", \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary\") = 0", 

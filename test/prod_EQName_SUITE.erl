@@ -418,7 +418,7 @@ environment('auction',__BaseDir) ->
    end. 
 'eqname-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'eqname-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(<?alpha?>, <?beta?>, <?gamma?>)/processing-instruction(Q{}alpha)", 
@@ -483,7 +483,7 @@ environment('auction',__BaseDir) ->
    end. 
 'eqname-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'eqname-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $Q{ urn:foo bar }x in 1 to 5 return $Q{urn:foo   bar}x + $Q{urn:foo bar}x", 
@@ -586,7 +586,7 @@ environment('auction',__BaseDir) ->
    end. 
 'eqname-029p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'eqname-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -830,7 +830,7 @@ environment('auction',__BaseDir) ->
    end. 
 'eqname-909p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'eqname-910'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "/Q{ http://www.w3.org/2000/xmlns/}AuctionWatchList", 

@@ -116,4 +116,4 @@ groups() -> [
    end. 
 'default-language-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"default-language fr-CA "}.
+   {skip,"default-language:fr-CA"}.

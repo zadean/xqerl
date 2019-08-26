@@ -1619,51 +1619,51 @@ environment('user-defined-types',__BaseDir) ->
 'modules-19'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-19b'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'modules-20'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-20b'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'modules-21'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'modules-22'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-23'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-24'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'modules-25'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-26'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-27'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'modules-28'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'modules-28a'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
@@ -1781,35 +1781,35 @@ environment('user-defined-types',__BaseDir) ->
 'errata6-001'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata6-002'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata6-003'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'errata6-004'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata6-005'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata6-006'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata6-007'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, spec:XQ10"}. 
 'errata8-001'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'errata8-001a'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
@@ -1838,7 +1838,7 @@ environment('user-defined-types',__BaseDir) ->
 'errata8-002'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'errata8-002a'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
@@ -2789,7 +2789,7 @@ environment('user-defined-types',__BaseDir) ->
 'cbcl-module-001'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'cbcl-module-002'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),

@@ -395,7 +395,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -415,7 +415,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -436,10 +436,10 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -468,13 +468,13 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -533,25 +533,25 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'FunctionCall-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -586,64 +586,64 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-025'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'FunctionCall-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-029'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-034'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-035'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-037'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-038'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-043'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-044'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30 XQ30"}. 
+   {skip,"spec:XP30 XQ30"}. 
 'FunctionCall-045'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -718,22 +718,22 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'FunctionCall-049'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-050'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-051'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-052'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-053'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'FunctionCall-054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'K-FunctionCallExpr-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "func-does-not-exist(1, 2, 3)", 
@@ -917,10 +917,10 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K-FunctionCallExpr-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-FunctionCallExpr-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-FunctionCallExpr-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "key('func', \"a value\")", 
@@ -938,7 +938,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K-FunctionCallExpr-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'K-FunctionCallExpr-15a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-number(3, \"0000\")", 
@@ -956,7 +956,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K-FunctionCallExpr-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'K-FunctionCallExpr-16a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "matches(format-time(current-time(), \"[H01]:[m01]\"), \"[0-2][0-9]:[0-5][0-9]\")", 
@@ -974,7 +974,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K-FunctionCallExpr-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'K-FunctionCallExpr-17a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "matches(format-time(current-time(), \"[H01]:[m01]\", (), (), ()), \"..:..\")", 
@@ -1129,7 +1129,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K-FunctionCallExpr-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-FunctionCallExpr-25a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "generate-id(<a/>) castable as xs:NCName", 
@@ -1270,10 +1270,10 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'K2-FunctionCallExpr-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K2-FunctionCallExpr-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K2-FunctionCallExpr-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "system-property(\"property\")", 
@@ -1763,13 +1763,13 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'function-call-reserved-function-names-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'function-call-reserved-function-names-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'function-call-reserved-function-names-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2058,13 +2058,13 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'function-call-reserved-function-names-034'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20"}. 
+   {skip,"spec:XP20"}. 
 'function-call-reserved-function-names-035'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'function-call-reserved-function-names-036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2126,7 +2126,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XQ30"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'function-call-reserved-function-names-040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2148,7 +2148,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'function-call-reserved-function-names-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2168,7 +2168,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-043'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XQ30"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'function-call-reserved-function-names-044'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2190,7 +2190,7 @@ environment('unionListDefined',__BaseDir) ->
    end. 
 'function-call-reserved-function-names-045'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'function-call-reserved-function-names-046'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

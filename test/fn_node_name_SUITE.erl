@@ -624,7 +624,7 @@ environment('works-mod',__BaseDir) ->
    end. 
 'K-NodeNameFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-NodeNameFunc-1a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "node-name()", 

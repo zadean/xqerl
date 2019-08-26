@@ -284,7 +284,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-lines-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-lines-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 
@@ -309,7 +309,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-lines-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-lines-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 
@@ -336,7 +336,7 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-lines-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-lines-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-lines( 

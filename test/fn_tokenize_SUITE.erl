@@ -902,7 +902,7 @@ abracadabra\", \"\\n\")",
    end. 
 'fn-tokenize-50'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-tokenize-51'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:tokenize(codepoints-to-string((97, 98, 99, 160, 100, 101, 102))))", 
@@ -935,7 +935,7 @@ abracadabra\", \"\\n\")",
    end. 
 'K-TokenizeFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'K-TokenizeFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "tokenize(\"input\", ())", 

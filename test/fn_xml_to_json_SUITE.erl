@@ -1041,13 +1041,13 @@ environment('xml-to-json-D',__BaseDir) ->
    end. 
 'xml-to-json-046'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'xml-to-json-047'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'xml-to-json-048'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'xml-to-json-049'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1067,7 +1067,7 @@ environment('xml-to-json-D',__BaseDir) ->
    end. 
 'xml-to-json-050'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'xml-to-json-051'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1258,7 +1258,7 @@ environment('xml-to-json-D',__BaseDir) ->
    end. 
 'xml-to-json-061'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'xml-to-json-062'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1432,10 +1432,10 @@ environment('xml-to-json-D',__BaseDir) ->
    end. 
 'xml-to-json-072'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'xml-to-json-073'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'xml-to-json-074'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(<fn:string escaped=\"true\">\\x22</fn:string>)", 

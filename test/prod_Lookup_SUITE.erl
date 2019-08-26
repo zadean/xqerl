@@ -534,7 +534,7 @@ environment('map',__BaseDir) ->
    end. 
 'Lookup-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'Lookup-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1007,7 +1007,7 @@ environment('map',__BaseDir) ->
    end. 
 'Lookup-120'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'Lookup-121'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

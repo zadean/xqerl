@@ -235,7 +235,7 @@ environment('primary',__BaseDir) ->
    end. 
 'collation-key-009u'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'collation-key-009l'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=lower\"
@@ -495,7 +495,7 @@ environment('primary',__BaseDir) ->
    end. 
 'collation-key-204'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'collation-key-205'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

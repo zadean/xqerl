@@ -619,16 +619,16 @@ environment('namespaces11',__BaseDir) ->
    end. 
 'fn-in-scope-prefixes-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-in-scope-prefixes-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-in-scope-prefixes-29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'fn-in-scope-prefixes-30'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K-InScopePrefixesFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes()", 

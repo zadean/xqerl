@@ -442,7 +442,7 @@ groups() -> [
    end. 
 'fn-for-each-pair-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-for-each-pair-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:for-each-pair( (), (), (fn:concat#2, fn:concat#2) )", 
@@ -932,7 +932,7 @@ groups() -> [
    end. 
 'fn-for-each-pair-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-for-each-pair-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:for-each-pair( \"a\", \"b\", (fn:concat#2, fn:concat#2) )", 

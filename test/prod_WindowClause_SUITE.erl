@@ -739,7 +739,7 @@ return
    end. 
 'WindowingUseCase07S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'WindowingUseCase08'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -864,7 +864,7 @@ return
    end. 
 'WindowingUseCase11S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'WindowingUseCase12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -921,7 +921,7 @@ return
    end. 
 'WindowingUseCase13S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'WindowingUseCase14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

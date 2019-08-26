@@ -109,85 +109,85 @@ environment('fsx_NS',__BaseDir) ->
 ].
 'statictyping-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'ST-WhereExpr001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'ST-WhereExpr002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'statictyping-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'ST-PITest-01'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'ST-PITest-02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}.
+   {skip,"feature:staticTyping"}.

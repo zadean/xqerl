@@ -173,7 +173,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-VersionProlog-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-VersionProlog-3-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" default; 1", 
@@ -191,7 +191,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'version_declaration-022-v1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'version_declaration-022-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery encoding \"utf-8\" version \"3.0\"; 1", 
@@ -209,7 +209,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'version_declaration-023-v1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-VersionProlog-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(:encoding \"UTF-8XX\":)xquery version \"1.0\" encoding \"UTF-8\"; 1 eq 1", 
@@ -334,7 +334,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'VersionDecl-v1-processor-and-v3-query'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'VersionDecl-v3-processor-and-v1-query'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"1.0\"; <bib/>", 
@@ -360,7 +360,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'version_declaration-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'version_declaration-010-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"999-UTF-8-*\"; \"ABC\"", 
@@ -378,7 +378,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-VersionProlog-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-VersionProlog-3-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"UTF-8 \"; 1", 
@@ -396,7 +396,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-VersionProlog-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-VersionProlog-4-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"ISO-8859-1|\"; 1", 
@@ -414,7 +414,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-VersionProlog-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-VersionProlog-2-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" ; 1 eq 1", 
@@ -447,7 +447,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'prolog-version-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-4-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\"; 1,2", 
@@ -480,7 +480,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'prolog-version-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-5-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\"; <bib/>", 
@@ -513,7 +513,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'prolog-version-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-6-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -560,7 +560,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'prolog-version-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-7-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -607,10 +607,10 @@ environment('bib2',__BaseDir) ->
    end. 
 'version_declaration-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'prolog-version-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-1-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"utf-8\"; 1,2", 
@@ -628,7 +628,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'prolog-version-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'prolog-version-3-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"US-ASCII\"; 1,2", 
@@ -646,7 +646,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-VersionProlog-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-VersionProlog-5-v3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

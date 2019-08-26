@@ -16728,7 +16728,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'CastAs673a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'CastAs673b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"ABC\" return $var cast as xs:QName", 
@@ -16746,7 +16746,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'CastAs674'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'CastAs674a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <e>xml:space</e> return $var cast as xs:QName", 
@@ -16772,7 +16772,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'CastAs675'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'CastAs675a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -17078,25 +17078,25 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'CastAsNamespaceSensitiveType-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastAsNamespaceSensitiveType-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'CastFOCA0001-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(99e100)", 
@@ -17175,7 +17175,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-3a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anyType*", 
@@ -17201,7 +17201,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anySimpleType", 
@@ -17219,7 +17219,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-5a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:untyped", 
@@ -17252,7 +17252,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-7a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anyType", 
@@ -17285,7 +17285,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-9a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "3 cast as xs:doesNotExist", 
@@ -17303,7 +17303,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-10a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as item()", 
@@ -17329,7 +17329,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-11a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as node()", 
@@ -17355,7 +17355,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-12a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as attribute()", 
@@ -17381,7 +17381,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K-SeqExprCast-13a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as empty-sequence()", 
@@ -18298,7 +18298,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-71a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-SeqExprCast-71b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"ncname\") cast as xs:QName?", 
@@ -23529,7 +23529,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K-SeqExprCast-422'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'K-SeqExprCast-422a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") cast as xs:QName", 
@@ -43129,7 +43129,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K2-SeqExprCast-231a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'K2-SeqExprCast-232'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"+INF\")", 
@@ -43147,7 +43147,7 @@ environment('NOTATION-type',__BaseDir) ->
    end. 
 'K2-SeqExprCast-232a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'K2-SeqExprCast-233'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"Inf\")", 

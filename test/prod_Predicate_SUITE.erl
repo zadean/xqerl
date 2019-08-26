@@ -909,10 +909,10 @@ environment('atomicns',__BaseDir) ->
    end. 
 'K-FilterExpr-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'K-FilterExpr-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'K-FilterExpr-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[0])", 

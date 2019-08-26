@@ -519,7 +519,7 @@ environment('partlist',__BaseDir) ->
    end. 
 'K-OrderExpr-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'K-OrderExpr-1a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "ordered{}", 
@@ -537,7 +537,7 @@ environment('partlist',__BaseDir) ->
    end. 
 'K-OrderExpr-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'K-OrderExpr-2a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "unordered{}", 

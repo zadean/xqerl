@@ -1264,7 +1264,7 @@ defg
    end. 
 'fn-matches-50'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.0 regex"}. 
+   {skip,"xsd-version:1.0"}. 
 'fn-matches-51'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"ab()cd()ef()gh\", \"^(ab)([()]*)(cd)([)(]*)ef\\4gh$\")", 
@@ -1987,7 +1987,7 @@ defg
    end. 
 'K2-MatchesFunc-16a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.0 regex"}. 
+   {skip,"xsd-version:1.0"}. 
 'K2-MatchesFunc-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "matches('aA', '(a)\\1', 'i')", 
@@ -2095,7 +2095,7 @@ defg
    end. 
 'cbcl-matches-006b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-matches-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('-abba-', '[-ab]+')", 
@@ -2611,7 +2611,7 @@ defg
    end. 
 'cbcl-matches-041b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-matches-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('a_:', '\\i+')", 
@@ -2704,7 +2704,7 @@ defg
    end. 
 'cbcl-matches-047b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'cbcl-matches-048'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x20;&#x9;&#xD;', '\\C+')", 

@@ -1330,7 +1330,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'vardeclerr'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'vardeclerr-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1367,7 +1367,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-1a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1433,7 +1433,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-2a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1455,7 +1455,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-3a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar", 
@@ -1473,7 +1473,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar", 
@@ -1491,7 +1491,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-5a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { $local:myVar, 1, local:myFunction() }; declare function local:myFunction() { local:myFunction2() }; $local:myVar", 
@@ -1509,7 +1509,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-6a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
@@ -1535,7 +1535,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-7a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
@@ -1566,7 +1566,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
@@ -1595,7 +1595,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K2-InternalVariablesWithout-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-InternalVariablesWithout-9a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunc(3); declare function local:myFunc($arg) { local:myFunc($local:myVar) }; $local:myVar", 
@@ -1925,7 +1925,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'vardeclwithtype-15a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'vardeclwithtype-15b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2165,7 +2165,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-6a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-6b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var2; declare variable $var2 := 2; true()", 
@@ -2213,7 +2213,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-9a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-9b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var2; declare variable $var2 := 2; $var1", 
@@ -2314,7 +2314,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-15a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-15b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var1; true()", 
@@ -2332,7 +2332,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-16a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2356,7 +2356,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-17a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { 1 }; true()", 
@@ -2374,7 +2374,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-18a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { $arg2 }; $var", 
@@ -2392,7 +2392,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-19a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var2 := local:func1(); declare variable $var := ($var2 treat as xs:integer) + 1; declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)", 
@@ -2410,7 +2410,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-InternalVariablesWith-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-InternalVariablesWith-20a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare variable $var2 := local:func2(); declare function local:func3() { $var2 }; boolean($var)", 

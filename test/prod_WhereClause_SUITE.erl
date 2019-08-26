@@ -538,7 +538,7 @@ environment('fsx',__BaseDir) ->
    end. 
 'WhereExpr020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'WhereExpr020a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where true() where false() return $file/FileName", 
@@ -557,7 +557,7 @@ environment('fsx',__BaseDir) ->
    end. 
 'WhereExpr021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'WhereExpr022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1145,7 +1145,7 @@ environment('fsx',__BaseDir) ->
    end. 
 'K2-WhereExpr-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-WhereExpr-1b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $a in 1 where true() where true() return $a", 

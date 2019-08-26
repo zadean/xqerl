@@ -9893,7 +9893,7 @@ string')",
    end. 
 'fn-function-lookup-711'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-function-lookup-712'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
@@ -9918,7 +9918,7 @@ string')",
    end. 
 'fn-function-lookup-713'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-function-lookup-714'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
@@ -10662,7 +10662,7 @@ string')",
    end. 
 'fn-function-lookup-760'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:fn-load-xquery-module"}. 
 'fn-function-lookup-761'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( 0 )", 
@@ -10695,7 +10695,7 @@ string')",
    end. 
 'fn-function-lookup-763'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:fn-load-xquery-module"}. 
 'fn-function-lookup-764'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)( \"\", map{} )", 
@@ -10728,7 +10728,7 @@ string')",
    end. 
 'fn-function-lookup-766a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-function-lookup-766b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )", 

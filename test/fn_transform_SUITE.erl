@@ -331,343 +331,343 @@ environment('multiple-result-docs',__BaseDir) ->
 ].
 'fn-transform-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-1a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-1b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-1c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-1d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-1e'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-3a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-13a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-27'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT30"}. 
+   {skip,"feature:fn-transform-XSLT30"}. 
 'fn-transform-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-30'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-31'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-34'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-36a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-39'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-40'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-41'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-43'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-44'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-45'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-46'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-47'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-48'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-50'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-51'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-52'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-53'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-54'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-55'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-56'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-57'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-58'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-60'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-61'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-62'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-63'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-64'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-65'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-66'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-67'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-68'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-69'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-70'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:schemaImport"}. 
 'fn-transform-71'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-72'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-73'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-74'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-75'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-76'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-77'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-78'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-79'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-80'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-81'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-82a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-82b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-82c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-82d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-82e'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-83'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-84'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-9a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-err-16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT, feature:fn-transform-XSLT30"}. 
 'fn-transform-err-17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-err-18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"fn-transform-XSLT"}. 
+   {skip,"feature:fn-transform-XSLT"}. 
 'fn-transform-901'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $result := fn:transform(map {\"stylesheet-location\" : $render, \"source-node\" : fn:doc($uri)})return $result(\"output\")", 

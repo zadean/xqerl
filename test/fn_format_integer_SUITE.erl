@@ -669,13 +669,13 @@ environment('empty',__BaseDir) ->
    end. 
 'format-integer-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language de "}. 
+   {skip,"language:de"}. 
 'format-integer-032-fr'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language fr "}. 
+   {skip,"language:fr"}. 
 'format-integer-032-it'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language it "}. 
+   {skip,"language:it"}. 
 'format-integer-033'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-integer(1, '1;o(-en)')", 
@@ -940,10 +940,10 @@ environment('empty',__BaseDir) ->
    end. 
 'format-integer-049'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"format-integer-sequence"}. 
+   {skip,"format-integer-sequence:Α"}. 
 'format-integer-050'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"format-integer-sequence"}. 
+   {skip,"format-integer-sequence:α"}. 
 'format-integer-051'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-integer(12345678901,'# 000')", 
@@ -961,7 +961,7 @@ environment('empty',__BaseDir) ->
    end. 
 'format-integer-052'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"format-integer-sequence"}. 
+   {skip,"format-integer-sequence:一"}. 
 'format-integer-053'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-integer(123,'#0')", 
@@ -1152,10 +1152,10 @@ environment('empty',__BaseDir) ->
    end. 
 'format-integer-065'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language de "}. 
+   {skip,"language:de"}. 
 'format-integer-066'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language it "}. 
+   {skip,"language:it"}. 
 'format-integer-067'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-integer(1234, 'Ww;o(')", 

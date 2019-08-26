@@ -702,13 +702,13 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, spec:XP31+"}. 
 'json-to-xml-017b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1078,16 +1078,16 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-037'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, spec:XP31+"}. 
 'json-to-xml-037b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-038'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport, spec:XP31+"}. 
 'json-to-xml-038b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1184,16 +1184,16 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-044'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-045'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-046'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-047'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-048'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"')", 
@@ -1701,10 +1701,10 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-error-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'json-to-xml-error-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-error-029'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1911,7 +1911,7 @@ environment('json-ns',__BaseDir) ->
    end. 
 'json-to-xml-error-042'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'json-to-xml-error-043'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   {skip,"feature:schemaImport"}.

@@ -287,7 +287,7 @@ environment('works-mod',__BaseDir) ->
    end. 
 'cbcl-doc-available-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'cbcl-doc-available-002a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( '%gg' )", 

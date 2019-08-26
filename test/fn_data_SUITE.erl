@@ -794,7 +794,7 @@ environment('complexData',__BaseDir) ->
    end. 
 'K-DataFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-DataFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "data(1, \"wrong param\")", 
@@ -937,16 +937,16 @@ environment('complexData',__BaseDir) ->
    end. 
 'K2-DataFunc-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"spec:XP30+"}. 
 'fn-datacomplextype-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'ST-Data001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:staticTyping, feature:schemaImport"}. 
 'fn-data-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'fn-data-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "data([])", 
@@ -1070,19 +1070,19 @@ environment('complexData',__BaseDir) ->
    end. 
 'cbcl-data-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'cbcl-data-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'cbcl-data-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'cbcl-data-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'cbcl-data-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport, feature:schemaValidation"}. 
 'cbcl-data-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaImport, feature:schemaValidation"}.

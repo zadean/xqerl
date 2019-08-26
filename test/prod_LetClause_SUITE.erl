@@ -907,7 +907,7 @@ environment('acme_corp',__BaseDir) ->
    end. 
 'LetExpr020a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'LetExpr021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $a := $b return ($a)", 

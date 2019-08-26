@@ -914,7 +914,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-declaration-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'function-declaration-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1155,7 +1155,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'K-FunctionProlog-12a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-FunctionProlog-12b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2962,7 +2962,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2984,7 +2984,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3006,7 +3006,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3028,7 +3028,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3050,7 +3050,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3072,7 +3072,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3094,7 +3094,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3116,7 +3116,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3138,7 +3138,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3160,7 +3160,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3182,7 +3182,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3204,7 +3204,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3226,7 +3226,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-025'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3248,7 +3248,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3270,7 +3270,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-029'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -3292,7 +3292,7 @@ environment('bib2',__BaseDir) ->
    end. 
 'function-decl-reserved-function-names-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'function-decl-reserved-function-names-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

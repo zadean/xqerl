@@ -70,7 +70,7 @@ environment('catalog',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'Catalog002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'Catalog003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 

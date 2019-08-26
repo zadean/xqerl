@@ -946,7 +946,7 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-local-name-77'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"feature:namespace-axis, spec:XP20+"}. 
 'fn-local-name-78'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "name((//processing-instruction())[1])", 

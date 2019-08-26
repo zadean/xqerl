@@ -829,7 +829,7 @@ groups() -> [
    end. 
 'numberformat15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:xpath-1.0-compatibility, spec:XP30+"}. 
 'numberformat16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###m')", 
@@ -1276,7 +1276,7 @@ groups() -> [
    end. 
 'numberformat38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:xpath-1.0-compatibility, spec:XP30+"}. 
 'numberformat39'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'###############################')", 
@@ -1333,10 +1333,10 @@ groups() -> [
    end. 
 'numberformat41'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:xpath-1.0-compatibility, spec:XP30+"}. 
 'numberformat42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"feature:xpath-1.0-compatibility, spec:XP30+"}. 
 'numberformat60a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E25,'#,######')", 
@@ -2668,10 +2668,10 @@ groups() -> [
    end. 
 'numberformat127'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XQ30"}. 
 'numberformat128'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XQ30 XP30"}. 
 'numberformat129'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

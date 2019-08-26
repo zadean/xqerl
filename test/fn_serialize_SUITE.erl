@@ -390,7 +390,7 @@ environment('atomic-xq',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'serialize-xml-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"spec:XP30+"}. 
 'serialize-xml-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
@@ -533,10 +533,10 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-035'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'serialize-xml-036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'serialize-xml-101'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 
@@ -787,10 +787,10 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-135'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'serialize-xml-136'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'serialize-xml-137'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

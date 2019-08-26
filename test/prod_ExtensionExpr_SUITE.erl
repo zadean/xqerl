@@ -608,7 +608,7 @@ environment('works-mod',__BaseDir) ->
    end. 
 'K-ExtensionExpression-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'K-ExtensionExpression-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(#name content #) {1}", 

@@ -1730,7 +1730,7 @@ groups() -> [
    end. 
 'cbcl-distinct-values-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'cbcl-distinct-values-002b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

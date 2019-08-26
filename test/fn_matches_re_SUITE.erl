@@ -2957,7 +2957,7 @@ groups() -> [
    end. 
 're00056'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.0 regex"}. 
+   {skip,"xsd-version:1.0"}. 
 're00056a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('', ',') satisfies matches($s, '^(?:[^a-d-b-c])$')) and (every $s in tokenize('a-b,c-c,ab,cc', ',') satisfies not(matches($s, '^(?:[^a-d-b-c])$')))", 
@@ -3412,7 +3412,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
    end. 
 're00086'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.0 regex"}. 
+   {skip,"xsd-version:1.0"}. 
 're00086a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize(',a-1x-7,c-4z-9,a-1z-8a-1z-9,a1z-9,a-1z8,a-1,z-9', ',') satisfies matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')))", 
@@ -3678,7 +3678,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
    end. 
 're00102a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.0 regex"}. 
+   {skip,"xsd-version:1.0"}. 
 're00103'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('\\|.-^?*+[]{}()*[[]{}}))
@@ -4065,7 +4065,7 @@ b;
    end. 
 're00127'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+"}. 
 're00127a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -4105,7 +4105,7 @@ b;
    end. 
 're00129'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+"}. 
 're00129a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "matches('a&#xD;&#xA;b', '^(?:a\\r\\nb)$'), matches('ab', '^(?:a\\r\\nb)$')", 
@@ -4123,7 +4123,7 @@ b;
    end. 
 're00130'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+"}. 
 're00130a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('&#xA;&#xD;a&#xA;&#xD;b', ',') satisfies (matches($s, '^(?:\\n\\ra\\n\\rb)$'))) and
@@ -6507,19 +6507,7 @@ c
    end. 
 're00288'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(every $s in tokenize(',󰀀󿿽,􀀀􏿽', ',') satisfies matches($s, '^(?:\\p{IsPrivateUse}+)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:\\p{IsPrivateUse}+)$')))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "re00288.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"unicode-version:3.1.1"}. 
 're00289'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('豈﫿,豈更車賈滑串句龜龜契金喇奈懶癩羅蘿螺裸邏樂洛烙珞落酪駱亂卵欄爛蘭鸞嵐濫藍襤拉臘蠟廊朗浪狼郎來冷勞擄櫓爐盧老蘆虜路露魯鷺碌祿綠菉錄鹿論壟弄籠聾牢磊賂雷壘屢樓淚漏累縷陋勒肋凜凌稜綾菱陵讀拏樂諾丹寧怒率異北磻便復不泌數索參塞省葉說殺辰沈拾若掠略亮兩凉梁糧良諒量勵呂女廬旅濾礪閭驪麗黎力曆歷轢年憐戀撚漣煉璉秊練聯輦蓮連鍊列劣咽烈裂說廉念捻殮簾獵令囹寧嶺怜玲瑩羚聆鈴零靈領例禮醴隸惡了僚寮尿料樂燎療蓼遼龍暈阮劉杻柳流溜琉留硫紐類六戮陸倫崙淪輪律慄栗率隆利吏履易李梨泥理痢罹裏裡里離匿溺吝燐璘藺隣鱗麟林淋臨立笠粒狀炙識什茶刺切度拓糖宅洞暴輻行降見廓兀嗀﨎﨏塚﨑晴﨓﨔凞猪益礼神祥福靖精羽﨟蘒﨡諸﨣﨤逸都﨧﨨﨩飯飼館鶴郞隷侮僧免勉勤卑喝嘆器塀墨層屮悔慨憎懲敏既暑梅海渚漢煮爫琢碑社祉祈祐祖祝禍禎穀突節練縉繁署者臭艹艹著褐視謁謹賓贈辶逸難響頻恵𤋮舘﩮﩯並况全侀充冀勇勺喝啕喙嗢塚墳奄奔婢嬨廒廙彩徭惘慎愈憎慠懲戴揄搜摒敖晴朗望杖歹殺流滛滋漢瀞煮瞧爵犯猪瑱甆画瘝瘟益盛直睊着磌窱節类絛練缾者荒華蝹襁覆視調諸請謁諾諭謹變贈輸遲醙鉶陼難靖韛響頋頻鬒龜𢡊𢡄𣏕㮝䀘䀹𥉉𥳐𧻓齃龎﫚﫛﫜﫝﫞﫟﫠﫡﫢﫣﫤﫥﫦﫧﫨﫩﫪﫫﫬﫭﫮﫯﫰﫱﫲﫳﫴﫵﫶﫷﫸﫹﫺﫻﫼﫽﫾﫿', ',') satisfies matches($s, '^(?:\\p{IsCJKCompatibilityIdeographs}+)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:\\p{IsCJKCompatibilityIdeographs}+)$')))", 
@@ -7737,19 +7725,7 @@ c
    end. 
 're00370'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(every $s in tokenize('􀀀', ',') satisfies matches($s, '^(?:\\p{IsPrivateUse}?)$')) and (every $s in tokenize('豈,', ',') satisfies not(matches($s, '^(?:\\p{IsPrivateUse}?)$')))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "re00370.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"unicode-version:3.1.1"}. 
 're00371'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('', ',') satisfies matches($s, '^(?:\\p{IsCJKCompatibilityIdeographs}?)$')) and (every $s in tokenize('ﬀ', ',') satisfies not(matches($s, '^(?:\\p{IsCJKCompatibilityIdeographs}?)$')))", 
@@ -9387,19 +9363,7 @@ c
    end. 
 're00480'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(every $s in tokenize('󿿽', ',') satisfies matches($s, '^(?:\\p{IsPrivateUse})$')) and (every $s in tokenize('󠁿', ',') satisfies not(matches($s, '^(?:\\p{IsPrivateUse})$')))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "re00480.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"unicode-version:3.1.1"}. 
 're00481'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('a, ', ',') satisfies matches($s, '^(?:.)$')) and (every $s in tokenize('aa,', ',') satisfies not(matches($s, '^(?:.)$')))", 
@@ -17003,7 +16967,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
    end. 
 're00984'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Issue #6 unicode catagory or 2 characters"}. 
+   {skip,"Issue #6 unicode catagory of 2 characters"}. 
 're00985'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('0,1,2,3,4,5,6,7,8,9,٠,١,٢,٣,٤,٥,٦,٧,٨,٩,۰,۱,۲,۳,۴,۵,۶,۷,۸,۹,०,१,२,३,४,५,६,७,८,९,০,১,২,৩,৪,৫,৬,৭,৮,৯,੦,੧,੨,੩,੪,੫,੬,੭,੮,੯,૦,૧,૨,૩,૪,૫,૬,૭,૮,૯,୦,୧,୨,୩,୪,୫,୬,୭,୮,୯,௧,௨,௩,௪,௫,௬,௭,௮,௯,౦,౧,౨,౩,౪,౫,౬,౭,౮,౯,೦,೧,೨,೩,೪,೫,೬,೭,೮,೯,൦,൧,൨,൩,൪,൫,൬,൭,൮,൯,๐,๑,๒,๓,๔,๕,๖,๗,๘,๙,໐,໑,໒,໓,໔,໕,໖,໗,໘,໙,༠,༡,༢,༣,༤,༥,༦,༧,༨,༩,၀,၁,၂,၃,၄,၅,၆,၇,၈,၉,០,១,២,៣,៤,៥,៦,៧,៨,៩,᠐,᠑,᠒,᠓,᠔,᠕,᠖,᠗,᠘,᠙,０,１,２,３,４,５,６,７,８,９', ',') satisfies matches($s, '^(?:[\\d])$')) and (every $s in tokenize('	,

@@ -452,7 +452,7 @@ environment('atomic',__BaseDir) ->
    end. 
 'xs-numeric-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'xs-numeric-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaValidation, feature:schemaImport"}.

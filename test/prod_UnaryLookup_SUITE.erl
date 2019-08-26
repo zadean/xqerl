@@ -383,7 +383,7 @@ groups() -> [
    end. 
 'UnaryLookup-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'UnaryLookup-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

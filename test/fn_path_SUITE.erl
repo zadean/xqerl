@@ -323,13 +323,13 @@ environment('pathdata',__BaseDir) ->
    end. 
 'path011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'path012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'path013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+ XQ30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'path014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

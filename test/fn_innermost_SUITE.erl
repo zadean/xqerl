@@ -266,7 +266,7 @@ environment('innermost',__BaseDir) ->
    end. 
 'fn-innermost-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-innermost-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
@@ -290,7 +290,7 @@ environment('innermost',__BaseDir) ->
    end. 
 'fn-innermost-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-innermost-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
@@ -394,22 +394,22 @@ environment('innermost',__BaseDir) ->
    end. 
 'fn-innermost-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'fn-innermost-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //processing-instruction() )", 

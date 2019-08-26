@@ -76,7 +76,7 @@ groups() -> [
    end. 
 'K-OptionDeclarationProlog-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K-OptionDeclarationProlog-1b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare option myopt \"option value\"; true()", 

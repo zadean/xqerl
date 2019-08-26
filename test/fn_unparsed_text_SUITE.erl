@@ -283,7 +283,7 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text( if (current-date() eq xs:date('1900-01-01'))
@@ -306,7 +306,7 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
@@ -331,7 +331,7 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-unparsed-text-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text( \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
@@ -1128,7 +1128,7 @@ environment('unparsed-text-with-base-uri-2',__BaseDir) ->
    end. 
 'fn-unparsed-text-054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"remote_http"}. 
+   {skip,"feature:remote_http"}. 
 'fn-unparsed-text-055'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

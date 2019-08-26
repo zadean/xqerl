@@ -176,7 +176,7 @@ environment('OneTopElement',__BaseDir) ->
    end. 
 'PathExpr-5p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'PathExpr-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[5</])", 
@@ -211,7 +211,7 @@ environment('OneTopElement',__BaseDir) ->
    end. 
 'PathExpr-7p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'PathExpr-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ < /b])", 
@@ -230,7 +230,7 @@ environment('OneTopElement',__BaseDir) ->
    end. 
 'PathExpr-8p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'PathExpr-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/<a div 3])", 
@@ -249,7 +249,7 @@ environment('OneTopElement',__BaseDir) ->
    end. 
 'PathExpr-9p'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'PathExpr-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[if (doclevel) then / else /*])", 

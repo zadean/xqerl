@@ -224,7 +224,7 @@ groups() -> [
    end. 
 'K2-Serialization-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K2-Serialization-7a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<a>{codepoints-to-string(1 to 31)}</a>", 
@@ -246,7 +246,7 @@ groups() -> [
    end. 
 'K2-Serialization-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K2-Serialization-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<a attr=\"{codepoints-to-string(1 to 31)}\"></a>", 
@@ -478,10 +478,10 @@ groups() -> [
    end. 
 'K2-Serialization-20'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K2-Serialization-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'K2-Serialization-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

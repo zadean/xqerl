@@ -968,7 +968,7 @@ environment('namespace-sensitive',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'Constr-cont-nsmode-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'Constr-cont-uripres-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1773,7 +1773,7 @@ environment('namespace-sensitive',__BaseDir) ->
    end. 
 'K2-DirectConElemContent-26'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XQ30"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'K2-DirectConElemContent-26a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<elem>content{}content</elem>", 
@@ -1926,13 +1926,25 @@ environment('namespace-sensitive',__BaseDir) ->
    end. 
 'K2-DirectConElemContent-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'K2-DirectConElemContent-35a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}. 
+   {skip,"feature:typedData"}. 
 'K2-DirectConElemContent-35b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}. 
+   Qry = "<e/> instance of element(*, xs:untyped)", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K2-DirectConElemContent-35b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'K2-DirectConElemContent-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; <e/> instance of element(*, xs:untyped)", 

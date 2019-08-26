@@ -220,7 +220,7 @@ environment('fsx',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'LocalNameFromQNameFunc015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20"}. 
+   {skip,"spec:XQ10 XP20"}. 
 'LocalNameFromQNameFunc015a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName((//Folder)[1])", 
@@ -278,7 +278,7 @@ environment('fsx',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'LocalNameFromQNameFunc021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'fn-local-name-from-qname-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}. 

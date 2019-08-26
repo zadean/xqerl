@@ -488,13 +488,13 @@ groups() -> [
    end. 
 'fn-normalize-unicode-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-version"}. 
+   {skip,"unicode-version:5.2"}. 
 'fn-normalize-unicode-11-6-0'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-version"}. 
+   {skip,"unicode-version:6.0"}. 
 'fn-normalize-unicode-11-6-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-version"}. 
+   {skip,"unicode-version:6.2"}. 
 'K-NormalizeUnicodeFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode()", 
@@ -700,7 +700,7 @@ groups() -> [
    end. 
 'cbcl-fn-normalize-unicode-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-normalization-form FULLY-NORMALIZED"}. 
+   {skip,"unicode-normalization-form:FULLY-NORMALIZED"}. 
 'cbcl-fn-normalize-unicode-001a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"blah\",\"FULLY-NORMALIZED\")", 
@@ -778,7 +778,7 @@ groups() -> [
    end. 
 'cbcl-fn-normalize-unicode-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"unicode-normalization-form FULLY-NORMALIZED"}. 
+   {skip,"unicode-normalization-form:FULLY-NORMALIZED"}. 
 'cbcl-fn-normalize-unicode-006a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(codepoints-to-string(2494),\"FULLY-NORMALIZED\")", 

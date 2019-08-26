@@ -678,7 +678,7 @@ environment('array-with-collation',__BaseDir) ->
    end. 
 'array-sort-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'array-sort-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

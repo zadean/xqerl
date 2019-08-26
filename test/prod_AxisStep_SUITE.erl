@@ -5879,10 +5879,10 @@ tour:main()
    end. 
 'Axes113'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'Axes114'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'Axes115'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "/*/attribute::namespace-node()", 
@@ -5909,7 +5909,7 @@ tour:main()
    end. 
 'Axes116'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+, feature:namespace-axis"}. 
 'Axes117'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "namespace {\"xsl\"}{\"http://www.w3.org/1999/XSL/Transform\"} / self::namespace-node()", 
@@ -5943,34 +5943,34 @@ tour:main()
    end. 
 'Axes118'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes119'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes120'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes121'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes122'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes123'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes124'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes125'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes126'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+, feature:namespace-axis"}. 
 'Axes127'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}. 
+   {skip,"spec:XQ10"}. 
 'axis-err-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement>Some content</anElement> return $var/20[child::text()]", 

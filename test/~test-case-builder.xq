@@ -12,6 +12,229 @@ declare variable $_:cn := ', &#10;';
 declare variable $_:dn := '. &#10;';
 declare variable $_:scn := '; &#10;';
 
+declare variable $_:supported := 
+  (: map of what is or is not supported :)
+  map{
+    'calendar' : map{
+      'CB' : true()
+    },
+    'default-language' : map{
+      'en' : true(),
+      'fr-CA' : false()      
+    },
+    'feature' : map{
+      'advanced-uca-fallback' : false(),
+      'arbitraryPrecisionDecimal' : true(),
+      'collection-stability' : true(),
+      'directory-as-collection-uri' : false(),
+      'fn-format-integer-CLDR' : true(),
+      'fn-load-xquery-module' : false(),
+      'fn-transform-XSLT' : false(),
+      'fn-transform-XSLT30' : false(),
+      'higherOrderFunctions' : true(),
+      'infoset-dtd' : true(),
+      'moduleImport' : true(),
+      'namespace-axis' : false(),
+      'non_empty_sequence_collection' : true(),
+      'non_unicode_codepoint_collation' : true(),
+      'olson-timezone' : false(),
+      'remote_http' : false(),
+      'schema-location-hint' : false(),
+      'schemaImport' : false(),
+      'schemaValidation' : false(),
+      'serialization' : true(),
+      'simple-uca-fallback' : true(),
+      'staticTyping' : false(),
+      'typedData' : false(),
+      'xpath-1.0-compatibility' : false()
+    },
+    'format-integer-sequence' : map{
+      '&#x391;' : false(),
+      '&#x3B1;' : false(),
+      '&#x661;' : true(),
+      '&#x2460;' : true(),
+      '&#x2474;' : true(),
+      '&#x2488;' : true(),
+      '&#x4E00;' : false(),
+      '&#xFBF4;' : false()
+    },
+    'language' : map{
+      'de' : false(),
+      'en' : true(),
+      'fr' : false(),
+      'it' : false(),
+      'xib' : false()      
+    },
+    'limits' : map{
+      'year_lt_0' : true()      
+    },
+    'spec' : map{
+      'XP20' : false(),
+      'XP20 XP30 XQ10 XQ30' : false(),
+      'XP20 XQ10' : false(),
+      'XP20 XQ10 XP30 XQ30' : false(),
+      'XP20+'       : false(),
+      'XP20+ XQ10+' : true(),
+      'XP30 XQ30'   : false(),
+      'XP30+'       : false(),
+      'XP30+ XQ10+' : true(),
+      'XP30+ XQ30+' : true(),
+      'XP31 XQ31'   : true(),
+      'XP31+'       : false(),
+      'XP31+ XQ31'  : true(),
+      'XP31+ XQ31+' : true(),
+      'XP31+ XQ31+ XT30+' : true(),
+      'XQ10'        : false(),
+      'XQ10 XP20' : false(),
+      'XQ10 XP20 XQ30 XP30' : false(),
+      'XQ10 XQ30' : false(),
+      'XQ10+' : true(),
+      'XQ10+ XP20+' : true(),
+      'XQ10+ XP30+' : true(),
+      'XQ30' : false(),
+      'XQ30 XP30' : false(),
+      'XQ30+' : true(),
+      'XQ30+ XP30+' : true(),
+      'XQ31' : true(),
+      'XQ31+' : true(),
+      'XQ31+ XP31+' : true()      
+    },
+    'unicode-normalization-form' : map{
+      'FULLY-NORMALIZED' : false(),
+      'NFD' : true(),
+      'NFKC' : true(),
+      'NFKD' : true()      
+    },
+    'unicode-version' : map{
+      '3.1.1' : false(),
+      '5.2' : false(),
+      '6.0' : false(),
+      '6.2' : false(),
+      '7.0' : false()
+    },
+    'xml-version' : map{
+      '1.0' : true(),
+      '1.0:4-' : false(),
+      '1.0:5+ 1.1' : true(),
+      '1.1' : false()      
+    },
+    'xsd-version' : map{
+      '1.0' : true(),
+      '1.1' : false()      
+    }
+  };
+
+declare function _:skip-test($deps, $testname) as xs:string?
+{
+  (
+    for $dep in $deps
+    let $type      := $dep/@type => string()
+      , $value     := $dep/@value => string()
+      , $satisfied := $dep/@satisfied => string() => _:bool()
+      , $supp      := 
+        if ($testname = ('fn-matches', 'fn-matches.re') and $type eq 'xsd-version' ) then
+          $_:supported($type)($value) => not()
+        else
+          $_:supported($type)($value)
+    where 
+      not($satisfied eq $supp)
+    return
+      $type || ':' || $value
+  ) => string-join(', ')
+};
+
+declare function _:bool($s)
+{
+  if ($s = ('', 'true')) then true() else false()
+};
+
+declare variable $_:SKIP_CATALOG := 
+  map{
+   'fn-static-base-uri' : 
+    map{
+      'fn-static-base-15' : 'static-base-uri environment'
+    },
+   'app-spec-examples' :
+    map{
+      'fo-test-fn-id-001' : 'schemaAware',
+      'fo-test-fn-id-002' : 'schemaAware',
+      'fo-test-fn-element-with-id-001' : 'schemaAware',
+      'fo-test-fn-element-with-id-002' : 'schemaAware',
+      'fo-test-fn-idref-001' : 'schemaAware',
+      'fo-test-fn-idref-002' : 'schemaAware'
+    },
+   'prod-OptionDecl.serialization' : 
+    map{
+      'Serialization-001' : 'output:doctype is none',
+      'Serialization-003' : 'output:parameter-document',
+      'Serialization-007' : 'output:parameter-document',
+      'Serialization-035' : 'output:parameter-document'
+    },
+   'prod-BaseURIDecl' :
+    map{
+      'K2-BaseURIProlog-5' : 'assumed *.xml base-uri'
+    },
+   'method-xml' :
+    map{
+      'K2-Serialization-35'  : 'us-ascii encoding',
+      'Serialization-xml-03' : 'output:parameter-document',
+      'Serialization-xml-04' : 'output:parameter-document'
+    },
+   'method-json' :
+    map{
+      'Serialization-json-34' : 'output:parameter-document',
+      'Serialization-json-35' : 'output:parameter-document',
+      'Serialization-json-36' : 'output:parameter-document',
+      'Serialization-json-37' : 'output:parameter-document',
+      'Serialization-json-38' : 'output:parameter-document',
+      'Serialization-json-39' : 'output:parameter-document',
+      'Serialization-json-53' : 'output:parameter-document',
+      'Serialization-json-54' : 'output:parameter-document',
+      'Serialization-json-55' : 'output:parameter-document'
+    },
+   'fn-serialize' :
+    map{
+      'serialize-json-114' : 'ISO-8859-1 encoding',
+      'serialize-html-001' : 'PR * html can be either case',
+      'serialize-html-002' : 'PR * html can be either case'
+    },
+   'app-Walmsley' :
+    map{
+      'd1e42362' : 'serialized response checked for map(*) type'
+    },
+   'fn-format-dateTime' :
+    map{
+      'format-dateTime-025b' : 'place parameter us',
+      'format-dateTime-025c' : 'place parameter / missing olson time flag',
+      'format-dateTime-025d' : 'place parameter us',
+      'format-dateTime-025e' : 'place parameter / missing olson time flag'
+    },
+   'fn-format-time' :
+    map{
+      'format-time-025b' : 'place parameter us',
+      'format-time-025c' : 'place parameter / missing olson time flag'
+    },
+   'fn-matches.re' :
+    map{
+      're00984' : 'Issue #6 unicode catagory of 2 characters'
+    },
+   'fn-matches' :
+    map{
+      'cbcl-matches-038' : 'Erlang quantifier overflow at 65536'
+    },
+   'app-UseCaseR31' :
+    map{
+      'UseCaseR31-030' : 'PR* missing environment'
+    }
+  };
+
+declare function _:skip-catalog($suite, $test)
+{
+  for $s in $_:SKIP_CATALOG($suite)
+  return
+  $s($test)
+};
+
 declare function _:join-nl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:n) };
 
@@ -305,7 +528,8 @@ declare function _:print-testcase($test-case, $suite) as xs:string
                $test-case/parent::*/*:dependency 
     , $env  := $test-case/*:environment/@ref/string()
     , $f    := function(){ _:print-testcase2($test-case, $name, $env, $suite) }
-    , $skip := _:skip-catalog($suite, $name)
+    , $skip1 := _:skip-catalog($suite, $name)
+    , $skip2 := _:skip-test($deps, $suite)
   return
   "'"||$name||"'(Config) ->"||$_:n||
   (
@@ -316,8 +540,11 @@ declare function _:print-testcase($test-case, $suite) as xs:string
   "   __BaseDir = ?config(base_dir, Config),"||$_:n||
   (
     (: skip catalog :)
-    if (not(empty($skip))) then
-    "   {skip,"""||$skip||"""}"
+    if (not(empty($skip1))) then
+    "   {skip,"""||$skip1||"""}"
+    
+    else if (not($skip2 eq '')) then
+    "   {skip,"""||$skip2||"""}"
     
     (: validation environments :)
     else if ($env = $inscope-schema-envs) then 
@@ -325,156 +552,6 @@ declare function _:print-testcase($test-case, $suite) as xs:string
     else if ($test-case/*:environment/*:schema) then 
     "   {skip,""Validation Environment""}"
     
-    (: serialization feature :)
-    (: else if (starts-with($test-case/../@name,"method-")) then 
-    "   {skip,""serialization feature""}"
-    else if ($test-case/../@name = "fn-serialize") then 
-    "   {skip,""serialization feature""}" :)
-
-    (: default-language :)
-    else if ($deps[@type = "default-language" and @value != "en"]) then 
-    "   {skip,""default-language "||$deps[@type = "default-language"]/@value||" ""}" 
-    
-    (: language :)
-    else if ($deps[@type = "language" and @value != "en"]) then 
-      "   {skip,""language "||$deps[@type = "language"]/@value||" ""}" 
-    
-    (: format-integer-sequence :)
-    else if ($deps[@type = "format-integer-sequence" and 
-                   @value = ("&#x4e00;","&#x03b1;","&#x0391;")]) then 
-      "   {skip,""format-integer-sequence""}" 
-
-    (: XSD 1.1 stuff, Regex uses 1.1, the rest does not :) 
-    else if ($deps[@type = "xsd-version" and @value = "1.1"] and 
-                   not($test-case/../@name = ("fn-matches", "fn-matches.re")) ) then
-      "   {skip,""XSD 1.1""}"
-    else if ($deps[@type = "xsd-version" and @value = "1.0"] and 
-                   ($test-case/../@name = ("fn-matches", "fn-matches.re")) ) then
-      "   {skip,""XSD 1.0 regex""}"
-
-    (: unicode FULLY-NORMALIZED :) 
-    else if ($deps[@type = "unicode-normalization-form" and @value = "FULLY-NORMALIZED"
-                   and not(exists(@satisfied)) ]) then
-      "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
-
-    (: older unicode versions :) 
-    else if ($deps[@type = "unicode-version" and 
-                   @value = ("5.2", "6.0", "6.2", "7.0")]) then
-      "   {skip,""unicode-version""}"
-
-    (: spec examples with dependencies :)
-    (: else if ($test-case/../@name = "app-spec-examples" and 
-                $test-case/@name = ('fo-test-fn-serialize-002','fo-test-fn-serialize-001')
-            ) then
-    "   {skip,""serialization feature""}" :)
-    else if ($test-case/../@name = "app-spec-examples" and 
-                $test-case/@name = ('fo-test-fn-id-001','fo-test-fn-id-002',
-                                    'fo-test-fn-element-with-id-001','fo-test-fn-element-with-id-002',
-                                    'fo-test-fn-idref-001','fo-test-fn-idref-002')
-            ) then
-    "   {skip,""schemaAware""}"
-
-    (: test case using environment instead of declare :)
-    else if ($test-case/../@name eq "fn-static-base-uri" and 
-                $test-case/@name eq 'fn-static-base-15'
-            ) then
-    "   {skip,""static-base-uri environment""}"
-
-    (: XML version :) 
-    else if ($deps[@type = "xml-version" and @value = "1.1"]) then
-      "   {skip,""XML version 1.1""}"
-    else if ($deps[@type = "xml-version" and @value = "1.0:4-"]) then
-      "   {skip,""XML version 1.0:4-""}"
-    
-    (: spec :)
-    else if (exists($deps[@type = "spec"])) then
-      (
-      let $d := $deps[@type = "spec"]
-      let $v := $d/@value
-      return
-      if ($v = ("XQ10",
-                "XQ10 XP20",
-                "XP10 XQ10",
-                "XP20 XP30 XQ10 XQ30",
-                "XQ10 XP20 XQ30 XP30",
-                "XP20 XQ10 XP30 XQ30",
-                "XQ10 XQ30",
-                "XQ30",
-                "XQ30 XP30",
-                "XP30 XQ30",
-                "XP20",
-                "XP20 XQ10",
-                "XP20+",
-                "XP30+")) then
-        "   {skip,"""||$v[1]||"""}"
-    
-      (: features :)
-      else if (exists($deps[@type = "feature"])) then 
-        let $d := $deps[@type = "feature"]
-        let $v := $d/@value
-        return
-        if ($v = ("remote_http",
-                  "advanced-uca-fallback",
-                  "staticTyping",
-                  "schemaValidation",
-                  "schemaImport",
-                  "schemaAware",
-                  "xpath-1.0-compatibility",
-                  (: "serialization", :)
-                  "namespace-axis",
-                  "directory-as-collection-uri",
-                  "typedData",
-                  "schema-location-hint",
-                  "olson-timezone")) then 
-          "   {skip,"""||$v[1]||"""}"
-        else 
-          let $s := $d/@satisfied
-          return
-          if ($s = "true" and 
-              $v = ("fn-load-xquery-module",
-                    "fn-transform-XSLT",
-                    "fn-transform-XSLT30")) then
-            "   {skip,"""||$v[1]||"""}"
-          else if ($s = "false" and 
-              $v = ("serialization")) then
-            "   {skip,"""||$v[1]||"""}"
-          else
-            $f()
-      else
-        $f()
-    )
-    (: features Duplicated due to if nesting :)
-    else if (exists($deps[@type = "feature"])) then 
-      let $d := $deps[@type = "feature"]
-      let $v := $d/@value
-      return
-      if ($v = ("remote_http",
-                "advanced-uca-fallback",
-                "staticTyping",
-                "schemaValidation",
-                "schemaImport",
-                "schemaAware",
-                "xpath-1.0-compatibility",
-                (: "serialization", :)
-                "namespace-axis",
-                "directory-as-collection-uri",
-                "typedData",
-                "schema-location-hint",
-                "olson-timezone")) then 
-        "   {skip,"""||$v[1]||"""}"
-      else 
-        let $s := $d/@satisfied
-        return
-        if ($s = "true" and 
-            $v = ("fn-load-xquery-module",
-                  "fn-transform-XSLT",
-                  "fn-transform-XSLT30")) then
-          "   {skip,"""||$v[1]||"""}"
-        else if ($s = "false" and 
-            $v = ("serialization")) then
-          "   {skip,"""||$v[1]||"""}"
-        else
-          $f()
     else
       $f()
   )
@@ -860,79 +937,6 @@ declare function _:uri-is-absolute($uri)
   if (fn:starts-with($uri, 'file://')) then true() else false()  
 };
 
-declare variable $_:SKIP_CATALOG := 
-  map{
-   'prod-OptionDecl.serialization' : 
-    map{
-      'Serialization-001' : 'output:doctype is none',
-      'Serialization-003' : 'output:parameter-document',
-      'Serialization-007' : 'output:parameter-document',
-      'Serialization-035' : 'output:parameter-document'
-    },
-   'prod-BaseURIDecl' :
-    map{
-      'K2-BaseURIProlog-5' : 'assumed *.xml base-uri'
-    },
-   'method-xml' :
-    map{
-      'K2-Serialization-35'  : 'us-ascii encoding',
-      'Serialization-xml-03' : 'output:parameter-document',
-      'Serialization-xml-04' : 'output:parameter-document'
-    },
-   'method-json' :
-    map{
-      'Serialization-json-34' : 'output:parameter-document',
-      'Serialization-json-35' : 'output:parameter-document',
-      'Serialization-json-36' : 'output:parameter-document',
-      'Serialization-json-37' : 'output:parameter-document',
-      'Serialization-json-38' : 'output:parameter-document',
-      'Serialization-json-39' : 'output:parameter-document',
-      'Serialization-json-53' : 'output:parameter-document',
-      'Serialization-json-54' : 'output:parameter-document',
-      'Serialization-json-55' : 'output:parameter-document'
-    },
-   'fn-serialize' :
-    map{
-      'serialize-json-114' : 'ISO-8859-1 encoding',
-      'serialize-html-001' : 'PR * html can be either case',
-      'serialize-html-002' : 'PR * html can be either case'
-    },
-   'app-Walmsley' :
-    map{
-      'd1e42362' : 'serialized response checked for map(*) type'
-    },
-   'fn-format-dateTime' :
-    map{
-      'format-dateTime-025b' : 'place parameter us',
-      'format-dateTime-025c' : 'place parameter / missing olson time flag',
-      'format-dateTime-025d' : 'place parameter us',
-      'format-dateTime-025e' : 'place parameter / missing olson time flag'
-    },
-   'fn-format-time' :
-    map{
-      'format-time-025b' : 'place parameter us',
-      'format-time-025c' : 'place parameter / missing olson time flag'
-    },
-   'fn-matches.re' :
-    map{
-      're00984' : 'Issue #6 unicode catagory of 2 characters'
-    },
-   'fn-matches' :
-    map{
-      'cbcl-matches-038' : 'Erlang quantifier overflow at 65536'
-    },
-   'app-UseCaseR31' :
-    map{
-      'UseCaseR31-030' : 'PR* missing environment'
-    }
-  };
-
-declare function _:skip-catalog($suite, $test)
-{
-  for $s in $_:SKIP_CATALOG($suite)
-  return
-  $s($test)
-};
 
 (: Erlang SUITE :)
 

@@ -1012,7 +1012,7 @@ groups() -> [
    end. 
 'K-ErrorFunc-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XP20 XQ30 XP30"}. 
+   {skip,"spec:XQ10 XP20 XQ30 XP30"}. 
 'K-ErrorFunc-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "error( () )", 

@@ -2425,7 +2425,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'FOTY0012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XPDY0002_01'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = ".", 
@@ -2698,7 +2698,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XP20 XQ30 XP30"}. 
 'XPTY0004_12a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:error( () )", 
@@ -3204,7 +3204,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XPTY0004_45'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'XPTY0004_46'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) + 1", 
@@ -3350,7 +3350,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQDY0027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQDY0041'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { '1BadName' } { 'content' } } </a>", 
@@ -3383,7 +3383,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQDY0061'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'XQDY0064'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { 'xml' } { 'content' } } </a>", 
@@ -3476,7 +3476,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQDY0084'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQDY0091'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<e xml:id=\" ab c d \"/>", 
@@ -3618,25 +3618,25 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0036_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0036_7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10, feature:schemaImport"}. 
 'XQST0038_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\";
@@ -4109,7 +4109,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'XQST0055'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit;
@@ -4143,10 +4143,10 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0058'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQST0059_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQST0059_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1", 
@@ -4170,7 +4170,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0059_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQST0059_4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\"; 1", 
@@ -4209,7 +4209,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0059_6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'XQST0060'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"\"; declare function foo() { 1 }; 1", 
@@ -4430,7 +4430,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0079'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'XQST0085'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<element xmlns:foo=\"http://www.w3.org/\"> <element xmlns:foo=\"\" /> </element>", 
@@ -4448,10 +4448,10 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0085b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'XQST0085c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'XQST0087'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '1.0' encoding '_utf'; 1+2", 
@@ -4535,7 +4535,7 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQST0093'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'XQST0093a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = " import module namespace foo=\"http://www.example.org/foo\"; $foo:variable2 ", 
@@ -4619,16 +4619,16 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'XQTY0030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'XQTY0086_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"spec:XQ10"}. 
 'XQTY0086_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"spec:XQ10"}. 
 'XQTY0086_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"spec:XQ10"}. 
 'XQST0125_1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -4669,4 +4669,4 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'typeswitch-in-xpath'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}.
+   {skip,"spec:XP20+"}.

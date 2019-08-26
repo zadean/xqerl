@@ -503,7 +503,7 @@ environment('union-List-defined-Types',__BaseDir) ->
    end. 
 'Add-UnionType-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'Add-UnionType-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   {skip,"feature:schemaImport"}.

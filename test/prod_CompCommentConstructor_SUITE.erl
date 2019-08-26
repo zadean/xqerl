@@ -485,7 +485,7 @@ environment('DupNode',__BaseDir) ->
    end. 
 'K2-ComputeConComment-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'K2-ComputeConComment-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "comment{}", 

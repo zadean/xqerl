@@ -178,7 +178,7 @@ groups() -> [
    end. 
 'Serialization-text-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'Serialization-text-7a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -202,7 +202,7 @@ groups() -> [
    end. 
 'Serialization-text-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XML version 1.1"}. 
+   {skip,"xml-version:1.1"}. 
 'Serialization-text-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -34,10 +34,10 @@ groups() -> [
 
 'xs-dateTimeStamp-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'xs-dateTimeStamp-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}. 
+   {skip,"xsd-version:1.1"}. 
 'xs-dateTimeStamp-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XSD 1.1"}.
+   {skip,"xsd-version:1.1"}.

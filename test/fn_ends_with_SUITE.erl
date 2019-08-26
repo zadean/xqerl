@@ -517,7 +517,7 @@ groups() -> [
    end. 
 'fn-ends-with-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-ends-with-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:ends-with(\"dâtabase\", \"adâtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")", 
@@ -535,7 +535,7 @@ groups() -> [
    end. 
 'fn-ends-with-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-ends-with-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:ends-with(\"database\", \"BASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")", 
@@ -658,7 +658,7 @@ groups() -> [
    end. 
 'fn-ends-with-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"advanced-uca-fallback"}. 
+   {skip,"feature:advanced-uca-fallback"}. 
 'fn-ends-with-33'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:ends-with(\"Chapter-100\", \"Chapter-10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")", 

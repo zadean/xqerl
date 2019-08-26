@@ -716,10 +716,34 @@ environment('empty',__BaseDir) ->
    end. 
 'parse-xml-fragment-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   Qry = "parse-xml-fragment(\"<a/>\")/..", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, []}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "parse-xml-fragment-022.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_empty(Res) of 
+      true -> {comment, "Empty"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'parse-xml-fragment-022-st'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}. 
+   {skip,"feature:staticTyping"}. 
 'parse-xml-fragment-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml-fragment(\"<a/>\") instance of document-node()", 

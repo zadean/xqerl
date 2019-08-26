@@ -4554,16 +4554,16 @@ environment('perverse',__BaseDir) ->
    end. 
 'K2-SeqDeepEqualFunc-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'K2-SeqDeepEqualFunc-37'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation"}. 
 'K2-SeqDeepEqualFunc-38'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'K2-SeqDeepEqualFunc-39'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'K2-SeqDeepEqualFunc-40'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -4583,10 +4583,10 @@ environment('perverse',__BaseDir) ->
    end. 
 'K2-SeqDeepEqualFunc-41'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'K2-SeqDeepEqualFunc-42'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaValidation"}. 
+   {skip,"feature:schemaValidation, feature:schemaImport"}. 
 'K2-SeqDeepEqualFunc-43'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0 to year-from-date(current-date()))!(10 idiv .), 11 to 22)", 

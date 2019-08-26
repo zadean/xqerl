@@ -224,7 +224,7 @@ environment('math',__BaseDir) ->
    end. 
 'fn-function-name-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:staticTyping"}. 
 'fn-function-name-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:function-name( if (current-date() eq xs:date('1900-01-01'))

@@ -1237,7 +1237,7 @@ environment('e-1',__BaseDir) ->
    end. 
 'K-RoundFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-RoundFunc-2a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "round(1, 2)", 

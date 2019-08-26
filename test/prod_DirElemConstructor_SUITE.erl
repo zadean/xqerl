@@ -272,7 +272,7 @@ groups() -> [
    end. 
 'Constr-elem-matchtag-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'Constr-elem-matchtag-2a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<foo:elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\"></bar:elem>", 
@@ -1176,7 +1176,7 @@ groups() -> [
    end. 
 'K2-DirectConElem-53'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-DirectConElem-53a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "namespace {\"p\"} {\"abc\"}", 

@@ -2085,28 +2085,28 @@ groups() -> [
    end. 
 'format-dateTime-019a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019e'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019f'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019g'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-019h'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"olson-timezone"}. 
+   {skip,"feature:olson-timezone"}. 
 'format-dateTime-025a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2285,10 +2285,7 @@ groups() -> [
    end. 
 'format-dateTime-en151'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"language xib "}. 
-'format-dateTime-en152'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "format-dateTime($b, '[M01]', 'en', 'CB', ())", 
+   Qry = "format-dateTime($b, '[MNn]', 'xib', (), ())", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -2303,14 +2300,14 @@ groups() -> [
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-dateTime-en152.xq"), Qry1),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-dateTime-en151.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
+   case xqerl_test:assert(Res,"matches($result, \"en\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert(Res,"matches($result, \"03\")") of 
+   case xqerl_test:assert(Res,"matches($result, \"March\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
    end   ]) of 
@@ -2321,6 +2318,9 @@ groups() -> [
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'format-dateTime-en152'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"calendar:CB"}. 
 'format-dateTime-inpt-er1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-dateTime('abc', '[bla]', 'en', (), ())", 

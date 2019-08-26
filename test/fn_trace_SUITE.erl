@@ -489,7 +489,7 @@ environment('works-mod',__BaseDir) ->
    end. 
 'K-TraceFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XP30 XQ10 XQ30"}. 
+   {skip,"spec:XP20 XP30 XQ10 XQ30"}. 
 'K-TraceFunc-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "trace(., \"message\", \"wrong parameter\")", 

@@ -557,44 +557,7 @@ environment('default-string-collection',__BaseDir) ->
    end. 
 'collection-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "collection() | collection(())", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "collection-004.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"count($result) = 2") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_type(Res,"document-node()*") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"count($result) = 4") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_type(Res,"document-node()*") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"feature:collection-stability"}. 
 'collection-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")", 
@@ -694,45 +657,7 @@ environment('default-string-collection',__BaseDir) ->
    end. 
 'collection-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
-         collection(\"collection1\")", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "collection-008.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
-   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"count($result) = 2") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_type(Res,"document-node()*") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"count($result) = 4") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_type(Res,"document-node()*") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end   ]) of 
-      true -> {comment, "any-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"feature:collection-stability"}. 
 'collection-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
@@ -768,7 +693,7 @@ environment('default-string-collection',__BaseDir) ->
    end. 
 'collection-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"directory-as-collection-uri"}. 
+   {skip,"feature:directory-as-collection-uri"}. 
 'collection-900'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"nonexistent\")", 

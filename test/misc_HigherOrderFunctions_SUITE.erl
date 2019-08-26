@@ -448,7 +448,7 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'hof-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:schemaImport"}. 
 'hof-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -980,7 +980,7 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'hof-039'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:typedData"}. 
 'hof-040'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1238,7 +1238,7 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'hof-053'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"higherOrderFunctions"}. 
+   {skip,"feature:typedData"}. 
 'hof-901'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

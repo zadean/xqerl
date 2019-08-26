@@ -929,10 +929,10 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'value-comparison-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'value-comparison-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'value-comparison-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "[3] eq 3", 
@@ -1051,10 +1051,10 @@ environment('user-defined-types',__BaseDir) ->
    {skip,"Validation Environment"}. 
 'value-comparison-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'value-comparison-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}. 
+   {skip,"feature:schemaImport"}. 
 'value-comp-eq-string-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" eq concat(\"a\", \"bc\")", 

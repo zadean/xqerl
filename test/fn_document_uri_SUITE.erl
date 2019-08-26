@@ -861,7 +861,7 @@ environment('works-mod-uri',__BaseDir) ->
    end. 
 'K-DocumentURIFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20 XQ10"}. 
+   {skip,"spec:XP20 XQ10"}. 
 'K-DocumentURIFunc-2a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "ends-with(document-uri(),\"works-mod.xml\")", 

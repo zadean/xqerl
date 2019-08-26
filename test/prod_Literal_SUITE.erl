@@ -1234,7 +1234,7 @@ line2") of
    end. 
 'Literals056a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals057'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&quot;\"", 
@@ -1252,7 +1252,7 @@ line2") of
    end. 
 'Literals057a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals058'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&apos;\"", 
@@ -1270,7 +1270,7 @@ line2") of
    end. 
 'Literals058a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals059'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&lt;\"", 
@@ -1288,7 +1288,7 @@ line2") of
    end. 
 'Literals059a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals060'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&gt;\"", 
@@ -1306,7 +1306,7 @@ line2") of
    end. 
 'Literals060a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals061'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&#8364;\"", 
@@ -1324,7 +1324,7 @@ line2") of
    end. 
 'Literals061a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'Literals062'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"\"\"\"", 
@@ -1912,7 +1912,7 @@ line2") of
    end. 
 'K-Literals-31a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'K-Literals-32'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#;\"", 
@@ -2155,7 +2155,7 @@ line2") of
    end. 
 'K-Literals-47a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP20+"}. 
+   {skip,"spec:XP20+"}. 
 'K-Literals-48'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "\"&#X4A;\"", 

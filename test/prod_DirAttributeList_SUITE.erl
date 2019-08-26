@@ -975,7 +975,7 @@ groups() -> [
    end. 
 'Constr-attr-enclexpr-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10 XQ30"}. 
 'Constr-attr-enclexpr-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<elem attr=\"z{}z\"/>", 
@@ -1166,7 +1166,7 @@ groups() -> [
    end. 
 'K2-DirectConElemAttr-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-DirectConElemAttr-4a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<ncname></ncname (:a misplaced comment:)>", 
@@ -1207,7 +1207,7 @@ groups() -> [
    end. 
 'K2-DirectConElemAttr-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-DirectConElemAttr-6a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<ncname></ncnameNOTBALANCED>", 

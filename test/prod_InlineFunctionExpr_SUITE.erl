@@ -186,7 +186,7 @@ groups() -> [
    end. 
 'inline-fn-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30 XQ30"}. 
+   {skip,"spec:XP30 XQ30"}. 
 'inline-fn-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $void := function(){} return $void()", 
@@ -380,7 +380,7 @@ groups() -> [
    end. 
 'inline-fn-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}. 
+   {skip,"spec:XP30+"}. 
 'inline-fn-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

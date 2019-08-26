@@ -1120,7 +1120,7 @@ environment('acme_corp',__BaseDir) ->
    end. 
 'K2-DefaultNamespaceProlog-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10+"}. 
+   {skip,"spec:XQ10"}. 
 'K2-DefaultNamespaceProlog-12a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns=\"http://www.w3.org/2001/XMLSchema\"> {1 cast as byte} <b xmlns=\"http://www.w3.org/1999/XSL/Transform\"> {count(1), 2 cast as byte} </b> {2 cast as byte} </a>", 
