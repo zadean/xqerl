@@ -377,8 +377,7 @@
       <description> Use an empty use as base-uri. Since the implementation may fail with determining the base-uri, XPST0001 is allowed. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="O'Neil Delpratt" on="2011-09-08" change="argument for ends-with changed from / to prod/BaseURIDecl.xml"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="use contains BaseUri instead of prod/BaseURIDecl.xml"/>
-      <test>declare base-uri ""; contains(fn:static-base-uri(), "BaseURI")</test>
+      <test>declare base-uri ""; ends-with(fn:static-base-uri(), "prod/BaseURIDecl.xml")</test>
       <result>
          <any-of>
             <assert-true/>

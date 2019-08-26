@@ -1343,7 +1343,6 @@
     <test-case name="serialize-html-001" covers="fn-serialize">
         <description>serialize test - html method</description>
         <created by="Michael Kay, Saxonica" on="2018-04-16"/>
-        <modified by="Zachary Dean" on="2019-03-11" change="DOCTYPE can be any case, meta must exist"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             let $doc := <html><head/><body><p>Hello World!</p></body></html>
@@ -1354,17 +1353,16 @@
             return serialize($doc, $params)
         ]]></test>
         <result>
-            <any-of>
+            <all-of>
                 <assert>matches($result,'DOCTYPE HTML')</assert>
-                <assert>matches($result,'DOCTYPE html')</assert>
-            </any-of>
+                <assert>matches($result,'&lt;meta http-equiv')</assert>
+            </all-of>
         </result>
     </test-case>
     
     <test-case name="serialize-html-002" covers="fn-serialize">
         <description>serialize test - html method - html-version as xs:integer</description>
         <created by="Michael Kay, Saxonica" on="2018-05-14"/>
-        <modified by="Zachary Dean" on="2019-03-11" change="DOCTYPE can be any case, meta must exist"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             let $doc := <html><head/><body><p>Hello World!</p></body></html>
@@ -1375,10 +1373,10 @@
             return serialize($doc, $params)
         ]]></test>
         <result>
-            <any-of>
+            <all-of>
                 <assert>matches($result,'DOCTYPE HTML')</assert>
-                <assert>matches($result,'DOCTYPE html')</assert>
-            </any-of>
+                <assert>matches($result,'&lt;meta http-equiv')</assert>
+            </all-of>
         </result>
     </test-case>
     
@@ -1758,16 +1756,11 @@
     <test-case name="serialize-json-114" covers="fn-serialize json-output">
         <description>Non-BMP string</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
-        <modified by="Zachary Dean" on="2019-03-11" change="Add error for encodiing"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r := serialize('&#x1D11E;', map{'method':'json', 'encoding':'ISO-8859-1'}) return
             translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
         <result>
-          <any-of>
             <assert-string-value>"\uD834\uDD1E"</assert-string-value>
-            <!-- unsupported encoding -->
-            <error code="SESU0007"/>            
-          </any-of>
         </result>
     </test-case>
 

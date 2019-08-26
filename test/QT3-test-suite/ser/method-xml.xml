@@ -8,9 +8,7 @@
       <description> A standalone attribute node cannot be serialized. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        attribute name {<anElement/>}]]></test>
+      <test><![CDATA[attribute name {<anElement/>}]]></test>
       <result>
          <assert-serialization-error code="SENR0001"/>
       </result>
@@ -20,9 +18,7 @@
       <description> An attribute node appearing after an element cannot be serialized. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <e/>, attribute name {<anElement/>}]]></test>
+      <test><![CDATA[<e/>, attribute name {<anElement/>}]]></test>
       <result>
          <assert-serialization-error code="SENR0001"/>
       </result>
@@ -32,9 +28,7 @@
       <description> An attribute node appearing before an element cannot be serialized. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        attribute name {<anElement/>}, <e/>]]></test>
+      <test><![CDATA[attribute name {<anElement/>}, <e/>]]></test>
       <result>
          <assert-serialization-error code="SENR0001"/>
       </result>
@@ -44,9 +38,7 @@
       <description> An attribute node appearing between two element nodes cannot be serialized. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <e/>, attribute name {<anElement/>}, <e/>]]></test>
+      <test><![CDATA[<e/>, attribute name {<anElement/>}, <e/>]]></test>
       <result>
          <assert-serialization-error code="SENR0001"/>
       </result>
@@ -57,9 +49,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a>&#xD;&#x85;&#x2028;</a>]]></test>
+      <test><![CDATA[<a>&#xD;&#x85;&#x2028;</a>]]></test>
       <result>
          <any-of>
            <serialization-matches flags="i"><![CDATA[&#xD;&#x85;&#x2028;]]></serialization-matches>
@@ -73,9 +63,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a attr="&#xD;&#xA;&#x9;&#x85;&#x2028;"/>]]></test>
+      <test><![CDATA[<a attr="&#xD;&#xA;&#x9;&#x85;&#x2028;"/>]]></test>
       <result>
          <any-of>
            <serialization-matches flags="i"><![CDATA[&#xD;&#xA;&#x9;&#x85;&#x2028;]]></serialization-matches>
@@ -90,9 +78,7 @@
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.1"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a>{codepoints-to-string(1 to 31)}</a>]]></test>
+      <test><![CDATA[<a>{codepoints-to-string(1 to 31)}</a>]]></test>
       <result>
          <any-of>
             <serialization-matches flags="i"><![CDATA[&#x1;&#x2;&#x3;&#x4;&#x5;&#x6;&#x7;&#x8;\t\n&#xB;&#xC;&#xD;&#xE;&#xF;&#x10;&#x11;&#x12;&#x13;&#x14;&#x15;&#x16;&#x17;&#x18;&#x19;&#x1A;&#x1B;&#x1C;&#x1D;&#x1E;&#x1F;]]></serialization-matches>
@@ -107,9 +93,7 @@
       <modified by="Michael Kay" on="2012-05-23" change="separate out XML 1.0 version of test"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.0"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a>{codepoints-to-string(1 to 31)}</a>]]></test>
+      <test><![CDATA[<a>{codepoints-to-string(1 to 31)}</a>]]></test>
       <result>
          <any-of>
             <error code="FOCH0001"/>
@@ -123,9 +107,7 @@
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.1"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a attr="{codepoints-to-string(1 to 31)}"></a>]]></test>
+      <test><![CDATA[<a attr="{codepoints-to-string(1 to 31)}"></a>]]></test>
       <result>
          <any-of>
             <serialization-matches flags="i"><![CDATA[&#x1;&#x2;&#x3;&#x4;&#x5;&#x6;&#x7;&#x8;&#x9;&#xA;&#xB;&#xC;&#xD;&#xE;&#xF;&#x10;&#x11;&#x12;&#x13;&#x14;&#x15;&#x16;&#x17;&#x18;&#x19;&#x1A;&#x1B;&#x1C;&#x1D;&#x1E;&#x1F;]]></serialization-matches>
@@ -140,9 +122,7 @@
       <modified by="Michael Kay" on="2012-05-23" change="separate out XML 1.0 version of test"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.0"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a attr="{codepoints-to-string(1 to 31)}"></a>]]></test>
+      <test><![CDATA[<a attr="{codepoints-to-string(1 to 31)}"></a>]]></test>
       <result>
          <error code="FOCH0001"/>
       </result>
@@ -153,9 +133,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a attr="{codepoints-to-string(127 to 159)}"/>]]></test>
+      <test><![CDATA[<a attr="{codepoints-to-string(127 to 159)}"/>]]></test>
       <result>
          <any-of>
            <serialization-matches flags="i"><![CDATA[&#x7f;&#x80;&#x81;&#x82;&#x83;&#x84;&#x85;&#x86;&#x87;&#x88;&#x89;&#x8a;&#x8b;&#x8c;&#x8d;&#x8e;&#x8f;&#x90;&#x91;&#x92;&#x93;&#x94;&#x95;&#x96;&#x97;&#x98;&#x99;&#x9a;&#x9b;&#x9c;&#x9d;&#x9e;&#x9f;]]></serialization-matches>         
@@ -169,9 +147,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        <a>{codepoints-to-string(127 to 159)}</a>]]></test>
+      <test><![CDATA[<a>{codepoints-to-string(127 to 159)}</a>]]></test>
       <result>
          <any-of>
            <serialization-matches flags="i"><![CDATA[&#x7f;&#x80;&#x81;&#x82;&#x83;&#x84;&#x85;&#x86;&#x87;&#x88;&#x89;&#x8a;&#x8b;&#x8c;&#x8d;&#x8e;&#x8f;&#x90;&#x91;&#x92;&#x93;&#x94;&#x95;&#x96;&#x97;&#x98;&#x99;&#x9a;&#x9b;&#x9c;&#x9d;&#x9e;&#x9f;]]></serialization-matches>         
@@ -187,9 +163,7 @@
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
       <modified by="Michael Kay" on="2013-01-11" change="allow \r\n in serialized result - see bug 20647"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option output:method "xml";
-        "a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
+      <test><![CDATA["a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
       <result>
          <all-of>
             <any-of>
@@ -359,7 +333,6 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:omit-xml-declaration "no";
         declare option output:standalone "yes";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
@@ -379,7 +352,6 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:omit-xml-declaration "no";
         declare option output:standalone "no";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
@@ -396,7 +368,6 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:omit-xml-declaration "no";
         declare option output:standalone "omit";
         <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
       ]]></test>
@@ -626,10 +597,7 @@
         <chapter><para><b>bold&#xa0;as brass</b></para></chapter>
       ]]></test>
       <result>
-        <any-of>
-          <assert-serialization-error code="SESU0007"/> <!-- us-ascii unknown -->
-          <serialization-matches><![CDATA[<!\[CDATA\[bold\]\]>&#(xa0|xA0|160);<!\[CDATA\[as brass\]\]>]]></serialization-matches>
-        </any-of>
+           <serialization-matches><![CDATA[<!\[CDATA\[bold\]\]>&#(xa0|xA0|160);<!\[CDATA\[as brass\]\]>]]></serialization-matches>
       </result>
    </test-case>
 
@@ -713,7 +681,6 @@
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         declare option output:method "xml";
-        declare option output:omit-xml-declaration "no";
         declare option output:item-separator "|";
         [1, 2, 3, 4, 5]
       ]]></test>
@@ -752,10 +719,7 @@
 
       ]]></test>
     <result>
-      <any-of>
-        <serialization-matches><![CDATA[<out att=['"]AAABBBCCC['"]>XAAABBBCCCX</out>]]></serialization-matches>
-        <error code="XQST0119"/>
-      </any-of>
+      <serialization-matches><![CDATA[<out att=['"]AAABBBCCC['"]>XAAABBBCCCX</out>]]></serialization-matches>
     </result>
   </test-case>
   
@@ -775,10 +739,7 @@
 
       ]]></test>
     <result>
-      <any-of>
-        <serialization-matches><![CDATA[^<out><in><!\[CDATA\[XXX\]\]></in></out>$]]></serialization-matches>
-        <error code="XQST0119"/>
-      </any-of>
+      <serialization-matches><![CDATA[^<out><in><!\[CDATA\[XXX\]\]></in></out>$]]></serialization-matches>
     </result>
   </test-case>
 

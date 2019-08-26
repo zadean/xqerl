@@ -360,6 +360,30 @@ bottles]``
       </result>
    </test-case>
    
+   <test-case name="string-constructor-027">
+      <description>Confusing enclosed expression in element constructor</description>
+      <created by="Michael Kay" on="2019-05-01"/>
+      <test><![CDATA[<a>Today is `{xs:date('2012-05-05')}`</a>]]></test>
+      <result>
+           <assert-eq>"Today is `2012-05-05`"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-028">
+      <description>Nested string constructors within nested element constructors</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>`{``[There were `{<b>{``[at least `{$n}`]``}</b>}` green bottles]``}`</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq>"`There were at least 10 green bottles`"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
    
    
    

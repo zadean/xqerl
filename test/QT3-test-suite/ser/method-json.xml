@@ -564,10 +564,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>\["AAABBBCCC","XAAABBBCCCX"\]</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>\["AAABBBCCC","XAAABBBCCCX"\]</serialization-matches>
       </result>
    </test-case>
      
@@ -587,10 +584,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>"\|suc&#807;on\|"</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>"\|suc&#807;on\|"</serialization-matches>
       </result>
    </test-case>
    
@@ -607,10 +601,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>\{"\|"\|":"""\}</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>\{"\|"\|":"""\}</serialization-matches>
       </result>
    </test-case>   
         
@@ -627,10 +618,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>\{"k":1,"k":1\}</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>\{"k":1,"k":1\}</serialization-matches>
       </result>
    </test-case>
    
@@ -647,10 +635,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>"AAABBBCCC"</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>"AAABBBCCC"</serialization-matches>
       </result>
    </test-case>
    
@@ -667,10 +652,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>\[123,"one23","---oneone"\]</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>\[123,"one23","---oneone"\]</serialization-matches>
       </result>
    </test-case> 
    
@@ -912,10 +894,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches><![CDATA["hi"]]></serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches><![CDATA["hi"]]></serialization-matches>
       </result>   
    </test-case>    
    
@@ -932,10 +911,7 @@
 
       ]]></test>
       <result>
-        <any-of>
-          <serialization-matches>\{"one":1,"one":1\}</serialization-matches>
-          <error code="XQST0119" /> <!-- parameter document -->
-        </any-of>
+        <serialization-matches>\{"one":1,"one":1\}</serialization-matches>
       </result>
    </test-case>
    
@@ -956,7 +932,6 @@
                <serialization-matches>\["&amp;#13;","\\r"\]</serialization-matches>
               <serialization-matches>\["&amp;#xD;","\\r"\]</serialization-matches>
               <serialization-matches>\["&amp;#xd;","\\r"\]</serialization-matches>
-            <error code="XQST0119" /> <!-- parameter document -->
           </any-of>
       </result>
    </test-case>

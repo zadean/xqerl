@@ -78,15 +78,14 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[1]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>document-node(element(Q{http://www.w3.org/2005/xpath-functions}array))</assert-type>
+                <assert-type>document-node(element(j:array))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}number,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:number,xs:untyped)</assert>
                 <assert>xs:double($result/*[1]) eq 1</assert>
                 <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><number>1</number></array>]]></assert-xml>
             </all-of>
@@ -99,7 +98,6 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[&#34;a&#34;]')</test>
       <result>
@@ -107,7 +105,7 @@
                 <assert-count>1</assert-count>
                 <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}string,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:string,xs:untyped)</assert>
                 <assert>xs:string($result/*/*[1]) eq "a"</assert>
                 <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><string>a</string></array>]]></assert-xml>
             </all-of>
@@ -120,7 +118,6 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[true]')</test>
       <result>
@@ -128,7 +125,7 @@
                 <assert-count>1</assert-count>
                 <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq true()</assert>
                 <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><boolean>true</boolean></array>]]></assert-xml>
             </all-of>
@@ -141,7 +138,6 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[false]')</test>
       <result>
@@ -149,7 +145,7 @@
                 <assert-count>1</assert-count>
                 <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq false()</assert>
                 <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><boolean>false</boolean></array>]]></assert-xml>
             </all-of>
@@ -162,7 +158,6 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[null]')</test>
       <result>
@@ -170,7 +165,7 @@
                 <assert-count>1</assert-count>
                 <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}null,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:null,xs:untyped)</assert>
                 <assert>empty($result/*[1]/*[1]/(*|text()))</assert>
                 <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><null/></array>]]></assert-xml>
             </all-of>
@@ -183,16 +178,15 @@
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
+                <assert-type>document-node(element(j:map))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}string[@key='title']</assert>
-                <assert>$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}map[@key='GlossDiv']</assert>
+                <assert>$result/j:map/j:map[@key='glossary']/j:string[@key='title']</assert>
+                <assert>$result/j:map/j:map[@key='glossary']/j:map[@key='GlossDiv']</assert>
             </all-of>
       </result>
    </test-case>
@@ -201,13 +195,12 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))</test>
       <result>
             <all-of>
-                <assert>$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}string[@key='header'][.='SVG Viewer']</assert>
-                <assert>$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}array[@key='items']/Q{http://www.w3.org/2005/xpath-functions}map[not(@*)]/Q{http://www.w3.org/2005/xpath-functions}string[@key='id'][.='Open']</assert>
+                <assert>$result/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']</assert>
+                <assert>$result/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']</assert>
             </all-of>
       </result>
    </test-case>
@@ -230,9 +223,8 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
-      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string</test>
+      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string</test>
       <result>
             <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions" key="key">Data with " within it</string>]]></assert-xml>
       </result>
@@ -247,14 +239,13 @@
       <modified by="Debbie Lockett" on="2015-08-07" change="Change expected result, quotes not escaped, see bug #28995"/>
       <modified by="Michael Kay" on="2016-09-29" change="Change expected result, existing escapes are retained, see bug #29872"/>
       <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-files"/>
       <test>
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
       </test>
       <result>
          <all-of>
-            <assert-type>element(Q{http://www.w3.org/2005/xpath-functions}string)</assert-type>
+            <assert-type>element(j:string)</assert-type>
             <assert>$result/self::*:string eq 'Data with " within it'</assert>
             <assert>$result/self::*:string/@key eq 'key'</assert>
             <assert>namespace-uri($result/self::*:string) eq 'http://www.w3.org/2005/xpath-functions'</assert>
@@ -268,14 +259,13 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="Add qualified name in assertions"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>element(Q{http://www.w3.org/2005/xpath-functions}string)</assert-type>
+                <assert-type>element(j:string)</assert-type>
                 <assert-xml><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions">Data with " within it</string>]]></assert-xml>
             </all-of>
       </result>
@@ -292,7 +282,7 @@
       </test>
       <result>
          <all-of>
-                <assert-type>element(Q{http://www.w3.org/2005/xpath-functions}string)</assert-type>
+                <assert-type>element(j:string)</assert-type>
                 <assert-xml><![CDATA[<string
                  xmlns="http://www.w3.org/2005/xpath-functions" key="Key &#34; with quote">Data with " within it</string>]]></assert-xml>
             </all-of>

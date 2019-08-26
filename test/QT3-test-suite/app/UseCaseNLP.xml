@@ -3,8 +3,7 @@
    <description>Tests for Natural Language Processing</description>
    
    <environment name="speech-representation.json">
-      <static-base-uri uri="http://www.w3.org/qt3/app/UseCaseNLP/"/>
-      <resource file="UseCaseNLP/speech-representation.json" media-type="application/json" uri="http://www.w3.org/qt3/app/UseCaseNLP/speech-representation.json">
+      <resource file="UseCaseNLP/speech-representation.json" media-type="application/json" uri="speech-representation.json">
          <created by="Carla Spruit" on="2014-12-30"/>
       </resource> 
    </environment>

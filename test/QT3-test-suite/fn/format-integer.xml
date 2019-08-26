@@ -260,11 +260,10 @@
         <description>format-integer - picture with different separators, which are irregular</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
         <modified by="Michael Kay" on="2016-03-22" change="See bug 29488. Grouping separator must be preceded by digit."/>
-        <modified by="Zachary Dean" on="2019-03-11" change="Result should have leading parenthesis"/>
         <environment ref="empty"/>
         <test>format-integer(602347826, '#(000)000-000')</test>
         <result>
-            <assert-eq>'(602)347-826'</assert-eq>
+            <assert-eq>'602)347-826'</assert-eq>
         </result>    
      </test-case>
      <test-case name="format-integer-031">

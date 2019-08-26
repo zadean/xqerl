@@ -853,6 +853,19 @@
          </any-of>
       </result>
    </test-case>
+   <test-case name="UCA-params-034">
+      <description>Collation key with numeric=yes</description>
+      <created by="Michael Kay" on="2019-04-09"/>
+      <environment ref="UCA-collation.en"/>
+      <test>collation-key('CHAP1', concat($collation,'strength=secondary;numeric=yes;fallback=no')) =
+         collation-key('chap1', concat($collation,'strength=secondary;numeric=yes;fallback=no'))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOCH0002"/>
+         </any-of>
+      </result>
+   </test-case>
    
    <test-case name="UCA-maxVariable-001">
       <description>maxVariable = space</description>

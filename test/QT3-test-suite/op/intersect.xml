@@ -700,6 +700,8 @@
    <test-case name="K2-SeqIntersect-45">
       <description>Intersect singleton node-set with general node-set</description>
       <created by="Michael Kay" on="2018-11-09"/>
+      <modified by="Michael Kay" on="2019-03-11" change="add 3.0 dependency (fn:head)"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
       <environment ref="bib2"/>
       <test>head(//*) intersect (//*)</test> 
       <result>
@@ -720,6 +722,8 @@
    <test-case name="K2-SeqIntersect-47">
       <description>Singleton intersection in a boolean context</description>
       <created by="Michael Kay" on="2018-11-09"/>
+      <modified by="Michael Kay" on="2019-03-11" change="add 3.0 dependency (fn:head)"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
       <environment ref="bib2"/>
       <test>if (head(//*) intersect subsequence(//*, 7, 2)) then "foo" else "bar"</test> 
       <result>

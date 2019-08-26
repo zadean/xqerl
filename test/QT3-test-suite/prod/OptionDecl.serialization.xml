@@ -25,12 +25,11 @@
       <description> Test default values for serialization parameters </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
       <modified by="Josh Spiegel" on="2014-11-18" change="Bug 26823" />
-      <modified by="Zachary Dean" on="2019-03-11" change="remove 'none' from doctypes"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:cdata-section-elements "";
-         declare option output:doctype-public "";
-         declare option output:doctype-system "";
+         declare option output:doctype-public "none";
+         declare option output:doctype-system "none";
          declare option output:indent "no";
          declare option output:method "xml";
          declare option output:suppress-indentation "";
@@ -121,7 +120,6 @@
    <test-case name="Serialization-007">
       <description> It's ok to override serialization parameters from the parameter-document doc </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="add possible error code"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:parameter-document "Serialization/serialization-parameters.xml";
@@ -129,11 +127,7 @@
          <result>ok</result>
       ]]></test>
       <result>
-        <any-of>
-           <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>     
-           <!-- processor not able to process output:parameter-document option -->
-           <error code="XQST0119" />
-         </any-of>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>     
       </result>
    </test-case>
 
@@ -775,7 +769,6 @@
    <test-case name="Serialization-035" covers="serialization-general">
       <description>EQNames in parameter document</description>
       <created by="Josh Spiegel" on="2016-05-20"/>
-      <modified by="Zachary Dean" on="2019-03-11" change="add possible error code"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -790,18 +783,14 @@
          </result>
         ]]></test>
       <result>
-        <any-of>
-           <all-of>
-              <serialization-matches>CDATA\[ta\]</serialization-matches>
-              <serialization-matches>CDATA\[tb\]</serialization-matches>
-              <serialization-matches>CDATA\[tc\]</serialization-matches>
-              <serialization-matches>CDATA\[td\]</serialization-matches>
-              <not><serialization-matches>CDATA\[te\]</serialization-matches></not>
-              <not><serialization-matches>CDATA\[tt\]</serialization-matches></not>
-           </all-of>
-           <!-- processor not able to process output:parameter-document option -->
-           <error code="XQST0119" />
-         </any-of>
+         <all-of>
+            <serialization-matches>CDATA\[ta\]</serialization-matches>
+            <serialization-matches>CDATA\[tb\]</serialization-matches>
+            <serialization-matches>CDATA\[tc\]</serialization-matches>
+            <serialization-matches>CDATA\[td\]</serialization-matches>
+            <not><serialization-matches>CDATA\[te\]</serialization-matches></not>
+            <not><serialization-matches>CDATA\[tt\]</serialization-matches></not>
+         </all-of>
       </result>
    </test-case>
 

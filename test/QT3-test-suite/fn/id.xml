@@ -308,6 +308,52 @@
          <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/><elementwithid-2 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id2"/>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="fn-id-24">
+      <description>Invalid xml:id - alternative results</description>
+      <created by="Michael Kay" on="2019-05-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         let $data := document {
+            <stuff>
+               <thing xml:id=" a123 ">once</thing>
+               <thing xml:id=" a456 ">twice</thing>
+               <thing xml:id=" 789x ">thrice</thing>
+            </stuff>
+          }
+          return $data/id('a123')/string()  
+         ]]>
+      </test>
+      <result>
+         <any-of>
+            <error code="XQDY0091"/>
+            <assert-eq>"once"</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-id-25">
+      <description>Invalid xml:id - alternative results</description>
+      <created by="Michael Kay" on="2019-05-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         let $data := document {
+            <stuff>
+               <thing xml:id=" a123 ">once</thing>
+               <thing xml:id=" a456 ">twice</thing>
+               <thing xml:id="789x">thrice</thing>
+            </stuff>
+          }  
+          return $data/id('789x')
+         ]]>
+      </test>
+      <result>
+         <any-of>
+            <error code="XQDY0091"/>
+            <assert-empty/>
+         </any-of>
+      </result>
+   </test-case>
 
 
    <test-case name="fn-id-dtd-5">

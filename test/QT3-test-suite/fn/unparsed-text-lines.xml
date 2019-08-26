@@ -657,14 +657,12 @@
    <test-case name="fn-unparsed-text-lines-045">
       <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href refers to a file whose encoding is valid iso-8859-1.</description>
       <created by="Tim Mills" on="2011-11-28"/>
-      <modified by="Zachary Dean" on="2019-03-12" change="Non-UTF8 with no BOM"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt")</test>
       <result>
 	<any-of>
 	  <assert-string-value>hello&#160;world</assert-string-value>
 	  <error code="FOUT1190" />
-      <error code="FOUT1200" />
 	</any-of>
       </result>
    </test-case>
@@ -700,14 +698,12 @@
          Evaluates the "unparsed-text-lines" function with the argument set as follows: 
          $href refers to a file whose encoding is valid iso-8859-1.</description>
       <created by="Tim Mills" on="2011-11-28"/>
-      <modified by="Zachary Dean" on="2019-03-12" change="Non-UTF8 with no BOM"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml")</test>
       <result>
 	<any-of>
 	  <assert-string-value>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;&lt;text&gt;hello&#160;world&lt;/text&gt;</assert-string-value>
 	  <error code="FOUT1190" />
-      <error code="FOUT1200" />
 	</any-of>
       </result>
    </test-case>

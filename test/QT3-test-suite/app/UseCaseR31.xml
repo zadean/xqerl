@@ -99,12 +99,6 @@
         </collection>
       <param name="sales-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'" declared="false"/>
     </environment>
-    
-    <environment name="Wikipedia-Origami.xml">
-      <source role="." file="UseCaseR31/Wikipedia-Origami.xml" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseR31/Wikipedia-Origami.xml"/>
-      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/" />
-      <param name="uri" as="xs:string" select="'Wikipedia-Origami.xml'"/>
-    </environment>
 
 
     <dependency type="spec" value="XQ30+"/>
@@ -935,9 +929,8 @@ return map {
       <description>Convert XML to JSON</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
-      <modified by="Zachary Dean" on="2019-03-11" change="Incorrect environment" />
-      <environment ref="Wikipedia-Origami.xml"/>
-      <dependency type="spec" value="XQ31+"/>
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[array {
  for $page in doc("UseCaseR31/Wikipedia-Origami.xml")//page
  return map {
