@@ -18,14 +18,15 @@ xqerl is being actively developed and is not yet to a stable release. Changes ca
 
 The first stable release will be coming soon, but isn't quite there yet.
 
-It is passing **99.9%** of **30,819** test cases it runs (31 failures). 
-1,899 other cases that test optional features not implemented in xqerl are skipped. 
+It is passing **99.99%** of **30,813** test cases it runs 
+(4 failures, 1 wrong error code, 2 due to limitations in Erlang, and 1 concerning DTDs with namespace declarations. So technically, only 1 failed test case!). 
+1,901 other cases that test optional features or unsupported specification versions are skipped. 
 Most of the test cases run are taken directly from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
-Others are from the [EXPath test suite](https://github.com/expath/expath-cg). 
+Others are from the [EXPath test suite](https://github.com/expath/expath-cg) and the Update Facility test suite for version 1.0. 
 
 ### Modules
 
-The modules available to XQuery code in xqerl are documented in the [xqerl documentation](https://zadean.github.io/xqerl/modules.html)
+The modules statically available to XQuery code in xqerl are documented in the [xqerl documentation](https://zadean.github.io/xqerl/modules.html)
 
 ### Features it has:
 * Module Feature
