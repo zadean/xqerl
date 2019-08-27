@@ -338,6 +338,7 @@ declare function _:error($result) as xs:string
   return
   "   case xqerl_test:assert_error(Res,"||$ec||") of " ||$_:n|| 
   "      true -> {comment, ""Correct error""};" ||$_:n|| 
+  '      {true, F} -> {comment, "WE: '||$result/@code||' " ++ binary_to_list(F)};' ||$_:n|| 
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };

@@ -1738,6 +1738,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1753,6 +1754,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1768,6 +1770,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1863,6 +1866,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1886,6 +1890,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1909,6 +1914,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1932,6 +1938,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1955,6 +1962,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1978,6 +1986,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2001,6 +2010,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2024,6 +2034,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2047,6 +2058,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2070,6 +2082,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2093,6 +2106,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2116,6 +2130,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2139,6 +2154,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2162,6 +2178,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2185,6 +2202,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2208,6 +2226,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2231,6 +2250,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2254,6 +2274,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2277,6 +2298,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2300,6 +2322,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2323,6 +2346,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2346,6 +2370,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2369,6 +2394,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2392,6 +2418,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2415,6 +2442,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2433,6 +2461,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2448,6 +2477,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2463,6 +2493,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2478,6 +2509,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2493,6 +2525,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2508,6 +2541,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2523,6 +2557,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2538,6 +2573,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2553,6 +2589,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2568,6 +2605,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2583,6 +2621,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2598,6 +2637,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2613,6 +2653,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2628,6 +2669,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2643,6 +2685,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2658,6 +2701,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2673,6 +2717,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2688,6 +2733,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2708,6 +2754,7 @@ environment('map',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2726,6 +2773,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2741,6 +2789,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2876,6 +2925,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2891,6 +2941,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2906,6 +2957,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2921,6 +2973,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2936,6 +2989,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2951,6 +3005,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2966,6 +3021,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2981,6 +3037,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2996,6 +3053,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3011,6 +3069,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3026,6 +3085,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3042,6 +3102,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3058,6 +3119,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3074,6 +3136,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{}USER9999") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{}USER9999 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3090,6 +3153,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3106,6 +3170,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3136,6 +3201,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3151,6 +3217,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3166,6 +3233,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3181,6 +3249,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3196,6 +3265,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3211,6 +3281,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3226,6 +3297,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3241,6 +3313,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3256,6 +3329,7 @@ environment('map',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

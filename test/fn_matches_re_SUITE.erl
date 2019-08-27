@@ -2364,6 +2364,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2379,6 +2380,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2394,6 +2396,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2409,6 +2412,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2439,6 +2443,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2454,6 +2459,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2604,6 +2610,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2619,6 +2626,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2679,6 +2687,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2694,6 +2703,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2709,6 +2719,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2724,6 +2735,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2739,6 +2751,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2754,6 +2767,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2769,6 +2783,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2784,6 +2799,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2799,6 +2815,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2814,6 +2831,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2844,6 +2862,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3193,6 +3212,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3208,6 +3228,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3437,6 +3458,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3452,6 +3474,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3482,6 +3505,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3527,6 +3551,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3587,6 +3612,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3652,6 +3678,7 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\\c[^\\s]\\c)$')))",
    end, 
    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -5372,6 +5399,7 @@ c
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -5402,6 +5430,7 @@ c
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -5417,6 +5446,7 @@ c
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -5432,6 +5462,7 @@ c
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9989,6 +10020,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10289,6 +10321,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10514,6 +10547,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10544,6 +10578,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10589,6 +10624,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10604,6 +10640,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10619,6 +10656,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10634,6 +10672,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10664,6 +10703,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10679,6 +10719,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10694,6 +10735,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10709,6 +10751,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10724,6 +10767,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10739,6 +10783,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10754,6 +10799,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10769,6 +10815,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10784,6 +10831,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10919,6 +10967,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10934,6 +10983,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10949,6 +10999,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10964,6 +11015,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10979,6 +11031,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10994,6 +11047,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11009,6 +11063,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11024,6 +11079,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11039,6 +11095,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11054,6 +11111,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11069,6 +11127,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11084,6 +11143,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11099,6 +11159,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11114,6 +11175,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11129,6 +11191,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11144,6 +11207,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11174,6 +11238,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11309,6 +11374,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11324,6 +11390,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11369,6 +11436,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11384,6 +11452,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11399,6 +11468,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11414,6 +11484,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11444,6 +11515,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11459,6 +11531,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11474,6 +11547,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11489,6 +11563,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11504,6 +11579,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11519,6 +11595,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11534,6 +11611,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11549,6 +11627,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11564,6 +11643,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11579,6 +11659,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11594,6 +11675,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11609,6 +11691,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11624,6 +11707,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11639,6 +11723,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11654,6 +11739,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11669,6 +11755,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11684,6 +11771,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11699,6 +11787,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11714,6 +11803,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11729,6 +11819,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11744,6 +11835,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11804,6 +11896,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11864,6 +11957,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11879,6 +11973,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11894,6 +11989,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11909,6 +12005,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11924,6 +12021,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11939,6 +12037,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11954,6 +12053,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11969,6 +12069,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11984,6 +12085,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12284,6 +12386,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12299,6 +12402,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12314,6 +12418,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12329,6 +12434,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12344,6 +12450,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12359,6 +12466,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12374,6 +12482,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12389,6 +12498,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12404,6 +12514,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12419,6 +12530,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12434,6 +12546,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12449,6 +12562,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12464,6 +12578,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12479,6 +12594,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12494,6 +12610,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13289,6 +13406,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13304,6 +13422,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13319,6 +13438,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13334,6 +13454,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13349,6 +13470,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13364,6 +13486,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13424,6 +13547,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13439,6 +13563,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13484,6 +13609,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13499,6 +13625,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13514,6 +13641,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13529,6 +13657,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13589,6 +13718,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13604,6 +13734,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13619,6 +13750,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13634,6 +13766,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13649,6 +13782,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13679,6 +13813,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13694,6 +13829,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13709,6 +13845,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13934,6 +14071,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13949,6 +14087,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13964,6 +14103,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13979,6 +14119,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14039,6 +14180,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14054,6 +14196,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14189,6 +14332,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14204,6 +14348,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14219,6 +14364,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14234,6 +14380,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14249,6 +14396,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14264,6 +14412,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14279,6 +14428,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14294,6 +14444,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14309,6 +14460,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14324,6 +14476,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14339,6 +14492,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14354,6 +14508,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14369,6 +14524,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14384,6 +14540,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14399,6 +14556,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14414,6 +14572,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14429,6 +14588,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14459,6 +14619,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14474,6 +14635,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14489,6 +14651,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14504,6 +14667,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14519,6 +14683,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14534,6 +14699,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14564,6 +14730,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14579,6 +14746,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14594,6 +14762,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14609,6 +14778,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14624,6 +14794,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -14984,6 +15155,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15104,6 +15276,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15119,6 +15292,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15179,6 +15353,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15194,6 +15369,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15209,6 +15385,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15224,6 +15401,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15239,6 +15417,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15254,6 +15433,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15269,6 +15449,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15284,6 +15465,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15299,6 +15481,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15314,6 +15497,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15359,6 +15543,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15389,6 +15574,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15404,6 +15590,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15419,6 +15606,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15434,6 +15622,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15449,6 +15638,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15464,6 +15654,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15479,6 +15670,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15494,6 +15686,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15509,6 +15702,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15524,6 +15718,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15539,6 +15734,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15554,6 +15750,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15569,6 +15766,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15584,6 +15782,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15599,6 +15798,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15614,6 +15814,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15629,6 +15830,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15644,6 +15846,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15659,6 +15862,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15674,6 +15878,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15689,6 +15894,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15704,6 +15910,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15719,6 +15926,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15734,6 +15942,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15749,6 +15958,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15764,6 +15974,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15779,6 +15990,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15794,6 +16006,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15809,6 +16022,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15824,6 +16038,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15839,6 +16054,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15854,6 +16070,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15869,6 +16086,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15884,6 +16102,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15899,6 +16118,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15914,6 +16134,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15929,6 +16150,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15944,6 +16166,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15959,6 +16182,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15974,6 +16198,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -15989,6 +16214,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16004,6 +16230,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16019,6 +16246,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16034,6 +16262,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16049,6 +16278,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16064,6 +16294,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16079,6 +16310,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16094,6 +16326,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16109,6 +16342,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16124,6 +16358,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16139,6 +16374,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16229,6 +16465,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16244,6 +16481,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16259,6 +16497,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16274,6 +16513,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16289,6 +16529,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16514,6 +16755,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16544,6 +16786,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16559,6 +16802,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16574,6 +16818,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16589,6 +16834,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16604,6 +16850,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16619,6 +16866,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16634,6 +16882,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16649,6 +16898,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16664,6 +16914,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16679,6 +16930,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16694,6 +16946,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16709,6 +16962,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16724,6 +16978,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16739,6 +16994,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16869,6 +17125,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -16884,6 +17141,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -17033,6 +17291,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -17048,6 +17307,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -17138,6 +17398,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -17153,6 +17414,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -17168,6 +17430,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORX0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORX0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

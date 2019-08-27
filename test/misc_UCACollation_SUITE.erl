@@ -256,6 +256,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_eq(Res,"0") of 
@@ -287,6 +288,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -303,6 +305,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -319,6 +322,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -335,6 +339,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -351,6 +356,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -367,6 +373,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -383,6 +390,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -399,6 +407,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -639,6 +648,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -655,6 +665,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -708,6 +719,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -732,6 +744,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -756,6 +769,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -780,6 +794,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -804,6 +819,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -828,6 +844,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -852,6 +869,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -876,6 +894,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -900,6 +919,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -924,6 +944,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -948,6 +969,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -972,6 +994,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -996,6 +1019,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1020,6 +1044,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1044,6 +1069,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1068,6 +1094,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1092,6 +1119,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1116,6 +1144,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1140,6 +1169,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1164,6 +1194,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1188,6 +1219,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1212,6 +1244,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1236,6 +1269,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1260,6 +1294,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1284,6 +1319,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1308,6 +1344,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1332,6 +1369,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1356,6 +1394,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1380,6 +1419,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1404,6 +1444,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1428,6 +1469,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1452,6 +1494,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1476,6 +1519,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1500,6 +1544,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1524,6 +1569,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1548,6 +1594,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1572,6 +1619,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1596,6 +1644,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1620,6 +1669,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1644,6 +1694,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1668,6 +1719,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1693,6 +1745,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1717,6 +1770,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1741,6 +1795,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1765,6 +1820,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1789,6 +1845,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1813,6 +1870,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1837,6 +1895,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1861,6 +1920,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1885,6 +1945,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1909,6 +1970,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1933,6 +1995,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1957,6 +2020,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1981,6 +2045,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2005,6 +2070,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2029,6 +2095,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2053,6 +2120,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2077,6 +2145,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2101,6 +2170,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2125,6 +2195,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2149,6 +2220,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2173,6 +2245,7 @@ environment('UCA-collation.en.primary',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOCH0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};

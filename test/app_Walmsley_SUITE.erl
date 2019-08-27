@@ -2296,6 +2296,7 @@ return apply($f,[\"a\"])",
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAP0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAP0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3117,6 +3118,7 @@ declare variable $array2 := [\"abc\", [10,20]];
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3236,6 +3238,7 @@ declare variable $array2 := [\"abc\", [10,20]];
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3287,6 +3290,7 @@ declare variable $array2 := [\"abc\", [10,20]];
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3304,6 +3308,7 @@ declare variable $array2 := [\"abc\", [10,20]];
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4030,6 +4035,7 @@ local:random-sequence(5, random-number-generator())",
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4530,6 +4536,7 @@ declare variable $map2 := map {};
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4547,6 +4554,7 @@ declare variable $map2 := map {};
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4564,6 +4572,7 @@ declare variable $map2 := map {};
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4615,6 +4624,7 @@ declare variable $map2 := map {};
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAY0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

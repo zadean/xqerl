@@ -1667,6 +1667,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1682,6 +1683,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPDY0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1697,6 +1699,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1712,6 +1715,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1727,6 +1731,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1742,6 +1747,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1757,6 +1763,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1772,6 +1779,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2226,6 +2234,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2241,6 +2250,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2256,6 +2266,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2271,6 +2282,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2318,6 +2330,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2333,6 +2346,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2348,6 +2362,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2363,6 +2378,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2378,6 +2394,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2393,6 +2410,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2462,6 +2480,7 @@ environment('auction',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2480,6 +2499,7 @@ environment('auction',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

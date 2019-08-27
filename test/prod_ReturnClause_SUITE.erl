@@ -244,6 +244,7 @@ environment('fsx',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -279,6 +280,7 @@ environment('fsx',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -295,6 +297,7 @@ environment('fsx',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -311,6 +314,7 @@ environment('fsx',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0008 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -391,6 +395,7 @@ environment('fsx',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -423,10 +428,12 @@ environment('fsx',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPDY0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};

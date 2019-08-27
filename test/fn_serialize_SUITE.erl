@@ -379,6 +379,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SENR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -848,6 +849,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -873,6 +875,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -898,6 +901,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1118,6 +1122,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0023 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1183,6 +1188,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0022") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0022 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1652,6 +1658,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0020") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0020 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1820,6 +1827,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0023 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1837,6 +1845,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0023 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1854,6 +1863,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0023") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0023 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1869,6 +1879,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1884,6 +1895,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1899,6 +1911,7 @@ environment('atomic-xq',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

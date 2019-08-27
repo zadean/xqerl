@@ -309,7 +309,7 @@ assert_error(Result, ErrorCode) ->
                   true ->
                      true;
                   _ ->
-                     {false,{Err,ErrorCode}}
+                     {true, Err}
                end
          end;
       _ ->

@@ -266,6 +266,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0101 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -286,6 +287,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0101 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -305,6 +307,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0102") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0102 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -468,6 +471,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -488,6 +492,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0074") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -508,6 +513,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -527,6 +533,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0101 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -546,6 +553,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0101 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -563,6 +571,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0101") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0101 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -599,6 +608,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0081 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -616,6 +626,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0081 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -633,6 +644,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0081 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -650,6 +662,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FONS0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FONS0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -718,6 +731,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SENR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1009,6 +1023,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0102") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0102 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1029,6 +1044,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1049,6 +1065,7 @@ environment('cnc-schema',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

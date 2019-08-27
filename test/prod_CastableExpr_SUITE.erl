@@ -8130,6 +8130,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_true(Res) of 
@@ -8172,6 +8173,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -8345,6 +8347,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -8413,6 +8416,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -8466,6 +8470,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -8519,6 +8524,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -11893,6 +11899,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11908,6 +11915,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11923,6 +11931,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11942,10 +11951,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XQST0052") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0052 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -11967,6 +11978,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -11985,6 +11997,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0052") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0052 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12000,6 +12013,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12015,6 +12029,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12030,6 +12045,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12045,6 +12061,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12060,6 +12077,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -12079,10 +12097,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0051 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12105,10 +12125,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XQST0052") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0052 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12128,10 +12150,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0051 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12151,10 +12175,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0051 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12174,10 +12200,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"XPST0051") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0051 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12569,6 +12597,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -12587,6 +12616,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -13390,6 +13420,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -13413,6 +13444,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -13920,6 +13952,7 @@ environment('derived',__BaseDir) ->
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};

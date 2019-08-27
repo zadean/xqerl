@@ -1838,6 +1838,7 @@ environment('function-lookup',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1868,6 +1869,7 @@ environment('function-lookup',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XXXX0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1898,6 +1900,7 @@ environment('function-lookup',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XXXX0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1928,6 +1931,7 @@ environment('function-lookup',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XXXX0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XXXX0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9460,6 +9464,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9629,6 +9634,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9648,6 +9654,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9683,6 +9690,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0054 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9750,6 +9758,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9765,6 +9774,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9780,6 +9790,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9795,6 +9806,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9810,6 +9822,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9825,6 +9838,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9840,6 +9854,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9855,6 +9870,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9870,6 +9886,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9885,6 +9902,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9910,6 +9928,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -9933,6 +9952,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10260,6 +10280,7 @@ string')",
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10302,6 +10323,7 @@ string')",
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10672,6 +10694,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOQM0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10705,6 +10728,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOQM0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -10738,6 +10762,7 @@ string')",
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOXT0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOXT0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

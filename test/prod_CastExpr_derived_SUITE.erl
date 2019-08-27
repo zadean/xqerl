@@ -1324,6 +1324,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1339,6 +1340,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1354,6 +1356,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1369,6 +1372,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1384,6 +1388,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1399,6 +1404,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1414,6 +1420,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1429,6 +1436,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1444,6 +1452,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1459,6 +1468,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1475,6 +1485,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 300") of 
@@ -1498,6 +1509,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 300") of 
@@ -1521,6 +1533,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 36") of 
@@ -1544,6 +1557,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 36") of 
@@ -1566,6 +1580,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1581,6 +1596,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1611,6 +1627,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1641,6 +1658,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1671,6 +1689,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1686,6 +1705,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1701,6 +1721,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1716,6 +1737,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1731,6 +1753,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1747,6 +1770,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 300") of 
@@ -1770,6 +1794,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 300") of 
@@ -1793,6 +1818,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 36") of 
@@ -1816,6 +1842,7 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOCA0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCA0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert(Res,"string-length(string($result)) gt 36") of 
@@ -1854,10 +1881,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1877,10 +1906,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1899,6 +1930,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1914,6 +1946,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1944,6 +1977,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1974,6 +2008,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1989,6 +2024,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2004,6 +2040,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2053,6 +2090,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2068,6 +2106,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2083,6 +2122,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2098,6 +2138,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2136,6 +2177,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2151,6 +2193,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2166,6 +2209,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2181,6 +2225,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2196,6 +2241,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2211,6 +2257,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2249,6 +2296,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2264,6 +2312,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2279,6 +2328,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2294,6 +2344,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2309,6 +2360,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2324,6 +2376,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2339,6 +2392,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2354,6 +2408,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2370,10 +2425,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2392,6 +2449,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2407,6 +2465,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2422,6 +2481,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2437,6 +2497,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2452,6 +2513,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2467,6 +2529,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2482,6 +2545,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2497,6 +2561,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2512,6 +2577,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2527,6 +2593,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2543,10 +2610,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2565,6 +2634,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2581,10 +2651,12 @@ environment('derived',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -2693,6 +2765,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2708,6 +2781,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2723,6 +2797,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2738,6 +2813,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2753,6 +2829,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2771,6 +2848,7 @@ environment('derived',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

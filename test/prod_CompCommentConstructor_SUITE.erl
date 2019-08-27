@@ -288,6 +288,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -303,6 +304,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -318,6 +320,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -345,6 +348,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -360,6 +364,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -375,6 +380,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -390,6 +396,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -417,6 +424,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -447,6 +455,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -462,6 +471,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -537,6 +547,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -555,6 +566,7 @@ environment('DupNode',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0072") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

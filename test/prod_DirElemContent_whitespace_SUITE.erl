@@ -1220,6 +1220,7 @@ declare boundary-space strip;
    end, 
    case xqerl_test:assert_error(Res,"XQDY0092") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0092 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};

@@ -684,6 +684,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -911,6 +912,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -961,10 +963,12 @@ environment('json-doc-error',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -984,6 +988,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1000,6 +1005,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1016,6 +1022,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1032,6 +1039,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1048,6 +1056,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1064,6 +1073,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1080,6 +1090,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1096,6 +1107,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1112,6 +1124,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1128,6 +1141,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1144,6 +1158,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1160,6 +1175,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1176,6 +1192,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1192,6 +1209,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1208,6 +1226,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1224,6 +1243,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1240,6 +1260,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1256,6 +1277,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1272,6 +1294,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1290,6 +1313,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1308,6 +1332,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1326,6 +1351,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1344,6 +1370,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1362,6 +1389,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1380,6 +1408,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1398,6 +1427,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOJS0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1413,6 +1443,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1428,6 +1459,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1443,6 +1475,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1470,6 +1503,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1497,6 +1531,7 @@ environment('json-doc-error',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOUT1170 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

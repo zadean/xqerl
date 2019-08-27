@@ -2047,6 +2047,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};

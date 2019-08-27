@@ -1455,6 +1455,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0013") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOTY0013 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

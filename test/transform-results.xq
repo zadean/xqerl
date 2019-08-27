@@ -140,7 +140,7 @@ declare function _:submission()
   return
   <submission anonymous="false">
     <created by="{$_:NAME}" email="{$_:EMAIL}" organization="xqerl" on="{$subdate}"/>
-    <test-run test-suite-version="git" date-run="{$subdate}"/>
+    <test-run test-suite-version="GitHub" date-run="{$subdate}"/>
     <notes/>
   </submission>  
 };
@@ -189,11 +189,24 @@ declare function _:format-result($name0, $stat, $message)
   let $name := $name0 => replace("'", "")
   return
   if ($stat eq 'Ok') then
-    <test-case name="{$name}" result="pass"/>
+    if (starts-with($message, 'WE: ')) then
+      let $g := $message => substring-after('WE: ') => tokenize()
+      return
+      <test-case name="{$name}" 
+                 result="wrongError" 
+                 comment="Expected {$g[1]} got {$g[2]}"/>
+    else
+      <test-case name="{$name}" result="pass"/>
   else if ($stat eq 'SKIPPED') then
-    <test-case name="{$name}" result="n/a" comment="{$message}"/>
+    if (starts-with($message, 'TB * ')) then
+      <test-case name="{$name}" 
+                 result="tooBig" 
+                 comment="{$message => substring-after('TB * ')}"/>
+    else
+      <test-case name="{$name}" result="n/a" comment="{$message}"/>
   else (: FAILED :)
-    <test-case name="{$name}" result="fail" comment="{$message}"/>
+    <test-case name="{$name}" result="fail" 
+               comment="Incorrect results"/>
 };
 
 declare function _:nvl($value, $default)

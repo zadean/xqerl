@@ -239,6 +239,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -254,6 +255,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: * " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -269,6 +271,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -284,6 +287,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOCH0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOCH0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -299,6 +303,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -314,6 +319,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -329,6 +335,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODT0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FODT0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -344,6 +351,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0009") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FORG0009 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -359,6 +367,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOTY0012") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOTY0012 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -374,6 +383,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SENR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SENR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -389,6 +399,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SEPM0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SEPM0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -404,6 +415,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SEPM0009") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SEPM0009 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -419,6 +431,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SEPM0010") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SEPM0010 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -434,6 +447,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SEPM0016 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -449,6 +463,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0003") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0003 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -464,6 +479,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0005") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0005 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -479,6 +495,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -494,6 +511,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0008") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0008 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -509,6 +527,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0012") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0012 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -524,6 +543,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SERE0014") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SERE0014 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -539,6 +559,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SESU0007 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -554,6 +575,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"SESU0011") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: SESU0011 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -569,6 +591,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPDY0002 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -584,6 +607,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0010") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0010 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -599,6 +623,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0080") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0080 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -614,6 +639,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0018") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0018 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -629,6 +655,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0027") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0027 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -644,6 +671,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0061") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0061 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -659,6 +687,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0084") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQDY0084 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -674,6 +703,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0009") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0009 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -689,6 +719,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0012") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0012 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -704,6 +735,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0013") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0013 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -719,6 +751,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0016") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0016 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -734,6 +767,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0035") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0035 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -749,6 +783,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0036") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0036 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -764,6 +799,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0046 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -779,6 +815,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0047") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0047 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -794,6 +831,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0048") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0048 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -809,6 +847,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0054") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0054 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -824,6 +863,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0055") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0055 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -839,6 +879,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0057") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0057 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -854,6 +895,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0058") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0058 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -869,6 +911,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0060") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0060 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -884,6 +927,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0073") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0073 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -899,6 +943,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0075") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0075 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -914,6 +959,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0076") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0076 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -929,6 +975,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0079") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0079 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -944,6 +991,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0087") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQST0087 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -959,6 +1007,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQTY0030") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XQTY0030 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1004,6 +1053,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1022,6 +1072,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1037,6 +1088,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1052,6 +1104,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1082,6 +1135,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1097,6 +1151,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: * " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1112,6 +1167,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1132,6 +1188,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1150,6 +1207,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: * " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1165,6 +1223,7 @@ groups() -> [
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"*") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: * " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1185,6 +1244,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1208,6 +1268,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1231,6 +1292,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1254,6 +1316,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1277,6 +1340,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1300,6 +1364,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1323,6 +1388,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1346,6 +1412,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1369,6 +1436,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1392,6 +1460,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1415,6 +1484,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1438,6 +1508,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1461,6 +1532,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1484,6 +1556,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1507,6 +1580,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1530,6 +1604,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1553,6 +1628,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1576,6 +1652,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1599,6 +1676,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1622,6 +1700,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1645,6 +1724,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1668,6 +1748,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1691,6 +1772,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1714,6 +1796,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1737,6 +1820,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOAR0001") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOAR0001 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1760,6 +1844,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1783,6 +1868,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1806,6 +1892,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1844,6 +1931,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1867,6 +1955,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1890,6 +1979,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1913,6 +2003,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1936,6 +2027,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1959,6 +2051,7 @@ groups() -> [
    end, 
    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
