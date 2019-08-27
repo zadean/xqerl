@@ -576,10 +576,10 @@ environment('works-mod',__BaseDir) ->
    end. 
 'fn-prefix-from-qname-21'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-prefix-from-qname-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-prefix-from-qname-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(node-name(/*))", 

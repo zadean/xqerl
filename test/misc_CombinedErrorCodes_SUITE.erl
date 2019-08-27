@@ -690,10 +690,10 @@ environment('xqdy0084',__BaseDir) ->
    end. 
 'combined-errors-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'combined-errors-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'combined-errors-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "/works[1]/employee[2]/preceding::employee", 

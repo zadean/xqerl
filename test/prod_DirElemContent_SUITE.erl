@@ -862,28 +862,28 @@ environment('namespace-sensitive',__BaseDir) ->
    end. 
 'Constr-cont-constrmod-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-constrmod-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve, inherit; <y xmlns:inherit=\"http://www.example.com/inherit\">{(/)}</y>/x/z", 
@@ -950,22 +950,22 @@ environment('namespace-sensitive',__BaseDir) ->
    end. 
 'Constr-cont-nsmode-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-cont-nsmode-11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"feature:schemaImport"}. 

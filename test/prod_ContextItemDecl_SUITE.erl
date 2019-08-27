@@ -935,10 +935,10 @@ environment('works-mod',__BaseDir) ->
    end. 
 'contextDecl-056'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'contextDecl-057'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'contextDecl-058'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

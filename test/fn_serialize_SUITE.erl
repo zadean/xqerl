@@ -297,28 +297,28 @@ environment('atomic-xq',__BaseDir) ->
 ].
 'serialize-xml-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-007a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -369,7 +369,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "serialize(name#1)", 
@@ -387,67 +387,67 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"spec:XP30+"}. 
 'serialize-xml-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-025'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-026'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-027'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-029'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-032'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -539,31 +539,31 @@ environment('atomic-xq',__BaseDir) ->
    {skip,"xml-version:1.1"}. 
 'serialize-xml-101'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-102'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-103'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-104'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-105'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-106'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-106a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-107'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-107a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-108'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $params := map {
@@ -611,7 +611,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-109'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-110'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $params := map {
@@ -664,7 +664,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-119'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-120'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $params := map { QName(\"\",\"indent\") : true() }
@@ -685,34 +685,34 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-xml-123'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-124'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-125'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-126'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-127'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-128'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-129'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-130'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-131'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-131a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'serialize-xml-132'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $params := map {
@@ -1498,7 +1498,7 @@ environment('atomic-xq',__BaseDir) ->
    end. 
 'serialize-json-114'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"ISO-8859-1 encoding"}. 
+   {skip,"DIS * ISO-8859-1 encoding"}. 
 'serialize-json-115'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $r := serialize('

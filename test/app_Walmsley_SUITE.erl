@@ -2130,7 +2130,7 @@ deep-equal(json-doc(\"product.json\"), map {
    end. 
 'd1e42362'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"serialized response checked for map(*) type"}. 
+   {skip,"DIS * serialized response checked for map(*) type"}. 
 'd1e48503'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];

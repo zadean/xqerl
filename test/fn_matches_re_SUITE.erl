@@ -16967,7 +16967,7 @@ b', ',') satisfies not(matches($s, '^(?:a\\sb)$')))",
    end. 
 're00984'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Issue #6 unicode catagory of 2 characters"}. 
+   {skip,"PR * Issue #6 unicode category of 2 characters"}. 
 're00985'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "(every $s in tokenize('0,1,2,3,4,5,6,7,8,9,٠,١,٢,٣,٤,٥,٦,٧,٨,٩,۰,۱,۲,۳,۴,۵,۶,۷,۸,۹,०,१,२,३,४,५,६,७,८,९,০,১,২,৩,৪,৫,৬,৭,৮,৯,੦,੧,੨,੩,੪,੫,੬,੭,੮,੯,૦,૧,૨,૩,૪,૫,૬,૭,૮,૯,୦,୧,୨,୩,୪,୫,୬,୭,୮,୯,௧,௨,௩,௪,௫,௬,௭,௮,௯,౦,౧,౨,౩,౪,౫,౬,౭,౮,౯,೦,೧,೨,೩,೪,೫,೬,೭,೮,೯,൦,൧,൨,൩,൪,൫,൬,൭,൮,൯,๐,๑,๒,๓,๔,๕,๖,๗,๘,๙,໐,໑,໒,໓,໔,໕,໖,໗,໘,໙,༠,༡,༢,༣,༤,༥,༦,༧,༨,༩,၀,၁,၂,၃,၄,၅,၆,၇,၈,၉,០,១,២,៣,៤,៥,៦,៧,៨,៩,᠐,᠑,᠒,᠓,᠔,᠕,᠖,᠗,᠘,᠙,０,１,２,３,４,５,６,７,８,９', ',') satisfies matches($s, '^(?:[\\d])$')) and (every $s in tokenize('	,

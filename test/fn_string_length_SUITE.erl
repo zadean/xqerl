@@ -505,10 +505,10 @@ environment('qname',__BaseDir) ->
    {skip,"feature:schemaValidation"}. 
 'fn-string-length-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-string-length-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'K-StringLengthFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "string-length(\"a string\", \"wrong param\")", 

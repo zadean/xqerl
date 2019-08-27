@@ -1123,10 +1123,10 @@ environment('atomic',__BaseDir) ->
    end. 
 'fn-not-22'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-not-23'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-not-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double('NaN'))", 
@@ -1190,10 +1190,10 @@ environment('atomic',__BaseDir) ->
    end. 
 'fn-not-28'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-not-29'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'K-NotFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "not()", 

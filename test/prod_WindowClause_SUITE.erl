@@ -563,7 +563,7 @@ environment('WindowingUseCases07S',__BaseDir) ->
    end. 
 'WindowingUseCase01S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -594,7 +594,7 @@ environment('WindowingUseCases07S',__BaseDir) ->
    end. 
 'WindowingUseCase02S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase03'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -623,7 +623,7 @@ return
    end. 
 'WindowingUseCase03S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase04'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -652,7 +652,7 @@ return
    end. 
 'WindowingUseCase04S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase05'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -681,7 +681,7 @@ return
    end. 
 'WindowingUseCase05S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase06'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -708,7 +708,7 @@ return
    end. 
 'WindowingUseCase06S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase07'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -770,7 +770,7 @@ return
    end. 
 'WindowingUseCase08S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase09'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -805,7 +805,7 @@ return
    end. 
 'WindowingUseCase09S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -833,7 +833,7 @@ return
    end. 
 'WindowingUseCase10S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -892,7 +892,7 @@ return
    end. 
 'WindowingUseCase12S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -950,7 +950,7 @@ return
    end. 
 'WindowingUseCase14S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -984,7 +984,7 @@ return
    end. 
 'WindowingUseCase15S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase16'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1023,7 +1023,7 @@ return
    end. 
 'WindowingUseCase16S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase17'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1060,7 +1060,7 @@ return
    end. 
 'WindowingUseCase17S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase18'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1090,7 +1090,7 @@ return
    end. 
 'WindowingUseCase18S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'WindowingUseCase19'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1132,7 +1132,7 @@ return
    end. 
 'WindowingUseCase19S'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'TumblingWindowExpr504'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 

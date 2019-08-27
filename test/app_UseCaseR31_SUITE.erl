@@ -928,7 +928,7 @@ return map {
    end. 
 'UseCaseR31-030'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"PR* missing environment"}. 
+   {skip,"PR * missing environment"}. 
 'UseCaseR31-031'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

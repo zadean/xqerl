@@ -445,7 +445,7 @@ environment('DupNode',__BaseDir) ->
    end. 
 'Constr-compattr-compname-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-compattr-compname-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:QName('aQname')} {'text'}}", 

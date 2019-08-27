@@ -133,19 +133,19 @@ environment('fsx',__BaseDir) ->
 ].
 'LocalNameFromQNameFunc001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(())", 
@@ -193,7 +193,7 @@ environment('fsx',__BaseDir) ->
    end. 
 'LocalNameFromQNameFunc010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName()", 
@@ -211,13 +211,13 @@ environment('fsx',__BaseDir) ->
    end. 
 'LocalNameFromQNameFunc012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"spec:XQ10 XP20"}. 
@@ -269,22 +269,22 @@ environment('fsx',__BaseDir) ->
    end. 
 'LocalNameFromQNameFunc018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'LocalNameFromQNameFunc021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"feature:schemaImport"}. 
 'fn-local-name-from-qname-022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-from-qname-023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-from-qname-024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(node-name(/*))", 

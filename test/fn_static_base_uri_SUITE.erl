@@ -274,7 +274,7 @@ groups() -> [
    end. 
 'fn-static-base-15'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"static-base-uri environment"}. 
+   {skip,"DIS * static-base-uri set at compile time"}. 
 'K-StaticBaseURIFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "static-base-uri(.)", 

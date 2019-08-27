@@ -1373,10 +1373,10 @@ groups() -> [
    end. 
 'format-time-025b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter us"}. 
+   {skip,"DIS * place parameter us"}. 
 'format-time-025c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter / missing olson time flag"}. 
+   {skip,"DIS * place parameter / missing olson time flag"}. 
 'format-time-809err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[Y]', 'en', (), ())", 

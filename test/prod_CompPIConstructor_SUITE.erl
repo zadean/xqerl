@@ -305,10 +305,10 @@ environment('DupNode',__BaseDir) ->
    end. 
 'Constr-comppi-compname-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-comppi-compname-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-comppi-compname-10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction {'pi'} {'text'}", 

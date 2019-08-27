@@ -584,7 +584,7 @@ environment('namespaces11',__BaseDir) ->
    end. 
 'fn-in-scope-prefixes-24'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-in-scope-prefixes-25'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(/*)", 

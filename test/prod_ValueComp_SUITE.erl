@@ -1048,7 +1048,7 @@ environment('user-defined-types',__BaseDir) ->
    end. 
 'value-comparison-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaImport"}. 
 'value-comparison-13'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"feature:schemaImport"}. 

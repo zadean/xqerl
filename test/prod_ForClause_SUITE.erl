@@ -2700,10 +2700,10 @@ environment('SpecialTypes',__BaseDir) ->
    end. 
 'ForExprType009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $file as in (//Folder)[1]/File return $file", 
@@ -2722,10 +2722,10 @@ environment('SpecialTypes',__BaseDir) ->
    end. 
 'ForExprType013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $num as xs:decimal in (xs:integer(1), xs:integer(2), xs:integer(3)) return $num", 
@@ -2840,13 +2840,13 @@ environment('SpecialTypes',__BaseDir) ->
    end. 
 'ForExprType022'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType023'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType024'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType028'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -2995,16 +2995,16 @@ environment('SpecialTypes',__BaseDir) ->
    end. 
 'ForExprType036'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType045'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType046'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType047'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'ForExprType054'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "

@@ -744,7 +744,7 @@ groups() -> [
    end. 
 'K2-BaseURIProlog-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"assumed *.xml base-uri"}. 
+   {skip,"DIS * assumed *.xml base-uri"}. 
 'K2-BaseURIProlog-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/BASEURI\"; <e xml:base=\"../\"> {fn:static-base-uri()} </e>", 

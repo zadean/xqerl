@@ -881,7 +881,7 @@ groups() -> [
    end. 
 'K2-Serialization-35'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"us-ascii encoding"}. 
+   {skip,"DIS * us-ascii encoding"}. 
 'K2-Serialization-36'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -1023,7 +1023,47 @@ groups() -> [
    end. 
 'Serialization-xml-03'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"output:parameter-document"}. 
+   Qry = "
+ 
+        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+        declare option output:parameter-document \"xml/xml-character-map.xml\";
+        
+        <out att=\"abc\">XabcX</out>
+
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-03.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_serialization_match(Res,<<"<out att=['\"]AAABBBCCC['\"]>XAAABBBCCCX</out>"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'Serialization-xml-04'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"output:parameter-document"}.
+   Qry = "
+ 
+        declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+        declare option output:indent \"no\";
+        declare option output:parameter-document \"xml/param-doc-04.xml\";
+        declare option output:omit-xml-declaration \"yes\";
+        
+        <out><in>XXX</in></out>
+
+      ", 
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-xml-04.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_serialization_match(Res,<<"^<out><in><!\\[CDATA\\[XXX\\]\\]></in></out>$"/utf8>>,<<"">>) of 
+      true -> {comment, "Correct serialization"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

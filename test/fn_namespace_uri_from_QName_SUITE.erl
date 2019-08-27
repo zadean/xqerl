@@ -113,19 +113,19 @@ environment('fsx',__BaseDir) ->
 ].
 'NamespaceURIFromQNameFunc001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(())", 
@@ -173,7 +173,7 @@ environment('fsx',__BaseDir) ->
    end. 
 'NamespaceURIFromQNameFunc010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName()", 
@@ -191,13 +191,13 @@ environment('fsx',__BaseDir) ->
    end. 
 'NamespaceURIFromQNameFunc012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"spec:XQ10 XP20"}. 
@@ -249,13 +249,13 @@ environment('fsx',__BaseDir) ->
    end. 
 'NamespaceURIFromQNameFunc018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'NamespaceURIFromQNameFunc021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    {skip,"spec:XP20 XQ10, feature:schemaImport"}. 

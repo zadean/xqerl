@@ -49,16 +49,16 @@ environment('id-idref2',__BaseDir) ->
 ].
 'fn-element-with-id-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-element-with-id-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-element-with-id-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-element-with-id-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-element-with-id-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaValidation"}.

@@ -388,7 +388,7 @@ environment('acme_corp',__BaseDir) ->
    end. 
 'Constr-compelem-compname-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-compelem-compname-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:QName('aQname')} {'text'}", 

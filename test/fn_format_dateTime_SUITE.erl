@@ -2141,16 +2141,16 @@ groups() -> [
    end. 
 'format-dateTime-025b'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter us"}. 
+   {skip,"DIS * place parameter us"}. 
 'format-dateTime-025c'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter / missing olson time flag"}. 
+   {skip,"DIS * place parameter / missing olson time flag"}. 
 'format-dateTime-025d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter us"}. 
+   {skip,"DIS * place parameter us"}. 
 'format-dateTime-025e'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"place parameter / missing olson time flag"}. 
+   {skip,"DIS * place parameter / missing olson time flag"}. 
 'format-dateTime-801err'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-dateTime(current-dateTime(), '[bla]', 'en', (), ())", 
@@ -2320,7 +2320,39 @@ groups() -> [
    end. 
 'format-dateTime-en152'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"calendar:CB"}. 
+   Qry = "format-dateTime($b, '[M01]', 'en', 'CB', ())", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, [{"b","xs:dateTime","xs:dateTime('2006-03-01T12:00:00')"}]}, 
+{params, []}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
+{modules, []}
+]),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "format-dateTime-en152.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"matches($result, \"03\")") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'format-dateTime-inpt-er1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "format-dateTime('abc', '[bla]', 'en', (), ())", 

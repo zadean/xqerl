@@ -254,13 +254,13 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-local-name-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:local-name((comment {\"A Comment Node\"})))", 
@@ -308,7 +308,7 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-local-name-8a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-9'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:local-name(element anElement {\"Some content\"}))", 
@@ -356,7 +356,7 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-local-name-11a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-12'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:local-name(attribute anAttribute {\"Attribute Value\"}))", 
@@ -390,7 +390,7 @@ environment('auction',__BaseDir) ->
    end. 
 'fn-local-name-13a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'fn-local-name-14'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:local-name(processing-instruction PITarget {\"PIcontent\"}))", 

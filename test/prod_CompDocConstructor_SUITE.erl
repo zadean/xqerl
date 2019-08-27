@@ -413,16 +413,16 @@ environment('TreeEmpty',__BaseDir) ->
    end. 
 'Constr-docnode-constrmod-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-docnode-constrmod-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-docnode-constrmod-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-docnode-constrmod-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}. 
+   {skip,"feature:schemaValidation"}. 
 'Constr-docnode-doc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "document {., .}", 

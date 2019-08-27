@@ -2845,4 +2845,4 @@ environment('user-defined-types',__BaseDir) ->
 'cbcl-module-004'(Config) ->
    _ = xqerl_code_server:unload(all),
    __BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   {skip,"feature:schemaValidation"}.

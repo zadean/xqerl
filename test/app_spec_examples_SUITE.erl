@@ -10979,22 +10979,22 @@ Himmlische, dein Heiligtum.</p>}
    end. 
 'fo-test-fn-id-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-id-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-element-with-id-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-element-with-id-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-idref-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-idref-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"schemaAware"}. 
+   {skip,"feature:schemaValidation"}. 
 'fo-test-fn-serialize-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
