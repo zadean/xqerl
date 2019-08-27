@@ -203,7 +203,7 @@ validate_annos(#{method := M,
             true ->
                Map
          end,
-         Serial = xqerl_options:serialization_option_map(O),
+         Serial = xqerl_options:static_serialization_option_map(O, <<>>),
          Map1#{output := Serial};
       true ->
          {error, missing_path}

@@ -32,20 +32,22 @@
 
 -include("xqerl.hrl").
 
--export([serialization_option_map/1,
+-export([static_serialization_option_map/2,
          serialization_option_map/2]).
 
-serialization_option_map(Options) ->
-   serialization_option_map(Options, parser).
+static_serialization_option_map(Options, BaseUri) ->
+   %% Base uri is binary URI
+   serialization_option_map(Options, {parser, BaseUri}).
 
 serialization_option_map(Options, Namespaces) when is_list(Options) ->
    validate(Options, Namespaces);
 serialization_option_map(#{nk := element,
-                           nn := {?NS,_,<<"serialization-parameters">>}} = Node, 
+                           nn := {?NS,_,<<"serialization-parameters">>},
+                           ns := ENs} = Node, 
                          Namespaces) ->
    Ch = xqldb_mem_nodes:children(Node),
-   List = parse_xml_options(Ch),
-   serialization_option_map(List, Namespaces);
+   List = parse_xml_options(Ch), % each element can have namespaces...
+   serialization_option_map(List, merge_namespaces(ENs, Namespaces));
 serialization_option_map(Options, Namespaces) 
   when is_map(Options), not is_map_key(nk, Options) ->
    List = maps:to_list(Options),
@@ -56,6 +58,16 @@ serialization_option_map(Options, Namespaces)
       {KeyBin,{_,Value}} <- List1], Namespaces);
 serialization_option_map(_, _) ->
    ?err('XPTY0004').
+
+merge_namespaces(ElemMap, Outer) ->
+   Fun = fun(K, V, parser) ->
+               [#xqNamespace{namespace = V, prefix = K}];
+            (K, V, Acc) ->
+               New = #xqNamespace{namespace = V, prefix = K},
+               lists:keystore(K, #xqNamespace.prefix, Acc, New)
+         end,
+   maps:fold(Fun, Outer, ElemMap).
+
 
 type_check_mapped_vals(<<"allow-duplicate-names">>, Val) -> true_false_def(Val, <<"no">>);
 type_check_mapped_vals(<<"byte-order-mark">>, Val) -> true_false_def(Val, <<"no">>);
@@ -114,11 +126,17 @@ string_value(Val) ->
 
 decimal_value(Val) -> xqerl_types:cast_as(Val, 'xs:decimal').
 
+validate(Options, {parser, BaseUri}) ->
+   V1 = validate1(Options, #{base_uri => BaseUri}, parser),
+   validate2(V1);
 validate(Options, Namespaces) ->
    V1 = validate1(Options, #{}, Namespaces),
    validate2(V1).
 
 validate1([], State, _Namespaces) -> State;
+validate1([{A,B,ENs}|T],State, Namespaces) ->
+   Nss = merge_namespaces(ENs, Namespaces),
+   validate1([{A,B}|T],State, Nss);
 %% One of the enumerated values yes, no, true, false, 1 or 0. 
 %% This parameter indicates whether a map item serialized as a JSON object using the 
 %% JSON output method is allowed to contain duplicate member names. If the value no, 
@@ -195,8 +213,26 @@ validate1([{?OUTPUT("normalization-form"),Value}|T],State, Namespaces) ->
 %% One of the enumerated values yes, no, true, false, 1 or 0.
 validate1([{?OUTPUT("omit-xml-declaration"),Value}|T],State, Namespaces) -> 
    validate1(T, State#{'omit-xml-declaration' => true_false(Value)}, Namespaces);
+validate1([{?OUTPUT("parameter-document"), Value}|T], #{base_uri := BaseUri} = State, parser) ->
+   try
+      FileUri = xqerl_lib:resolve_against_base_uri(BaseUri, Value),
+      [Raw] = [N ||
+               #{nk := element} = N <- xqldb_mem_nodes:children(xqldb_mem_nodes:parse_file(FileUri))],
+      Map = serialization_option_map(Raw, get_parser_namespaces()),
+      % do the rest first
+      State1 = validate1(T, State, parser),
+      MFun = fun(K, _V, Acc) when is_map_key(K, Acc) ->
+                   Acc; % override file option
+                (K, V, Acc) ->
+                  Acc#{K => V}
+             end,                   
+      maps:fold(MFun, State1, Map)
+   catch
+      _:_ ->
+         ?err('XQST0119')
+   end;
 validate1([{?OUTPUT("parameter-document"),_Value}|_],_State, _Namespaces) -> 
-   ?err('XQST0119'); % not supprting parameter doc
+   ?err('XQST0119'); % not supporting parameter doc
 %% One of the enumerated values yes, no, true, false, 1 or 0 or omit.
 validate1([{?OUTPUT("standalone"),Value}|T],State, Namespaces) -> 
    Stnd = get_standalone(Value),
@@ -255,17 +291,11 @@ true_false_(<<"false">>) -> false;
 true_false_(_) -> ?err('SEPM0016').
 
 split_names_list(Values, parser) ->
-   Nss = xqerl_context:get_statically_known_namespaces(parser),
-   Def = #xqNamespace{namespace = xqerl_context:get_default_element_type_namespace(parser), 
-                      prefix = <<>>}, 
-   Nss1 = [#xqNamespace{namespace = Ns, prefix = Px} || 
-           {Px,Ns} <- dict:to_list(Nss),
-           Px =/= <<>>],
-   split_names_list(Values, [Def|Nss1]);
+   Nss = get_parser_namespaces(),
+   split_names_list(Values, Nss);
 split_names_list([#qname{}|_] = Vals, _) -> Vals;
 split_names_list(Values, Namespaces) ->
    Split = string:split(xqerl_lib:trim(Values), "\s", all),
-   ?dbg("Split",Split),
    [try
        QNm = xqerl_types:cast_as(S, 'xs:QName', Namespaces),
        QNm#xqAtomicValue.value
@@ -274,6 +304,15 @@ split_names_list(Values, Namespaces) ->
           ?err('SEPM0016')
     end || S <- Split,
            S =/= <<>>].
+
+get_parser_namespaces() ->
+   Nss = xqerl_context:get_statically_known_namespaces(parser),
+   Def = #xqNamespace{namespace = xqerl_context:get_default_element_type_namespace(parser), 
+                      prefix = <<>>}, 
+   Nss1 = [#xqNamespace{namespace = Ns, prefix = Px} || 
+           {Px,Ns} <- dict:to_list(Nss),
+           Px =/= <<>>],
+   [Def|Nss1].
 
 get_encoding(Value) ->
    case string:lowercase(Value) of
@@ -355,7 +394,10 @@ normalize_character_map(Value) ->
 
 % return all options as a list
 parse_xml_options([]) -> [];
+parse_xml_options([#{nk := text}| T]) ->
+   parse_xml_options(T);
 parse_xml_options([#{nk := element,
+                     ns := ENs,
                      nn := {?NS,_,Ln},
                      at := Atts} = N| T]) ->
    [Val] = [xqldb_mem_nodes:string_value(A) || #{nn := {<<>>,_,<<"value">>}} = A <- Atts],
@@ -364,15 +406,17 @@ parse_xml_options([#{nk := element,
              true ->
                 Val
           end,
-   [{#qname{namespace = ?NS, local_name = Ln}, Val1}|parse_xml_options(T)];
+   [{#qname{namespace = ?NS, local_name = Ln}, Val1, ENs}|parse_xml_options(T)];
 parse_xml_options([#{nk := element,
+                     ns := ENs,
                      nn := {?NS,_,Ln}} = N| T]) ->
    Val1 = if Ln == <<"use-character-maps">> ->
                 normalize_xml_character_map(N);
              true ->
                 <<>>
           end,
-   [{#qname{namespace = ?NS, local_name = Ln}, Val1}|parse_xml_options(T)].
+   [{#qname{namespace = ?NS, local_name = Ln}, Val1, ENs}|parse_xml_options(T)].
+
    
 normalize_xml_character_map(Value) ->
    Ch = xqldb_mem_nodes:children(Value),
@@ -381,6 +425,8 @@ normalize_xml_character_map(Value) ->
    normalize_xml_character_map_3(List, #{}).
 
 normalize_xml_character_map_1([]) -> [];
+normalize_xml_character_map_1([#{nk := text}|T]) ->
+   normalize_xml_character_map_1(T);
 normalize_xml_character_map_1([#{nk := element,
                                 nn := {?NS,_,<<"character-map">>},
                                 at := Atts}|T]) ->
@@ -403,9 +449,9 @@ normalize_xml_character_map_3([H|T], Map) ->
       [_] -> ?err('SEPM0017');
       [{char,C},{string,_}] when is_map_key(C, Map) -> ?err('SEPM0017');
       [{char,C},{string,S}] ->
-         normalize_xml_character_map_3(T, #{C => {C,S}});
+         normalize_xml_character_map_3(T, Map#{C => {C,S}});
       [{string,_},{char,C}] when is_map_key(C, Map) -> ?err('SEPM0017');
       [{string,S},{char,C}] -> 
-         normalize_xml_character_map_3(T, #{C => {C,S}})
+         normalize_xml_character_map_3(T, Map#{C => {C,S}})
    end;
 normalize_xml_character_map_3([], Map) -> Map.

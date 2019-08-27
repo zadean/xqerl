@@ -37,9 +37,8 @@
 
 serialize(Seq, Opts) ->
    Opts1 = maps:merge(default_opts(), Opts),
-   Ser = do_serialize(Seq, Opts1),
-   normalize_string_value(Ser, Opts1).
-
+   do_serialize(Seq, Opts1).
+   
 default_opts() ->
    #{
      'allow-duplicate-names'  => false,
@@ -357,15 +356,17 @@ do_serialize(Seq, #{method := json} = Opts) ->
    do_serialize_json(Seq, Opts);
 do_serialize(Seq, #{method := text} = Opts) ->
    do_serialize_text(Seq, Opts);
-do_serialize(Seq, #{method := xml} = Opts) ->
+do_serialize(Seq, #{method := xml,
+                    'use-character-maps' := CMap} = Opts) ->
    Norm = normalize_seq(Seq, Opts),
    TextPattern = binary:compile_pattern([<<"<">>,<<">">>,<<"&">>,<<"\r">>]),
    TextEncoder = 
       fun(Bin) ->
             case binary:match(Bin, TextPattern) of
-               nomatch -> Bin;
+               nomatch -> 
+                  encode_m_text_(Bin, CMap);
                _ ->
-                  encode_text_(Bin)
+                  encode_text_(Bin, CMap)
             end
       end,                       
    do_serialize_xml(Norm, Opts#{text_encoder => TextEncoder});
@@ -399,7 +400,7 @@ do_serialize_json(Map, Opts) when is_map(Map) ->
            true -> ok;
            false -> check_duplicate_keys(KVs1,[])
         end,
-   KVs2 = [<<K/binary,$:,V/binary>> || {K,V} <- KVs1],
+   KVs2 = [<<(normalize_string_value(K, Opts))/binary,$:,V/binary>> || {K,V} <- KVs1],
    Body = string_join(KVs2, <<$,>>),
    <<"{",Body/binary,"}">>;
 do_serialize_json(#xqAtomicValue{value = nan}, _Opts) -> ?err('SERE0020');
@@ -420,9 +421,9 @@ do_serialize_json(true, _Opts) ->
 do_serialize_json(false, _Opts) ->
    <<"false">>;
 do_serialize_json(Bin, Opts) when is_binary(Bin) ->
-   to_json_string(Bin, Opts);
+   normalize_string_value(to_json_string(Bin, Opts), Opts);
 do_serialize_json(#xqAtomicValue{} = Atomic, Opts) ->
-   to_json_string(Atomic, Opts);
+   normalize_string_value(to_json_string(Atomic, Opts), Opts);
 do_serialize_json([], _Opts) ->
    <<"null">>;
 do_serialize_json([V], Opts) ->
@@ -435,14 +436,15 @@ do_serialize_json(_, _) ->
 do_serialize_adaptive(Seq, #{'item-separator' := Sep} = Opts) when is_list(Seq) ->
    Seq1 = [do_serialize_adaptive(S, Opts) || S <- Seq],
    string_join(Seq1, Sep);
-do_serialize_adaptive(#{nk := _} = Node, Opts) ->
+do_serialize_adaptive(#{nk := _} = Node, #{'use-character-maps' := CMap} = Opts) ->
    TextPattern = binary:compile_pattern([<<"<">>,<<">">>,<<"&">>,<<"\r">>]),
    TextEncoder = 
       fun(Bin) ->
             case binary:match(Bin, TextPattern) of
-               nomatch -> Bin;
+               nomatch ->
+                  encode_m_text_(Bin, CMap);
                _ ->
-                  encode_text_(Bin)
+                  encode_text_(Bin, CMap)
             end
       end,                       
    do_serialize_xml(Node, Opts#{text_encoder => TextEncoder});
@@ -582,7 +584,8 @@ do_serialize_html(#{nk := script} = Node, _Opts, _) ->
    xqldb_mem_nodes:string_value(Node);
 do_serialize_html(#{nk := attribute,
                      nn := NodeName} = Node, #{'escape-uri-attributes' := true,
-                                               parent_name := ParentNodeName}, _) ->
+                                               parent_name := ParentNodeName,
+                                               'use-character-maps' := CMap}, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = 
@@ -590,14 +593,14 @@ do_serialize_html(#{nk := attribute,
          true ->
             encode_uri_att_text(Txt);
          false ->
-            encode_att_text(Txt)
+            encode_att_text(Txt, CMap)
       end,
    <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 do_serialize_html(#{nk := attribute,
-                     nn := NodeName} = Node, _Opts, _) ->
+                     nn := NodeName} = Node, #{'use-character-maps' := CMap}, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
-   AttTxt = encode_att_text(Txt),
+   AttTxt = encode_att_text(Txt, CMap),
    <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 
 do_serialize_html(#{nk := element,
@@ -699,7 +702,8 @@ do_serialize_xhtml(#{nk := script} = Node, _Opts, _) ->
    xqldb_mem_nodes:string_value(Node);
 do_serialize_xhtml(#{nk := attribute,
                      nn := NodeName} = Node, #{'escape-uri-attributes' := true,
-                                               parent_name := ParentNodeName}, _) ->
+                                               parent_name := ParentNodeName,
+                                               'use-character-maps' := CMap}, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
    AttTxt = 
@@ -707,14 +711,14 @@ do_serialize_xhtml(#{nk := attribute,
          true ->
             encode_uri_att_text(Txt);
          false ->
-            encode_att_text(Txt)
+            encode_att_text(Txt, CMap)
       end,
    <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 do_serialize_xhtml(#{nk := attribute,
-                     nn := NodeName} = Node, _Opts, _) ->
+                     nn := NodeName} = Node, #{'use-character-maps' := CMap}, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
-   AttTxt = encode_att_text(Txt),
+   AttTxt = encode_att_text(Txt, CMap),
    <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 
 do_serialize_xhtml(#{nk := element,
@@ -810,10 +814,10 @@ do_serialize_xml(#{nk := cdata} = Node, _Opts, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    encode_cdata(Txt);
 do_serialize_xml(#{nk := attribute,
-                   nn := NodeName} = Node, _Opts, _) ->
+                   nn := NodeName} = Node, #{'use-character-maps' := CMap}, _) ->
    Txt = xqldb_mem_nodes:string_value(Node),
    QNm = encode_qname(NodeName),
-   AttTxt = encode_att_text(Txt),
+   AttTxt = encode_att_text(Txt, CMap),
    [QNm, "=\"", AttTxt, "\""];
 do_serialize_xml(#{nk := element,
                    ch := _,
@@ -896,9 +900,24 @@ normalize_prefixes(Node, _) ->
 encode_text(Bin, #{text_encoder := TextEncoder}) -> %% XXX move encoders to nifs 
    TextEncoder(Bin).
 
-encode_text_(Bin) ->
+encode_m_text_(Bin, CMap) ->
+   case maps:size(CMap) of
+      0 -> Bin;
+      _ ->
+         <<
+           <<(case B of
+                 _ when is_map_key(B, CMap) ->
+                    maps:get(B, CMap);
+                 _ -> <<B>>
+              end)/binary>>
+         || <<B>> <= Bin >>
+   end.   
+         
+encode_text_(Bin, CMap) ->
    <<
      <<(case B of
+           _ when is_map_key(B, CMap) ->
+              maps:get(B, CMap);
            $& -> <<"&amp;">>;
            $< -> <<"&lt;">>;
            $> -> <<"&gt;">>;
@@ -953,36 +972,39 @@ encode_cdata(<<>>, Acc) ->
    <<Acc/binary,"]]>">>.
 
 
-encode_att_text(Bin) -> encode_att_text(Bin,<<>>).
+encode_att_text(Bin, CMap) -> encode_att_text(Bin, <<>>, CMap).
 
-encode_att_text(<<>>,Acc) -> Acc;
-encode_att_text(?CP_REST(H, Tail),Acc) when H == 16#0d ->
-   encode_att_text(Tail,<<Acc/binary,"&#xD;">>);
-encode_att_text(?CP_REST(H, Tail),Acc) when H == 16#0a ->
-   encode_att_text(Tail,<<Acc/binary,"&#xA;">>);
-encode_att_text(?CP_REST(H, Tail),Acc) when H == 16#09 ->
-   encode_att_text(Tail,<<Acc/binary,"&#x9;">>);
-encode_att_text(?CP_REST(H, Tail),Acc) 
+encode_att_text(<<>>, Acc, _) -> Acc;
+encode_att_text(?CP_REST(H, Tail), Acc, CMap) when is_map_key(H, CMap) ->
+   S = maps:get(H, CMap),
+   encode_att_text(Tail,<<Acc/binary,S/binary>>, CMap);
+encode_att_text(?CP_REST(H, Tail), Acc, CMap) when H == 16#0d ->
+   encode_att_text(Tail,<<Acc/binary,"&#xD;">>, CMap);
+encode_att_text(?CP_REST(H, Tail),Acc, CMap) when H == 16#0a ->
+   encode_att_text(Tail,<<Acc/binary,"&#xA;">>, CMap);
+encode_att_text(?CP_REST(H, Tail),Acc, CMap) when H == 16#09 ->
+   encode_att_text(Tail,<<Acc/binary,"&#x9;">>, CMap);
+encode_att_text(?CP_REST(H, Tail),Acc, CMap) 
   when H >= 127 ->
-   encode_att_text(Tail,<<Acc/binary,"&#x",(integer_to_binary(H,16))/binary,";">>);
-encode_att_text(?STR_REST("\"", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&quot;">>);
-encode_att_text(?STR_REST("<", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&lt;">>);
-encode_att_text(?STR_REST(">", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&gt;">>);
-encode_att_text(?STR_REST("&", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&amp;">>);
-encode_att_text(?STR_REST("{{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("}}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?STR_REST("}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?CP_REST(H, Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,H/utf8>>).
+   encode_att_text(Tail,<<Acc/binary,"&#x",(integer_to_binary(H,16))/binary,";">>, CMap);
+encode_att_text(?STR_REST("\"", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"&quot;">>, CMap);
+encode_att_text(?STR_REST("<", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"&lt;">>, CMap);
+encode_att_text(?STR_REST(">", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"&gt;">>, CMap);
+encode_att_text(?STR_REST("&", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"&amp;">>, CMap);
+encode_att_text(?STR_REST("{{", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"{{">>, CMap);
+encode_att_text(?STR_REST("{", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"{{">>, CMap);
+encode_att_text(?STR_REST("}}", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"}}">>, CMap);
+encode_att_text(?STR_REST("}", Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,"}}">>, CMap);
+encode_att_text(?CP_REST(H, Tail),Acc, CMap) ->
+   encode_att_text(Tail,<<Acc/binary,H/utf8>>, CMap).
 
 encode_uri_att_text(Bin) -> 
    Nfc = unicode:characters_to_nfc_binary(Bin),
@@ -1082,14 +1104,9 @@ duplicate_quotes(<<C/utf8,Rest/binary>>, Acc) ->
    duplicate_quotes(Rest, <<Acc/binary,C/utf8>>);
 duplicate_quotes(<<>>, Acc) -> Acc.
 
-to_json_string(Val, #{'normalization-form' := Form}) ->
+to_json_string(Val, _Opts) ->
    Str = xqerl_types:string_value(Val),
-   Str1 = if Form == nfc ->
-                unicode:characters_to_nfc_binary(Str);
-             Form == none ->
-                Str
-          end,             
-   Esc = xqerl_json:xml_no_escape(Str1, <<>>),
+   Esc = xqerl_json:xml_no_escape(Str, <<>>),
    <<$",Esc/binary,$">>.
 
 normalize_string_value(Val, #{'normalization-form' := nfc,

@@ -289,7 +289,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                        },
    State1 = scan_namespaces(State0, ConstNamespaces),
    State2 = scan_setters(State1, Setters),
-   OptionMap = scan_options(Options),
+   OptionMap = scan_options(Options, BaseUri),
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
    VariableSigs = scan_variables(State2,VariablesSorted),
@@ -4287,8 +4287,8 @@ scan_namespaces(State, Namespaces) ->
    %State1 = set_inscope_ns(State, Default),
    State#state{known_ns = NsList}.
 
-scan_options(Options) ->
-   xqerl_options:serialization_option_map(Options).
+scan_options(Options, BaseUri) ->
+   xqerl_options:static_serialization_option_map(Options, BaseUri).
 
 scan_dec_formats(Formats,State) ->
    RecF = fun({F,V}, R) ->
