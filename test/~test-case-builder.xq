@@ -16,7 +16,7 @@ declare variable $_:supported :=
   (: map of what is or is not supported :)
   map{
     'calendar' : map{
-      'CB' : true()
+      'CB' : false()
     },
     'default-language' : map{
       'en' : true(),
@@ -152,79 +152,62 @@ declare variable $_:SKIP_CATALOG :=
   map{
    'fn-static-base-uri' : 
     map{
-      'fn-static-base-15' : 'static-base-uri environment'
+      'fn-static-base-15' : 'DIS * static-base-uri set at compile time'
     },
    'app-spec-examples' :
     map{
-      'fo-test-fn-id-001' : 'schemaAware',
-      'fo-test-fn-id-002' : 'schemaAware',
-      'fo-test-fn-element-with-id-001' : 'schemaAware',
-      'fo-test-fn-element-with-id-002' : 'schemaAware',
-      'fo-test-fn-idref-001' : 'schemaAware',
-      'fo-test-fn-idref-002' : 'schemaAware'
+      'fo-test-fn-id-001' : 'feature:schemaValidation',
+      'fo-test-fn-id-002' : 'feature:schemaValidation',
+      'fo-test-fn-element-with-id-001' : 'feature:schemaValidation',
+      'fo-test-fn-element-with-id-002' : 'feature:schemaValidation',
+      'fo-test-fn-idref-001' : 'feature:schemaValidation',
+      'fo-test-fn-idref-002' : 'feature:schemaValidation'
     },
    'prod-OptionDecl.serialization' : 
     map{
-      'Serialization-001' : 'output:doctype is none',
-      'Serialization-003' : 'output:parameter-document',
-      'Serialization-007' : 'output:parameter-document',
-      'Serialization-035' : 'output:parameter-document'
+      'Serialization-001' : 'DIS * output:doctype is none'
     },
    'prod-BaseURIDecl' :
     map{
-      'K2-BaseURIProlog-5' : 'assumed *.xml base-uri'
+      'K2-BaseURIProlog-5' : 'DIS * assumed *.xml base-uri'
     },
    'method-xml' :
     map{
-      'K2-Serialization-35'  : 'us-ascii encoding',
-      'Serialization-xml-03' : 'output:parameter-document',
-      'Serialization-xml-04' : 'output:parameter-document'
-    },
-   'method-json' :
-    map{
-      'Serialization-json-34' : 'output:parameter-document',
-      'Serialization-json-35' : 'output:parameter-document',
-      'Serialization-json-36' : 'output:parameter-document',
-      'Serialization-json-37' : 'output:parameter-document',
-      'Serialization-json-38' : 'output:parameter-document',
-      'Serialization-json-39' : 'output:parameter-document',
-      'Serialization-json-53' : 'output:parameter-document',
-      'Serialization-json-54' : 'output:parameter-document',
-      'Serialization-json-55' : 'output:parameter-document'
+      'K2-Serialization-35'  : 'DIS * us-ascii encoding'
     },
    'fn-serialize' :
     map{
-      'serialize-json-114' : 'ISO-8859-1 encoding',
+      'serialize-json-114' : 'DIS * ISO-8859-1 encoding',
       'serialize-html-001' : 'PR * html can be either case',
       'serialize-html-002' : 'PR * html can be either case'
     },
    'app-Walmsley' :
     map{
-      'd1e42362' : 'serialized response checked for map(*) type'
+      'd1e42362' : 'DIS * serialized response checked for map(*) type'
     },
    'fn-format-dateTime' :
     map{
-      'format-dateTime-025b' : 'place parameter us',
-      'format-dateTime-025c' : 'place parameter / missing olson time flag',
-      'format-dateTime-025d' : 'place parameter us',
-      'format-dateTime-025e' : 'place parameter / missing olson time flag'
+      'format-dateTime-025b' : 'DIS * place parameter us',
+      'format-dateTime-025c' : 'DIS * place parameter / missing olson time flag',
+      'format-dateTime-025d' : 'DIS * place parameter us',
+      'format-dateTime-025e' : 'DIS * place parameter / missing olson time flag'
     },
    'fn-format-time' :
     map{
-      'format-time-025b' : 'place parameter us',
-      'format-time-025c' : 'place parameter / missing olson time flag'
+      'format-time-025b' : 'DIS * place parameter us',
+      'format-time-025c' : 'DIS * place parameter / missing olson time flag'
     },
    'fn-matches.re' :
     map{
-      're00984' : 'Issue #6 unicode catagory of 2 characters'
+      're00984' : 'PR * Issue #6 unicode category of 2 characters'
     },
    'fn-matches' :
     map{
-      'cbcl-matches-038' : 'Erlang quantifier overflow at 65536'
+      'cbcl-matches-038' : 'TB * Erlang quantifier overflow at 65536'
     },
    'app-UseCaseR31' :
     map{
-      'UseCaseR31-030' : 'PR* missing environment'
+      'UseCaseR31-030' : 'PR * missing environment'
     }
   };
 
@@ -548,9 +531,9 @@ declare function _:print-testcase($test-case, $suite) as xs:string
     
     (: validation environments :)
     else if ($env = $inscope-schema-envs) then 
-    "   {skip,""Validation Environment""}"
+    "   {skip,""feature:schemaValidation""}"
     else if ($test-case/*:environment/*:schema) then 
-    "   {skip,""Validation Environment""}"
+    "   {skip,""feature:schemaImport""}"
     
     else
       $f()
@@ -948,7 +931,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set(: [@name = "prod-ModuleImport"] :)
+      $catalog/*:catalog/*:test-set(: [@name = "prod-OptionDecl.serialization"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
