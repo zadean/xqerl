@@ -177,9 +177,7 @@ declare variable $_:SKIP_CATALOG :=
     },
    'fn-serialize' :
     map{
-      'serialize-json-114' : 'DIS * ISO-8859-1 encoding',
-      'serialize-html-001' : 'PR * html can be either case',
-      'serialize-html-002' : 'PR * html can be either case'
+      'serialize-json-114' : 'DIS * ISO-8859-1 encoding'
     },
    'app-Walmsley' :
     map{
@@ -932,7 +930,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set(: [@name = "prod-OptionDecl.serialization"] :)
+      $catalog/*:catalog/*:test-set(: [@name = "fn-serialize"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
