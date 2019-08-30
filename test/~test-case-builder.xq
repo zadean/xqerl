@@ -28,7 +28,7 @@ declare variable $_:supported :=
       'collection-stability' : true(),
       'directory-as-collection-uri' : false(),
       'fn-format-integer-CLDR' : true(),
-      'fn-load-xquery-module' : false(),
+      'fn-load-xquery-module' : true(),
       'fn-transform-XSLT' : false(),
       'fn-transform-XSLT30' : false(),
       'higherOrderFunctions' : true(),
@@ -193,7 +193,8 @@ declare variable $_:SKIP_CATALOG :=
    'fn-format-time' :
     map{
       'format-time-025b' : 'DIS * place parameter us',
-      'format-time-025c' : 'DIS * place parameter / missing olson time flag'
+      'format-time-025c' : 'DIS * place parameter / missing olson time flag',
+      'format-time-023u' : 'DIS * 00 or 0'
     },
    'fn-matches.re' :
     map{
@@ -515,7 +516,7 @@ declare function _:print-testcase($test-case, $suite) as xs:string
   return
   "'"||$name||"'(Config) ->"||$_:n||
   (
-    if ($suite = 'prod-ModuleImport') then
+    if ($suite = ('prod-ModuleImport', 'fn-load-xquery-module') ) then
     "   _ = xqerl_code_server:unload(all),"||$_:n
     else ""
   ) ||
@@ -791,7 +792,14 @@ declare function _:do-name-as-select($vars) as xs:string?
 {
   let $f := function($a)
             {
-              "{"""||$a/@name||""","""||
+              let $res := resolve-QName($a/@name, $a)
+              let $str := 
+                if ( not(contains($a/@name, ':'))) then
+                  $res => string()
+                else
+                  'Q{' || namespace-uri-from-QName($res) || '}' || local-name-from-QName($res)
+              return
+              "{"""||$str||""","""||
               $a/@as||""","||
               _:mask-string($a/@select)||"}"
             }
@@ -930,7 +938,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
     (# x:parallel unordered #){
-      $catalog/*:catalog/*:test-set(: [@name = "fn-serialize"] :)
+      $catalog/*:catalog/*:test-set(: [@name = "fn-load-xquery-module"] :)
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
@@ -981,6 +989,7 @@ let $standardFuns       :=
   _:mod_all($testCases, $SUITE = ('expath_file_SUITE',
                                   'fn_collection_SUITE', 
                                   'prod_ModuleImport_SUITE', 
+                                  'fn_load_xquery_module_SUITE',
                                   'app_Demos_SUITE',
                                   'prod_ContextItemDecl_SUITE'))
 let $usedEnvironments := _:get-used-environments($testCases)

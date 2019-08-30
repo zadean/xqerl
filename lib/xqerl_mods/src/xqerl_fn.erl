@@ -2415,7 +2415,8 @@ get_static_function(Ctx,{#qname{namespace = ?NS,
    (get_static_function(Ctx, {Name, 1}))#xqFunction{arity = Arity};
 get_static_function(#{tab := Tab} = Ctx,
                     {#qname{namespace = Ns, local_name = Ln}, Arity}) ->
-   Sigs = xqerl_context:get_named_functions(Tab),
+   {ok, Stat} = xqerl_code_server:get_function_signatures(Ns, Ln),
+   Sigs = xqerl_context:get_named_functions(Tab) ++ Stat,
    Lookup = [#xqFunction{annotations = Annotations,
                          name = Name1,
                          arity = Arity1,
@@ -2434,12 +2435,10 @@ get_static_function(#{tab := Tab} = Ctx,
                Ns == Ns1,
                Ln == Ln1,
                Arity == Arity1],
-   FunSig = if length(Lookup) == 1 ->
-                  hd(Lookup);
-               true ->
-                  []
-            end,
-   FunSig.
+   case Lookup of
+      [F] -> F;
+      _ -> []         
+   end.
 
 close_context(_Ctx,xqerl_fn,concat,_) ->
    fun xqerl_fn:concat/2;
@@ -2957,16 +2956,114 @@ check_json_to_xml_opts(_) ->
 %% fn:load-xquery-module($module-uri as xs:string) as map(*)
 -spec 'load-xquery-module'(xq_types:context(),
                            xq_types:xs_string()) ->
-         %xq_types:xq_map() | 
-           xq_types:xs_error().
-'load-xquery-module'(_Ctx,_Arg1) -> ?err('FOQM0006').
+         xq_types:xq_map().
+'load-xquery-module'(Ctx, Arg1) -> 'load-xquery-module'(Ctx, Arg1, #{}).
 %% fn:load-xquery-module($module-uri as xs:string, $options as map(*)) as map(*)
 -spec 'load-xquery-module'(xq_types:context(),
                            xq_types:xs_string(),
                            xq_types:xq_map()) ->
-         %xq_types:xq_map() | 
-           xq_types:xs_error().
-'load-xquery-module'(_Ctx,_Arg1,_Arg2) -> ?err('FOQM0006').
+         xq_types:xq_map().
+'load-xquery-module'(_, <<>>, _) -> ?err('FOQM0001');
+'load-xquery-module'(Ctx, ModUri, Opts) ->
+   try
+      xqerl_code_server:get_signatures(<<"Q{", ModUri/binary, "}">>)
+   of
+      {ok, {Mod, Funs, Vars}} ->
+         Opts1 = parse_load_opts(
+                   ['context-item',variables,
+                    'vendor-options','xquery-version'], Opts, #{}),
+         Ctx0 = remove_imports(Ctx),
+         Ctx1 = maps:merge(Ctx0, Opts1),
+         try
+            Ctx2 = Mod:init(Ctx1),
+            % check that any context item type matches
+            CiType = proplists:get_value(context_item_type, Mod:static_props(), #xqSeqType{}),
+            _ = case Opts1 of
+                   #{'context-item' := {CI,_}} ->
+                      try
+                         xqerl_types:promote(CI, CiType)
+                      catch
+                         _:_ ->
+                            ?err('FOQM0005')
+                      end;
+                   _ ->
+                      ok
+                end,
+            VarsM = xqerl_map:construct(ok, [{?atm('xs:QName',QName#qname{namespace = ModUri}), maps:get(AtomName, Ctx2)} || 
+                                             {QName, _, _, {_,AtomName}, _} <- Vars]),
+            Funs1 = merge_function_map(ModUri, Ctx2, Funs, #{}),
+            FunsM = xqerl_map:construct(ok,
+                      [{K, xqerl_map:construct(ok,V)} || 
+                       {K,V} <- maps:to_list(Funs1)]),
+            xqerl_map:construct(ok,
+                                [{<<"variables">>, VarsM},
+                                 {<<"functions">>, FunsM}])
+         catch
+            ?ERROR_MATCH(?A("XPTY0004")) ->
+               ?err('FOQM0005')
+         end
+   catch
+      _:_:_->
+         ?err('FOQM0002')
+   end.
+
+remove_imports(Ctx) ->
+   maps:fold(fun(_, imported, A) ->
+                   A;
+                (K, V, A) ->
+                   A#{K => V}
+             end, #{}, Ctx).
+
+merge_function_map(ModUri, Ctx, [{QName0,Type,Annos,{M,F,A},Arity,Params}|T], Mapped) ->
+   QName = QName0#qname{namespace = ModUri},
+   Key = ?atm('xs:QName',QName),
+   Fun = #xqFunction{annotations = Annos,
+                     name = QName,
+                     arity = Arity,
+                     params = Params,
+                     type = Type,
+                     body = close_context(Ctx,M,F,A),
+                     external = false},
+   Mapped1 = case Mapped of
+                #{Key := V} ->
+                   Mapped#{Key := [{Arity, Fun}|V]};
+                _ ->
+                   Mapped#{Key => [{Arity, Fun}]}
+             end,
+   merge_function_map(ModUri, Ctx, T, Mapped1);
+merge_function_map(_, _, [], Mapped) ->
+  Mapped.
+
+parse_load_opts(['context-item'|T], #{<<"context-item">> := {_, V}} = O, M) ->
+   parse_load_opts(T, O, M#{'context-item' => {V, 1}}); % item plus position
+parse_load_opts([variables|T], #{<<"variables">> := {_, V}} = O, M) ->
+   _ = xqerl_types:promote(V, #xqSeqType{type = #xqFunTest{kind = map,
+                                            params = [#xqSeqType{type = 'xs:QName', occur = one}]}, occur = one}),
+   F = fun({#xqAtomicValue{value = #qname{namespace = N,local_name = L}}, Val}) ->
+             {true, {<<"Q{", N/binary, "}", L/binary>>, Val}};
+          (_) ->
+             ?err('XPTY0004')
+       end,
+   NVs = maps:from_list(lists:filtermap(F, maps:values(V))),
+   parse_load_opts(T, O, maps:merge(M, NVs));
+parse_load_opts(['vendor-options'|T], #{<<"vendor-options">> := {_, V}} = O, M) ->
+   _ = xqerl_types:promote(V, #xqSeqType{type = #xqFunTest{kind = map,
+                                            params = [#xqSeqType{type = 'xs:QName', occur = one}]}, occur = one}),
+   parse_load_opts(T, O, M);
+parse_load_opts(['xquery-version'|T], #{<<"xquery-version">> := {_, V}} = O, M) ->
+   V1 = xqerl_types:promote(V, #xqSeqType{type = 'xs:decimal', occur = one}),
+   _ = case xqerl_types:value(V1) of
+          #xsDecimal{int = 31, scf = 1} -> ok;
+          #xsDecimal{int = 3, scf = 0} -> ok;
+          #xsDecimal{int = 1, scf = 0} -> ok;
+          _ ->
+            ?err('FOQM0006')
+      end,
+   parse_load_opts(T, O, M);
+
+parse_load_opts([_|T], O, M) -> parse_load_opts(T, O, M);
+parse_load_opts([], _, M) -> M.
+   
 
 %% Returns the local part of the name of $arg as an xs:string that is 
 %% either the zero-length string, or has the lexical form of an xs:NCName. 

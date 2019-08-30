@@ -10684,23 +10684,37 @@ string')",
    end. 
 'fn-function-lookup-760'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"feature:fn-load-xquery-module"}. 
-'fn-function-lookup-761'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( 0 )", 
+   Qry = "let $module-ns := \"http://www.w3.org/fots/fn/load-xquery-module/valid/module\", $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)($module-ns)
+      return
+        let $vars := $module(\"variables\"),
+         $fns := $module(\"functions\")
+        return
+          let $var-values := ($vars(QName($module-ns, \"var1\")), $vars(QName($module-ns, \"var2\"))),
+           $fns-values := ($fns(QName($module-ns, \"func1\"))(0)(), $fns(QName($module-ns, \"func2\"))(0)())
+          return
+            ($var-values, $fns-values)
+    ", 
+   Hints = [{filename:join(__BaseDir, "load-xquery-module/valid-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/valid/module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-761.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
-      true -> {comment, "Correct error"};
-      {true, F} -> {comment, "WE: FOQM0006 " ++ binary_to_list(F)};
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-760.xq"), Qry1),
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
+   Out =    case xqerl_test:assert_deep_eq(Res,"(\"var1\", \"var2\", \"func1\", \"func2\")") of 
+      true -> {comment, "Deep equal"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'fn-function-lookup-761'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"feature:fn-load-xquery-module"}. 
 'fn-function-lookup-762'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2))", 
@@ -10718,23 +10732,34 @@ string')",
    end. 
 'fn-function-lookup-763'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"feature:fn-load-xquery-module"}. 
-'fn-function-lookup-764'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)( \"\", map{} )", 
+   Qry = "
+      let $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)(\"http://www.w3.org/fots/fn/load-xquery-module/context-item/module\", map{\"context-item\" : <a><b>hello</b></a>})
+      return
+        let $f := $module(\"functions\")(QName(\"http://www.w3.org/fots/fn/load-xquery-module/context-item/module\", \"get-context-child\"))(0)
+        return
+          $f()
+    ", 
+   Hints = [{filename:join(__BaseDir, "load-xquery-module/context-item-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/context-item/module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-764.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"FOQM0006") of 
-      true -> {comment, "Correct error"};
-      {true, F} -> {comment, "WE: FOQM0006 " ++ binary_to_list(F)};
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-763.xq"), Qry1),
+             xqerl:run(Mod) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
+   Out =    case xqerl_test:assert_xml(Res,"<b>hello</b>") of 
+      true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
+'fn-function-lookup-764'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"feature:fn-load-xquery-module"}. 
 'fn-function-lookup-765'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1))", 

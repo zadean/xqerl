@@ -313,8 +313,9 @@ handle_tree(#xqModule{version = {Version,Encoding},
    {VarFunPart,State4} = 
      lists:mapfoldl(fun(Node,IState1) ->
                           % reset the context type for each fun
+                          IState3 = set_statement_type(IState1, CtxItemType),
                           IState = 
-                            handle_node(IState1#state{context_item_type = 
+                            handle_node(IState3#state{context_item_type = 
                                                         CtxItemType}, Node),
                           {get_statement(IState), IState}
                     end, State3, FunVarSorted ++ [Body]),

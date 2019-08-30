@@ -61,6 +61,8 @@
 
 -export([get_static_signatures/0,
          get_signatures/1,
+         library_namespaces/0,
+         get_function_signatures/2,
          unload/1]).
 
 %% ====================================================================
@@ -111,6 +113,13 @@ get_signatures(ModNamespace) ->
       _ ->
          {ok, Rep}
    end.
+
+get_function_signatures(Namespace, LocalName) ->
+   Rep = gen_server:call(?MODULE, {get_fun_sigs, Namespace, LocalName}, ?TIMEOUT),
+   {ok, Rep}.
+
+library_namespaces() ->
+   gen_server:call(?MODULE, get_lib_namespaces, ?TIMEOUT).
 
 unload(_) ->
    gen_server:call(?MODULE, unload, ?TIMEOUT).
@@ -195,6 +204,30 @@ handle_call(unload, _From, #{tab  := Tab,
 handle_call(get_static_sigs, _From, #{stat := Sigs} = State) ->
    {reply, Sigs, State, ?TIMEOUT};
 
+handle_call({get_fun_sigs, 'no-namespace', _}, _From, State) ->
+   {reply, [], State, ?TIMEOUT};
+handle_call({get_fun_sigs, Namespace, LocalName}, _From, #{tab  := Tab,
+                                                           stat := {Sigs,_,_}} = State) ->
+   Reply = 
+      case lists:member(Namespace, static_module_namespaces()) of
+         true ->
+            [Sig || 
+             Sig <- Sigs,
+             (element(1,Sig))#qname.local_name == LocalName,
+             (element(1,Sig))#qname.namespace == Namespace
+            ];
+         false ->
+            QNs = <<"Q{", Namespace/binary, "}">>,
+            case dets:lookup(Tab, QNs) of
+               [] -> [];
+               [#xq_module{function_sigs = Funs}] ->
+                  [F || 
+                   F <- Funs,
+                   (element(1,F))#qname.local_name == LocalName]
+            end
+      end,
+   {reply, Reply, State, ?TIMEOUT};
+   
 handle_call({get_signatures, Namespace0}, _From, #{tab := Tab} = State) ->
    Namespace = trim_q(Namespace0),
    
@@ -207,6 +240,11 @@ handle_call({get_signatures, Namespace0}, _From, #{tab := Tab} = State) ->
                  {Name, Funs, Vars}
            end,
     {reply, Reply, State, ?TIMEOUT};
+handle_call(get_lib_namespaces, _From, #{tab := Tab} = State) ->
+   Reply = dets:select(Tab, [{'$1',
+                              [{'==',{element,#xq_module.type,'$1'}, library}],
+                              [{element,#xq_module.target_namespace,'$1'}]}]),
+   {reply, Reply, State, ?TIMEOUT};
 
 handle_call({save_mod, Rec, Beam}, _From, State) ->
    Reply = save_module(Rec, Beam, State),
@@ -259,7 +297,10 @@ code_change(_OldVsn, State, _Extra) ->
 %% Internal functions
 %% ====================================================================
 
-
+static_module_namespaces() ->
+   [Ns ||
+    {Px, Ns} <- xqerl_context:static_namespaces(),
+    Px =/= <<>>, Px =/= <<"local">>, Px =/= <<"xsi">>, Px =/= <<"xml">>].
 
 static_signatures() ->
    Mods = ?STATIC_MODS,

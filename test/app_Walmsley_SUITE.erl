@@ -4840,10 +4840,89 @@ parse-json('{
    end. 
 'd1e78807i'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"feature:fn-load-xquery-module"}. 
+   Qry = "declare namespace strings = \"http://datypic.com/strings\";
+         let $library := load-xquery-module(\"http://datypic.com/strings\")
+         let $trimFunction := $library?functions?(xs:QName(\"strings:trim\"))?1
+         return $trimFunction(\"   x   y   \")", 
+   Hints = [{filename:join(__BaseDir, "Walmsley/strings.xqm"), <<"Q{http://datypic.com/strings}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807i.xq"), Qry1),
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
+   Out =    case xqerl_test:assert_string_value(Res, "x   y") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'd1e78807j'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"feature:fn-load-xquery-module"}. 
+   Qry = "declare namespace prod = \"http://datypic.com/prod\";
+         let $library := load-xquery-module(\"http://datypic.com/prod\",
+         map {\"context-item\" : doc(\"catalog.xml\")/catalog,
+         \"location-hints\" : \"lib2.xqm\",
+         \"variables\" : map{
+         xs:QName(\"prod:label\") : \"Product Count\"}
+         })
+         let $prodsVariableValue := $library?variables?(xs:QName(\"prod:prods\"))
+         let $countProdArity1 := $library?functions?(xs:QName(\"prod:countProds\"))?1
+         return $countProdArity1($prodsVariableValue)", 
+   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807j.xq"), Qry1),
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
+   Out =    case xqerl_test:assert_string_value(Res, "Product Count: 4") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'd1e78807k'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   {skip,"feature:fn-load-xquery-module"}.
+   Qry = "
+         declare namespace prod = \"http://datypic.com/prod\";
+         let $library := load-xquery-module(\"http://datypic.com/prod\",
+         map {\"context-item\" : doc(\"catalog.xml\")/catalog,
+         \"variables\" : map{
+         xs:QName(\"prod:label\") : \"Product Count\"}
+         })
+         let $prodsVariableValue := $library?variables?(xs:QName(\"prod:prods\"))
+         let $countProdArity2 := $library?functions?(xs:QName(\"prod:countProds\"))?2
+         return $countProdArity2($prodsVariableValue, \"ACC\")
+      ", 
+   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
+   {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807k.xq"), Qry1),
+             xqerl:run(Mod,Opts) of 
+                Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
+                   xqerl_test:combined_error(Etup, LibList);
+                D -> D 
+         catch _:E -> xqerl_test:combined_error(E, LibList) end,
+   Out =    case xqerl_test:assert_string_value(Res, "Product Count: 2") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.

@@ -32,7 +32,7 @@ declare variable $_:supported :=
       'collection-stability' : true(),
       'directory-as-collection-uri' : false(),
       'fn-format-integer-CLDR' : true(),
-      'fn-load-xquery-module' : false(),
+      'fn-load-xquery-module' : true(),
       'fn-transform-XSLT' : false(),
       'fn-transform-XSLT30' : false(),
       'higherOrderFunctions' : true(),

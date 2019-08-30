@@ -179,17 +179,26 @@ scan_variables(#{tab := Tab}, Variables, _Scope) ->
    xqerl_context:import_variables(Specs,Tab),
    Specs.
 
-exp_local_funs(#{module        := Mod,
-                 known_fx_sigs := Funs} = Ctx) ->
-   NewFuns = lists:map(fun({_,_,_,{F,A},_,_} = S) ->
-                             setelement(4, S, {Mod,F,A});
-                          (S) ->
-                             S
-                       end, Funs),
+expand_local_funs(#{module        := Mod,
+                    mod_type      := ModType,
+                    known_fx_sigs := Funs} = Ctx) ->
+   OnlyPriv = 
+      % add only private lib functions to a lib
+      % all functions to a main module, these are seen by function-lookup
+      fun({_, _, Annos, {F,A}, _, _} = S) when ModType == library ->
+            case not_private(Annos) of
+               true -> false;
+               false -> {true, setelement(4, S, {Mod,F,A})}
+            end;
+         ({_, _, _, {F,A}, _, _} = S) ->
+            {true, setelement(4, S, {Mod,F,A})};
+         (_) -> false
+      end,
+   NewFuns = lists:filtermap(OnlyPriv, Funs),
    Ctx#{known_fx_sigs := NewFuns}.
 
 init_fun_abs(Ctx0, KeysToAdd) ->
-   Ctx = exp_local_funs(Ctx0),
+   Ctx = expand_local_funs(Ctx0),
    Fun = fun({context_item_type, _}, M) -> M;
             (Name, M) ->
                add_context_key(M,Name,Ctx)            
@@ -256,7 +265,7 @@ scan_mod(#{body := B} = Map) ->
    X.
    
 scan_mod(#xqModule{prolog = Prolog, 
-                   declaration = {ModNs,_Prefix}, 
+                   declaration = {ModNs,Prefix}, 
                    type = library,
                    body = _}, Map) ->
    _ = init_mod_scan(),
@@ -271,11 +280,13 @@ scan_mod(#xqModule{prolog = Prolog,
    Functions   = xqerl_static:pro_glob_functions(Prolog,[]),
    StaticNamespaces = xqerl_context:static_namespaces(),
    %?dbg("{Variables}",{Variables}),
+   NoQ = binary:part(ModNs, 2, byte_size(ModNs) - 3),
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, 
-                                                               Namespaces),
+                                                               [{NoQ,Prefix}|Namespaces]),
    ModName = xqerl_static:string_atom(ModNs),
    EmptyMap0 = Map#{module => ModName,
-                    namespaces => ConstNamespaces},
+                    mod_type => library,
+                    namespaces => [#xqNamespace{prefix = Px, namespace = Ns} || {Px,Ns} <- ConstNamespaces]},
    ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, N};
@@ -391,6 +402,7 @@ scan_mod(#xqModule{prolog = Prolog,
 
    ModName = xqerl_static:string_atom(FileName),
    EmptyMap = Map#{variables => lists:map(VarFun1, Variables),
+                   mod_type => main,
                    module => ModName
                   }, 
    
@@ -465,7 +477,8 @@ scan_mod(#xqModule{prolog = Prolog,
              end,
    
    EmptyMap = Map#{%namespaces => ConstNamespaces,
-                   variables => lists:map(VarFun1, Variables)
+                   variables => lists:map(VarFun1, Variables),
+                   mod_type => expression
                   }, 
    
    MapItems = init_fun_abs(
@@ -994,10 +1007,19 @@ variable_functions(ContextMap, Variables, ModType) ->
                           Type0
                     end,
              #qname{namespace = Ns1, prefix = P1, local_name = L1} = QName,
-             QNameStr = if P1 == <<>> ->
-                              L1;
+             QNameStr = if Ext == true andalso ModType == library;
+                           Ext == true andalso P1 =/= <<>> ->
+                              % Ns1 may already have Q{} wrapper
+                              case Ns1 of
+                                 <<"Q{", _/binary>> ->
+                                    <<Ns1/binary, L1/binary>>;
+                                 _ ->
+                                    <<"Q{", Ns1/binary,"}", L1/binary>>
+                              end;
                            P1 == undefined ->
-                              <<"Q{", Ns1/binary, "}", L1/binary>>;
+                              <<"Q{", Ns1/binary,"}", L1/binary>>;
+                           P1 == <<>> ->
+                              L1;
                            true ->
                               <<P1/binary, ":", L1/binary>>
                         end,
