@@ -616,6 +616,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -632,6 +633,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -780,6 +782,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}non-numeric-character") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}non-numeric-character " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -884,6 +887,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}non-numeric-character") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}non-numeric-character " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -988,6 +992,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}non-numeric-character") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}non-numeric-character " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1020,6 +1025,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1036,6 +1042,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1068,6 +1075,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1084,6 +1092,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1149,10 +1158,12 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://www.w3.org/2005/xqt-errors}FORG0006") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://www.w3.org/2005/xqt-errors}FORG0006 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case xqerl_test:assert_error(Res,"Q{http://www.w3.org/2005/xqt-errors}XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://www.w3.org/2005/xqt-errors}XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "any-of"};
@@ -1188,6 +1199,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1204,6 +1216,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1304,6 +1317,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1320,6 +1334,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1336,6 +1351,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1464,6 +1480,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1480,6 +1497,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1496,6 +1514,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}octet-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}octet-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1648,6 +1667,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1664,6 +1684,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1768,6 +1789,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1877,6 +1899,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}conversion-error") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}conversion-error " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1933,6 +1956,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2069,6 +2093,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2085,6 +2110,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2101,6 +2127,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2117,6 +2144,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}conversion-error") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}conversion-error " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2228,6 +2256,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2295,6 +2324,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2615,6 +2645,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2807,6 +2838,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2975,6 +3007,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2991,6 +3024,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3007,6 +3041,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3026,7 +3061,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_eq(Res,"-0e0") of 
+   case xqerl_test:assert_eq(Res,"-0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end   ]) of 
@@ -3151,6 +3186,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3167,6 +3203,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3183,6 +3220,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3202,7 +3240,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end, 
-   case xqerl_test:assert_eq(Res,"-0e0") of 
+   case xqerl_test:assert_eq(Res,"-0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end   ]) of 
@@ -3327,6 +3365,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3396,6 +3435,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3412,6 +3452,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3428,6 +3469,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3556,52 +3598,10 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('0fffffffffffffffffff')),0,10,'most-significant-first')", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-binary-unpack-unsigned-integer-013.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_type(Res,"xs:integer") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_eq(Res,"75557863725914323419135") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"limits:big_integer"}. 
 'EXPath-binary-unpack-unsigned-integer-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('ffffffffffffffffffff')),0,10,'most-significant-first')", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-binary-unpack-unsigned-integer-014.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert_type(Res,"xs:integer") of 
-      true -> {comment, "Correct type"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert_eq(Res,"1208925819614629174706175") of 
-      true -> {comment, "Equal"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+   {skip,"limits:big_integer"}. 
 'EXPath-binary-unpack-integer-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "bin:unpack-integer($int.byte.B,0,1,'MOST-sign-first')", 
@@ -3612,6 +3612,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}unknown-significance-order") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}unknown-significance-order " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3681,6 +3682,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3697,6 +3699,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}negative-size") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}negative-size " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3713,6 +3716,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}index-out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}index-out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3921,6 +3925,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}differing-length-arguments") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}differing-length-arguments " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4033,6 +4038,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}differing-length-arguments") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}differing-length-arguments " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4145,6 +4151,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/binary}differing-length-arguments") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/binary}differing-length-arguments " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of

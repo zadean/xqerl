@@ -484,6 +484,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -516,6 +517,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -532,6 +534,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -692,6 +695,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -708,6 +712,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -804,6 +809,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -889,6 +895,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -973,6 +980,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1059,6 +1067,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1179,6 +1188,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1195,6 +1205,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1279,6 +1290,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1295,6 +1307,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1311,6 +1324,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1327,6 +1341,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1399,6 +1414,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1415,6 +1431,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1673,6 +1690,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}exists") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}exists " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1693,6 +1711,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}exists") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}exists " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1956,6 +1975,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1976,6 +1996,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -1992,6 +2013,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2285,6 +2307,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2304,6 +2327,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2735,6 +2759,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2755,6 +2780,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -2824,6 +2850,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -2848,6 +2875,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -2896,6 +2924,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -2944,6 +2973,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -2991,6 +3021,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3011,6 +3042,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3055,6 +3087,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3075,6 +3108,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3095,6 +3129,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3116,6 +3151,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}io-error") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}io-error " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3338,6 +3374,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3354,6 +3391,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3373,6 +3411,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3389,6 +3428,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3409,6 +3449,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3458,6 +3499,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}io-error") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}io-error " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3574,6 +3616,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3590,6 +3633,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3669,6 +3713,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3685,6 +3730,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3701,6 +3747,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3771,6 +3818,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}is-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}is-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3787,6 +3835,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -3864,6 +3913,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -3888,6 +3938,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}out-of-range") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}out-of-range " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -4273,6 +4324,7 @@ environment('EXPath-file',__BaseDir) ->
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}no-dir") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}no-dir " ++ binary_to_list(F)};
       {false, F} -> F 
    end   ]) of 
       true -> {comment, "all-of"};
@@ -4364,6 +4416,7 @@ environment('EXPath-file',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/file}not-found") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/file}not-found " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -4603,31 +4656,30 @@ environment('EXPath-file',__BaseDir) ->
       Err -> ct:fail(Err)
    end. 
 'EXPath-file-baseDir-001'(Config) ->
-   {skip, "PR when base-uri is root this fails"}.
-%%    __BaseDir = ?config(base_dir, Config),
-%%    Qry = "file:base-dir()", 
-%%    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
-%%    Qry1 = lists:flatten(Env ++ Qry),
-%%    io:format("Qry1: ~p~n",[Qry1]),
-%%    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-file-baseDir-001.xq"), Qry1),
-%%              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-%%    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-%%    case xqerl_test:assert(Res,"ends-with($result, file:dir-separator())") of 
-%%       true -> {comment, "Correct results"};
-%%       {false, F} -> F 
-%%    end, 
-%%    case xqerl_test:assert(Res,"let $base := static-base-uri()
-%%           return empty($base) or $result = file:parent($base)") of 
-%%       true -> {comment, "Correct results"};
-%%       {false, F} -> F 
-%%    end   ]) of 
-%%       true -> {comment, "all-of"};
-%%       _ -> false 
-%%    end, 
-%%    case Out of
-%%       {comment, C} -> {comment, C};
-%%       Err -> ct:fail(Err)
-%%    end. 
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "file:base-dir()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-file-baseDir-001.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"ends-with($result, file:dir-separator())") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end, 
+   case xqerl_test:assert(Res,"let $base := static-base-uri()
+          return empty($base) or $result = file:parent($base)") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end   ]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'EXPath-file-currentDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "file:current-dir()", 

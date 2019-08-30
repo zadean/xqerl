@@ -1482,6 +1482,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1500,6 +1501,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1545,6 +1547,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1590,6 +1593,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1639,6 +1643,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1684,6 +1689,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1729,6 +1735,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1773,6 +1780,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -1811,6 +1819,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -2465,6 +2474,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -2483,6 +2493,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0027") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0027 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -2501,6 +2512,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -2928,6 +2940,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -2946,6 +2959,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3163,6 +3177,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3181,6 +3196,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3199,6 +3215,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3217,6 +3234,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3235,6 +3253,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3253,6 +3272,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3271,6 +3291,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3289,6 +3310,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3307,6 +3329,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3325,6 +3348,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3343,9 +3367,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUTY0022") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3364,9 +3390,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUTY0022") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3385,9 +3413,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUTY0022") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3406,6 +3436,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0022") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3424,9 +3455,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUTY0022") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3445,9 +3478,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3466,9 +3501,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3487,9 +3524,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3508,9 +3547,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3529,9 +3570,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3550,9 +3593,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3571,9 +3616,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3592,9 +3639,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0029") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0029 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XUDY0030") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -3937,6 +3986,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3955,6 +4005,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3973,6 +4024,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -3991,6 +4043,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -4009,6 +4062,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -4027,6 +4081,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0030") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0030 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -4238,6 +4293,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0007") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0007 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -4337,6 +4393,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0007") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0007 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5119,6 +5176,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5137,6 +5195,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0009") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0009 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5155,6 +5214,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5173,6 +5233,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5191,6 +5252,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5209,6 +5271,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5227,6 +5290,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0027") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0027 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5586,6 +5650,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5604,6 +5669,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5649,6 +5715,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0072") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0072 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5667,6 +5734,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0026") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0026 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5685,6 +5753,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0027") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0027 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -5703,6 +5772,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0027") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0027 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6481,6 +6551,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6499,6 +6570,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0027") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0027 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6517,6 +6589,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6535,9 +6608,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"XPTY0004") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -6583,6 +6658,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6601,6 +6677,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6646,6 +6723,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6745,6 +6823,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6763,6 +6842,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0074") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6781,6 +6861,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6799,6 +6880,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6817,6 +6899,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6835,6 +6918,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6853,6 +6937,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6871,6 +6956,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0074") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6889,6 +6975,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0074") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -6907,6 +6994,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XQDY0074") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XQDY0074 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7444,6 +7532,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7498,6 +7587,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7552,6 +7642,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7578,6 +7669,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0014") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0014 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7636,6 +7728,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7654,6 +7747,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7672,6 +7766,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7690,6 +7785,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7708,6 +7804,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7726,6 +7823,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7762,6 +7860,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7780,6 +7879,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -7906,6 +8006,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8320,6 +8421,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8338,6 +8440,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8356,6 +8459,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8374,6 +8478,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8392,6 +8497,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8410,6 +8516,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8428,6 +8535,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8446,6 +8554,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8464,6 +8573,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8482,6 +8592,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0015") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0015 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8500,6 +8611,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8518,6 +8630,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8536,6 +8649,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8554,6 +8668,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8572,6 +8687,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8590,6 +8706,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8608,6 +8725,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8626,6 +8744,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8644,6 +8763,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8662,6 +8782,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0016") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0016 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8680,6 +8801,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8698,6 +8820,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8716,6 +8839,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8734,6 +8858,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8752,6 +8877,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8770,6 +8896,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8788,6 +8915,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8806,6 +8934,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8824,6 +8953,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8842,6 +8972,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8968,6 +9099,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -8986,6 +9118,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9004,6 +9137,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9026,6 +9160,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9044,6 +9179,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9062,6 +9198,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9084,6 +9221,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9102,6 +9240,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9120,6 +9259,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9142,6 +9282,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9160,6 +9301,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9178,6 +9320,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9344,6 +9487,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9380,6 +9524,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9483,6 +9628,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9509,6 +9655,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9610,6 +9757,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9636,6 +9784,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9770,6 +9919,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -9869,6 +10019,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -10669,6 +10820,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -10875,6 +11027,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
@@ -10905,6 +11058,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
@@ -11024,6 +11178,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11042,6 +11197,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11149,6 +11305,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11167,6 +11324,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11274,6 +11432,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11292,6 +11451,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11372,6 +11532,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11390,6 +11551,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOER0000") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOER0000 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11520,6 +11682,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11594,6 +11757,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11612,6 +11776,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11630,6 +11795,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11648,6 +11814,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11904,6 +12071,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOUP0002") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOUP0002 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -11969,9 +12137,11 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FODC0002") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FODC0002 " ++ binary_to_list(F)};
          {false, _} -> 
             case xqerl_test:assert_error(Res1,"FODC0005") of 
                true -> {comment, "Correct error"};
+               {true, F} -> {comment, "WE: FODC0005 " ++ binary_to_list(F)};
                {false, Err1} ->  ct:fail(Err1) 
             end      end
    end.
@@ -11989,6 +12159,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0031") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0031 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12046,6 +12217,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0031") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0031 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12157,6 +12329,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12175,6 +12348,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12193,6 +12367,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12211,6 +12386,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12229,6 +12405,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12247,6 +12424,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12265,6 +12443,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12310,6 +12489,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12328,6 +12508,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12373,6 +12554,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12391,6 +12573,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12427,6 +12610,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12445,6 +12629,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0021") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0021 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12499,6 +12684,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12517,6 +12703,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12535,6 +12722,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12553,6 +12741,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12571,6 +12760,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12589,6 +12779,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12607,6 +12798,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12652,6 +12844,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12670,6 +12863,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12688,6 +12882,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -12733,6 +12928,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0024") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0024 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13546,6 +13742,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0007") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0007 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13562,6 +13759,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0007") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0007 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13578,6 +13776,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13594,6 +13793,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13610,6 +13810,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13626,6 +13827,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13642,6 +13844,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13658,6 +13861,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0005") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0005 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13674,6 +13878,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0022") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13690,6 +13895,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13706,6 +13912,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13722,6 +13929,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13738,6 +13946,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13754,6 +13963,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13770,6 +13980,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13786,6 +13997,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13802,6 +14014,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13818,6 +14031,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13834,6 +14048,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13850,6 +14065,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13866,6 +14082,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13882,6 +14099,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13898,6 +14116,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13914,6 +14133,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0006") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0006 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13930,6 +14150,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0022") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0022 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13946,6 +14167,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13962,6 +14184,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13978,6 +14201,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -13994,6 +14218,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14010,6 +14235,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14026,6 +14252,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14042,6 +14269,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14058,6 +14286,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14074,6 +14303,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14090,6 +14320,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14106,6 +14337,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14122,6 +14354,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14138,6 +14371,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14154,6 +14388,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14170,6 +14405,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14186,6 +14422,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14202,6 +14439,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0010") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0010 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14218,6 +14456,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14234,6 +14473,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14250,6 +14490,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14266,6 +14507,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0011") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0011 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14282,6 +14524,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14298,6 +14541,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14314,6 +14558,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14330,6 +14575,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0008") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0008 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14346,6 +14592,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14362,6 +14609,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14378,6 +14626,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14394,6 +14643,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14410,6 +14660,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0012") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0012 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14426,6 +14677,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14442,6 +14694,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUTY0013") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUTY0013 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14458,6 +14711,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14474,6 +14728,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14490,6 +14745,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XPTY0004") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XPTY0004 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14526,6 +14782,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0026") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0026 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14544,6 +14801,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0026") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0026 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -14580,6 +14838,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUST0003") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUST0003 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -15143,6 +15402,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOUP0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOUP0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -15160,6 +15420,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOUP0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOUP0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -15177,6 +15438,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOUP0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOUP0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -15194,6 +15456,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"FOUP0001") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: FOUP0001 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.
@@ -15571,6 +15834,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       case xqerl_test:assert_error(Res1,"XUDY0017") of 
          true -> {comment, "Correct error"};
+         {true, F} -> {comment, "WE: XUDY0017 " ++ binary_to_list(F)};
          {false, Err1} -> ct:fail(Err1) 
       end
    end.

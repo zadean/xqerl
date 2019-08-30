@@ -4,6 +4,7 @@ declare namespace x = "http://xqerl.org/xquery";
 (: declare option db:chop 'false'; :)
 
 declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml");
+(: declare variable $catalog := doc("/git/expath/expath-cg/tests/qt3/catalog.xml"); :)
 
 (: String helpers :)
 
@@ -23,30 +24,40 @@ declare variable $_:supported :=
       'fr-CA' : false()      
     },
     'feature' : map{
+      
       'advanced-uca-fallback' : false(),
-      'arbitraryPrecisionDecimal' : true(),
-      'collection-stability' : true(),
       'directory-as-collection-uri' : false(),
-      'fn-format-integer-CLDR' : true(),
-      'fn-load-xquery-module' : true(),
-      'fn-transform-XSLT' : false(),
-      'fn-transform-XSLT30' : false(),
-      'higherOrderFunctions' : true(),
-      'infoset-dtd' : true(),
-      'moduleImport' : true(),
-      'namespace-axis' : false(),
-      'non_empty_sequence_collection' : true(),
-      'non_unicode_codepoint_collation' : true(),
       'olson-timezone' : false(),
       'remote_http' : false(),
+      
+      (: XSLT features :)
+      'fn-transform-XSLT' : false(),
+      'fn-transform-XSLT30' : false(),
+
+      (: Schema aware features :)
       'schema-location-hint' : false(),
       'schemaImport' : false(),
       'schemaValidation' : false(),
-      'serialization' : true(),
-      'simple-uca-fallback' : true(),
-      'staticTyping' : false(),
       'typedData' : false(),
-      'xpath-1.0-compatibility' : false()
+      
+      (: XPath features :)
+      'xpath-1.0-compatibility' : false(), 
+      'namespace-axis' : false(),
+      
+      (: Deprecated feature :)
+      'staticTyping' : false(),
+
+      'arbitraryPrecisionDecimal' : true(),
+      'collection-stability' : true(),
+      'fn-format-integer-CLDR' : true(),
+      'fn-load-xquery-module' : true(),
+      'higherOrderFunctions' : true(),
+      'infoset-dtd' : true(),
+      'moduleImport' : true(),
+      'non_empty_sequence_collection' : true(),
+      'non_unicode_codepoint_collation' : true(),
+      'serialization' : true(),
+      'simple-uca-fallback' : true()
     },
     'format-integer-sequence' : map{
       '&#x391;' : false(),
@@ -1003,7 +1014,11 @@ return
   file:write-text($suiteFile, $mod, "utf-8")
 
 
-(: SD = filename:dirname(filename:dirname(filename:dirname(filename:dirname(?config(priv_dir, Config))))),
+(: 
+ADD to expath_file_SUITE:init_per_suite/1
+
+SD = filename:dirname(filename:dirname(filename:dirname(filename:dirname(?config(priv_dir, Config))))),
 Zip = filename:join([SD,"sandpit.zip"]),
 {ok,_} = file:copy("/git/expath/expath-cg/tests/qt3/file/sandpit.zip", Zip),
+
 zip:extract(Zip), :)

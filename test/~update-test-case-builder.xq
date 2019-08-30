@@ -279,16 +279,19 @@ declare function _:print-test-case($case as element(_:test-case),
           "      case xqerl_test:assert_error(Res"||$spos||","""||
                  $state/_:expected-error||""") of " || $n ||
           "         true -> {comment, ""Correct error""};" || $n ||
+          '         {true, F} -> {comment, "WE: '||$state/_:expected-error||' " ++ binary_to_list(F)};' || $n ||
           "         {false, Err"||$spos||"} -> ct:fail(Err"||$spos||") " || $n ||
           "      end"
         else if ($scen eq 'runtime-error' and count($state/_:expected-error) eq 2) then
           "      case xqerl_test:assert_error(Res"||$spos||","""||
                  $state/_:expected-error[1]||""") of " || $n ||
           "         true -> {comment, ""Correct error""};" || $n ||
+          '         {true, F} -> {comment, "WE: '||$state/_:expected-error[1]||' " ++ binary_to_list(F)};' || $n ||
           "         {false, _} -> " || $n ||
           "            case xqerl_test:assert_error(Res"||$spos||","""||
                        $state/_:expected-error[2]||""") of " || $n ||
           "               true -> {comment, ""Correct error""};" || $n ||
+          '               {true, F} -> {comment, "WE: '||$state/_:expected-error[2]||' " ++ binary_to_list(F)};' || $n ||
           "               {false, Err"||$spos||"} ->  ct:fail(Err"||$spos||") " || $n ||
           "            end" ||
           "      end"

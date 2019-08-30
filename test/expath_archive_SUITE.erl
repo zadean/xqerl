@@ -295,6 +295,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-entry") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-entry " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -359,6 +360,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-entry") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-entry " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -394,6 +396,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -490,6 +493,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-entry") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-entry " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -874,6 +878,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-entry") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-entry " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -914,6 +919,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-entry") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-entry " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
@@ -949,6 +955,7 @@ environment('EXPath-archive.map',__BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"Q{http://expath.org/ns/archive}unknown-encoding") of 
       true -> {comment, "Correct error"};
+      {true, F} -> {comment, "WE: Q{http://expath.org/ns/archive}unknown-encoding " ++ binary_to_list(F)};
       {false, F} -> F 
    end, 
    case Out of
