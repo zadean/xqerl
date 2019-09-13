@@ -234,8 +234,14 @@ delete_doc(DocUri) when is_binary(DocUri) ->
    case xqldb_db:exists(DbUri) of
       false -> ok;
       true ->
-         DB = xqldb_db:database(DbUri),
-         xqldb_path_table:delete(DB, Name)
+         {Agent, _} = locks:begin_transaction(),
+         _ = locks:lock(Agent, [DbUri,Name]),
+         try
+            DB = xqldb_db:database(DbUri),
+            xqldb_path_table:delete(DB, Name)
+         after
+            locks:end_transaction(Agent)
+         end             
    end;
 ?ENSURE_BIN(delete_doc).
 
