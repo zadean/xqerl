@@ -4,11 +4,11 @@ declare default element namespace 'http://www.w3.org/2012/08/qt-fots-results';
 
 declare option output:method 'html';
 
-declare variable $_:VERSION := 0.8;
+declare variable $_:VERSION := '0.8.0';
 declare variable $_:NAME := 'Zachary Dean';
 declare variable $_:EMAIL := 'contact@zadean.com';
 declare variable $_:OUTPUT := 
-  '/git/zadean/qt3tests/results/result-submissions-31/results_xqerl_'||$_:VERSION||'.xml';
+  '/git/zadean/xqerl/test/results/results_xqerl_'||$_:VERSION||'.xml';
 
 declare variable $_:catalog := doc("/git/zadean/qt3tests/catalog.xml");
 declare variable $_:test-sets := $_:catalog/*:catalog/*:test-set/@name/string();
