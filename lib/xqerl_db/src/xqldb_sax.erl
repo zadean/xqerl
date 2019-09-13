@@ -219,7 +219,7 @@ event({startPrefixMapping, PrefixS, UriS}, _, #{doc_id := DocId,
 event({endPrefixMapping, _}, _, State) ->
    State;
 
-event({startElement, UriS, LocalNameS, {PrefixS,_}, Attributes}, _, 
+event({startElement, UriS, LocalNameS, {PrefixS,_} = ElementName, Attributes}, _, 
       #{doc_id := DocId,
         db := DB,
         pos := Pos,
@@ -248,7 +248,7 @@ event({startElement, UriS, LocalNameS, {PrefixS,_}, Attributes}, _,
                                             curr_path := CPath1,
                                             names := NameMap1,
                                             nsps := Scp1,
-                                            pos := Pos + 1}, LocalName),
+                                            pos := Pos + 1}, ElementName),
    Counter2 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter1),
    State1#{parent := NodeId,
            curr_path := CPath1,
@@ -328,9 +328,9 @@ event({comment, String}, _, #{doc_id := DocId,
           paths := Paths1,
           counter := Counter1};
 
-event({attributeDecl, ElementNameS, AttributeNameS, Type, _Mode, _Value}, _, 
-      #{att_dec := AttDec} = State) ->
-   Key = {?u2b(ElementNameS), ?u2b(AttributeNameS)},
+event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value}, _, 
+      #{att_dec := AttDec} = State) when is_tuple(ElementName) ->
+   Key = {ElementName, AttributeName},
    AttDec1 = case Type of
                 "ID" ->
                    AttDec#{Key => ?att_id};
@@ -342,6 +342,19 @@ event({attributeDecl, ElementNameS, AttributeNameS, Type, _Mode, _Value}, _,
                    AttDec#{Key => ?att_str}
              end,
    State#{att_dec := AttDec1};
+% non-tuple: is string from xmerl before event change to qualified name
+event({attributeDecl, ElementName, AttributeName, Type, Mode, Value}, L, State) ->
+   ElementName1 = 
+      case string:split(ElementName, ":") of
+         [P, L] -> {P, L};
+         [L] -> {[], L}
+      end,
+   AttributeName1 = 
+      case string:split(AttributeName, ":") of
+         [AP, AL] -> {AP, AL};
+         [AL] -> {[], AL}
+      end,
+   event({attributeDecl, ElementName1, AttributeName1, Type, Mode, Value}, L, State);
 
 % base uri sent from constructors and updates
 event({baseUri, _},_,State) -> State;
@@ -360,14 +373,14 @@ att_events([{UriS, PrefixS, AttributeNameS, ValueS}|T],
         att_dec := AttDec,
         writer := Writer,
         counter := Counter,
-        nsps := Scp} = State, ElementLocalName) ->
+        nsps := Scp} = State, ElementName) ->
    NodeId = add_pos(Ps, Pos),
    Uri = ?u2b(UriS),
    Prefix = ?u2b(PrefixS),
    Bin = ?u2b(ValueS),
    AttributeName = ?u2b(AttributeNameS),
    #{Uri := UriId} = Scp,
-   Type = get_att_type({ElementLocalName, AttributeName}, AttDec),
+   Type = get_att_type({ElementName, {PrefixS, AttributeNameS}}, AttDec),
    TextRef = get_text_id(DB, Bin),
    {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
    {NameId, NameMap1} = get_name_id(DB, AttributeName, NameMap),
@@ -383,7 +396,7 @@ att_events([{UriS, PrefixS, AttributeNameS, ValueS}|T],
                      paths := Paths1,
                      nsps := Scp1,
                      counter := Counter1}, 
-              ElementLocalName);
+              ElementName);
 att_events([],State,_) ->
    State.
 
