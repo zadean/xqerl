@@ -161,7 +161,7 @@ get_next_id(Name) ->
                A
          end,            
    Max = dets:foldl(Fun, 0, Name),
-   io:format("~p~n",[Max]),
+   io:format("Count of DBs: ~p~n",[Max]),
    if Max =:= 0 -> 0; true -> Max + 1 end.
 
 dets_to_ets(TabName, Ets) ->
@@ -236,8 +236,8 @@ handle_call({new, Path}, _From, #{meta := TabName,
          {reply, {opening, Id}, State}
    end
    catch
-      _:ER:St ->
-      io:format("~p~n",[{ER,St}]),
+      _:ER ->
+      %io:format("~p~n",[{ER,St}]),
       {reply, {error, ER}, State}
    end;
 % Sets Uri to status open or {error, not_exists} if the DB does not exist.

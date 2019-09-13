@@ -48,8 +48,8 @@ open(Uri) ->
       opening ->
          timer:sleep(1),
          open(Uri);
-      Other ->
-         io:format("~p~n", [Other]),
+      _Other ->
+         %io:format("~p~n", [Other]),
          case xqldb_db_sup:start_child(Uri) of
             {ok, Pid, Id} ->
                {ok, Pid, Id};

@@ -232,7 +232,7 @@ get_node_id_range(NodeId) ->
 maybe_delete_doc_ref(#{index := IndexPid,
                        pindex := PIndexPid} = DB, DocId) ->
    Stamp = erlang:system_time(),
-   io:format("~p~n", [{?LINE, erlang:system_time()}]),
+   %io:format("~p~n", [{?LINE, erlang:system_time()}]),
    F1 = fun() ->
               %io:format("~p~n", [{?LINE, erlang:system_time()}]),
               Paths = merge_index:range_term(IndexPid, path, DocId, undefined, undefined, both, true),

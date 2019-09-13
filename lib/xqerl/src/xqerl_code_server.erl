@@ -448,7 +448,7 @@ do_compile_tree(Filename, Tree, Str, Imports) ->
                 variable_sigs = patch(VarSigs,M),
                 rest_xq = RestXQ},
    code:purge(M),
-   ?dbg("WORKED", M),
+   %?dbg("WORKED", M),
    gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT).
 
 %% {Uri, Tree, Str, Filename} -> {Uri, Tree, Str, Filename, Imports}
