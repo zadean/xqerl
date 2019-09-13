@@ -4655,31 +4655,31 @@ environment('EXPath-file',__BaseDir) ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
-'EXPath-file-baseDir-001'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "file:base-dir()", 
-   {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
-   Qry1 = lists:flatten(Env ++ Qry),
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-file-baseDir-001.xq"), Qry1),
-             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case xqerl_test:assert(Res,"ends-with($result, file:dir-separator())") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end, 
-   case xqerl_test:assert(Res,"let $base := static-base-uri()
-          return empty($base) or $result = file:parent($base)") of 
-      true -> {comment, "Correct results"};
-      {false, F} -> F 
-   end   ]) of 
-      true -> {comment, "all-of"};
-      _ -> false 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+'EXPath-file-baseDir-001'(_Config) -> {skip, "test assumes same base-uri in test as the check"}.
+%%    __BaseDir = ?config(base_dir, Config),
+%%    Qry = "file:base-dir()", 
+%%    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
+%%    Qry1 = lists:flatten(Env ++ Qry),
+%%    io:format("Qry1: ~p~n",[Qry1]),
+%%    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-file-baseDir-001.xq"), Qry1),
+%%              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+%%    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+%%    case xqerl_test:assert(Res,"ends-with($result, file:dir-separator())") of 
+%%       true -> {comment, "Correct results"};
+%%       {false, F} -> F 
+%%    end, 
+%%    case xqerl_test:assert(Res,"let $base := static-base-uri()
+%%           return empty($base) or $result = file:parent($base)") of 
+%%       true -> {comment, "Correct results"};
+%%       {false, F} -> F 
+%%    end   ]) of 
+%%       true -> {comment, "all-of"};
+%%       _ -> false 
+%%    end, 
+%%    case Out of
+%%       {comment, C} -> {comment, C};
+%%       Err -> ct:fail(Err)
+%%    end. 
 'EXPath-file-currentDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "file:current-dir()", 

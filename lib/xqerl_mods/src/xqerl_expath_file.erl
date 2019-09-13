@@ -1407,7 +1407,7 @@ parent(_, Path) when is_binary(Path) ->
    if D == Abs -> % root
          [];
       true ->
-         maybe_add_dir_sep(filename:nativename(D))
+         add_dir_sep(filename:nativename(D))
    end;
 parent(Ctx,Path) ->
    parent(Ctx,xqerl_types:cast_as(Path, 'xs:string')).
@@ -1856,6 +1856,9 @@ strip_scheme(Path) -> Path.
 l(L) when is_list(L) -> L;
 l(L) -> [L].
   
+add_dir_sep(Name) ->
+   <<Name/binary, (get_dir_sep())/binary>>.
+
 maybe_add_dir_sep(Name) ->
    case filelib:is_dir(Name) of
       true ->
