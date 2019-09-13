@@ -1,6 +1,7 @@
 -module('xquts_SUITE').
 -include_lib("common_test/include/ct.hrl").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
          end_per_suite/1]).
@@ -727,717 +728,749 @@ init_per_suite(Config) ->
    __BaseDir = filename:join(DD, "xquery-update-10-test-suite"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
-   'variable-declaration-01',
-   'variable-declaration-02',
-   'id-function-declaration-01',
-   'id-function-declaration-02',
-   'id-function-declaration-03',
-   'id-function-declaration-04',
-   'id-function-declaration-05',
-   'id-function-declaration-06',
-   'id-function-declaration-07',
-   'id-function-declaration-08',
-   'id-function-declaration-09',
-   'id-function-declaration-010',
-   'id-function-declaration-011',
-   'id-function-declaration-012',
-   'id-function-declaration-013',
-   'id-function-declaration-014',
-   'id-function-declaration-015',
-   'id-function-declaration-016',
-   'id-function-declaration-017',
-   'function-declaration-01',
-   'function-declaration-02',
-   'function-declaration-03',
-   'function-declaration-04',
-   'id-insert-expr-01',
-   'id-insert-expr-02',
-   'id-insert-expr-03',
-   'id-insert-expr-04',
-   'id-insert-expr-05',
-   'id-insert-expr-06',
-   'id-insert-expr-07',
-   'id-insert-expr-08',
-   'id-insert-expr-09',
-   'id-insert-expr-010',
-   'id-insert-expr-011',
-   'id-insert-expr-012',
-   'id-insert-expr-013',
-   'id-insert-expr-014',
-   'id-insert-expr-015',
-   'id-insert-expr-016',
-   'id-insert-expr-017',
-   'id-insert-expr-018',
-   'id-insert-expr-019',
-   'id-insert-expr-020',
-   'id-insert-expr-021',
-   'id-insert-expr-022',
-   'id-insert-expr-023',
-   'id-insert-expr-024',
-   'id-insert-expr-025',
-   'id-insert-expr-026',
-   'id-insert-expr-027',
-   'id-insert-expr-028',
-   'id-insert-expr-029',
-   'id-insert-expr-030',
-   'id-insert-expr-031',
-   'id-insert-expr-032',
-   'id-insert-expr-033',
-   'id-insert-expr-034',
-   'id-insert-expr-035',
-   'id-insert-expr-036',
-   'id-insert-expr-037',
-   'id-insert-expr-038',
-   'id-insert-expr-039',
-   'id-insert-expr-040',
-   'id-insert-expr-041',
-   'id-insert-expr-042',
-   'id-insert-expr-043',
-   'id-insert-expr-044',
-   'id-insert-expr-045',
-   'id-insert-expr-046',
-   'id-insert-expr-047',
-   'id-insert-expr-048',
-   'id-insert-expr-049',
-   'id-insert-expr-050',
-   'id-insert-expr-051',
-   'id-insert-expr-052',
-   'id-insert-expr-053',
-   'id-insert-expr-054',
-   'id-insert-expr-055',
-   'id-insert-expr-056',
-   'id-insert-expr-057',
-   'id-insert-expr-058',
-   'id-insert-expr-059',
-   'id-insert-expr-060',
-   'id-insert-expr-061',
-   'id-insert-expr-062',
-   'id-insert-expr-063',
-   'id-insert-expr-064',
-   'id-insert-expr-065',
-   'id-insert-expr-066',
-   'id-insert-expr-067',
-   'id-insert-expr-068',
-   'id-insert-expr-069',
-   'id-insert-expr-070',
-   'id-insert-expr-071',
-   'id-insert-expr-072',
-   'id-insert-expr-073',
-   'id-insert-expr-074',
-   'id-insert-expr-075',
-   'id-insert-expr-076',
-   'id-insert-expr-077',
-   'id-insert-expr-078',
-   'id-insert-expr-079',
-   'id-insert-expr-080',
-   'id-insert-expr-081',
-   'id-insert-expr-082',
-   'id-insert-expr-083',
-   'id-insert-expr-084',
-   'id-insert-expr-085',
-   'id-insert-expr-086',
-   'id-insert-expr-081-no-inherit',
-   'id-insert-expr-082-no-inherit',
-   'id-insert-expr-083-no-inherit',
-   'id-insert-expr-084-no-inherit',
-   'id-insert-expr-085-no-inherit',
-   'id-insert-expr-086-no-inherit',
-   'id-insert-expr-087',
-   'id-insert-expr-088',
-   'id-insert-expr-089',
-   'id-insert-expr-090',
-   'id-insert-expr-091',
-   'id-insert-expr-092',
-   'id-insert-expr-093',
-   'id-insert-expr-094',
-   'id-delete-expr-01',
-   'id-delete-expr-02',
-   'id-delete-expr-03',
-   'id-delete-expr-04',
-   'id-delete-expr-05',
-   'id-delete-expr-06',
-   'id-delete-expr-07',
-   'id-delete-expr-08',
-   'id-delete-expr-09',
-   'id-delete-expr-010',
-   'id-delete-expr-011',
-   'id-delete-expr-012',
-   'id-delete-expr-013',
-   'id-delete-expr-014',
-   'id-delete-expr-015',
-   'id-delete-expr-016',
-   'id-delete-expr-017',
-   'id-delete-expr-018',
-   'id-delete-expr-019',
-   'id-delete-expr-020',
-   'id-delete-expr-021',
-   'id-delete-expr-022',
-   'complex-deletes-q3',
-   'complex-deletes-q4',
-   'complex-deletes-q5',
-   'complex-deletes-q10',
-   'complex-deletes-q11',
-   'complex-deletes-q12',
-   'complex-deletes-q13',
-   'complex-deletes-q14',
-   'id-replace-expr-01',
-   'id-replace-expr-02',
-   'id-replace-expr-03',
-   'id-replace-expr-04',
-   'id-replace-expr-010',
-   'id-replace-expr-011',
-   'id-replace-expr-012',
-   'id-replace-expr-013',
-   'id-replace-expr-014',
-   'id-replace-expr-015',
-   'id-replace-expr-016',
-   'id-replace-expr-022',
-   'id-replace-expr-023',
-   'id-replace-expr-028',
-   'id-replace-expr-029',
-   'id-replace-expr-030',
-   'id-replace-expr-031',
-   'id-replace-expr-032',
-   'id-replace-expr-033',
-   'id-replace-expr-034',
-   'id-replace-expr-045',
-   'id-replace-expr-045-no-inherit',
-   'id-replace-expr-05',
-   'id-replace-expr-06',
-   'id-replace-expr-07',
-   'id-replace-expr-08',
-   'id-replace-expr-09',
-   'id-replace-expr-017',
-   'id-replace-expr-018',
-   'id-replace-expr-019',
-   'id-replace-expr-020',
-   'id-replace-expr-021',
-   'id-replace-expr-024',
-   'id-replace-expr-025',
-   'id-replace-expr-026',
-   'id-replace-expr-027',
-   'id-replace-expr-035',
-   'id-replace-expr-036',
-   'id-replace-expr-037',
-   'id-replace-expr-038',
-   'id-replace-expr-039',
-   'id-replace-expr-040',
-   'id-replace-expr-041',
-   'id-replace-expr-042',
-   'id-replace-expr-043',
-   'id-replace-expr-044',
-   'complex-replacevalues-q3',
-   'complex-replacevalues-q4',
-   'complex-replacevalues-q5',
-   'complex-replacevalues-q9',
-   'complex-replacevalues-q10',
-   'complex-replacevalues-q11',
-   'complex-replacevalues-q12',
-   'complex-replacevalues-q13',
-   'complex-replacevalues-q14',
-   'id-rename-expr-01',
-   'id-rename-expr-02',
-   'id-rename-expr-03',
-   'id-rename-expr-04',
-   'id-rename-expr-05',
-   'id-rename-expr-06',
-   'id-rename-expr-07',
-   'id-rename-expr-08',
-   'id-rename-expr-09',
-   'id-rename-expr-010',
-   'id-rename-expr-011',
-   'id-rename-expr-012',
-   'id-rename-expr-013',
-   'id-rename-expr-014',
-   'id-rename-expr-015',
-   'id-rename-expr-016',
-   'id-rename-expr-017',
-   'id-rename-expr-018',
-   'id-rename-expr-019',
-   'id-rename-expr-020',
-   'id-rename-expr-021',
-   'id-rename-expr-022',
-   'id-rename-expr-023',
-   'id-rename-expr-024',
-   'id-rename-expr-025',
-   'id-rename-expr-026',
-   'id-rename-expr-027',
-   'id-rename-expr-028',
-   'id-rename-expr-029',
-   'id-rename-expr-030',
-   'id-rename-expr-031',
-   'id-rename-expr-032',
-   'id-rename-expr-033',
-   'id-rename-expr-034',
-   'id-rename-expr-033-no-inherit',
-   'id-rename-expr-034-no-inherit',
-   'id-rename-expr-035',
-   'id-rename-expr-036',
-   'id-rename-expr-037',
-   'complex-renames-q1',
-   'complex-renames-q5',
-   'complex-renames-q6',
-   'complex-renames-q7',
-   'complex-renames-q8',
-   'id-transform-expr-01',
-   'id-transform-expr-02',
-   'id-transform-expr-03',
-   'id-transform-expr-04',
-   'id-transform-expr-05',
-   'id-transform-expr-06',
-   'id-transform-expr-07',
-   'id-transform-expr-08',
-   'id-transform-expr-09',
-   'id-transform-expr-010',
-   'id-transform-expr-011',
-   'id-transform-expr-012',
-   'id-transform-expr-013',
-   'id-transform-expr-014',
-   'id-transform-expr-015',
-   'id-transform-expr-016',
-   'id-transform-expr-017',
-   'id-transform-expr-018',
-   'id-transform-expr-019',
-   'id-transform-expr-020',
-   'id-transform-expr-021',
-   'id-transform-expr-022',
-   'id-transform-expr-023',
-   'id-transform-expr-024',
-   'id-transform-expr-025',
-   'id-transform-expr-026',
-   'id-transform-expr-027',
-   'id-transform-expr-028',
-   'id-transform-expr-029',
-   'id-transform-expr-030',
-   'id-transform-expr-031',
-   'id-transform-expr-032',
-   'id-transform-expr-033',
-   'id-transform-expr-034',
-   'id-transform-expr-035',
-   'id-transform-expr-036',
-   'id-transform-expr-037',
-   'id-transform-expr-038',
-   'id-transform-expr-039',
-   'id-transform-expr-040',
-   'id-transform-expr-041',
-   'id-transform-expr-042',
-   'id-transform-expr-043',
-   'id-transform-expr-044',
-   'id-transform-expr-045',
-   'id-transform-expr-046',
-   'id-transform-expr-047',
-   'id-transform-expr-048',
-   'id-transform-expr-049',
-   'id-transform-expr-050',
-   'id-transform-expr-051',
-   'id-transform-expr-052',
-   'id-transform-expr-053',
-   'id-transform-expr-054',
-   'id-transform-expr-055',
-   'id-transform-expr-056',
-   'id-transform-expr-057',
-   'id-transform-expr-058',
-   'compatibility-001',
-   'compatibility-002',
-   'compatibility-003',
-   'compatibility-004',
-   'compatibility-005',
-   'compatibility-006',
-   'compatibility-007',
-   'compatibility-008',
-   'compatibility-009',
-   'compatibility-010',
-   'compatibility-011',
-   'compatibility-012',
-   'compatibility-013',
-   'compatibility-014',
-   'compatibility-015',
-   'compatibility-016',
-   'compatibility-017',
-   'compatibility-018',
-   'compatibility-019',
-   'compatibility-020',
-   'compatibility-021',
-   'compatibility-022',
-   'compatibility-023',
-   'compatibility-024',
-   'compatibility-025',
-   'compatibility-026',
-   'compatibility-027',
-   'compatibility-028',
-   'compatibility-029',
-   'compatibility-030',
-   'id-flwor-expr-01',
-   'id-flwor-expr-02',
-   'id-flwor-expr-03',
-   'id-flwor-expr-04',
-   'id-flwor-expr-05',
-   'id-flwor-expr-06',
-   'id-flwor-expr-07',
-   'id-flwor-expr-08',
-   'id-flwor-expr-09',
-   'id-flwor-expr-010',
-   'id-flwor-expr-011',
-   'id-flwor-expr-012',
-   'id-flwor-expr-013',
-   'id-flwor-expr-014',
-   'id-flwor-expr-015',
-   'id-flwor-expr-016',
-   'id-flwor-expr-017',
-   'id-flwor-expr-018',
-   'id-flwor-expr-019',
-   'id-flwor-expr-020',
-   'id-flwor-expr-021',
-   'id-flwor-expr-022',
-   'id-flwor-expr-023',
-   'id-flwor-expr-024',
-   'id-flwor-expr-025',
-   'id-typeswitch-expr-01',
-   'id-typeswitch-expr-02',
-   'id-typeswitch-expr-03',
-   'id-typeswitch-expr-04',
-   'id-typeswitch-expr-05',
-   'id-typeswitch-expr-06',
-   'id-typeswitch-expr-07',
-   'id-typeswitch-expr-08',
-   'id-typeswitch-expr-09',
-   'id-typeswitch-expr-010',
-   'id-typeswitch-expr-011',
-   'id-typeswitch-expr-012',
-   'id-typeswitch-expr-013',
-   'id-typeswitch-expr-014',
-   'id-typeswitch-expr-015',
-   'id-typeswitch-expr-016',
-   'id-typeswitch-expr-017',
-   'id-typeswitch-expr-018',
-   'id-typeswitch-expr-019',
-   'id-typeswitch-expr-020',
-   'id-typeswitch-expr-021',
-   'id-typeswitch-expr-022',
-   'id-typeswitch-expr-023',
-   'id-typeswitch-expr-024',
-   'id-typeswitch-expr-025',
-   'id-typeswitch-expr-026',
-   'id-typeswitch-expr-027',
-   'id-typeswitch-expr-028',
-   'id-typeswitch-expr-029',
-   'id-typeswitch-expr-030',
-   'id-typeswitch-expr-031',
-   'id-typeswitch-expr-032',
-   'id-typeswitch-expr-033',
-   'id-typeswitch-expr-034',
-   'id-typeswitch-expr-035',
-   'id-typeswitch-expr-036',
-   'id-typeswitch-expr-037',
-   'id-typeswitch-expr-038',
-   'id-conditional-expr-01',
-   'id-conditional-expr-02',
-   'id-conditional-expr-03',
-   'id-conditional-expr-04',
-   'id-conditional-expr-05',
-   'id-conditional-expr-06',
-   'id-conditional-expr-07',
-   'id-conditional-expr-08',
-   'id-conditional-expr-09',
-   'id-conditional-expr-010',
-   'id-conditional-expr-011',
-   'id-conditional-expr-012',
-   'id-conditional-expr-013',
-   'id-conditional-expr-014',
-   'id-conditional-expr-015',
-   'id-conditional-expr-016',
-   'id-conditional-expr-017',
-   'id-conditional-expr-018',
-   'id-conditional-expr-019',
-   'id-conditional-expr-020',
-   'id-conditional-expr-021',
-   'id-conditional-expr-022',
-   'id-conditional-expr-023',
-   'id-conditional-expr-024',
-   'id-conditional-expr-025',
-   'id-conditional-expr-026',
-   'id-conditional-expr-027',
-   'id-conditional-expr-028',
-   'id-conditional-expr-029',
-   'id-conditional-expr-030',
-   'id-conditional-expr-031',
-   'id-conditional-expr-032',
-   'id-conditional-expr-033',
-   'id-conditional-expr-034',
-   'id-conditional-expr-035',
-   'id-conditional-expr-036',
-   'id-conditional-expr-037',
-   'id-conditional-expr-038',
-   'id-comma-expr-01',
-   'id-comma-expr-02',
-   'id-comma-expr-03',
-   'id-comma-expr-04',
-   'id-comma-expr-05',
-   'id-comma-expr-06',
-   'id-comma-expr-07',
-   'id-comma-expr-08',
-   'id-comma-expr-09',
-   'id-comma-expr-010',
-   'id-comma-expr-011',
-   'id-comma-expr-012',
-   'id-comma-expr-013',
-   'id-comma-expr-014',
-   'id-comma-expr-015',
-   'id-comma-expr-016',
-   'id-comma-expr-017',
-   'id-comma-expr-018',
-   'id-comma-expr-019',
-   'id-comma-expr-020',
-   'id-comma-expr-021',
-   'id-comma-expr-022',
-   'id-comma-expr-023',
-   'id-comma-expr-024',
-   'id-comma-expr-025',
-   'id-comma-expr-026',
-   'id-comma-expr-027',
-   'id-comma-expr-028',
-   'id-comma-expr-029',
-   'id-comma-expr-030',
-   'id-comma-expr-031',
-   'id-comma-expr-032',
-   'id-comma-expr-033',
-   'id-comma-expr-034',
-   'id-comma-expr-035',
-   'id-comma-expr-036',
-   'id-comma-expr-037',
-   'id-comma-expr-038',
-   'parenthesized-expr-01',
-   'parenthesized-expr-02',
-   'parenthesized-expr-03',
-   'id-function-call-01',
-   'id-function-call-02',
-   'id-function-call-03',
-   'id-function-call-04',
-   'id-function-call-05',
-   'id-function-call-06',
-   'id-other-expr-01',
-   'id-other-expr-02',
-   'id-other-expr-03',
-   'id-other-expr-04',
-   'id-other-expr-05',
-   'id-other-expr-06',
-   'id-other-expr-07',
-   'id-other-expr-08',
-   'id-other-expr-09',
-   'id-other-expr-010',
-   'id-other-expr-011',
-   'id-other-expr-012',
-   'id-other-expr-013',
-   'id-other-expr-014',
-   'id-other-expr-015',
-   'id-other-expr-016',
-   'id-other-expr-017',
-   'id-other-expr-018',
-   'id-other-expr-019',
-   'id-other-expr-020',
-   'id-other-expr-021',
-   'id-other-expr-022',
-   'id-other-expr-023',
-   'id-other-expr-024',
-   'id-other-expr-025',
-   'id-other-expr-26',
-   'id-other-expr-027',
-   'id-other-expr-028',
-   'id-other-expr-029',
-   'id-other-expr-030',
-   'id-other-expr-031',
-   'id-other-expr-032',
-   'fn-put-001',
-   'fn-put-007',
-   'fn-put-008',
-   'fn-put-009',
-   'fn-put-011',
-   'fn-put-012',
-   'fn-put-013',
-   'fn-put-014',
-   'put-001',
-   'fn-put-002',
-   'fn-put-010',
-   'attribute-errors-q1',
-   'attribute-errors-q2',
-   'attribute-errors-q3',
-   'attribute-errors-q4',
-   'attribute-errors-q5',
-   'attribute-errors-q6',
-   'attribute-errors-q7',
-   'attribute-errors-q8',
-   'attribute-errors-q9',
-   'attribute-errors-q10',
-   'attribute-errors-q11',
-   'attribute-errors-q12',
-   'attribute-errors-q13',
-   'attribute-errors-q14',
-   'attribute-errors-q15',
-   'attribute-errors-q16',
-   'attribute-errors-q17',
-   'namespace-errors-q1',
-   'namespace-errors-q2',
-   'namespace-errors-q3',
-   'namespace-errors-q4',
-   'namespace-errors-q5',
-   'namespace-errors-q6',
-   'namespace-errors-q7',
-   'namespace-errors-q8',
-   'namespace-errors-q9',
-   'namespace-errors-q10',
-   'namespace-errors-q11',
-   'namespace-errors-q12',
-   'namespace-errors-q13',
-   'namespace-errors-q14',
-   'namespace-errors-q15',
-   'namespace-errors-q16',
-   'namespace-errors-q17',
-   'namespace-errors-q18',
-   'namespace-errors-q19',
-   'mergeUpdates-001',
-   'mergeUpdates-002',
-   'applyUpdates-001',
-   'applyUpdates-002',
-   'applyUpdates-003',
-   'applyUpdates-004',
-   'applyUpdates-005',
-   'applyUpdates-006',
-   'applyUpdates-007',
-   'applyUpdates-008',
-   'applyUpdates-009',
-   'applyUpdates-010',
-   'applyUpdates-011',
-   'applyUpdates-012',
-   'applyUpdates-013',
-   'applyUpdates-014',
-   'applyUpdates-016',
-   'applyUpdates-021',
-   'applyUpdates-022',
-   'applyUpdates-023',
-   'applyUpdates-024',
-   'applyUpdates-025',
-   'applyUpdates-026',
-   'setToUntyped-001',
-   'setToUntyped-002',
-   'setToUntyped-003',
-   'setToUntyped-004',
-   'setToUntyped-005',
-   'setToUntyped-006',
-   'setToUntyped-007',
-   'setToUntyped-008',
-   'setToUntyped-009',
-   'setToUntyped-010',
-   'propagateNamespaces01',
-   'propagateNamespaces02',
-   'propagateNamespaces03',
-   'propagateNamespaces04',
-   'propagateNamespaces05',
-   'propagateNamespaces06',
-   'statictyp-xqupd-01',
-   'statictyp-xqupd-02',
-   'statictyp-xqupd-03',
-   'statictyp-xqupd-04',
-   'statictyp-xqupd-05',
-   'statictyp-xqupd-06',
-   'statictyp-xqupd-07',
-   'statictyp-xqupd-08',
-   'statictyp-xqupd-09',
-   'statictyp-xqupd-10',
-   'statictyp-xqupd-11',
-   'statictyp-xqupd-12',
-   'statictyp-xqupd-13',
-   'statictyp-xqupd-14',
-   'statictyp-xqupd-15',
-   'statictyp-xqupd-16',
-   'statictyp-xqupd-17',
-   'statictyp-xqupd-18',
-   'statictyp-xqupd-19',
-   'statictyp-xqupd-20',
-   'statictyp-xqupd-21',
-   'statictyp-xqupd-22',
-   'statictyp-xqupd-23',
-   'statictyp-xqupd-24',
-   'statictyp-xqupd-25',
-   'statictyp-xqupd-26',
-   'statictyp-xqupd-27',
-   'statictyp-xqupd-28',
-   'statictyp-xqupd-29',
-   'statictyp-xqupd-30',
-   'statictyp-xqupd-31',
-   'statictyp-xqupd-32',
-   'statictyp-xqupd-33',
-   'statictyp-xqupd-34',
-   'statictyp-xqupd-35',
-   'statictyp-xqupd-36',
-   'statictyp-xqupd-37',
-   'statictyp-xqupd-38',
-   'statictyp-xqupd-39',
-   'statictyp-xqupd-40',
-   'statictyp-xqupd-41',
-   'statictyp-xqupd-42',
-   'statictyp-xqupd-43',
-   'statictyp-xqupd-44',
-   'statictyp-xqupd-45',
-   'statictyp-xqupd-46',
-   'statictyp-xqupd-47',
-   'statictyp-xqupd-48',
-   'statictyp-xqupd-49',
-   'statictyp-xqupd-50',
-   'statictyp-xqupd-51',
-   'statictyp-xqupd-52',
-   'statictyp-xqupd-53',
-   'statictyp-xqupd-54',
-   'statictyp-xqupd-55',
-   'statictyp-xqupd-56',
-   'statictyp-xqupd-57',
-   'statictyp-xqupd-58',
-   'statictyp-xqupd-59',
-   'statictyp-xqupd-60',
-   'update10keywords',
-   'revalidation-declaration-01-fail',
-   'revalidation-declaration-03-fail',
-   'revalidation-declaration-05',
-   'revalidation-declaration-06',
-   'complex-deletes-q1',
-   'complex-deletes-q2',
-   'complex-deletes-q6',
-   'complex-deletes-q7',
-   'complex-deletes-q8',
-   'complex-deletes-q9',
-   'complex-replacevalues-q1',
-   'complex-replacevalues-q2',
-   'complex-replacevalues-q6',
-   'complex-replacevalues-q7',
-   'complex-replacevalues-q8',
-   'complex-renames-q2',
-   'complex-renames-q3',
-   'complex-renames-q4',
-   'fn-put-003-fail',
-   'fn-put-004-fail',
-   'fn-put-005-fail',
-   'fn-put-006-fail',
-   'relational-data-q1',
-   'relational-data-q2',
-   'relational-data-q3',
-   'relational-data-q4',
-   'relational-data-q5-1',
-   'relational-data-q5-2',
-   'relational-data-q6-1',
-   'relational-data-q6-2',
-   'relational-data-q7',
-   'relational-data-q8',
-   'relational-data-q9',
-   'address-book-q1',
-   'soap-q1',
-   'namespaces-q1',
-   'parts-q1',
-   'parts-q2',
-   'parts-q3-1',
-   'parts-q3-2',
-   'parts-q4-1',
-   'parts-q4-2',
-   'parts-q6',
-   'nil-q1'].
+   {group, group_0},
+   {group, group_1},
+   {group, group_2},
+   {group, group_3},
+   {group, group_4},
+   {group, group_5},
+   {group, group_6},
+   {group, group_7},
+   {group, group_8},
+   {group, group_9},
+   {group, group_10},
+   {group, group_11},
+   {group, group_12},
+   {group, group_13},
+   {group, group_14}
+   ].
+groups() -> [
+   {group_0, [parallel], [
+    'variable-declaration-01',
+    'variable-declaration-02',
+    'id-function-declaration-01',
+    'id-function-declaration-02',
+    'id-function-declaration-03',
+    'id-function-declaration-04',
+    'id-function-declaration-05',
+    'id-function-declaration-06',
+    'id-function-declaration-07',
+    'id-function-declaration-08',
+    'id-function-declaration-09',
+    'id-function-declaration-010',
+    'id-function-declaration-011',
+    'id-function-declaration-012',
+    'id-function-declaration-013',
+    'id-function-declaration-014',
+    'id-function-declaration-015',
+    'id-function-declaration-016',
+    'id-function-declaration-017',
+    'function-declaration-01',
+    'function-declaration-02',
+    'function-declaration-03',
+    'function-declaration-04',
+    'id-insert-expr-01',
+    'id-insert-expr-02',
+    'id-insert-expr-03',
+    'id-insert-expr-04',
+    'id-insert-expr-05',
+    'id-insert-expr-06',
+    'id-insert-expr-07',
+    'id-insert-expr-08',
+    'id-insert-expr-09',
+    'id-insert-expr-010',
+    'id-insert-expr-011',
+    'id-insert-expr-012',
+    'id-insert-expr-013',
+    'id-insert-expr-014',
+    'id-insert-expr-015',
+    'id-insert-expr-016',
+    'id-insert-expr-017',
+    'id-insert-expr-018',
+    'id-insert-expr-019',
+    'id-insert-expr-020',
+    'id-insert-expr-021',
+    'id-insert-expr-022',
+    'id-insert-expr-023',
+    'id-insert-expr-024']},
+   {group_1, [parallel], [
+    'id-insert-expr-025',
+    'id-insert-expr-026',
+    'id-insert-expr-027',
+    'id-insert-expr-028',
+    'id-insert-expr-029',
+    'id-insert-expr-030',
+    'id-insert-expr-031',
+    'id-insert-expr-032',
+    'id-insert-expr-033',
+    'id-insert-expr-034',
+    'id-insert-expr-035',
+    'id-insert-expr-036',
+    'id-insert-expr-037',
+    'id-insert-expr-038',
+    'id-insert-expr-039',
+    'id-insert-expr-040',
+    'id-insert-expr-041',
+    'id-insert-expr-042',
+    'id-insert-expr-043',
+    'id-insert-expr-044',
+    'id-insert-expr-045',
+    'id-insert-expr-046',
+    'id-insert-expr-047',
+    'id-insert-expr-048',
+    'id-insert-expr-049',
+    'id-insert-expr-050',
+    'id-insert-expr-051',
+    'id-insert-expr-052',
+    'id-insert-expr-053',
+    'id-insert-expr-054',
+    'id-insert-expr-055',
+    'id-insert-expr-056',
+    'id-insert-expr-057',
+    'id-insert-expr-058',
+    'id-insert-expr-059',
+    'id-insert-expr-060',
+    'id-insert-expr-061',
+    'id-insert-expr-062',
+    'id-insert-expr-063',
+    'id-insert-expr-064',
+    'id-insert-expr-065',
+    'id-insert-expr-066',
+    'id-insert-expr-067',
+    'id-insert-expr-068',
+    'id-insert-expr-069',
+    'id-insert-expr-070',
+    'id-insert-expr-071',
+    'id-insert-expr-072']},
+   {group_2, [parallel], [
+    'id-insert-expr-073',
+    'id-insert-expr-074',
+    'id-insert-expr-075',
+    'id-insert-expr-076',
+    'id-insert-expr-077',
+    'id-insert-expr-078',
+    'id-insert-expr-079',
+    'id-insert-expr-080',
+    'id-insert-expr-081',
+    'id-insert-expr-082',
+    'id-insert-expr-083',
+    'id-insert-expr-084',
+    'id-insert-expr-085',
+    'id-insert-expr-086',
+    'id-insert-expr-081-no-inherit',
+    'id-insert-expr-082-no-inherit',
+    'id-insert-expr-083-no-inherit',
+    'id-insert-expr-084-no-inherit',
+    'id-insert-expr-085-no-inherit',
+    'id-insert-expr-086-no-inherit',
+    'id-insert-expr-087',
+    'id-insert-expr-088',
+    'id-insert-expr-089',
+    'id-insert-expr-090',
+    'id-insert-expr-091',
+    'id-insert-expr-092',
+    'id-insert-expr-093',
+    'id-insert-expr-094',
+    'id-delete-expr-01',
+    'id-delete-expr-02',
+    'id-delete-expr-03',
+    'id-delete-expr-04',
+    'id-delete-expr-05',
+    'id-delete-expr-06',
+    'id-delete-expr-07',
+    'id-delete-expr-08',
+    'id-delete-expr-09',
+    'id-delete-expr-010',
+    'id-delete-expr-011',
+    'id-delete-expr-012',
+    'id-delete-expr-013',
+    'id-delete-expr-014',
+    'id-delete-expr-015',
+    'id-delete-expr-016',
+    'id-delete-expr-017',
+    'id-delete-expr-018',
+    'id-delete-expr-019',
+    'id-delete-expr-020']},
+   {group_3, [parallel], [
+    'id-delete-expr-021',
+    'id-delete-expr-022',
+    'complex-deletes-q3',
+    'complex-deletes-q4',
+    'complex-deletes-q5',
+    'complex-deletes-q10',
+    'complex-deletes-q11',
+    'complex-deletes-q12',
+    'complex-deletes-q13',
+    'complex-deletes-q14',
+    'id-replace-expr-01',
+    'id-replace-expr-02',
+    'id-replace-expr-03',
+    'id-replace-expr-04',
+    'id-replace-expr-010',
+    'id-replace-expr-011',
+    'id-replace-expr-012',
+    'id-replace-expr-013',
+    'id-replace-expr-014',
+    'id-replace-expr-015',
+    'id-replace-expr-016',
+    'id-replace-expr-022',
+    'id-replace-expr-023',
+    'id-replace-expr-028',
+    'id-replace-expr-029',
+    'id-replace-expr-030',
+    'id-replace-expr-031',
+    'id-replace-expr-032',
+    'id-replace-expr-033',
+    'id-replace-expr-034',
+    'id-replace-expr-045',
+    'id-replace-expr-045-no-inherit',
+    'id-replace-expr-05',
+    'id-replace-expr-06',
+    'id-replace-expr-07',
+    'id-replace-expr-08',
+    'id-replace-expr-09',
+    'id-replace-expr-017',
+    'id-replace-expr-018',
+    'id-replace-expr-019',
+    'id-replace-expr-020',
+    'id-replace-expr-021',
+    'id-replace-expr-024',
+    'id-replace-expr-025',
+    'id-replace-expr-026',
+    'id-replace-expr-027',
+    'id-replace-expr-035',
+    'id-replace-expr-036']},
+   {group_4, [parallel], [
+    'id-replace-expr-037',
+    'id-replace-expr-038',
+    'id-replace-expr-039',
+    'id-replace-expr-040',
+    'id-replace-expr-041',
+    'id-replace-expr-042',
+    'id-replace-expr-043',
+    'id-replace-expr-044',
+    'complex-replacevalues-q3',
+    'complex-replacevalues-q4',
+    'complex-replacevalues-q5',
+    'complex-replacevalues-q9',
+    'complex-replacevalues-q10',
+    'complex-replacevalues-q11',
+    'complex-replacevalues-q12',
+    'complex-replacevalues-q13',
+    'complex-replacevalues-q14',
+    'id-rename-expr-01',
+    'id-rename-expr-02',
+    'id-rename-expr-03',
+    'id-rename-expr-04',
+    'id-rename-expr-05',
+    'id-rename-expr-06',
+    'id-rename-expr-07',
+    'id-rename-expr-08',
+    'id-rename-expr-09',
+    'id-rename-expr-010',
+    'id-rename-expr-011',
+    'id-rename-expr-012',
+    'id-rename-expr-013',
+    'id-rename-expr-014',
+    'id-rename-expr-015',
+    'id-rename-expr-016',
+    'id-rename-expr-017',
+    'id-rename-expr-018',
+    'id-rename-expr-019',
+    'id-rename-expr-020',
+    'id-rename-expr-021',
+    'id-rename-expr-022',
+    'id-rename-expr-023',
+    'id-rename-expr-024',
+    'id-rename-expr-025',
+    'id-rename-expr-026',
+    'id-rename-expr-027',
+    'id-rename-expr-028',
+    'id-rename-expr-029',
+    'id-rename-expr-030',
+    'id-rename-expr-031']},
+   {group_5, [parallel], [
+    'id-rename-expr-032',
+    'id-rename-expr-033',
+    'id-rename-expr-034',
+    'id-rename-expr-033-no-inherit',
+    'id-rename-expr-034-no-inherit',
+    'id-rename-expr-035',
+    'id-rename-expr-036',
+    'id-rename-expr-037',
+    'complex-renames-q1',
+    'complex-renames-q5',
+    'complex-renames-q6',
+    'complex-renames-q7',
+    'complex-renames-q8',
+    'id-transform-expr-01',
+    'id-transform-expr-02',
+    'id-transform-expr-03',
+    'id-transform-expr-04',
+    'id-transform-expr-05',
+    'id-transform-expr-06',
+    'id-transform-expr-07',
+    'id-transform-expr-08',
+    'id-transform-expr-09',
+    'id-transform-expr-010',
+    'id-transform-expr-011',
+    'id-transform-expr-012',
+    'id-transform-expr-013',
+    'id-transform-expr-014',
+    'id-transform-expr-015',
+    'id-transform-expr-016',
+    'id-transform-expr-017',
+    'id-transform-expr-018',
+    'id-transform-expr-019',
+    'id-transform-expr-020',
+    'id-transform-expr-021',
+    'id-transform-expr-022',
+    'id-transform-expr-023',
+    'id-transform-expr-024',
+    'id-transform-expr-025',
+    'id-transform-expr-026',
+    'id-transform-expr-027',
+    'id-transform-expr-028',
+    'id-transform-expr-029',
+    'id-transform-expr-030',
+    'id-transform-expr-031',
+    'id-transform-expr-032',
+    'id-transform-expr-033',
+    'id-transform-expr-034',
+    'id-transform-expr-035']},
+   {group_6, [parallel], [
+    'id-transform-expr-036',
+    'id-transform-expr-037',
+    'id-transform-expr-038',
+    'id-transform-expr-039',
+    'id-transform-expr-040',
+    'id-transform-expr-041',
+    'id-transform-expr-042',
+    'id-transform-expr-043',
+    'id-transform-expr-044',
+    'id-transform-expr-045',
+    'id-transform-expr-046',
+    'id-transform-expr-047',
+    'id-transform-expr-048',
+    'id-transform-expr-049',
+    'id-transform-expr-050',
+    'id-transform-expr-051',
+    'id-transform-expr-052',
+    'id-transform-expr-053',
+    'id-transform-expr-054',
+    'id-transform-expr-055',
+    'id-transform-expr-056',
+    'id-transform-expr-057',
+    'id-transform-expr-058',
+    'compatibility-001',
+    'compatibility-002',
+    'compatibility-003',
+    'compatibility-004',
+    'compatibility-005',
+    'compatibility-006',
+    'compatibility-007',
+    'compatibility-008',
+    'compatibility-009',
+    'compatibility-010',
+    'compatibility-011',
+    'compatibility-012',
+    'compatibility-013',
+    'compatibility-014',
+    'compatibility-015',
+    'compatibility-016',
+    'compatibility-017',
+    'compatibility-018',
+    'compatibility-019',
+    'compatibility-020',
+    'compatibility-021',
+    'compatibility-022',
+    'compatibility-023',
+    'compatibility-024',
+    'compatibility-025']},
+   {group_7, [parallel], [
+    'compatibility-026',
+    'compatibility-027',
+    'compatibility-028',
+    'compatibility-029',
+    'compatibility-030',
+    'id-flwor-expr-01',
+    'id-flwor-expr-02',
+    'id-flwor-expr-03',
+    'id-flwor-expr-04',
+    'id-flwor-expr-05',
+    'id-flwor-expr-06',
+    'id-flwor-expr-07',
+    'id-flwor-expr-08',
+    'id-flwor-expr-09',
+    'id-flwor-expr-010',
+    'id-flwor-expr-011',
+    'id-flwor-expr-012',
+    'id-flwor-expr-013',
+    'id-flwor-expr-014',
+    'id-flwor-expr-015',
+    'id-flwor-expr-016',
+    'id-flwor-expr-017',
+    'id-flwor-expr-018',
+    'id-flwor-expr-019',
+    'id-flwor-expr-020',
+    'id-flwor-expr-021',
+    'id-flwor-expr-022',
+    'id-flwor-expr-023',
+    'id-flwor-expr-024',
+    'id-flwor-expr-025',
+    'id-typeswitch-expr-01',
+    'id-typeswitch-expr-02',
+    'id-typeswitch-expr-03',
+    'id-typeswitch-expr-04',
+    'id-typeswitch-expr-05',
+    'id-typeswitch-expr-06',
+    'id-typeswitch-expr-07',
+    'id-typeswitch-expr-08',
+    'id-typeswitch-expr-09',
+    'id-typeswitch-expr-010',
+    'id-typeswitch-expr-011',
+    'id-typeswitch-expr-012',
+    'id-typeswitch-expr-013',
+    'id-typeswitch-expr-014',
+    'id-typeswitch-expr-015',
+    'id-typeswitch-expr-016',
+    'id-typeswitch-expr-017',
+    'id-typeswitch-expr-018']},
+   {group_8, [parallel], [
+    'id-typeswitch-expr-019',
+    'id-typeswitch-expr-020',
+    'id-typeswitch-expr-021',
+    'id-typeswitch-expr-022',
+    'id-typeswitch-expr-023',
+    'id-typeswitch-expr-024',
+    'id-typeswitch-expr-025',
+    'id-typeswitch-expr-026',
+    'id-typeswitch-expr-027',
+    'id-typeswitch-expr-028',
+    'id-typeswitch-expr-029',
+    'id-typeswitch-expr-030',
+    'id-typeswitch-expr-031',
+    'id-typeswitch-expr-032',
+    'id-typeswitch-expr-033',
+    'id-typeswitch-expr-034',
+    'id-typeswitch-expr-035',
+    'id-typeswitch-expr-036',
+    'id-typeswitch-expr-037',
+    'id-typeswitch-expr-038',
+    'id-conditional-expr-01',
+    'id-conditional-expr-02',
+    'id-conditional-expr-03',
+    'id-conditional-expr-04',
+    'id-conditional-expr-05',
+    'id-conditional-expr-06',
+    'id-conditional-expr-07',
+    'id-conditional-expr-08',
+    'id-conditional-expr-09',
+    'id-conditional-expr-010',
+    'id-conditional-expr-011',
+    'id-conditional-expr-012',
+    'id-conditional-expr-013',
+    'id-conditional-expr-014',
+    'id-conditional-expr-015',
+    'id-conditional-expr-016',
+    'id-conditional-expr-017',
+    'id-conditional-expr-018',
+    'id-conditional-expr-019',
+    'id-conditional-expr-020',
+    'id-conditional-expr-021',
+    'id-conditional-expr-022',
+    'id-conditional-expr-023',
+    'id-conditional-expr-024',
+    'id-conditional-expr-025',
+    'id-conditional-expr-026',
+    'id-conditional-expr-027',
+    'id-conditional-expr-028']},
+   {group_9, [parallel], [
+    'id-conditional-expr-029',
+    'id-conditional-expr-030',
+    'id-conditional-expr-031',
+    'id-conditional-expr-032',
+    'id-conditional-expr-033',
+    'id-conditional-expr-034',
+    'id-conditional-expr-035',
+    'id-conditional-expr-036',
+    'id-conditional-expr-037',
+    'id-conditional-expr-038',
+    'id-comma-expr-01',
+    'id-comma-expr-02',
+    'id-comma-expr-03',
+    'id-comma-expr-04',
+    'id-comma-expr-05',
+    'id-comma-expr-06',
+    'id-comma-expr-07',
+    'id-comma-expr-08',
+    'id-comma-expr-09',
+    'id-comma-expr-010',
+    'id-comma-expr-011',
+    'id-comma-expr-012',
+    'id-comma-expr-013',
+    'id-comma-expr-014',
+    'id-comma-expr-015',
+    'id-comma-expr-016',
+    'id-comma-expr-017',
+    'id-comma-expr-018',
+    'id-comma-expr-019',
+    'id-comma-expr-020',
+    'id-comma-expr-021',
+    'id-comma-expr-022',
+    'id-comma-expr-023',
+    'id-comma-expr-024',
+    'id-comma-expr-025',
+    'id-comma-expr-026',
+    'id-comma-expr-027',
+    'id-comma-expr-028',
+    'id-comma-expr-029',
+    'id-comma-expr-030',
+    'id-comma-expr-031',
+    'id-comma-expr-032',
+    'id-comma-expr-033',
+    'id-comma-expr-034',
+    'id-comma-expr-035',
+    'id-comma-expr-036',
+    'id-comma-expr-037',
+    'id-comma-expr-038']},
+   {group_10, [parallel], [
+    'parenthesized-expr-01',
+    'parenthesized-expr-02',
+    'parenthesized-expr-03',
+    'id-function-call-01',
+    'id-function-call-02',
+    'id-function-call-03',
+    'id-function-call-04',
+    'id-function-call-05',
+    'id-function-call-06',
+    'id-other-expr-01',
+    'id-other-expr-02',
+    'id-other-expr-03',
+    'id-other-expr-04',
+    'id-other-expr-05',
+    'id-other-expr-06',
+    'id-other-expr-07',
+    'id-other-expr-08',
+    'id-other-expr-09',
+    'id-other-expr-010',
+    'id-other-expr-011',
+    'id-other-expr-012',
+    'id-other-expr-013',
+    'id-other-expr-014',
+    'id-other-expr-015',
+    'id-other-expr-016',
+    'id-other-expr-017',
+    'id-other-expr-018',
+    'id-other-expr-019',
+    'id-other-expr-020',
+    'id-other-expr-021',
+    'id-other-expr-022',
+    'id-other-expr-023',
+    'id-other-expr-024',
+    'id-other-expr-025',
+    'id-other-expr-26',
+    'id-other-expr-027',
+    'id-other-expr-028',
+    'id-other-expr-029',
+    'id-other-expr-030',
+    'id-other-expr-031',
+    'id-other-expr-032',
+    'fn-put-001',
+    'fn-put-007',
+    'fn-put-008',
+    'fn-put-009',
+    'fn-put-011',
+    'fn-put-012',
+    'fn-put-013']},
+   {group_11, [parallel], [
+    'fn-put-014',
+    'put-001',
+    'fn-put-002',
+    'fn-put-010',
+    'attribute-errors-q1',
+    'attribute-errors-q2',
+    'attribute-errors-q3',
+    'attribute-errors-q4',
+    'attribute-errors-q5',
+    'attribute-errors-q6',
+    'attribute-errors-q7',
+    'attribute-errors-q8',
+    'attribute-errors-q9',
+    'attribute-errors-q10',
+    'attribute-errors-q11',
+    'attribute-errors-q12',
+    'attribute-errors-q13',
+    'attribute-errors-q14',
+    'attribute-errors-q15',
+    'attribute-errors-q16',
+    'attribute-errors-q17',
+    'namespace-errors-q1',
+    'namespace-errors-q2',
+    'namespace-errors-q3',
+    'namespace-errors-q4',
+    'namespace-errors-q5',
+    'namespace-errors-q6',
+    'namespace-errors-q7',
+    'namespace-errors-q8',
+    'namespace-errors-q9',
+    'namespace-errors-q10',
+    'namespace-errors-q11',
+    'namespace-errors-q12',
+    'namespace-errors-q13',
+    'namespace-errors-q14',
+    'namespace-errors-q15',
+    'namespace-errors-q16',
+    'namespace-errors-q17',
+    'namespace-errors-q18',
+    'namespace-errors-q19',
+    'mergeUpdates-001',
+    'mergeUpdates-002',
+    'applyUpdates-001',
+    'applyUpdates-002',
+    'applyUpdates-003',
+    'applyUpdates-004',
+    'applyUpdates-005',
+    'applyUpdates-006']},
+   {group_12, [parallel], [
+    'applyUpdates-007',
+    'applyUpdates-008',
+    'applyUpdates-009',
+    'applyUpdates-010',
+    'applyUpdates-011',
+    'applyUpdates-012',
+    'applyUpdates-013',
+    'applyUpdates-014',
+    'applyUpdates-016',
+    'applyUpdates-021',
+    'applyUpdates-022',
+    'applyUpdates-023',
+    'applyUpdates-024',
+    'applyUpdates-025',
+    'applyUpdates-026',
+    'setToUntyped-001',
+    'setToUntyped-002',
+    'setToUntyped-003',
+    'setToUntyped-004',
+    'setToUntyped-005',
+    'setToUntyped-006',
+    'setToUntyped-007',
+    'setToUntyped-008',
+    'setToUntyped-009',
+    'setToUntyped-010',
+    'propagateNamespaces01',
+    'propagateNamespaces02',
+    'propagateNamespaces03',
+    'propagateNamespaces04',
+    'propagateNamespaces05',
+    'propagateNamespaces06',
+    'statictyp-xqupd-01',
+    'statictyp-xqupd-02',
+    'statictyp-xqupd-03',
+    'statictyp-xqupd-04',
+    'statictyp-xqupd-05',
+    'statictyp-xqupd-06',
+    'statictyp-xqupd-07',
+    'statictyp-xqupd-08',
+    'statictyp-xqupd-09',
+    'statictyp-xqupd-10',
+    'statictyp-xqupd-11',
+    'statictyp-xqupd-12',
+    'statictyp-xqupd-13',
+    'statictyp-xqupd-14',
+    'statictyp-xqupd-15',
+    'statictyp-xqupd-16',
+    'statictyp-xqupd-17']},
+   {group_13, [parallel], [
+    'statictyp-xqupd-18',
+    'statictyp-xqupd-19',
+    'statictyp-xqupd-20',
+    'statictyp-xqupd-21',
+    'statictyp-xqupd-22',
+    'statictyp-xqupd-23',
+    'statictyp-xqupd-24',
+    'statictyp-xqupd-25',
+    'statictyp-xqupd-26',
+    'statictyp-xqupd-27',
+    'statictyp-xqupd-28',
+    'statictyp-xqupd-29',
+    'statictyp-xqupd-30',
+    'statictyp-xqupd-31',
+    'statictyp-xqupd-32',
+    'statictyp-xqupd-33',
+    'statictyp-xqupd-34',
+    'statictyp-xqupd-35',
+    'statictyp-xqupd-36',
+    'statictyp-xqupd-37',
+    'statictyp-xqupd-38',
+    'statictyp-xqupd-39',
+    'statictyp-xqupd-40',
+    'statictyp-xqupd-41',
+    'statictyp-xqupd-42',
+    'statictyp-xqupd-43',
+    'statictyp-xqupd-44',
+    'statictyp-xqupd-45',
+    'statictyp-xqupd-46',
+    'statictyp-xqupd-47',
+    'statictyp-xqupd-48',
+    'statictyp-xqupd-49',
+    'statictyp-xqupd-50',
+    'statictyp-xqupd-51',
+    'statictyp-xqupd-52',
+    'statictyp-xqupd-53',
+    'statictyp-xqupd-54',
+    'statictyp-xqupd-55',
+    'statictyp-xqupd-56',
+    'statictyp-xqupd-57',
+    'statictyp-xqupd-58',
+    'statictyp-xqupd-59',
+    'statictyp-xqupd-60',
+    'update10keywords',
+    'revalidation-declaration-01-fail',
+    'revalidation-declaration-03-fail',
+    'revalidation-declaration-05',
+    'revalidation-declaration-06']},
+   {group_14, [parallel], [
+    'complex-deletes-q1',
+    'complex-deletes-q2',
+    'complex-deletes-q6',
+    'complex-deletes-q7',
+    'complex-deletes-q8',
+    'complex-deletes-q9',
+    'complex-replacevalues-q1',
+    'complex-replacevalues-q2',
+    'complex-replacevalues-q6',
+    'complex-replacevalues-q7',
+    'complex-replacevalues-q8',
+    'complex-renames-q2',
+    'complex-renames-q3',
+    'complex-renames-q4',
+    'fn-put-003-fail',
+    'fn-put-004-fail',
+    'fn-put-005-fail',
+    'fn-put-006-fail',
+    'relational-data-q1',
+    'relational-data-q2',
+    'relational-data-q3',
+    'relational-data-q4',
+    'relational-data-q5-1',
+    'relational-data-q5-2',
+    'relational-data-q6-1',
+    'relational-data-q6-2',
+    'relational-data-q7',
+    'relational-data-q8',
+    'relational-data-q9',
+    'address-book-q1',
+    'soap-q1',
+    'namespaces-q1',
+    'parts-q1',
+    'parts-q2',
+    'parts-q3-1',
+    'parts-q3-2',
+    'parts-q4-1',
+    'parts-q4-2',
+    'parts-q6',
+    'nil-q1']}].
 
 source(BaseDir, Name) -> 
    Src = source(Name),
@@ -1472,8 +1505,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'variable-declaration-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-1.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-1.xml", source(__BaseDir, 'employees')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-1.xml", source(__BaseDir, 'employees')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/VariableDeclaration/variable-declaration-01.xq"),
       Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-1.xml')")},
       Res1 = try
@@ -1491,8 +1524,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'variable-declaration-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-2.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-2.xml", source(__BaseDir, 'employees')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-2.xml", source(__BaseDir, 'employees')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/VariableDeclaration/variable-declaration-02.xq"),
       Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-2.xml')")},
       Res1 = try
@@ -1510,8 +1543,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-3.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-3.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-3.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-3.xml')")},
       Res1 = try
@@ -1520,7 +1553,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-3.xml')")},
       Res2 = try
@@ -1537,8 +1570,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-4.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-4.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-4.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-4.xml')")},
       Res1 = try
@@ -1556,8 +1589,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-5.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-5.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-5.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-5.xml')")},
       Res1 = try
@@ -1566,7 +1599,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-5.xml')")},
       Res2 = try
@@ -1583,8 +1616,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-6.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-6.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-6.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-6.xml')")},
       Res1 = try
@@ -1599,15 +1632,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a mathematical expression used with an updating/non external function. Enclosed expression is a mathematical expression.
-'id-function-declaration-05'(Config) -> 
+'id-function-declaration-05'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0002"}.
 
 %% Evaluates a delete expression used with an updating function and enclosed expression is also updating (delete) expression.
 'id-function-declaration-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-8.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-8.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-8.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-8.xml')")},
       Res1 = try
@@ -1616,7 +1649,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-06-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-8.xml')")},
       Res2 = try
@@ -1633,8 +1666,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-9.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-9.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-9.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-9.xml')")},
       Res1 = try
@@ -1652,8 +1685,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-10.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-10.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-10.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-10.xml')")},
       Res1 = try
@@ -1662,7 +1695,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-10.xml')")},
       Res2 = try
@@ -1679,8 +1712,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-11.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-11.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-11.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-11.xml')")},
       Res1 = try
@@ -1698,8 +1731,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-12.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-12.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-12.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-12.xml')")},
       Res1 = try
@@ -1708,7 +1741,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-12.xml')")},
       Res2 = try
@@ -1725,8 +1758,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-function-declaration-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-13.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-13.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-13.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-13.xml')")},
       Res1 = try
@@ -1741,15 +1774,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a transform expression used with an updating function and enclosed expression is also updating (transform) expression.
-'id-function-declaration-012'(Config) -> 
+'id-function-declaration-012'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression used with non updating/non external function and enclosed expression is non updating (transform) expression.
 'id-function-declaration-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-15.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-15.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-15.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-15.xml')")},
       Res1 = try
@@ -1763,15 +1796,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a function declaration declared as updating and a return type is specified.
-'id-function-declaration-014'(Config) -> 
+'id-function-declaration-014'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Updating function contains updating expression in a disallowed place.
 'id-function-declaration-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-17.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-17.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-17.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-17.xml')")},
       Res1 = try
@@ -1786,13 +1819,13 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Updating function returns a value on a non-executed branch.
-'id-function-declaration-016'(Config) -> 
+'id-function-declaration-016'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Recursive updating function.
 'id-function-declaration-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionDeclaration/id-function-declaration-017.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -1809,8 +1842,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'function-declaration-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-20.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-20.xml", source(__BaseDir, 'employees')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-20.xml", source(__BaseDir, 'employees')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/FunctionDeclaration/function-declaration-01.xq"),
       Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-20.xml')")},
       Res1 = try
@@ -1825,19 +1858,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Function declaration, updating, with return type.
-'function-declaration-02'(Config) -> 
+'function-declaration-02'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0028"}.
 
 %% Function declaration, updating, with simple expression.
-'function-declaration-03'(Config) -> 
+'function-declaration-03'(_Config) -> 
    {skip, "returns 12 instead of throwing XUST0002"}.
 
 %% Function declaration, updating, with vacuous expression.
 'function-declaration-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-23.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-23.xml", source(__BaseDir, 'employees')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-23.xml", source(__BaseDir, 'employees')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/FunctionDeclaration/function-declaration-04.xq"),
       Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-23.xml')")},
       Res1 = try
@@ -1854,8 +1887,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-24.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-24.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-24.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-24.xml')")},
       Res1 = try
@@ -1864,7 +1897,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-24.xml')")},
       Res2 = try
@@ -1881,8 +1914,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-25.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-25.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-25.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-25.xml')")},
       Res1 = try
@@ -1891,7 +1924,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-25.xml')")},
       Res2 = try
@@ -1908,8 +1941,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-26.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-26.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-26.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-26.xml')")},
       Res1 = try
@@ -1918,7 +1951,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-26.xml')")},
       Res2 = try
@@ -1935,8 +1968,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-27.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-27.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-27.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-27.xml')")},
       Res1 = try
@@ -1945,7 +1978,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-27.xml')")},
       Res2 = try
@@ -1962,8 +1995,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-28.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-28.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-28.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-28.xml')")},
       Res1 = try
@@ -1972,7 +2005,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-05-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-28.xml')")},
       Res2 = try
@@ -1989,8 +2022,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-29.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-29.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-29.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-29.xml')")},
       Res1 = try
@@ -1999,7 +2032,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-06-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-29.xml')")},
       Res2 = try
@@ -2016,8 +2049,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-30.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-30.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-30.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-30.xml')")},
       Res1 = try
@@ -2026,7 +2059,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-07-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-30.xml')")},
       Res2 = try
@@ -2043,8 +2076,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-31.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-31.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-31.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-31.xml')")},
       Res1 = try
@@ -2053,7 +2086,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-31.xml')")},
       Res2 = try
@@ -2070,8 +2103,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-32.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-32.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-32.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-32.xml')")},
       Res1 = try
@@ -2080,7 +2113,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-32.xml')")},
       Res2 = try
@@ -2097,8 +2130,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-33.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-33.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-33.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-33.xml')")},
       Res1 = try
@@ -2107,7 +2140,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-33.xml')")},
       Res2 = try
@@ -2124,8 +2157,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-34.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-34.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-34.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-34.xml')")},
       Res1 = try
@@ -2134,7 +2167,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-011-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-34.xml')")},
       Res2 = try
@@ -2151,8 +2184,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-35.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-35.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-35.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-35.xml')")},
       Res1 = try
@@ -2161,7 +2194,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-012-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-35.xml')")},
       Res2 = try
@@ -2178,8 +2211,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-36.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-36.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-36.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-36.xml')")},
       Res1 = try
@@ -2188,7 +2221,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-013-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-36.xml')")},
       Res2 = try
@@ -2205,8 +2238,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-37.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-37.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-37.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-37.xml')")},
       Res1 = try
@@ -2215,7 +2248,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-014-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-37.xml')")},
       Res2 = try
@@ -2232,8 +2265,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-38.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-38.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-38.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-38.xml')")},
       Res1 = try
@@ -2242,7 +2275,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-015-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-38.xml')")},
       Res2 = try
@@ -2259,8 +2292,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-39.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-39.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-39.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-39.xml')")},
       Res1 = try
@@ -2269,7 +2302,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-39.xml')")},
       Res2 = try
@@ -2286,8 +2319,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-40.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-40.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-40.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-40.xml')")},
       Res1 = try
@@ -2296,7 +2329,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-017-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-40.xml')")},
       Res2 = try
@@ -2313,8 +2346,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-41.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-41.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-41.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-41.xml')")},
       Res1 = try
@@ -2323,7 +2356,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-018-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-41.xml')")},
       Res2 = try
@@ -2340,8 +2373,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-42.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-42.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-42.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-42.xml')")},
       Res1 = try
@@ -2350,7 +2383,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-019-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-42.xml')")},
       Res2 = try
@@ -2367,8 +2400,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-43.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-43.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-43.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-43.xml')")},
       Res1 = try
@@ -2377,7 +2410,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-020-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-43.xml')")},
       Res2 = try
@@ -2394,8 +2427,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-44.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-44.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-44.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-44.xml')")},
       Res1 = try
@@ -2404,7 +2437,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-44.xml')")},
       Res2 = try
@@ -2421,8 +2454,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-45.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-45.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-45.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-45.xml')")},
       Res1 = try
@@ -2431,7 +2464,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-45.xml')")},
       Res2 = try
@@ -2445,27 +2478,27 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a simple insert expression where source expression is an updating expression.
-'id-insert-expr-023'(Config) -> 
+'id-insert-expr-023'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a simple insert expression where target expression is an updating expression.
-'id-insert-expr-024'(Config) -> 
+'id-insert-expr-024'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a simple insert expression where both source and target expressions are updating expressions.
-'id-insert-expr-025'(Config) -> 
+'id-insert-expr-025'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression where the source sequence have an attribute node following an element node.
-'id-insert-expr-026'(Config) -> 
+'id-insert-expr-026'(_Config) -> 
    {skip, "returns [] instead of throwing XUTY0004"}.
 
 %% Evaluates an insert expression where the target expression is a sequence of nodes.
 'id-insert-expr-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-50.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-50.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-50.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-50.xml')")},
       Res1 = try
@@ -2483,8 +2516,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-51.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-51.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-51.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-51.xml')")},
       Res1 = try
@@ -2502,8 +2535,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-52.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-52.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-52.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-52.xml')")},
       Res1 = try
@@ -2521,8 +2554,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-53.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-53.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-53.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-53.xml')")},
       Res1 = try
@@ -2531,7 +2564,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-030-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-53.xml')")},
       Res2 = try
@@ -2548,8 +2581,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-54.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-54.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-54.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-54.xml')")},
       Res1 = try
@@ -2558,7 +2591,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-031-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-54.xml')")},
       Res2 = try
@@ -2575,8 +2608,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-55.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-55.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-55.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-55.xml')")},
       Res1 = try
@@ -2585,7 +2618,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-032-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-55.xml')")},
       Res2 = try
@@ -2602,8 +2635,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-56.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-56.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-56.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-56.xml')")},
       Res1 = try
@@ -2612,7 +2645,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-033-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-56.xml')")},
       Res2 = try
@@ -2629,8 +2662,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-57.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-57.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-57.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-57.xml')")},
       Res1 = try
@@ -2639,7 +2672,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-034-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-57.xml')")},
       Res2 = try
@@ -2656,8 +2689,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-58.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-58.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-58.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-58.xml')")},
       Res1 = try
@@ -2666,7 +2699,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-035-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-58.xml')")},
       Res2 = try
@@ -2683,8 +2716,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-59.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-59.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-59.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-59.xml')")},
       Res1 = try
@@ -2693,7 +2726,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-036-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-59.xml')")},
       Res2 = try
@@ -2710,8 +2743,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-60.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-60.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-60.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-60.xml')")},
       Res1 = try
@@ -2720,7 +2753,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-037-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-60.xml')")},
       Res2 = try
@@ -2737,8 +2770,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-038'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-61.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-61.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-61.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-038.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-61.xml')")},
       Res1 = try
@@ -2747,7 +2780,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-038-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-61.xml')")},
       Res2 = try
@@ -2764,8 +2797,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-039'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-62.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-62.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-62.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-039.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-62.xml')")},
       Res1 = try
@@ -2774,7 +2807,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-039-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-62.xml')")},
       Res2 = try
@@ -2791,8 +2824,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-040'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-63.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-63.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-63.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-040.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-63.xml')")},
       Res1 = try
@@ -2801,7 +2834,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-040-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-63.xml')")},
       Res2 = try
@@ -2820,8 +2853,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-041'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-64.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-64.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-64.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-041.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-64.xml')")},
       Res1 = try
@@ -2830,7 +2863,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-041-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-64.xml')")},
       Res2 = try
@@ -2849,8 +2882,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-042'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-65.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-65.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-65.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-042.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-65.xml')")},
       Res1 = try
@@ -2859,7 +2892,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-042-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-65.xml')")},
       Res2 = try
@@ -2876,8 +2909,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-043'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-66.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-66.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-66.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-043.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-66.xml')")},
       Res1 = try
@@ -2886,7 +2919,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-043-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-66.xml')")},
       Res2 = try
@@ -2903,8 +2936,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-044'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-67.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-67.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-67.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-044.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-67.xml')")},
       Res1 = try
@@ -2913,7 +2946,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-044-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-67.xml')")},
       Res2 = try
@@ -2930,8 +2963,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-045'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-68.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-68.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-68.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-045.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-68.xml')")},
       Res1 = try
@@ -2949,8 +2982,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-046'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-69.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-69.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-69.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-046.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-69.xml')")},
       Res1 = try
@@ -2968,8 +3001,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-047'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-70.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-70.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-70.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-047.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-70.xml')")},
       Res1 = try
@@ -2978,7 +3011,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-047-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-70.xml')")},
       Res2 = try
@@ -2995,8 +3028,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-048'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-71.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-71.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-71.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-048.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-71.xml')")},
       Res1 = try
@@ -3005,7 +3038,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-048-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-71.xml')")},
       Res2 = try
@@ -3022,8 +3055,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-049'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-72.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-72.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-72.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-049.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-72.xml')")},
       Res1 = try
@@ -3032,7 +3065,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-049-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-72.xml')")},
       Res2 = try
@@ -3051,8 +3084,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-050'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-73.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-73.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-73.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-050.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-73.xml')")},
       Res1 = try
@@ -3061,7 +3094,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-050-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-73.xml')")},
       Res2 = try
@@ -3080,8 +3113,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-051'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-74.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-74.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-74.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-051.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-74.xml')")},
       Res1 = try
@@ -3090,7 +3123,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-051-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-74.xml')")},
       Res2 = try
@@ -3107,8 +3140,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-052'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-75.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-75.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-75.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-052.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-75.xml')")},
       Res1 = try
@@ -3117,7 +3150,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-052-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-75.xml')")},
       Res2 = try
@@ -3140,8 +3173,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-053'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-76.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-76.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-76.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-053.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-76.xml')")},
       Res1 = try
@@ -3150,7 +3183,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-053-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-76.xml')")},
       Res2 = try
@@ -3167,8 +3200,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-054'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-77.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-77.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-77.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-054.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-77.xml')")},
       Res1 = try
@@ -3186,8 +3219,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-055'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-78.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-78.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-78.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-055.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-78.xml')")},
       Res1 = try
@@ -3205,8 +3238,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-056'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-79.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-79.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-79.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-056.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-79.xml')")},
       Res1 = try
@@ -3224,8 +3257,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-057'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-80.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-80.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-80.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-057.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-80.xml')")},
       Res1 = try
@@ -3243,8 +3276,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-058'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-81.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-81.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-81.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-058.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-81.xml')")},
       Res1 = try
@@ -3262,8 +3295,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-059'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-82.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-82.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-82.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-059.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-82.xml')")},
       Res1 = try
@@ -3281,8 +3314,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-060'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-83.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-83.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-83.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-060.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-83.xml')")},
       Res1 = try
@@ -3300,8 +3333,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-061'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-84.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-84.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-84.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-061.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-84.xml')")},
       Res1 = try
@@ -3319,8 +3352,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-062'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-85.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-85.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-85.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-062.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-85.xml')")},
       Res1 = try
@@ -3338,8 +3371,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-063'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-86.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-86.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-86.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-063.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-86.xml')")},
       Res1 = try
@@ -3357,8 +3390,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-064'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-87.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-87.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-87.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-064.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-87.xml')")},
       Res1 = try
@@ -3380,8 +3413,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-065'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-88.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-88.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-88.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-065.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-88.xml')")},
       Res1 = try
@@ -3403,8 +3436,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-066'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-89.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-89.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-89.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-066.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-89.xml')")},
       Res1 = try
@@ -3426,8 +3459,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-067'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-90.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-90.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-90.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-067.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-90.xml')")},
       Res1 = try
@@ -3445,8 +3478,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-068'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-91.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-91.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-91.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-068.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-91.xml')")},
       Res1 = try
@@ -3468,8 +3501,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-069'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-92.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-92.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-92.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-069.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-92.xml')")},
       Res1 = try
@@ -3491,8 +3524,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-070'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-93.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-93.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-93.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-070.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-93.xml')")},
       Res1 = try
@@ -3514,8 +3547,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-071'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-94.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-94.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-94.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-071.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-94.xml')")},
       Res1 = try
@@ -3537,8 +3570,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-072'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-95.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-95.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-95.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-072.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-95.xml')")},
       Res1 = try
@@ -3560,8 +3593,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-073'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-96.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-96.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-96.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-073.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-96.xml')")},
       Res1 = try
@@ -3583,8 +3616,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-074'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-97.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-97.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-97.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-074.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-97.xml')")},
       Res1 = try
@@ -3606,8 +3639,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-075'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-98.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-98.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-98.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-075.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-98.xml')")},
       Res1 = try
@@ -3629,8 +3662,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-076'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-99.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-99.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-99.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-076.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-99.xml')")},
       Res1 = try
@@ -3652,8 +3685,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-077'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-100.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-100.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-100.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-077.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-100.xml')")},
       Res1 = try
@@ -3662,7 +3695,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-077-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-100.xml')")},
       Res2 = try
@@ -3679,8 +3712,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-078'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-101.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-101.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-101.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-078.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-101.xml')")},
       Res1 = try
@@ -3689,7 +3722,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-078-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-101.xml')")},
       Res2 = try
@@ -3706,8 +3739,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-079'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-102.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-102.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-102.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-079.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-102.xml')")},
       Res1 = try
@@ -3716,7 +3749,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-079-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-102.xml')")},
       Res2 = try
@@ -3733,8 +3766,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-080'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-103.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-103.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-103.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-080.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-103.xml')")},
       Res1 = try
@@ -3743,7 +3776,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-080-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-103.xml')")},
       Res2 = try
@@ -3760,8 +3793,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-081'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-104.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-104.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-104.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-081.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-104.xml')")},
       Res1 = try
@@ -3778,8 +3811,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-082'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-105.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-105.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-105.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-082.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-105.xml')")},
       Res1 = try
@@ -3796,8 +3829,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-083'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-106.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-106.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-106.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-083.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-106.xml')")},
       Res1 = try
@@ -3814,8 +3847,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-084'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-107.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-107.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-107.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-084.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-107.xml')")},
       Res1 = try
@@ -3832,8 +3865,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-085'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-108.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-108.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-108.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-085.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-108.xml')")},
       Res1 = try
@@ -3850,8 +3883,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-086'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-109.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-109.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-109.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-086.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-109.xml')")},
       Res1 = try
@@ -3868,8 +3901,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-081-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-110.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-110.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-110.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-081-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-110.xml')")},
       Res1 = try
@@ -3886,8 +3919,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-082-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-111.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-111.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-111.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-082-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-111.xml')")},
       Res1 = try
@@ -3904,8 +3937,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-083-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-112.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-112.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-112.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-083-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-112.xml')")},
       Res1 = try
@@ -3922,8 +3955,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-084-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-113.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-113.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-113.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-084-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-113.xml')")},
       Res1 = try
@@ -3940,8 +3973,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-085-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-114.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-114.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-114.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-085-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-114.xml')")},
       Res1 = try
@@ -3958,8 +3991,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-086-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-115.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-115.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-115.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-086-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-115.xml')")},
       Res1 = try
@@ -3976,8 +4009,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-087'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-116.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-116.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-116.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-087.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-116.xml')")},
       Res1 = try
@@ -3995,8 +4028,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-088'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-117.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-117.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-117.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-088.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-117.xml')")},
       Res1 = try
@@ -4014,8 +4047,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-089'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-118.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-118.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-118.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-089.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-118.xml')")},
       Res1 = try
@@ -4033,8 +4066,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-090'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-119.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-119.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-119.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-090.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-119.xml')")},
       Res1 = try
@@ -4052,8 +4085,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-091'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-120.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-120.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-120.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-091.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-120.xml')")},
       Res1 = try
@@ -4071,8 +4104,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-092'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-121.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-121.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-121.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-092.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-121.xml')")},
       Res1 = try
@@ -4090,8 +4123,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-093'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-122.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-122.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-122.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-093.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-122.xml')")},
       Res1 = try
@@ -4100,7 +4133,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-093-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-122.xml')")},
       Res2 = try
@@ -4117,8 +4150,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-insert-expr-094'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books3-123.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books3-123.xml", source(__BaseDir, 'books3')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books3-123.xml", source(__BaseDir, 'books3')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-094.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books3-123.xml')")},
       Res1 = try
@@ -4127,7 +4160,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/InsertExpressions/id-insert-expr-094-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books3-123.xml')")},
       Res2 = try
@@ -4144,8 +4177,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-124.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-124.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-124.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-124.xml')")},
       Res1 = try
@@ -4154,7 +4187,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-124.xml')")},
       Res2 = try
@@ -4171,8 +4204,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-125.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-125.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-125.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-125.xml')")},
       Res1 = try
@@ -4181,7 +4214,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-125.xml')")},
       Res2 = try
@@ -4198,8 +4231,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-126.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-126.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-126.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-126.xml')")},
       Res1 = try
@@ -4208,7 +4241,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-126.xml')")},
       Res2 = try
@@ -4225,8 +4258,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-127.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-127.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-127.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-127.xml')")},
       Res1 = try
@@ -4235,7 +4268,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-127.xml')")},
       Res2 = try
@@ -4252,8 +4285,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-128.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-128.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-128.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-128.xml')")},
       Res1 = try
@@ -4262,7 +4295,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-05-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-128.xml')")},
       Res2 = try
@@ -4276,15 +4309,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% A delete expression where the target expression is an updating expression.
-'id-delete-expr-06'(Config) -> 
+'id-delete-expr-06'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% A delete expression where the target expression is a mathematical expression.
 'id-delete-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-130.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-130.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-130.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-130.xml')")},
       Res1 = try
@@ -4302,8 +4335,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-131.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-131.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-131.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-131.xml')")},
       Res1 = try
@@ -4312,7 +4345,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-131.xml')")},
       Res2 = try
@@ -4329,8 +4362,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-132.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-132.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-132.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-132.xml')")},
       Res1 = try
@@ -4339,7 +4372,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-132.xml')")},
       Res2 = try
@@ -4356,8 +4389,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-133.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-133.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-133.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-133.xml')")},
       Res1 = try
@@ -4366,7 +4399,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-133.xml')")},
       Res2 = try
@@ -4383,8 +4416,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-134.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-134.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-134.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-134.xml')")},
       Res1 = try
@@ -4402,8 +4435,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml')")},
       Res1 = try
@@ -4412,7 +4445,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-012-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml')")},
       Res2 = try
@@ -4424,7 +4457,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-012-1.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml')")},
       Res3 = try
@@ -4433,7 +4466,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E3 -> E3 end,
       Res3
    end,
-   begin
+   _ = begin
       F4 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-012-1-test.xq"),
       Ctx4 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-135.xml')")},
       Res4 = try
@@ -4450,8 +4483,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-136.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-136.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-136.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-136.xml')")},
       Res1 = try
@@ -4460,7 +4493,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-013-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-136.xml')")},
       Res2 = try
@@ -4477,8 +4510,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-137.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-137.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-137.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-137.xml')")},
       Res1 = try
@@ -4487,7 +4520,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-014-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-137.xml')")},
       Res2 = try
@@ -4504,8 +4537,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-138.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-138.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-138.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-138.xml')")},
       Res1 = try
@@ -4514,7 +4547,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-015-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-138.xml')")},
       Res2 = try
@@ -4531,8 +4564,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-139.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-139.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-139.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-139.xml')")},
       Res1 = try
@@ -4541,7 +4574,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-015-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-139.xml')")},
       Res2 = try
@@ -4558,8 +4591,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-140.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-140.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-140.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-140.xml')")},
       Res1 = try
@@ -4568,7 +4601,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-017-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-140.xml')")},
       Res2 = try
@@ -4585,8 +4618,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-141.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-141.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-141.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-141.xml')")},
       Res1 = try
@@ -4595,7 +4628,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-018-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-141.xml')")},
       Res2 = try
@@ -4612,8 +4645,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-142.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-142.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-142.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-142.xml')")},
       Res1 = try
@@ -4622,7 +4655,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-019-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-142.xml')")},
       Res2 = try
@@ -4639,8 +4672,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-143.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-143.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-143.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-143.xml')")},
       Res1 = try
@@ -4649,7 +4682,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-020-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-143.xml')")},
       Res2 = try
@@ -4666,8 +4699,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-144.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-144.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-144.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-144.xml')")},
       Res1 = try
@@ -4676,7 +4709,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-144.xml')")},
       Res2 = try
@@ -4693,8 +4726,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-delete-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-145.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-145.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-145.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-145.xml')")},
       Res1 = try
@@ -4703,7 +4736,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/id-delete-expr-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-145.xml')")},
       Res2 = try
@@ -4720,8 +4753,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q3.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml')")},
       Res1 = try
@@ -4730,7 +4763,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q3-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml')")},
       Res2 = try
@@ -4742,7 +4775,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q3-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-146.xml')")},
       Res3 = try
@@ -4759,8 +4792,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q4.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml')")},
       Res1 = try
@@ -4769,7 +4802,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q4-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml')")},
       Res2 = try
@@ -4781,7 +4814,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q4-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-147.xml')")},
       Res3 = try
@@ -4798,8 +4831,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q5'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q5.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml')")},
       Res1 = try
@@ -4808,7 +4841,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q5-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml')")},
       Res2 = try
@@ -4820,7 +4853,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q5-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-148.xml')")},
       Res3 = try
@@ -4837,8 +4870,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q10'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q10.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml')")},
       Res1 = try
@@ -4847,7 +4880,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q10-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml')")},
       Res2 = try
@@ -4859,7 +4892,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q10-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-149.xml')")},
       Res3 = try
@@ -4876,8 +4909,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q11'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q11.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml')")},
       Res1 = try
@@ -4886,7 +4919,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q11-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml')")},
       Res2 = try
@@ -4898,7 +4931,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q11-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-150.xml')")},
       Res3 = try
@@ -4915,8 +4948,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q12'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q12.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml')")},
       Res1 = try
@@ -4925,7 +4958,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q12-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml')")},
       Res2 = try
@@ -4937,7 +4970,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q12-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-151.xml')")},
       Res3 = try
@@ -4954,8 +4987,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q13'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q13.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml')")},
       Res1 = try
@@ -4964,7 +4997,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q13-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml')")},
       Res2 = try
@@ -4976,7 +5009,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q13-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-152.xml')")},
       Res3 = try
@@ -4993,8 +5026,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q14'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-153.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-153.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-153.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q14.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-153.xml')")},
       Res1 = try
@@ -5006,7 +5039,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q14-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-153.xml')")},
       Res2 = try
@@ -5023,8 +5056,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-154.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-154.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-154.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-154.xml')")},
       Res1 = try
@@ -5033,7 +5066,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-154.xml')")},
       Res2 = try
@@ -5050,8 +5083,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-155.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-155.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-155.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-155.xml')")},
       Res1 = try
@@ -5060,7 +5093,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-155.xml')")},
       Res2 = try
@@ -5077,8 +5110,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-156.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-156.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-156.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-156.xml')")},
       Res1 = try
@@ -5087,7 +5120,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-156.xml')")},
       Res2 = try
@@ -5104,8 +5137,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-157.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-157.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-157.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-157.xml')")},
       Res1 = try
@@ -5114,7 +5147,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-157.xml')")},
       Res2 = try
@@ -5131,8 +5164,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-158.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-158.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-158.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-158.xml')")},
       Res1 = try
@@ -5141,7 +5174,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-158.xml')")},
       Res2 = try
@@ -5155,19 +5188,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression.
-'id-replace-expr-011'(Config) -> 
+'id-replace-expr-011'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression is an updating expression.
-'id-replace-expr-012'(Config) -> 
+'id-replace-expr-012'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression results in more than one node.
 'id-replace-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-161.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-161.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-161.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-161.xml')")},
       Res1 = try
@@ -5185,8 +5218,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-162.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-162.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-162.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-162.xml')")},
       Res1 = try
@@ -5204,8 +5237,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-163.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-163.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-163.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-163.xml')")},
       Res1 = try
@@ -5223,8 +5256,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-164.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-164.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-164.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-164.xml')")},
       Res1 = try
@@ -5242,8 +5275,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-165.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-165.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-165.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-165.xml')")},
       Res1 = try
@@ -5261,8 +5294,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-166.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-166.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-166.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-166.xml')")},
       Res1 = try
@@ -5280,8 +5313,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-167.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-167.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-167.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-167.xml')")},
       Res1 = try
@@ -5299,8 +5332,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-168.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-168.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-168.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-168.xml')")},
       Res1 = try
@@ -5309,7 +5342,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-029-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-168.xml')")},
       Res2 = try
@@ -5326,8 +5359,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-169.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-169.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-169.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-169.xml')")},
       Res1 = try
@@ -5336,7 +5369,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-030-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-169.xml')")},
       Res2 = try
@@ -5353,8 +5386,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-170.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-170.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-170.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-170.xml')")},
       Res1 = try
@@ -5363,7 +5396,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-031-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-170.xml')")},
       Res2 = try
@@ -5380,8 +5413,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-171.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-171.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-171.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-171.xml')")},
       Res1 = try
@@ -5390,7 +5423,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-032-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-171.xml')")},
       Res2 = try
@@ -5407,8 +5440,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-172.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-172.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-172.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-172.xml')")},
       Res1 = try
@@ -5417,7 +5450,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-033-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-172.xml')")},
       Res2 = try
@@ -5434,8 +5467,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-173.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-173.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-173.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-173.xml')")},
       Res1 = try
@@ -5444,7 +5477,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-034-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-173.xml')")},
       Res2 = try
@@ -5461,8 +5494,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-045'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-174.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-174.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-174.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-045.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-174.xml')")},
       Res1 = try
@@ -5479,8 +5512,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-045-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-175.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-175.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-175.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-045-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-175.xml')")},
       Res1 = try
@@ -5497,8 +5530,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-176.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-176.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-176.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-176.xml')")},
       Res1 = try
@@ -5507,7 +5540,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-05-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-176.xml')")},
       Res2 = try
@@ -5524,8 +5557,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-177.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-177.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-177.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-177.xml')")},
       Res1 = try
@@ -5534,7 +5567,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-06-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-177.xml')")},
       Res2 = try
@@ -5551,8 +5584,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-178.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-178.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-178.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-178.xml')")},
       Res1 = try
@@ -5561,7 +5594,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-07-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-178.xml')")},
       Res2 = try
@@ -5578,8 +5611,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-179.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-179.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-179.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-179.xml')")},
       Res1 = try
@@ -5588,7 +5621,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-179.xml')")},
       Res2 = try
@@ -5605,8 +5638,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-180.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-180.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-180.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-180.xml')")},
       Res1 = try
@@ -5615,7 +5648,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-180.xml')")},
       Res2 = try
@@ -5629,19 +5662,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a replace expression, where expression following the "with" clause is an updating expression and usage of "value of" keyword.
-'id-replace-expr-017'(Config) -> 
+'id-replace-expr-017'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression is an updating expression and usage of the "value of" keyword.
-'id-replace-expr-018'(Config) -> 
+'id-replace-expr-018'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression, where the target expression results into more than one node and usage of the "value of" keyword.
 'id-replace-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-183.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-183.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-183.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-183.xml')")},
       Res1 = try
@@ -5659,8 +5692,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-184.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-184.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-184.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-184.xml')")},
       Res1 = try
@@ -5678,8 +5711,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-185.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-185.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-185.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-185.xml')")},
       Res1 = try
@@ -5688,7 +5721,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-185.xml')")},
       Res2 = try
@@ -5705,8 +5738,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-186.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-186.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-186.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-186.xml')")},
       Res1 = try
@@ -5724,8 +5757,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-187.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-187.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-187.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-187.xml')")},
       Res1 = try
@@ -5743,8 +5776,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-188.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-188.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-188.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-188.xml')")},
       Res1 = try
@@ -5762,8 +5795,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-189.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-189.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-189.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-189.xml')")},
       Res1 = try
@@ -5781,8 +5814,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-190.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-190.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-190.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-190.xml')")},
       Res1 = try
@@ -5791,7 +5824,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-035-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-190.xml')")},
       Res2 = try
@@ -5808,8 +5841,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-191.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-191.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-191.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-191.xml')")},
       Res1 = try
@@ -5818,7 +5851,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-036-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-191.xml')")},
       Res2 = try
@@ -5835,8 +5868,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-192.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-192.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-192.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-192.xml')")},
       Res1 = try
@@ -5845,7 +5878,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-037-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-192.xml')")},
       Res2 = try
@@ -5862,8 +5895,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-038'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-193.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-193.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-193.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-038.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-193.xml')")},
       Res1 = try
@@ -5872,7 +5905,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-038-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-193.xml')")},
       Res2 = try
@@ -5889,8 +5922,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-039'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-194.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-194.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-194.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-039.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-194.xml')")},
       Res1 = try
@@ -5899,7 +5932,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-039-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-194.xml')")},
       Res2 = try
@@ -5916,8 +5949,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-040'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-195.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-195.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-195.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-040.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-195.xml')")},
       Res1 = try
@@ -5926,7 +5959,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-040-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-195.xml')")},
       Res2 = try
@@ -5943,8 +5976,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-041'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-196.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-196.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-196.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-041.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-196.xml')")},
       Res1 = try
@@ -5953,7 +5986,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-041-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-196.xml')")},
       Res2 = try
@@ -5970,8 +6003,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-042'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-197.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-197.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-197.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-042.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-197.xml')")},
       Res1 = try
@@ -5980,7 +6013,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-042-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-197.xml')")},
       Res2 = try
@@ -5997,8 +6030,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-043'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-198.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-198.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-198.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-043.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-198.xml')")},
       Res1 = try
@@ -6007,7 +6040,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-043-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-198.xml')")},
       Res2 = try
@@ -6024,8 +6057,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-replace-expr-044'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-199.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-199.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-199.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-044.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-199.xml')")},
       Res1 = try
@@ -6034,7 +6067,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/id-replace-expr-044-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-199.xml')")},
       Res2 = try
@@ -6051,8 +6084,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q3.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml')")},
       Res1 = try
@@ -6061,7 +6094,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q3-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml')")},
       Res2 = try
@@ -6073,7 +6106,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q3-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-200.xml')")},
       Res3 = try
@@ -6090,8 +6123,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q4.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml')")},
       Res1 = try
@@ -6100,7 +6133,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q4-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml')")},
       Res2 = try
@@ -6112,7 +6145,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q4-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-201.xml')")},
       Res3 = try
@@ -6129,8 +6162,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q5'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q5.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml')")},
       Res1 = try
@@ -6139,7 +6172,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q5-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml')")},
       Res2 = try
@@ -6151,7 +6184,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q5-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-202.xml')")},
       Res3 = try
@@ -6168,8 +6201,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q9.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml')")},
       Res1 = try
@@ -6178,7 +6211,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q9-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml')")},
       Res2 = try
@@ -6190,7 +6223,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q9-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-203.xml')")},
       Res3 = try
@@ -6207,8 +6240,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q10'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q10.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml')")},
       Res1 = try
@@ -6217,7 +6250,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q10-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml')")},
       Res2 = try
@@ -6229,7 +6262,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q10-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-204.xml')")},
       Res3 = try
@@ -6246,8 +6279,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q11'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q11.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml')")},
       Res1 = try
@@ -6256,7 +6289,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q11-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml')")},
       Res2 = try
@@ -6268,7 +6301,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q11-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-205.xml')")},
       Res3 = try
@@ -6285,8 +6318,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q12'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q12.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml')")},
       Res1 = try
@@ -6295,7 +6328,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q12-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml')")},
       Res2 = try
@@ -6307,7 +6340,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q12-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-206.xml')")},
       Res3 = try
@@ -6324,8 +6357,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q13'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q13.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml')")},
       Res1 = try
@@ -6334,7 +6367,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q13-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml')")},
       Res2 = try
@@ -6346,7 +6379,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q13-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-207.xml')")},
       Res3 = try
@@ -6363,8 +6396,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q14'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q14.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml')")},
       Res1 = try
@@ -6373,7 +6406,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q14-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml')")},
       Res2 = try
@@ -6385,7 +6418,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q14-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-208.xml')")},
       Res3 = try
@@ -6402,8 +6435,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-209.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-209.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-209.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-209.xml')")},
       Res1 = try
@@ -6412,7 +6445,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-209.xml')")},
       Res2 = try
@@ -6429,8 +6462,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-210.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-210.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-210.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-210.xml')")},
       Res1 = try
@@ -6439,7 +6472,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-210.xml')")},
       Res2 = try
@@ -6456,8 +6489,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-211.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-211.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-211.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-211.xml')")},
       Res1 = try
@@ -6466,7 +6499,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-211.xml')")},
       Res2 = try
@@ -6483,8 +6516,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-212.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-212.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-212.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-212.xml')")},
       Res1 = try
@@ -6493,7 +6526,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-212.xml')")},
       Res2 = try
@@ -6510,8 +6543,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-213.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-213.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-213.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-213.xml')")},
       Res1 = try
@@ -6520,7 +6553,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-05-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-213.xml')")},
       Res2 = try
@@ -6534,15 +6567,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% A rename expression where the target expression is an updating expression.
-'id-rename-expr-06'(Config) -> 
+'id-rename-expr-06'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% A rename expression where the target expression results in a sequence of two nodes.
 'id-rename-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-215.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-215.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-215.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-215.xml')")},
       Res1 = try
@@ -6560,8 +6593,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-216.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-216.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-216.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-216.xml')")},
       Res1 = try
@@ -6579,8 +6612,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-217.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-217.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-217.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-217.xml')")},
       Res1 = try
@@ -6598,8 +6631,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-218.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-218.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-218.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-218.xml')")},
       Res1 = try
@@ -6621,8 +6654,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-219.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-219.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-219.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-219.xml')")},
       Res1 = try
@@ -6631,7 +6664,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-011-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-219.xml')")},
       Res2 = try
@@ -6648,8 +6681,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-220.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-220.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-220.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-220.xml')")},
       Res1 = try
@@ -6667,8 +6700,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-221.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-221.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-221.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-221.xml')")},
       Res1 = try
@@ -6686,8 +6719,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-222.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-222.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-222.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-222.xml')")},
       Res1 = try
@@ -6696,7 +6729,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-014-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-222.xml')")},
       Res2 = try
@@ -6713,8 +6746,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-223.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-223.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-223.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-223.xml')")},
       Res1 = try
@@ -6732,8 +6765,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-224.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-224.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-224.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-224.xml')")},
       Res1 = try
@@ -6742,7 +6775,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-224.xml')")},
       Res2 = try
@@ -6759,8 +6792,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-225.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-225.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-225.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-225.xml')")},
       Res1 = try
@@ -6769,7 +6802,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-017-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-225.xml')")},
       Res2 = try
@@ -6786,8 +6819,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-226.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-226.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-226.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-226.xml')")},
       Res1 = try
@@ -6796,7 +6829,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-018-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-226.xml')")},
       Res2 = try
@@ -6813,8 +6846,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-227.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-227.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-227.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-227.xml')")},
       Res1 = try
@@ -6832,8 +6865,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-228.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-228.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-228.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-228.xml')")},
       Res1 = try
@@ -6851,8 +6884,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-229.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-229.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-229.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-229.xml')")},
       Res1 = try
@@ -6870,8 +6903,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-230.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-230.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-230.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-230.xml')")},
       Res1 = try
@@ -6889,8 +6922,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-231.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-231.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-231.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-231.xml')")},
       Res1 = try
@@ -6908,8 +6941,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-232.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-232.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-232.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-232.xml')")},
       Res1 = try
@@ -6927,8 +6960,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-233.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-233.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-233.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-233.xml')")},
       Res1 = try
@@ -6946,8 +6979,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-234.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-234.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-234.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-234.xml')")},
       Res1 = try
@@ -6965,8 +6998,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-235.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-235.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-235.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-235.xml')")},
       Res1 = try
@@ -6984,8 +7017,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-236.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-236.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-236.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-236.xml')")},
       Res1 = try
@@ -7003,8 +7036,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-237.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-237.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-237.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-237.xml')")},
       Res1 = try
@@ -7013,7 +7046,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-029-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-237.xml')")},
       Res2 = try
@@ -7030,8 +7063,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-238.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-238.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-238.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-238.xml')")},
       Res1 = try
@@ -7040,7 +7073,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-030-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-238.xml')")},
       Res2 = try
@@ -7057,8 +7090,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-239.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-239.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-239.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-239.xml')")},
       Res1 = try
@@ -7067,7 +7100,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-031-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-239.xml')")},
       Res2 = try
@@ -7084,8 +7117,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-240.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-240.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-240.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-240.xml')")},
       Res1 = try
@@ -7094,7 +7127,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-032-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-240.xml')")},
       Res2 = try
@@ -7111,8 +7144,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-241.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-241.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-241.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-241.xml')")},
       Res1 = try
@@ -7129,8 +7162,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-242.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-242.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-242.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-242.xml')")},
       Res1 = try
@@ -7147,8 +7180,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-033-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-243.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-243.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-243.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-033-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-243.xml')")},
       Res1 = try
@@ -7165,8 +7198,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-034-no-inherit'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-244.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-244.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-244.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-034-no-inherit.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-244.xml')")},
       Res1 = try
@@ -7183,8 +7216,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-245.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-245.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-245.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-245.xml')")},
       Res1 = try
@@ -7201,8 +7234,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-246.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-246.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-246.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-246.xml')")},
       Res1 = try
@@ -7219,8 +7252,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-rename-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-247.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-247.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-247.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/id-rename-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-247.xml')")},
       Res1 = try
@@ -7237,8 +7270,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q1.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml')")},
       Res1 = try
@@ -7247,7 +7280,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q1-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml')")},
       Res2 = try
@@ -7259,7 +7292,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q1-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-248.xml')")},
       Res3 = try
@@ -7276,8 +7309,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q5'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q5.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml')")},
       Res1 = try
@@ -7286,7 +7319,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q5-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml')")},
       Res2 = try
@@ -7298,7 +7331,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q5-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-249.xml')")},
       Res3 = try
@@ -7315,8 +7348,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q6.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml')")},
       Res1 = try
@@ -7325,7 +7358,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q6-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml')")},
       Res2 = try
@@ -7337,7 +7370,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q6-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-250.xml')")},
       Res3 = try
@@ -7354,8 +7387,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q7.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml')")},
       Res1 = try
@@ -7364,7 +7397,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q7-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml')")},
       Res2 = try
@@ -7376,7 +7409,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q7-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-251.xml')")},
       Res3 = try
@@ -7393,8 +7426,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q8.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml')")},
       Res1 = try
@@ -7403,7 +7436,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q8-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml')")},
       Res2 = try
@@ -7415,7 +7448,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q8-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-252.xml')")},
       Res3 = try
@@ -7432,8 +7465,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-253.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-253.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-253.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-253.xml')")},
       Res1 = try
@@ -7450,8 +7483,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-254.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-254.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-254.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-254.xml')")},
       Res1 = try
@@ -7468,8 +7501,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-255.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-255.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-255.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-255.xml')")},
       Res1 = try
@@ -7486,8 +7519,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-256.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-256.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-256.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-256.xml')")},
       Res1 = try
@@ -7504,8 +7537,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-257.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-257.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-257.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-257.xml')")},
       Res1 = try
@@ -7522,8 +7555,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-258.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-258.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-258.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-258.xml')")},
       Res1 = try
@@ -7541,8 +7574,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-259.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-259.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-259.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-259.xml')")},
       Res1 = try
@@ -7559,8 +7592,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-260.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-260.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-260.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-260.xml')")},
       Res1 = try
@@ -7577,8 +7610,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-261.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-261.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-261.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-261.xml')")},
       Res1 = try
@@ -7596,8 +7629,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-262.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-262.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-262.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-262.xml')")},
       Res1 = try
@@ -7614,8 +7647,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-263.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-263.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-263.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-263.xml')")},
       Res1 = try
@@ -7632,8 +7665,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-264.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-264.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-264.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-264.xml')")},
       Res1 = try
@@ -7648,19 +7681,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a transform expression where the modify clause contains a non-updating expression.
-'id-transform-expr-013'(Config) -> 
+'id-transform-expr-013'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression where the return expression contains an updating expression.
-'id-transform-expr-014'(Config) -> 
+'id-transform-expr-014'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression the pending update list contains a node that was not created within this transform expression.
 'id-transform-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-267.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-267.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-267.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-267.xml')")},
       Res1 = try
@@ -7678,8 +7711,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-268.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-268.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-268.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-268.xml')")},
       Res1 = try
@@ -7696,8 +7729,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-269.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-269.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-269.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-269.xml')")},
       Res1 = try
@@ -7711,15 +7744,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a transform expression, which contains an embedded Transform expression.
-'id-transform-expr-018'(Config) -> 
+'id-transform-expr-018'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0002"}.
 
 %% Evaluates a transform expression, where an element node is affected by more than one rename expression.
 'id-transform-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-271.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-271.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-271.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-271.xml')")},
       Res1 = try
@@ -7737,8 +7770,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-272.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-272.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-272.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-272.xml')")},
       Res1 = try
@@ -7756,8 +7789,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-273.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-273.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-273.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-273.xml')")},
       Res1 = try
@@ -7775,8 +7808,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-274.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-274.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-274.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-274.xml')")},
       Res1 = try
@@ -7794,8 +7827,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-275.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-275.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-275.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-275.xml')")},
       Res1 = try
@@ -7813,8 +7846,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-276.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-276.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-276.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-276.xml')")},
       Res1 = try
@@ -7832,8 +7865,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-277.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-277.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-277.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-277.xml')")},
       Res1 = try
@@ -7850,8 +7883,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-278.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-278.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-278.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-278.xml')")},
       Res1 = try
@@ -7869,8 +7902,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-279.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-279.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-279.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-279.xml')")},
       Res1 = try
@@ -7888,8 +7921,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-280.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-280.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-280.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-280.xml')")},
       Res1 = try
@@ -7898,7 +7931,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-028-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-280.xml')")},
       Res2 = try
@@ -7915,8 +7948,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-281.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-281.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-281.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-281.xml')")},
       Res1 = try
@@ -7925,7 +7958,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-029-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-281.xml')")},
       Res2 = try
@@ -7942,8 +7975,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-282.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-282.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-282.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-282.xml')")},
       Res1 = try
@@ -7952,7 +7985,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-030-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-282.xml')")},
       Res2 = try
@@ -7969,8 +8002,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-283.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-283.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-283.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-283.xml')")},
       Res1 = try
@@ -7979,7 +8012,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-031-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-283.xml')")},
       Res2 = try
@@ -7996,8 +8029,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-284.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-284.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-284.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-284.xml')")},
       Res1 = try
@@ -8015,8 +8048,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-285.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-285.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-285.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-285.xml')")},
       Res1 = try
@@ -8033,8 +8066,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-286.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-286.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-286.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-286.xml')")},
       Res1 = try
@@ -8051,8 +8084,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-287.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-287.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-287.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-287.xml')")},
       Res1 = try
@@ -8069,8 +8102,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-288.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-288.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-288.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-288.xml')")},
       Res1 = try
@@ -8087,8 +8120,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-289.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-289.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-289.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-289.xml')")},
       Res1 = try
@@ -8105,8 +8138,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-038'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-290.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-290.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-290.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-038.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-290.xml')")},
       Res1 = try
@@ -8123,8 +8156,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-039'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-291.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-291.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-291.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-039.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-291.xml')")},
       Res1 = try
@@ -8141,8 +8174,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-040'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-292.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-292.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-292.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-040.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-292.xml')")},
       Res1 = try
@@ -8159,8 +8192,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-041'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-293.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-293.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-293.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-041.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-293.xml')")},
       Res1 = try
@@ -8177,8 +8210,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-042'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-294.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-294.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-294.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-042.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-294.xml')")},
       Res1 = try
@@ -8195,8 +8228,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-043'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-295.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-295.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-295.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-043.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-295.xml')")},
       Res1 = try
@@ -8213,8 +8246,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-044'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-296.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-296.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-296.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-044.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-296.xml')")},
       Res1 = try
@@ -8231,8 +8264,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-045'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-297.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-297.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-297.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-045.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-297.xml')")},
       Res1 = try
@@ -8249,8 +8282,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-046'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-298.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-298.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-298.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-046.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-298.xml')")},
       Res1 = try
@@ -8267,8 +8300,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-047'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-299.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-299.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-299.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-047.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-299.xml')")},
       Res1 = try
@@ -8285,8 +8318,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-048'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-300.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-300.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-300.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-048.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-300.xml')")},
       Res1 = try
@@ -8303,8 +8336,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-049'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-301.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-301.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-301.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-049.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-301.xml')")},
       Res1 = try
@@ -8321,8 +8354,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-050'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-302.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-302.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-302.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-050.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-302.xml')")},
       Res1 = try
@@ -8339,8 +8372,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-051'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-303.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-303.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-303.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-051.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-303.xml')")},
       Res1 = try
@@ -8357,8 +8390,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-052'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-304.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-304.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-304.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-052.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-304.xml')")},
       Res1 = try
@@ -8375,8 +8408,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-053'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-305.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-305.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-305.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-053.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-305.xml')")},
       Res1 = try
@@ -8393,8 +8426,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-054'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-306.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-306.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-306.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-054.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-306.xml')")},
       Res1 = try
@@ -8411,8 +8444,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-055'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-307.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-307.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-307.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-055.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-307.xml')")},
       Res1 = try
@@ -8430,8 +8463,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-056'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-308.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-308.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-308.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-056.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-308.xml')")},
       Res1 = try
@@ -8449,8 +8482,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-057'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-309.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-309.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-309.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-057.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-309.xml')")},
       Res1 = try
@@ -8468,8 +8501,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-transform-expr-058'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-310.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-310.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-310.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TransformExpressions/id-transform-expr-058.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-310.xml')")},
       Res1 = try
@@ -8487,8 +8520,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-311.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-311.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-311.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-001.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-311.xml')")},
       Res1 = try
@@ -8506,8 +8539,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-312.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-312.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-312.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-002.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-312.xml')")},
       Res1 = try
@@ -8525,8 +8558,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-003'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-313.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-313.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-313.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-003.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-313.xml')")},
       Res1 = try
@@ -8544,8 +8577,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-004'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-314.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-314.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-314.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-004.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-314.xml')")},
       Res1 = try
@@ -8563,8 +8596,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-005'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-315.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-315.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-315.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-005.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-315.xml')")},
       Res1 = try
@@ -8582,8 +8615,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-006'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-316.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-316.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-316.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-006.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-316.xml')")},
       Res1 = try
@@ -8601,8 +8634,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-007'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-317.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-317.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-317.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-007.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-317.xml')")},
       Res1 = try
@@ -8620,8 +8653,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-008'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-318.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-318.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-318.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-008.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-318.xml')")},
       Res1 = try
@@ -8639,8 +8672,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-009'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-319.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-319.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-319.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-009.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-319.xml')")},
       Res1 = try
@@ -8658,8 +8691,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-320.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-320.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-320.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-320.xml')")},
       Res1 = try
@@ -8677,8 +8710,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-321.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-321.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-321.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-321.xml')")},
       Res1 = try
@@ -8696,8 +8729,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-322.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-322.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-322.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-322.xml')")},
       Res1 = try
@@ -8715,8 +8748,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-323.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-323.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-323.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-323.xml')")},
       Res1 = try
@@ -8734,8 +8767,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-324.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-324.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-324.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-324.xml')")},
       Res1 = try
@@ -8753,8 +8786,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-325.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-325.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-325.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-325.xml')")},
       Res1 = try
@@ -8772,8 +8805,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-326.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-326.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-326.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-326.xml')")},
       Res1 = try
@@ -8791,8 +8824,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-327.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-327.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-327.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-327.xml')")},
       Res1 = try
@@ -8810,8 +8843,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-328.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-328.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-328.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-328.xml')")},
       Res1 = try
@@ -8829,8 +8862,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-329.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-329.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-329.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-329.xml')")},
       Res1 = try
@@ -8848,8 +8881,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-330.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-330.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-330.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-330.xml')")},
       Res1 = try
@@ -8867,8 +8900,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-331.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-331.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-331.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-331.xml')")},
       Res1 = try
@@ -8886,8 +8919,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-332.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-332.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-332.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-332.xml')")},
       Res1 = try
@@ -8905,8 +8938,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-333.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-333.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-333.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-333.xml')")},
       Res1 = try
@@ -8924,8 +8957,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-334.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-334.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-334.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-334.xml')")},
       Res1 = try
@@ -8943,8 +8976,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-335.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-335.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-335.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-335.xml')")},
       Res1 = try
@@ -8962,8 +8995,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-336.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-336.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-336.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-336.xml')")},
       Res1 = try
@@ -8981,8 +9014,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-337.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-337.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-337.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-337.xml')")},
       Res1 = try
@@ -8991,7 +9024,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-027-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-337.xml')")},
       Res2 = try
@@ -9008,8 +9041,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-338.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-338.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-338.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-338.xml')")},
       Res1 = try
@@ -9018,7 +9051,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-028-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-338.xml')")},
       Res2 = try
@@ -9035,8 +9068,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-339.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-339.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-339.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-339.xml')")},
       Res1 = try
@@ -9045,7 +9078,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-029-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-339.xml')")},
       Res2 = try
@@ -9062,8 +9095,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'compatibility-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-340.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-340.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-340.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-340.xml')")},
       Res1 = try
@@ -9072,7 +9105,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Compatibility/compatibility-030-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-340.xml')")},
       Res2 = try
@@ -9089,8 +9122,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-341.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-341.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-341.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-341.xml')")},
       Res1 = try
@@ -9108,8 +9141,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-342.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-342.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-342.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-342.xml')")},
       Res1 = try
@@ -9127,8 +9160,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-343.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-343.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-343.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-343.xml')")},
       Res1 = try
@@ -9143,15 +9176,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates an insert expression used with FLWOR expression where the "order by" clause is an updating expression.
-'id-flwor-expr-04'(Config) -> 
+'id-flwor-expr-04'(_Config) -> 
    {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression used with FLWOR expression where the let clause is an updating expression.
 'id-flwor-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-345.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-345.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-345.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-345.xml')")},
       Res1 = try
@@ -9169,8 +9202,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-346.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-346.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-346.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-346.xml')")},
       Res1 = try
@@ -9188,8 +9221,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-347.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-347.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-347.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-347.xml')")},
       Res1 = try
@@ -9204,15 +9237,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a delete expression used with FLWOR expression where the "order by" clause is an updating expression.
-'id-flwor-expr-08'(Config) -> 
+'id-flwor-expr-08'(_Config) -> 
    {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used with FLOWR expression with "let" clause set to an updating (replace) expression.
 'id-flwor-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-349.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-349.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-349.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-349.xml')")},
       Res1 = try
@@ -9230,8 +9263,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-350.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-350.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-350.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-350.xml')")},
       Res1 = try
@@ -9249,8 +9282,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-351.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-351.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-351.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-351.xml')")},
       Res1 = try
@@ -9265,15 +9298,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a replace expression used with FLOWR expression with "order by" clause set to an updating (replace) expression.
-'id-flwor-expr-012'(Config) -> 
+'id-flwor-expr-012'(_Config) -> 
    {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with FLWOR expression where let clause is an updating expression.
 'id-flwor-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-353.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-353.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-353.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-353.xml')")},
       Res1 = try
@@ -9291,8 +9324,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-354.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-354.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-354.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-354.xml')")},
       Res1 = try
@@ -9310,8 +9343,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-355.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-355.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-355.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-355.xml')")},
       Res1 = try
@@ -9326,15 +9359,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a rename expression use with FLWOR expression where the "order by" clause is an updating expression.
-'id-flwor-expr-016'(Config) -> 
+'id-flwor-expr-016'(_Config) -> 
    {skip, "throws XQST0076 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a FLWOR expression where the "let" expression is a transform expression.
 'id-flwor-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-357.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-357.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-357.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-357.xml')")},
       Res1 = try
@@ -9351,8 +9384,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-358.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-358.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-358.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-358.xml')")},
       Res1 = try
@@ -9369,8 +9402,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-359.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-359.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-359.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-359.xml')")},
       Res1 = try
@@ -9387,8 +9420,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-360.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-360.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-360.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-360.xml')")},
       Res1 = try
@@ -9405,8 +9438,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-361.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-361.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-361.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-361.xml')")},
       Res1 = try
@@ -9415,7 +9448,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-361.xml')")},
       Res2 = try
@@ -9432,8 +9465,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-362.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-362.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-362.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-362.xml')")},
       Res1 = try
@@ -9442,7 +9475,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-362.xml')")},
       Res2 = try
@@ -9459,8 +9492,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-363.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-363.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-363.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-363.xml')")},
       Res1 = try
@@ -9477,8 +9510,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-364.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-364.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-364.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-364.xml')")},
       Res1 = try
@@ -9496,8 +9529,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-flwor-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-365.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-365.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-365.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FLWORExpression/id-flwor-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-365.xml')")},
       Res1 = try
@@ -9514,8 +9547,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-366.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-366.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-366.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-366.xml')")},
       Res1 = try
@@ -9533,8 +9566,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-367.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-367.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-367.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-367.xml')")},
       Res1 = try
@@ -9543,7 +9576,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-367.xml')")},
       Res2 = try
@@ -9562,8 +9595,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-368.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-368.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-368.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-368.xml')")},
       Res1 = try
@@ -9572,7 +9605,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-368.xml')")},
       Res2 = try
@@ -9591,8 +9624,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-369.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-369.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-369.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-369.xml')")},
       Res1 = try
@@ -9601,7 +9634,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-369.xml')")},
       Res2 = try
@@ -9618,8 +9651,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-370.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-370.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-370.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-370.xml')")},
       Res1 = try
@@ -9634,19 +9667,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (a "case") is an updating expression. Other branches return a string.
-'id-typeswitch-expr-06'(Config) -> 
+'id-typeswitch-expr-06'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with typeswitch expression where a branch (the "default") is an updating expression. Other branches return a string.
-'id-typeswitch-expr-07'(Config) -> 
+'id-typeswitch-expr-07'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression used with typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-373.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-373.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-373.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-373.xml')")},
       Res1 = try
@@ -9664,8 +9697,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-374.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-374.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-374.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-374.xml')")},
       Res1 = try
@@ -9674,7 +9707,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-374.xml')")},
       Res2 = try
@@ -9691,8 +9724,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-375.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-375.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-375.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-375.xml')")},
       Res1 = try
@@ -9701,7 +9734,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-375.xml')")},
       Res2 = try
@@ -9718,8 +9751,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-376.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-376.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-376.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-376.xml')")},
       Res1 = try
@@ -9728,7 +9761,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-011-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-376.xml')")},
       Res2 = try
@@ -9747,8 +9780,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-377.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-377.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-377.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-377.xml')")},
       Res1 = try
@@ -9763,19 +9796,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "case") is an updating expression. All other branches return a string.
-'id-typeswitch-expr-013'(Config) -> 
+'id-typeswitch-expr-013'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of insert expression used with typeswitch expression where branch (the "default") is an updating expression. All other branches return string.
-'id-typeswitch-expr-014'(Config) -> 
+'id-typeswitch-expr-014'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a typeswitch expression where the operand is an updating (replace) expression.
 'id-typeswitch-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-380.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-380.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-380.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-380.xml')")},
       Res1 = try
@@ -9793,8 +9826,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-381.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-381.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-381.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-381.xml')")},
       Res1 = try
@@ -9803,7 +9836,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-381.xml')")},
       Res2 = try
@@ -9820,8 +9853,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-382.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-382.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-382.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-382.xml')")},
       Res1 = try
@@ -9830,7 +9863,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-017-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-382.xml')")},
       Res2 = try
@@ -9847,8 +9880,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-383.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-383.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-383.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-383.xml')")},
       Res1 = try
@@ -9857,7 +9890,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-018-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-383.xml')")},
       Res2 = try
@@ -9874,8 +9907,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-384.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-384.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-384.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-384.xml')")},
       Res1 = try
@@ -9884,7 +9917,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-019-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-384.xml')")},
       Res2 = try
@@ -9898,19 +9931,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (a case) is an updating (replace) expression. Other branches return a string.
-'id-typeswitch-expr-020'(Config) -> 
+'id-typeswitch-expr-020'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a typeswitch expression where a branch (the default) is an updating (transform) expression. Other branches return a string.
-'id-typeswitch-expr-021'(Config) -> 
+'id-typeswitch-expr-021'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with a typeswitch expression where the operand is an updating expression.
 'id-typeswitch-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-387.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-387.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-387.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-387.xml')")},
       Res1 = try
@@ -9928,8 +9961,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-388.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-388.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-388.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-388.xml')")},
       Res1 = try
@@ -9938,7 +9971,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-023-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-388.xml')")},
       Res2 = try
@@ -9955,8 +9988,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-389.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-389.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-389.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-389.xml')")},
       Res1 = try
@@ -9965,7 +9998,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-024-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-389.xml')")},
       Res2 = try
@@ -9982,8 +10015,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-390.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-390.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-390.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-390.xml')")},
       Res1 = try
@@ -9992,7 +10025,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-025-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-390.xml')")},
       Res2 = try
@@ -10009,8 +10042,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-391.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-391.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-391.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-391.xml')")},
       Res1 = try
@@ -10025,19 +10058,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (a case)is an updating expression. Other branches return a string
-'id-typeswitch-expr-027'(Config) -> 
+'id-typeswitch-expr-027'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression use with a typeswitch expression a branch (the default)is an updating expression. Other branches return a string
-'id-typeswitch-expr-028'(Config) -> 
+'id-typeswitch-expr-028'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a typeswitch expression where the operand is a non updating (transform) expression.
 'id-typeswitch-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-394.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-394.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-394.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-394.xml')")},
       Res1 = try
@@ -10054,8 +10087,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-395.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-395.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-395.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-395.xml')")},
       Res1 = try
@@ -10072,8 +10105,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-396.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-396.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-396.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-396.xml')")},
       Res1 = try
@@ -10090,8 +10123,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-397.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-397.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-397.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-397.xml')")},
       Res1 = try
@@ -10108,8 +10141,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-398.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-398.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-398.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-398.xml')")},
       Res1 = try
@@ -10126,8 +10159,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-399.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-399.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-399.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-399.xml')")},
       Res1 = try
@@ -10144,8 +10177,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-400.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-400.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-400.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-400.xml')")},
       Res1 = try
@@ -10162,8 +10195,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-401.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-401.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-401.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-401.xml')")},
       Res1 = try
@@ -10172,7 +10205,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-036-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-401.xml')")},
       Res2 = try
@@ -10189,8 +10222,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-typeswitch-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-402.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-402.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-402.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-402.xml')")},
       Res1 = try
@@ -10199,7 +10232,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/TypeswitchExpression/id-typeswitch-expr-037-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-402.xml')")},
       Res2 = try
@@ -10213,15 +10246,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Simple typeswitch expression in an updating typeswitch expression.
-'id-typeswitch-expr-038'(Config) -> 
+'id-typeswitch-expr-038'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch return ().
 'id-conditional-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-404.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-404.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-404.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-404.xml')")},
       Res1 = try
@@ -10230,7 +10263,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-404.xml')")},
       Res2 = try
@@ -10247,8 +10280,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-405.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-405.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-405.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-405.xml')")},
       Res1 = try
@@ -10257,7 +10290,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-405.xml')")},
       Res2 = try
@@ -10274,8 +10307,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-406.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-406.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-406.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-406.xml')")},
       Res1 = try
@@ -10284,7 +10317,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-406.xml')")},
       Res2 = try
@@ -10301,8 +10334,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-407.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-407.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-407.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-407.xml')")},
       Res1 = try
@@ -10311,7 +10344,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-407.xml')")},
       Res2 = try
@@ -10325,19 +10358,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "then") is an updating expression. Other branch print a string.
-'id-conditional-expr-05'(Config) -> 
+'id-conditional-expr-05'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with conditional expression where a branch (the "else") is an updating expression. Other branch print a string.
-'id-conditional-expr-06'(Config) -> 
+'id-conditional-expr-06'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-410.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-410.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-410.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-07.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-410.xml')")},
       Res1 = try
@@ -10346,7 +10379,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-07-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-410.xml')")},
       Res2 = try
@@ -10363,8 +10396,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-411.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-411.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-411.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-411.xml')")},
       Res1 = try
@@ -10373,7 +10406,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-411.xml')")},
       Res2 = try
@@ -10390,8 +10423,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-412.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-412.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-412.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-412.xml')")},
       Res1 = try
@@ -10400,7 +10433,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-412.xml')")},
       Res2 = try
@@ -10417,8 +10450,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-413.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-413.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-413.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-413.xml')")},
       Res1 = try
@@ -10427,7 +10460,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-413.xml')")},
       Res2 = try
@@ -10441,19 +10474,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "then") is an updating expression. The "else" print a string
-'id-conditional-expr-011'(Config) -> 
+'id-conditional-expr-011'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string
-'id-conditional-expr-012'(Config) -> 
+'id-conditional-expr-012'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the "then") is an updating (replace) expression. The "else" return the empty sequence.
 'id-conditional-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-416.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-416.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-416.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-416.xml')")},
       Res1 = try
@@ -10462,7 +10495,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-013-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-416.xml')")},
       Res2 = try
@@ -10479,8 +10512,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-417.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-417.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-417.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-417.xml')")},
       Res1 = try
@@ -10489,7 +10522,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-014-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-417.xml')")},
       Res2 = try
@@ -10506,8 +10539,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-418.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-418.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-418.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-418.xml')")},
       Res1 = try
@@ -10516,7 +10549,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-015-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-418.xml')")},
       Res2 = try
@@ -10533,8 +10566,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-419.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-419.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-419.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-419.xml')")},
       Res1 = try
@@ -10543,7 +10576,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-419.xml')")},
       Res2 = try
@@ -10557,19 +10590,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the then) is an updating (replace) expression. The "else" just return a string.
-'id-conditional-expr-017'(Config) -> 
+'id-conditional-expr-017'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression used together with a conditional expression where a branch (the else) is an updating (replace) expression. The "then" just return a string.
-'id-conditional-expr-018'(Config) -> 
+'id-conditional-expr-018'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with a conditional expression where a branch (the "then") is an updating expression. The "else" returns the empty sequence.
 'id-conditional-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-422.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-422.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-422.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-422.xml')")},
       Res1 = try
@@ -10578,7 +10611,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-019-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-422.xml')")},
       Res2 = try
@@ -10595,8 +10628,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-020'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-423.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-423.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-423.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-020.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-423.xml')")},
       Res1 = try
@@ -10605,7 +10638,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-020-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-423.xml')")},
       Res2 = try
@@ -10622,8 +10655,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-424.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-424.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-424.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-424.xml')")},
       Res1 = try
@@ -10632,7 +10665,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-424.xml')")},
       Res2 = try
@@ -10649,8 +10682,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-425.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-425.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-425.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-425.xml')")},
       Res1 = try
@@ -10659,7 +10692,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-425.xml')")},
       Res2 = try
@@ -10673,19 +10706,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of rename expression used with conditional expression where a branch (the "then") is an updating expression. The "else" prints a string.
-'id-conditional-expr-023'(Config) -> 
+'id-conditional-expr-023'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with conditional expression where a branch (the "else") is an updating expression. The "then" print a string.
-'id-conditional-expr-024'(Config) -> 
+'id-conditional-expr-024'(_Config) -> 
    {skip, "throws XUDY0027 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a conditional expression where a branch (the "then")is an updating (transform) and the "else" returns the empty sequence.
 'id-conditional-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-428.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-428.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-428.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-428.xml')")},
       Res1 = try
@@ -10702,8 +10735,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-429.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-429.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-429.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-429.xml')")},
       Res1 = try
@@ -10720,8 +10753,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-027'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-430.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-430.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-430.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-027.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-430.xml')")},
       Res1 = try
@@ -10738,8 +10771,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-028'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-431.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-431.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-431.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-028.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-431.xml')")},
       Res1 = try
@@ -10756,8 +10789,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-432.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-432.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-432.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-432.xml')")},
       Res1 = try
@@ -10774,8 +10807,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-433.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-433.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-433.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-433.xml')")},
       Res1 = try
@@ -10792,8 +10825,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-434.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-434.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-434.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-434.xml')")},
       Res1 = try
@@ -10810,8 +10843,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-435.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-435.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-435.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-435.xml')")},
       Res1 = try
@@ -10829,8 +10862,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-436.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-436.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-436.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-436.xml')")},
       Res1 = try
@@ -10839,7 +10872,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-033-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-436.xml')")},
       Res2 = try
@@ -10853,15 +10886,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a conditional expression, where the if branch contains a delete expression and the else branch contains transform expression.
-'id-conditional-expr-034'(Config) -> 
+'id-conditional-expr-034'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates a conditional expression, where both branches contains a transform expression.
 'id-conditional-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-438.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-438.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-438.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-438.xml')")},
       Res1 = try
@@ -10878,8 +10911,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-439.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-439.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-439.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-439.xml')")},
       Res1 = try
@@ -10888,7 +10921,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-036-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-439.xml')")},
       Res2 = try
@@ -10905,8 +10938,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-conditional-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-440.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-440.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-440.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-440.xml')")},
       Res1 = try
@@ -10915,7 +10948,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ConditionalExpression/id-conditional-expr-037-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-440.xml')")},
       Res2 = try
@@ -10929,15 +10962,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Simple conditional expression in a conditional expression.
-'id-conditional-expr-038'(Config) -> 
+'id-conditional-expr-038'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with comma expression where a both expressions are updating expressions.
 'id-comma-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-442.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-442.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-442.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-442.xml')")},
       Res1 = try
@@ -10946,7 +10979,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-01-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-442.xml')")},
       Res2 = try
@@ -10963,8 +10996,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-443.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-443.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-443.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-443.xml')")},
       Res1 = try
@@ -10973,7 +11006,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-02-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-443.xml')")},
       Res2 = try
@@ -10990,8 +11023,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-444.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-444.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-444.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-444.xml')")},
       Res1 = try
@@ -11000,7 +11033,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-03-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-444.xml')")},
       Res2 = try
@@ -11017,8 +11050,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-445.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-445.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-445.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-445.xml')")},
       Res1 = try
@@ -11031,7 +11064,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-04-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-445.xml')")},
       Res2 = try
@@ -11048,8 +11081,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-446.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-446.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-446.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-446.xml')")},
       Res1 = try
@@ -11062,7 +11095,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-05-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-446.xml')")},
       Res2 = try
@@ -11076,19 +11109,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates an insert expression used with comma expression where first expression is an updating expression and second one a mathematical expression.
-'id-comma-expr-06'(Config) -> 
+'id-comma-expr-06'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluates an insert expression used with comma expression where first expression is mathematical expression and second one is an updating expression.
-'id-comma-expr-07'(Config) -> 
+'id-comma-expr-07'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation a delete expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-449.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-449.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-449.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-08.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-449.xml')")},
       Res1 = try
@@ -11097,7 +11130,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-08-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-449.xml')")},
       Res2 = try
@@ -11114,8 +11147,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-450.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-450.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-450.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-09.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-450.xml')")},
       Res1 = try
@@ -11124,7 +11157,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-09-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-450.xml')")},
       Res2 = try
@@ -11141,8 +11174,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-451.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-451.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-451.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-451.xml')")},
       Res1 = try
@@ -11151,7 +11184,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-451.xml')")},
       Res2 = try
@@ -11168,8 +11201,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-452.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-452.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-452.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-452.xml')")},
       Res1 = try
@@ -11187,8 +11220,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-453.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-453.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-453.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-453.xml')")},
       Res1 = try
@@ -11203,19 +11236,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a delete expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
-'id-comma-expr-013'(Config) -> 
+'id-comma-expr-013'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a delete expression used with comma expression where first expression is a mathematical expression and the second one is an updating expression.
-'id-comma-expr-014'(Config) -> 
+'id-comma-expr-014'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a replace expression used with comma expression where both expressions are updating (replace) expressions.
 'id-comma-expr-015'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-456.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-456.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-456.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-015.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-456.xml')")},
       Res1 = try
@@ -11224,7 +11257,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-015-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-456.xml')")},
       Res2 = try
@@ -11241,8 +11274,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-457.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-457.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-457.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-457.xml')")},
       Res1 = try
@@ -11251,7 +11284,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-457.xml')")},
       Res2 = try
@@ -11268,8 +11301,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-458.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-458.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-458.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-458.xml')")},
       Res1 = try
@@ -11278,7 +11311,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-017-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-458.xml')")},
       Res2 = try
@@ -11295,8 +11328,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-459.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-459.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-459.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-459.xml')")},
       Res1 = try
@@ -11314,8 +11347,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-019'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-460.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-460.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-460.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-019.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-460.xml')")},
       Res1 = try
@@ -11330,19 +11363,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a replace expression used with comma expression where first expression is an updating (replace) expression and the second one is a mathematical expression.
-'id-comma-expr-020'(Config) -> 
+'id-comma-expr-020'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of a replace expression used with comma expression where first expression is a mathematical expression and second one is an updating (replace) expression.
-'id-comma-expr-021'(Config) -> 
+'id-comma-expr-021'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluation of rename expression used with comma expression where both expressions are updating expressions.
 'id-comma-expr-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-463.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-463.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-463.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-463.xml')")},
       Res1 = try
@@ -11351,7 +11384,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-463.xml')")},
       Res2 = try
@@ -11368,8 +11401,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-023'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-464.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-464.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-464.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-023.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-464.xml')")},
       Res1 = try
@@ -11378,7 +11411,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-023-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-464.xml')")},
       Res2 = try
@@ -11395,8 +11428,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-024'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-465.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-465.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-465.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-024.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-465.xml')")},
       Res1 = try
@@ -11405,7 +11438,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-024-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-465.xml')")},
       Res2 = try
@@ -11422,8 +11455,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-466.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-466.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-466.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-466.xml')")},
       Res1 = try
@@ -11441,8 +11474,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-467.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-467.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-467.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-467.xml')")},
       Res1 = try
@@ -11457,19 +11490,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluation of a rename expression used with comma expression where first expression is an updating expression and the second one is a mathematical expression.
-'id-comma-expr-027'(Config) -> 
+'id-comma-expr-027'(_Config) -> 
    {skip, "returns [4] instead of throwing XUST0001"}.
 
 %% Evaluation of a rename expression used with comma expression where first expression is a mathematical expression and second one is an updating expression.
-'id-comma-expr-028'(Config) -> 
+'id-comma-expr-028'(_Config) -> 
    {skip, "returns 4 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression together with a comma expression where both expressions are non-updating (transform) expressions.
 'id-comma-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-470.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-470.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-470.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-470.xml')")},
       Res1 = try
@@ -11486,8 +11519,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-471.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-471.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-471.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-471.xml')")},
       Res1 = try
@@ -11504,8 +11537,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-472.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-472.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-472.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-472.xml')")},
       Res1 = try
@@ -11522,8 +11555,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-032'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-473.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-473.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-473.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-032.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-473.xml')")},
       Res1 = try
@@ -11541,8 +11574,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-033'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-474.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-474.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-474.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-033.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-474.xml')")},
       Res1 = try
@@ -11560,8 +11593,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-034'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-475.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-475.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-475.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-034.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-475.xml')")},
       Res1 = try
@@ -11578,8 +11611,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-035'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-476.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-476.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-476.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-035.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-476.xml')")},
       Res1 = try
@@ -11596,8 +11629,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-036'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-477.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-477.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-477.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-036.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-477.xml')")},
       Res1 = try
@@ -11606,7 +11639,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-036-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-477.xml')")},
       Res2 = try
@@ -11623,8 +11656,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-comma-expr-037'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-478.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-478.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-478.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-037.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-478.xml')")},
       Res1 = try
@@ -11633,7 +11666,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/CommaExpression/id-comma-expr-037-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-478.xml')")},
       Res2 = try
@@ -11647,15 +11680,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Simple comma expression in a conditional expression.
-'id-comma-expr-038'(Config) -> 
+'id-comma-expr-038'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Parenthesized simple expression.
 'parenthesized-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-480.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-480.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-480.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ParenthesizedExpressions/parenthesized-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-480.xml')")},
       Res1 = try
@@ -11672,8 +11705,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parenthesized-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-481.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-481.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-481.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ParenthesizedExpressions/parenthesized-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-481.xml')")},
       Res1 = try
@@ -11691,8 +11724,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parenthesized-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-482.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-482.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-482.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ParenthesizedExpressions/parenthesized-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-482.xml')")},
       Res1 = try
@@ -11706,27 +11739,27 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates an insert expression as an parameter to a function call.
-'id-function-call-01'(Config) -> 
+'id-function-call-01'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a delete expression as a parameter to a function call.
-'id-function-call-02'(Config) -> 
+'id-function-call-02'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a replace expression as a parameter to a function call.
-'id-function-call-03'(Config) -> 
+'id-function-call-03'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a rename expression as a parameter to a function call.
-'id-function-call-04'(Config) -> 
+'id-function-call-04'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates a transform expression as a parameter to a function call.
 'id-function-call-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-487.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-487.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-487.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/FunctionCall/id-function-call-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-487.xml')")},
       Res1 = try
@@ -11740,15 +11773,15 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates a function call than contains two parameters, one updating (rename) and an integer.
-'id-function-call-06'(Config) -> 
+'id-function-call-06'(_Config) -> 
    {skip, "throws XPTY0004 instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) in initializing expression for variable declaration.
 'id-other-expr-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-489.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-489.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-489.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-489.xml')")},
       Res1 = try
@@ -11766,8 +11799,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-490.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-490.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-490.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-02.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-490.xml')")},
       Res1 = try
@@ -11785,8 +11818,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-491.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-491.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-491.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-491.xml')")},
       Res1 = try
@@ -11804,8 +11837,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-492.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-492.xml", source(__BaseDir, 'employeesNIST')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employeesNIST-492.xml", source(__BaseDir, 'employeesNIST')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-04.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employeesNIST-492.xml')")},
       Res1 = try
@@ -11823,8 +11856,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-493.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-493.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-493.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-493.xml')")},
       Res1 = try
@@ -11838,39 +11871,39 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:true() function.
-'id-other-expr-06'(Config) -> 
+'id-other-expr-06'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:true() function.
-'id-other-expr-07'(Config) -> 
+'id-other-expr-07'(_Config) -> 
    {skip, "returns TRUE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (and) expression and usage of fn:false() function.
-'id-other-expr-08'(Config) -> 
+'id-other-expr-08'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a logical (or) expression and usage of fn:false() function.
-'id-other-expr-09'(Config) -> 
+'id-other-expr-09'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a logical (and) expression and usage of fn:true() function.
-'id-other-expr-010'(Config) -> 
+'id-other-expr-010'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (replace) as part of a logical (and) expression and usage of fn:true() function.
-'id-other-expr-011'(Config) -> 
+'id-other-expr-011'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (insert) as part of a logical (and) expression and usage of fn:true() function.
-'id-other-expr-012'(Config) -> 
+'id-other-expr-012'(_Config) -> 
    {skip, "returns FALSE instead of throwing XUST0001"}.
 
 %% Evaluates usage of an non updating expression (transform) as part of a logical (and) expression and usage of fn:true() function.
 'id-other-expr-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-501.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-501.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-501.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-501.xml')")},
       Res1 = try
@@ -11884,23 +11917,23 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates usage of an updating expression (rename) as part of a Node Comparison (is) expression.
-'id-other-expr-014'(Config) -> 
+'id-other-expr-014'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a Node Comparison (is) expression.
-'id-other-expr-015'(Config) -> 
+'id-other-expr-015'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (replace) as part of a Node Comparison (is) expression.
-'id-other-expr-016'(Config) -> 
+'id-other-expr-016'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an non updating expression (transform) as part of a node comparison (is) expression.
 'id-other-expr-017'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-505.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-505.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-505.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-017.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-505.xml')")},
       Res1 = try
@@ -11917,8 +11950,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-018'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-506.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-506.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-506.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-018.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-506.xml')")},
       Res1 = try
@@ -11932,51 +11965,51 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates usage of an updating expression (insert) as part of a Node Comparison (is) expression.
-'id-other-expr-019'(Config) -> 
+'id-other-expr-019'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (insert) as part of a Value Comparison (eq operator) expression.
-'id-other-expr-020'(Config) -> 
+'id-other-expr-020'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ne operator) expression.
-'id-other-expr-021'(Config) -> 
+'id-other-expr-021'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (gt operator) expression.
-'id-other-expr-022'(Config) -> 
+'id-other-expr-022'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (lt operator) expression.
-'id-other-expr-023'(Config) -> 
+'id-other-expr-023'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (le operator) expression.
-'id-other-expr-024'(Config) -> 
+'id-other-expr-024'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (rename) as part of a Value Comparison (ge operator) expression.
-'id-other-expr-025'(Config) -> 
+'id-other-expr-025'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (union operator).
-'id-other-expr-26'(Config) -> 
+'id-other-expr-26'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (intersect operator).
-'id-other-expr-027'(Config) -> 
+'id-other-expr-027'(_Config) -> 
    {skip, "returns [] instead of throwing XUST0001"}.
 
 %% Evaluates usage of an updating expression (delete) as part of a sequence expression (except operator).
-'id-other-expr-028'(Config) -> 
+'id-other-expr-028'(_Config) -> 
    {skip, "returns XML instead of throwing  XUST0001"}.
 
 %% Evaluates usage of a non updating expression (transform) as part of a sequence expression (union operator).
 'id-other-expr-029'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-517.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-517.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-517.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-029.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-517.xml')")},
       Res1 = try
@@ -11995,8 +12028,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-030'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-518.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-518.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-518.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-030.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-518.xml')")},
       Res1 = try
@@ -12013,8 +12046,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'id-other-expr-031'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-519.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-519.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-519.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/OtherExpressions/id-other-expr-031.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-519.xml')")},
       Res1 = try
@@ -12028,14 +12061,14 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Evaluates usage of an updating expression (delete) as part of a range expression.
-'id-other-expr-032'(Config) -> 
+'id-other-expr-032'(_Config) -> 
    {skip, "throws FORG0001 instead of throwing XUST0001"}.
 
 %% Store a document.
 'fn-put-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-521.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-001.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-521.xml">>}},
       Res1 = try
@@ -12044,7 +12077,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-001-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-521.xml">>}},
       Res2 = try
@@ -12061,8 +12094,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-007'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-522.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-522.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-522.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-007.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-522.xml')")},
       Res1 = try
@@ -12077,16 +12110,16 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Check that fn:put is an updating function.
-'fn-put-008'(Config) -> 
+'fn-put-008'(_Config) -> 
    {skip, "returns \f instead of throwing XUST0001"}.
 
 %% Check that fn:put is an updating function.
 'fn-put-009'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml", source(__BaseDir, 'works-mod')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml", source(__BaseDir, 'works-mod')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-524.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-009.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml')"),
               <<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-524.xml">>}},
@@ -12096,7 +12129,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-009a-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-524.xml">>}},
       Res2 = try
@@ -12108,7 +12141,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-009b-test.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-524.xml')")},
       Res3 = try
@@ -12125,9 +12158,9 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml", source(__BaseDir, 'works-mod')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml", source(__BaseDir, 'works-mod')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-525.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-525.xml')"),
               <<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-525.xml">>}},
@@ -12150,7 +12183,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-526.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-012.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-526.xml">>}},
       Res1 = try
@@ -12169,7 +12202,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-527.xml"),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput2-527.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-013.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-527.xml">>},
               <<"input-URI-2">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput2-527.xml">>}},
@@ -12179,7 +12212,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-013a-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-527.xml">>}},
       Res2 = try
@@ -12191,7 +12224,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-013b-test.xq"),
       Ctx3 = #{<<"input-URI-2">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput2-527.xml">>}},
       Res3 = try
@@ -12208,7 +12241,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-528.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-014.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-528.xml">>}},
       Res1 = try
@@ -12226,7 +12259,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'put-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-529.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/put-001.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-529.xml">>}},
       Res1 = try
@@ -12235,7 +12268,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/put-001-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-529.xml">>}},
       Res2 = try
@@ -12252,7 +12285,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-530.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-002.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-530.xml">>}},
       Res1 = try
@@ -12261,7 +12294,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-002-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-530.xml">>}},
       Res2 = try
@@ -12278,9 +12311,9 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml", source(__BaseDir, 'works-mod')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml", source(__BaseDir, 'works-mod')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-531.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml')"),
               <<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-531.xml">>}},
@@ -12290,7 +12323,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-010a-test.xq"),
       Ctx2 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-531.xml">>}},
       Res2 = try
@@ -12302,7 +12335,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-010b-test.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-531.xml')")},
       Res3 = try
@@ -12319,8 +12352,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-532.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-532.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-532.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q1.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-532.xml')")},
       Res1 = try
@@ -12338,8 +12371,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-533.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-533.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-533.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q2.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-533.xml')")},
       Res1 = try
@@ -12357,8 +12390,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-534.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-534.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-534.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q3.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-534.xml')")},
       Res1 = try
@@ -12376,8 +12409,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-535.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-535.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-535.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q4.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-535.xml')")},
       Res1 = try
@@ -12395,8 +12428,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q5'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-536.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-536.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-536.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q5.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-536.xml')")},
       Res1 = try
@@ -12414,8 +12447,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-537.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-537.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-537.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q6.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-537.xml')")},
       Res1 = try
@@ -12433,8 +12466,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-538.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-538.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-538.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q7.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-538.xml')")},
       Res1 = try
@@ -12452,8 +12485,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-539.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-539.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-539.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q8.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-539.xml')")},
       Res1 = try
@@ -12462,7 +12495,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q8-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-539.xml')")},
       Res2 = try
@@ -12479,8 +12512,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-540.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-540.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-540.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q9.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-540.xml')")},
       Res1 = try
@@ -12498,8 +12531,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q10'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-541.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-541.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-541.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q10.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-541.xml')")},
       Res1 = try
@@ -12517,8 +12550,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q11'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-542.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-542.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-542.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q11.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-542.xml')")},
       Res1 = try
@@ -12527,7 +12560,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q11-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-542.xml')")},
       Res2 = try
@@ -12544,8 +12577,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q12'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-543.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-543.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-543.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q12.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-543.xml')")},
       Res1 = try
@@ -12563,8 +12596,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q13'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-544.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-544.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-544.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q13.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-544.xml')")},
       Res1 = try
@@ -12582,8 +12615,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q14'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-545.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-545.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-545.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q14.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-545.xml')")},
       Res1 = try
@@ -12600,8 +12633,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q15'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-546.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-546.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-546.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q15.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-546.xml')")},
       Res1 = try
@@ -12619,8 +12652,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'attribute-errors-q16'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-547.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-547.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-547.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/AttributeErrors/attribute-errors-q16.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-547.xml')")},
       Res1 = try
@@ -12635,47 +12668,47 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% 
-'attribute-errors-q17'(Config) -> 
+'attribute-errors-q17'(_Config) -> 
    {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Insert after of attribute with implicit namespace binding that clashes.
-'namespace-errors-q1'(Config) -> 
+'namespace-errors-q1'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Insert of attribute with implicit namespace binding that clashes.
-'namespace-errors-q2'(Config) -> 
+'namespace-errors-q2'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Insert as first of attribute with implicit namespace binding that clashes.
-'namespace-errors-q3'(Config) -> 
+'namespace-errors-q3'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of no namespace element with implicit namespace binding that clashes.
-'namespace-errors-q4'(Config) -> 
+'namespace-errors-q4'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of namespaced element with implicit namespace binding that clashes.
-'namespace-errors-q5'(Config) -> 
+'namespace-errors-q5'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Rename of attribute with implicit namespace binding that clashes.
-'namespace-errors-q6'(Config) -> 
+'namespace-errors-q6'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Replace of attribute with implicit namespace binding that clashes.
-'namespace-errors-q7'(Config) -> 
+'namespace-errors-q7'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Replace of attribute with muliple attributes, one of which has an implicit namespace binding that clashes.
-'namespace-errors-q8'(Config) -> 
+'namespace-errors-q8'(_Config) -> 
    {skip, "throws XUDY0024 instead of throwing XUDY0023"}.
 
 %% Multiple inserts of attribute with implicit namespace binding that clashes.
 'namespace-errors-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-557.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-557.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-557.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q9.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-557.xml')")},
       Res1 = try
@@ -12693,8 +12726,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q10'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-558.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-558.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-558.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q10.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-558.xml')")},
       Res1 = try
@@ -12712,8 +12745,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q11'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-559.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-559.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-559.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q11.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-559.xml')")},
       Res1 = try
@@ -12731,8 +12764,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q12'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-560.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-560.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-560.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q12.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-560.xml')")},
       Res1 = try
@@ -12750,8 +12783,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q13'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-561.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-561.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-561.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q13.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-561.xml')")},
       Res1 = try
@@ -12769,8 +12802,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q14'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-562.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-562.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-562.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q14.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-562.xml')")},
       Res1 = try
@@ -12788,8 +12821,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q15'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-563.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-563.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-563.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q15.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-563.xml')")},
       Res1 = try
@@ -12807,8 +12840,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q16'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-564.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-564.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-564.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q16.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-564.xml')")},
       Res1 = try
@@ -12817,7 +12850,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q16-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-564.xml')")},
       Res2 = try
@@ -12834,8 +12867,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q17'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-565.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-565.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-565.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q17.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-565.xml')")},
       Res1 = try
@@ -12853,8 +12886,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q18'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-566.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-566.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-566.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q18.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-566.xml')")},
       Res1 = try
@@ -12872,8 +12905,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespace-errors-q19'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-567.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-567.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-567.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdatePrimitives/NamespaceErrors/namespace-errors-q19.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-567.xml')")},
       Res1 = try
@@ -12891,8 +12924,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'mergeUpdates-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-568.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-568.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-568.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/mergeUpdates/mergeUpdates-001.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-568.xml')")},
       Res1 = try
@@ -12901,7 +12934,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/mergeUpdates/mergeUpdates-001-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-568.xml')")},
       Res2 = try
@@ -12918,8 +12951,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'mergeUpdates-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-569.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-569.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-569.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/mergeUpdates/mergeUpdates-002.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-569.xml')")},
       Res1 = try
@@ -12937,8 +12970,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-570.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-570.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-570.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-001.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-570.xml')")},
       Res1 = try
@@ -12947,7 +12980,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-001-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-570.xml')")},
       Res2 = try
@@ -12964,8 +12997,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-571.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-571.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-571.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-002.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-571.xml')")},
       Res1 = try
@@ -12974,7 +13007,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-002-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-571.xml')")},
       Res2 = try
@@ -12991,8 +13024,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-003'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-572.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-572.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-572.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-003.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-572.xml')")},
       Res1 = try
@@ -13001,7 +13034,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-003-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-572.xml')")},
       Res2 = try
@@ -13018,8 +13051,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-004'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-573.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-573.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-573.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-004.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-573.xml')")},
       Res1 = try
@@ -13028,7 +13061,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-004-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-573.xml')")},
       Res2 = try
@@ -13045,8 +13078,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-005'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-574.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-574.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-574.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-005.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-574.xml')")},
       Res1 = try
@@ -13055,7 +13088,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-005-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-574.xml')")},
       Res2 = try
@@ -13072,8 +13105,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-006'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-575.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-575.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-575.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-006.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-575.xml')")},
       Res1 = try
@@ -13082,7 +13115,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-006-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-575.xml')")},
       Res2 = try
@@ -13099,8 +13132,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-007'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-576.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-576.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-576.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-007.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-576.xml')")},
       Res1 = try
@@ -13109,7 +13142,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-007-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-576.xml')")},
       Res2 = try
@@ -13126,8 +13159,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-008'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-577.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-577.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-577.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-008.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-577.xml')")},
       Res1 = try
@@ -13136,7 +13169,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-008-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-577.xml')")},
       Res2 = try
@@ -13153,8 +13186,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-009'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-578.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-578.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-578.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-009.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-578.xml')")},
       Res1 = try
@@ -13163,7 +13196,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-009-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-578.xml')")},
       Res2 = try
@@ -13180,8 +13213,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-579.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-579.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-579.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-579.xml')")},
       Res1 = try
@@ -13190,7 +13223,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-010-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-579.xml')")},
       Res2 = try
@@ -13207,8 +13240,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-011'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-580.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-580.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-580.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-011.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-580.xml')")},
       Res1 = try
@@ -13217,7 +13250,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-011-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-580.xml')")},
       Res2 = try
@@ -13234,8 +13267,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-012'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-581.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-581.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-581.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-012.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-581.xml')")},
       Res1 = try
@@ -13244,7 +13277,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-012-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-581.xml')")},
       Res2 = try
@@ -13261,8 +13294,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-013'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-582.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-582.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-582.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-013.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-582.xml')")},
       Res1 = try
@@ -13271,7 +13304,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-013-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-582.xml')")},
       Res2 = try
@@ -13288,8 +13321,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-014'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-583.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-583.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-583.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-014.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-583.xml')")},
       Res1 = try
@@ -13298,7 +13331,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-014-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-583.xml')")},
       Res2 = try
@@ -13315,8 +13348,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-016'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-584.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-584.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-584.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-016.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-584.xml')")},
       Res1 = try
@@ -13325,7 +13358,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-016-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-584.xml')")},
       Res2 = try
@@ -13342,8 +13375,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-021'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-585.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-585.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-585.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-021.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-585.xml')")},
       Res1 = try
@@ -13352,7 +13385,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-021-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-585.xml')")},
       Res2 = try
@@ -13369,8 +13402,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-022'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-586.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-586.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-586.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-022.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-586.xml')")},
       Res1 = try
@@ -13379,7 +13412,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-022-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-586.xml')")},
       Res2 = try
@@ -13393,19 +13426,19 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
    end.
 
 %% Insert two attributes with the same name and delete the containing element.
-'applyUpdates-023'(Config) -> 
+'applyUpdates-023'(_Config) -> 
    {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Insert two attributes with the same name and delete the containing element's parent.
-'applyUpdates-024'(Config) -> 
+'applyUpdates-024'(_Config) -> 
    {skip, "returns [] instead of throwing XUDY0021"}.
 
 %% Swap the names of two attribute nodes.
 'applyUpdates-025'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-589.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-589.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-589.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-025.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-589.xml')")},
       Res1 = try
@@ -13414,7 +13447,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-025-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-589.xml')")},
       Res2 = try
@@ -13431,8 +13464,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'applyUpdates-026'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-590.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-590.xml", source(__BaseDir, 'works-mod')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/works-mod-590.xml", source(__BaseDir, 'works-mod')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-026.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-590.xml')")},
       Res1 = try
@@ -13441,7 +13474,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/applyUpdates/applyUpdates-026-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/works-mod-590.xml')")},
       Res2 = try
@@ -13458,8 +13491,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-001'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-591.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-591.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-591.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-001.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-591.xml')")},
       Res1 = try
@@ -13476,8 +13509,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-002'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-592.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-592.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-592.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-002.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-592.xml')")},
       Res1 = try
@@ -13494,8 +13527,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-003'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-593.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-593.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-593.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-003.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-593.xml')")},
       Res1 = try
@@ -13512,8 +13545,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-004'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-594.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-594.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-594.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-004.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-594.xml')")},
       Res1 = try
@@ -13530,8 +13563,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-005'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-595.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-595.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-595.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-005.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-595.xml')")},
       Res1 = try
@@ -13548,8 +13581,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-006'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-596.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-596.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-596.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-006.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-596.xml')")},
       Res1 = try
@@ -13566,8 +13599,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-007'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-597.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-597.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-597.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-007.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-597.xml')")},
       Res1 = try
@@ -13584,8 +13617,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-008'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books-598.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-598.xml", source(__BaseDir, 'books')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books-598.xml", source(__BaseDir, 'books')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-008.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books-598.xml')")},
       Res1 = try
@@ -13602,8 +13635,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-009'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-599.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-599.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-599.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-009.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-599.xml')")},
       Res1 = try
@@ -13620,8 +13653,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'setToUntyped-010'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/books2-600.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-600.xml", source(__BaseDir, 'books2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/books2-600.xml", source(__BaseDir, 'books2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/setToUntyped/setToUntyped-010.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/books2-600.xml')")},
       Res1 = try
@@ -13637,7 +13670,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces01.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13653,7 +13686,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces02.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13669,7 +13702,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces03.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13685,7 +13718,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces04.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13701,7 +13734,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces05.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13717,7 +13750,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Check that all properties are set correctly by upd:propagateNamespaces.
 'propagateNamespaces06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UpdateRoutines/propagateNamespaces/propagateNamespaces06.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13733,7 +13766,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-01'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-01.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13750,7 +13783,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-02'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-02.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13767,7 +13800,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-03'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-03.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13784,7 +13817,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-04'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-04.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13801,7 +13834,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-05.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13818,7 +13851,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-06.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13835,7 +13868,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-07'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-07.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13852,7 +13885,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-08'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-08.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13869,7 +13902,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-09'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-09.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13886,7 +13919,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-10'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-10.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13903,7 +13936,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-11'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-11.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13920,7 +13953,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-12'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-12.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13937,7 +13970,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-13'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-13.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13954,7 +13987,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-14'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-14.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13971,7 +14004,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-15'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-15.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -13988,7 +14021,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert before expression.
 'statictyp-xqupd-16'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-16.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14005,7 +14038,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with delete expression.
 'statictyp-xqupd-17'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-17.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14022,7 +14055,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-18'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-18.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14039,7 +14072,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-19'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-19.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14056,7 +14089,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-20'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-20.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14073,7 +14106,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-21'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-21.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14090,7 +14123,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-22'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-22.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14107,7 +14140,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-23'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-23.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14124,7 +14157,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert after expression.
 'statictyp-xqupd-24'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-24.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14141,7 +14174,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with insert into expression.
 'statictyp-xqupd-25'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-25.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14158,7 +14191,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-26'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-26.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14175,7 +14208,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-27'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-27.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14192,7 +14225,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-28'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-28.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14209,7 +14242,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-29'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-29.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14226,7 +14259,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-30'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-30.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14243,7 +14276,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-31'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-31.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14260,7 +14293,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-32'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-32.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14277,7 +14310,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-33'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-33.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14294,7 +14327,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-34'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-34.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14311,7 +14344,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-35'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-35.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14328,7 +14361,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-36'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-36.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14345,7 +14378,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-37'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-37.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14362,7 +14395,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-38'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-38.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14379,7 +14412,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-39'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-39.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14396,7 +14429,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-40'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-40.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14413,7 +14446,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-41'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-41.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14430,7 +14463,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-42'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-42.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14447,7 +14480,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-43'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-43.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14464,7 +14497,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-44'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-44.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14481,7 +14514,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-45'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-45.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14498,7 +14531,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-46'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-46.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14515,7 +14548,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-47'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-47.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14532,7 +14565,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-48'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-48.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14549,7 +14582,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-49'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-49.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14566,7 +14599,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with replace expression.
 'statictyp-xqupd-50'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-50.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14583,7 +14616,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-51'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-51.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14600,7 +14633,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-52'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-52.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14617,7 +14650,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-53'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-53.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14634,7 +14667,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-54'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-54.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14651,7 +14684,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-55'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-55.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14668,7 +14701,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with transform expression.
 'statictyp-xqupd-56'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-56.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14685,7 +14718,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with transform expression.
 'statictyp-xqupd-57'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-57.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14702,7 +14735,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-58'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-58.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14719,7 +14752,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-59'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-59.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14736,7 +14769,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 %% Evaluation of static typing feature with rename expression.
 'statictyp-xqupd-60'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Static-typing-xqupd/statictyp-xqupd-60.xq"),
       Ctx1 = #{},
       Res1 = try
@@ -14754,8 +14787,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'update10keywords'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-667.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-667.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-667.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Other/update10keywords.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-667.xml')")},
       Res1 = try
@@ -14772,8 +14805,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'revalidation-declaration-01-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-668.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-668.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-668.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/RevalidationDeclaration/revalidation-declaration-01.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-668.xml')")},
       Res1 = try
@@ -14791,8 +14824,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'revalidation-declaration-03-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-669.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-669.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-669.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/RevalidationDeclaration/revalidation-declaration-03.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-669.xml')")},
       Res1 = try
@@ -14810,8 +14843,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'revalidation-declaration-05'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-670.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-670.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-670.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/RevalidationDeclaration/revalidation-declaration-05.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-670.xml')")},
       Res1 = try
@@ -14828,8 +14861,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'revalidation-declaration-06'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-671.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-671.xml", source(__BaseDir, 'emptydoc')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/emptydoc-671.xml", source(__BaseDir, 'emptydoc')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Prolog/RevalidationDeclaration/revalidation-declaration-06.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/emptydoc-671.xml')")},
       Res1 = try
@@ -14847,8 +14880,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res1 = try
@@ -14857,7 +14890,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res2 = try
@@ -14869,7 +14902,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q1-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-672.xml')")},
       Res3 = try
@@ -14886,8 +14919,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res1 = try
@@ -14896,7 +14929,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res2 = try
@@ -14908,7 +14941,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q2-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-673.xml')")},
       Res3 = try
@@ -14925,8 +14958,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res1 = try
@@ -14935,7 +14968,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res2 = try
@@ -14947,7 +14980,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q6-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-674.xml')")},
       Res3 = try
@@ -14964,8 +14997,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res1 = try
@@ -14974,7 +15007,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res2 = try
@@ -14986,7 +15019,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q7-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-675.xml')")},
       Res3 = try
@@ -15003,8 +15036,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res1 = try
@@ -15013,7 +15046,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res2 = try
@@ -15025,7 +15058,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q8-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-676.xml')")},
       Res3 = try
@@ -15042,8 +15075,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-deletes-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res1 = try
@@ -15052,7 +15085,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res2 = try
@@ -15064,7 +15097,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/DeleteExpressions/complex-deletes-q9-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-677.xml')")},
       Res3 = try
@@ -15081,8 +15114,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res1 = try
@@ -15091,7 +15124,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res2 = try
@@ -15103,7 +15136,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q1-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-678.xml')")},
       Res3 = try
@@ -15120,8 +15153,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res1 = try
@@ -15130,7 +15163,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res2 = try
@@ -15142,7 +15175,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q2-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-679.xml')")},
       Res3 = try
@@ -15159,8 +15192,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res1 = try
@@ -15169,7 +15202,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res2 = try
@@ -15181,7 +15214,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q6-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-680.xml')")},
       Res3 = try
@@ -15198,8 +15231,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res1 = try
@@ -15208,7 +15241,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res2 = try
@@ -15220,7 +15253,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q7-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-681.xml')")},
       Res3 = try
@@ -15237,8 +15270,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-replacevalues-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res1 = try
@@ -15247,7 +15280,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res2 = try
@@ -15259,7 +15292,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/ReplaceExpressions/complex-replacevalues-q8-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-682.xml')")},
       Res3 = try
@@ -15276,8 +15309,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res1 = try
@@ -15286,7 +15319,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res2 = try
@@ -15298,7 +15331,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q2-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-683.xml')")},
       Res3 = try
@@ -15315,8 +15348,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res1 = try
@@ -15325,7 +15358,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res2 = try
@@ -15337,7 +15370,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q3-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-684.xml')")},
       Res3 = try
@@ -15354,8 +15387,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'complex-renames-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml", source(__BaseDir, 'TopMany')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml", source(__BaseDir, 'TopMany')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4.xq"),
       Ctx1 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res1 = try
@@ -15364,7 +15397,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4-test.xq"),
       Ctx2 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res2 = try
@@ -15376,7 +15409,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err2} -> ct:fail(Err2) 
       end
    end,
-   begin
+   _ = begin
       F3 = filename:join(__BaseDir, "Queries/XQuery/RenameExpressions/complex-renames-q4-test2.xq"),
       Ctx3 = #{<<"input-context">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/TopMany-685.xml')")},
       Res3 = try
@@ -15393,7 +15426,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-003-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-686.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-003.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-686.xml">>}},
       Res1 = try
@@ -15411,7 +15444,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-004-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-687.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-004.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-687.xml">>}},
       Res1 = try
@@ -15429,7 +15462,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-005-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-688.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-005.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-688.xml">>}},
       Res1 = try
@@ -15447,7 +15480,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'fn-put-006-fail'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/putOutput-689.xml"),
-   begin
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/Put/fn-put-006.xq"),
       Ctx1 = #{<<"input-URI">> => {xqAtomicValue, 'xs:anyURI', <<"http://xqerl.org/tests/XQUTS/1.0/putOutput-689.xml">>}},
       Res1 = try
@@ -15465,8 +15498,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-690.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-690.xml", source(__BaseDir, 'users')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-690.xml", source(__BaseDir, 'users')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q1.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-690.xml')")},
       Res1 = try
@@ -15475,7 +15508,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q1-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-690.xml')")},
       Res2 = try
@@ -15492,10 +15525,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-691.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-691.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-691.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-691.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-691.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-691.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q2.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-691.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-691.xml')")},
@@ -15505,7 +15538,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q2-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-691.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-691.xml')")},
@@ -15523,10 +15556,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q3'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-692.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-692.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-692.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-692.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-692.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-692.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q3.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-692.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-692.xml')")},
@@ -15536,7 +15569,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q3-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-692.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-692.xml')")},
@@ -15554,8 +15587,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q4'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-693.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-693.xml", source(__BaseDir, 'users2')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-693.xml", source(__BaseDir, 'users2')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q4.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-693.xml')")},
       Res1 = try
@@ -15564,7 +15597,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q4-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-693.xml')")},
       Res2 = try
@@ -15581,10 +15614,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q5-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-694.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-694.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-694.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-694.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-694.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-694.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-1.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-694.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-694.xml')")},
@@ -15594,7 +15627,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-1-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-694.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-694.xml')")},
@@ -15612,10 +15645,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q5-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-695.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-695.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-695.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-695.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-695.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-695.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-2.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-695.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-695.xml')")},
@@ -15625,7 +15658,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q5-2-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-695.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-695.xml')")},
@@ -15643,12 +15676,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q6-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-696.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-696.xml", source(__BaseDir, 'users')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-696.xml", source(__BaseDir, 'users')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-696.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-696.xml", source(__BaseDir, 'items')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-696.xml", source(__BaseDir, 'items')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-696.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-696.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-696.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-1.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-696.xml')"),
               <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-696.xml')"),
@@ -15659,7 +15692,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-696.xml')"),
               <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-696.xml')"),
@@ -15678,12 +15711,12 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q6-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users-697.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-697.xml", source(__BaseDir, 'users')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users-697.xml", source(__BaseDir, 'users')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-697.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-697.xml", source(__BaseDir, 'items')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-697.xml", source(__BaseDir, 'items')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-697.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-697.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-697.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-2.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-697.xml')"),
               <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-697.xml')"),
@@ -15694,7 +15727,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q6-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users-697.xml')"),
               <<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-697.xml')"),
@@ -15713,8 +15746,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q7'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/items-698.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-698.xml", source(__BaseDir, 'items')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/items-698.xml", source(__BaseDir, 'items')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q7.xq"),
       Ctx1 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-698.xml')")},
       Res1 = try
@@ -15726,7 +15759,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q7-test.xq"),
       Ctx2 = #{<<"items">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/items-698.xml')")},
       Res2 = try
@@ -15743,10 +15776,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q8'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-699.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-699.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-699.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-699.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-699.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-699.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q8.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-699.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-699.xml')")},
@@ -15759,7 +15792,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q8-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-699.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-699.xml')")},
@@ -15779,10 +15812,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'relational-data-q9'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/users2-700.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-700.xml", source(__BaseDir, 'users2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/users2-700.xml", source(__BaseDir, 'users2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/bids-700.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-700.xml", source(__BaseDir, 'bids')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/bids-700.xml", source(__BaseDir, 'bids')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q9.xq"),
       Ctx1 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-700.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-700.xml')")},
@@ -15795,7 +15828,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/RelationalDataUpdates/relational-data-q9-test.xq"),
       Ctx2 = #{<<"users">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/users2-700.xml')"),
               <<"bids">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/bids-700.xml')")},
@@ -15815,14 +15848,14 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'address-book-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/archive-701.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/archive-701.xml", source(__BaseDir, 'archive')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/archive-701.xml", source(__BaseDir, 'archive')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml", source(__BaseDir, 'copy1')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml", source(__BaseDir, 'copy1')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml", source(__BaseDir, 'copy2')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/copy2-701.xml", source(__BaseDir, 'copy2')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/log-701.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/log-701.xml", source(__BaseDir, 'log')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/log-701.xml", source(__BaseDir, 'log')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/AddressBookUpdates/address-book-q1.xq"),
       Ctx1 = #{<<"archive">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/archive-701.xml')"),
               <<"copy1">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/copy1-701.xml')"),
@@ -15843,10 +15876,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'soap-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/airports-702.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/airports-702.xml", source(__BaseDir, 'airports')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/airports-702.xml", source(__BaseDir, 'airports')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml", source(__BaseDir, 'soapMsg')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml", source(__BaseDir, 'soapMsg')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/SoapUpdates/soap-q1.xq"),
       Ctx1 = #{<<"airportsDoc">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/airports-702.xml')"),
               <<"msg">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/soapMsg-702.xml')")},
@@ -15864,8 +15897,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'namespaces-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/grant-703.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-703.xml", source(__BaseDir, 'grant')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/grant-703.xml", source(__BaseDir, 'grant')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NamespacesUpdates/namespaces-q1.xq"),
       Ctx1 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-703.xml')")},
       Res1 = try
@@ -15874,7 +15907,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NamespacesUpdates/namespaces-q1-test.xq"),
       Ctx2 = #{<<"grant">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/grant-703.xml')")},
       Res2 = try
@@ -15891,8 +15924,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q1.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml')")},
       Res1 = try
@@ -15901,7 +15934,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q1-test.xq"),
       Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-704.xml')")},
       Res2 = try
@@ -15918,8 +15951,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q2.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml')")},
       Res1 = try
@@ -15928,7 +15961,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q2-test.xq"),
       Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-705.xml')")},
       Res2 = try
@@ -15945,10 +15978,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q3-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml", source(__BaseDir, 'part-tree')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml", source(__BaseDir, 'part-tree')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml", source(__BaseDir, 'part-list')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml", source(__BaseDir, 'part-list')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-1.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-706.xml')"),
               <<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml')")},
@@ -15958,7 +15991,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-test.xq"),
       Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-706.xml')")},
       Res2 = try
@@ -15975,10 +16008,10 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q3-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml", source(__BaseDir, 'part-list')),
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml", source(__BaseDir, 'part-list')),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-2.xq"),
       Ctx1 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml')"),
               <<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-707.xml')")},
@@ -15991,7 +16024,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
          {false, Err1} -> ct:fail(Err1) 
       end
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q3-test.xq"),
       Ctx2 = #{<<"part-list">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-list-707.xml')")},
       Res2 = try
@@ -16010,8 +16043,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q4-1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-1.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml')")},
       Res1 = try
@@ -16020,7 +16053,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-test.xq"),
       Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-708.xml')")},
       Res2 = try
@@ -16037,8 +16070,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q4-2'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-2.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml')")},
       Res1 = try
@@ -16047,7 +16080,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q4-test.xq"),
       Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-709.xml')")},
       Res2 = try
@@ -16064,8 +16097,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'parts-q6'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml", source(__BaseDir, 'part-tree')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml", source(__BaseDir, 'part-tree')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q6.xq"),
       Ctx1 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml')")},
       Res1 = try
@@ -16074,7 +16107,7 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
              catch _:E1 -> E1 end,
       Res1
    end,
-   begin
+   _ = begin
       F2 = filename:join(__BaseDir, "Queries/XQuery/UseCases/PartsUpdates/parts-q6-test.xq"),
       Ctx2 = #{<<"part-tree">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/part-tree-710.xml')")},
       Res2 = try
@@ -16091,8 +16124,8 @@ source('putOutput2') -> "./TestSources/putoutput2.xml".
 'nil-q1'(Config) -> 
    __BaseDir = ?config(base_dir, Config),
    xqldb_dml:delete_doc("http://xqerl.org/tests/XQUTS/1.0/employees-711.xml"),
-   xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-711.xml", source(__BaseDir, 'employees')),
-   begin
+   ok = xqldb_dml:insert_doc("http://xqerl.org/tests/XQUTS/1.0/employees-711.xml", source(__BaseDir, 'employees')),
+   _ = begin
       F1 = filename:join(__BaseDir, "Queries/XQuery/UseCases/NilUpdates/nil-q1.xq"),
       Ctx1 = #{<<"employees">> => xqerl:run("doc('http://xqerl.org/tests/XQUTS/1.0/employees-711.xml')")},
       Res1 = try

@@ -221,9 +221,9 @@ declare function _:print-test-case($case as element(_:test-case),
     , $skip := $SKIP_CATALOG($name)
   return
   '%% ' || $desc => normalize-space() || $n ||
-  "'" || $name || "'(Config) -> " || $n ||
   (
   if (empty($skip)) then
+  "'" || $name || "'(Config) -> " || $n ||
   "   __BaseDir = ?config(base_dir, Config)," || $n ||
   (
     (: docs to copy :)
@@ -232,7 +232,7 @@ declare function _:print-test-case($case as element(_:test-case),
       let $uri := $base-uri || $in || "-" || $pos || ".xml"
       return
       "   xqldb_dml:delete_doc(""" || $uri || """)," || $n ||
-      "   xqldb_dml:insert_doc(""" || $uri || """, source(__BaseDir, '" || $in || "'))"
+      "   ok = xqldb_dml:insert_doc(""" || $uri || """, source(__BaseDir, '" || $in || "'))"
     )
     ,
     (: Input to delete :)
@@ -250,7 +250,7 @@ declare function _:print-test-case($case as element(_:test-case),
       let $query := $state/_:query
         , $qryname := $query/@name
       return
-      "   begin" || $n ||
+      "   _ = begin" || $n ||
       "      F"||$spos||" = filename:join(__BaseDir, """ || 
                  _:xquery_file($path, $qryname) || """)," || $n ||
       "      Ctx"||$spos||" = #{"||
@@ -327,6 +327,7 @@ declare function _:print-test-case($case as element(_:test-case),
   ) => string-join("," || $n) ||
   "."
   else
+  "'" || $name || "'(_Config) -> " || $n ||
   '   {skip, "'||$skip||'"}.'
  ) || $n
 };
@@ -376,11 +377,33 @@ declare function _:exports($funs) as xs:string
   || "])."
 };
 
+declare function _:mod_all($funs)
+{
+  let $max :=  48
+  let $f  := function($a){"'"||$a||"'"}
+  let $grpd := 
+      for $tc at $y in $funs
+      group by $z := $y idiv $max
+      return
+      [$z, $tc]
+  return
+  "all() -> ["||$n||
+  ($grpd ! ("   {group, group_" || .?1 || "}" ) ) => string-join("," || $n) ||$n||
+  "   ]." ||$n||
+  "groups() -> ["||$n||
+  ($grpd ! ("   {group_" || .?1 || ", [parallel], [" ||$n||
+  (.?2 !   ("    " || $f(.)) ) => string-join("," || $n)
+  ||
+  "]}" ) ) => string-join("," || $n)
+  ||"]."
+};
+
 declare function _:header($funs)
 {
 "-module('xquts_SUITE').
 -include_lib(""common_test/include/ct.hrl"").
 -export([all/0,
+         groups/0,
          suite/0]).
 -export([init_per_suite/1,
          end_per_suite/1]).
@@ -396,10 +419,7 @@ init_per_suite(Config) ->
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    __BaseDir = filename:join(DD, """ || $RootPath || """),
    [{base_dir, __BaseDir}|Config].
-all() -> [
-   "||
-($funs ! ("'" || . || "'")) => string-join("," || $n || "   ")
-||"].
+" || _:mod_all($funs) || "
 
 "
 };
