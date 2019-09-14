@@ -798,17 +798,17 @@ dummy_timezone(Tab) ->
 'analyze-string'(Ctx,Input,Pattern0,Flags) ->
    Pattern = xqerl_types:string_value(Pattern0),
    Flags1 = xqerl_types:string_value(Flags),
-   case xs_regex:compile(Pattern,Flags1) of
+   case xs_regex:analyze(Pattern,Flags1) of
       {error, {invalid_flag, _}} ->
          ?dbg("invalid_flag",invalid_flag),
          ?err('FORX0001');
       {error, Err} ->
          ?dbg("Err",Err),
          ?err('FORX0002');
-      {true,_} ->
+      {true, _, _} ->
          ?dbg("true",true),
          ?err('FORX0003');
-      {_,MP} ->
+       {_, MP, Grps} ->
          Input1 = string_value(Input),
          Content = case re:run(Input1, MP, [global]) of
                       nomatch ->
@@ -818,7 +818,7 @@ dummy_timezone(Tab) ->
                    end,
          Expr = if Input1 == <<>> -> [];
                    true ->
-                      analyze_string1(Content,Input1)
+                      analyze_string1(Content, Input1, Grps)
                 end,
          Frag = #xqElementNode{name = #qname{namespace = ?NS,
                                              prefix = ?PX,
@@ -827,43 +827,40 @@ dummy_timezone(Tab) ->
          xqerl_node:new_fragment(Ctx, Frag)
    end.
 
-analyze_string1([],String) -> % no matches
+analyze_string1([],String, _) -> % no matches
    #xqElementNode{name = #qname{namespace = ?NS,
                                 prefix = ?PX,
                                 local_name = ?A("non-match")},
                          content = ?str(String)};
-analyze_string1(List,String) ->
+analyze_string1(List, String, GrpTree) ->
    Fun = 
-     fun([{Start,End}|Groups],LastPos) ->
+     fun([{Start, End}|Groups], LastPos) ->
+            NextPos = Start + End,
+           % leading non-match node
            Pre = if Start =/= LastPos ->
-                       Slc = string:slice(String,LastPos,(Start-LastPos)),
-                       [analyze_string1([],Slc)];
+                       Slc = string:slice(String, LastPos, (Start - LastPos)),
+                       [analyze_string1([], Slc, [])];
                     true ->
                        []
                  end,
            Matches = 
               case Groups of
                 [] ->
-                   S = string:slice(String,Start,End),
+                   S = string:slice(String, Start, End),
                    #xqTextNode{string_value = ?str(S)};
                 _ ->
-                   {B,_} = hd(Groups),
+                   {Groups1, _} = fill_groups(GrpTree, Groups),
                    {Es,Ee} = hd(lists:reverse(Groups)),
                    GrpSize = Es+Ee,
-                   Tail = if (Start + End) > GrpSize -> % missing tail text 
+                   Tail = if (Start + End) > GrpSize -> % non-grouped tail match 
                                 Slc1 = string:slice(String,GrpSize,
                                                     Start + End - GrpSize),
                                 [#xqTextNode{string_value = ?str(Slc1)}];
                              true ->
                                 []
                           end,
-                    if B > Start ->
-                          S = string:slice(String,Start,Start + End - B),
-                          [#xqTextNode{string_value = ?str(S)} |
-                             get_groups(String,Groups,1)] ++ Tail;
-                       true ->
-                          get_groups(String,Groups,1) ++ Tail
-                    end
+                   GEls = get_groups(String,Groups1, Start), 
+                   GEls ++ Tail
               end,
            Match = #xqElementNode{name = #qname{namespace = ?NS,
                                                 prefix = ?PX,
@@ -872,83 +869,76 @@ analyze_string1(List,String) ->
            if End == 0 ->
                  ?err('FORX0003'); % would match empty str
               true ->
-                 {Pre++[Match],Start + End}
+                 {Pre++[Match], NextPos}
            end
      end,
-   {Els,Pos} = lists:mapfoldl(Fun, 0, List),
+   {Els, Pos} = lists:mapfoldl(Fun, 0, List),
    StrLen = string:length(String),
    Return = if Pos =/= StrLen andalso StrLen > 0 ->
-                  Els ++ [analyze_string1([],string:slice(String,Pos))];
+                  % non-match at end
+                  Els ++ [analyze_string1([],string:slice(String, Pos), [])];
                true ->
                   Els
             end,
    Return.
 
-%% all groups here are connected, could be sub-groups 
-get_groups(String,[{Start,End}],Cnt) ->
-   [#xqElementNode{name = #qname{namespace = ?NS,
-                                prefix = ?PX,
-                                local_name = ?A("group")},
-                  content = [#xqAttributeNode{name = 
-                                             #qname{namespace = 'no-namespace', 
-                                                    prefix = <<>>, 
-                                                    local_name = ?A("nr")},
-                                           string_value = ?str(integer_to_binary(Cnt))},
-                          if End == 0 ->
-                                [];
-                             true ->
-                                Slc = string:slice(String,Start,End),
-                                #xqTextNode{string_value = ?str(Slc)}
-                          end
-                         ]}];   
-get_groups(String,[{-1,0}|T],Cnt) ->
-   get_groups(String,T,Cnt+1);   
-get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
-   Pos1 = Start + End,
-   if NStart < Pos1 orelse NEnd == 0;
-      {Start,End} == {NStart,NEnd} -> % overlap/empty group
-         %% XXX The second group may also be not contained in the first group,
-         %% there is no way to tell...
-         End1 = NStart - Start,
-         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End1))},
-         Att1 = #xqAttributeNode{name = 
-                                   #qname{namespace = 'no-namespace', 
-                                          prefix = <<>>, 
-                                          local_name = ?A("nr")}, 
-                                 string_value = ?str(integer_to_binary(Cnt))},
-         Grps = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
-         [#xqElementNode{name = #qname{namespace = ?NS,
-                                       prefix = ?PX,
-                                       local_name = ?A("group")},
-                         content = [Att1,
-                                    Txt1,
-                                    Grps]}];
-      NStart > Pos1 -> % gap
-         Length = NStart - Pos1,  
-         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End))},
-         Txt2 = #xqTextNode{string_value = ?str(string:slice(String,Pos1,Length))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                               prefix = <<>>, 
-                                               local_name = ?A("nr")}, 
-                                 string_value = ?str(integer_to_binary(Cnt))},
-         Grps1 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
-         [#xqElementNode{name = #qname{namespace = ?NS,
-                                      prefix = ?PX,
-                                      local_name = ?A("group")},
-                        content = [Att1,Txt1]},
-          Txt2|Grps1];
-      true -> % no overlap
-         Txt1 = #xqTextNode{string_value = ?str(string:slice(String,Start,End))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                               prefix = <<>>, 
-                                               local_name = ?A("nr")}, 
-                                 string_value = ?str(integer_to_binary(Cnt))},
-         Grps2 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
-         [#xqElementNode{name = #qname{namespace = ?NS,
-                                      prefix = ?PX,
-                                      local_name = ?A("group")},
-                        content = [Att1,Txt1]}|Grps2]
-  end.
+fill_groups(Gs, []) ->
+    {[], Gs};
+fill_groups([_|Gs], [{-1,0}|Ms]) ->
+    fill_groups(Gs, Ms);
+fill_groups([{group, P, S}|Gs], [M|Ms]) ->
+    {Sub, RestMs} = fill_groups(S, Ms),
+    {Next, RestMs1} = fill_groups(Gs, RestMs),
+    {[{P, erlang:append_element(M, Sub)} | Next], RestMs1};
+fill_groups([{group, P}|Gs], [M|Ms]) ->
+    {G, Ms1} = fill_groups(Gs, Ms), 
+    {[{P, M}|G], Ms1};
+fill_groups([], Ms) ->
+    {[], Ms}.
+
+get_groups(String, [{P, {Start, Size, Subs}}|T], _Pos) ->
+    Pos1 = Start + Size,
+    SubGs = get_groups(String, Subs, Start),
+    QGrp = #qname{namespace = ?NS,
+                  prefix = ?PX,
+                  local_name = ?A("group")},
+    QNr = #qname{namespace = 'no-namespace', 
+                 prefix = <<>>,
+                 local_name = ?A("nr")},
+    TGs = get_groups(String, T, Pos1),
+    Elem = #xqElementNode{
+                name = QGrp,
+                content = 
+                  [#xqAttributeNode{name = QNr,
+                                    string_value = integer_to_binary(P)}
+                  |SubGs]},
+    [Elem|TGs];
+get_groups(String, [{P, {Start, Size}}|T], Pos) ->
+    Len = Start - Pos,
+    Txt1 = #xqTextNode{string_value = string:slice(String, Start, Size)},
+    Pos1 = Start + Size,
+    QGrp = #qname{namespace = ?NS,
+                  prefix = ?PX,
+                  local_name = ?A("group")},
+    QNr = #qname{namespace = 'no-namespace', 
+                 prefix = <<>>,
+                 local_name = ?A("nr")},
+    TGs = get_groups(String, T, Pos1),
+    Elem = #xqElementNode{
+                name = QGrp,
+                content = 
+                  [#xqAttributeNode{name = QNr,
+                                    string_value = integer_to_binary(P)}
+                  , Txt1]},
+    if
+        Pos < Start ->
+            Txt = #xqTextNode{string_value = string:slice(String, Pos, Len)},
+            [Txt,Elem|TGs];
+        true ->
+            [Elem|TGs]
+    end;
+get_groups(_, [], _) ->
+    [].
 
 %% Makes a dynamic call on a function with an argument list supplied 
 %% in the form of an array. 
