@@ -9,7 +9,7 @@ Erlang XQuery 3.1 Processor and XML Database
 
 xqerl is a self-contained XQuery 3.1 processor and XML database written in Erlang.
 
-   * It is not meant to be embedded at the software level in other systems, but rather act as a stand-alone portion of a larger system, perhaps as a middleware layer.
+   * It is currently not meant to be embedded at the software level in other systems, but rather act as a stand-alone portion of a larger system, perhaps as a middleware layer. (This will be changing before the first stable release)
    * All user code in the system is written in XQuery.
    * The XQuery code is compiled to BEAM (the VM that runs Erlang, Elixir, etc. code).
    * xqerl uses REST to speak to the outside-world. The REST end-points are defined by the user using XQuery and RESTXQ annotations.
@@ -18,10 +18,9 @@ xqerl is being actively developed and is not yet to a stable release. Changes ca
 
 The first stable release will be coming soon, but isn't quite there yet.
 
-It is passing **99.99%** of **30,813** test cases it runs 
-(4 failures, 1 wrong error code, 2 due to limitations in Erlang, and 1 concerning DTDs with namespace declarations. So technically, only 1 failed test case!). 
-1,901 other cases that test optional features or unsupported specification versions are skipped. 
-Most of the test cases run are taken directly from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
+It is passing **100%** of **30,895** test cases it runs 
+1,823 other cases that test optional features or unsupported specification versions are skipped. 
+Most of the test cases run are from the [W3C QT3 test suite](https://github.com/w3c/qt3tests) for XPath and XQuery.
 Others are from the [EXPath test suite](https://github.com/expath/expath-cg) and the Update Facility test suite for version 1.0. 
 
 ### Modules
@@ -82,8 +81,6 @@ This doesn't just mean hacking Erlang, but could include adding documentation, t
 ### TODO's:
 
 A query-rewrite phase is missing. A cost-based implementation that can be run at the database level should be added. 
-
-Serialization is not implemented 100%. Most cases should work, but some corner-cases may not work properly. 
 
 ... and likely more things ...
 
