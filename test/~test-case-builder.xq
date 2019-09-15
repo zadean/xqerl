@@ -958,7 +958,7 @@ let $catalogTestSetFile := $catalogTestSet/@file
   , $testSetDoc         := doc($testSetFile)
   , $localEnvs          := $testSetDoc/*:test-set/*:environment
   , $SUITE              := $catalogTestSetName||"_SUITE"
-  , $suiteFile          := resolve-uri($catalogTestSetName)||"_SUITE.erl"
+  , $suiteFile          := resolve-uri($testSetDir||'/'||$catalogTestSetName)||"_SUITE.erl"
   , $testCases          := $testSetDoc/*:test-set/*:test-case
 let $header             :=
   "-module('"||$SUITE||"')."                           ||$_:n||

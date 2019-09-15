@@ -39,7 +39,7 @@
          assert_serialization_error/2]).
 
 -export([run/1,
-         run_suite/1]).
+         run_suite/2]).
 
 -export([handle_environment/1,
          combined_error/2]).
@@ -363,23 +363,25 @@ string_value(Seq) when is_binary(Seq) ->
 string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
-run_suite(Suite) ->
+run_suite(Suite, SubDir) ->
    LibDir = code:lib_dir(xqerl),
    TestDir = filename:absname_join(LibDir, "../../test"),
+   TestSubDir = filename:join(TestDir, SubDir),
    LogDir = filename:join(TestDir, "logs"),
    %_ = delete_all_docs(),
    ct:run_test([{suite, Suite},
-                {dir, TestDir},
+                {dir, TestSubDir},
                 {logdir, LogDir},
                 {logopts,[no_src]}]).
 
-run_suites(Suites) ->
+run_suites(SubDir, Suites) ->
    LibDir = code:lib_dir(xqerl),
    TestDir = filename:absname_join(LibDir, "../../test"),
+   TestSubDir = filename:join(TestDir, SubDir),
    LogDir = filename:join(TestDir, "logs"),
    %_ = delete_all_docs(),
    ct:run_test([{suite, Suites},
-                {dir, TestDir},
+                {dir, TestSubDir},
                 {logdir, LogDir},
                 {logopts,[no_src]}]).
 
@@ -390,15 +392,17 @@ run(all) ->
    run(prod),
    run(app),
    run(misc),
+   run(ser),
+   run(xs),
    run(fn),
-   run(fn2),
    run(map),
    run(op),
    run(array),
    run(math),
-   run(ext);
+   run(expath),
+   run(xquts);
 run(app) ->
-   run_suites([
+   run_suites("app", [
       app_CatalogCheck_SUITE,
       app_Demos_SUITE,
       app_FunctxFn_SUITE,
@@ -419,7 +423,7 @@ run(app) ->
       app_XMark_SUITE,
       app_spec_examples_SUITE]);
 run(math) ->
-   run_suites([
+   run_suites("math", [
       math_acos_SUITE,
       math_asin_SUITE,
       math_atan_SUITE,
@@ -435,7 +439,7 @@ run(math) ->
       math_sqrt_SUITE,
       math_tan_SUITE]);
 run(misc) ->
-   run_suites([
+   run_suites("misc", [
       misc_CombinedErrorCodes_SUITE,
       misc_AnnexE_SUITE,
       misc_AppendixA4_SUITE,
@@ -445,13 +449,17 @@ run(misc) ->
       misc_StaticContext_SUITE,
       misc_Surrogates_SUITE,
       misc_UCACollation_SUITE,
-      misc_XMLEdition_SUITE,
+      misc_XMLEdition_SUITE]);
+run(ser) ->
+   run_suites("ser", [
       method_adaptive_SUITE,
       method_html_SUITE,
       method_json_SUITE,
       method_text_SUITE,
       method_xhtml_SUITE,
-      method_xml_SUITE,
+      method_xml_SUITE]);
+run(xs) ->
+   run_suites("xs", [
       xs_anyURI_SUITE,
       xs_base64Binary_SUITE,
       xs_dateTimeStamp_SUITE,
@@ -463,7 +471,7 @@ run(misc) ->
       xs_numeric_SUITE,
       xs_token_SUITE]);
 run(prod) ->
-   run_suites([
+   run_suites("prod", [
       prod_AllowingEmpty_SUITE,
       prod_Annotation_SUITE,
       prod_ArrayTest_SUITE,
@@ -567,7 +575,7 @@ run(prod) ->
       prod_WhereClause_SUITE,
       prod_WindowClause_SUITE]);
 run(fn) ->
-   run_suites([
+   run_suites("fn", [
       fn_abs_SUITE,
       fn_adjust_date_to_timezone_SUITE,
       fn_adjust_dateTime_to_timezone_SUITE,
@@ -650,9 +658,7 @@ run(fn) ->
       fn_local_name_from_QName_SUITE,
       fn_lower_case_SUITE,
       fn_max_SUITE,
-      fn_matches_SUITE]);
-run(fn2) ->
-   run_suites([
+      fn_matches_SUITE,
       fn_matches_re_SUITE,
       fn_min_SUITE,
       fn_minutes_from_dateTime_SUITE,
@@ -727,7 +733,7 @@ run(fn2) ->
       fn_year_from_dateTime_SUITE,
       fn_zero_or_one_SUITE]);
 run(map) ->
-   run_suites([
+   run_suites("map", [
       map_merge_SUITE,
       map_contains_SUITE,
       map_find_SUITE,
@@ -739,7 +745,7 @@ run(map) ->
       map_remove_SUITE,
       map_for_each_SUITE]);
 run(array) ->
-   run_suites([
+   run_suites("array", [
       array_append_SUITE,
       array_filter_SUITE,
       array_flatten_SUITE,
@@ -759,7 +765,7 @@ run(array) ->
       array_subarray_SUITE,
       array_tail_SUITE]);
 run(op) ->
-   run_suites([
+   run_suites("op", [
       op_add_dayTimeDurations_SUITE,
       op_add_dayTimeDuration_to_date_SUITE,
       op_add_dayTimeDuration_to_dateTime_SUITE,
@@ -841,11 +847,13 @@ run(op) ->
       op_yearMonthDuration_greater_than_SUITE,
       op_yearMonthDuration_less_than_SUITE,
       op_same_key_SUITE]);
-run(ext) ->
-   run_suites([
+run(expath) ->
+   run_suites("expath", [
       expath_binary2_SUITE,
       expath_binary_SUITE,
-      expath_file_SUITE,
+      expath_file_SUITE]);
+run(xquts) ->
+   run_suites("xquts", [
       xquts_SUITE]);
 run(Str) ->
    io:format("~p~n",[Str]),

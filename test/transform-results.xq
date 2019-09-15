@@ -228,7 +228,7 @@ let $data :=
   )
   let $tabBod := $main//*:table[@id = 'SortableTable']/*:tbody
   for $row in $tabBod/*:tr
-  let $name := $row/*:td[1] => data() => substring-after('zadean.xqerl.')
+  let $name := $row/*:td[1] => data() => tokenize('\.') => reverse() => head()
   let $testname := $_:test-map($name)
   where not(empty($testname)) (: other tests :)
   let $pass := $row/*:td[4] => data() => xs:integer()

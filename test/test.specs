@@ -1,0 +1,14 @@
+{specs, separate, [
+    "app.spec", 
+    "array.spec",
+    "expath.spec",
+    "fn.spec",
+    "map.spec",
+    "math.spec",
+    "misc.spec",
+    "op.spec",
+    "prod.spec",
+    "ser.spec",
+    "xquts.spec",
+    "xs.spec"
+]}.

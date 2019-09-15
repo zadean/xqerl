@@ -1,0 +1,15 @@
+{suites, "math", [
+      math_acos_SUITE,
+      math_asin_SUITE,
+      math_atan_SUITE,
+      math_atan2_SUITE,
+      math_cos_SUITE,
+      math_exp_SUITE,
+      math_exp10_SUITE,
+      math_log_SUITE,
+      math_log10_SUITE,
+      math_pi_SUITE,
+      math_pow_SUITE,
+      math_sin_SUITE,
+      math_sqrt_SUITE,
+      math_tan_SUITE]}.
