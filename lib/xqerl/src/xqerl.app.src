@@ -12,7 +12,6 @@
       eunit,
       inets,
       xqerl_db,
-      xqerl_mods,
       xs_regex,
       erluca,
       hackney,
