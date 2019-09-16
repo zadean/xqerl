@@ -1,2 +1,2 @@
-/json_parser.erl
-/json_scanner.erl
+/xqldb_json_parser.erl
+/xqldb_json_scanner.erl
