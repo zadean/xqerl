@@ -41,8 +41,8 @@ string_to_json(Bin) when is_binary(Bin) ->
    string_to_json(unicode:characters_to_list(Bin));
 string_to_json(String) ->
    try
-      {ok,Toks,_} = json_scanner:string(String),
-      {ok,Obj} = json_parser:parse(Toks),
+      {ok,Toks,_} = xqldb_json_scanner:string(String),
+      {ok,Obj} = xqldb_json_parser:parse(Toks),
       Obj
    catch
       _:_:_ ->
@@ -53,7 +53,7 @@ string_to_json_bin(Bin) when is_binary(Bin) ->
    string_to_json_bin(unicode:characters_to_list(Bin));
 string_to_json_bin(String) ->
    try
-      {ok,Toks,_} = json_scanner:string(String),
+      {ok,Toks,_} = xqldb_json_scanner:string(String),
       ?dbg("Toks",Toks),
       xqldb_json_bin:parse(Toks)
    catch
