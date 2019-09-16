@@ -23,7 +23,7 @@
 %% @doc Namespace http://xqerl.org/modules/event
 %% Module for sending event notifications to Erlang.
 
--module(xqerl_event).
+-module(xqerl_mod_event).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 

@@ -23,7 +23,7 @@
 %% @doc Namespace http://xqerl.org/modules/csv
 %% Module for reading and writing CSV strings.
 
--module(xqerl_csv).
+-module(xqerl_mod_csv).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 
@@ -66,8 +66,8 @@ parse(Ctx, [Input]) -> parse(Ctx, Input);
 parse(_Ctx, Input) when is_binary(Input) ->
    try
       Str = unicode:characters_to_list(Input),
-      {ok, Toks, _} = csv_lexer:string(Str),
-      {ok, Arrs} = csv_parse:parse(Toks),
+      {ok, Toks, _} = xqerl_mod_csv_lexer:string(Str),
+      {ok, Arrs} = xqerl_mod_csv_parse:parse(Toks),
       {array, [{array, R} || R <- Arrs]}
    catch
       _:_ ->
@@ -95,13 +95,13 @@ parse(_Ctx, Input, Options) when is_binary(Input),
       #{sep := Sep} = parse_options(Options),
       {ok, Toks, _} = case Sep of
                          comma ->
-                            csv_lexer:string(Str);
+                            xqerl_mod_csv_lexer:string(Str);
                          semicolon ->
-                            csv_sc_lexer:string(Str);
+                            xqerl_mod_csv_sc_lexer:string(Str);
                          tab ->
-                            csv_t_lexer:string(Str)
+                            xqerl_mod_csv_t_lexer:string(Str)
                       end,
-      {ok, Arrs} = csv_parse:parse(Toks),
+      {ok, Arrs} = xqerl_mod_csv_parse:parse(Toks),
       {array, [{array, R} || R <- Arrs]}
    catch
       _:_ ->

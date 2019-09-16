@@ -114,7 +114,7 @@ assert_xml(Result, {file, FileLoc}) ->
 assert_xml(Result, {doc_file, FileLoc}) ->
    {ok,FileBin} = file:read_file(FileLoc),
    Norm = normalize_lines(FileBin, <<>>),
-   Doc = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>}, Norm),
+   Doc = xqerl_mod_fn:'parse-xml'(#{'base-uri' => <<>>}, Norm),
    Norm1 = xqerl_node:to_xml(Doc),   
    assert_xml(Result, Norm1);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
@@ -132,13 +132,13 @@ assert_xml(Result, QueryString0) ->
          true;
       true ->
          try
-            ResXml2 = xqerl_fn:'parse-xml-fragment'(
+            ResXml2 = xqerl_mod_fn:'parse-xml-fragment'(
                         #{'base-uri' => <<>>}, 
                         ResXml),
                                        %value = <<"<x>",ResXml/binary,"</x>">>}),
             %?dbg("ResXml2",ResXml2),
             QueryString2 =
-              case catch xqerl_fn:'parse-xml-fragment'(
+              case catch xqerl_mod_fn:'parse-xml-fragment'(
                              #{'base-uri' => <<>>}, 
                              QueryString)
                                             %value = <<"<x>",QueryString/binary,"</x>">>})

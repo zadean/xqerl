@@ -385,7 +385,7 @@ zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> lists:flatten(reverse(Acc));
 zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H1, Pos),
-      OutputSeq = case Fun == fun xqerl_fn:concat/2 of
+      OutputSeq = case Fun == fun xqerl_mod_fn:concat/2 of
                      true ->
                         Fun(Ctx1, [H1, H2]);
                      _ ->
@@ -404,7 +404,7 @@ for_each(_Ctx, Fun,Seq) when not is_list(Seq) ->
    for_each(_Ctx, Fun,[Seq]);
 for_each(_Ctx, _Fun,[]) -> empty();
 for_each(_Ctx, Map, Seq) when is_map(Map) ->
-   xqerl_map:get_matched(Map, Seq);
+   xqerl_mod_map:get_matched(Map, Seq);
 for_each(Ctx, Fun, Seq) when is_function(Fun) ->
    Size = fun() ->
                 ?int_rec(?MODULE:size(Seq))
@@ -684,7 +684,7 @@ empty() -> [].
 to_list([]) -> [];
 to_list(#xqRange{min = Min, max = Max}) ->
    range_2(Min,Max);
-to_list(#array{} = A) -> xqerl_array:flatten([], A);
+to_list(#array{} = A) -> xqerl_mod_array:flatten([], A);
 to_list([#xqRange{} = H|T]) -> 
    to_list(H) ++ to_list(T);
 to_list([#array{} = H|T]) -> 
@@ -1123,7 +1123,7 @@ do_call(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
    build_call(Ctx,MapArrayOrFun,Args);
 do_call(Ctx,#xqFunction{arity = A,
                         body = F} ,Args) when A == erlang:size(Args) ->
-   case F == fun xqerl_fn:concat/2 of
+   case F == fun xqerl_mod_fn:concat/2 of
       true ->
          build_call(Ctx,F,{tuple_to_list(Args)});
       false ->

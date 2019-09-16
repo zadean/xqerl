@@ -1177,7 +1177,7 @@ handle_node(State, {partial_postfix, Id, {'function-ref',#qname{}, Arity} = Ref,
    FState = handle_node(State, Ref),
    Fx = get_statement(FState),
    #xqFunction{params = Params0, type = Type, body = B} = Fx,
-   Params = if B == {xqerl_fn,concat,2} ->
+   Params = if B == {xqerl_mod_fn,concat,2} ->
                   lists:duplicate(length(Args), hd(Params0));
                true ->
                   Params0

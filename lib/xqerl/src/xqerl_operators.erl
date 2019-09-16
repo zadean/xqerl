@@ -126,22 +126,22 @@ lookup(Ctx,[Sing],Value) ->
    lookup(Ctx,Sing,Value);
 lookup(_Ctx,#{nk := _},_) -> ?err('XPTY0004');
 lookup(_Ctx,Map,all) when is_map(Map) ->
-   xqerl_map:values(Map);
+   xqerl_mod_map:values(Map);
 lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
    V1 = xqerl_seq3:expand(Values), 
-   xqerl_map:get_matched(Map, V1);
+   xqerl_mod_map:get_matched(Map, V1);
 lookup(Ctx,Map,Value) when is_map(Map) ->
-   xqerl_map:get(Ctx, Map, Value);
+   xqerl_mod_map:get(Ctx, Map, Value);
 lookup(_Ctx,{array,_} = Array,all) ->
-   xqerl_array:values(Array);
+   xqerl_mod_array:values(Array);
 lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
    V1 = xqerl_seq3:expand(Values), 
-   xqerl_array:get_matched(Array, V1);
+   xqerl_mod_array:get_matched(Array, V1);
 lookup(Ctx,{array,_} = Array, Value) when is_integer(Value) ->
-   xqerl_array:get(Ctx, Array, Value);
+   xqerl_mod_array:get(Ctx, Array, Value);
 lookup(Ctx,{array,_} = Array,#xqAtomicValue{type = T} = Value) 
    when ?xs_integer(T) ->
-   xqerl_array:get(Ctx, Array, Value);
+   xqerl_mod_array:get(Ctx, Array, Value);
 lookup(Ctx,{array,_} = A,#{nk := _} = V) ->
    lookup(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
 lookup(Ctx,List,Value) when is_list(List) ->
@@ -1332,8 +1332,8 @@ value_compare(Op,
 value_compare(Op,
               #xqAtomicValue{type = 'xs:untypedAtomic'} = Val1,
               #xqAtomicValue{type = 'xs:untypedAtomic'} = Val2) ->
-   S1 = xqerl_xs:xs_string([], Val1),
-   S2 = xqerl_xs:xs_string([], Val2),
+   S1 = xqerl_mod_xs:xs_string([], Val1),
+   S2 = xqerl_mod_xs:xs_string([], Val2),
    value_compare(Op,S1,S2);
 %2b one is untyped
 value_compare(Op,
@@ -2594,28 +2594,28 @@ date_greater_than(#xqAtomicValue{type = 'xs:date'} = A,
 % returns: xs:boolean
 time_equal(#xqAtomicValue{type = 'xs:time'} = A,
            #xqAtomicValue{type = 'xs:time'} = B) ->
-   RefDt = xqerl_xs:xs_date([], <<"1972-12-31">>),
+   RefDt = xqerl_mod_xs:xs_date([], <<"1972-12-31">>),
    equal(
-     xqerl_fn:dateTime(#{}, RefDt, A),
-     xqerl_fn:dateTime(#{}, RefDt, B)
+     xqerl_mod_fn:dateTime(#{}, RefDt, A),
+     xqerl_mod_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:boolean
 time_less_than(#xqAtomicValue{type = 'xs:time'} = A,
                #xqAtomicValue{type = 'xs:time'} = B) ->
-   RefDt = xqerl_xs:xs_date([], <<"1972-12-31">>),
+   RefDt = xqerl_mod_xs:xs_date([], <<"1972-12-31">>),
    less_than(
-     xqerl_fn:dateTime(#{}, RefDt, A),
-     xqerl_fn:dateTime(#{}, RefDt, B)
+     xqerl_mod_fn:dateTime(#{}, RefDt, A),
+     xqerl_mod_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:boolean
 time_greater_than(#xqAtomicValue{type = 'xs:time'} = A,
                   #xqAtomicValue{type = 'xs:time'} = B) ->
-   RefDt = xqerl_xs:xs_date([], <<"1972-12-31">>),
+   RefDt = xqerl_mod_xs:xs_date([], <<"1972-12-31">>),
    greater_than(
-     xqerl_fn:dateTime(#{}, RefDt, A),
-     xqerl_fn:dateTime(#{}, RefDt, B)
+     xqerl_mod_fn:dateTime(#{}, RefDt, A),
+     xqerl_mod_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:boolean
@@ -2813,10 +2813,10 @@ subtract_dates(#xqAtomicValue{type = 'xs:date'} = A,
 % returns: xs:dayTimeDuration
 subtract_times(#xqAtomicValue{type = 'xs:time'} = A,
                #xqAtomicValue{type = 'xs:time'} = B) ->
-   RefDt = xqerl_xs:xs_date([], <<"1972-12-31">>),
+   RefDt = xqerl_mod_xs:xs_date([], <<"1972-12-31">>),
    subtract(
-     xqerl_fn:dateTime(#{}, RefDt, A),
-     xqerl_fn:dateTime(#{}, RefDt, B)
+     xqerl_mod_fn:dateTime(#{}, RefDt, A),
+     xqerl_mod_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:dateTime
@@ -2875,25 +2875,25 @@ subtract_dayTimeDuration_from_dateTime(#xqAtomicValue{type = 'xs:dateTime',
 add_yearMonthDuration_to_date(A,B) -> 
    Dt = xqerl_types:cast_as(A, 'xs:dateTime'),
    Ad = add_yearMonthDuration_to_dateTime(Dt, B),
-   xqerl_xs:xs_date([], Ad).
+   xqerl_mod_xs:xs_date([], Ad).
 
 % returns: xs:date
 add_dayTimeDuration_to_date(A,B) -> 
    Dt = xqerl_types:cast_as(A, 'xs:dateTime'),
    Ad = add_dayTimeDuration_to_dateTime(Dt, B),
-   xqerl_xs:xs_date([], Ad).
+   xqerl_mod_xs:xs_date([], Ad).
 
 % returns: xs:date
 subtract_yearMonthDuration_from_date(A,B) ->
    Dt = xqerl_types:cast_as(A, 'xs:dateTime'),
    Ad = subtract_yearMonthDuration_from_dateTime(Dt, B),
-   xqerl_xs:xs_date([], Ad).
+   xqerl_mod_xs:xs_date([], Ad).
 
 % returns: xs:date
 subtract_dayTimeDuration_from_date(A,B) ->
    Dt = xqerl_types:cast_as(A, 'xs:dateTime'),
    Ad = subtract_dayTimeDuration_from_dateTime(Dt, B),
-   xqerl_xs:xs_date([], Ad).
+   xqerl_mod_xs:xs_date([], Ad).
 
 % returns: xs:time
 add_dayTimeDuration_to_time(#xqAtomicValue{type = 'xs:time',
@@ -2903,7 +2903,7 @@ add_dayTimeDuration_to_time(#xqAtomicValue{type = 'xs:time',
    NewT = T#xsDateTime{year = 1972,month = 1,day = 1},
    Ad = add_duration_to_dateTime(A#xqAtomicValue{type = 'xs:dateTime',
                                                  value = NewT}, B),
-   xqerl_xs:xs_time([], Ad).
+   xqerl_mod_xs:xs_time([], Ad).
 
 % returns: xs:time
 subtract_dayTimeDuration_from_time(
@@ -2917,7 +2917,7 @@ subtract_dayTimeDuration_from_time(
           A#xqAtomicValue{type = 'xs:dateTime',
                           value = NewT}, 
           B#xqAtomicValue{value = D#xsDateTime{sign = NewSign}}),
-   xqerl_xs:xs_time([], Ad).
+   xqerl_mod_xs:xs_time([], Ad).
 
 
 % returns: xs:boolean

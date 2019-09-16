@@ -23,7 +23,7 @@
 %% @doc Namespace http://xqerl.org/modules/client/basex
 %% BaseX client module
 
--module(xqerl_ext_basex).
+-module(xqerl_mod_ext_basex).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 
@@ -205,14 +205,14 @@ cast_typed_string(_, _, 'function item') ->
 cast_typed_string(Ctx, V, T) when T == 'element()';
                                   T == 'text()';
                                   T == 'processing-instruction()' ->
-   #{ch := [E]} = xqerl_fn:'parse-xml-fragment'(Ctx, V),
+   #{ch := [E]} = xqerl_mod_fn:'parse-xml-fragment'(Ctx, V),
    E;
 cast_typed_string(Ctx, V, T) when T == 'document-node()';
                                   T == 'document-node(element())' ->
-   xqerl_fn:'parse-xml-fragment'(Ctx, V);
+   xqerl_mod_fn:'parse-xml-fragment'(Ctx, V);
 cast_typed_string(Ctx, V, T) when T == 'attribute()' ->
    Dummy = <<"<a ",V/binary," />">>,
-   #{ch := [#{at := [A]}]} = xqerl_fn:'parse-xml-fragment'(Ctx, Dummy),
+   #{ch := [#{at := [A]}]} = xqerl_mod_fn:'parse-xml-fragment'(Ctx, Dummy),
    A;
 cast_typed_string(_, V, T) ->
    ?dbg("Unknown type", T),

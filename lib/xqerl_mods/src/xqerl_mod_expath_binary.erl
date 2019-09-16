@@ -22,7 +22,7 @@
 
 %% @doc Implementation of the "http://expath.org/ns/binary" namespace.
  
--module(xqerl_expath_binary).
+-module(xqerl_mod_expath_binary).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 

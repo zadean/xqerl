@@ -24,7 +24,7 @@
 %% namespace.
 %% Pretty much just wraps the math module from Erlang and adds NaN, inf and -0.
  
--module(xqerl_math).
+-module(xqerl_mod_math).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 
@@ -48,7 +48,7 @@
 
 
 -'module-namespace'({?NS,?PX}).
--namespaces([{"xqerl_xs", "xs"}]).
+-namespaces([{"xqerl_mod_xs", "xs"}]).
 -variables([]).
 -functions([
  {{qname,?NS, ?PX, <<"acos">>}, 

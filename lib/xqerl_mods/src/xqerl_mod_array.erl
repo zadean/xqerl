@@ -22,7 +22,7 @@
 
 %% @doc Implements the "http://www.w3.org/2005/xpath-functions/array" namespace.
 
--module(xqerl_array).
+-module(xqerl_mod_array).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 -define(atint(I), I).
@@ -205,7 +205,7 @@ flatten1([H|T]) ->
 'for-each-pair'(Ctx,#array{data = D1},#array{data = D2},Function) 
    when is_function(Function) ->
    try
-      case Function == fun xqerl_fn:concat/2 of
+      case Function == fun xqerl_mod_fn:concat/2 of
          true ->
             #array{data = for_each_pair2(Ctx,D1, D2, Function)};
          _ ->
@@ -349,9 +349,9 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
    
 'sort'(Ctx,#array{} = Array,[]) -> 
    Collation = xqerl_context:get_default_collation(Ctx),
-   'sort'(Ctx,Array,Collation,fun xqerl_fn:data/2);
+   'sort'(Ctx,Array,Collation,fun xqerl_mod_fn:data/2);
 'sort'(Ctx,#array{} = Array,Collation) ->
-   'sort'(Ctx,Array,Collation,fun xqerl_fn:data/2).
+   'sort'(Ctx,Array,Collation,fun xqerl_mod_fn:data/2).
 
 'sort'(Ctx,#array{} = Array,[],Function) -> 
    Collation = xqerl_context:get_default_collation(Ctx),
@@ -374,7 +374,7 @@ sort1(_,[],[],_Coll) -> true;
 sort1(_,[],_B,_Coll) -> true;
 sort1(_,_A,[],_Coll) -> false;
 sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
-   Equal = xqerl_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
+   Equal = xqerl_mod_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
    if Equal ->
          sort1(Ctx,tl(A),tl(B),Coll);
       true ->
@@ -391,7 +391,7 @@ sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
                    (?xs_string(TypeB) 
                     orelse TypeB =:= 'xs:anyURI' 
                     orelse TypeB =:= 'xs:untypedAtomic') ->
-                     Comp = xqerl_fn:compare(Ctx, hd(A), hd(B), Coll),
+                     Comp = xqerl_mod_fn:compare(Ctx, hd(A), hd(B), Coll),
                      Comp =< 0;
                   true ->
                      xqerl_operators:less_than_eq(hd(A), hd(B))

@@ -34,19 +34,19 @@
          code_change/3]).
 
 -define(STATIC_MODS, 
-        [xqerl_fn,
-         xqerl_math,
-         xqerl_map,
-         xqerl_array,
-         xqerl_xs,
-         xqerl_expath_file,
-         xqerl_expath_binary,
-         xqerl_http_client,
-         xqerl_rand,
-         xqerl_ext_basex,
-         xqerl_actor,
-         xqerl_csv,
-         xqerl_event,
+        [xqerl_mod_fn,
+         xqerl_mod_math,
+         xqerl_mod_map,
+         xqerl_mod_array,
+         xqerl_mod_xs,
+         xqerl_mod_expath_file,
+         xqerl_mod_expath_binary,
+         xqerl_mod_http_client,
+         xqerl_mod_rand,
+         xqerl_mod_ext_basex,
+         xqerl_mod_actor,
+         xqerl_mod_csv,
+         xqerl_mod_event,
          xqerl_error]).
 
 -define(TIMEOUT, 60000).

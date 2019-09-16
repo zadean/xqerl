@@ -22,7 +22,7 @@
 
 %% @doc Wrapper functions for the "http://www.w3.org/2001/XMLSchema" namespace.
 
--module(xqerl_xs).
+-module(xqerl_mod_xs).
 
 -define(sin(Item), Item).
 -define(NS, <<"http://www.w3.org/2001/XMLSchema">>).

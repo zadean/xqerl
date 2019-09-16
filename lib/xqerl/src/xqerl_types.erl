@@ -89,7 +89,7 @@ atomize(false) -> false;
 atomize(A) when is_binary(A);
                 is_number(A);
                 is_atom(A) -> A;
-atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
+atomize(#array{} = A) -> xqerl_mod_array:flatten(#{}, A);
 atomize(#{tv := Tv}) -> Tv;
 atomize(#{nk := attribute,
           sv := Sv}) ->

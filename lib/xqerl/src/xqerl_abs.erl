@@ -743,9 +743,9 @@ param_fields([{body, VarName}|T],Map) ->
    {VarId, _VarType} = maps:get(VarName, Map),
    VarAtom = {var,?L,list_to_atom("Var_" ++ integer_to_list(VarId))},
    TmpAtom = {var,?L,list_to_atom("TVar_" ++ integer_to_list(VarId))},
-   [?P(["_@TmpAtom = xqerl_http_client:read_body(Req),",
+   [?P(["_@TmpAtom = xqerl_mod_http_client:read_body(Req),",
         "ContentType = cowboy_req:header(<<\"content-type\">>, Req),",
-        "_@VarAtom = xqerl_http_client:parse_body(ContentType, _@TmpAtom, <<>>)"
+        "_@VarAtom = xqerl_mod_http_client:parse_body(ContentType, _@TmpAtom, <<>>)"
        ])|param_fields(T,Map)];
 param_fields([{Atom, VarName}|T],Map) ->
    {VarId, VarType} = maps:get(VarName, Map),
@@ -1463,7 +1463,7 @@ expr_do(Ctx, {map, Vals} ) ->
                    ValExp = expr_do(Ctx,Val),
                    ?P("[{_@KeyExp, _@ValExp}|_@Abs]")
              end, {nil,?L}, alist(Vals)), 
-   ?P("xqerl_map:construct(_@CtxVar,_@@AVals)");
+   ?P("xqerl_mod_map:construct(_@CtxVar,_@@AVals)");
 expr_do(Ctx, {false_not_empty, Expr} )->
    E1 = expr_do(Ctx, Expr),
    ?P("xqerl_types:ensure_empty(_@E1)");
@@ -1478,7 +1478,7 @@ expr_do(Ctx, {array, {expr, Expr}} )->
                         ?P("[_@Ex|_@Acc]")
                   end
             end,{nil,?L}, alist(Expr)),
-   ?P("xqerl_array:from_list(_@Vals)");
+   ?P("xqerl_mod_array:from_list(_@Vals)");
 
 % this is a constructor
 expr_do(Ctx, {array, [{content_expr, Expr}]} ) ->
@@ -1492,7 +1492,7 @@ expr_do(Ctx, {array, [{content_expr, Expr}]} ) ->
                         ?P("[_@Ex|_@Acc]")
                   end
             end,{nil,?L}, alist(Expr)),
-   ?P("xqerl_array:from_list(xqerl_seq3:flatten(xqerl_seq3:expand(_@Vals)))");
+   ?P("xqerl_mod_array:from_list(xqerl_seq3:flatten(xqerl_seq3:expand(_@Vals)))");
 expr_do(Ctx, {array, Expr}) ->
    expr_do(Ctx, {array, {expr,Expr}});
 
@@ -1652,7 +1652,7 @@ expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
 % atomize called on cardinality fun
 expr_do(Ctx, {double,{'function-call', 
                        #xqFunction{params = [A],
-                                   body = {xqerl_fn,Name,2}} = F
+                                   body = {xqerl_mod_fn,Name,2}} = F
                       }
              }) 
    when Name == 'exactly-one';
@@ -1661,7 +1661,7 @@ expr_do(Ctx, {double,{'function-call',
    expr_do(Ctx, {'function-call', F#xqFunction{params = [{double, A}]}});
 expr_do(Ctx, {atomize,{'function-call', 
                        #xqFunction{params = [A],
-                                   body = {xqerl_fn,Name,2}} = F
+                                   body = {xqerl_mod_fn,Name,2}} = F
                       }
              }) 
    when Name == 'exactly-one';
@@ -1788,24 +1788,24 @@ expr_do(Ctx, {'ordered-expr', Expr}) ->
 
 % position replacement
 expr_do(#{position_variable := PosVar}, 
-        {'function-call', #xqFunction{body = {xqerl_fn,position,_}}}) ->
+        {'function-call', #xqFunction{body = {xqerl_mod_fn,position,_}}}) ->
    ?P("_@PosVar");
 expr_do(#{size_variable := {var,_,_} = SizeVar}, 
-        {'function-call', #xqFunction{body = {xqerl_fn,last,_}}}) ->
+        {'function-call', #xqFunction{body = {xqerl_mod_fn,last,_}}}) ->
    ?P("(_@SizeVar)()");
 expr_do(#{size_variable := SizeVar}, 
-        {'function-call', #xqFunction{body = {xqerl_fn,last,_}}}) ->
+        {'function-call', #xqFunction{body = {xqerl_mod_fn,last,_}}}) ->
    ?P("_@SizeVar");
 % 'lang' call on context item
 expr_do(#{context_variable := _} = Ctx, 
         {'function-call', #xqFunction{params = [A], 
-                                      body = {xqerl_fn,lang,2}} = FC}) ->
+                                      body = {xqerl_mod_fn,lang,2}} = FC}) ->
    expr_do(Ctx,{'function-call', 
                 FC#xqFunction{params = [A,'context-item'], 
-                              body = {xqerl_fn,lang,3}}});
+                              body = {xqerl_mod_fn,lang,3}}});
 % magic functions that automatically use the context item
 expr_do(#{context_variable := _} = Ctx, 
-        {'function-call', #xqFunction{body = {xqerl_fn,Fn,1}} = FC})
+        {'function-call', #xqFunction{body = {xqerl_mod_fn,Fn,1}} = FC})
    when Fn == 'node-name';        Fn == 'nilled';
         Fn == 'string';           Fn == 'data';
         Fn == 'base-uri';         Fn == 'document-uri';
@@ -1816,16 +1816,16 @@ expr_do(#{context_variable := _} = Ctx,
         Fn == 'has-children';     Fn == 'generate-id' -> 
    expr_do(Ctx,{'function-call', 
                 FC#xqFunction{params = ['context-item'], 
-                              body = {xqerl_fn,Fn,2}}});
+                              body = {xqerl_mod_fn,Fn,2}}});
 
 %% expr_do(Ctx0, 
-%%         {'function-call', #xqFunction{body = {xqerl_fn,'function-lookup',4}} = FC}) ->
+%%         {'function-call', #xqFunction{body = {xqerl_mod_fn,'function-lookup',4}} = FC}) ->
 %%    Ctx = clear_context_variables(Ctx0),
 %%    expr_do(Ctx,{'function-call', FC});
 
 %% special case spawn_
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
-                                           body = {xqerl_actor,spawn_,_A}}}) ->
+                                           body = {xqerl_mod_actor,spawn_,_A}}}) ->
    NextCtxVar = next_ctx_var_name(),
    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
    CtxName = {var,?L,get_context_variable_name(Ctx)},
@@ -1833,7 +1833,7 @@ expr_do(Ctx, {'function-call', #xqFunction{params = Params,
    NewArgs = lists:map(fun(P) ->
                              expr_do(Ctx1,P)
                        end, Params),
-   ?P("begin _@Ctx1Name = _@CtxName#{parent => erlang:self()}, xqerl_actor:spawn_(_@Ctx1Name,_@@NewArgs) end");
+   ?P("begin _@Ctx1Name = _@CtxName#{parent => erlang:self()}, xqerl_mod_actor:spawn_(_@Ctx1Name,_@@NewArgs) end");
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
                                            body = {M,F,_A}}}) when is_atom(M),
                                                                    is_atom(F) ->
@@ -1848,7 +1848,7 @@ expr_do(_Ctx, #xqFunction{annotations = Annos,
                           arity = Ay, 
                           params = Params,
                           type = Type,
-                          body = {xqerl_fn,concat,_}}) ->
+                          body = {xqerl_mod_fn,concat,_}}) ->
    _ = add_used_record_type(xqFunction),
    ?P(["#xqFunction{id = 0,"
        "            annotations = _@Annos@," 
@@ -1856,7 +1856,7 @@ expr_do(_Ctx, #xqFunction{annotations = Annos,
        "            arity = _@Ay@," 
        "            params = _@Params@,"
        "            type = _@Type@,"
-       "            body = fun xqerl_fn:concat/2}"]);
+       "            body = fun xqerl_mod_fn:concat/2}"]);
 expr_do(Ctx, #xqFunction{annotations = Annos, 
                           name = Name, 
                           arity = Ay, 
@@ -2365,7 +2365,7 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
             "        ;(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
             "              erlang:exit(xqerl_error:error('XPDY0050'))",
             "        ;(_,_,_) -> erlang:exit(xqerl_error:error('XPTY0019'))",
-            "      end, xqerl_fn:root(_@CurrCtxVar, _@SourceVar))"
+            "      end, xqerl_mod_fn:root(_@CurrCtxVar, _@SourceVar))"
            ]), 
    [O1|R1];
 % empty predicates so no context item needs to be set
@@ -3979,7 +3979,7 @@ handle_predicate({Ctx, {positional_predicate, #xqVarRef{name = Name}}}, Abs) ->
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
 handle_predicate({_Ctx, {positional_predicate, % Seq[last()] 
                         {'function-call', 
-                         #xqFunction{body = {xqerl_fn,last,_}}}}}, Abs) ->
+                         #xqFunction{body = {xqerl_mod_fn,last,_}}}}}, Abs) ->
    ?P("xqerl_seq3:last(_@Abs)");
 handle_predicate({Ctx, {positional_predicate, P}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},

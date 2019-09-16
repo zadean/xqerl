@@ -23,7 +23,7 @@
 %% @doc Implementation of the "http://expath.org/ns/file" namespace.
 %% TODO: Add serialization.
  
--module(xqerl_expath_file).
+-module(xqerl_mod_expath_file).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 -include_lib("kernel/include/file.hrl").
@@ -373,7 +373,7 @@ append(C, Path, Items) ->
 
 append(C, Path, Items, Params) when is_binary(Path) ->
    File = filenameify(Path),
-   Ser = xqerl_fn:serialize(C, Items, Params),
+   Ser = xqerl_mod_fn:serialize(C, Items, Params),
    case file:open(File, [append,binary]) of
       {ok,Fd} ->
          case catch io:put_chars(Fd, Ser) of

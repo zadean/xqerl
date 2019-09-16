@@ -22,7 +22,7 @@
 
 %% @doc Implements namespace http://xqerl.org/modules/actor
 
--module(xqerl_actor).
+-module(xqerl_mod_actor).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 

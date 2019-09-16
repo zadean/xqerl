@@ -1,7 +1,7 @@
 
 %% http://xqerl.org/modules/random
 
--module(xqerl_rand).
+-module(xqerl_mod_rand).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 

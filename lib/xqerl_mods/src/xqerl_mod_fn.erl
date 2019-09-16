@@ -25,7 +25,7 @@
 %%       one namespace across different erlang modules. 
 %%       The functions attribute compiled in sucks!!
  
--module(xqerl_fn).
+-module(xqerl_mod_fn).
 -compile(inline_list_funcs).
 
 -define(bool(Val), Val).
@@ -1024,7 +1024,7 @@ avg1([H|T], Sum, Count) ->
       [] -> [];
       <<>> -> [];
       BaseUri ->
-         try xqerl_xs:xs_anyURI([], ?str(BaseUri))
+         try xqerl_mod_xs:xs_anyURI([], ?str(BaseUri))
          catch _:_E ->
                  %?dbg("E",{BaseUri,E}),
                   []
@@ -1397,7 +1397,7 @@ concat_1([H|T], Acc) ->
 
 data1([]) -> [];
 data1([#array{} = H|T]) ->
-   Flat = xqerl_array:flatten([], H),
+   Flat = xqerl_mod_array:flatten([], H),
    data1(Flat ++ T);
 data1([H|T]) when is_number(H);
                   is_binary(H);
@@ -1600,17 +1600,17 @@ deep_equal_1({{array,_},_}, _, _) -> false;
 deep_equal_1({{_, array},_}, _, _) -> false;
 deep_equal_1({M1, M2}, Ctx, CollFun) when is_map(M1),
                                           is_map(M2) ->
-   Sz1 = xqerl_map:size([], M1),
-   Sz2 = xqerl_map:size([], M2),
+   Sz1 = xqerl_mod_map:size([], M1),
+   Sz2 = xqerl_mod_map:size([], M2),
    if Sz1 == Sz2 ->
-         K1 = xqerl_map:keys([],M1),
+         K1 = xqerl_mod_map:keys([],M1),
          F = fun(K) ->
-                   xqerl_map:contains([], M2, K) == 
+                   xqerl_mod_map:contains([], M2, K) == 
                      ?bool(true) andalso
                    'deep-equal'(
                      Ctx,
-                     xqerl_map:get([], M1, K), 
-                     xqerl_map:get([], M2, K),
+                     xqerl_mod_map:get([], M1, K), 
+                     xqerl_mod_map:get([], M2, K),
                      CollFun)
              end,         
          lists:all(F, K1);
@@ -2430,14 +2430,14 @@ get_static_function(#{tab := Tab} = Ctx,
       _ -> []         
    end.
 
-close_context(_Ctx,xqerl_fn,concat,_) ->
-   fun xqerl_fn:concat/2;
-close_context(_Ctx,xqerl_fn,position,_) ->
-   fun xqerl_fn:position/1;
-close_context(_Ctx,xqerl_fn,last,_) ->
-   fun xqerl_fn:last/1;
-%% close_context(_Ctx,xqerl_fn,'static-base-uri',_) ->
-%%    fun xqerl_fn:'static-base-uri'/1;
+close_context(_Ctx,xqerl_mod_fn,concat,_) ->
+   fun xqerl_mod_fn:concat/2;
+close_context(_Ctx,xqerl_mod_fn,position,_) ->
+   fun xqerl_mod_fn:position/1;
+close_context(_Ctx,xqerl_mod_fn,last,_) ->
+   fun xqerl_mod_fn:last/1;
+%% close_context(_Ctx,xqerl_mod_fn,'static-base-uri',_) ->
+%%    fun xqerl_mod_fn:'static-base-uri'/1;
 close_context(Ctx,M,F,1) ->
    fun (_) -> M:F(Ctx) end;
 close_context(Ctx,M,F,2) ->
@@ -2451,15 +2451,15 @@ close_context(_,M,F,A) ->
 
           
 
-unmask_static_mod_ns(?A("xqerl_fn")) -> 
+unmask_static_mod_ns(?A("xqerl_mod_fn")) -> 
    ?A("http://www.w3.org/2005/xpath-functions");
-unmask_static_mod_ns(?A("xqerl_xs")) -> 
+unmask_static_mod_ns(?A("xqerl_mod_xs")) -> 
    ?A("http://www.w3.org/2001/XMLSchema");
-unmask_static_mod_ns(?A("xqerl_math")) -> 
+unmask_static_mod_ns(?A("xqerl_mod_math")) -> 
    ?A("http://www.w3.org/2005/xpath-functions/math");
-unmask_static_mod_ns(?A("xqerl_map")) -> 
+unmask_static_mod_ns(?A("xqerl_mod_map")) -> 
    ?A("http://www.w3.org/2005/xpath-functions/map");
-unmask_static_mod_ns(?A("xqerl_array")) -> 
+unmask_static_mod_ns(?A("xqerl_mod_array")) -> 
    ?A("http://www.w3.org/2005/xpath-functions/array");
 unmask_static_mod_ns(?A("xqerl_error")) -> 
    ?A("http://www.w3.org/2005/xqt-errors");
@@ -2846,7 +2846,7 @@ check_json_doc_opts(#{?A("fallback") := {_,#xqFunction{body = B} = Fx}}) ->
                                                          occur = one}}},
    case xqerl_types:instance_of(Fx, Ty) of
       true ->
-         case B == fun xqerl_fn:concat/2 of
+         case B == fun xqerl_mod_fn:concat/2 of
              true ->
                ?err('XPTY0004');
             _ ->
@@ -2979,13 +2979,13 @@ check_json_to_xml_opts(_) ->
                    _ ->
                       ok
                 end,
-            VarsM = xqerl_map:construct(ok, [{?atm('xs:QName',QName#qname{namespace = ModUri}), maps:get(AtomName, Ctx2)} || 
+            VarsM = xqerl_mod_map:construct(ok, [{?atm('xs:QName',QName#qname{namespace = ModUri}), maps:get(AtomName, Ctx2)} || 
                                              {QName, _, _, {_,AtomName}, _} <- Vars]),
             Funs1 = merge_function_map(ModUri, Ctx2, Funs, #{}),
-            FunsM = xqerl_map:construct(ok,
-                      [{K, xqerl_map:construct(ok,V)} || 
+            FunsM = xqerl_mod_map:construct(ok,
+                      [{K, xqerl_mod_map:construct(ok,V)} || 
                        {K,V} <- maps:to_list(Funs1)]),
-            xqerl_map:construct(ok,
+            xqerl_mod_map:construct(ok,
                                 [{<<"variables">>, VarsM},
                                  {<<"functions">>, FunsM}])
          catch
@@ -3810,9 +3810,9 @@ shrink_spaces(<<H,T/binary>>) ->
    Str = xqerl_types:string_value(Arg1),
    Strip = unicode:characters_to_list(xqerl_lib:trim(Str)),
    try 
-      {ok,L,_} = ietf_date:string(Strip),
+      {ok,L,_} = xqerl_mod_fn_ietf_date:string(Strip),
      %?dbg("L",L),
-      {ok,Dt} = ietf_date_parse:parse(L),
+      {ok,Dt} = xqerl_mod_fn_ietf_date_parse:parse(L),
      %?dbg("Dt",Dt),
       true = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, 
                                          Dt#xsDateTime.month, 
@@ -4241,7 +4241,7 @@ pre_loc_from_str(Str) ->
    NextFun = fun(_) -> 
                    'random-number-generator'(Ctx, Seed + 1) 
              end,
-   xqerl_map:construct(
+   xqerl_mod_map:construct(
      Ctx, 
      [{?str(?A("number")), Num},
       {?str(?A("next")), NextFun},
@@ -4597,11 +4597,11 @@ string_value(At) -> xqerl_types:string_value(At).
          [] | xq_types:sequence(xq_types:xq_item()).
 'sort'(Ctx,List,[]) -> 
    Collation = xqerl_context:get_default_collation(Ctx),
-   'sort'(Ctx,List,Collation,fun xqerl_fn:data/2);
+   'sort'(Ctx,List,Collation,fun xqerl_mod_fn:data/2);
 'sort'(Ctx,List,Collation) when not is_list(List) ->
    'sort'(Ctx,[List],Collation);
 'sort'(Ctx,List,Collation) ->
-   'sort'(Ctx,List,Collation,fun xqerl_fn:data/2).
+   'sort'(Ctx,List,Collation,fun xqerl_mod_fn:data/2).
 
 %% fn:sort(
 %%    $input    as item()*,
@@ -4633,7 +4633,7 @@ sort1(_,[],[],_Coll) -> true;
 sort1(_,[],_B,_Coll) -> true;
 sort1(_,_A,[],_Coll) -> false;
 sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
-   Equal = xqerl_fn:'deep-equal'(Ctx, HA, HB, Coll),
+   Equal = xqerl_mod_fn:'deep-equal'(Ctx, HA, HB, Coll),
    if Equal ->
          sort1(Ctx,TA,TB,Coll);
       true ->
@@ -4649,7 +4649,7 @@ sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
                   ?xs_string(TypeB) orelse 
                     TypeB == 'xs:anyURI' orelse 
                     TypeB == 'xs:untypedAtomic' ->
-                     Comp = xqerl_fn:compare(Ctx, HA, HB, Coll),
+                     Comp = xqerl_mod_fn:compare(Ctx, HA, HB, Coll),
                      Comp =< 0;
                   true ->
                      xqerl_operators:less_than_eq(HA, HB)

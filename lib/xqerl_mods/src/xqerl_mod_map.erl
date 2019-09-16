@@ -23,7 +23,7 @@
 %% @doc Implementation of the "http://www.w3.org/2005/xpath-functions/map" 
 %% namespace.
 
--module(xqerl_map).
+-module(xqerl_mod_map).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 -compile(inline_list_funcs).

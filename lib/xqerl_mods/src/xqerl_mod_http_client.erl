@@ -24,7 +24,7 @@
 
 %% http://expath.org/spec/http-client
 
--module(xqerl_http_client).
+-module(xqerl_mod_http_client).
 
 -include_lib("../../xqerl/include/xqerl.hrl").
 

@@ -99,7 +99,7 @@ norm_s1(Seq) ->
    norm_s1([Seq]).
 
 norm_s1_([#array{} = H|T]) ->
-   xqerl_array:flatten(#{}, H) ++ norm_s1_(T);
+   xqerl_mod_array:flatten(#{}, H) ++ norm_s1_(T);
 norm_s1_([H|T]) -> [H|norm_s1_(T)];
 norm_s1_([]) -> [].
   
@@ -472,7 +472,7 @@ do_serialize_adaptive(Val, _Opts) when is_float(Val);
                                        Val == nan;
                                        Val == neg_infinity ->
    Pic = <<"0.0##########################e0">>,
-   xqerl_fn:'format-number'(#{},Val,Pic, #dec_format{infinity = "INF"});
+   xqerl_mod_fn:'format-number'(#{},Val,Pic, #dec_format{infinity = "INF"});
 do_serialize_adaptive(#xqAtomicValue{type = Type, 
                                      value = #qname{namespace = Ns,
                                                     local_name = Ln}}, _Opts)
