@@ -24,7 +24,7 @@
 
 -module(xqerl_mod_actor).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 
 -define(NS,<<"http://xqerl.org/modules/actor">>).
 -define(PX,<<"actor">>).

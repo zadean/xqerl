@@ -24,7 +24,7 @@
 
 -module(xqerl_mod_array).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 -define(atint(I), I).
 
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).

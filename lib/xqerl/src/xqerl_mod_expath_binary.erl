@@ -24,7 +24,7 @@
  
 -module(xqerl_mod_expath_binary).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 
 -define(NS,<<"http://expath.org/ns/binary">>).
 -define(PX,<<"bin">>).

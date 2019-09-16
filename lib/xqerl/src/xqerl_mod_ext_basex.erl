@@ -25,7 +25,7 @@
 
 -module(xqerl_mod_ext_basex).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 
 -define(NS,<<"http://xqerl.org/modules/client/BaseX">>).
 -define(PX,<<"basex">>).

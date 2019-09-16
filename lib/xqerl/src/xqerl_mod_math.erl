@@ -26,7 +26,7 @@
  
 -module(xqerl_mod_math).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 
 -export(['acos'/2]).
 -export(['asin'/2]).

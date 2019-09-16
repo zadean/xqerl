@@ -25,7 +25,7 @@
  
 -module(xqerl_mod_expath_file).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 -include_lib("kernel/include/file.hrl").
 
 -define(NS,<<"http://expath.org/ns/file">>).

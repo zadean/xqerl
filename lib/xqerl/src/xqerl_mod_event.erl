@@ -25,7 +25,7 @@
 
 -module(xqerl_mod_event).
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 
 -define(NS,<<"http://xqerl.org/modules/event">>).
 -define(PX,<<"event">>).

@@ -217,7 +217,7 @@ Erlang code.
 %% @doc  IETF date parser. Only needed for 
 %% fn:parse-ietf-date($value as xs:string?) as xs:dateTime?
 
--include_lib("../../xqerl/include/xqerl.hrl").
+-include("xqerl.hrl").
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
 val({_,_,Token}) ->
