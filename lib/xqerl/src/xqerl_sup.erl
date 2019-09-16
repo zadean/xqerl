@@ -46,10 +46,11 @@ start_link() ->
 init([]) ->
    SupFlags = #{strategy => one_for_one},
    Server = child_map(worker, xqerl_code_server, []),
+   DB     = child_map(supervisor, xqldb_sup, []),
    Trace = event_child_map(xqerl_trace_man),
    Event = event_child_map(xqerl_event_man),
    
-   {ok, {SupFlags, [Server, Trace, Event]}}.
+   {ok, {SupFlags, [Server, DB, Trace, Event]}}.
 
 %% ====================================================================
 %% Internal functions
