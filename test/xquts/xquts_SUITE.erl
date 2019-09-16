@@ -724,7 +724,7 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    __BaseDir = filename:join(DD, "xquery-update-10-test-suite"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
@@ -742,7 +742,22 @@ all() -> [
    {group, group_11},
    {group, group_12},
    {group, group_13},
-   {group, group_14}
+   {group, group_14},
+   {group, group_15},
+   {group, group_16},
+   {group, group_17},
+   {group, group_18},
+   {group, group_19},
+   {group, group_20},
+   {group, group_21},
+   {group, group_22},
+   {group, group_23},
+   {group, group_24},
+   {group, group_25},
+   {group, group_26},
+   {group, group_27},
+   {group, group_28},
+   {group, group_29}
    ].
 groups() -> [
    {group_0, [parallel], [
@@ -768,7 +783,8 @@ groups() -> [
     'function-declaration-01',
     'function-declaration-02',
     'function-declaration-03',
-    'function-declaration-04',
+    'function-declaration-04']},
+   {group_1, [parallel], [
     'id-insert-expr-01',
     'id-insert-expr-02',
     'id-insert-expr-03',
@@ -793,7 +809,7 @@ groups() -> [
     'id-insert-expr-022',
     'id-insert-expr-023',
     'id-insert-expr-024']},
-   {group_1, [parallel], [
+   {group_2, [parallel], [
     'id-insert-expr-025',
     'id-insert-expr-026',
     'id-insert-expr-027',
@@ -817,7 +833,8 @@ groups() -> [
     'id-insert-expr-045',
     'id-insert-expr-046',
     'id-insert-expr-047',
-    'id-insert-expr-048',
+    'id-insert-expr-048']},
+   {group_3, [parallel], [
     'id-insert-expr-049',
     'id-insert-expr-050',
     'id-insert-expr-051',
@@ -842,7 +859,7 @@ groups() -> [
     'id-insert-expr-070',
     'id-insert-expr-071',
     'id-insert-expr-072']},
-   {group_2, [parallel], [
+   {group_4, [parallel], [
     'id-insert-expr-073',
     'id-insert-expr-074',
     'id-insert-expr-075',
@@ -866,7 +883,8 @@ groups() -> [
     'id-insert-expr-087',
     'id-insert-expr-088',
     'id-insert-expr-089',
-    'id-insert-expr-090',
+    'id-insert-expr-090']},
+   {group_5, [parallel], [
     'id-insert-expr-091',
     'id-insert-expr-092',
     'id-insert-expr-093',
@@ -891,7 +909,7 @@ groups() -> [
     'id-delete-expr-018',
     'id-delete-expr-019',
     'id-delete-expr-020']},
-   {group_3, [parallel], [
+   {group_6, [parallel], [
     'id-delete-expr-021',
     'id-delete-expr-022',
     'complex-deletes-q3',
@@ -915,7 +933,8 @@ groups() -> [
     'id-replace-expr-016',
     'id-replace-expr-022',
     'id-replace-expr-023',
-    'id-replace-expr-028',
+    'id-replace-expr-028']},
+   {group_7, [parallel], [
     'id-replace-expr-029',
     'id-replace-expr-030',
     'id-replace-expr-031',
@@ -940,7 +959,7 @@ groups() -> [
     'id-replace-expr-027',
     'id-replace-expr-035',
     'id-replace-expr-036']},
-   {group_4, [parallel], [
+   {group_8, [parallel], [
     'id-replace-expr-037',
     'id-replace-expr-038',
     'id-replace-expr-039',
@@ -964,7 +983,8 @@ groups() -> [
     'id-rename-expr-04',
     'id-rename-expr-05',
     'id-rename-expr-06',
-    'id-rename-expr-07',
+    'id-rename-expr-07']},
+   {group_9, [parallel], [
     'id-rename-expr-08',
     'id-rename-expr-09',
     'id-rename-expr-010',
@@ -989,7 +1009,7 @@ groups() -> [
     'id-rename-expr-029',
     'id-rename-expr-030',
     'id-rename-expr-031']},
-   {group_5, [parallel], [
+   {group_10, [parallel], [
     'id-rename-expr-032',
     'id-rename-expr-033',
     'id-rename-expr-034',
@@ -1013,7 +1033,8 @@ groups() -> [
     'id-transform-expr-08',
     'id-transform-expr-09',
     'id-transform-expr-010',
-    'id-transform-expr-011',
+    'id-transform-expr-011']},
+   {group_11, [parallel], [
     'id-transform-expr-012',
     'id-transform-expr-013',
     'id-transform-expr-014',
@@ -1038,7 +1059,7 @@ groups() -> [
     'id-transform-expr-033',
     'id-transform-expr-034',
     'id-transform-expr-035']},
-   {group_6, [parallel], [
+   {group_12, [parallel], [
     'id-transform-expr-036',
     'id-transform-expr-037',
     'id-transform-expr-038',
@@ -1062,7 +1083,8 @@ groups() -> [
     'id-transform-expr-056',
     'id-transform-expr-057',
     'id-transform-expr-058',
-    'compatibility-001',
+    'compatibility-001']},
+   {group_13, [parallel], [
     'compatibility-002',
     'compatibility-003',
     'compatibility-004',
@@ -1087,7 +1109,7 @@ groups() -> [
     'compatibility-023',
     'compatibility-024',
     'compatibility-025']},
-   {group_7, [parallel], [
+   {group_14, [parallel], [
     'compatibility-026',
     'compatibility-027',
     'compatibility-028',
@@ -1111,7 +1133,8 @@ groups() -> [
     'id-flwor-expr-016',
     'id-flwor-expr-017',
     'id-flwor-expr-018',
-    'id-flwor-expr-019',
+    'id-flwor-expr-019']},
+   {group_15, [parallel], [
     'id-flwor-expr-020',
     'id-flwor-expr-021',
     'id-flwor-expr-022',
@@ -1136,7 +1159,7 @@ groups() -> [
     'id-typeswitch-expr-016',
     'id-typeswitch-expr-017',
     'id-typeswitch-expr-018']},
-   {group_8, [parallel], [
+   {group_16, [parallel], [
     'id-typeswitch-expr-019',
     'id-typeswitch-expr-020',
     'id-typeswitch-expr-021',
@@ -1160,7 +1183,8 @@ groups() -> [
     'id-conditional-expr-01',
     'id-conditional-expr-02',
     'id-conditional-expr-03',
-    'id-conditional-expr-04',
+    'id-conditional-expr-04']},
+   {group_17, [parallel], [
     'id-conditional-expr-05',
     'id-conditional-expr-06',
     'id-conditional-expr-07',
@@ -1185,7 +1209,7 @@ groups() -> [
     'id-conditional-expr-026',
     'id-conditional-expr-027',
     'id-conditional-expr-028']},
-   {group_9, [parallel], [
+   {group_18, [parallel], [
     'id-conditional-expr-029',
     'id-conditional-expr-030',
     'id-conditional-expr-031',
@@ -1209,7 +1233,8 @@ groups() -> [
     'id-comma-expr-011',
     'id-comma-expr-012',
     'id-comma-expr-013',
-    'id-comma-expr-014',
+    'id-comma-expr-014']},
+   {group_19, [parallel], [
     'id-comma-expr-015',
     'id-comma-expr-016',
     'id-comma-expr-017',
@@ -1234,7 +1259,7 @@ groups() -> [
     'id-comma-expr-036',
     'id-comma-expr-037',
     'id-comma-expr-038']},
-   {group_10, [parallel], [
+   {group_20, [parallel], [
     'parenthesized-expr-01',
     'parenthesized-expr-02',
     'parenthesized-expr-03',
@@ -1258,7 +1283,8 @@ groups() -> [
     'id-other-expr-012',
     'id-other-expr-013',
     'id-other-expr-014',
-    'id-other-expr-015',
+    'id-other-expr-015']},
+   {group_21, [parallel], [
     'id-other-expr-016',
     'id-other-expr-017',
     'id-other-expr-018',
@@ -1283,7 +1309,7 @@ groups() -> [
     'fn-put-011',
     'fn-put-012',
     'fn-put-013']},
-   {group_11, [parallel], [
+   {group_22, [parallel], [
     'fn-put-014',
     'put-001',
     'fn-put-002',
@@ -1307,7 +1333,8 @@ groups() -> [
     'attribute-errors-q17',
     'namespace-errors-q1',
     'namespace-errors-q2',
-    'namespace-errors-q3',
+    'namespace-errors-q3']},
+   {group_23, [parallel], [
     'namespace-errors-q4',
     'namespace-errors-q5',
     'namespace-errors-q6',
@@ -1332,7 +1359,7 @@ groups() -> [
     'applyUpdates-004',
     'applyUpdates-005',
     'applyUpdates-006']},
-   {group_12, [parallel], [
+   {group_24, [parallel], [
     'applyUpdates-007',
     'applyUpdates-008',
     'applyUpdates-009',
@@ -1356,7 +1383,8 @@ groups() -> [
     'setToUntyped-006',
     'setToUntyped-007',
     'setToUntyped-008',
-    'setToUntyped-009',
+    'setToUntyped-009']},
+   {group_25, [parallel], [
     'setToUntyped-010',
     'propagateNamespaces01',
     'propagateNamespaces02',
@@ -1381,7 +1409,7 @@ groups() -> [
     'statictyp-xqupd-15',
     'statictyp-xqupd-16',
     'statictyp-xqupd-17']},
-   {group_13, [parallel], [
+   {group_26, [parallel], [
     'statictyp-xqupd-18',
     'statictyp-xqupd-19',
     'statictyp-xqupd-20',
@@ -1405,7 +1433,8 @@ groups() -> [
     'statictyp-xqupd-38',
     'statictyp-xqupd-39',
     'statictyp-xqupd-40',
-    'statictyp-xqupd-41',
+    'statictyp-xqupd-41']},
+   {group_27, [parallel], [
     'statictyp-xqupd-42',
     'statictyp-xqupd-43',
     'statictyp-xqupd-44',
@@ -1430,7 +1459,7 @@ groups() -> [
     'revalidation-declaration-03-fail',
     'revalidation-declaration-05',
     'revalidation-declaration-06']},
-   {group_14, [parallel], [
+   {group_28, [parallel], [
     'complex-deletes-q1',
     'complex-deletes-q2',
     'complex-deletes-q6',
@@ -1454,7 +1483,8 @@ groups() -> [
     'relational-data-q3',
     'relational-data-q4',
     'relational-data-q5-1',
-    'relational-data-q5-2',
+    'relational-data-q5-2']},
+   {group_29, [parallel], [
     'relational-data-q6-1',
     'relational-data-q6-2',
     'relational-data-q7',

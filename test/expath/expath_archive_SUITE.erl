@@ -62,9 +62,9 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    TD = filename:join(DD, "QT3-test-suite"),
-   __BaseDir = filename:join(TD, "archive"),
+   __BaseDir = filename:join(TD, "expath"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
    {group, group_0}, 
@@ -163,7 +163,9 @@ environment('EXPath-archive.map',__BaseDir) ->
 ].
 'EXPath-archive-options-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:options($test1.ZIP)", 
+   Qry = "
+                arch:options($test1.ZIP)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -187,7 +189,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "string(arch:options($test1.ZIP)/@format)", 
+   Qry = " 
+                string(arch:options($test1.ZIP)/@format)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -203,7 +207,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "string(arch:options($test1.ZIP)/@compression)", 
+   Qry = " 
+                string(arch:options($test1.ZIP)/@compression)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -219,7 +225,7 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries($test1.ZIP)", 
+   Qry = " arch:entries($test1.ZIP) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -243,7 +249,7 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries($test3.ZIP)", 
+   Qry = " arch:entries($test3.ZIP) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -267,7 +273,7 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $e in arch:entries($test3.ZIP) return string($e)", 
+   Qry = " for $e in arch:entries($test3.ZIP) return string($e) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +293,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-binary-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary($test1.ZIP,'foo')", 
+   Qry = "
+                arch:extract-binary($test1.ZIP,'foo')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -304,7 +312,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-binary-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary($test1.ZIP,$textA)", 
+   Qry = "
+                arch:extract-binary($test1.ZIP,$textA)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -328,7 +338,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-binary-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary($test1.ZIP,($textA,$textA))", 
+   Qry = "
+                arch:extract-binary($test1.ZIP,($textA,$textA))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -352,7 +364,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text($test1.ZIP,'foo')", 
+   Qry = "
+                arch:extract-text($test1.ZIP,'foo')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,10 +383,12 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text($test1.ZIP,$textA)
+   Qry = "
+                arch:extract-text($test1.ZIP,$textA)
                 = arch:extract-text($test1.ZIP,$textA,'UTF-8') and
                 arch:extract-text($test1.ZIP,$textA)
-                = arch:extract-text($test1.ZIP,$textA,'utf-8')", 
+                = arch:extract-text($test1.ZIP,$textA,'utf-8')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -388,7 +404,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text($test1.ZIP,$textA,'NOT-UTF-8')", 
+   Qry = "
+               arch:extract-text($test1.ZIP,$textA,'NOT-UTF-8')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -405,7 +423,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text($test1.ZIP,$textA)", 
+   Qry = "
+               arch:extract-text($test1.ZIP,$textA)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,7 +449,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:delete($test1.ZIP,($textA))", 
+   Qry = "
+                arch:delete($test1.ZIP,($textA))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -453,7 +475,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:delete($test1.ZIP,()) = $test1.ZIP", 
+   Qry = "
+                arch:delete($test1.ZIP,()) = $test1.ZIP
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -469,7 +493,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries(arch:delete($test1.ZIP,($textA)))", 
+   Qry = "
+                arch:entries(arch:delete($test1.ZIP,($textA)))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +511,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:delete($test1.ZIP,('textNOTTHERE.txt'))", 
+   Qry = "
+                arch:delete($test1.ZIP,('textNOTTHERE.txt'))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -502,7 +530,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:update($test1.ZIP,$textA,$simple.Text)", 
+   Qry = "
+                arch:update($test1.ZIP,$textA,$simple.Text)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -526,8 +556,10 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $ e in arch:entries(arch:update($test1.ZIP,$textA,$simple.Text))
-                return string($e)", 
+   Qry = "
+                for $ e in arch:entries(arch:update($test1.ZIP,$textA,$simple.Text))
+                return string($e) 
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -543,7 +575,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:update($test1.ZIP,'new.txt',$simple.Text)", 
+   Qry = " 
+                arch:update($test1.ZIP,'new.txt',$simple.Text)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -567,8 +601,10 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $ e in arch:entries(arch:update($test1.ZIP,'new.txt',$simple.Text))
-                return string($e)", 
+   Qry = "
+                for $ e in arch:entries(arch:update($test1.ZIP,'new.txt',$simple.Text))
+                return string($e)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,8 +620,10 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary(arch:update($test1.ZIP,'new.txt',$simple.Text),'new.txt')
-                =  $simple.Text", 
+   Qry = "
+                arch:extract-binary(arch:update($test1.ZIP,'new.txt',$simple.Text),'new.txt')
+                =  $simple.Text
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -601,7 +639,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-create-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:create('new.txt',$simple.Text)", 
+   Qry = " 
+                arch:create('new.txt',$simple.Text)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -625,8 +665,10 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-create-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary(arch:create('new.txt',$simple.Text),'new.txt')
-                = $simple.Text", 
+   Qry = " 
+                arch:extract-binary(arch:create('new.txt',$simple.Text),'new.txt')
+                = $simple.Text
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +684,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:options-map($test1.ZIP)", 
+   Qry = "
+                arch:options-map($test1.ZIP)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -666,7 +710,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:options-map($test3.ZIP))", 
+   Qry = " 
+                map:keys(arch:options-map($test3.ZIP))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -690,7 +736,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-map-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:options-map($test1.ZIP)('format')", 
+   Qry = " 
+                arch:options-map($test1.ZIP)('format')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -706,7 +754,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-options-map-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:options-map($test1.ZIP)('compression')", 
+   Qry = " 
+                arch:options-map($test1.ZIP)('compression')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -722,7 +772,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries-map($test1.ZIP)", 
+   Qry = "
+                arch:entries-map($test1.ZIP)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -746,7 +798,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:entries-map($test3.ZIP))", 
+   Qry = " 
+                map:keys(arch:entries-map($test3.ZIP))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +828,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries-map($test3.ZIP)('textA.txt')('size')", 
+   Qry = " 
+                arch:entries-map($test3.ZIP)('textA.txt')('size')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -798,7 +854,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:entries-map($test3.ZIP)('textA.txt'))", 
+   Qry = " 
+                map:keys(arch:entries-map($test3.ZIP)('textA.txt'))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +880,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:entries-map($test3.ZIP,true())('textA.txt'))", 
+   Qry = " 
+                map:keys(arch:entries-map($test3.ZIP,true())('textA.txt'))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -846,7 +906,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-entries-map-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:entries-map($test3.ZIP,true())('textA.txt')('content')", 
+   Qry = " 
+                arch:entries-map($test3.ZIP,true())('textA.txt')('content')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -870,7 +932,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-binary-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary-map($test1.ZIP,$unknown.test1)", 
+   Qry = "
+                arch:extract-binary-map($test1.ZIP,$unknown.test1)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -887,7 +951,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-binary-map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-binary-map($test1.ZIP,$known.test1)", 
+   Qry = "
+                arch:extract-binary-map($test1.ZIP,$known.test1)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -911,7 +977,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text-map($test1.ZIP,$unknown.test1)", 
+   Qry = "
+                arch:extract-text-map($test1.ZIP,$unknown.test1)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -928,10 +996,12 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text-map($test1.ZIP,$known.test1)
+   Qry = "
+                arch:extract-text-map($test1.ZIP,$known.test1)
                 = arch:extract-text-map($test1.ZIP,$known.test1,'UTF-8') and
                 arch:extract-text-map($test1.ZIP,$known.test1)
-                = arch:extract-text-map($test1.ZIP,$known.test1,'utf-8')", 
+                = arch:extract-text-map($test1.ZIP,$known.test1,'utf-8')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -947,7 +1017,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-map-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text-map($test1.ZIP,$known.test1,'NOT-UTF-8')", 
+   Qry = "
+               arch:extract-text-map($test1.ZIP,$known.test1,'NOT-UTF-8')
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -964,7 +1036,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-extract-text-map-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:extract-text-map($test1.ZIP,$known.test1)", 
+   Qry = "
+               arch:extract-text-map($test1.ZIP,$known.test1)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -988,7 +1062,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete.map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:delete-map(arch:create-map($simple.Text.map),map:entry('simple.Text',()))", 
+   Qry = "
+                arch:delete-map(arch:create-map($simple.Text.map),map:entry('simple.Text',()))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,8 +1088,10 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete.map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "let $a := arch:create-map($simple.Text.map)
-                 return arch:delete-map($a,map:merge(())) = $a", 
+   Qry = "
+                let $a := arch:create-map($simple.Text.map)
+                 return arch:delete-map($a,map:merge(())) = $a
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1029,9 +1107,11 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-delete.map-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:entries-map(
+   Qry = "
+                map:keys(arch:entries-map(
                 arch:delete-map(arch:create-map($simple.Text.map),$simple.Text.map)
-                ))", 
+                ))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1047,7 +1127,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:update-map($test1.ZIP,$simple.Text.map)", 
+   Qry = "
+                arch:update-map($test1.ZIP,$simple.Text.map)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1071,7 +1153,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-update-map-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "map:keys(arch:entries-map(arch:update-map($test1.ZIP,$simple.Text.map)))", 
+   Qry = " 
+                map:keys(arch:entries-map(arch:update-map($test1.ZIP,$simple.Text.map)))
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1099,7 +1183,9 @@ environment('EXPath-archive.map',__BaseDir) ->
    end. 
 'EXPath-archive-create-map-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "arch:create-map($simple.Text.map)", 
+   Qry = " 
+                arch:create-map($simple.Text.map)
+            ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-archive.map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

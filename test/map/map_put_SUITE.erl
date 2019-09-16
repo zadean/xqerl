@@ -35,7 +35,7 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    TD = filename:join(DD, "QT3-test-suite"),
    __BaseDir = filename:join(TD, "map"),
    [{base_dir, __BaseDir}|Config].

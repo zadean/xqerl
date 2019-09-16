@@ -379,7 +379,7 @@ declare function _:exports($funs) as xs:string
 
 declare function _:mod_all($funs)
 {
-  let $max :=  48
+  let $max :=  24
   let $f  := function($a){"'"||$a||"'"}
   let $grpd := 
       for $tc at $y in $funs
@@ -416,7 +416,7 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    __BaseDir = filename:join(DD, """ || $RootPath || """),
    [{base_dir, __BaseDir}|Config].
 " || _:mod_all($funs) || "
@@ -443,4 +443,4 @@ let $mod :=
   ) => string-join($n)
 ) 
 return 
-  file:write-text('C:\git\zadean\xqerl\test\xquts_SUITE.erl', $mod, "utf-8")
+  file:write-text(resolve-uri('xquts/xquts_SUITE.erl'), $mod, "utf-8")

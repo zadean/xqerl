@@ -199,16 +199,12 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
-   TD = filename:join(DD, "QT3-test-suite"),
-   __BaseDir = filename:join(TD, "file"),
-   
-   SD = filename:dirname(filename:dirname(filename:dirname(filename:dirname(?config(priv_dir, Config))))),
-   Zip = filename:join([SD,"sandpit.zip"]),
-   {ok,_} = file:copy("/git/expath/expath-cg/tests/qt3/file/sandpit.zip", Zip),
-   
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
+   __BaseDir = filename:join(DD, "expath"),
+   {ok, CWD} = file:get_cwd(),
+   Zip = filename:join([CWD,"sandpit.zip"]),
+   {ok,_} = file:copy(filename:join([__BaseDir,"sandpit.zip"]), Zip),
    zip:extract(Zip),
-   
    [{base_dir, __BaseDir}|Config].
 all() -> [
    {group, group_0}
@@ -412,7 +408,9 @@ environment('EXPath-file',__BaseDir) ->
 ].
 'EXPath-file-exists-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit/test.bin\")", 
+   Qry = "
+        file:exists(\"sandpit/test.bin\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -428,7 +426,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit\")", 
+   Qry = "
+        file:exists(\"sandpit\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -444,7 +444,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit/nonexisting-file.txt\")", 
+   Qry = "
+        file:exists(\"sandpit/nonexisting-file.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +462,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\".\")", 
+   Qry = "
+        file:exists(\".\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -476,7 +479,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(())", 
+   Qry = "
+        file:exists(())", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -493,7 +497,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(xs:anyURI('sandpit'))", 
+   Qry = "
+        file:exists(xs:anyURI('sandpit'))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -509,7 +514,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists((\"sandpit\", \".\"))", 
+   Qry = "
+        file:exists((\"sandpit\", \".\"))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -526,7 +532,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(if (current-date() gt xs:date('1900-01-01')) then 23 else 'sandpit')", 
+   Qry = "
+        file:exists(if (current-date() gt xs:date('1900-01-01')) then 23 else 'sandpit')", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -543,7 +550,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit/my file.txt\")", 
+   Qry = "
+      file:exists(\"sandpit/my file.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -559,7 +567,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit//\\my file.txt\")", 
+   Qry = "
+      file:exists(\"sandpit//\\my file.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +584,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(\"sandpit/my%20file.txt\")", 
+   Qry = "
+      file:exists(\"sandpit/my%20file.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +601,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-exists-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:exists(file:path-to-uri(\"sandpit/my file.txt\"))", 
+   Qry = "
+      file:exists(file:path-to-uri(\"sandpit/my file.txt\"))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -607,7 +618,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(\"sandpit/test.bin\")", 
+   Qry = "
+        file:is-dir(\"sandpit/test.bin\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -623,7 +635,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(\"sandpit\")", 
+   Qry = "
+        file:is-dir(\"sandpit\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -639,7 +652,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(\"sandpit/nonexisting-file.txt\")", 
+   Qry = "
+        file:is-dir(\"sandpit/nonexisting-file.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -655,7 +669,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(\".\")", 
+   Qry = "
+        file:is-dir(\".\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -671,7 +686,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(\"..\")", 
+   Qry = "
+        file:is-dir(\"..\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +703,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir(())", 
+   Qry = "
+        file:is-dir(())", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +721,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isDir-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-dir((\".\", \"..\"))", 
+   Qry = "
+        file:is-dir((\".\", \"..\"))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -721,7 +739,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(\"sandpit/test.bin\")", 
+   Qry = "
+        file:is-file(\"sandpit/test.bin\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -737,7 +756,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(\"sandpit\")", 
+   Qry = "
+        file:is-file(\"sandpit\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -753,7 +773,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(\"sandpit/nonexisting-file.txt\")", 
+   Qry = "
+        file:is-file(\"sandpit/nonexisting-file.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +790,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(\".\")", 
+   Qry = "
+        file:is-file(\".\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -785,7 +807,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(xs:anyURI('sandpit/test.bin'))", 
+   Qry = "
+        file:is-file(xs:anyURI('sandpit/test.bin'))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +824,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-isFile-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:is-file(QName('http://saxon.sf.net/', 'local-name'))", 
+   Qry = "
+        file:is-file(QName('http://saxon.sf.net/', 'local-name'))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -818,7 +842,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-last-modified-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"sandpit/test.txt\", \"a\"),
+   Qry = "
+        file:append-text(\"sandpit/test.txt\", \"a\"),
         file:last-modified(\"sandpit/test.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -851,7 +876,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-last-modified-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/testdir\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/testdir\")) 
           then file:delete(\"sandpit/testdir\")
           else ()), 
         file:create-dir(\"sandpit/testdir\"),
@@ -887,7 +913,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-last-modified-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:last-modified(\"sandpit/nonexistent.txt\")", 
+   Qry = "
+        file:last-modified(\"sandpit/nonexistent.txt\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -904,7 +931,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-size-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", (\"abc\")),
@@ -924,7 +952,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-size-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"\"),
@@ -944,7 +973,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-size-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -972,7 +1002,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-size-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:size(\"sandpit/nonexistent.bin\")", 
+   Qry = "
+        file:size(\"sandpit/nonexistent.bin\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -989,7 +1020,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-size-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:size(\"sandpit\")", 
+   Qry = "
+        file:size(\"sandpit\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1005,7 +1037,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-append2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append(\"sandpit/test.txt\", (\"a\", \"b\", \"c\", 10))", 
@@ -1032,10 +1065,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-append2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+         (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()),
-        file:append(\"sandpit/test.txt\", <b/>)", 
+        file:append(\"sandpit/test.txt\", <b/>)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1059,7 +1094,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-append2-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append(\"sandpit/test.txt\"[3], (\"a\", \"b\", \"c\", 10))", 
+   Qry = "
+        file:append(\"sandpit/test.txt\"[3], (\"a\", \"b\", \"c\", 10))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1076,12 +1112,14 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"a\"),
         file:append-text(\"sandpit/test.txt\", \"b\"),
-        file:append-text(\"sandpit/test.txt\", \"c\")", 
+        file:append-text(\"sandpit/test.txt\", \"c\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1105,9 +1143,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"sandpit/test.txt\", \"d\"),
+   Qry = "
+        file:append-text(\"sandpit/test.txt\", \"d\"),
         file:append-text(\"sandpit/test.txt\", \"e\"),
-        file:append-text(\"sandpit/test.txt\", \"f\")", 
+        file:append-text(\"sandpit/test.txt\", \"f\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1180,7 +1220,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText2-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"sandpit\", \"abc\")", 
+   Qry = "
+        file:append-text(\"sandpit\", \"abc\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1197,7 +1238,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText2-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"nonexistent/file.xml\", \"abc\")", 
+   Qry = "
+        file:append-text(\"nonexistent/file.xml\", \"abc\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1214,13 +1256,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test2.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test2.txt\")) 
           then file:delete(\"sandpit/test2.txt\")
           else ()), 
         file:append-text(\"sandpit/test2.txt\", (\"a\"), \"UTF-8\"),
         file:append-text(\"sandpit/test2.txt\", (\"b\"), \"UTF-8\"),
         file:append-text(\"sandpit/test2.txt\", (\"c\"), \"UTF-8\"),
-        file:append-text(\"sandpit/test2.txt\", (\"£\"), \"UTF-8\")", 
+        file:append-text(\"sandpit/test2.txt\", (\"£\"), \"UTF-8\")
+        
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1249,12 +1294,14 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test3.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test3.txt\")) 
           then file:delete(\"sandpit/test3.txt\")
           else ()), 
         file:append-text(\"sandpit/test3.txt\", (\"a\"), \"UTF-16\"),
         file:append-text(\"sandpit/test3.txt\", (\"b\"), \"UTF-16\"),
-        file:append-text(\"sandpit/test3.txt\", (\"c\"), \"UTF-16\")", 
+        file:append-text(\"sandpit/test3.txt\", (\"c\"), \"UTF-16\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1279,7 +1326,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test4.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test4.txt\")) 
           then file:delete(\"sandpit/test4.txt\")
           else ()), 
         file:append-text(\"sandpit/test4.txt\", \"abc\", \"encoding-1234\")", 
@@ -1299,7 +1347,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"sandpit\", \"abc\", \"UTF-8\")", 
+   Qry = "
+        file:append-text(\"sandpit\", \"abc\", \"UTF-8\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1316,7 +1365,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"nonexistent/file.xml\", \"abc\", \"UTF-8\")", 
+   Qry = "
+        file:append-text(\"nonexistent/file.xml\", \"abc\", \"UTF-8\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1333,7 +1383,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendText3-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-text(\"sandpit/test.txt\", \"abc\", ())", 
+   Qry = "
+        file:append-text(\"sandpit/test.txt\", \"abc\", ())", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1350,7 +1401,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendBinary2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")))", 
@@ -1378,10 +1430,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendBinary2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-binary(\"sandpit/test.bin\", 
+   Qry = "
+        file:append-binary(\"sandpit/test.bin\", 
             xs:base64Binary(xs:hexBinary(\"05\"))),
         file:append-binary(\"sandpit/test.bin\",
-            xs:base64Binary(xs:hexBinary(\"06\")))", 
+            xs:base64Binary(xs:hexBinary(\"06\")))    
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1406,7 +1460,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendBinary2-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-binary(\"sandpit\", xs:base64Binary(\"\"))", 
+   Qry = "
+        file:append-binary(\"sandpit\", xs:base64Binary(\"\"))", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1478,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-appendBinary2-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:append-binary(\"nonexistent/file.bin\", xs:base64Binary(\"\"))", 
+   Qry = "
+        file:append-binary(\"nonexistent/file.bin\", xs:base64Binary(\"\"))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1440,9 +1497,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-copy-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"defenestration\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"defenestration\"),
         file:write-text(\"sandpit/target.txt\", \"prague\"),
-        file:copy(\"sandpit/source.txt\", \"sandpit/target.txt\")", 
+        file:copy(\"sandpit/source.txt\", \"sandpit/target.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1471,9 +1530,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-copy-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"treaty\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"treaty\"),
         file:delete(\"sandpit/target.txt\"),
-        file:copy(\"sandpit/source.txt\", \"sandpit/target.txt\")", 
+        file:copy(\"sandpit/source.txt\", \"sandpit/target.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1501,10 +1562,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-copy-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"persecution\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"persecution\"),
         if (file:exists(\"sandpit/dir2\")) then file:delete(\"sandpit/dir2\", true()) else (),
         file:create-dir(\"sandpit/dir2\"),
-        file:copy(\"sandpit/source.txt\", \"sandpit/dir2\")", 
+        file:copy(\"sandpit/source.txt\", \"sandpit/dir2\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1537,14 +1600,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-copy-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
         if (file:exists(\"sandpit/dirtarget\")) then file:delete(\"sandpit/dirtarget\", true()) else (),
         file:create-dir(\"sandpit/dirsource\"),
         file:append-text(\"sandpit/dirsource/london.txt\", \"london\"),
         file:append-text(\"sandpit/dirsource/paris.txt\", \"paris\"),
         file:append-text(\"sandpit/dirsource/rome.txt\", \"rome\"),
         file:append-text(\"sandpit/dirsource/madrid.txt\", \"madrid\"),
-        file:copy(\"sandpit/dirsource\", \"sandpit/dirtarget\")", 
+        file:copy(\"sandpit/dirsource\", \"sandpit/dirtarget\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1577,7 +1642,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-copy-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
         if (file:exists(\"sandpit/dirtarget\")) then file:delete(\"sandpit/dirtarget\", true()) else (),
         file:create-dir(\"sandpit/dirsource\"),
         file:create-dir(\"sandpit/dirtarget\"),
@@ -1585,7 +1651,8 @@ environment('EXPath-file',__BaseDir) ->
         file:append-text(\"sandpit/dirsource/paris.txt\", \"paris\"),
         file:append-text(\"sandpit/dirsource/rome.txt\", \"rome\"),
         file:append-text(\"sandpit/dirsource/madrid.txt\", \"madrid\"),
-        file:copy(\"sandpit/dirsource\", \"sandpit/dirtarget\")", 
+        file:copy(\"sandpit/dirsource\", \"sandpit/dirtarget\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1618,9 +1685,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
         file:create-dir(\"sandpit/dir3\"),
-        file:list(\"sandpit/dir3\")", 
+        file:list(\"sandpit/dir3\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1648,9 +1717,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createDir-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:create-dir(\"sandpit/dir3\"),
+   Qry = "
         file:create-dir(\"sandpit/dir3\"),
-        file:list(\"sandpit/dir3\")", 
+        file:create-dir(\"sandpit/dir3\"),
+        file:list(\"sandpit/dir3\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1678,11 +1749,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createDir-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
         file:create-dir(\"sandpit/dir3\"),
         file:write-text(\"sandpit/dir3/test\", \"text\"),
         file:create-dir(\"sandpit/dir3/test\"),
-        file:list(\"sandpit/dir3/test\")", 
+        file:list(\"sandpit/dir3/test\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1699,11 +1772,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createDir-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
         file:create-dir(\"sandpit/dir3\"),
         file:write-text(\"sandpit/dir3/test\", \"text\"),
         file:create-dir(\"sandpit/dir3/test/dir4\"),
-        file:list(\"sandpit/dir3/test\")", 
+        file:list(\"sandpit/dir3/test\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1720,8 +1795,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createDir-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
-        file:create-dir(\"sandpit/dir3/dir4/dir5/dir6\")", 
+   Qry = "
+        if (file:exists(\"sandpit/dir3\")) then file:delete(\"sandpit/dir3\", true()) else (),
+        file:create-dir(\"sandpit/dir3/dir4/dir5/dir6\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1850,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createTempFile-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:create-temp-file(\"EXPathFile\",\".tmp\")", 
+   Qry = "
+        file:create-temp-file(\"EXPathFile\",\".tmp\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1802,8 +1881,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createTempFile-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/temp\")) then () else file:create-dir(\"sandpit/temp\"),
-        file:create-temp-file(\"EXPathFile\",\".tmp\",\"sandpit/temp\")", 
+   Qry = "
+        if (file:exists(\"sandpit/temp\")) then () else file:create-dir(\"sandpit/temp\"),
+        file:create-temp-file(\"EXPathFile\",\".tmp\",\"sandpit/temp\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1832,7 +1913,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createTempDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:create-temp-dir(\"EXPathFile\",\".tmp\")", 
+   Qry = "
+        file:create-temp-dir(\"EXPathFile\",\".tmp\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1860,8 +1943,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-createTempDir-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/temp\")) then () else file:create-dir(\"sandpit/temp\"),      
-        file:create-temp-dir(\"EXPathFile\",\".tmp\",\"sandpit/temp\")", 
+   Qry = "
+        if (file:exists(\"sandpit/temp\")) then () else file:create-dir(\"sandpit/temp\"),      
+        file:create-temp-dir(\"EXPathFile\",\".tmp\",\"sandpit/temp\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1889,9 +1974,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4\"),
+   Qry = "
+        if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4\"),
         file:write-text(\"sandpit/dir4/test.txt\", \"test\"),
-        file:delete(\"sandpit/dir4/test.txt\")", 
+        file:delete(\"sandpit/dir4/test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1915,9 +2002,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir4\")) then file:delete(\"sandpit/dir4\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir4\")) then file:delete(\"sandpit/dir4\", true()) else (),
         file:create-dir(\"sandpit/dir4\"),
-        file:delete(\"sandpit/dir4\")", 
+        file:delete(\"sandpit/dir4\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1941,8 +2030,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4/dir5/dir6\"),
-        file:delete(\"sandpit/dir4\", true())", 
+   Qry = "
+        if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4/dir5/dir6\"),
+        file:delete(\"sandpit/dir4\", true())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1966,8 +2057,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4/dir5/dir6\"),
-        file:delete(\"sandpit/dir4\", false())", 
+   Qry = "
+        if (file:exists(\"sandpit/dir4\")) then () else file:create-dir(\"sandpit/dir4/dir5/dir6\"),
+        file:delete(\"sandpit/dir4\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1984,11 +2077,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir4\")) then () 
+   Qry = "
+        if (file:exists(\"sandpit/dir4\")) then () 
             else (file:delete(\"sandpit/dir4\", true()), 
                   file:create-dir(\"sandpit/dir4\"),
                   file:write-text(\"sandpit/dir4/test.txt\", \"grandmother\")),
-        file:delete(\"sandpit/dir4\")", 
+        file:delete(\"sandpit/dir4\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2005,7 +2100,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-delete-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:delete(\"sandpit/does-not-exist.txt\")", 
+   Qry = "
+        file:delete(\"sandpit/does-not-exist.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2022,9 +2119,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
-        file:list(\"sandpit/dir5\")", 
+        file:list(\"sandpit/dir5\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2048,9 +2147,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
-        file:list(\"sandpit/dir5\", true())", 
+        file:list(\"sandpit/dir5\", true())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2074,9 +2175,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
-        file:list(\"sandpit/dir5\", false())", 
+        file:list(\"sandpit/dir5\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2100,9 +2203,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
-        file:list(\"sandpit/dir5\", true(), \"*.*\")", 
+        file:list(\"sandpit/dir5\", true(), \"*.*\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2126,12 +2231,14 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
-        file:list(\"sandpit/dir5\", true())", 
+        file:list(\"sandpit/dir5\", true())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2151,12 +2258,14 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
-        file:list(\"sandpit/dir5\", false())", 
+        file:list(\"sandpit/dir5\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2176,12 +2285,14 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
-        file:list(\"sandpit/dir5\", false())", 
+        file:list(\"sandpit/dir5\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2201,14 +2312,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/helsinki.txt\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", true())", 
+        file:list(\"sandpit/dir5\", true())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2234,14 +2347,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/helsinki.txt\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", false())", 
+        file:list(\"sandpit/dir5\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2265,14 +2380,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.txt\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/helsinki.txt\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", false())", 
+        file:list(\"sandpit/dir5\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2296,10 +2413,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
-        file:list(\"sandpit/dir5/berlin.txt\", false())", 
+        file:list(\"sandpit/dir5/berlin.txt\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2316,10 +2435,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
-        file:list(\"sandpit/non/existent/path\", false())", 
+        file:list(\"sandpit/non/existent/path\", false())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2336,14 +2457,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/berlin.csv\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.dat\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/berlin.jpg\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", true(), \"berlin.*\")", 
+        file:list(\"sandpit/dir5\", true(), \"berlin.*\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2367,14 +2490,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/berlin.csv\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.dat\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/berlin.jpg\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", false(), \"berlin.*\")", 
+        file:list(\"sandpit/dir5\", false(), \"berlin.*\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2394,14 +2519,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.txt\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.dat\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/helsinki.txt\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", true(), \"*.txt\")", 
+        file:list(\"sandpit/dir5\", true(), \"*.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2425,14 +2552,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/geneva.tat\", \"geneva\"),
         file:write-text(\"sandpit/dir5/oslo.dat\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/helsinki.tit\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", true(), \"*.t?t\")", 
+        file:list(\"sandpit/dir5\", true(), \"*.t?t\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2456,14 +2585,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
         file:create-dir(\"sandpit/dir5\"),
         file:write-text(\"sandpit/dir5/berlin1.txt\", \"berlin\"),
         file:write-text(\"sandpit/dir5/berlin2.tat\", \"geneva\"),
         file:write-text(\"sandpit/dir5/berlin3.dat\", \"oslo\"),
         file:create-dir(\"sandpit/dir5/dir6\"),
         file:write-text(\"sandpit/dir5/dir6/berlin4.tit\", \"helsinki\"),
-        file:list(\"sandpit/dir5\", true(), \"berlin*.*\")", 
+        file:list(\"sandpit/dir5\", true(), \"berlin*.*\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2489,7 +2620,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "exists(file:list(\".\"))", 
+   Qry = "
+        exists(file:list(\".\"))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2505,7 +2638,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-list-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "exists(file:list(\"..\"))", 
+   Qry = "
+        exists(file:list(\"..\"))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2521,9 +2656,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-move-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"defenestration\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"defenestration\"),
         file:write-text(\"sandpit/target.txt\", \"prague\"),
-        file:move(\"sandpit/source.txt\", \"sandpit/target.txt\")", 
+        file:move(\"sandpit/source.txt\", \"sandpit/target.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2552,9 +2689,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-move-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"treaty\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"treaty\"),
         file:delete(\"sandpit/target.txt\"),
-        file:move(\"sandpit/source.txt\", \"sandpit/target.txt\")", 
+        file:move(\"sandpit/source.txt\", \"sandpit/target.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2582,10 +2721,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-move-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit/source.txt\", \"persecution\"),
+   Qry = "
+        file:write-text(\"sandpit/source.txt\", \"persecution\"),
         if (file:exists(\"sandpit/dir2\")) then file:delete(\"sandpit/dir2\", true()) else (),
         file:create-dir(\"sandpit/dir2\"),
-        file:move(\"sandpit/source.txt\", \"sandpit/dir2\")", 
+        file:move(\"sandpit/source.txt\", \"sandpit/dir2\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2618,14 +2759,16 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-move-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
         if (file:exists(\"sandpit/dirtarget\")) then file:delete(\"sandpit/dirtarget\", true()) else (),
         file:create-dir(\"sandpit/dirsource\"),
         file:append-text(\"sandpit/dirsource/london.txt\", \"london\"),
         file:append-text(\"sandpit/dirsource/paris.txt\", \"paris\"),
         file:append-text(\"sandpit/dirsource/rome.txt\", \"rome\"),
         file:append-text(\"sandpit/dirsource/madrid.txt\", \"madrid\"),
-        file:move(\"sandpit/dirsource\", \"sandpit/dirtarget\")", 
+        file:move(\"sandpit/dirsource\", \"sandpit/dirtarget\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2658,7 +2801,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-move-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
+   Qry = "
+        if (file:exists(\"sandpit/dirsource\")) then file:delete(\"sandpit/dirsource\", true()) else (),
         if (file:exists(\"sandpit/dirtarget\")) then file:delete(\"sandpit/dirtarget\", true()) else (),
         file:create-dir(\"sandpit/dirsource\"),
         file:create-dir(\"sandpit/dirtarget\"),
@@ -2666,7 +2810,8 @@ environment('EXPath-file',__BaseDir) ->
         file:append-text(\"sandpit/dirsource/paris.txt\", \"paris\"),
         file:append-text(\"sandpit/dirsource/rome.txt\", \"rome\"),
         file:append-text(\"sandpit/dirsource/madrid.txt\", \"madrid\"),
-        file:move(\"sandpit/dirsource\", \"sandpit/dirtarget\")", 
+        file:move(\"sandpit/dirsource\", \"sandpit/dirtarget\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2699,7 +2844,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2723,7 +2869,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-text(\"sandpit/test.bin\", \"abc\", \"UTF-8\"),
@@ -2747,7 +2894,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-text(\"sandpit/test.bin\", \"abc\", \"UTF-8\"),
@@ -2768,7 +2916,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-text(\"sandpit/test.bin\", \"abc\", \"UTF-8\"),
@@ -2789,7 +2938,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2813,7 +2963,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2837,7 +2988,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary2-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2862,7 +3014,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary3-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2887,7 +3040,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary3-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2911,7 +3065,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary3-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2936,7 +3091,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary3-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2960,7 +3116,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readBinary3-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:append-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
@@ -2985,7 +3142,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText1-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd\"),
@@ -3009,7 +3167,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText1-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd\"),
@@ -3030,7 +3189,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText1-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd\"),
@@ -3051,7 +3211,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd£\"),
@@ -3075,7 +3236,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd£\"),
@@ -3096,7 +3258,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText2-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd£\"),
@@ -3117,7 +3280,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText2-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:append-text(\"sandpit/test.txt\", \"abcd£\"),
@@ -3138,7 +3302,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readText2-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-binary(\"sandpit/test.txt\", 
@@ -3160,7 +3325,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"hijk\"), \"
@@ -3185,7 +3351,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"\", \"hijk\"), \"\")),
@@ -3209,7 +3376,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"\", \"hijk\"), \"
@@ -3234,7 +3402,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"hijk\"), \"
@@ -3260,7 +3429,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"\", \"hijk\"), \"\") || \"\"),
@@ -3284,7 +3454,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"\", \"hijk\"), \"
@@ -3310,7 +3481,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", string-join((\"abcd\", \"defg\", \"\", \"hijk\"), \"
@@ -3339,7 +3511,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"\"),
@@ -3363,7 +3536,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:read-text-lines(\"sandpit/test.txt\")", 
@@ -3383,7 +3557,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:read-text-lines(\"sandpit\")", 
+   Qry = "
+        file:read-text-lines(\"sandpit\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3400,7 +3575,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:read-text-lines(\"sandpit/test.txt\", \"UTF-8\")", 
@@ -3420,7 +3596,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:read-text-lines(\"sandpit\", \"UTF-8\")", 
+   Qry = "
+        file:read-text-lines(\"sandpit\", \"UTF-8\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3437,7 +3614,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"\"),
@@ -3458,7 +3636,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", 
@@ -3486,7 +3665,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-readTextLines1-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-binary(\"sandpit/test.txt\", 
@@ -3508,7 +3688,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"abc\")", 
@@ -3608,7 +3789,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText2-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit\", \"abc\")", 
+   Qry = "
+        file:write-text(\"sandpit\", \"abc\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3625,7 +3807,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText2-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"nonexistent/file.xml\", \"abc\")", 
+   Qry = "
+        file:write-text(\"nonexistent/file.xml\", \"abc\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3642,7 +3825,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText3-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test2.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test2.txt\")) 
           then file:delete(\"sandpit/test2.txt\")
           else ()), 
         file:write-text(\"sandpit/test2.txt\", \"abc£\", \"UTF-8\")", 
@@ -3674,7 +3858,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText3-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test3.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test3.txt\")) 
           then file:delete(\"sandpit/test3.txt\")
           else ()), 
         file:write-text(\"sandpit/test3.txt\", \"abc\", \"UTF-16\")", 
@@ -3702,7 +3887,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText3-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test4.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test4.txt\")) 
           then file:delete(\"sandpit/test4.txt\")
           else ()), 
         file:write-text(\"sandpit/test4.txt\", \"abc\", \"encoding-1234\")", 
@@ -3722,7 +3908,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText3-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"sandpit\", \"abc\", \"UTF-8\")", 
+   Qry = "
+        file:write-text(\"sandpit\", \"abc\", \"UTF-8\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3739,7 +3926,8 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeText3-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-text(\"nonexistent/file.xml\", \"abc\", \"UTF-8\")", 
+   Qry = "
+        file:write-text(\"nonexistent/file.xml\", \"abc\", \"UTF-8\")", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3756,10 +3944,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary2-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")))", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3784,8 +3974,10 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary2-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-binary(\"sandpit/test.bin\", 
-           xs:base64Binary(xs:hexBinary(\"0506\")))", 
+   Qry = "
+        file:write-binary(\"sandpit/test.bin\", 
+           xs:base64Binary(xs:hexBinary(\"0506\")))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3810,7 +4002,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary2-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-binary(\"sandpit\", xs:base64Binary(\"\"))", 
+   Qry = "
+        file:write-binary(\"sandpit\", xs:base64Binary(\"\"))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3827,7 +4021,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary2-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:write-binary(\"nonexistent/file.bin\", xs:base64Binary(\"\"))", 
+   Qry = "
+        file:write-binary(\"nonexistent/file.bin\", xs:base64Binary(\"\"))
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3844,10 +4040,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), 0)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), 0)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3872,11 +4070,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),1)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),1)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3901,10 +4101,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), -1)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), -1)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3925,11 +4127,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()),
         file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), 6)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\")), 6)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3950,11 +4154,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),4)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),4)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3979,11 +4185,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-writeBinary3-005a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.bin\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.bin\")) 
           then file:delete(\"sandpit/test.bin\")
           else ()), 
         file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0001020304\"))),
-        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),5)", 
+        file:write-binary(\"sandpit/test.bin\", xs:base64Binary(xs:hexBinary(\"0506\")),5)
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4008,11 +4216,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"abc\"),
-        file:name(\"sandpit/test.txt\")", 
+        file:name(\"sandpit/test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4028,7 +4238,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\"sandpit\")", 
+   Qry = "
+        file:name(\"sandpit\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4044,7 +4256,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\"sandpit/nonexistent.txt\")", 
+   Qry = "
+        file:name(\"sandpit/nonexistent.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4060,7 +4274,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\".\")", 
+   Qry = "
+        file:name(\".\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4084,7 +4300,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\"sandpit/dir1/\")", 
+   Qry = "
+        file:name(\"sandpit/dir1/\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4100,7 +4318,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\"/\")", 
+   Qry = "
+        file:name(\"/\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4116,7 +4336,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-name1-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:name(\"\")", 
+   Qry = "
+        file:name(\"\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4132,11 +4354,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-parent-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "(if (file:exists(\"sandpit/test.txt\")) 
+   Qry = "
+        (if (file:exists(\"sandpit/test.txt\")) 
           then file:delete(\"sandpit/test.txt\")
           else ()), 
         file:write-text(\"sandpit/test.txt\", \"abc\"),
-        file:parent(\"sandpit/test.txt\")", 
+        file:parent(\"sandpit/test.txt\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4160,7 +4384,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-parent-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:parent(\"sandpit/dir1\")", 
+   Qry = "
+        file:parent(\"sandpit/dir1\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4184,7 +4410,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-parent-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:parent(\"sandpit/dir1/\")", 
+   Qry = "
+        file:parent(\"sandpit/dir1/\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4208,7 +4436,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-parent-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:parent(\"/\")", 
+   Qry = "
+        file:parent(\"/\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4224,9 +4454,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-children-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+      if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
       file:create-dir(\"sandpit/dir5\"),
-      file:children(\"sandpit/dir5\")", 
+      file:children(\"sandpit/dir5\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4250,11 +4482,13 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-children-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+      if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
       file:create-dir(\"sandpit/dir5\"),
       file:write-text(\"sandpit/dir5/roma.txt\", \"\"),
       file:write-text(\"sandpit/dir5/napoli.txt\", \"\"),
-      file:children(\"sandpit/dir5\")", 
+      file:children(\"sandpit/dir5\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4286,9 +4520,11 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-children-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+      if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
       file:create-dir(\"sandpit/dir5/dir6\"),
-      file:children(\"sandpit/dir5\")", 
+      file:children(\"sandpit/dir5\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4312,10 +4548,12 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-children-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
+   Qry = "
+      if (file:exists(\"sandpit/dir5\")) then file:delete(\"sandpit/dir5\", true()) else (),
       file:create-dir(\"sandpit/dir5\"),
       file:write-text(\"sandpit/dir5/palermo.txt\", \"\"),
-      file:children(\"sandpit/dir5/palermo.txt\")", 
+      file:children(\"sandpit/dir5/palermo.txt\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4336,7 +4574,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(\"sandpit/test.txt\")", 
+   Qry = "
+        file:path-to-native(\"sandpit/test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4360,7 +4600,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(\"sandpit///test.txt\")", 
+   Qry = "
+         file:path-to-native(\"sandpit///test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4384,7 +4626,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(\"sandpit/./test.txt\")", 
+   Qry = "
+         file:path-to-native(\"sandpit/./test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4408,7 +4652,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(\"file:///i/do/not.exist\")", 
+   Qry = "
+      file:path-to-native(\"file:///i/do/not.exist\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4425,7 +4671,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(\".\")", 
+   Qry = "
+         file:path-to-native(\".\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4441,7 +4689,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToNative-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-native(concat(\"file:///\", file:resolve-path('.')))", 
+   Qry = "
+      file:path-to-native(concat(\"file:///\", file:resolve-path('.')))
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4457,7 +4707,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToUri-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-uri(\"sandpit/test.txt\")", 
+   Qry = "
+        file:path-to-uri(\"sandpit/test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4481,7 +4733,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathToUri-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-to-uri(\"sandpit/my file.txt\")", 
+   Qry = "
+      file:path-to-uri(\"sandpit/my file.txt\")
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4505,7 +4759,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-resolvePath-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:resolve-path(\"sandpit/test.txt\")", 
+   Qry = "
+        file:resolve-path(\"sandpit/test.txt\")
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4529,7 +4785,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-dirSeparator-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:dir-separator()", 
+   Qry = "
+        file:dir-separator()
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4553,7 +4811,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-pathSeparator-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:path-separator()", 
+   Qry = "
+        file:path-separator()
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4577,7 +4837,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-lineSeparator-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "string-to-codepoints(file:line-separator())", 
+   Qry = "
+        string-to-codepoints(file:line-separator())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4605,7 +4867,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-lineSeparator-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "string-to-codepoints(file:path-separator() || file:dir-separator() || file:line-separator())", 
+   Qry = "
+        string-to-codepoints(file:path-separator() || file:dir-separator() || file:line-separator())
+      ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4633,7 +4897,9 @@ environment('EXPath-file',__BaseDir) ->
    end. 
 'EXPath-file-tempDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:temp-dir()", 
+   Qry = "
+        file:temp-dir()
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4655,34 +4921,14 @@ environment('EXPath-file',__BaseDir) ->
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
    end. 
-'EXPath-file-baseDir-001'(_Config) -> {skip, "test assumes same base-uri in test as the check"}.
-%%    __BaseDir = ?config(base_dir, Config),
-%%    Qry = "file:base-dir()", 
-%%    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
-%%    Qry1 = lists:flatten(Env ++ Qry),
-%%    io:format("Qry1: ~p~n",[Qry1]),
-%%    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "EXPath-file-baseDir-001.xq"), Qry1),
-%%              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-%%    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-%%    case xqerl_test:assert(Res,"ends-with($result, file:dir-separator())") of 
-%%       true -> {comment, "Correct results"};
-%%       {false, F} -> F 
-%%    end, 
-%%    case xqerl_test:assert(Res,"let $base := static-base-uri()
-%%           return empty($base) or $result = file:parent($base)") of 
-%%       true -> {comment, "Correct results"};
-%%       {false, F} -> F 
-%%    end   ]) of 
-%%       true -> {comment, "all-of"};
-%%       _ -> false 
-%%    end, 
-%%    case Out of
-%%       {comment, C} -> {comment, C};
-%%       Err -> ct:fail(Err)
-%%    end. 
+'EXPath-file-baseDir-001'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"test assumes same base-uri in test as the check"}. 
 'EXPath-file-currentDir-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "file:current-dir()", 
+   Qry = "
+      file:current-dir()
+    ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-file',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

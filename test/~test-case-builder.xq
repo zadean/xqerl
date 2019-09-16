@@ -3,8 +3,8 @@ declare namespace x = "http://xqerl.org/xquery";
 
 (: declare option db:chop 'false'; :)
 
-declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml");
-(: declare variable $catalog := doc("/git/expath/expath-cg/tests/qt3/catalog.xml"); :)
+(: declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml"); :)
+declare variable $catalog := doc("/git/expath/expath-cg/tests/qt3/catalog.xml");
 
 (: String helpers :)
 
@@ -218,6 +218,10 @@ declare variable $_:SKIP_CATALOG :=
    'app-UseCaseR31' :
     map{
       'UseCaseR31-030' : 'PR * missing environment'
+    },
+   'expath-file' :
+    map{
+      'EXPath-file-baseDir-001' : 'test assumes same base-uri in test as the check'
     }
   };
 
@@ -944,6 +948,7 @@ declare function _:uri-is-absolute($uri)
 (: All test case sets from catalog :)
 let $globalEnvs         := $catalog/*:catalog/*:environment
   , $globalBaseUri      := base-uri($catalog)
+  , $catalogSuiteName   := $catalog/*:catalog/@test-suite
 (: Each test case set from catalog :)
 (: The parallel pragma causes the list to spawn a process for each value :)
 (: 'unordered' allows the processes to return in any order :)
@@ -954,7 +959,10 @@ for $catalogTestSet     in
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
   , $testSetFile        := resolve-uri($catalogTestSetFile, $globalBaseUri) 
-  , $testSetDir         := substring-before($catalogTestSetFile,"/")
+  , $testSetDir         := if ($catalogSuiteName eq "EXPATH") then
+                             'expath'
+                           else
+                             substring-before($catalogTestSetFile,"/")
   , $testSetDoc         := doc($testSetFile)
   , $localEnvs          := $testSetDoc/*:test-set/*:environment
   , $SUITE              := $catalogTestSetName||"_SUITE"
@@ -991,9 +999,18 @@ let $standardFuns       :=
   "   xqerl_code_server:unload(all)."                 ||$_:n||
   "init_per_suite(Config) -> "                   ||$_:n||
   "   {ok,_} = application:ensure_all_started(xqerl)," ||$_:n||
-  "   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||$_:n||
-  "   TD = filename:join(DD, ""QT3-test-suite""),"||$_:n||
-  "   __BaseDir = filename:join(TD, """||$testSetDir||"""),"||$_:n||
+  "   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),"||$_:n||
+  (
+    if($SUITE eq 'expath_file_SUITE') then
+    "   __BaseDir = filename:join(DD, """||$testSetDir||"""),"||$_:n||
+    "   {ok, Cwd} = file:get_cwd(),"||$_:n||
+    '   Zip = filename:join([Cwd,"sandpit.zip"]),'||$_:n||
+    '   {ok,_} = file:copy(filename:join([__BaseDir,"sandpit.zip"]), Zip),'||$_:n||
+    '   zip:extract(Zip),'||$_:n
+    else
+    "   TD = filename:join(DD, ""QT3-test-suite""),"||$_:n||
+    "   __BaseDir = filename:join(TD, """||$testSetDir||"""),"||$_:n
+  ) ||
   (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
@@ -1012,13 +1029,3 @@ let $usedEnvironments := _:get-used-environments($testCases)
                            $testCasesStr
 return
   file:write-text($suiteFile, $mod, "utf-8")
-
-
-(: 
-ADD to expath_file_SUITE:init_per_suite/1
-
-SD = filename:dirname(filename:dirname(filename:dirname(filename:dirname(?config(priv_dir, Config))))),
-Zip = filename:join([SD,"sandpit.zip"]),
-{ok,_} = file:copy("/git/expath/expath-cg/tests/qt3/file/sandpit.zip", Zip),
-
-zip:extract(Zip), :)

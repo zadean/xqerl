@@ -72,7 +72,7 @@ Deleting data is done with function `xqldb_dml:delete_doc(DocUri)`.
 rebar3 is the best way to build xqerl (and its dependencies) from source. In the future, release packages will be bundled for easy installation.
 
 ### Running tests
-`rebar3 ct`
+`rebar3 ct --spec "test/test.specs"`
 
 ### Contributing
 Yes, please. I've been doing it alone, so any help is much appreciated.

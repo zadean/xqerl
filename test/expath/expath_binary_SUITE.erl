@@ -226,9 +226,9 @@ end_per_suite(_Config) ->
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    TD = filename:join(DD, "QT3-test-suite"),
-   __BaseDir = filename:join(TD, "binary"),
+   __BaseDir = filename:join(TD, "expath"),
    [{base_dir, __BaseDir}|Config].
 all() -> [
    {group, group_0}, 
@@ -520,7 +520,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
 ].
 'EXPath-binary-length-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:length(xs:base64Binary(\"\"))", 
+   Qry = " bin:length(xs:base64Binary(\"\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-length-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:length(xs:base64Binary(xs:hexBinary(\"face1234\")))", 
+   Qry = " bin:length(xs:base64Binary(xs:hexBinary(\"face1234\"))) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-from-octets-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:from-octets(())", 
+   Qry = " bin:from-octets(()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-from-octets-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:from-octets($man.octets)", 
+   Qry = " bin:from-octets($man.octets) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -608,7 +608,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-from-octets-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:from-octets((-77,97,110))", 
+   Qry = " bin:from-octets((-77,97,110)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -625,7 +625,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-from-octets-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:from-octets((277,97,110))", 
+   Qry = " bin:from-octets((277,97,110)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-to-octets-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(xs:base64Binary(\"\"))", 
+   Qry = " bin:to-octets(xs:base64Binary(\"\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-to-octets-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets($man.base)", 
+   Qry = " bin:to-octets($man.base) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -682,7 +682,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-hex-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:hex(\"\")", 
+   Qry = " bin:hex(\"\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -706,7 +706,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-hex-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:hex(())", 
+   Qry = " bin:hex(()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -722,7 +722,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-hex-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:hex(\"4D616E\")", 
+   Qry = " bin:hex(\"4D616E\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -750,7 +750,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-hex-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:hex(\"D616E\")", 
+   Qry = " bin:hex(\"D616E\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-hex-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:hex(\"4X616E\")", 
+   Qry = " bin:hex(\"4X616E\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -791,7 +791,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bin-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:bin(\"\")", 
+   Qry = " bin:bin(\"\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -815,7 +815,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bin-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:bin(())", 
+   Qry = " bin:bin(()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bin-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:bin(\"010011010110000101101110\")", 
+   Qry = " bin:bin(\"010011010110000101101110\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -855,7 +855,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bin-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:bin(\"011010110000101101110\")", 
+   Qry = " bin:bin(\"011010110000101101110\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -879,7 +879,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bin-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:bin(\"0100a1010110000101101110\")", 
+   Qry = " bin:bin(\"0100a1010110000101101110\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -896,7 +896,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-octal-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:octal(\"\")", 
+   Qry = " bin:octal(\"\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -920,7 +920,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-octal-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:octal(())", 
+   Qry = " bin:octal(()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -936,7 +936,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-octal-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:octal(\"23260556\")", 
+   Qry = " bin:octal(\"23260556\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -960,7 +960,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-octal-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:octal(\"3260556\")", 
+   Qry = " bin:octal(\"3260556\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -984,7 +984,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-octal-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:octal(\"8260556\")", 
+   Qry = " bin:octal(\"8260556\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1001,7 +1001,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part((),0)", 
+   Qry = " bin:part((),0) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part($man.base,-1)", 
+   Qry = " bin:part($man.base,-1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1034,7 +1034,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part($man.base,0,-1)", 
+   Qry = " bin:part($man.base,0,-1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1051,7 +1051,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part($man.base,3)", 
+   Qry = " bin:part($man.base,3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1067,7 +1067,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part($man.base,4)", 
+   Qry = " bin:part($man.base,4) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1084,7 +1084,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-part-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:part($man.base,2,2)", 
+   Qry = " bin:part($man.base,2,2) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1101,7 +1101,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-join-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:join(())", 
+   Qry = " bin:join(()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1125,7 +1125,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-join-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:join(($man.base,$man.base))", 
+   Qry = " bin:join(($man.base,$man.base)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1149,7 +1149,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-join-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:join(($man.base,123))", 
+   Qry = " bin:join(($man.base,123)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1175,7 +1175,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:insert-before((),0,$man.base)", 
+   Qry = " bin:insert-before((),0,$man.base) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1191,7 +1191,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:insert-before($man.base,-1,$man.base)", 
+   Qry = " bin:insert-before($man.base,-1,$man.base) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1208,7 +1208,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:insert-before($man.base,4,$man.base)", 
+   Qry = " bin:insert-before($man.base,4,$man.base) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1225,7 +1225,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:insert-before($man.base,0,())", 
+   Qry = " bin:insert-before($man.base,0,()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1249,7 +1249,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:insert-before($man.base,0,$man.base)", 
+   Qry = " bin:insert-before($man.base,0,$man.base) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1273,7 +1273,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-insert-before-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:insert-before($man.base,2,$man.base))", 
+   Qry = " bin:to-octets(bin:insert-before($man.base,2,$man.base)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1293,7 +1293,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left((),2)", 
+   Qry = " bin:pad-left((),2) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1309,7 +1309,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,-1)", 
+   Qry = " bin:pad-left($man.base,-1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1326,7 +1326,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,1,-3)", 
+   Qry = " bin:pad-left($man.base,1,-3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1343,7 +1343,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,1,333)", 
+   Qry = " bin:pad-left($man.base,1,333) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1360,7 +1360,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,0)", 
+   Qry = " bin:pad-left($man.base,0) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1384,7 +1384,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,3)", 
+   Qry = " bin:pad-left($man.base,3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1408,7 +1408,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-left($man.base,1)", 
+   Qry = " bin:pad-left($man.base,1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1432,7 +1432,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-left-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pad-left($man.base,1,12))", 
+   Qry = " bin:to-octets(bin:pad-left($man.base,1,12)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1456,7 +1456,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right((),2)", 
+   Qry = " bin:pad-right((),2) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1472,7 +1472,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,-1)", 
+   Qry = " bin:pad-right($man.base,-1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1489,7 +1489,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,1,-3)", 
+   Qry = " bin:pad-right($man.base,1,-3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1506,7 +1506,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,1,333)", 
+   Qry = " bin:pad-right($man.base,1,333) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1523,7 +1523,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,0)", 
+   Qry = " bin:pad-right($man.base,0) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1547,7 +1547,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,3)", 
+   Qry = " bin:pad-right($man.base,3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1571,7 +1571,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pad-right($man.base,1)", 
+   Qry = " bin:pad-right($man.base,1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1595,7 +1595,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pad-right-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pad-right($man.base,1,12))", 
+   Qry = " bin:to-octets(bin:pad-right($man.base,1,12)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1619,7 +1619,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find((),0,xs:base64Binary(\"TWFuAAAA\"))", 
+   Qry = " bin:find((),0,xs:base64Binary(\"TWFuAAAA\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1635,7 +1635,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"TWFuAAAA\"),1,xs:base64Binary(\"\"))", 
+   Qry = " bin:find(xs:base64Binary(\"TWFuAAAA\"),1,xs:base64Binary(\"\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1659,7 +1659,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"AE1hbg==\"),-1,xs:base64Binary(\"TWFu\"))", 
+   Qry = " bin:find(xs:base64Binary(\"AE1hbg==\"),-1,xs:base64Binary(\"TWFu\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1676,7 +1676,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"AE1hbg==\"),5,xs:base64Binary(\"TWFu\"))", 
+   Qry = " bin:find(xs:base64Binary(\"AE1hbg==\"),5,xs:base64Binary(\"TWFu\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1693,7 +1693,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"AE1hbg==\"),2,xs:base64Binary(\"TWFu\"))", 
+   Qry = " bin:find(xs:base64Binary(\"AE1hbg==\"),2,xs:base64Binary(\"TWFu\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1709,7 +1709,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"AE1hbg==\"),0,xs:base64Binary(\"TWFu\"))", 
+   Qry = " bin:find(xs:base64Binary(\"AE1hbg==\"),0,xs:base64Binary(\"TWFu\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1733,7 +1733,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-find-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:find(xs:base64Binary(\"TWFuAA==\"),0,xs:base64Binary(\"TWFu\"))", 
+   Qry = " bin:find(xs:base64Binary(\"TWFuAA==\"),0,xs:base64Binary(\"TWFu\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1757,7 +1757,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:encode-string(\"\",\"utf-8\")", 
+   Qry = " bin:encode-string(\"\",\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1781,7 +1781,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:encode-string(\"\",\"NOTutf-8\")", 
+   Qry = " bin:encode-string(\"\",\"NOTutf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1798,7 +1798,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:encode-string(\"AêñüC\",\"utf-8\")", 
+   Qry = " bin:encode-string(\"AêñüC\",\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1822,7 +1822,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:encode-string(\"AêñüC\",\"utf-8\"))", 
+   Qry = " bin:to-octets(bin:encode-string(\"AêñüC\",\"utf-8\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1838,7 +1838,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:encode-string(\"This is UTF-16\",\"utf-16\"))", 
+   Qry = " xs:hexBinary(bin:encode-string(\"This is UTF-16\",\"utf-16\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1854,7 +1854,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:encode-string(\"Ğ\",\"utf-16\"))", 
+   Qry = " xs:hexBinary(bin:encode-string(\"Ğ\",\"utf-16\")) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1870,8 +1870,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:encode-string(\"AêñüC\") =
-                bin:encode-string(\"AêñüC\",\"utf-8\")", 
+   Qry = " bin:encode-string(\"AêñüC\") =
+                bin:encode-string(\"AêñüC\",\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1891,7 +1891,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-encode-string-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:encode-string(\"£\",\"US-ASCII\")", 
+   Qry = " bin:encode-string(\"£\",\"US-ASCII\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1908,7 +1908,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string((),\"utf-8\")", 
+   Qry = " bin:decode-string((),\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1924,7 +1924,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string($empty.bin,\"utf-8\")", 
+   Qry = " bin:decode-string($empty.bin,\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1948,7 +1948,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string($empty.bin,\"NOTutf-8\")", 
+   Qry = " bin:decode-string($empty.bin,\"NOTutf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1965,7 +1965,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(bin:encode-string(\"Simple £ text\",\"utf-8\"),\"utf-8\")", 
+   Qry = " bin:decode-string(bin:encode-string(\"Simple £ text\",\"utf-8\"),\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1989,7 +1989,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\")", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2013,7 +2013,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(bin:from-octets((65,195,170,195,177,195,188,67)),\"utf-8\")", 
+   Qry = " bin:decode-string(bin:from-octets((65,195,170,195,177,195,188,67)),\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2037,7 +2037,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2061,7 +2061,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,4)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,4) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2085,7 +2085,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",-3,4)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",-3,4) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,-4)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,-4) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2119,7 +2119,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,6)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",3,6) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2136,7 +2136,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",2)", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\",2) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2153,9 +2153,9 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(
+   Qry = " bin:decode-string(xs:base64Binary(
                 xs:hexBinary(\"feff00540068006900730020006900730020005500540046002d00310036\")),
-                \"utf-16\")", 
+                \"utf-16\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2179,7 +2179,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(xs:hexBinary(\"feff011e\")),\"utf-16\")", 
+   Qry = " bin:decode-string(xs:base64Binary(xs:hexBinary(\"feff011e\")),\"utf-16\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2203,7 +2203,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(xs:hexBinary(\"fffe1e01\")),\"utf-16\")", 
+   Qry = " bin:decode-string(xs:base64Binary(xs:hexBinary(\"fffe1e01\")),\"utf-16\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2227,8 +2227,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-decode-string-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\")) =
-                bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\")", 
+   Qry = " bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\")) =
+                bin:decode-string(xs:base64Binary(\"QcOqw7HDvEM=\"),\"utf-8\") ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2248,7 +2248,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(0,1,'MOST-sign-first')", 
+   Qry = " bin:pack-integer(0,1,'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2265,8 +2265,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:pack-integer(34567,3,'most-significant-first') return $b eq
-                bin:pack-integer(34567,3,'big-endian') and $b eq bin:pack-integer(34567,3,'BE')", 
+   Qry = " for $b in bin:pack-integer(34567,3,'most-significant-first') return $b eq
+                bin:pack-integer(34567,3,'big-endian') and $b eq bin:pack-integer(34567,3,'BE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2282,8 +2282,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:pack-integer(34567,3,'least-significant-first') return $b eq
-                bin:pack-integer(34567,3,'little-endian') and $b eq bin:pack-integer(34567,3,'LE')", 
+   Qry = " for $b in bin:pack-integer(34567,3,'least-significant-first') return $b eq
+                bin:pack-integer(34567,3,'little-endian') and $b eq bin:pack-integer(34567,3,'LE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2299,8 +2299,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(34567,3,'most-significant-first') eq
-                bin:pack-integer(34567,3,'least-significant-first')", 
+   Qry = " bin:pack-integer(34567,3,'most-significant-first') eq
+                bin:pack-integer(34567,3,'least-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2316,7 +2316,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(34567,-3,'most-significant-first')", 
+   Qry = " bin:pack-integer(34567,-3,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2333,7 +2333,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(34567,0,'most-significant-first')", 
+   Qry = " bin:pack-integer(34567,0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2357,7 +2357,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(0,1)", 
+   Qry = " bin:pack-integer(0,1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2381,7 +2381,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer($int.short,1)", 
+   Qry = " bin:pack-integer($int.short,1) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2405,7 +2405,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer(0,2)", 
+   Qry = " bin:pack-integer(0,2) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2429,7 +2429,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer($int.short,2) eq  bin:pack-integer($int.short,2,'BE')", 
+   Qry = " bin:pack-integer($int.short,2) eq  bin:pack-integer($int.short,2,'BE')", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2445,7 +2445,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer($int.short,2,'least-significant-first')", 
+   Qry = " bin:pack-integer($int.short,2,'least-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2469,7 +2469,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-integer($int.short,2,'most-significant-first')", 
+   Qry = " bin:pack-integer($int.short,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2493,7 +2493,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.short,2))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.short,2)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2509,7 +2509,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.short,2,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.short,2,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2525,7 +2525,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.3,3,'LE'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.3,3,'LE')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2541,7 +2541,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.3,3,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.3,3,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2557,7 +2557,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-017'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.int,4,'LE'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.int,4,'LE')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2573,7 +2573,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-018'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.int,4,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.int,4,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2589,7 +2589,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-019'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.long,8,'LE'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.long,8,'LE')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2605,7 +2605,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-020'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer($int.long,8,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-integer($int.long,8,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2621,7 +2621,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-integer-021'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-integer(12345678901234,12,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-integer(12345678901234,12,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2637,7 +2637,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-double(xs:double(0.0),'MOST-sign-first')", 
+   Qry = " bin:pack-double(xs:double(0.0),'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2654,7 +2654,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-double(xs:double(0.0))", 
+   Qry = " bin:pack-double(xs:double(0.0)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2678,7 +2678,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(+xs:double(0.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(+xs:double(0.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2694,7 +2694,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(-xs:double(0.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(-xs:double(0.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2710,7 +2710,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(xs:double(1.0),'LE'))", 
+   Qry = " bin:to-octets(bin:pack-double(xs:double(1.0),'LE')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2726,7 +2726,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(xs:double(1.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(xs:double(1.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2742,7 +2742,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-double(xs:double(1.0),'most-significant-first')", 
+   Qry = " bin:pack-double(xs:double(1.0),'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2766,7 +2766,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(xs:double(2.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(xs:double(2.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2782,7 +2782,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(1 div 0e0,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(1 div 0e0,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2798,7 +2798,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(-1 div 0e0,'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(-1 div 0e0,'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2814,7 +2814,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-double-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(number(\"NaN\"),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-double(number(\"NaN\"),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2830,7 +2830,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-float(xs:float(0.0),'MOST-sign-first')", 
+   Qry = " bin:pack-float(xs:float(0.0),'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2847,7 +2847,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:pack-float(xs:float(0.0))", 
+   Qry = " bin:pack-float(xs:float(0.0)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2871,7 +2871,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(+xs:float(0.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(+xs:float(0.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2887,7 +2887,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(-xs:float(0.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(-xs:float(0.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2903,7 +2903,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(1.0),'LE'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(1.0),'LE')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2919,7 +2919,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(1.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(1.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2935,7 +2935,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(2.0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(2.0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2951,7 +2951,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(1 div 0e0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(1 div 0e0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2967,7 +2967,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(-1 div 0e0),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(-1 div 0e0),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2983,7 +2983,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-pack-float-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(xs:float(number(\"NaN\")),'most-significant-first'))", 
+   Qry = " bin:to-octets(bin:pack-float(xs:float(number(\"NaN\")),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2999,7 +2999,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets($double.1.octets),0,'MOST-sign-first')", 
+   Qry = " bin:unpack-double(bin:from-octets($double.1.octets),0,'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3016,7 +3016,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets($double.1.octets),-1,'most-significant-first')", 
+   Qry = " bin:unpack-double(bin:from-octets($double.1.octets),-1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3033,7 +3033,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets($double.1.octets),1,'most-significant-first')", 
+   Qry = " bin:unpack-double(bin:from-octets($double.1.octets),1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3050,7 +3050,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double($double.negative.0,0,'most-significant-first')", 
+   Qry = " bin:unpack-double($double.negative.0,0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3074,7 +3074,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets($double.1.octets),0,'most-significant-first')", 
+   Qry = " bin:unpack-double(bin:from-octets($double.1.octets),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3098,7 +3098,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,0)),0,'most-significant-first')", 
+   Qry = "
+                bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,0)),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3122,7 +3123,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,1)),0,'most-significant-first')", 
+   Qry = "
+                bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,1)),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3146,7 +3148,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,1)),0,'most-significant-first'),'most-significant-first'))", 
+   Qry = "
+                bin:to-octets(bin:pack-double(bin:unpack-double(bin:from-octets((127,248,0,0,0,0,0,1)),0,'most-significant-first'),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3162,7 +3165,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-double-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-double(bin:unpack-double(bin:from-octets((127,240,0,0,0,0,0,1)),0,'most-significant-first'),'most-significant-first'))", 
+   Qry = "
+                bin:to-octets(bin:pack-double(bin:unpack-double(bin:from-octets((127,240,0,0,0,0,0,1)),0,'most-significant-first'),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3178,7 +3182,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets($float.1.octets),0,'MOST-sign-first')", 
+   Qry = " bin:unpack-float(bin:from-octets($float.1.octets),0,'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3195,7 +3199,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets($float.1.octets),-1,'most-significant-first')", 
+   Qry = " bin:unpack-float(bin:from-octets($float.1.octets),-1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3212,7 +3216,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets($float.1.octets),1,'most-significant-first')", 
+   Qry = " bin:unpack-float(bin:from-octets($float.1.octets),1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3229,7 +3233,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float($float.negative.0,0,'most-significant-first')", 
+   Qry = " bin:unpack-float($float.negative.0,0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3253,7 +3257,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets($float.1.octets),0,'most-significant-first')", 
+   Qry = " bin:unpack-float(bin:from-octets($float.1.octets),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3277,7 +3281,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets((127,192,0,0)),0,'most-significant-first')", 
+   Qry = " bin:unpack-float(bin:from-octets((127,192,0,0)),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3301,7 +3305,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-float(bin:from-octets((127,192,0,1)),0,'most-significant-first')", 
+   Qry = " bin:unpack-float(bin:from-octets((127,192,0,1)),0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3325,7 +3329,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(bin:unpack-float(bin:from-octets((127,192,0,1)),0,'most-significant-first'),'most-significant-first'))", 
+   Qry = "
+                bin:to-octets(bin:pack-float(bin:unpack-float(bin:from-octets((127,192,0,1)),0,'most-significant-first'),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3341,7 +3346,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-float-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:to-octets(bin:pack-float(bin:unpack-float(bin:from-octets((127,248,0,1)),0,'most-significant-first'),'most-significant-first'))", 
+   Qry = "
+                bin:to-octets(bin:pack-float(bin:unpack-float(bin:from-octets((127,248,0,1)),0,'most-significant-first'),'most-significant-first')) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3357,7 +3363,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.byte.B,0,1,'MOST-sign-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.byte.B,0,1,'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3374,9 +3380,9 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first')
+   Qry = " for $b in bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first')
                 return $b eq bin:unpack-unsigned-integer($int.short.B,0,2,'big-endian') and $b eq
-                bin:unpack-unsigned-integer($int.short.B,0,2,'BE')", 
+                bin:unpack-unsigned-integer($int.short.B,0,2,'BE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3392,9 +3398,9 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:unpack-unsigned-integer($int.short.B,0,2,'least-significant-first')
+   Qry = " for $b in bin:unpack-unsigned-integer($int.short.B,0,2,'least-significant-first')
                 return $b eq bin:unpack-unsigned-integer($int.short.B,0,2,'little-endian') and $b eq
-                bin:unpack-unsigned-integer($int.short.B,0,2,'LE')", 
+                bin:unpack-unsigned-integer($int.short.B,0,2,'LE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3410,8 +3416,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first') eq
-                bin:unpack-unsigned-integer($int.short.B,0,2,'least-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first') eq
+                bin:unpack-unsigned-integer($int.short.B,0,2,'least-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3427,7 +3433,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.short.B,-1,2,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.short.B,-1,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3444,7 +3450,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.short.B,0,-2,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.short.B,0,-2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3461,7 +3467,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.short.B,1,2,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.short.B,1,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3478,7 +3484,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.byte.B,0,0,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.byte.B,0,0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3502,7 +3508,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.byte.B,0,1,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.byte.B,0,1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3526,7 +3532,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first')", 
+   Qry = " bin:unpack-unsigned-integer($int.short.B,0,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3550,7 +3556,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('0000000000000001')),0,8,'most-significant-first')", 
+   Qry = "
+                bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('0000000000000001')),0,8,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3574,7 +3581,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-unsigned-integer-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('ffffffffffffffff')),0,8,'most-significant-first')", 
+   Qry = "
+                bin:unpack-unsigned-integer(xs:base64Binary(xs:hexBinary('ffffffffffffffff')),0,8,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3604,7 +3612,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    {skip,"limits:big_integer"}. 
 'EXPath-binary-unpack-integer-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.byte.B,0,1,'MOST-sign-first')", 
+   Qry = " bin:unpack-integer($int.byte.B,0,1,'MOST-sign-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3621,9 +3629,9 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:unpack-integer($int.short.B,0,2,'most-significant-first')
+   Qry = " for $b in bin:unpack-integer($int.short.B,0,2,'most-significant-first')
                 return $b eq bin:unpack-integer($int.short.B,0,2,'big-endian') and $b eq
-                bin:unpack-integer($int.short.B,0,2,'BE')", 
+                bin:unpack-integer($int.short.B,0,2,'BE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3639,9 +3647,9 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "for $b in bin:unpack-integer($int.short.B,0,2,'least-significant-first')
+   Qry = " for $b in bin:unpack-integer($int.short.B,0,2,'least-significant-first')
                 return $b eq bin:unpack-integer($int.short.B,0,2,'little-endian') and $b eq
-                bin:unpack-integer($int.short.B,0,2,'LE')", 
+                bin:unpack-integer($int.short.B,0,2,'LE') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3657,8 +3665,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B,0,2,'most-significant-first') eq
-                bin:unpack-integer($int.short.B,0,2,'least-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B,0,2,'most-significant-first') eq
+                bin:unpack-integer($int.short.B,0,2,'least-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3674,7 +3682,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B,-1,2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B,-1,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3691,7 +3699,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B,0,-2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B,0,-2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3708,7 +3716,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B,1,2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B,1,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3725,7 +3733,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.byte.B,0,0,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.byte.B,0,0,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3749,7 +3757,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.byte.B,0,1,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.byte.B,0,1,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3773,7 +3781,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B-1,0,2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B-1,0,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3797,7 +3805,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer(xs:base64Binary(xs:hexBinary('0001')),0,2,'most-significant-first')", 
+   Qry = "
+                bin:unpack-integer(xs:base64Binary(xs:hexBinary('0001')),0,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3821,7 +3830,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B,0,2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B,0,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3845,7 +3854,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer($int.short.B-1,0,2,'most-significant-first')", 
+   Qry = " bin:unpack-integer($int.short.B-1,0,2,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3869,7 +3878,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer(xs:base64Binary(xs:hexBinary('0000000000000001')),0,8,'most-significant-first')", 
+   Qry = "
+                bin:unpack-integer(xs:base64Binary(xs:hexBinary('0000000000000001')),0,8,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3893,7 +3903,8 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-unpack-integer-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:unpack-integer(xs:base64Binary(xs:hexBinary('ffffffffffffffff')),0,8,'most-significant-first')", 
+   Qry = "
+                bin:unpack-integer(xs:base64Binary(xs:hexBinary('ffffffffffffffff')),0,8,'most-significant-first') ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary.numeric',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3917,7 +3928,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or($a,$c)", 
+   Qry = " bin:or($a,$c) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3934,7 +3945,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or((),())", 
+   Qry = " bin:or((),()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3950,7 +3961,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or($a,())", 
+   Qry = " bin:or($a,()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3966,7 +3977,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or((),$a)", 
+   Qry = " bin:or((),$a) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3982,7 +3993,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or($empty.bin,$empty.bin)", 
+   Qry = " bin:or($empty.bin,$empty.bin) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4006,7 +4017,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-or-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:or($a,$b)", 
+   Qry = " bin:or($a,$b) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4030,7 +4041,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and($a,$c)", 
+   Qry = " bin:and($a,$c) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4047,7 +4058,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and((),())", 
+   Qry = " bin:and((),()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4063,7 +4074,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and($a,())", 
+   Qry = " bin:and($a,()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4079,7 +4090,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and((),$a)", 
+   Qry = " bin:and((),$a) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4095,7 +4106,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and($empty.bin,$empty.bin)", 
+   Qry = " bin:and($empty.bin,$empty.bin) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4119,7 +4130,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-and-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:and($a,$b)", 
+   Qry = " bin:and($a,$b) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4143,7 +4154,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor($a,$c)", 
+   Qry = " bin:xor($a,$c) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4160,7 +4171,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor((),())", 
+   Qry = " bin:xor((),()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4176,7 +4187,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor($a,())", 
+   Qry = " bin:xor($a,()) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4192,7 +4203,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor((),$a)", 
+   Qry = " bin:xor((),$a) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4208,7 +4219,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor($empty.bin,$empty.bin)", 
+   Qry = " bin:xor($empty.bin,$empty.bin) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4232,7 +4243,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-xor-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:xor($a,$b)", 
+   Qry = " bin:xor($a,$b) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4256,7 +4267,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-not-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:not($empty.bin)", 
+   Qry = " bin:not($empty.bin) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4280,7 +4291,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-not-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:not($a)", 
+   Qry = " bin:not($a) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4304,7 +4315,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:shift((),5)", 
+   Qry = " bin:shift((),5) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4320,7 +4331,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "bin:shift($a,0)", 
+   Qry = " bin:shift($a,0) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4344,7 +4355,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,1))", 
+   Qry = " xs:hexBinary(bin:shift($a,1)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4360,7 +4371,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,4))", 
+   Qry = " xs:hexBinary(bin:shift($a,4)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4376,7 +4387,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,8))", 
+   Qry = " xs:hexBinary(bin:shift($a,8)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4392,7 +4403,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,9))", 
+   Qry = " xs:hexBinary(bin:shift($a,9)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4408,7 +4419,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-007'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,12))", 
+   Qry = " xs:hexBinary(bin:shift($a,12)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4424,7 +4435,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-008'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,16))", 
+   Qry = " xs:hexBinary(bin:shift($a,16)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4440,7 +4451,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-009'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,17))", 
+   Qry = " xs:hexBinary(bin:shift($a,17)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4456,7 +4467,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-010'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-1))", 
+   Qry = " xs:hexBinary(bin:shift($a,-1)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4472,7 +4483,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-011'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-4))", 
+   Qry = " xs:hexBinary(bin:shift($a,-4)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4488,7 +4499,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-012'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-8))", 
+   Qry = " xs:hexBinary(bin:shift($a,-8)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4504,7 +4515,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-013'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-9))", 
+   Qry = " xs:hexBinary(bin:shift($a,-9)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4520,7 +4531,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-014'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-12))", 
+   Qry = " xs:hexBinary(bin:shift($a,-12)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4536,7 +4547,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-015'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-16))", 
+   Qry = " xs:hexBinary(bin:shift($a,-16)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4552,7 +4563,7 @@ environment('EXPath-binary-bitwise',__BaseDir) ->
    end. 
 'EXPath-binary-bitwise-shift-016'(Config) ->
    __BaseDir = ?config(base_dir, Config),
-   Qry = "xs:hexBinary(bin:shift($a,-17))", 
+   Qry = " xs:hexBinary(bin:shift($a,-17)) ", 
    {Env,Opts} = xqerl_test:handle_environment(environment('EXPath-binary-bitwise',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
