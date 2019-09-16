@@ -5,4 +5,6 @@
 /xqerl_mod_csv_t_lexer.erl
 /xqerl_mod_fn_ietf_date_parse.erl
 /xqerl_mod_fn_ietf_date.erl
+/xqldb_json_parser.erl
+/xqldb_json_scanner.erl
 /typer_ann/
