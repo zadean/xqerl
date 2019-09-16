@@ -5,3 +5,4 @@ deps
 *.plt
 .rebar
 /_build/
+/ebin/
