@@ -46,7 +46,7 @@ analyze(Body, Functions, Variables) ->
    % add the functions
    M2 = add_glob_funs(G, Functions, M1),
    % strip non-functions
-   Functions1 = [F || #xqFunction{} = F  <- Functions],
+   Functions1 = [F || #xqFunctionDef{} = F  <- Functions],
    % strip non-variables
    Variables1 = [V || #xqVar{} = V  <- Variables] ++ 
                   [C || {'context-item', _} = C <- Variables],
@@ -110,15 +110,6 @@ x(G, Map, Parent,{path_expr,Id,Expr} ) ->
          x(G, Map#{path := Id}, K, Expr),
          Map
    end;
-
-% function call in path
-%% x(G, Map, Parent, [{'function-call',Nm0,Ar,_} = V|T]) ->
-%%    M = x(G, Map, Parent, V),
-%%    Nm = sim_name(Nm0),
-%%    Id = get_fun_id({Nm, Ar}, M),
-%%    K = {Id, Nm, Ar},
-%%    %?dbg("{V,Parent}",{{Id, Nm},Parent}),
-%%    x(G, M, K, T);
 
 % variable ref in path
 x(G, Map, Parent, [V|T]) when V == 'root';
@@ -361,11 +352,11 @@ x(G, Map, Parent, [#xqTypeswitchCase{variable = #xqVar{id = Id, name = Nm0, expr
    Map;
 
 % local function defs
-x(G, Map, [#xqFunction{id = Id, 
-                       name = Nm0, 
-                       arity = Ar, 
-                       body = Body, 
-                       params = Params}|T], _Data) ->
+x(G, Map, [#xqFunctionDef{id = Id, 
+                          name = Nm0, 
+                          arity = Ar, 
+                          body = Body, 
+                          params = Params}|T], _Data) ->
    Nm = sim_name(Nm0),
    FnKey = {Id,Nm,Ar},
    add_vertex(G, FnKey),
@@ -500,8 +491,9 @@ x(G, Map, Parent, #xqVarRef{name = Nm0}) ->
          add_edge(G, {Id,Nm}, Parent, {variable, Id, ref}),
          Map
    end;
-x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
-                                            FC == 'partial-function' ->
+x(G, Map, Parent, #xqFunctionCall{name = Nm0, 
+                                  arity = Ar, 
+                                  args = Args}) ->
    Nm = sim_name(Nm0),
    case maps:is_key({Nm, Ar}, Map) of 
       true ->
@@ -517,22 +509,44 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
                      add_edge(G, {Id,Nm,Ar}, Parent, static)
                end;
             true ->
-%% this causes problems with variable refs with same name as params
-%%                Params = lists:sort(
-%%                  [{P, V1}                   
-%%                  || E <- digraph:in_edges(G, {Id,Nm,Ar}),
-%%                     {_, V1,_,{param,_} = P} <- [digraph:edge(G, E)]]),
-%%                ?dbg("Params", Params),
-%%                ?dbg("Args  ", Args),
-%%                %% here find the paramaters and link the calling vars to them
-%%                Zip = fun({_,Param}, Arg) ->
-%%                            x(G, Map, Param, Arg)
-%%                      end,
-%%                if length(Params) == length(Args) ->
-%%                      _ = lists:zipwith(Zip, Params, Args);
-%%                   true ->
-%%                      ok
-%%                end,
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, local)
+               end
+         end,
+         x(G, Map, Parent, Args);
+      _ -> % non local function
+         add_properties(G, Nm0, Ar),
+         add_vertex(G, {-1,Nm,Ar}),
+         case is_axis_parent(Parent) of 
+            true ->
+               %?dbg("Axis Parent", {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+            false ->
+               add_edge(G, {-1,Nm,Ar}, Parent, ext)
+         end,
+         x(G, Map, Parent, Args)
+   end,
+   Map;
+x(G, Map, Parent, {'partial-function', Nm0, Ar, Args}) ->
+   Nm = sim_name(Nm0),
+   case maps:is_key({Nm, Ar}, Map) of 
+      true ->
+         Id = get_fun_id({Nm, Ar}, Map),
+         if Id == 0 ->
+               add_vertex(G, {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, static),
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, static)
+               end;
+            true ->
                case is_axis_parent(Parent) of 
                   true ->
                      %?dbg("Axis Parent", {Id,Nm,Ar}),
@@ -707,9 +721,9 @@ add_glob_variables(G, Variables) ->
 % returns map
 add_glob_funs(G, Functions, Map0) ->
    %?dbg("Functions",Functions),
-   Fun = fun(#xqFunction{name = #qname{namespace = undefined}}, _) ->
+   Fun = fun(#xqFunctionDef{name = #qname{namespace = undefined}}, _) ->
                ?err('XQST0060');
-            (#xqFunction{id = Id, name = Nm, arity = Ar, params = Params}, Map) ->
+            (#xqFunctionDef{id = Id, name = Nm, arity = Ar, params = Params}, Map) ->
                S = sim_name(Nm),
                FnKey = {Id,S, Ar},
                add_vertex(G, {Id,S, Ar}),
@@ -738,6 +752,7 @@ add_glob_funs(G, Functions, Map0) ->
                         #{TempKey := 0} ->
                            Map;
                         #{TempKey := _} ->
+                           ?dbg("XQST0034", TempKey),
                            ?err('XQST0034');
                         _ ->
                            maps:put(TempKey, 0, Map)
