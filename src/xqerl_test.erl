@@ -365,7 +365,7 @@ string_value(Seq) ->
 
 run_suite(Suite, SubDir) ->
    LibDir = code:lib_dir(xqerl),
-   TestDir = filename:absname_join(LibDir, "../../test"),
+   TestDir = filename:absname_join(LibDir, "test"),
    TestSubDir = filename:join(TestDir, SubDir),
    LogDir = filename:join(TestDir, "logs"),
    %_ = delete_all_docs(),
@@ -376,7 +376,7 @@ run_suite(Suite, SubDir) ->
 
 run_suites(SubDir, Suites) ->
    LibDir = code:lib_dir(xqerl),
-   TestDir = filename:absname_join(LibDir, "../../test"),
+   TestDir = filename:absname_join(LibDir, "test"),
    TestSubDir = filename:join(TestDir, SubDir),
    LogDir = filename:join(TestDir, "logs"),
    %_ = delete_all_docs(),
