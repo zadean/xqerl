@@ -189,7 +189,6 @@
         }).
 
 -record(xqFunction, {
-   id                = -1 :: integer(),
    annotations       = [] :: [ #annotation{} ],
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),

@@ -46,9 +46,10 @@
 %%    replace_var_with_context_item(<<0>>, Term).
 
 
--define(BOOL_CALL(Arg),{'function-call', 
-                    #qname{namespace = <<"http://www.w3.org/2005/xpath-functions">>,
-                           local_name = <<"boolean">>}, 1, [Arg]}).
+-define(BOOL_CALL(Arg), 
+    #xqFunctionCall{name = #qname{namespace = <<"http://www.w3.org/2005/xpath-functions">>,
+                           local_name = <<"boolean">>},
+                    arity = 1, args = [Arg]}).
 
 % internal use
 %% -export([int_order_1/2]).
@@ -1379,7 +1380,7 @@ shiftable_expression(_,_) ->
 shiftable_expression_1(Expr, Det) ->
    F = fun O([]) ->
             true;
-           O({'function-call',#qname{},_,_} = F) ->
+           O(#xqFunctionCall{name = #qname{}} = F) ->
               O(Det(F));
            O(#annotation{name = 
                            #qname{namespace = <<"http://xqerl.org/xquery">>,
