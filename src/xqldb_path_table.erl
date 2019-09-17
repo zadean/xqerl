@@ -90,10 +90,10 @@ uri(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, uri).
 
 %% Insert new value
--spec insert(db(), {Name :: binary(), 
-                    Type :: res_type(),
-                    {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
-                   } | {Name :: binary(), xml, Stamp :: integer()}) -> ok.
+-spec insert(db(), 
+             {Name :: binary(), Type :: res_type(), {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()} | 
+             {Name :: binary(), Type :: res_type(), {Pos :: non_neg_integer(), Size :: non_neg_integer()}, Stamp :: integer()} | 
+             {Name :: binary(), xml, Stamp :: integer()}) -> ok.
 
 insert(#{paths := Pid}, {_,xml,_} = Value) when is_pid(Pid) ->
    gen_server:call(Pid, {insert, Value});
@@ -114,11 +114,12 @@ delete_all(#{paths := Pid} = DB) ->
 
 %% Returns record for a given name if any.
 -spec lookup(db(), Name) ->
-         {xml,  VersionStamp :: integer()} |
+         {xml,  VersionStamp} |
          {item, VersionStamp, {Pos, Len}} |
          {link, VersionStamp, FileName} |
          {res,  VersionStamp, {Pos, Len}} |
-         {json, VersionStamp, {Pos, Len}}
+         {json, VersionStamp, {Pos, Len}} |
+         []
    when  VersionStamp :: integer(),
          Name :: binary(),
          Pos :: integer(),
@@ -127,11 +128,16 @@ delete_all(#{paths := Pid} = DB) ->
 lookup(#{paths := Pid}, Req) when is_pid(Pid) ->
    gen_server:call(Pid, {lookup, Req}).
 
+
 %% Returns all names in the table.
 -spec all(db()) -> [{Name :: binary(), 
-                         Type :: res_type(),
-                         {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
-                        }].
+                     Type :: res_type(),
+                     VersionStamp :: integer()}|
+                    {Name :: binary(), 
+                     Type :: res_type(),
+                     VersionStamp :: integer(),
+                     {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}
+                   ].
 
 all(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, all).
@@ -192,7 +198,7 @@ handle_call({insert, {Name, xml, Timestamp}},
    {reply, ok, State, ?CLOSE_TIMEOUT};
 handle_call({insert, {Name, Type, Pos, Timestamp}}, 
             _From, #{tab  := HeapFile} = State) ->
-   ok = dets:insert(HeapFile, {Name, {Type, Pos, Timestamp}}),
+   ok = dets:insert(HeapFile, {Name, {Type, Timestamp, Pos}}),
    {reply, ok, State, ?CLOSE_TIMEOUT};
 
 handle_call(all, _From, #{tab  := HeapFile} = State) ->

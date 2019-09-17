@@ -55,7 +55,8 @@ analyze(Body, Functions, Variables) ->
    % analyze
    _ = x(G, M2, Body1 ++ Functions1 ++ Variables1, []),
    %print(G),
-   _ = xqerl_static_path_analysis:analyze(G),
+   %XXX later, this should do something
+   %_ = xqerl_static_path_analysis:analyze(G),
    G.
 
 %% print(G) ->

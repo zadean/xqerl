@@ -72,8 +72,7 @@ insert(#{resources := Pid}, Bin) ->
    gen_server:call(Pid, {insert, Bin}).
 
 % Release binary at {Pos, Len}
--spec delete(db(), binary()) -> 
-         {Pos :: non_neg_integer(), Len :: non_neg_integer()}.
+-spec delete(db(), {Pos :: non_neg_integer(), Len :: non_neg_integer()}) -> ok.
 delete(#{resources := Pid}, PosLen) ->
    gen_server:cast(Pid, {delete, PosLen}).
 
@@ -155,7 +154,8 @@ handle_cast(_Request, State) -> {noreply,State}.
 handle_call({get_bin, {Pos,Size}}, _From, #{file := File} = State) -> 
    Reply = case file:pread(File, Pos, Size) of
               {ok,Data} -> Data;
-              _ -> error
+              eof -> {error, eof};
+              Error -> Error
            end,
    {reply,Reply,State};
 handle_call({insert, Bin}, _From, #{file := File,

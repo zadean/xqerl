@@ -840,7 +840,7 @@ global_variable_map_set(Modules,Locals) ->
    Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
 %?dbg("Vars",Vars),
    Match = fun({_,_,V} = _V1) ->
-                 ?e:map_field_assoc(V, ?e:variable(V))
+                 ?e:map_field_assoc({atom,?L,V}, ?e:variable(V))
            end,
    Matches =  [Match(V1) || V1 <- Vars ++ Locals],
    O = ?e:map_expr(Matches), 
@@ -1325,7 +1325,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
-                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   Q = ?e:class_qualifier(?e:underscore(), C, ?Q("_@AddlVar1")),
                    ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = ?A("*"),local_name = Ln}}) ->
                    _ = add_used_record_type(qname),
@@ -1333,7 +1333,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
-                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   Q = ?e:class_qualifier(?e:underscore(), C, ?Q("_@AddlVar1")),
                    ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = ?A("*")}}) ->
                    _ = add_used_record_type(qname),
@@ -1341,7 +1341,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
-                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   Q = ?e:class_qualifier(?e:underscore(), C, ?Q("_@AddlVar1")),
                    ?e:clause(alist(Q), [], D);
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
                    _ = add_used_record_type(qname),
@@ -1350,7 +1350,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"),
-                   Q = ?e:class_qualifier({var,0,'_'}, C, ?Q("_@AddlVar1")),
+                   Q = ?e:class_qualifier(?e:underscore(), C, ?Q("_@AddlVar1")),
                    ?e:clause(alist(Q), [], D)
                end, Errors)
      end,

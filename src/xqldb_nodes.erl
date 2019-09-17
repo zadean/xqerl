@@ -191,7 +191,7 @@ is_document(<<?document, _/binary>>) ->
 is_document(_) -> false.
 
 
-get_doc({DbPid, DocId, []} = XNode) ->
+get_doc({DbPid, DocId, _} = XNode) ->
    Node = erlang:node(DbPid),
    case Node == node() of
       false ->

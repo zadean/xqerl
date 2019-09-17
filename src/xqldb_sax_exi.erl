@@ -31,25 +31,25 @@
          parse_dir/2]).
 
 
--type state()::#{pos      => non_neg_integer(),
-                 parent   => [non_neg_integer()],
-                 uri      => binary(),
-                 db       => string(),
-                 node_stk => list(#{}),
-                 chld_stk => list(#{}),
-                 nsp_on   => list({_,_}),
-                 nsp_off  => list({_,_,_}),
-                 names    => map(),
-                 strings  => map(),
-                 att_str  => map()
-                 }.
+%% -type state()::#{pos      => non_neg_integer(),
+%%                  parent   => [non_neg_integer()],
+%%                  uri      => binary(),
+%%                  db       => string(),
+%%                  node_stk => list(#{}),
+%%                  chld_stk => list(#{}),
+%%                  nsp_on   => list({_,_}),
+%%                  nsp_off  => list({_,_,_}),
+%%                  names    => map(),
+%%                  strings  => map(),
+%%                  att_str  => map()
+%%                  }.
 
 parse_dir(DB, Dir) ->
    xqldb_file:pmap(Dir, ".exi$", true, 
                    fun(Nm) -> xqldb_sax_exi:parse_file(DB, Nm,<<"x.xml">>) end).
 
 
-parse_file(DB,File,Uri) ->
+parse_file(_DB, _File, _Uri) ->
 %%    Self = self(),
 %%    State = default_state(DB,unicode:characters_to_binary(File)),
 %%    %{ok,{Tree,Struct,_,{_Len,Nodes}},_} = 

@@ -10,14 +10,17 @@
 -define(UNION_SIZE, 200).
 -define(RESULT_SIZE, 500).
 
+-type iter() :: maybe_improper_list(term(), iter()) | fun(() -> iter()).
 
 %% Sorted-merge join of multiple iterators
+-spec merge([iter()]) -> iter().
 merge([]) -> [];
 merge([Iter]) -> Iter;
 merge(Iters) when is_list(Iters) ->
    fun() -> merge_(Iters) end.
 
 %% Sorted-union join of multiple iterators
+-spec union([iter()]) -> iter().
 union([]) -> [];
 union([Iter]) -> Iter;
 union(Iters) when is_list(Iters) ->
@@ -97,6 +100,7 @@ union(R1, R2, Acc) ->% empty or con-fun
    
 % reverse the list to possibly improper list having Acc as last item.
 % Acc is a fun when there is a continuation. 
+-dialyzer({no_improper_lists, build_result_iterator/2}).
 build_result_iterator([H|T], Acc) ->
    build_result_iterator(T, [H|Acc]);
 build_result_iterator([], Acc) ->

@@ -1166,7 +1166,7 @@ maybe_truncate(String,Min,Max) when is_integer(Min),is_integer(Max) ->
    string:pad(string:slice(String, 0, Max), Min, trailing).
 
 maybe_truncate_dow(String, Min, _) when is_integer(Min),
-                                        Min > byte_size(String) ->
+                                        Min > length(String) ->
    string:pad(String, Min, trailing);
 % handle some common English abbreviations
 maybe_truncate_dow("Monday",    _, 2) -> "Mo";
@@ -2106,7 +2106,7 @@ integer_name( I,en,era) when I < 0 -> "BC";
 integer_name( I,en,era) when I > 0 -> "AD";
 integer_name( _,en,era) -> "";
 
-integer_name(_Int1,en,_Part) -> ok.
+integer_name(_Int1,en,_Part) -> "".
 
 %% language(_) -> "en".
 %% 

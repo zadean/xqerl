@@ -118,6 +118,8 @@ execute(Ctx, ?uri(Id), Command) when is_binary(Command) ->
    case basexerl:execute(Conn, Command) of
       {ok, Info} ->
          Info;
+      {error, closed} ->
+         throw_error(closed);
       {error, _} ->
          throw_error(command)
    end;
@@ -285,8 +287,9 @@ throw_error(command) ->
    do_throw(<<"command">>, <<"An error occurred while executing a command.">>);
 throw_error(connect) ->
    do_throw(<<"connect">>, <<"Could not create session.">>);
-throw_error(io) ->
-   do_throw(<<"io">>, <<"An I/O error occurred.">>);
+%% could be added later with a list of IO error atoms
+%throw_error(io) ->
+%   do_throw(<<"io">>, <<"An I/O error occurred.">>);
 throw_error(func) ->
    do_throw(<<"func">>, <<"Functional items cannot be returned.">>);
 throw_error(closed) ->

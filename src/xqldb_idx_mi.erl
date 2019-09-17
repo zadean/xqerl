@@ -303,16 +303,27 @@ path_collector(Acc) ->
 
 update_counter(Val) -> Val + 1.
 
-delete_index_vals(I, F, List, IndexPid, Stamp, Acc) when length(Acc) > ?MAX_ITER ->
-   merge_index:index(IndexPid, Acc),
-   delete_index_vals(I, F, List, IndexPid, Stamp, []);
-delete_index_vals(I, F, [{T,V,_}|Rest], IndexPid, Stamp, Acc) ->
+%% for whatever reason, dialyzer does not like the 6th argument here.
+-dialyzer({no_fail_call, [delete_index_vals/7]}).
+
+-spec delete_index_vals('namespace' | 'path', any(), merge_index:iterator(),
+                        pid(), integer(), list({_, _, _, _, _, _})) -> ok.
+
+delete_index_vals(I, F, List, IndexPid, Stamp, Acc) ->
+    delete_index_vals(I, F, List, IndexPid, Stamp, Acc, 0).
+
+-spec delete_index_vals('namespace' | 'path', any(), merge_index:iterator(),
+                        pid(), integer(), list({_, _, _, _, _, _}), integer()) -> ok.
+delete_index_vals(I, F, List, IndexPid, Stamp, Acc, Cnt) when Cnt > ?MAX_ITER ->
+   ok = merge_index:index(IndexPid, Acc),
+   delete_index_vals(I, F, List, IndexPid, Stamp, [], 0);
+delete_index_vals(I, F, [{T,V,_}|Rest], IndexPid, Stamp, Acc, Cnt) ->
    New = {I, F, T, V, undefined, Stamp},
-   delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc]);
-delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc) when is_function(Entries) ->
-   delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc);
-delete_index_vals(_, _, [], IndexPid, _, Acc) ->
-   merge_index:index(IndexPid, Acc),
+   delete_index_vals(I, F, Rest, IndexPid, Stamp, [New|Acc], Cnt + 1);
+delete_index_vals(I, F, Entries, IndexPid, Stamp, Acc, Cnt) when is_function(Entries) ->
+   delete_index_vals(I, F, Entries(), IndexPid, Stamp, Acc, Cnt);
+delete_index_vals(_, _, [], IndexPid, _, Acc, _) ->
+   ok = merge_index:index(IndexPid, Acc),
    ok.
 
 

@@ -204,11 +204,11 @@ handle_tree(#xqModule{version = {Version,Encoding},
       true ->
          ok
    end,
-   UsedImports = lists:usort([N || {_,{N,_}} <- digraph:vertices(DiGraph)] ++ 
-                 [N || {A,{N,_},_} <- digraph:vertices(DiGraph), A =/= 0]),
+   %UsedImports = lists:usort([N || {_,{N,_}} <- digraph:vertices(DiGraph)] ++ 
+   %              [N || {A,{N,_},_} <- digraph:vertices(DiGraph), A =/= 0]),
                    
    AllImports = [N || {N,_} <- Imports],
-   UnusedImports = [], %AllImports -- UsedImports,
+   %UnusedImports = [], %AllImports -- UsedImports,
 %?dbg("edges",digraph:edges(DiGraph,main)),
    %?dbg("UsedImports",UsedImports),
    %?dbg("UnusedImports",UnusedImports),
@@ -333,7 +333,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
               not (is_record(X, xqVar) orelse 
                    is_record(X, xqFunction) orelse 
                    element(1, X) == 'context-item')],
-   S3_1 = strip_unused_imports(S3,UnusedImports),
+   %S3_1 = strip_unused_imports(S3,UnusedImports),
    
 %%    ImpContextTypes = [CtT || {context_type, CtT} <- StaticProps],
 %%    _ = [?err('XPTY0004')
@@ -366,7 +366,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                 'copy-namespaces' => FinalState#state.copy_ns_mode,
                 known_collations => FinalState#state.known_collations,
                 known_dec_formats => FinalState#state.known_dec_formats,
-                body => Mod#xqModule{prolog = S3_1 ++ S2,
+                body => Mod#xqModule{prolog = S3 ++ S2,
                                      body = S1}
                }, 
    %%% not sent in %%%  
@@ -385,18 +385,18 @@ handle_tree(#xqModule{version = {Version,Encoding},
    %% known_collations,
    EmptyMap.
 
-strip_unused_imports([],_) -> [];
-strip_unused_imports([{'module-import', {N,_}} = H|T],UnusedImports) ->
-   case lists:member(N, UnusedImports) of
-      true ->
-         ?dbg("stripping",N),
-         strip_unused_imports(T,UnusedImports);
-      false ->
-        %?dbg("not stripping",H),
-         [H|strip_unused_imports(T,UnusedImports)]
-   end;
-strip_unused_imports([H|T],UnusedImports) ->
-   [H|strip_unused_imports(T,UnusedImports)].
+%% strip_unused_imports([],_) -> [];
+%% strip_unused_imports([{'module-import', {N,_}} = H|T],UnusedImports) ->
+%%    case lists:member(N, UnusedImports) of
+%%       true ->
+%%          ?dbg("stripping",N),
+%%          strip_unused_imports(T,UnusedImports);
+%%       false ->
+%%         %?dbg("not stripping",H),
+%%          [H|strip_unused_imports(T,UnusedImports)]
+%%    end;
+%% strip_unused_imports([H|T],UnusedImports) ->
+%%    [H|strip_unused_imports(T,UnusedImports)].
 
 
 
