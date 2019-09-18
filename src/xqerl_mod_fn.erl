@@ -2099,7 +2099,22 @@ pct_encode3([H|T]) ->
                    xq_types:xq_function()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'fold-right'(Ctx,Seq,Zero,F) -> 
-   xqerl_seq3:foldr(Ctx,F, Zero, Seq).
+   foldr(Ctx,F, Zero, Seq).
+
+foldr(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
+   foldr1(Ctx,Fun,Acc,xqerl_seq3:expand(Seq));
+foldr(Ctx,Fun,Acc,Seq) ->
+   Fun1 = xqerl_seq3:singleton_value(Fun),
+   if is_function(Fun1) ->
+         foldr(Ctx,Fun1,Acc,Seq);
+      true ->
+         ?err('XPTY0004')
+   end.
+
+foldr1(_Ctx,_Fun,Acc,[]) ->
+   Acc;
+foldr1(Ctx,Fun,Acc,[H|T]) ->
+   Fun(Ctx,H,foldr1(Ctx,Fun,Acc,T)).
 
 %% Applies the function item $action to every item from the sequence $seq in 
 %% turn, returning the concatenation of the resulting sequences in order. 
@@ -2111,7 +2126,46 @@ pct_encode3([H|T]) ->
                  xq_types:xq_function()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'for-each'(Ctx,Seq,Action) -> 
-   xqerl_seq3:for_each(Ctx, Action, Seq).
+   for_each(Ctx, Action, Seq).
+
+for_each(_Ctx, Fun,Seq) when not is_list(Seq) -> 
+   for_each(_Ctx, Fun,[Seq]);
+for_each(_Ctx, _Fun,[]) -> [];
+for_each(_Ctx, Map, Seq) when is_map(Map) ->
+   xqerl_mod_map:get_matched(Map, Seq);
+for_each(Ctx, Fun, Seq) when is_function(Fun) ->
+   Size = fun() ->
+                xqerl_seq3:size(Seq)
+          end,
+   Ctx1 = xqerl_context:set_context_size(Ctx, Size),
+   for_each1(Ctx1, Fun, xqerl_seq3:expand(Seq), 1);
+for_each(Ctx, Fun,Seq) ->
+   Fun1 = xqerl_seq3:singleton_value(Fun),
+   if is_function(Fun1) ->
+         for_each(Ctx, Fun1,Seq);
+      true ->
+         ?err('XPTY0004')
+   end.
+
+for_each1(_Ctx, _Fun, [], _Pos) -> [];
+for_each1(Ctx, Fun, [H|T], Pos) ->
+   try
+      Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
+      Output = Fun(Ctx1, H),
+      if is_list(Output) ->
+            Output ++ for_each1(Ctx, Fun, T, Pos + 1);
+         true ->
+            [Output | for_each1(Ctx, Fun, T, Pos + 1)]
+      end
+   catch
+      _:#xqError{} = E:StackTrace -> 
+         ?dbg("error",StackTrace),
+         throw(E);
+      _:E:StackTrace ->
+         ?dbg("E",E),
+         ?dbg("error",StackTrace),
+         ?err('XPTY0004')
+   end.
 
 %% Applies the function item $action to successive pairs of items taken one 
 %% from $seq1 and one from $seq2, returning the concatenation of the resulting 
@@ -2126,7 +2180,51 @@ pct_encode3([H|T]) ->
                       xq_types:xq_function()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'for-each-pair'(Ctx,Seq1,Seq2,Action) -> 
-   xqerl_seq3:zip_with(Ctx, Action, Seq1, Seq2).
+   zip_with(Ctx, Action, Seq1, Seq2).
+
+zip_with(_Ctx, _Fun,[],[]) -> [];
+zip_with(_Ctx, _Fun,[],_) ->
+   ?err('XPTY0004');
+zip_with(_Ctx, _Fun,_,[]) ->
+   ?err('XPTY0004');
+zip_with(Ctx, Fun,Seq1,Seq2) 
+   when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
+   Size = erlang:min(xqerl_seq3:size(Seq1),xqerl_seq3:size(Seq2)),
+   NewCtx = xqerl_context:set_context_size(Ctx, Size),
+   zip_with1(NewCtx,Fun,{xqerl_seq3:expand(Seq1),xqerl_seq3:expand(Seq2)},1,[]);
+zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1) ->
+   zip_with(Ctx, Fun,Seq1,[Seq2]);
+zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq2) ->
+   zip_with(Ctx, Fun,[Seq1],Seq2);
+zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun) ->
+   zip_with(Ctx, Fun,[Seq1],[Seq2]);
+zip_with(Ctx, Fun,Seq1,Seq2) ->
+   Fun1 = xqerl_seq3:singleton_value(Fun),
+   if is_function(Fun1) ->
+         zip_with(Ctx, Fun1,Seq1,Seq2);
+      true ->
+         ?err('XPTY0004')
+   end.
+
+zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> lists:flatten(lists:reverse(Acc));
+zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> lists:flatten(lists:reverse(Acc));
+zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
+   try
+      Ctx1 = xqerl_context:set_context_item(Ctx, H1, Pos),
+      OutputSeq = case Fun == fun xqerl_mod_fn:concat/2 of
+                     true ->
+                        Fun(Ctx1, [H1, H2]);
+                     _ ->
+                        Fun(Ctx1, H1, H2)
+                  end,
+      NewSeq = [OutputSeq|Acc],
+      zip_with1(Ctx, Fun, {List1,List2}, Pos+1, NewSeq)
+   catch 
+      _:#xqError{} = E -> throw(E);
+      _:_:StackTrace ->
+         ?dbg("error",StackTrace),
+         ?err('XPTY0004')
+   end.
 
 %% Returns a string containing an xs:date value formatted for display. 
 %% fn:format-date($value as xs:date?, $picture as xs:string) as xs:string?
@@ -2785,7 +2883,40 @@ head_1(H) -> H.
          [] | xq_types:sequence(xq_types:xq_item()).
 'insert-before'(_Ctx,Target,Position,Inserts) ->
    Pos = xqerl_types:value(Position),
-   xqerl_seq3:insert(Target,Inserts,Pos).
+   insert(Target,Inserts,Pos).
+
+% insert Seq2 into Seq 1 at position Pos
+insert(Seq1,[],_Pos) -> Seq1;
+insert([],Seq2,_Pos) -> Seq2;
+insert(Seq1,Seq2,Pos) when is_list(Seq1), is_list(Seq2) ->
+   Pos1 = if Pos < 1 ->
+                1;
+             true ->
+                Pos
+          end,
+   SeqH = xqerl_seq3:expand(Seq1),
+   Head = subsequence_1(SeqH, 1, Pos1 - 1),
+   Tail = subsequence_1(SeqH, Pos1, length(SeqH)),
+   Head ++ xqerl_seq3:expand(Seq2) ++ Tail;
+insert(Seq1,Seq2,Pos) when is_list(Seq1) ->
+   insert(Seq1,[Seq2],Pos);
+insert(Seq1,Seq2,Pos) when is_list(Seq2) ->
+   insert([Seq1],Seq2,Pos);
+insert(Seq1,Seq2,Pos) ->
+   insert([Seq1],[Seq2],Pos).
+
+subsequence_1(List,Start,Length) when Start < 1 ->
+   Start1 = 1,
+   Length1 = Start + Length,
+   if Length1 < 0 ->
+         [];
+      true ->
+         subsequence_1(List,Start1,Length1)
+   end;
+subsequence_1(List,Start,_Length) when Start > length(List) ->
+   [];
+subsequence_1(List,Start,Length) ->
+   lists:sublist(List, Start, Length).
 
 %% Converts a string containing an IRI into a URI according 
 %% to the rules of [rfc3987]. 
@@ -5083,8 +5214,11 @@ sum1([H|T], Sum) ->
 -spec 'tail'(xq_types:context(),
              [] | xq_types:sequence(xq_types:xq_item())) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
-'tail'(_Ctx,Arg1) -> 
-   xqerl_seq3:tail(Arg1).
+'tail'(_Ctx, []) -> [];
+'tail'(_Ctx, #xqRange{min = Min,max = Max}) ->
+   xqerl_seq3:range(Min + 1, Max);
+'tail'(_Ctx,[_|T]) -> T;
+'tail'(_Ctx,_) -> [].
 
 %% Returns the timezone component of an xs:date. 
 %% fn:timezone-from-date($arg as xs:date?) as xs:dayTimeDuration?

@@ -119,7 +119,7 @@ groupbyclause(KeyVals) ->
                            Vs = [V || {_K,V} <- Ks],
                   V = reverse(maps:get(K, Mapped)),
                   V1 = lists:map(fun(ListVal) ->
-                                       xqerl_seq3:from_list(ListVal)
+                                       xqerl_seq3:flatten(ListVal)
                                  end, V),
                   New = list_to_tuple(Vs ++ V1) ,
                   [New|Acc]
@@ -149,13 +149,13 @@ windowclause(L, StartFun, EndFun, Type, WType) ->
 flatten_window_return(ignore, Bw) ->
    [begin
        L2 = element(9, B),
-       S = xqerl_seq3:from_list(L2),
+       S = xqerl_seq3:flatten(L2),
        setelement(9, B, S)
     end || B <- Bw, B =/= []];
 flatten_window_return(WType, Bw) ->
    [begin
        L2 = element(9, B),
-       S = xqerl_seq3:from_list(L2),
+       S = xqerl_seq3:flatten(L2),
        case xqerl_types:instance_of(S, WType) of
           true ->
              setelement(9, B, S);
