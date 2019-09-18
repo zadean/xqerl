@@ -1247,7 +1247,8 @@ expr_do(Ctx, {ensure, Var, #xqSeqType{occur = Occur}}) ->
                 true ->
                    ensure_zero_or_more
              end,
-   ?P("xqerl_seq3:'@FunName@'(_@Expr)");
+   EL = ?EL,
+   ?P("xqerl_seq3:'@FunName@'(_@EL@, _@Expr)");
 % ignoring pragmas for now
 expr_do(_Ctx, {pragma, _Pragmas, []}) ->
    ?err('XQST0079', ?LN);
@@ -1406,9 +1407,9 @@ expr_do(Ctx, #xqSimpleMap{lhs = SeqExpr, rhs = MapExpr, anno = Line}) ->
                 size_variable => SizeVar},
    
    BodyAbs = expr_do(Ctx2, MapExpr),
-
+   EL = ?EL,
    FunAbs = ?P("fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@BodyAbs end"),
-   ?P("xqerl_seq3:map(_@CtxVar,_@FunAbs,_@SeqAbs)");
+   ?P("xqerl_seq3:map(_@CtxVar#{line_num => _@EL@},_@FunAbs,_@SeqAbs)");
 
 % inline anonymous functions
 expr_do(Ctx, #xqFunctionDef{name = undefined, % fun object
@@ -1558,9 +1559,10 @@ expr_do(Ctx, 'context-item') ->
    ?P("xqerl_context:get_context_item(_@CtxName)");
 
 expr_do(Ctx, {range,Expr1,Expr2}) ->
+   EL = ?EL,
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
-   ?P("xqerl_seq3:range(_@E1,_@E2)");
+   ?P("xqerl_seq3:range(_@EL@, _@E1,_@E2)");
 
 expr_do(Ctx, {eff_bool, Expr}) ->
    E = expr_do(Ctx, Expr),
@@ -2215,10 +2217,11 @@ expr_do(Ctx, {'typeswitch', RootExpr, CasesDefault}) ->
    ?P("begin _@CaseVar = _@Root, _@@CaseNestExprs end");
 
 expr_do(Ctx, {'if-then-else', If, Then, Else}) ->
+   EL = ?EL,
    IfSt = expr_do(Ctx, If),
    True = expr_do(Ctx, Then),
    False = expr_do(Ctx, Else),
-   ?P(["case xqerl_seq3:singleton_value(_@IfSt) of",
+   ?P(["case xqerl_seq3:singleton_value(_@EL@ ,_@IfSt) of",
        "   true -> _@True; ",
        "_ -> _@False end"]);
 
@@ -2359,7 +2362,8 @@ step_expr_do(_, [], SourceVar) ->
    alist(O);
 step_expr_do(_, [atomize], SourceVar) -> 
    DocVar = {var,?L,next_var_name()},
-   O = ?P([" xqerl_seq3:path_map(",
+   EL = ?EL,
+   O = ?P([" xqerl_seq3:path_map(_@EL@, ",
        "      fun(_@DocVar,_,_) ->",
        "             xqerl_types:atomize(_@DocVar)",
        "      end, _@SourceVar)"       
@@ -2367,7 +2371,8 @@ step_expr_do(_, [atomize], SourceVar) ->
    alist(O);
 step_expr_do(_, [double], SourceVar) -> 
    DocVar = {var,?L,next_var_name()},
-   O = ?P([" xqerl_seq3:path_map(",
+   EL = ?EL,
+   O = ?P([" xqerl_seq3:path_map(_@EL@, ",
        "      fun(_@DocVar,_,_) ->",
        "             xqerl_types:cast_as(_@DocVar, 'xs:double')",
        "      end, _@SourceVar)"       
@@ -2382,7 +2387,7 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
    NodeVar = {var,?L,next_var_name()},
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
    EL = ?EL,
-   O1 = ?P([" _@NextVar = xqerl_seq3:path_map(",
+   O1 = ?P([" _@NextVar = xqerl_seq3:path_map(_@EL@, ",
             "      fun(#{nk := document} = _@NodeVar,_@PosVar,_@SizVar) ->",
             "              _@NodeVar",
             "        ;(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
@@ -2422,7 +2427,7 @@ step_expr_do(Ctx, [Step1|Rest], SourceVar) -> % stepping on an unknown
    E1 = step_expr_do(Ctx1, Step1, NodeVar),
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
    EL = ?EL,
-   O1 = ?P([" _@NextVar = xqerl_seq3:path_map(",
+   O1 = ?P([" _@NextVar = xqerl_seq3:path_map(_@EL@,",
             "      fun(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
             "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
             "             _@E1",
@@ -2751,9 +2756,10 @@ order_part(Ctx,{'order_by',Id, Exprs}) ->
    FunctionName = glob_fun_name({order_by, Id}),
    LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    VarTup = get_variable_tuple(Ctx),
+   EL = ?EL,
    OFun = fun({{order,Expr,{modifier,Dir,{_,Empty},_}}, CF},Acc) ->
                 E1 = expr_do(LocCtx, Expr),
-                ?P("[{fun(_@VarTup) -> xqerl_coll:sort_key(xqerl_seq3:singleton_value(_@E1), _@CF) end,
+                ?P("[{fun(_@VarTup) -> xqerl_coll:sort_key(xqerl_seq3:singleton_value(_@EL@, _@E1), _@CF) end,
                       '@Dir@','@Empty@'}|_@Acc]")
           end,
    Funs = lists:foldr(OFun, {nil,?L}, lists:zip(alist(Exprs), CollVars)),
@@ -3153,7 +3159,6 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
              true ->
                 ?P("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
           end,
-   %HasNext = NextFunAtom =/= [] ,
    Ens = ensure_type(Ctx,VarName1,Type,AType),
    ForFun1 = 
      if IsList andalso Empty andalso NoEmptyType ->
@@ -3165,7 +3170,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   if List =:= [] -> ",
             "         erlang:exit(xqerl_error:error('XPTY0004', _@EL@));",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List)",
             "   end."]);
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -3173,10 +3178,11 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
+            "   __Ctx1 = __Ctx#{line_num => _@EL@}",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, [List]);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, List)",
             "   end."]);
         Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
@@ -3185,16 +3191,17 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   if List =:= [] -> ",
             "         erlang:exit(xqerl_error:error('XPTY0004', _@EL@));",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List)",
             "   end."]);
         Empty ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
+            "   __Ctx1 = __Ctx#{line_num => _@EL@}",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, [List]);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, List)",
             "   end."]);
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -3202,12 +3209,12 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
-            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)."]);
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List)."]);
         true ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
-            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)."])
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List)."])
         end,
    ForFun2 = ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1) -> _@Ens,_@Next."]),
    {NewCtx,[ForFun1, ForFun2]};
@@ -3268,7 +3275,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   if List =:= [] -> ",
             "         erlang:exit(xqerl_error:error('XPTY0004', _@EL@));",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List, 1)",
             "   end."]);
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -3276,10 +3283,11 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
+            "   __Ctx1 = __Ctx#{line_num => _@EL@},",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, [List], 0);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, List, 1)",
             "   end."]);
         Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
@@ -3288,16 +3296,17 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   if List =:= [] -> ",
             "         erlang:exit(xqerl_error:error('XPTY0004', _@EL@));",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List, 1)",
             "   end."]);
         Empty ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
+            "   __Ctx1 = __Ctx#{line_num => _@EL@},",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, [List], 0);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx1, Tuple}, List, 1)",
             "   end."]);
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -3305,13 +3314,13 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
-            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)."
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List, 1)."
            ]);
         true ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
-            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)."
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx#{line_num => _@EL@}, Tuple}, List, 1)."
            ])
         end,
    ForFun2 = ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1,",
@@ -4027,21 +4036,19 @@ handle_predicate({Ctx, {predicate, #xqAtomicValue{type = Type} = A}}, Abs)
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@A1,_@Abs)");
 
 handle_predicate({Ctx, {predicate, #xqVarRef{name = Name}}}, Abs) ->
-%%    Ctx = lists:foldl(
-%%            fun(V,M) ->
-%%                  maps:remove(V, M)
-%%            end, Ctx0, [context_variable,position_variable,size_variable]),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
+   EL = ?EL,
    {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
    if ?xs_numeric(VarType) ->
          ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
       true ->
          NextCtxVar = {var,?L,next_ctx_var_name()},
-         ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar,_,_,_) -> "
+         ?P("xqerl_seq3:filter(_@CtxVar#{line_num => _@EL@},fun(_@NextCtxVar,_,_,_) -> "
             "_@VarAbs end,_@Abs)")
    end;
 handle_predicate({Ctx, {predicate, P}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
+   EL = ?EL,
    NextCtxVar = next_ctx_var_name(),
    NextCtxVar1 = {var,?L,NextCtxVar},
    IntCtxVar = {var,?L,next_var_name()},
@@ -4061,7 +4068,7 @@ handle_predicate({Ctx, {predicate, P}}, Abs) ->
                 position_variable => PosVar,
                 size_variable => SizeVar},
    E1 = expr_do(Ctx2, P),
-   ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
+   ?P("xqerl_seq3:filter(_@CtxVar#{line_num => _@EL@},fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
 
 handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    PhF = fun('?') ->
@@ -4090,14 +4097,14 @@ handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    Fun1 = ?P(["fun([]) ->",
               "     erlang:exit(xqerl_error:error('XPTY0004', _@EL@));",
               "   (_@NextVar2) ->",
-              "     xqerl_seq3:do_call(_@CtxAbs,_@NextVar2,{_@@ArgAbs})",
+              "     xqerl_seq3:do_call(_@CtxAbs#{line_num => _@EL@},_@NextVar2,{_@@ArgAbs})",
               "end"]),
    Fun2 = ?P(["fun(_@NextCtxVar2,_@@PlaceHolders) ->",
               " _@NextVar2 = xqerl_types:value(_@Abs),",
               " _@NextVar2(_@NextCtxVar2,_@@ArgAbs)",
               "end"]),
    if PlaceHolders == [] ->
-         ?P("xqerl_seq3:val_map(_@Fun1,_@Abs)");
+         ?P("xqerl_seq3:val_map(_@EL@, _@Fun1,_@Abs)");
       true ->
          Fun2
    end.
@@ -4280,10 +4287,6 @@ handle_axis_step_pred(Ctx, {positional_predicate, Pred}) ->
 handle_axis_step_pred(Ctx, Other) ->
    ?dbg("!!!SKIPPING!!!", Other),
    expr_do(Ctx, Other).
-
-
-%% handle_predicate({Ctx, {predicate, P}}, Abs) ->
-%%    ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
 
 
 % {name | name_type | none, fun_name}

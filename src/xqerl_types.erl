@@ -155,7 +155,7 @@ make_node_external(Node) ->
 %% make_node_external_1([], _) -> [].
 
 
-return_value([]) -> xqerl_seq3:empty();
+return_value([]) -> [];
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
 return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
@@ -1048,7 +1048,7 @@ castable( Av, Type ) ->
 %% castable([], TargetSeqType, Namespaces) ->
 %%    castable(xqerl_seq3:empty(), TargetSeqType, Namespaces);
 castable(#xqAtomicValue{} = Seq, TargetSeqType, Namespaces) ->
-   castable(xqerl_seq3:singleton(Seq), TargetSeqType, Namespaces);
+   castable([Seq], TargetSeqType, Namespaces);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
    #xqSeqType{occur = O} = SeqType = xqerl_seq3:get_seq_type(Seq),
    if O == one_or_many ->
@@ -2672,3 +2672,5 @@ zero_time(Val) ->
    Val#xsDateTime{hour = 0,
                   minute = 0,
                   second = xqerl_numeric:decimal(0)}.
+
+

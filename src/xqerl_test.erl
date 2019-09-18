@@ -355,8 +355,7 @@ normalize_lines(<<>>, Acc) -> Acc.
 
 
 string_value(List) when is_list(List) ->
-   NewList = lists:map(fun xqerl_seq3:singleton/1, List),
-   Seq = xqerl_seq3:from_list(NewList),
+   Seq = xqerl_seq3:flatten(List),
    xqerl_types:string_value(Seq);
 string_value(Seq) when is_binary(Seq) ->
    Seq;
