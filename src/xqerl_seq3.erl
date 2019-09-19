@@ -254,6 +254,8 @@ except(Seq1, Seq2) when is_list(Seq2) ->
 except(Seq1, Seq2) ->
    except([Seq1], [Seq2]).
 
+singleton_value(_, []) -> [];
+singleton_value(_, [V]) -> V;
 singleton_value(Ln, [_|_]) ->
     ?err('XPTY0004', Ln);
 singleton_value(_, S) ->
