@@ -11,15 +11,27 @@ jobs:
       with:
         fetch-depth: 1
     - name: Xqerl Dependences
-      run: | 
-          rebar3 deps
-          rebar3 get-deps
+      run: rebar3 get-deps
     - name: Compile Xqerl
       run: rebar3 compile
-    - name: Xqerl Shell
+    - name: Create Xqerl Release
+      run: rebar3 release -o /usr/local
+    - name: Start Up Xqerl
       run: |
-          rebar3 shell
-          r3:do('application:ensure_all_started(xqerl).')
+          ln -s /usr/local/xqerl/bin/* /usr/local/bin
+          echo "$PATH"
+          echo "$(which xqerl)"
+          cd /usr/local/xqerl
+          ls -al .
+          ./bin/xqerl start
+    - name: Stop Xqerl
+      run: xqerl stop
+
+
+    # - name: Xqerl Shell
+    #   run: |
+    #       rebar3 shell
+    #       r3:do('application:ensure_all_started(xqerl).')
 
 
 
