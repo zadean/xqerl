@@ -10,8 +10,8 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-      - name: epmd
-        run: which epmd
+    - name: epmd
+      run: which epmd
     # - name: Xqerl Dependences
     #   run: rebar3 get-deps
     # - name: Compile Xqerl
