@@ -32,6 +32,11 @@ jobs:
           ls _build/default/lib
           printf %60s | tr ' ' '-' && echo
           ls _build/default/lib/xqerl
+          printf %60s | tr ' ' '-' && echo
+          ls _build/default/lib/xqerl/ebin
+          printf %60s | tr ' ' '-' && echo
+          ls _build/default/lib/xqerl/include
+          printf %60s | tr ' ' '-' && echo
     # - name: Create Xqerl Release
       # run: rebar3 release -o /usr/local
     # - name: Start Up Xqerl
