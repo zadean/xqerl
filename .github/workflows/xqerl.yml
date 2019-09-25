@@ -1,0 +1,17 @@
+name: xqerl
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+        image: erlang:22.0.7
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    steps:
+    - name: create xqerl release
+      run: rebar3 release -o /usr/local
+         
+
