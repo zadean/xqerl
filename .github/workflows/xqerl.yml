@@ -14,10 +14,10 @@ jobs:
       run: rebar3 release -o /usr/local
     - name: Start up xqerl
       run: |
-         ln -s /usr/local/xqerl/bin /usr/local/bin
-         which xqerl
-         xqerl foreground
-         xqerl eval 'application:ensure_all_started(xqerl).'
+         ln -s /usr/local/xqerl/bin/* /usr/local/bin
+         echo "$PATH"
+         echo "${which xqerl}"
+
 
 
 
