@@ -10,23 +10,25 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Xqerl Dependences
-      run: rebar3 get-deps
-    - name: Compile Xqerl
-      run: rebar3 compile
-    - name: Create Xqerl Release
-      run: rebar3 release -o /usr/local
-    - name: Start Up Xqerl
-      run: |
-         ln -s /usr/local/xqerl/bin/* /usr/local/bin
-         echo "$PATH"
-         echo "$(which xqerl)"
-         cd /usr/local/xqerl && ls -al .
-         xqerl foreground &
-    - name: Xqerl smoke
-      run: xqerl eval 'application:ensure_all_started(xqerl).'
-    - name: Stop Xqerl
-      run: xqerl stop
+      - name: epmd
+        run: which epmd
+    # - name: Xqerl Dependences
+    #   run: rebar3 get-deps
+    # - name: Compile Xqerl
+    #   run: rebar3 compile
+    # - name: Create Xqerl Release
+      # run: rebar3 release -o /usr/local
+    # - name: Start Up Xqerl
+      # run: |
+      #    ln -s /usr/local/xqerl/bin/* /usr/local/bin
+      #    echo "$PATH"
+      #    echo "$(which xqerl)"
+      #    cd /usr/local/xqerl && ls -al .
+      #    xqerl foreground &
+    # - name: Xqerl smoke
+      # run: xqerl eval 'application:ensure_all_started(xqerl).'
+    # - name: Stop Xqerl
+      # run: xqerl stop
 
 
     # - name: Xqerl Shell
