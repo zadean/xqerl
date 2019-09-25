@@ -16,8 +16,17 @@ jobs:
       run: |
          ln -s /usr/local/xqerl/bin/* /usr/local/bin
          echo "$PATH"
-         echo "${which xqerl}"
-
-
-
+         echo "$(which xqerl)"
+         xqerl foreground
+  # spec_tests:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #       image: erlang:22.0.7
+  #   steps:
+  #   - name: Checkout Repo
+  #     uses: actions/checkout@v1
+  #     with:
+  #       fetch-depth: 1
+  #   - name: spec tests
+  #     run: rebar3 ct --spec "test/test.specs"
 
