@@ -23,35 +23,38 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: can do
-      run: |
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - Current Working Dir: '
-          pwd
-          ls -al .
-          printf %60s | tr ' ' '-' && echo
+    # - name: can do
+    #   run: |
+    #       printf %60s | tr ' ' '-' && echo
+    #       echo -n ' - Current Working Dir: '
+    #       pwd
+    #       ls -al .
+    #       printf %60s | tr ' ' '-' && echo
 
-    # - name: compile xqerl
-    #   run: rebar3 compile
-    # - name: create xqerl release
-    #   run: |
-    #       sudo chown -R $USER /usr/local
-    #       rebar3 release -o /usr/local
-    #       printf %60s | tr ' ' '-' && echo
-    #       ln -s /usr/local/xqerl/bin/xqerl /usr/local/bin/xqerl
-    #       printf %60s | tr ' ' '-' && echo
-    #       which xqerl
-    #       printf %60s | tr ' ' '-' && echo
-    # - name: start up xqerl
-    #   run: xqerl start
-    # - name: on the beam inspection 
-    #   run: |
-    #       sleep 5
-    #       echo -n '-  ping: ' 
-    #       xqerl ping | grep -oP 'pong'
-    #       echo -n '-  pid: ' 
-    #       xqerl pid | grep -oP '\d+'
-    #       xqerl eval 'file:get_cwd().'
+    - name: compile xqerl
+      run: rebar3 compile
+    - name: create xqerl release
+      run: |
+          sudo chown -R $USER /usr/local
+          rebar3 release -o /usr/local
+          printf %60s | tr ' ' '-' && echo
+          ln -s /usr/local/xqerl/bin/xqerl /usr/local/bin/xqerl
+          printf %60s | tr ' ' '-' && echo
+          which xqerl
+          printf %60s | tr ' ' '-' && echo
+    - name: start up xqerl
+      run: xqerl start
+    - name: on the beam inspection 
+      run: |
+          sleep 5
+          printf %60s | tr ' ' '-' && echo
+          echo -n '-  ping: ' 
+          xqerl ping | grep -oP 'pong'
+          echo -n '-  pid: ' 
+          xqerl pid | grep -oP '\d+'
+          printf %60s | tr ' ' '-' && echo
+          xqerl eval 'file:get_cwd().'
+          printf %60s | tr ' ' '=' && echo
     # - name: can do
     #   run: |
     #       printf %60s | tr ' ' '-' && echo
