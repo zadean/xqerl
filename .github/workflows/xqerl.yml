@@ -53,7 +53,7 @@ jobs:
           echo -n '-  pid: ' 
           xqerl pid | grep -oP '\d+'
           printf %60s | tr ' ' '-' && echo
-          echo ' - set xqerl working directory'
+          echo -n ' - set xqerl working directory: '
           xqerl eval "file:set_cwd(\"$(pwd)\")."
           xqerl eval 'file:get_cwd().'
           printf %60s | tr ' ' '=' && echo
@@ -61,26 +61,33 @@ jobs:
       run: |
           printf %60s | tr ' ' '-' && echo
           echo ' - run a xQuery expression'
-          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
+          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
+          grep -oP '^\[\{xq.+$'
           printf %60s | tr ' ' '-' && echo
           echo ' - compile an xQuery file'
-          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
+          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
+          grep -oP 'file(.+)\.xq'
           printf %60s | tr ' ' '-' && echo
           echo ' - compile, run then grep the title'
           xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).' | \
           grep -oP '<title>(.+)</title>'
           printf %60s | tr ' ' '-' && echo
-          echo ' - load an XML file into the DB'
-          xqerl eval 'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").'
+          echo -n ' - load an XML file into the DB: '
+          xqerl eval \
+          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
+          grep -oP 'ok'
           printf %60s | tr ' ' '-' && echo
           echo ' - view using the fn:doc#1 function and the xqerl:run/1 function'
-          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).'
+          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).' | \
+          grep -oP '<order>(.+)</order>'
           printf %60s | tr ' ' '-' && echo
-          echo ' - delete db doc'
-          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").'
+          echo -n ' - delete db doc'
+          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
+          grep -oP 'ok'
           printf %60s | tr ' ' '-' && echo
-          printf %60s | tr ' ' '-' && echo
-          echo ' - import into DB docs from directory'
-          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").'
+          echo -n ' - import into DB docs from directory: '
+          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '=' && echo
     - name: stop xqerl
       run: xqerl stop
