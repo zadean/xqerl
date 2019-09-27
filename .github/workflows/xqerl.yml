@@ -1,0 +1,84 @@
+name: xqerl
+on: [push]
+jobs:
+  # spec_tests:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #       image: erlang:22.0.7
+  #   steps:
+  #   - name: Checkout Repo
+  #     uses: actions/checkout@v1
+  #     with:
+  #       fetch-depth: 1
+      # - name: Compile Xqerl
+      # run: rebar3 compile
+  #   - name: spec tests
+  #     run: rebar3 ct --spec "test/test.specs"
+  build:
+    runs-on: ubuntu-latest
+    # container:
+    #     image: erlang:22.0.7
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Compile xqerl
+      run: rebar3 compile
+    - name: Build release
+      run: |
+          sudo chown -R $USER /usr/local
+          rebar3 release -o /usr/local
+          printf %60s | tr ' ' '-' && echo
+          ln -s /usr/local/xqerl/bin/xqerl /usr/local/bin/xqerl
+          printf %60s | tr ' ' '-' && echo
+          which xqerl
+          printf %60s | tr ' ' '-' && echo
+    - name: Start up xqerl
+      run: xqerl start
+    - name: Beam inspection 
+      run: |
+          sleep 5
+          printf %60s | tr ' ' '-' && echo
+          echo -n '-  ping: ' 
+          xqerl ping | grep -oP 'pong'
+          echo -n '-  pid: ' 
+          xqerl pid | grep -oP '\d+'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - set xqerl working directory: '
+          xqerl eval "file:set_cwd(\"$(pwd)\")."
+          xqerl eval 'file:get_cwd().'
+          printf %60s | tr ' ' '=' && echo
+    - name: Can do
+      run: |
+          printf %60s | tr ' ' '-' && echo
+          echo ' - run a xQuery expression'
+          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
+          grep -oP '^\[\{xq.+$'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile an xQuery file'
+          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
+          grep -oP 'file(.+)\.xq'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile, run then grep the title'
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).' | \
+          grep -oP '<title>(.+)</title>'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - load an XML file into the DB: '
+          xqerl eval \
+          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - view using the fn:doc#1 function and the xqerl:run/1 function'
+          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - delete db doc'
+          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - import into DB docs from directory: '
+          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '=' && echo
+    - name: stop xqerl
+      run: xqerl stop
