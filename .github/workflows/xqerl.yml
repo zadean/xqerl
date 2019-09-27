@@ -39,7 +39,7 @@ jobs:
           printf %60s | tr ' ' '-' && echo
     - name: Create Xqerl Release
       run: |
-          sudo chown -R /usr/local
+          sudo chown -R $USER /usr/local
           rebar3 release -o /usr/local
           printf %60s | tr ' ' '-' && echo
           ln -s /usr/local/xqerl/bin/xqerl /usr/local/bin/xqerl
