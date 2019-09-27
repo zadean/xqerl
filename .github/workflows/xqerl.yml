@@ -28,6 +28,7 @@ jobs:
           printf %60s | tr ' ' '-' && echo
           echo -n ' - Current Working Dir: '
           pwd
+          ls -al .
           printf %60s | tr ' ' '-' && echo
 
     # - name: compile xqerl
@@ -50,6 +51,7 @@ jobs:
     #       xqerl ping | grep -oP 'pong'
     #       echo -n '-  pid: ' 
     #       xqerl pid | grep -oP '\d+'
+    #       xqerl eval 'file:get_cwd().'
     # - name: can do
     #   run: |
     #       printf %60s | tr ' ' '-' && echo
