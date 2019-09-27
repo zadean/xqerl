@@ -23,21 +23,9 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Compile Xqerl
+    - name: compile xqerl
       run: rebar3 compile
-    - name: Check Compile
-      run: |
-          ls _build/default
-          printf %60s | tr ' ' '-' && echo
-          ls _build/default/lib
-          printf %60s | tr ' ' '-' && echo
-          ls _build/default/lib/xqerl
-          printf %60s | tr ' ' '-' && echo
-          ls _build/default/lib/xqerl/ebin
-          printf %60s | tr ' ' '-' && echo
-          ls _build/default/lib/xqerl/include
-          printf %60s | tr ' ' '-' && echo
-    - name: Create Xqerl Release
+    - name: create xqerl release
       run: |
           sudo chown -R $USER /usr/local
           rebar3 release -o /usr/local
@@ -46,18 +34,23 @@ jobs:
           printf %60s | tr ' ' '-' && echo
           which xqerl
           printf %60s | tr ' ' '-' && echo
-    - name: Start Up Xqerl
+    - name: start up xqerl
       run: xqerl start
-    - name: Inspect
+    - name: on the beam inspect 
       run: |
-          sleep 5
           echo -n '-  ping: ' 
           xqerl ping | grep -oP 'pong'
           echo -n '-  pid: ' 
           xqerl pid | grep -oP '\d+'
-          xqerl stop
-    - name: Can Do
+    - name: can do
       run: |
-         xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - run a xQuery expression'
+          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile an xQuery file'
+          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
+    - name: start up xqerl
+      run: xqerl stop
 
 
