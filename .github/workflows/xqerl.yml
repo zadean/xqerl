@@ -49,6 +49,7 @@ jobs:
     - name: Start Up Xqerl
       run: xqerl start
     - name: Inspect
+      run: |
           sleep 5
           echo -n '-  ping: ' 
           xqerl ping | grep -oP 'pong'
