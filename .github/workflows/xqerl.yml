@@ -47,11 +47,16 @@ jobs:
           which xqerl
           printf %60s | tr ' ' '-' && echo
     - name: Start Up Xqerl
-      run: |
-          xqerl start
+      run: xqerl start
+    - name: Inspect
           sleep 5
-          xqerl ping
-          xqerl pid
+          echo -n '-  ping: ' 
+          xqerl ping | grep -oP 'pong'
+          echo -n '-  pid: ' 
+          xqerl pid | grep -oP '\d+'
           xqerl stop
+    - name: Can Do
+      run: |
+         xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
 
 
