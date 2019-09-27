@@ -50,6 +50,10 @@ jobs:
           printf %60s | tr ' ' '-' && echo
           echo ' - compile an xQuery file'
           xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile and run'
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).'
+          printf %60s | tr ' ' '-' && echo
     - name: start up xqerl
       run: xqerl stop
 
