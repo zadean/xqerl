@@ -57,17 +57,17 @@ jobs:
           xqerl eval "file:set_cwd(\"$(pwd)\")."
           xqerl eval 'file:get_cwd().'
           printf %60s | tr ' ' '=' && echo
-    # - name: can do
-    #   run: |
-    #       printf %60s | tr ' ' '-' && echo
-    #       echo -n ' - Current Working Dir: '
-    #       pwd
-    #       printf %60s | tr ' ' '-' && echo
-    #       echo ' - run a xQuery expression'
-    #       xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
-    #       printf %60s | tr ' ' '-' && echo
-    # - name: start up xqerl
-    #   run: xqerl stop
+    - name: can do
+      run: |
+          printf %60s | tr ' ' '-' && echo
+          echo ' - run a xQuery expression'
+          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | grep -oP '^\[\{xq.+$'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile an xQuery file'
+          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
+          printf %60s | tr ' ' '-' && echo
+    - name: stop xqerl
+      run: xqerl stop
 
           # echo ' - compile an xQuery file'
           # xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
