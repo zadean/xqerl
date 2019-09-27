@@ -23,17 +23,9 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    # - name: can do
-    #   run: |
-    #       printf %60s | tr ' ' '-' && echo
-    #       echo -n ' - Current Working Dir: '
-    #       pwd
-    #       ls -al .
-    #       printf %60s | tr ' ' '-' && echo
-
     - name: Compile xqerl
       run: rebar3 compile
-    - name: Create xqerl release
+    - name: Build release
       run: |
           sudo chown -R $USER /usr/local
           rebar3 release -o /usr/local
@@ -78,8 +70,7 @@ jobs:
           grep -oP 'ok'
           printf %60s | tr ' ' '-' && echo
           echo ' - view using the fn:doc#1 function and the xqerl:run/1 function'
-          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).' | \
-          grep -oP '<order>(.+)</order>'
+          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).'
           printf %60s | tr ' ' '-' && echo
           echo -n ' - delete db doc'
           xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
