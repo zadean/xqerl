@@ -36,8 +36,9 @@ jobs:
           printf %60s | tr ' ' '-' && echo
     - name: start up xqerl
       run: xqerl start
-    - name: on the beam inspect 
+    - name: on the beam inspection 
       run: |
+          sleep 5
           echo -n '-  ping: ' 
           xqerl ping | grep -oP 'pong'
           echo -n '-  pid: ' 
@@ -51,8 +52,9 @@ jobs:
           echo ' - compile an xQuery file'
           xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
           printf %60s | tr ' ' '-' && echo
-          echo ' - compile and run'
-          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).'
+          echo ' - compile and run then grep the title'
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).' | \
+          grep -oP '<title>(.+)</title>'
           printf %60s | tr ' ' '-' && echo
     - name: start up xqerl
       run: xqerl stop
