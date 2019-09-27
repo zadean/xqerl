@@ -53,7 +53,9 @@ jobs:
           echo -n '-  pid: ' 
           xqerl pid | grep -oP '\d+'
           printf %60s | tr ' ' '-' && echo
-          xqerl eval 'file:get_cwd().'
+          xqerl eval 'io:format(file:get_cwd()).'
+          xqerl eval "file:set_cwd($(pwd))."
+          xqerl eval 'io:format(file:get_cwd()).'
           printf %60s | tr ' ' '=' && echo
     # - name: can do
     #   run: |
