@@ -66,6 +66,12 @@ jobs:
           echo ' - compile an xQuery file'
           xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").'
           printf %60s | tr ' ' '-' && echo
+          echo ' - compile, run then grep the title'
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).' | \
+          grep -oP '<title>(.+)</title>'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - load an XML file into the DB'
+          xqerl eval 'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").'
     - name: stop xqerl
       run: xqerl stop
 
