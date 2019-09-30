@@ -423,19 +423,26 @@ end.
 'InsertExprTargetChoice' -> 'into' : 'into'.
   
 % [200]
-'InsertExpr' -> 'insert' 'node' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : {update, next_id(), '$4', '$3', '$5'}.
-'InsertExpr' -> 'insert' 'nodes' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : {update, next_id(), '$4', '$3', '$5'}.
+'InsertExpr' -> 'insert' 'node' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : 
+    #xqUpdateExpr{id = next_id(), kind = '$4', src = '$3', tgt = '$5', anno = line('$1')}.
+'InsertExpr' -> 'insert' 'nodes' 'ExprSingle' 'InsertExprTargetChoice' 'ExprSingle' : 
+    #xqUpdateExpr{id = next_id(), kind = '$4', src = '$3', tgt = '$5', anno = line('$1')}.
 
 % [201]
-'DeleteExpr' -> 'delete' 'node'  'ExprSingle' : {update, next_id(), delete, '$3'}.
-'DeleteExpr' -> 'delete' 'nodes' 'ExprSingle' : {update, next_id(), delete, '$3'}.
+'DeleteExpr' -> 'delete' 'node'  'ExprSingle' :
+    #xqUpdateExpr{id = next_id(), kind = 'delete', tgt = '$3', anno = line('$1')}.
+'DeleteExpr' -> 'delete' 'nodes' 'ExprSingle' :
+    #xqUpdateExpr{id = next_id(), kind = 'delete', tgt = '$3', anno = line('$1')}.
 
 % [202]
-'ReplaceExpr' -> 'replace' 'value' 'of' 'node' 'ExprSingle' 'with' 'ExprSingle' : {update, next_id(), replace_value, '$5', '$7'}.
-'ReplaceExpr' -> 'replace' 'node' 'ExprSingle' 'with' 'ExprSingle' : {update, next_id(), replace, '$3', '$5'}.
+'ReplaceExpr' -> 'replace' 'value' 'of' 'node' 'ExprSingle' 'with' 'ExprSingle' : 
+    #xqUpdateExpr{id = next_id(), kind = 'replace_value', tgt = '$5', src = '$7', anno = line('$1')}.
+'ReplaceExpr' -> 'replace' 'node' 'ExprSingle' 'with' 'ExprSingle' : 
+    #xqUpdateExpr{id = next_id(), kind = 'replace', tgt = '$3', src = '$5', anno = line('$1')}.
 
 % [203]
-'RenameExpr' -> 'rename' 'node' 'ExprSingle' 'as' 'ExprSingle' : {update, next_id(), rename, '$3', '$5'}.
+'RenameExpr' -> 'rename' 'node' 'ExprSingle' 'as' 'ExprSingle' : 
+    #xqUpdateExpr{id = next_id(), kind = 'rename', tgt = '$3', src = '$5', anno = line('$1')}.
 
 % [207]
 'UpdatingFunctionCall' -> 'invoke' 'updating' 'PrimaryExpr' 'ArgumentList' : 
@@ -444,7 +451,7 @@ end.
 
 % [208]
 'CopyModifyExpr' -> 'copy' 'CopyBindingList' 'modify' 'ExprSingle' 'return' 'ExprSingle' :
-   {update, modify, next_id(), '$2', '$4', '$6'}.
+    #xqModifyExpr{id = next_id(), vars = '$2', expr = '$4', return = '$6', anno = line('$1')}.
 
 'CopyBindingList' -> 'CopyBinding' ',' 'CopyBindingList' : ['$1'|'$3'].
 'CopyBindingList' -> 'CopyBinding' : ['$1'].
@@ -865,16 +872,14 @@ end.
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   {update, modify, next_id(), [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
-      #xqVarRef{name = Nm}, 
-      #xqVarRef{name = Nm}}.
+   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], expr = #xqVarRef{name = Nm}, return = #xqVarRef{name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' 'Expr' '}' :
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   {update, modify, next_id(), [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
-      #xqSimpleMap{id = next_id(), lhs = #xqVarRef{name = Nm}, rhs = '$5', anno = line('$2')}, 
-      #xqVarRef{name = Nm}}.
+   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+                 expr = #xqSimpleMap{id = next_id(), lhs = #xqVarRef{name = Nm}, rhs = '$5', anno = line('$2')}, 
+                 return = #xqVarRef{name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' : '$1'.
 
 % [97]     UnaryExpr      ::=      ("-" | "+")* ValueExpr  

@@ -403,35 +403,24 @@ handle_tree(#xqModule{version = {Version,Encoding},
 
 
 
-handle_node(State, {update, _Id, InsertKind, Src, Tgt})
+handle_node(State, #xqUpdateExpr{kind = InsertKind, src = Src, tgt = Tgt, anno = Ln} = Upd)
    % inserts
    when InsertKind == 'after';
         InsertKind == 'before';
         InsertKind == 'into_first';
         InsertKind == 'into_last';
         InsertKind == 'into' -> 
-   State1 = set_updating(State, true),
+   State1 = set_updating(set_line_num(State, Ln), true),
    SrcState = handle_node(State1, Src),
    TgtState = handle_node(State1, Tgt),
    SrcStmt = get_statement(SrcState),
    TgtStmt = get_statement(TgtState),
-   %SrcType = get_statement_type(SrcState),
-   %TgtType = get_statement_type(TgtState),
-   %SimTgtType = get_simple_type(TgtType#xqSeqType.type),
-%%    SrcNodes = check_type_match(SrcType, #xqSeqType{type = node, 
-%%                                                    occur = zero_or_many}),
-%%    if SrcNodes == false ->
-%%          ?err('XUTY0004');
-%%       true ->
-%%          ok
-%%    end,
-   % Src and Tgt switched
-   Node = {update, InsertKind, TgtStmt, SrcStmt},
+   Node = Upd#xqUpdateExpr{src = SrcStmt, tgt = TgtStmt},
    set_statement_and_type(State1, Node, 
                           #xqSeqType{type = 'empty-sequence', occur = zero}); 
 
-handle_node(State, {update, _Id, delete, Tgt}) ->
-   State1 = set_updating(State, true),
+handle_node(State, #xqUpdateExpr{kind = delete, tgt = Tgt, anno = Ln} = Upd) ->
+   State1 = set_updating(set_line_num(State, Ln), true),
    TgtState = handle_node(State1, Tgt),
    TgtStmt = get_statement(TgtState),
    TgtType = get_statement_type(TgtState),
@@ -442,12 +431,12 @@ handle_node(State, {update, _Id, delete, Tgt}) ->
       true ->
          ok
    end,
-   Node = {update, delete, TgtStmt},
+   Node = Upd#xqUpdateExpr{tgt = TgtStmt},
    set_statement_and_type(State1, Node, 
                           #xqSeqType{type = 'empty-sequence', occur = zero}); 
    
-handle_node(State, {update, _Id, replace_value, Tgt, Val}) -> 
-   State1 = set_updating(State, true),
+handle_node(State, #xqUpdateExpr{kind = replace_value, src = Val, tgt = Tgt, anno = Ln} = Upd) -> 
+   State1 = set_updating(set_line_num(State, Ln), true),
    ValState = handle_node(State1, 
                           {comp_cons, 
                            #xqTextNode{string_value = {content_expr, Val}}}),
@@ -462,12 +451,12 @@ handle_node(State, {update, _Id, replace_value, Tgt, Val}) ->
       true ->
          ok
    end,
-   Node = {update, replace_value, TgtStmt, ValStmt},
+   Node = Upd#xqUpdateExpr{src = ValStmt, tgt = TgtStmt},
    set_statement_and_type(State1, Node, 
                           #xqSeqType{type = 'empty-sequence', occur = zero}); 
 
-handle_node(State, {update, _Id, replace, Tgt, Val}) ->
-   State1 = set_updating(State, true),
+handle_node(State, #xqUpdateExpr{kind = replace, src = Val, tgt = Tgt, anno = Ln} = Upd) ->
+   State1 = set_updating(set_line_num(State, Ln), true),
    ValState = handle_node(State1, Val),
    ValStmt = get_statement(ValState),
    TgtState = handle_node(State1, Tgt),
@@ -480,12 +469,12 @@ handle_node(State, {update, _Id, replace, Tgt, Val}) ->
       true ->
          ok
    end,
-   Node = {update, replace, TgtStmt, ValStmt},
+   Node = Upd#xqUpdateExpr{src = ValStmt, tgt = TgtStmt},
    set_statement_and_type(State1, Node, 
                           #xqSeqType{type = 'empty-sequence', occur = zero}); 
 
-handle_node(State, {update, _Id, rename, Tgt, Val}) -> 
-   State1 = set_updating(State, true),
+handle_node(State, #xqUpdateExpr{kind = rename, src = Val, tgt = Tgt, anno = Ln} = Upd) -> 
+   State1 = set_updating(set_line_num(State, Ln), true),
    ValState = handle_node(State1, Val),
    ValStmt = get_statement(ValState),
    ValStmt1 = resolve_element_name(State, ValStmt),
@@ -511,12 +500,13 @@ handle_node(State, {update, _Id, rename, Tgt, Val}) ->
       true ->
          ok
    end,
-   Node = {update, rename, TgtStmt, ValStmt1},
+   Node = Upd#xqUpdateExpr{src = ValStmt1, tgt = TgtStmt},
    set_statement_and_type(State1, Node, 
                           #xqSeqType{type = 'empty-sequence', occur = zero}); 
    
-handle_node(State, {update, modify, Id, Vars, Expr, Return}) -> 
-   State1 = set_updating(State, copy),
+handle_node(State, #xqModifyExpr{id = Id, vars = Vars, expr = Expr, 
+                                 return = Return, anno = Ln}) ->
+   State1 = set_updating(set_line_num(State, Ln), copy),
    CopyFold = 
      fun(#xqVar{id = VId, 
                 name = Name, 
@@ -558,7 +548,8 @@ handle_node(State, {update, modify, Id, Vars, Expr, Return}) ->
    ReturnState = handle_node(set_updating(ReturnState0,false), Return),
    ReturnStmt = get_statement(ReturnState),
    ReturnType = get_statement_type(ReturnState),
-   Node = {update, modify, Id, VarsStmt, ExprStmt, ReturnStmt},
+   Node = #xqModifyExpr{id = Id, vars = VarsStmt, expr = ExprStmt, 
+                                 return = ReturnStmt, anno = Ln},
    set_statement_and_type(CopyState, Node, ReturnType); 
 
 handle_node(State, {'updating-function-call', Name, Arity, Args}) -> 

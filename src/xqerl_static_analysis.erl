@@ -188,7 +188,7 @@ x(G, Map, Parent, {'simple-map', Id, Lhs, Rhs}) ->
    x(G, Map, K, Rhs),
    Map;
 
-x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
+x(G, Map, Parent, #xqModifyExpr{id = Id, vars = Vars, expr = Expr, return = Return}) ->
    K = {Id, modify},
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,known_namespaces},Parent, property),
@@ -199,7 +199,7 @@ x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
                     end, Map, Vars),
    x(G, LM, K, Expr),
    x(G, LM, K, Return);
-x(G, Map, Parent, {update, Id,_,A,B,C}) ->
+x(G, Map, Parent, #xqUpdateExpr{id = Id,src = A, tgt = B}) ->
    K = {Id, update}, % ensure updates are not moved
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,known_namespaces},Parent, property),
@@ -207,24 +207,6 @@ x(G, Map, Parent, {update, Id,_,A,B,C}) ->
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    x(G, Map, K, B),
-   x(G, Map, K, C),
-   Map;
-x(G, Map, Parent, {update, Id,_,A,B}) ->
-   K = {Id, update}, % ensure updates are not moved
-   add_vertex(G, {static,known_namespaces}),
-   add_edge(G,{static,known_namespaces},Parent, property),
-   add_vertex(G, K),
-   add_edge(G,K,Parent, update),
-   x(G, Map, K, A),
-   x(G, Map, K, B),
-   Map;
-x(G, Map, Parent, {update, Id,_,A}) ->
-   K = {Id, update}, % ensure updates are not moved
-   add_vertex(G, {static,known_namespaces}),
-   add_edge(G,{static,known_namespaces},Parent, property),
-   add_vertex(G, K),
-   add_edge(G,K,Parent, update),
-   x(G, Map, K, A),
    Map;
 x(G, Map, Parent,{where,Id,Expr} ) ->
    K = {Id,where},

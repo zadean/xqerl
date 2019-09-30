@@ -210,4 +210,22 @@
    anno :: integer()
 }).
 
+-type (insert_type() :: 'after' | before | into_first | into_last | into).
+
+-record(xqUpdateExpr, {
+   id   :: undefined | integer(),
+   kind :: insert_type() | delete | replace_value | replace | rename,
+   src  :: term(),
+   tgt  :: term(),
+   anno :: integer()
+}).
+
+-record(xqModifyExpr, {
+   id     :: integer(),
+   vars   :: [#xqVar{}],
+   expr   :: term(),
+   return :: term(),
+   anno   :: integer()
+}).
+
 

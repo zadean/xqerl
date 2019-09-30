@@ -1170,24 +1170,29 @@ param_types(Params) ->
    [ T || #xqVar{type = T} <- Params].
 
 
-expr_do(Ctx, {update, rename, Tgt, Src}) ->
+expr_do(Ctx, #xqUpdateExpr{kind = rename, src = Val, tgt = Tgt, anno = Ln}) ->
+   _ = set_line(Ln),
    CtxVar = {var, ?L, get_context_variable_name(Ctx)},
-   SrcAbs = expr_do(Ctx, Src),
+   ValAbs = expr_do(Ctx, Val),
    Namespaces = abs_ns_list(Ctx),
    TgtAbs = expr_do(Ctx, Tgt),
    ?P(["begin ",
        " xqerl_update:add(_@CtxVar, {rename, _@TgtAbs, ",
-       " xqerl_node:ensure_qname(_@SrcAbs, _@Namespaces)})  end"]);
-expr_do(Ctx, {update, InsertKind, Src, Tgt}) ->
-   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
-   SrcAbs = expr_do(Ctx, Src),
-   TgtAbs = expr_do(Ctx, Tgt),
-   ?P("begin xqerl_update:add(_@CtxVar, {_@InsertKind@, _@SrcAbs, _@TgtAbs})  end");
-expr_do(Ctx, {update, delete, Tgt}) ->
+       " xqerl_node:ensure_qname(_@ValAbs, _@Namespaces)})  end"]);
+expr_do(Ctx, #xqUpdateExpr{kind = delete, tgt = Tgt, anno = Ln}) ->
+   _ = set_line(Ln),
    CtxVar = {var, ?L, get_context_variable_name(Ctx)},
    TgtAbs = expr_do(Ctx, Tgt),
    ?P("begin xqerl_update:add(_@CtxVar, {delete, _@TgtAbs})  end");
-expr_do(Ctx, {update, modify, Id, VarsStmt, ExprStmt, ReturnStmt}) ->
+expr_do(Ctx, #xqUpdateExpr{kind = InsertKind, src = Src, tgt = Tgt, anno = Ln}) ->
+   _ = set_line(Ln),
+   CtxVar = {var, ?L, get_context_variable_name(Ctx)},
+   SrcAbs = expr_do(Ctx, Src),
+   TgtAbs = expr_do(Ctx, Tgt),
+   ?P("begin xqerl_update:add(_@CtxVar, {_@InsertKind@, _@TgtAbs, _@SrcAbs})  end");
+expr_do(Ctx, #xqModifyExpr{id = Id, vars = VarsStmt, expr = ExprStmt, 
+                                 return = ReturnStmt, anno = Ln}) ->
+   _ = set_line(Ln),
    %?dbg("VarsStmt",VarsStmt),
    CtxNext = next_ctx_var_name(),
    Ctx1 = set_context_variable_name(Ctx, CtxNext),
