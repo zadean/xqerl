@@ -383,7 +383,7 @@ scan_mod(#xqModule{prolog = Prolog,
      xqerl_context:get_module_exports(Imports),
    StaticProps = [case Sp of
                      #xqError{} ->
-                        throw(Sp);
+                        ?err(Sp, ?LN);
                      _ ->
                         Sp
                   end || Sp <- StaticProps0], 
@@ -2132,10 +2132,11 @@ expr_do(Ctx, {'except', Expr1, Expr2}) ->
    E2 = expr_do(Ctx, Expr2),
    ?P("xqerl_seq3:except(_@E1,_@E2)");
 
-expr_do(Ctx, #xqVarRef{name = Name}) ->
-   %?dbg("Loc",Name),
-   {V,_} = get_variable_ref(Name, Ctx),
-   V;
+expr_do(Ctx, #xqVarRef{name = Name, anno = L}) ->
+    set_line(L),
+    %?dbg("Loc",Name),
+    {V,_} = get_variable_ref(Name, Ctx),
+    V;
 
 expr_do(Ctx, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
    RootVar = {var,?L,next_var_name()},
@@ -2237,6 +2238,7 @@ expr_do(Ctx, #xqComparisonExpr{anno = Line,
    _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
+   E3 = 
    if Op =:= '='; Op =:= '!=';
       Op =:= '>'; Op =:= '>=';
       Op =:= '<'; Op =:= '<=' ->
@@ -2251,7 +2253,19 @@ expr_do(Ctx, #xqComparisonExpr{anno = Line,
       Op =:= '<<' -> ?P("xqerl_operators:node_before(_@E1,_@E2)");
       Op =:= '>>' -> ?P("xqerl_operators:node_after(_@E1,_@E2)");
       Op =:= 'is' -> ?P("xqerl_operators:node_is(_@E1,_@E2)")
-   end;
+   end,
+   ErrVar = {var,?L,next_var_name()},
+   StkVar = {var,?L,next_var_name()},
+   EL0 = ?EL,
+   EL = erlang:append_element(EL0, 0),
+   _ = add_used_record_type(xqError),
+   ?P(["try",
+       " _@E3 ",
+       "catch ",
+       " _ : #xqError{} = _@ErrVar : _@StkVar ->",
+       "  erlang:exit(_@ErrVar#xqError{location = _@EL@, additional = xqerl_lib:format_stacktrace(_@StkVar)}) ",
+       "end"
+      ]);
 
 expr_do(Ctx, #xqArithExpr{op = Op,
                           lhs = Expr1,
@@ -2260,13 +2274,26 @@ expr_do(Ctx, #xqArithExpr{op = Op,
    _ = set_line(Line),
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
+   E3 = 
    if Op =:= '+' -> ?P("xqerl_operators:add(_@E1,_@E2)");
       Op =:= '-' -> ?P("xqerl_operators:subtract(_@E1,_@E2)");
       Op =:= '*' -> ?P("xqerl_operators:multiply(_@E1,_@E2)");
       Op =:= 'div' -> ?P("xqerl_operators:divide(_@E1,_@E2)");
       Op =:= 'mod' -> ?P("xqerl_operators:modulo(_@E1,_@E2)");
       Op =:= 'idiv' -> ?P("xqerl_operators:idivide(_@E1,_@E2)")
-   end;
+   end,
+   ErrVar = {var,?L,next_var_name()},
+   StkVar = {var,?L,next_var_name()},
+   EL0 = ?EL,
+   EL = erlang:append_element(EL0, 0),
+   _ = add_used_record_type(xqError),
+   ?P(["try",
+       " _@E3 ",
+       "catch ",
+       " _ : #xqError{} = _@ErrVar : _@StkVar ->",
+       "  erlang:exit(_@ErrVar#xqError{location = _@EL@, additional = xqerl_lib:format_stacktrace(_@StkVar)}) ",
+       "end"
+      ]);
 
 expr_do(Ctx, {'unary', '-', Expr1}) ->
    E1 = expr_do(Ctx, Expr1),
@@ -2412,10 +2439,12 @@ step_expr_do(Ctx, [#xqAxisStep{predicates = []} = Step1|Rest], SourceVar) ->
    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
    E1 = step_expr_do(Ctx1, Step1, NodeVar),
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
+   _ = add_used_record_type(xqError),
    EL = ?EL,
    O1 = ?P([" _@NextVar = ",
             "case catch xqldb_xpath:document_order(lists:append([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)]))",
             "of {'EXIT',{function_clause,_}} -> erlang:exit(xqerl_error:error('XPTY0019', _@EL@)); ",
+            "{'EXIT',#xqError{} = _@ErrVar} -> erlang:exit(xqerl_error:error(_@ErrVar, _@EL@)); ",
             "{'EXIT',_@ErrVar} -> erlang:exit(_@ErrVar); ",
             "_@TempVar -> _@TempVar end"
            ]), 
@@ -3688,13 +3717,7 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind,
                             params = Params, 
                             type = Type}) ->
    _ = add_used_record_type(xqFunTest),
-   AnnoF = fun(#annotation{name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
-                                   local_name = L} = Q}, Abs) 
-                 when L == ?A("public");
-                      L == ?A("private") ->
-                 {cons,?L,abs_qname(Ctx, Q), Abs};
-              (#annotation{name = #qname{namespace = N} = Q}, Abs) ->
-                 _ = xqerl_lib:reserved_namespaces(N),
+   AnnoF = fun(#annotation{name = #qname{} = Q}, Abs) ->
                  {cons,?L,abs_qname(Ctx, Q), Abs}
            end,
    E1 = if Annos == [] ->
@@ -4015,10 +4038,11 @@ handle_predicate({Ctx, {positional_predicate, #xqAtomicValue{} = A}}, Abs) ->
    A1 = abs_simp_atomic_value(A),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@A1,_@Abs)");
-handle_predicate({Ctx, {positional_predicate, #xqVarRef{name = Name}}}, Abs) -> 
-   CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   {VarAbs, _} = get_variable_ref(Name, Ctx),
-   ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
+handle_predicate({Ctx, {positional_predicate, #xqVarRef{name = Name, anno = L}}}, Abs) ->
+    set_line(L),
+    CtxVar = {var,?L,get_context_variable_name(Ctx)},
+    {VarAbs, _} = get_variable_ref(Name, Ctx),
+    ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
 handle_predicate({_Ctx, {positional_predicate, % Seq[last()] 
                         ?CALL(#xqFunctionDef{body = {xqerl_mod_fn,last,_}}, Line)}}, Abs) ->
    _ = set_line(Line),
@@ -4040,17 +4064,18 @@ handle_predicate({Ctx, {predicate, #xqAtomicValue{type = Type} = A}}, Abs)
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@A1,_@Abs)");
 
-handle_predicate({Ctx, {predicate, #xqVarRef{name = Name}}}, Abs) ->
-   CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   EL = ?EL,
-   {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
-   if ?xs_numeric(VarType) ->
-         ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
-      true ->
-         NextCtxVar = {var,?L,next_ctx_var_name()},
-         ?P("xqerl_seq3:filter(_@CtxVar#{line_num => _@EL@},fun(_@NextCtxVar,_,_,_) -> "
-            "_@VarAbs end,_@Abs)")
-   end;
+handle_predicate({Ctx, {predicate, #xqVarRef{name = Name, anno = L}}}, Abs) ->
+    set_line(L),
+    CtxVar = {var,?L,get_context_variable_name(Ctx)},
+    EL = ?EL,
+    {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
+    if ?xs_numeric(VarType) ->
+           ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
+       true ->
+           NextCtxVar = {var,?L,next_ctx_var_name()},
+          ?P("xqerl_seq3:filter(_@CtxVar#{line_num => _@EL@},fun(_@NextCtxVar,_,_,_) -> "
+             "_@VarAbs end,_@Abs)")
+    end;
 handle_predicate({Ctx, {predicate, P}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    EL = ?EL,
@@ -4418,11 +4443,14 @@ compile_path_statement_1(Ctx, SourceVar, [{Simp,Hard}|Rest]) ->
    [Sa|Abs] ++ compile_path_statement_1(Ctx, NewSourceVar, Rest).
 
 build_simple_path(_Ctx, SourceVar, Simp) ->
-   %CtxVar = {var, ?L, get_context_variable_name(Ctx)},
    List = lists:map(fun simple_axis/1, Simp),
    AList = a_term(List),
-   %?dbg("List ",List),
-   ?P("xqldb_xpath:simple_path(_@SourceVar, _@AList)").
+   EL = ?EL,
+   ?P(["try ",
+       " xqldb_xpath:simple_path(_@SourceVar, _@AList)",
+       " catch _:_ -> ",
+       "erlang:exit(xqerl_error:error('XPTY0019', _@EL@))",
+       " end"]).
 
 %% returns [{Simple, Hard}] list 
 split_steps([]) -> [];

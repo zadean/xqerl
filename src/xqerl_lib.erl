@@ -45,8 +45,6 @@
 -export([decode_string/1]).
 
 -export([escape_uri/1]).
-%-export([shrink_spaces/1]).
--export([reserved_namespaces/1]).
 -export([encode_for_uri/1]).
 -export([pct_encode3/1]).
 
@@ -198,19 +196,6 @@ hex_digit(N) when N > 9, N =< 15 ->
     N + $A - 10.
 
 
-reserved_namespaces(Ns) ->
-   % check reserved NS 
-   if Ns == <<"http://www.w3.org/XML/1998/namespace">>;
-      Ns == <<"http://www.w3.org/2001/XMLSchema">>;
-      Ns == <<"http://www.w3.org/2001/XMLSchema-instance">>;
-      Ns == <<"http://www.w3.org/2005/xpath-functions">>;
-      Ns == <<"http://www.w3.org/2005/xpath-functions/math">>;
-      Ns == <<"http://www.w3.org/2005/xpath-functions/array">>;
-      Ns == <<"http://www.w3.org/2005/xpath-functions/map">>;
-      Ns == <<"http://www.w3.org/2012/xquery">> -> ?err('XQST0045');
-      true ->
-         ok
-   end.
 
 %% shrink_spaces(Bin) when is_binary(Bin) ->
 %%    Str = bin_to_str(Bin),

@@ -272,7 +272,7 @@ path_map({File, Line}, Fun, Seq) ->
         path_map(Fun, Seq)
     catch
         _:#xqError{} = E ->
-            erlang:exit(E#xqError{location = {File, Line, 0}})
+            ?err(E, {File, Line})
     end.
 
 path_map(Fun,[]) when is_function(Fun,3) -> [];
@@ -305,8 +305,7 @@ formap({_, Ctx, _} = FCT, Seq) ->
         formap_1(FCT, Seq)
     catch
         _:#xqError{} = E ->
-            {F, L} = maps:get(line_num, Ctx),
-            E#xqError{location = {F, L, 0}}
+            ?err(E, maps:get(line_num, Ctx))
     end.
 
 formap_1(_,[]) -> [];
@@ -322,8 +321,7 @@ forposmap({_, Ctx, _} = FCT, Seq, P) ->
         forposmap_1(FCT, Seq, P)
     catch
         _:#xqError{} = E ->
-            {F, L} = maps:get(line_num, Ctx),
-            E#xqError{location = {F, L, 0}}
+            ?err(E, maps:get(line_num, Ctx))
     end.
 
 forposmap_1(_,[],_) -> [];
@@ -434,8 +432,7 @@ filter(Ctx, Fun, Seq2) when is_function(Fun,4) ->
          % context was not a node when one was expected
          ?err('XPTY0020', maps:get(line_num, Ctx));
       _:#xqError{} = E:_StackTrace ->
-         {F, L} = maps:get(line_num, Ctx),
-         throw(E#xqError{location = {F, L, 0}})
+         ?err(E, maps:get(line_num, Ctx))
   end.
 
 do_call(Ctx, MapArrayOrFun, Args) ->
@@ -444,7 +441,7 @@ do_call(Ctx, MapArrayOrFun, Args) ->
     catch
         _:#xqError{} = E ->
             {F, L} = maps:get(line_num, Ctx),
-            throw(E#xqError{location = {F, L, 0}})
+            ?err(E, {F, L})
     end.
 
 do_call_1(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
@@ -470,7 +467,7 @@ val_map({F, L}, Fun, Seq) ->
         val_map(Fun, Seq)
     catch
         _:#xqError{} = E ->
-         throw(E#xqError{location = {F, L, 0}})
+            ?err(E, {F, L})
     end.
 
 val_map(Fun,[]) -> Fun([]);
@@ -486,7 +483,7 @@ val_map(Fun,[H|T]) ->
             _:#xqError{} = E:Stack ->
                ?dbg("H  ",H),
                ?dbg("Err",Stack),
-               throw(E);
+               exit(E);
             _:{badkey,_} -> % This happens when a variable is not yet 
                             % initialized, so there must have been a cycle
                             % missed at static time.
@@ -533,7 +530,7 @@ map1(Ctx, Fun, [H|T], Pos, Size) ->
       _:#xqError{} = E:StackTrace ->
          ?dbg("error",StackTrace),
          ?dbg("FUNINFO",erlang:fun_info(Fun)),
-         throw(E);
+         exit(E);
       _:E:StackTrace ->
          ?dbg("E",E),
          ?dbg("error",StackTrace),
@@ -620,7 +617,7 @@ check(List,nonnode) ->
 pformap(From,[],FCT,Limit,Left,[P|Ps],Acc) when Left < Limit ->
    receive
       {P,{'EXIT',Ex}} ->
-         throw(Ex);
+         exit(Ex);
       {P,X} -> 
          pformap(From,[],FCT,Limit,Left + 1,Ps, [X|Acc])
    after 60000 -> error
@@ -667,7 +664,7 @@ pmap(From,[],FCT,Limit,Left,Ps,Acc) ->
    %when Left < Limit ->
    receive
       {_,{'EXIT',Ex}} ->
-         throw(Ex);
+         exit(Ex);
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
          pmap(From,[],FCT,Limit,Left + 1,NewPs, [X|Acc])

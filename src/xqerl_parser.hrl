@@ -68,7 +68,8 @@
 
 -record(xqVarRef, 
         {
-         name :: #'qname'{}
+         name :: #'qname'{},
+         anno :: undefined | integer()
         }).
 
 -record(xqFlwor, 

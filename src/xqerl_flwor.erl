@@ -982,7 +982,7 @@ merge_for_where([{for,#xqVar{name = FName,
       true ->
          % relies on for variable, so replace with 'context-item'
          %?dbg("Lifting where into for as predicate",WExpr),
-         FVarRef = #xqVarRef{name = FName},
+         FVarRef = #xqVarRef{name = FName, anno = FVar#xqVar.anno},
          %?dbg("removing where clause",WName),
          case catch replace_var_with_context_item(FVarRef, WExpr) of
             {error, _E} -> % caused by predicates and other axis steps
@@ -1016,14 +1016,14 @@ replace_var_with_context_item(_, predicate) ->
 replace_var_with_context_item(_, #xqAxisStep{}) ->
    % an internal predicate cannot use the outside context item
    throw({error,axisStep});
-replace_var_with_context_item(FVarRef, [H|T]) when H == FVarRef ->
+replace_var_with_context_item(#xqVarRef{name = H} = FVarRef, [#xqVarRef{name = H}|T]) ->
    ['context-item'|replace_var_with_context_item(FVarRef, T)];
 replace_var_with_context_item(FVarRef, [H|T]) when is_list(H) ->
    replace_var_with_context_item(FVarRef, H) ++ replace_var_with_context_item(FVarRef, T);
 replace_var_with_context_item(FVarRef, [H|T]) ->
    [replace_var_with_context_item(FVarRef, H)
    |replace_var_with_context_item(FVarRef, T)];
-replace_var_with_context_item(FVarRef, T) when T == FVarRef ->
+replace_var_with_context_item(#xqVarRef{name = H}, #xqVarRef{name = H}) ->
    'context-item';
 replace_var_with_context_item(FVarRef, T) when is_tuple(T) ->
    List = tuple_to_list(T),
@@ -1051,7 +1051,8 @@ maybe_split_comparisons_in_where_clause(#xqFlwor{id = _Id, loop = Clauses,
 split_where_comparisons([{'where', WId,
                           #xqComparisonExpr{id = CId,
                                             lhs = Lhs,
-                                            rhs = Rhs} = WExpr} = Where|T], G) ->
+                                            rhs = Rhs,
+                                            anno = Line} = WExpr} = Where|T], G) ->
    
    LNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
                 local_name = <<"~lhs_", (integer_to_binary(CId))/binary>>},
@@ -1082,11 +1083,11 @@ split_where_comparisons([{'where', WId,
                     type = undefined,
                     id = CId + 30000,
                     expr = Rhs1},
-   WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
-                                   rhs = #xqVarRef{name = RNm}},
+   WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm, anno = Line},
+                                   rhs = #xqVarRef{name = RNm, anno = Line}},
    WExpr2 = WExpr#xqComparisonExpr{lhs = Lhs,
-                                   rhs = #xqVarRef{name = RNm}},
-   WExpr3 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
+                                   rhs = #xqVarRef{name = RNm, anno = Line}},
+   WExpr3 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm, anno = Line},
                                    rhs = Rhs},
    LLet = {'let', LLetVar, #xqSeqType{}},
    RLet = {'let', RLetVar, #xqSeqType{}},
@@ -1153,7 +1154,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
    when Clauses =/= [] ->
    case lists:last(Clauses) of
       {for,#xqVar{name = N, expr = E, type = Ty},_} = F ->
-         if Return == #xqVarRef{name = N} ->
+         if is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
                NewClauses = lists:droplast(Clauses),
@@ -1165,7 +1166,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
          end;
       {'let',#xqVar{name = N, expr = E, type = Ty},_} = F ->
          CanShift = shiftable_expression(F, Det),
-         if Return == #xqVarRef{name = N} andalso CanShift ->
+         if is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N andalso CanShift ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
                %ok = swap_vertex(VN, 0, G),

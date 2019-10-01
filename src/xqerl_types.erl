@@ -436,7 +436,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
                try
                   lists:map(M, Seq)
                catch
-                  _:#xqError{} = E -> throw(E);
+                  _:#xqError{} = E -> exit(E);
                   _:_ -> ?err('FORG0001')
                end
          end;
@@ -1083,7 +1083,7 @@ try_cast(Av, Type) ->
       ?ERROR_MATCH(<<"FODT0002">>) -> ?false;
       ?ERROR_MATCH(<<"FOCA0002">>) -> ?false;
       ?ERROR_MATCH(<<"XPST0081">>) -> ?false;
-      _:E -> throw(E)            
+      _:E -> exit(E)            
    end.
 
 try_cast(Av, Type, Namespaces) ->
@@ -1097,7 +1097,7 @@ try_cast(Av, Type, Namespaces) ->
       ?ERROR_MATCH(<<"FODT0002">>) -> ?false;
       ?ERROR_MATCH(<<"FOCA0002">>) -> ?false;
       ?ERROR_MATCH(<<"XPST0081">>) -> ?false;
-      _:E -> throw(E)            
+      _:E -> exit(E)            
    end.
 
 %TODO slow fix
@@ -2466,7 +2466,7 @@ cast_as(Val0, 'xs:QName', Namespaces) -> % MAYBE castable
       end
    catch
       _:#xqError{} when AType == 'xs:untypedAtomic' -> ?err('FORG0001');
-      _:#xqError{} = E -> throw(E);
+      _:#xqError{} = E -> exit(E);
       _:_ -> ?err('FORG0001')
    end;
    

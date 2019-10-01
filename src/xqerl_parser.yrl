@@ -185,7 +185,7 @@ Nonassoc 2200 ':' ' :' ': '.
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
                            : if '$5' == <<>> -> ?err('XQST0088', {undefined, line('$4')});
                                 true ->
-                                 check_prefix_namespace(bin_value_of('$3'), '$5'),
+                                 check_prefix_namespace(line('$2'), bin_value_of('$3'), '$5'),
                                  Ns = list_to_binary(["Q{", '$5',"}"]),
                                  xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
                                         {Ns, bin_value_of('$3')}
@@ -275,10 +275,10 @@ Nonassoc 2200 ':' ' :' ': '.
 'URILiteralList'         -> 'URILiteral' : ['$1'].
 'URILiteralList'         -> 'URILiteral' ',' 'URILiteralList' : ['$1'|'$3'].
 
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace('$3', '$4'),{schema, {'$3', '$4'}, check_uri_hints('$6')}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(<<>>,'$3'),{schema, {<<>>, '$3'}, check_uri_hints('$5')}.
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : check_schema_prefix_namespace('$3', '$4'),{schema, {'$3', '$4'}}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : check_schema_prefix_namespace(<<>>,'$3'),{schema, {<<>>, '$3'}}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(line('$2'),'$3', '$4'),{schema, {'$3', '$4'}, check_uri_hints(line('$5'), '$6')}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(line('$2'),<<>>,'$3'),{schema, {<<>>, '$3'}, check_uri_hints(line('$4'), '$5')}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : check_schema_prefix_namespace(line('$2'),'$3', '$4'),{schema, {'$3', '$4'}}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : check_schema_prefix_namespace(line('$2'),<<>>,'$3'),{schema, {<<>>, '$3'}}.
 
 'SchemaPrefix'           -> 'namespace' 'NCName' '=' : bin_value_of('$2').
 'SchemaPrefix'           -> 'default' 'element' 'namespace' : 'default-element-namespace'.
@@ -287,7 +287,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$3' == <<>> ->
                                     ?err('XQST0088', {undefined, line('$2')});
                                  true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri('$3'), "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri(line('$2'), '$3'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
                                     {Ns, <<>>}
                               end.
@@ -295,7 +295,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$6' == <<>> ->
                                     ?err('XQST0088', {undefined, line('$5')});
                                  true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri('$6'), "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri(line('$5'), '$6'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
                                     {Ns, bin_value_of('$4')}
                               end.
@@ -303,7 +303,7 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$3' == <<>> ->
                                     ?err('XQST0088', {undefined, line('$2')});
                                  true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri('$3'), "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri(line('$2'), '$3'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
                                     {Ns, <<>>}
                               end.
@@ -311,13 +311,13 @@ Nonassoc 2200 ':' ' :' ': '.
                            : if '$6' == <<>> ->
                                     ?err('XQST0088', {undefined, line('$5')});
                                  true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri('$6'), "}"]), 
+                                    Ns = list_to_binary(["Q{", check_import_uri(line('$5'), '$6'), "}"]), 
                                     xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
                                     {Ns, bin_value_of('$4')}
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : check_prefix_namespace(bin_value_of('$3'), check_import_uri('$5')), 
+                           : check_prefix_namespace(line('$2'), bin_value_of('$3'), check_import_uri(line('$4'), '$5')), 
                              xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
                              {namespace, {'$5', bin_value_of('$3')}}.
 
@@ -627,14 +627,14 @@ end.
 % [63]
 %% Grouping makes a new variable to group on by injecting a let statement
 'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$6'}] .
+                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$3'), name = '$1'},collation = '$6'}] .
 'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
+                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$3'), name = '$1'},collation = 'default'}] .
 'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$5'}] .
+                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = '$5'}] .
 'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$3'}].
+                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = 'default'}] .
+'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = '$3'}].
 'GroupingSpec'           ->  'GroupingVariable'                                                              : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}].
 % [64]
 'GroupingVariable'       ->  '$' 'VarName' : '$2'.
@@ -872,14 +872,14 @@ end.
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], expr = #xqVarRef{name = Nm}, return = #xqVarRef{name = Nm}, anno = line('$2')}.
+   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], expr = #xqVarRef{anno = line('$2'), name = Nm}, return = #xqVarRef{anno = line('$2'), name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' 'Expr' '}' :
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
    Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
    #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
-                 expr = #xqSimpleMap{id = next_id(), lhs = #xqVarRef{name = Nm}, rhs = '$5', anno = line('$2')}, 
-                 return = #xqVarRef{name = Nm}, anno = line('$2')}.
+                 expr = #xqSimpleMap{id = next_id(), lhs = #xqVarRef{anno = line('$2'), name = Nm}, rhs = '$5', anno = line('$2')}, 
+                 return = #xqVarRef{anno = line('$2'), name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' : '$1'.
 
 % [97]     UnaryExpr      ::=      ("-" | "+")* ValueExpr  
@@ -1102,7 +1102,7 @@ end.
 'NumericLiteral'         -> 'DecimalLiteral' : xqAtomicValue('xs:decimal',value_of('$1')).
 'NumericLiteral'         -> 'DoubleLiteral'  : xqAtomicValue('xs:double',value_of('$1')).
 % [131]    VarRef      ::=      "$" VarName 
-'VarRef'                 -> '$' 'VarName' : #xqVarRef{name = '$2'}.
+'VarRef'                 -> '$' 'VarName' : #xqVarRef{anno = line('$1'), name = '$2'}.
 % [132]    VarName     ::=      EQName   
 'VarName'                -> 'EQName' : qname(var, '$1').
 % [133]    ParenthesizedExpr    ::=      "(" Expr? ")"  
@@ -1542,7 +1542,7 @@ end.
 %'LocalPart'              -> 'Prefix' : '$1'.
 
 
-'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == <<"http://www.w3.org/2000/xmlns/">> -> ?err('XQST0070', {undefined, 0});
+'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == <<"http://www.w3.org/2000/xmlns/">> -> ?err('XQST0070', {undefined, line('$2')});
                                                              true -> #'qname'{namespace = '$1', local_name = bin_value_of('$2')}
                                                           end.
 'BracedURILiteral'       -> 'Q' '{' 'URILiteral' '}'    : '$3'.
@@ -2078,32 +2078,31 @@ split_where_statement(#xqLogicalExpr{comp = 'and', lhs = A, rhs = B}) ->
 split_where_statement(A) ->
    [{'where', next_id(), A}].
 
-check_prefix_namespace(_, <<>>) -> ok;
-check_prefix_namespace(P, N) ->
-   check_schema_prefix_namespace(P, N).
+check_prefix_namespace(_, _, <<>>) -> ok;
+check_prefix_namespace(L, P, N) ->
+   check_schema_prefix_namespace(L, P, N).
   
-check_schema_prefix_namespace(<<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
-check_schema_prefix_namespace(<<"xml">>,_) -> ?err('XQST0070');
-check_schema_prefix_namespace(_,<<"http://www.w3.org/XML/1998/namespace">>) -> ?err('XQST0070');
-check_schema_prefix_namespace(<<"xmlns">>,_) -> ?err('XQST0070');
-check_schema_prefix_namespace(_,<<"http://www.w3.org/2000/xmlns/">>) -> ?err('XQST0070');
-check_schema_prefix_namespace(_,<<>>) -> ?err('XQST0057');
-check_schema_prefix_namespace(_,_) -> ok.
+check_schema_prefix_namespace(_, <<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
+check_schema_prefix_namespace(L, <<"xml">>,_) -> ?err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<"http://www.w3.org/XML/1998/namespace">>) -> ?err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, <<"xmlns">>,_) -> ?err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<"http://www.w3.org/2000/xmlns/">>) -> ?err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<>>) -> ?err('XQST0057', {undefined, L});
+check_schema_prefix_namespace(_, _,_) -> ok.
 
-check_import_uri(Uri) ->
+check_import_uri(L, Uri) ->
    case xqerl_lib:check_uri_string(Uri) of
       {error,_} ->
-         ?err('XQST0046');
+         ?err('XQST0046', {undefined, L});
       Val ->
          Val
    end.
 
-%check_uri_hints(Hints) -> Hints;
-check_uri_hints(Hints) when not is_list(Hints) -> check_uri_hints([Hints]);
-check_uri_hints(Hints) ->
+check_uri_hints(L, Hints) when not is_list(Hints) -> check_uri_hints(L, [Hints]);
+check_uri_hints(L, Hints) ->
    [ case xqerl_lib:check_uri_string(H) of
         {error,_} ->
-           ?err('XQST0046');
+           ?err('XQST0046', {undefined, L});
         _ ->
            ok
      end || H <- Hints],
