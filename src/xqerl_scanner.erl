@@ -30,6 +30,7 @@
 -export([scan_name/1]).
 
 -define(L, get_line()).
+-define(F, get_filename()).
 
 -define(space, 32).
 -define(cr,    13).
@@ -44,8 +45,8 @@
 
 -include("xqerl.hrl").
 
-tokens(Str) ->
-   init_scan(),
+tokens({Filename, Str}) ->
+   init_scan(Filename),
    Norm = normalize_lines(Str),
    Toks = tokens(strip_ws(Norm), []),
    destr_scan(),
@@ -62,7 +63,7 @@ tokens_encl(Str, Acc) ->
          dc_tokens(NewStr, Acc, Depth);
       {invalid_name, _E} ->
          ?dbg(?LINE,'XPST0003'),
-         ?err('XPST0003');
+         ?err('XPST0003', {?F, ?L});
       {Token, T} ->
          %?dbg("TE",Token),
          tokens_encl(T, [Token|Acc])
@@ -82,7 +83,7 @@ tokens(Str, Acc) ->
          dc_tokens(NewStr, Acc, Depth);
       {invalid_name, E} ->
          ?dbg(?LINE,E),
-         ?err('XPST0003');
+         ?err('XPST0003', {?F, ?L});
       {Token, T} ->
          %?dbg("TOKEN",Token),
          tokens(T, [Token|Acc])
@@ -239,7 +240,7 @@ scan_dc_token([H|T], _Acc, Depth) ->
       true ->
          {{'ElementContentChar', ?L, H}, T, Depth};
       _ ->
-         ?err('XPST0003')
+         ?err('XPST0003', {?F, ?L})
    end.
 
 scan_dir_attr_list(Str = "/>" ++ _T, Acc) ->
@@ -815,7 +816,7 @@ scan_token("/" ++ T, A) ->
                   {'$',_,_} ->
                      {{'/', ?L, '/'}, T};
                   'IntegerLiteral' ->
-                     ?err('XPTY0019'); % path on number
+                     ?err('XPTY0019', {?F, ?L}); % path on number
                   _B ->
                      %?dbg("B",B),
                      {{'lone-slash', ?L, 'lone-slash'}, T}
@@ -825,7 +826,7 @@ scan_token("/" ++ T, A) ->
 scan_token(":)" ++ _T, A) -> % unbalanced comment
    ?dbg("A",A),
    ?dbg(?LINE,'XPST0003'),
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
    ?INC(H),
    {{':=', ?L, ':='}, T};
@@ -855,7 +856,7 @@ scan_token(Str = "<" ++ T, A) ->
       LB ->
          case scan_name(T) of
             {invalid_name, _} when LB == [] ->
-               ?err('XPST0003');
+               ?err('XPST0003', {?F, ?L});
             {invalid_name, _} ->
                {{'<', ?L, '<'}, T};
             _ -> 
@@ -864,7 +865,7 @@ scan_token(Str = "<" ++ T, A) ->
    end;
 scan_token("=" ++ T, _A) ->  {{'=', ?L, '='}, T};
 scan_token(">" ++ T, _A) ->  {{'>', ?L, '>'}, T};
-scan_token("/>" ++ _, _A) -> ?err('XPST0003');
+scan_token("/>" ++ _, _A) -> ?err('XPST0003', {?F, ?L});
 % special idiv ?? 
 scan_token(Str = [S,$i,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
                                                (?whitespace(S)) ->
@@ -968,7 +969,7 @@ scan_integer([H|_] = Str, Acc) ->
       orelse H == 383 
    of
       true ->
-         ?err('XPST0003');
+         ?err('XPST0003', {?F, ?L});
       false ->
          {{integer, ?L, list_to_integer(lists:reverse(Acc))}, Str}
    end.
@@ -1052,7 +1053,7 @@ scan_literal("&#" ++ T, Delim, Acc) ->
    {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
    scan_literal(T1, Delim, [CP|Acc]);
 scan_literal("&" ++ _T, _Delim, _Acc) -> % not allowed in literal
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_literal([H|T], Delim, Acc) ->
    scan_literal(T, Delim, [H|Acc]).
 
@@ -1556,12 +1557,12 @@ is_keyword_import(Str) ->
 
 scan_direct_comment_text([], _A) ->  
    ?dbg("unbalanced comment",'XPST0003'),
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_direct_comment_text("-->" ++ T, A) ->  
    {{'comment-text', ?L, lists:reverse(A)}, T};
 scan_direct_comment_text("--" ++ _T, _A) ->  
    ?dbg(?LINE,'XPST0003'),
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_direct_comment_text([H|T], A) ->
    ?INC(H),
    scan_direct_comment_text(T, [H|A] ).
@@ -1576,13 +1577,13 @@ scan_cdata_contents([H|T], A) ->
 
 % {Target, Contents, Tail}
 scan_direct_pi_constructor([]) ->  
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_direct_pi_constructor([H1, H2, H3, H4 | _]) when H1 == $X orelse H1 == $x ,
                                                       H2 == $M orelse H2 == $m ,
                                                       H3 == $L orelse H3 == $l ,
                                                       ?whitespace(H4) ->  
-   ?err('XPST0003');
-scan_direct_pi_constructor([H|_]) when ?whitespace(H) -> ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
+scan_direct_pi_constructor([H|_]) when ?whitespace(H) -> ?err('XPST0003', {?F, ?L});
 scan_direct_pi_constructor(Str) ->  
    {{_,_,Target}, T1} = scan_name(Str),
    % significant ws
@@ -1599,7 +1600,7 @@ scan_direct_pi_constructor(Str) ->
       "?>" ++ T9 ->
          {{'PITarget', ?L, Target}, [], "?>" ++ T9};
       _ ->
-         ?err('XPST0003') % no significant whitespace found
+         ?err('XPST0003', {?F, ?L}) % no significant whitespace found
    end.
    
 scan_direct_pi_contents([], Acc) ->
@@ -1621,7 +1622,7 @@ scan_dec_char_ref([H|T], Acc) when H == $; ->
    if Valid ->
          {{'CharRef', ?L, CP}, T};
       true ->
-         ?err('XQST0090')
+         ?err('XQST0090', {?F, ?L})
    end.
 
 scan_hex_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
@@ -1637,7 +1638,7 @@ scan_hex_char_ref([H|T], Acc) when H == $; ->
    if Valid ->
          {{'CharRef', ?L, CP}, T};
       true ->
-         ?err('XQST0090')
+         ?err('XQST0090', {?F, ?L})
    end.
 
 scan_entity_ref([H|T], Acc) when H == $; ->
@@ -1683,7 +1684,7 @@ scan_enclosed_expr([H|T], Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
 
 scan_enclosed_expr(Str, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
    ?dbg("scan_enclosed_expr", {Str, Acc, CurlyDepth, AposDepth, QuotDepth, Q}),
-   ?err('XPST0003').
+   ?err('XPST0003', {?F, ?L}).
 
 % normalize end-of-line characters 
 normalize_lines([13,10|T]) ->
@@ -1710,7 +1711,7 @@ scan_comments(":)" ++ T, Depth, Incr) when Depth > 1 -> % end comment
 scan_comments(":)" ++ T, 1, _) -> % end comment
    " " ++ T;
 scan_comments([], _, _) -> % in comment with no more text
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_comments([H|T], Depth, true) -> % in comment
    ?INC(H),
    scan_comments(T, Depth, true);
@@ -1721,7 +1722,7 @@ scan_comments([_|T], Depth, Incr) -> % in comment
 
 scan_str_const([], _A, _L) ->
    ?dbg(?LINE,'XPST0003'),
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_str_const("`{" ++ T, A, L) ->
    New = {'`{', ?L, '`{'},
    {Encl, T1} = scan_enclosed_expr(T, [], 1, 0, 0, true),
@@ -1757,7 +1758,7 @@ scan_pragma("(#" ++ T, _A, _L) ->
                      scan_pragma([H2|T2], [], L1);
                   _ ->
                      ?dbg("XPST0003",T2),
-                     ?err('XPST0003')
+                     ?err('XPST0003', {?F, ?L})
                end
          end
    end;
@@ -1777,7 +1778,7 @@ scan_pragma([H|T], A, L) ->
 scan_braced_uri("}" ++ T, Acc) -> 
    {lists:reverse(Acc), T};
 scan_braced_uri("{" ++ _, _) ->
-   ?err('XPST0003');
+   ?err('XPST0003', {?F, ?L});
 scan_braced_uri("&amp;" ++ T, Acc) ->
    scan_braced_uri(T, [$&|Acc]);
 scan_braced_uri("&gt;" ++ T, Acc) ->
@@ -1794,7 +1795,7 @@ scan_braced_uri([H|T], Acc) ->
    scan_braced_uri(T, [H|Acc]);
 scan_braced_uri([], _Acc) -> 
    ?dbg(?LINE,'XPST0003'),
-   ?err('XPST0003').
+   ?err('XPST0003', {?F, ?L}).
 
 %% in_if_then_no_else([]) -> false;
 %% in_if_then_no_else([{then,_,then}|_]) -> true;
@@ -1840,9 +1841,14 @@ incr_line() ->
 get_line() ->
    erlang:get('$_xqerl_current_line').
 
-init_scan() ->
-   erlang:put('$_xqerl_current_line', 1).
+get_filename() ->
+   erlang:get('$_xqerl_filename').
+
+init_scan(Filename) ->
+   erlang:put('$_xqerl_current_line', 1),
+   erlang:put('$_xqerl_filename', Filename).
 
 destr_scan() ->
-   erlang:erase('$_xqerl_current_line').
+   erlang:erase('$_xqerl_current_line'),
+   erlang:erase('$_xqerl_filename').
 

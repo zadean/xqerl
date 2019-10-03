@@ -68,7 +68,8 @@
 
 -record(xqVarRef, 
         {
-         name :: #'qname'{}
+         name :: #'qname'{},
+         anno :: undefined | integer()
         }).
 
 -record(xqFlwor, 
@@ -149,6 +150,18 @@
    anno    :: undefined | integer()
 }).
 
+-record(xqFunctionDef, {
+   id          = -1 :: integer(),
+   annotations = [] :: [ #annotation{} ],
+   name        = undefined :: #qname{} | undefined,
+   arity       = 0 :: integer(),
+   params      = [] :: [#xqSeqType{}] | [term()] | {any(), any()},
+   type        = undefined :: undefined | any | #xqSeqType{},
+   body        = undefined :: undefined | tuple(),
+   external    = false :: boolean(),
+   anno        = undefined :: undefined | integer()
+}).
+
 -type(valueComp() :: 'eq' | 'ne' | 'lt' | 'le' | 'gt' | 'gt').
 -type(generalComp() :: '=' | '!=' | '<' | '<=' | '>' | '>=').
 -type(nodeComp() :: 'is' | '<<' | '>>').
@@ -176,6 +189,44 @@
    lhs  :: term() | [term()],
    rhs  :: term() | [term()],
    anno :: undefined | integer()
+}).
+
+-record(xqSimpleMap, {
+   id   :: integer(),
+   lhs  :: term() | [term()],
+   rhs  :: term() | [term()],
+   anno :: undefined | integer()
+}).
+
+-record(xqFunctionCall, {
+   name  :: undefined | #qname{},
+   arity :: undefined | integer(),
+   args  :: undefined | [term()],
+   call  :: undefined | #xqFunctionDef{}, % after the static phase this is set
+   anno  :: undefined | integer()
+}).
+
+-record(xqArgumentList, {
+   args :: [term()],
+   anno :: integer()
+}).
+
+-type (insert_type() :: 'after' | before | into_first | into_last | into).
+
+-record(xqUpdateExpr, {
+   id   :: undefined | integer(),
+   kind :: insert_type() | delete | replace_value | replace | rename,
+   src  :: term(),
+   tgt  :: term(),
+   anno :: integer()
+}).
+
+-record(xqModifyExpr, {
+   id     :: integer(),
+   vars   :: [#xqVar{}],
+   expr   :: term(),
+   return :: term(),
+   anno   :: integer()
 }).
 
 

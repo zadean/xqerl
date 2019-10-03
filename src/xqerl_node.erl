@@ -318,7 +318,7 @@ ensure_qname(#qname{namespace = Ns,
          ?err('XQDY0074')
    end;
 ensure_qname(QName, InScopeNamespaces) when is_list(QName) ->
-   case xqerl_seq3:from_list(QName) of
+   case xqerl_seq3:flatten(QName) of
       [H] ->
          ensure_qname(H, InScopeNamespaces);
       _ ->

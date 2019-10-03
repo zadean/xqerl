@@ -46,7 +46,7 @@ analyze(Body, Functions, Variables) ->
    % add the functions
    M2 = add_glob_funs(G, Functions, M1),
    % strip non-functions
-   Functions1 = [F || #xqFunction{} = F  <- Functions],
+   Functions1 = [F || #xqFunctionDef{} = F  <- Functions],
    % strip non-variables
    Variables1 = [V || #xqVar{} = V  <- Variables] ++ 
                   [C || {'context-item', _} = C <- Variables],
@@ -110,15 +110,6 @@ x(G, Map, Parent,{path_expr,Id,Expr} ) ->
          x(G, Map#{path := Id}, K, Expr),
          Map
    end;
-
-% function call in path
-%% x(G, Map, Parent, [{'function-call',Nm0,Ar,_} = V|T]) ->
-%%    M = x(G, Map, Parent, V),
-%%    Nm = sim_name(Nm0),
-%%    Id = get_fun_id({Nm, Ar}, M),
-%%    K = {Id, Nm, Ar},
-%%    %?dbg("{V,Parent}",{{Id, Nm},Parent}),
-%%    x(G, M, K, T);
 
 % variable ref in path
 x(G, Map, Parent, [V|T]) when V == 'root';
@@ -197,7 +188,7 @@ x(G, Map, Parent, {'simple-map', Id, Lhs, Rhs}) ->
    x(G, Map, K, Rhs),
    Map;
 
-x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
+x(G, Map, Parent, #xqModifyExpr{id = Id, vars = Vars, expr = Expr, return = Return}) ->
    K = {Id, modify},
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,known_namespaces},Parent, property),
@@ -208,7 +199,7 @@ x(G, Map, Parent, {update, modify, Id, Vars, Expr, Return}) ->
                     end, Map, Vars),
    x(G, LM, K, Expr),
    x(G, LM, K, Return);
-x(G, Map, Parent, {update, Id,_,A,B,C}) ->
+x(G, Map, Parent, #xqUpdateExpr{id = Id,src = A, tgt = B}) ->
    K = {Id, update}, % ensure updates are not moved
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,known_namespaces},Parent, property),
@@ -216,24 +207,6 @@ x(G, Map, Parent, {update, Id,_,A,B,C}) ->
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    x(G, Map, K, B),
-   x(G, Map, K, C),
-   Map;
-x(G, Map, Parent, {update, Id,_,A,B}) ->
-   K = {Id, update}, % ensure updates are not moved
-   add_vertex(G, {static,known_namespaces}),
-   add_edge(G,{static,known_namespaces},Parent, property),
-   add_vertex(G, K),
-   add_edge(G,K,Parent, update),
-   x(G, Map, K, A),
-   x(G, Map, K, B),
-   Map;
-x(G, Map, Parent, {update, Id,_,A}) ->
-   K = {Id, update}, % ensure updates are not moved
-   add_vertex(G, {static,known_namespaces}),
-   add_edge(G,{static,known_namespaces},Parent, property),
-   add_vertex(G, K),
-   add_edge(G,K,Parent, update),
-   x(G, Map, K, A),
    Map;
 x(G, Map, Parent,{where,Id,Expr} ) ->
    K = {Id,where},
@@ -258,7 +231,8 @@ x(G, Map, Parent,{group_by,Id,Expr} ) ->
    Map;
 
 
-x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
+x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos,
+                         anno = LineNum}) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
    add_edge(G, {Id,Nm}, Parent, []),
@@ -272,15 +246,15 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
          K = {PathId, path_expr},
          add_vertex(G, K),
          add_edge(G, K, {Id,Nm}, {variable, Id, set});
-      #xqVarRef{name = RefNm0} -> % expression is variable reference
+      #xqVarRef{name = RefNm0, anno = LineNum1} -> % expression is variable reference
          RefNm = sim_name(RefNm0),
          case catch maps:get(RefNm, Map) of
             {'EXIT',_} ->
                ?dbg("RefNm0",RefNm0),
-               ?err('XPST0008');
+               ?err('XPST0008', {undefined, LineNum1});
             RefId when {RefId,RefNm} == Parent ->
                ?dbg("RefNm0",RefNm0),
-               ?err('XPST0008'); % self reference, variable does not exist yet
+               ?err('XPST0008', {undefined, LineNum1}); % self reference, variable does not exist yet
             RefId ->
                add_edge(G, {RefId,RefNm}, {Id,Nm}, {variable, Id, set}),
                ok
@@ -291,7 +265,7 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
    case Pos of
       #xqPosVar{id = Id1, name = Nm1} ->
          if Nm0 == Nm1 ->
-               ?err('XQST0089');
+               ?err('XQST0089', {undefined, LineNum});
             true ->
                ok
          end,
@@ -361,11 +335,11 @@ x(G, Map, Parent, [#xqTypeswitchCase{variable = #xqVar{id = Id, name = Nm0, expr
    Map;
 
 % local function defs
-x(G, Map, [#xqFunction{id = Id, 
-                       name = Nm0, 
-                       arity = Ar, 
-                       body = Body, 
-                       params = Params}|T], _Data) ->
+x(G, Map, [#xqFunctionDef{id = Id, 
+                          name = Nm0, 
+                          arity = Ar, 
+                          body = Body, 
+                          params = Params}|T], _Data) ->
    Nm = sim_name(Nm0),
    FnKey = {Id,Nm,Ar},
    add_vertex(G, FnKey),
@@ -484,24 +458,25 @@ x(G, Map, Parent, #xqPosVar{id = Id1, name = Nm1}) ->
    M2 = maps:put(sim_name(Nm1), Id1, Map),
    x(G, M2, Parent, []),
    M2;
-x(_, _, _, #xqVarRef{name = #qname{namespace = undefined}}) ->
-   ?err('XPST0081'); % unknown prefix/namespace for variable
-x(G, Map, Parent, #xqVarRef{name = Nm0}) ->
+x(_, _, _, #xqVarRef{name = #qname{namespace = undefined}, anno = LineNum}) ->
+   ?err('XPST0081', {undefined, LineNum}); % unknown prefix/namespace for variable
+x(G, Map, Parent, #xqVarRef{name = Nm0, anno = LineNum}) ->
    Nm = sim_name(Nm0),
    case catch maps:get(Nm, Map) of
       {'EXIT',_} ->
          ?dbg("XPST0008",{Parent, Nm0}),
-         ?err('XPST0008');
+         ?err('XPST0008', {undefined, LineNum});
       Id when {Id,Nm} == Parent ->
          ?dbg("XPST0008",{Parent, Nm0}),
-         ?err('XPST0008'); % self reference, variable does not exist yet
+         ?err('XPST0008', {undefined, LineNum}); % self reference, variable does not exist yet
       Id ->
          %?dbg("Parent",Parent),
          add_edge(G, {Id,Nm}, Parent, {variable, Id, ref}),
          Map
    end;
-x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
-                                            FC == 'partial-function' ->
+x(G, Map, Parent, #xqFunctionCall{name = Nm0, 
+                                  arity = Ar, 
+                                  args = Args}) ->
    Nm = sim_name(Nm0),
    case maps:is_key({Nm, Ar}, Map) of 
       true ->
@@ -517,22 +492,44 @@ x(G, Map, Parent, {FC, Nm0, Ar, Args}) when FC == 'function-call';
                      add_edge(G, {Id,Nm,Ar}, Parent, static)
                end;
             true ->
-%% this causes problems with variable refs with same name as params
-%%                Params = lists:sort(
-%%                  [{P, V1}                   
-%%                  || E <- digraph:in_edges(G, {Id,Nm,Ar}),
-%%                     {_, V1,_,{param,_} = P} <- [digraph:edge(G, E)]]),
-%%                ?dbg("Params", Params),
-%%                ?dbg("Args  ", Args),
-%%                %% here find the paramaters and link the calling vars to them
-%%                Zip = fun({_,Param}, Arg) ->
-%%                            x(G, Map, Param, Arg)
-%%                      end,
-%%                if length(Params) == length(Args) ->
-%%                      _ = lists:zipwith(Zip, Params, Args);
-%%                   true ->
-%%                      ok
-%%                end,
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, local)
+               end
+         end,
+         x(G, Map, Parent, Args);
+      _ -> % non local function
+         add_properties(G, Nm0, Ar),
+         add_vertex(G, {-1,Nm,Ar}),
+         case is_axis_parent(Parent) of 
+            true ->
+               %?dbg("Axis Parent", {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+            false ->
+               add_edge(G, {-1,Nm,Ar}, Parent, ext)
+         end,
+         x(G, Map, Parent, Args)
+   end,
+   Map;
+x(G, Map, Parent, {'partial-function', Nm0, Ar, Args}) ->
+   Nm = sim_name(Nm0),
+   case maps:is_key({Nm, Ar}, Map) of 
+      true ->
+         Id = get_fun_id({Nm, Ar}, Map),
+         if Id == 0 ->
+               add_vertex(G, {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, static),
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, static)
+               end;
+            true ->
                case is_axis_parent(Parent) of 
                   true ->
                      %?dbg("Axis Parent", {Id,Nm,Ar}),
@@ -691,11 +688,11 @@ add_glob_variables(G, Variables) ->
                            maps:put(Sim, 0, Map)
                      end
                end;
-            (#xqVar{id = Id, name = Nm}, Map) ->
+            (#xqVar{id = Id, name = Nm, anno = LineNum}, Map) ->
                Sim = sim_name(Nm),
                add_vertex(G, {Id,sim_name(Nm)}),
                case maps:is_key(Sim, Map) of
-                  true -> ?err('XQST0049');
+                  true -> ?err('XQST0049', {undefined, LineNum});
                   _ -> maps:put(Sim, Id, Map)
                end;
             ({'context-item',_}, Map) ->
@@ -707,9 +704,9 @@ add_glob_variables(G, Variables) ->
 % returns map
 add_glob_funs(G, Functions, Map0) ->
    %?dbg("Functions",Functions),
-   Fun = fun(#xqFunction{name = #qname{namespace = undefined}}, _) ->
-               ?err('XQST0060');
-            (#xqFunction{id = Id, name = Nm, arity = Ar, params = Params}, Map) ->
+   Fun = fun(#xqFunctionDef{name = #qname{namespace = undefined}, anno = LineNum}, _) ->
+               ?err('XQST0060', {undefined, LineNum});
+            (#xqFunctionDef{id = Id, name = Nm, arity = Ar, params = Params, anno = LineNum}, Map) ->
                S = sim_name(Nm),
                FnKey = {Id,S, Ar},
                add_vertex(G, {Id,S, Ar}),
@@ -723,7 +720,7 @@ add_glob_funs(G, Functions, Map0) ->
                case maps:is_key({S, Ar}, Map) of
                   true ->
                      ?dbg("XQST0034", {S, Ar}),
-                     ?err('XQST0034');
+                     ?err('XQST0034', {undefined, LineNum});
                   _ -> maps:put({S, Ar}, Id, Map)
                end;
             ({#qname{} = Nm,_,Annos,_,Ar,_}, Map) ->
@@ -738,6 +735,7 @@ add_glob_funs(G, Functions, Map0) ->
                         #{TempKey := 0} ->
                            Map;
                         #{TempKey := _} ->
+                           ?dbg("XQST0034", TempKey),
                            ?err('XQST0034');
                         _ ->
                            maps:put(TempKey, 0, Map)

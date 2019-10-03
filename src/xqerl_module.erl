@@ -48,7 +48,7 @@ expand_imports(List) ->
              {Uri, {[], [], [], []}};
           ({Uri, Mod}) ->
              I = collect_imports(Mod, List),
-             Fs = filter(I, 'xqFunction', Uri),
+             Fs = filter(I, 'xqFunctionDef', Uri),
              Vs = filter(I, 'xqVar', Uri),
              {Uri, {clear_id(Fs), function_sigs(Fs), 
                     clear_id(Vs), variable_sigs(Vs)}}
@@ -80,7 +80,7 @@ collect_imports([], All, Acc) ->
    F = fun(Ns) ->
              Prolog = get_module_prolog(Ns, All),
              Vars = filter(Prolog, 'xqVar'),
-             Funs = filter(Prolog, 'xqFunction'),
+             Funs = filter(Prolog, 'xqFunctionDef'),
              Funs ++ Vars
        end,
    lists:flatmap(F, Acc).
@@ -96,8 +96,8 @@ get_module_prolog(Ns, All) ->
         ModNs == Ns],
    lists:flatten(P).
 
-clear_id([#xqFunction{} = H|T]) ->
-   [H#xqFunction{id = 0}|clear_id(T)];
+clear_id([#xqFunctionDef{} = H|T]) ->
+   [H#xqFunctionDef{id = 0}|clear_id(T)];
 clear_id([#xqVar{} = H|T]) ->
    [H#xqVar{id = 0}|clear_id(T)];
 clear_id([]) -> [].
@@ -120,7 +120,7 @@ merge_library_trees([#xqModule{type = library,
                  (_) -> false               
               end,
    SecondFun = fun({'context-item', _}) -> true;
-                  (#xqFunction{}) -> true;
+                  (#xqFunctionDef{}) -> true;
                   (#xqVar{}) -> true;
                   ({'option', _}) -> true;
                   (_) -> false               
@@ -141,7 +141,7 @@ merge_library_trees([#xqModule{type = library,
    Ctxs = unique('context-item', Pro2A, Pro2B),
    Opts = unique('option', Pro2A, Pro2B),
    Vars = filter(Pro2A, 'xqVar') ++ filter(Pro2B, 'xqVar'),
-   Funs = filter(Pro2A, 'xqFunction') ++ filter(Pro2B, 'xqFunction'),
+   Funs = filter(Pro2A, 'xqFunctionDef') ++ filter(Pro2B, 'xqFunctionDef'),
    
    ExNs = if ModPxA == ModPxB ->
                 [];
@@ -187,8 +187,8 @@ filter([_|T], Atom) ->
    filter(T, Atom);
 filter([], _) -> [].
 
-filter([#xqFunction{name = #qname{namespace = Ns0}} = E|T], 'xqFunction', Ns) when Ns0 =/= Ns ->
-   [E|filter(T, 'xqFunction', Ns)];
+filter([#xqFunctionDef{name = #qname{namespace = Ns0}} = E|T], 'xqFunctionDef', Ns) when Ns0 =/= Ns ->
+   [E|filter(T, 'xqFunctionDef', Ns)];
 filter([#xqVar{name = #qname{namespace = Ns0}} = E|T], 'xqVar', Ns) when Ns0 =/= Ns ->
    [E|filter(T, 'xqVar', Ns)];
 filter([_|T], Atom, Ns) ->
@@ -211,7 +211,7 @@ function_sigs(Functions) ->
               end, 
               Arity, 
               param_types(Params) } 
-           || #xqFunction{%id = Id, 
+           || #xqFunctionDef{%id = Id, 
                           annotations = Annos, 
                           arity = Arity,
                           params = Params,

@@ -46,9 +46,10 @@
 %%    replace_var_with_context_item(<<0>>, Term).
 
 
--define(BOOL_CALL(Arg),{'function-call', 
-                    #qname{namespace = <<"http://www.w3.org/2005/xpath-functions">>,
-                           local_name = <<"boolean">>}, 1, [Arg]}).
+-define(BOOL_CALL(Arg), 
+    #xqFunctionCall{name = #qname{namespace = <<"http://www.w3.org/2005/xpath-functions">>,
+                           local_name = <<"boolean">>},
+                    arity = 1, args = [Arg]}).
 
 % internal use
 %% -export([int_order_1/2]).
@@ -118,7 +119,7 @@ groupbyclause(KeyVals) ->
                            Vs = [V || {_K,V} <- Ks],
                   V = reverse(maps:get(K, Mapped)),
                   V1 = lists:map(fun(ListVal) ->
-                                       xqerl_seq3:from_list(ListVal)
+                                       xqerl_seq3:flatten(ListVal)
                                  end, V),
                   New = list_to_tuple(Vs ++ V1) ,
                   [New|Acc]
@@ -148,13 +149,13 @@ windowclause(L, StartFun, EndFun, Type, WType) ->
 flatten_window_return(ignore, Bw) ->
    [begin
        L2 = element(9, B),
-       S = xqerl_seq3:from_list(L2),
+       S = xqerl_seq3:flatten(L2),
        setelement(9, B, S)
     end || B <- Bw, B =/= []];
 flatten_window_return(WType, Bw) ->
    [begin
        L2 = element(9, B),
-       S = xqerl_seq3:from_list(L2),
+       S = xqerl_seq3:flatten(L2),
        case xqerl_types:instance_of(S, WType) of
           true ->
              setelement(9, B, S);
@@ -981,7 +982,7 @@ merge_for_where([{for,#xqVar{name = FName,
       true ->
          % relies on for variable, so replace with 'context-item'
          %?dbg("Lifting where into for as predicate",WExpr),
-         FVarRef = #xqVarRef{name = FName},
+         FVarRef = #xqVarRef{name = FName, anno = FVar#xqVar.anno},
          %?dbg("removing where clause",WName),
          case catch replace_var_with_context_item(FVarRef, WExpr) of
             {error, _E} -> % caused by predicates and other axis steps
@@ -1015,14 +1016,14 @@ replace_var_with_context_item(_, predicate) ->
 replace_var_with_context_item(_, #xqAxisStep{}) ->
    % an internal predicate cannot use the outside context item
    throw({error,axisStep});
-replace_var_with_context_item(FVarRef, [H|T]) when H == FVarRef ->
+replace_var_with_context_item(#xqVarRef{name = H} = FVarRef, [#xqVarRef{name = H}|T]) ->
    ['context-item'|replace_var_with_context_item(FVarRef, T)];
 replace_var_with_context_item(FVarRef, [H|T]) when is_list(H) ->
    replace_var_with_context_item(FVarRef, H) ++ replace_var_with_context_item(FVarRef, T);
 replace_var_with_context_item(FVarRef, [H|T]) ->
    [replace_var_with_context_item(FVarRef, H)
    |replace_var_with_context_item(FVarRef, T)];
-replace_var_with_context_item(FVarRef, T) when T == FVarRef ->
+replace_var_with_context_item(#xqVarRef{name = H}, #xqVarRef{name = H}) ->
    'context-item';
 replace_var_with_context_item(FVarRef, T) when is_tuple(T) ->
    List = tuple_to_list(T),
@@ -1050,7 +1051,8 @@ maybe_split_comparisons_in_where_clause(#xqFlwor{id = _Id, loop = Clauses,
 split_where_comparisons([{'where', WId,
                           #xqComparisonExpr{id = CId,
                                             lhs = Lhs,
-                                            rhs = Rhs} = WExpr} = Where|T], G) ->
+                                            rhs = Rhs,
+                                            anno = Line} = WExpr} = Where|T], G) ->
    
    LNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
                 local_name = <<"~lhs_", (integer_to_binary(CId))/binary>>},
@@ -1081,11 +1083,11 @@ split_where_comparisons([{'where', WId,
                     type = undefined,
                     id = CId + 30000,
                     expr = Rhs1},
-   WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
-                                   rhs = #xqVarRef{name = RNm}},
+   WExpr1 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm, anno = Line},
+                                   rhs = #xqVarRef{name = RNm, anno = Line}},
    WExpr2 = WExpr#xqComparisonExpr{lhs = Lhs,
-                                   rhs = #xqVarRef{name = RNm}},
-   WExpr3 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm},
+                                   rhs = #xqVarRef{name = RNm, anno = Line}},
+   WExpr3 = WExpr#xqComparisonExpr{lhs = #xqVarRef{name = LNm, anno = Line},
                                    rhs = Rhs},
    LLet = {'let', LLetVar, #xqSeqType{}},
    RLet = {'let', RLetVar, #xqSeqType{}},
@@ -1152,7 +1154,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
    when Clauses =/= [] ->
    case lists:last(Clauses) of
       {for,#xqVar{name = N, expr = E, type = Ty},_} = F ->
-         if Return == #xqVarRef{name = N} ->
+         if is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
                NewClauses = lists:droplast(Clauses),
@@ -1164,7 +1166,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
          end;
       {'let',#xqVar{name = N, expr = E, type = Ty},_} = F ->
          CanShift = shiftable_expression(F, Det),
-         if Return == #xqVarRef{name = N} andalso CanShift ->
+         if is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N andalso CanShift ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
                %ok = swap_vertex(VN, 0, G),
@@ -1379,7 +1381,7 @@ shiftable_expression(_,_) ->
 shiftable_expression_1(Expr, Det) ->
    F = fun O([]) ->
             true;
-           O({'function-call',#qname{},_,_} = F) ->
+           O(#xqFunctionCall{name = #qname{}} = F) ->
               O(Det(F));
            O(#annotation{name = 
                            #qname{namespace = <<"http://xqerl.org/xquery">>,

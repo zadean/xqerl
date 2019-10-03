@@ -343,19 +343,20 @@ do_compile(Filename, Str, false) ->
    OldProcDict = erlang:erase(),
    try
    %%%
-      Toks = scan_tokens(Str),
+      Toks = scan_tokens(Filename, Str),
 %io:format("~p~n", [Toks]),
       _ = xqerl_context:init(parser),
-      Tree = parse_tokens(Toks),
+      Tree = parse_tokens(Filename, Toks),
 %io:format("~p~n", [Tree]),
       FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
       Static = scan_tree_static(Tree, FileUri, []),
 %io:format("~p~n", [maps:get(body, Static)]),
-      {_,_,_,_,_,Forms,_} = scan_tree(Static),
+      {_,_,_,_,_,Forms,_} = scan_tree(FileUri, Static),
       xqerl_context:destroy(Static),
 %io:format("~p~n", [Forms]),
       {ok,M,B} = compile:forms(Forms,
-                               [debug_info, verbose,
+                               [deterministic,
+                                debug_info, verbose,
                                 return_errors, no_auto_import,
                                 binary]),
       code:load_binary(M, "", B),
@@ -377,10 +378,10 @@ do_compile(Filename, Str, []) ->
    try
       erlang:erase(),
    %%%
-      Toks = scan_tokens(Str),
+      Toks = scan_tokens(Filename, Str),
 %io:format("~p~n", [Toks]),
       _ = xqerl_context:init(parser),
-      Tree = parse_tokens(Toks),
+      Tree = parse_tokens(Filename, Toks),
       do_compile_tree(Filename, Tree, Str, [])
    catch 
       _:?NOT_FOUND(_) = Error:StackTrace ->
@@ -422,12 +423,12 @@ do_compile(_, _, Hints) ->
    end.
 
 do_compile_tree(Filename, Tree, Str, Imports) ->
-%io:format("~p~n", [Tree]),
+%io:format("~p~n", [element(5, Tree)]),
    FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
    Static = scan_tree_static(Tree, FileUri, Imports),
 %io:format("~p~n", [Tree]),
 %io:format("~p~n", [maps:get(body, Static)]),
-   {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(Static),
+   {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(FileUri, Static),
    xqerl_context:destroy(Static),
 %io:format("~p~n", [Forms]),
 
@@ -468,8 +469,8 @@ parse_files(Filenames) ->
                case file:read_file(Filename) of
                   {ok, Bin} ->
                      Str = binary_to_list(Bin),
-                     Toks = scan_tokens(Str),
-                     Tree = parse_tokens(Toks),
+                     Toks = scan_tokens(Filename, Str),
+                     Tree = parse_tokens(Filename, Toks),
                      {xqerl_module:module_namespace(Tree, Filename), 
                       Tree, Str, Filename};
                   _ ->
@@ -532,37 +533,51 @@ do_compile_files([{Uri, Tree, Str, Filename, I}|Rest], Acc) ->
    do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]).
    
    
-scan_tokens(Str) ->
+scan_tokens(Filename, Str) ->
    try 
-      xqerl_scanner:tokens(Str) 
+      xqerl_scanner:tokens({Filename, Str}) 
    catch
       _:#xqError{} = E:S ->
-         throw(add_stacktrace(E, S));
+         E1 = add_stacktrace(E, S),
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err(E1, {FileUri, 0});
       _:E:StackTrace ->
          ?dbg("scan_tokens",E),
          ?dbg("scan_tokens",StackTrace),
-         ?err('XPST0003')
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err('XPST0003', {FileUri, 0})
    end.
 
-parse_tokens(Tokens) ->
+parse_tokens(Filename, Tokens) ->
    try 
       {ok, Tree} = xqerl_parser:parse(Tokens),
       Tree
    catch
+      _:#xqError{location = {undefined,Ln,_}} = E:S ->
+         % patch filename of the error
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err(add_stacktrace(E, S), {FileUri,Ln});
       _:#xqError{} = E:S ->
-         %?dbg("parse_tokens e",Tokens),
-         throw(add_stacktrace(E, S));
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err(add_stacktrace(E, S), {FileUri,0});
+      _:{badmatch,{error,{Ln,xqerl_parser,_}}} ->
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err('XPST0003', {FileUri, Ln});
       _:E:StackTrace ->
          ?dbg("parse_tokens e",E),
          ?dbg("parse_tokens e",StackTrace),
          ?dbg("parse_tokens e",Tokens),
-         ?err('XPST0003')
+         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+         ?err('XPST0003', {FileUri, 0})
    end.
 
-scan_tree_static(Tree, BaseUri, Imports) ->
+scan_tree_static(Tree, FileUri, Imports) ->
    try 
-      xqerl_static:handle_tree(Tree, BaseUri, Imports)
+      xqerl_static:handle_tree(Tree, FileUri, Imports)
    catch
+      _:#xqError{location = {undefined,Ln,_}} = E:S ->
+         % patch filename of the error
+         ?err(add_stacktrace(E, S), {FileUri,Ln});
       _:#xqError{} = E:S ->
          ?dbg("parse_tokens e",{E, S}),
          exit(add_stacktrace(E, S));
@@ -572,17 +587,20 @@ scan_tree_static(Tree, BaseUri, Imports) ->
          ?err('XPST0003')
    end.
 
-scan_tree(Tree) ->
+scan_tree(FileUri, Tree) ->
    try 
       xqerl_abs:scan_mod(Tree)
    catch
+      _:#xqError{location = {undefined,Ln,_}} = E:S ->
+         % patch filename of the error
+         ?err(add_stacktrace(E, S), {FileUri,Ln});
       _:#xqError{} = E:S ->
-         throw(add_stacktrace(E, S));
+         exit(add_stacktrace(E, S));
       _:E:StackTrace ->
          ?dbg("scan_tree",E),
          ?dbg("scan_tree",StackTrace),
          io:format("~p~n",[StackTrace]),
-         ?err('XPST0003')
+         ?err('XPST0003', {FileUri, 0})
    end.
 
 save_module(#xq_module{module_name = ModName,
