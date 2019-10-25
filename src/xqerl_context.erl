@@ -40,7 +40,7 @@
 -export([add_inscope_namespace/3]).
 -export([get_inscope_namespace/2]).
 
--export([get_module_exports/1]).
+-export([get_module_exports/1, get_static_module_exports/0]).
 -export([import_functions/2]).
 -export([import_variables/2]).
 
@@ -279,9 +279,7 @@ add_statically_known_namespace(Tab,Namespace,Prefix) ->
    set_statically_known_namespaces(Tab,New),
    ok.
 
-get_statically_known_namespace_from_prefix(parser,[]) ->
-   get_statically_known_namespace_from_prefix(parser,<<>>);
-get_statically_known_namespace_from_prefix(parser,Prefix) ->
+get_statically_known_namespace_from_prefix(parser, Prefix) ->
    Dict = erlang:get('statically-known-namespaces'),
    case dict:find(Prefix, Dict) of
       error ->
@@ -583,6 +581,8 @@ get_inscope_namespace(#{namespaces := List},Prefix) ->
    proplists:get_value(Prefix, List, undefined).
 
 % returns context item
+get_context_item(#{'context-item' := {undefined, _}}) ->
+   ?err('XPDY0002');
 get_context_item(#{'context-item' := {Ci, _}}) ->
    Ci;
 get_context_item(Ctx) when is_map(Ctx) ->
@@ -607,6 +607,8 @@ set_empty_context_item(Ctx) ->
   Ctx.
    
 % returns new Ctx map
+set_context_item(Ctx, undefined, _Pos, _Size) ->
+   set_empty_context_item(Ctx);
 set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
 
@@ -762,7 +764,7 @@ set_default_uri_collection(Tab, Value) ->
    set(Tab, 'default-uri-collection', Value).
 
 static_namespaces() ->
-   [ {<<>>,     'no-namespace'},
+   [ {<<>>,        <<>>},
      {<<"local">>, <<"http://www.w3.org/2005/xquery-local-functions">>},
      {<<"fn">>,    <<"http://www.w3.org/2005/xpath-functions">>},
      {<<"xsi">>,   <<"http://www.w3.org/2001/XMLSchema-instance">>},
@@ -807,7 +809,7 @@ get_local_timezone(RawCdt) ->
 
 
 add_default_static_values(parser) ->
-   set_default_element_type_namespace(parser, 'no-namespace'),
+   set_default_element_type_namespace(parser, <<>>),
    StaticNsList = static_namespaces(),
    StaticNsDict = dict:from_list(StaticNsList),
    set_statically_known_namespaces(parser, StaticNsDict),
@@ -817,7 +819,7 @@ add_default_static_values(Tab, RawCdt) ->
    set_static_base_uri(Tab, <<"http://xqerl.org">>),
    Tz = get_local_timezone(RawCdt),
    set_implicit_timezone(Tab, Tz),
-   set_default_element_type_namespace(Tab, 'no-namespace'),
+   set_default_element_type_namespace(Tab, <<>>),
    
    StaticNsList = static_namespaces(),
    StaticNsDict = dict:from_list(StaticNsList),
@@ -857,8 +859,10 @@ get_module_exports({Ns,_Px}) ->
    catch 
       _:_ ->
          {[], [], xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, Ns)}
-         
    end.
+
+get_static_module_exports() ->
+    xqerl_code_server:get_static_signatures().
 
 import_functions(Functions,Tab) ->
    lists:foreach(fun(F) ->

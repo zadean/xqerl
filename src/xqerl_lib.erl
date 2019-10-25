@@ -564,7 +564,9 @@ is_valid_tokens(Token) ->
     is_xsname_char(C) == false
     ] == [].
 
-   
+
+format_stacktrace(#xqError{additional = L} = E) ->
+    E#xqError{additional = simplify_stack(L)};
 format_stacktrace(L) ->
    format_stacktrace_(L).
 
@@ -585,7 +587,14 @@ format_stacktrace_([{Mod,Fun,Ary,[{file,File},{line,Ln}]}|T]) when is_integer(Ar
 format_stacktrace_([H|T]) ->
    [H|format_stacktrace_(T)].
 
-   
+simplify_stack(L) ->
+    simplify_stack(L, []).
+
+simplify_stack([{File, Line},{File, Line}|T], Acc) ->
+    simplify_stack([{File, Line}|T], Acc);
+simplify_stack([H|T], Acc) ->
+    simplify_stack(T, [H|Acc]);
+simplify_stack([], Acc) -> Acc.
 
 
 %% shrink_spaces([H|T]) ->
@@ -665,6 +674,10 @@ lput(Tab,Key,Val) ->
    Val.
 
 %% creates a new namespace prefix
+next_comp_prefix(Namespaces) when is_map(Namespaces) ->
+    next_comp_prefix(
+      [#xqNamespace{namespace = N, prefix = P} || 
+       {P, N} <- maps:to_list(Namespaces)]);
 next_comp_prefix(Namespaces) ->
    Pxs = [P || #xqNamespace{prefix = P} <- Namespaces],
    F = fun("ns_"++SNum, Max) ->

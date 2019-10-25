@@ -41,27 +41,27 @@
 -variables([]).
 -functions([
  {{qname,?NS, ?PX, <<"notify">>}, 
-  {xqSeqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'notify', 2}, 1, 
-  [{xqSeqType, 'item', zero_or_many}]},
+  [{seqType, 'item', zero_or_many}]},
  {{qname,?NS, ?PX, <<"notify">>}, 
-  {xqSeqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'notify', 3}, 2, 
-  [{xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many}]},
+  [{seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many}]},
  {{qname,?NS, ?PX, <<"notify">>}, 
-  {xqSeqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'notify', 4}, 3, 
-  [{xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many}]},
+  [{seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many}]},
  {{qname,?NS, ?PX, <<"notify">>}, 
-  {xqSeqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'empty-sequence', zero}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'notify', 5}, 4, 
-  [{xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many},
-   {xqSeqType, 'item', zero_or_many}]}
+  [{seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many},
+   {seqType, 'item', zero_or_many}]}
 ]).
 
 

@@ -194,18 +194,23 @@ suite() -> [{timetrap,{seconds, 180}}].
 init_per_group(_, Config) ->  Config.
 end_per_group(_, _Config) -> 
    xqerl_code_server:unload(all).
-end_per_suite(_Config) -> 
-   ct:timetrap({seconds,60}), 
+end_per_suite(Config) -> 
+   ct:timetrap({seconds,60}),
+   CWD = ?config(cwd, Config),
+   Sand = filename:join([CWD,"sandpit"]),
+   Files = [filename:join([Sand, Fn]) || Fn <- filelib:wildcard("**", Sand)],
+   _ = [file:delete(F) || F <- lists:reverse(lists:sort(Files))],
+   _ = file:del_dir(Sand),
+   _ = file:delete(filename:join([CWD, "sandpit.zip"])),
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    __BaseDir = filename:join(DD, "expath"),
-   {ok, CWD} = file:get_cwd(),
-   Zip = filename:join([CWD,"sandpit.zip"]),
+   Zip = filename:join([DD,"sandpit.zip"]),
    {ok,_} = file:copy(filename:join([__BaseDir,"sandpit.zip"]), Zip),
-   zip:extract(Zip),
-   [{base_dir, __BaseDir}|Config].
+   zip:extract(Zip, [{cwd, DD}]),
+   [{base_dir, __BaseDir},{cwd, DD}|Config].
 all() -> [
    {group, group_0}
    ].

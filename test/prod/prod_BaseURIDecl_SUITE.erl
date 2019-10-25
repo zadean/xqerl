@@ -800,10 +800,10 @@ groups() -> [
           import module namespace m =\"http://www.w3.org/TestModules/module-001\";
           static-base-uri() eq m:static-base-uri()
     ", 
-   Hints = [{filename:join(__BaseDir, "BaseURIDecl/module-001.xq"), <<"Q{http://www.w3.org/TestModules/module-001}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "BaseURIDecl/module-001.xq"), <<"Q{http://www.w3.org/TestModules/module-001}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "base-URI-modules-001.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

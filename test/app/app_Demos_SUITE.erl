@@ -277,8 +277,6 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         	string-join( for $channel in raytracer:plot-pixel($scene, $x-recentered, $y-recentered) 
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ", 
-   Hints = [{filename:join(__BaseDir, "Demos/raytracer.xq"), <<"Q{http://www.xqsharp.com/raytracer}">>},{filename:join(__BaseDir, "Demos/scene.xq"), <<"Q{http://www.xqsharp.com/raytracer/scene}">>},{filename:join(__BaseDir, "Demos/vector.xq"), <<"Q{http://www.xqsharp.com/raytracer/vector}">>},{filename:join(__BaseDir, "Demos/shapes.xq"), <<"Q{http://www.xqsharp.com/raytracer/shapes}">>},{filename:join(__BaseDir, "Demos/materials.xq"), <<"Q{http://www.xqsharp.com/raytracer/materials}">>},{filename:join(__BaseDir, "Demos/math.xq"), <<"Q{http://www.xqsharp.com/raytracer/math}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "Demos/scene.xml"), ".",[]}]}, 
 {collections, []}, 
@@ -298,6 +296,8 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "Demos/raytracer.xq"), <<"Q{http://www.xqsharp.com/raytracer}">>},{filename:join(__BaseDir, "Demos/scene.xq"), <<"Q{http://www.xqsharp.com/raytracer/scene}">>},{filename:join(__BaseDir, "Demos/vector.xq"), <<"Q{http://www.xqsharp.com/raytracer/vector}">>},{filename:join(__BaseDir, "Demos/shapes.xq"), <<"Q{http://www.xqsharp.com/raytracer/shapes}">>},{filename:join(__BaseDir, "Demos/materials.xq"), <<"Q{http://www.xqsharp.com/raytracer/materials}">>},{filename:join(__BaseDir, "Demos/math.xq"), <<"Q{http://www.xqsharp.com/raytracer/math}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "raytracer.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

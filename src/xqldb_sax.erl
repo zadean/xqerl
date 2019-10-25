@@ -28,6 +28,7 @@
 %% API functions
 %% ====================================================================
 -export([parse_file/2,
+         parse_node/4,
          parse_dir/2,
          parse_file/4,
          parse_list/4,
@@ -84,7 +85,28 @@ parse_file(DB,File,Uri,Stamp) ->
       [{G,E}]
    end.
 
-      
+parse_node(DB, Node, Name, Stamp) ->
+    State0 = default_state(DB,Name,Stamp),
+    Counter = #{},
+    WFun = fun() -> index_writer([], {DB, {Name, Stamp}}, 0) end,
+    Writer = erlang:spawn_opt(WFun, [link, {fullsweep_after, 0}]),
+    State = State0#{writer => Writer,
+                    counter => Counter},
+    try
+        State1 = parse_node(Node, State),
+        %?dbg("State1",State1),
+        Self = self(),   
+        ok = post_document_paths(State1),   
+        Writer ! {Self, done},
+        ok = wait_index_writer(Writer),
+        Counts = get_path_counts(maps:get(counter, State1)),
+        xqldb_structure_index:incr_counts(DB, Counts),
+        ok
+    catch 
+        _ : G : E ->
+            [{G,E}]
+    end.
+
 parse_list(_DB,[],_Uri,_) -> ok;
 parse_list(DB,List,Name,Stamp) ->
    State0 = default_state(DB,Name,Stamp),
@@ -163,6 +185,70 @@ default_split_state(Fun, Path) ->
      pids   => [],
      state  => search,
      ret    => Fun}.
+
+
+parse_node(#{nk := document,
+             ch := Ch}, State) ->
+    State1 = event(startDocument, 0, State),
+    State2 = lists:foldl(fun parse_node_1/2, State1, Ch),
+    event(endDocument, 0, State2);
+%% startDocument
+%% endDocument
+parse_node(#{nk := _} = Node, State) ->
+    State1 = event(startDocument, 0, State),
+    State2 = lists:foldl(fun parse_node_1/2, State1, [Node]),
+    event(endDocument, 0, State2).
+
+%% {startElement, Uri, LocalName, {Prefix, LocalName}, Attributes}
+%% {endElement, Uri, LocalName, {Prefix, LocalName}}
+%% {startPrefixMapping, Prefix, Uri}
+%% {endPrefixMapping, Prefix}
+parse_node_1(#{nk := element,
+               nn := {Ns, Px, Ln},
+               ns := Nss,
+               at := Atts,
+               ch := Ch}, State) ->
+    NsFun =
+        fun({P, U}, TempState) ->
+               event({startPrefixMapping, P, U}, 0, TempState)
+        end,
+    NsEFun =
+        fun({P, _}, TempState) ->
+               event({endPrefixMapping, P}, 0, TempState)
+        end,
+    AtFun =
+        fun(#{nk := attribute,
+              nn := {Au, Ap, Al},
+              sv := ASv}) ->
+               {Au, Ap, Al, ASv}
+        end,
+    NssList = maps:to_list(Nss),
+    State1 = lists:foldl(NsFun, State, NssList),
+    Atts1 = lists:map(AtFun, Atts),
+    Event = {startElement, Ns, Ln, {Px, Ln}, Atts1},
+    State2 = event(Event, 0, State1),
+    State3 = lists:foldl(fun parse_node_1/2, State2, Ch),
+    Event1 = {endElement, Ns, Ln, {Px, Ln}},
+    State4 = event(Event1, 0, State3),
+    lists:foldl(NsEFun, State4, NssList);
+
+%% {characters, String}
+parse_node_1(#{nk := text,
+               sv := Sv}, State) -> 
+    Event = {characters, Sv},
+    event(Event, 0, State);
+%% {processingInstruction, Target, Data}
+parse_node_1(#{nk := 'processing-instruction',
+               nn := {_,_,Ln},
+               sv := Sv}, State) -> 
+    Event = {processingInstruction, Ln, Sv},
+    event(Event, 0, State);
+%% {comment, String}
+parse_node_1(#{nk := comment,
+               sv := Sv}, State) -> 
+    Event = {comment, Sv},
+    event(Event, 0, State);
+parse_node_1(#{nk := _}, State) -> State.
 
 
 %% SAX Events 

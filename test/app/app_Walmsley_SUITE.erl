@@ -4844,11 +4844,11 @@ parse-json('{
          let $library := load-xquery-module(\"http://datypic.com/strings\")
          let $trimFunction := $library?functions?(xs:QName(\"strings:trim\"))?1
          return $trimFunction(\"   x   y   \")", 
-   Hints = [{filename:join(__BaseDir, "Walmsley/strings.xqm"), <<"Q{http://datypic.com/strings}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "Walmsley/strings.xqm"), <<"Q{http://datypic.com/strings}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807i.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4875,11 +4875,11 @@ parse-json('{
          let $prodsVariableValue := $library?variables?(xs:QName(\"prod:prods\"))
          let $countProdArity1 := $library?functions?(xs:QName(\"prod:countProds\"))?1
          return $countProdArity1($prodsVariableValue)", 
-   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807j.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4907,11 +4907,11 @@ parse-json('{
          let $countProdArity2 := $library?functions?(xs:QName(\"prod:countProds\"))?2
          return $countProdArity2($prodsVariableValue, \"ACC\")
       ", 
-   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('all',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "Walmsley/lib2.xqm"), <<"Q{http://datypic.com/prod}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "d1e78807k.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

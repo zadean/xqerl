@@ -1,10 +1,10 @@
 declare namespace _ = "http://xqerl.org/xquery/test_cases";
 declare namespace x = "http://xqerl.org/xquery";
 
-(: declare option db:chop 'false'; :)
+declare option db:chop 'false';
 
-(: declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml"); :)
-declare variable $catalog := doc("/git/expath/expath-cg/tests/qt3/catalog.xml");
+declare variable $catalog := doc("/git/zadean/qt3tests/catalog.xml");
+(: declare variable $catalog := doc("/git/expath/expath-cg/tests/qt3/catalog.xml"); :)
 
 (: String helpers :)
 
@@ -566,8 +566,8 @@ declare function _:get-query($test-case) as xs:string
     if ($test/@file) then
       resolve-uri($test/@file, base-uri($test-case)) =>
       (: BaseX fallback true for invalid XML characters :)
-      (: file:read-text("utf-8",true())  => :)
-      file:read-text("utf-8")   =>
+      file:read-text("utf-8",true())  =>
+      (: file:read-text("utf-8")   => :)
       _:mask-string()
     else
       _:mask-string($test/text())
@@ -587,23 +587,6 @@ declare function _:print-testcase2($test-case, $name, $env, $suite)
   let $modImport := $test-case/*:module => fn:boolean()
   return
   _:get-query($test-case) ||$_:cn||
-  (: compile any imported modules, local imports will unload these :)
-  (
-    if ($modImport) then
-      let $f := function($a, $p)
-                {
-                  "    try xqerl_code_server:compile(filename:join(__BaseDir, """||
-                  string($a/@file)||"""), [], Hints) catch _:Error_"||$p||" -> Error_"||$p||" end" 
-                }
-      return
-      '   Hints = ['||($test-case/*:module ! ('{filename:join(__BaseDir, "' || string(./@file)||'"), <<"Q{'||./@uri||'}">>}') ) => string-join(',')||'],' ||$_:n||
-      '   LibList = xqerl_code_server:compile_files(Hints),&#10;'
-      (: [&#10;'||
-      ( reverse($test-case/*:module) ! $f(., position()) ) => _:join-cnl()
-      ||'], &#10;' :)
-    else
-      ""
-  ) ||
   (: handle any environment :)
   (
     if ($test-case/*:environment[@ref]) then
@@ -619,6 +602,17 @@ declare function _:print-testcase2($test-case, $name, $env, $suite)
   ) ||
   (: print final query :)
   "   io:format(""Qry1: ~p~n"",[Qry1]),"||$_:n||
+  (: compile any imported modules at once :)
+  (
+    if ($modImport) then
+      '   Hints = ['||($test-case/*:module ! ('{filename:join(__BaseDir, "' || string(./@file)||'"), <<"Q{'||./@uri||'}">>}') ) => string-join(',')||'],' ||$_:n||
+      '   LibList = xqerl_code_server:compile_files(Hints),&#10;'
+      (: [&#10;'||
+      ( reverse($test-case/*:module) ! $f(., position()) ) => _:join-cnl()
+      ||'], &#10;' :)
+    else
+      ""
+  ) ||
   (: add options if there is an environment :)
   "   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, """||$name||".xq""), Qry1),&#10;"||
   (
@@ -1029,3 +1023,23 @@ let $usedEnvironments := _:get-used-environments($testCases)
                            $testCasesStr
 return
   file:write-text($suiteFile, $mod, "utf-8")
+
+
+(: SPECIAL FOR EXPATH FILE
+end_per_suite(Config) -> 
+   ct:timetrap({seconds,60}),
+   CWD = ?config(cwd, Config),
+   Sand = filename:join([CWD,"sandpit"]),
+   Files = [filename:join([Sand, Fn]) || Fn <- filelib:wildcard("**", Sand)],
+   _ = [file:delete(F) || F <- lists:reverse(lists:sort(Files))],
+   _ = file:del_dir(Sand),
+   _ = file:delete(filename:join([CWD, "sandpit.zip"])),
+   xqerl_code_server:unload(all).
+init_per_suite(Config) -> 
+   {ok,_} = application:ensure_all_started(xqerl),
+   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
+   __BaseDir = filename:join(DD, "expath"),
+   Zip = filename:join([DD,"sandpit.zip"]),
+   {ok,_} = file:copy(filename:join([__BaseDir,"sandpit.zip"]), Zip),
+   zip:extract(Zip, [{cwd, DD}]),
+   [{base_dir, __BaseDir},{cwd, DD}|Config]. :)

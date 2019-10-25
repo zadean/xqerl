@@ -179,21 +179,28 @@ scan_dc_token("</" ++ [H|T], _A, Depth) when ?notws(H) ->
    A1 = {'</', ?L, '</'},
    A2 = [A1, QName],
    {A2, strip_ws_c(T1), Depth -1};
-scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) -> 
-   {QName, T1} = if H == $Q ->
-                       {Tok1,T2} = scan_QName([H|T]),
-                       {Tok2,T3} = scan_name(T2),
-                       if Tok2 == invalid_name ->
-                             {Tok1,T2};
-                          true ->
-                             {lists:flatten([Tok1,Tok2]),T3}
-                       end;
+scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) ->
+    {QName, T1} = 
+        if 
+            H == $Q ->
+                {Tok1,T2} = scan_QName([H|T]),
+                {Tok2,T3} = scan_name(T2),
+                if 
+                    Tok2 == invalid_name ->
+                        {Tok1,T2};
                     true ->
-                       scan_name([H|T])
-                 end,
-   
-   {Atts, T4} = scan_dir_attr_list(T1, []),
-   {[{'<', ?L, '<'},QName, Atts  ], strip_ws_c(T4), Depth +1};
+                        {lists:flatten([Tok1,Tok2]),T3}
+                end;
+            true ->
+                scan_name([H|T])
+        end,
+    case QName of
+        invalid_name ->
+            ?err('XPST0003', {?F, ?L});
+        _ ->
+            {Atts, T4} = scan_dir_attr_list(T1, []),
+            {[{'<', ?L, '<'},QName, Atts  ], strip_ws_c(T4), Depth +1}
+    end;
 
 scan_dc_token(Str = "/>" ++ _, _A, 1) -> {computed, Str};
 scan_dc_token("/>" ++ T, _A, Depth) ->
@@ -270,21 +277,26 @@ reorder_dir_attr_list([{'S',_,_}|T],N,A) ->
 
 
 scan_dir_attr([H|T]) when ?whitespace(H) ->
-   S = {'S',?L,'S'},
-   T1 = strip_ws_c(T),
-   ?INC(H),
-   case scan_name(T1) of
-      {invalid_name, _} ->
-         {[S], T1};
-      {QName, T2} ->
-         "=" ++ T3 = strip_ws_c(T2),
-         Q = QName,
-         E = {'=', ?L, '='},
-         % now in the attribute value
-         [Delim|T4] = strip_ws_c(T3),
-         {V, T5} = scan_dir_attr_value(Delim, T4),
-         {[S,Q,E,V], T5}
-   end;
+    S = {'S',?L,'S'},
+    T1 = strip_ws_c(T),
+    ?INC(H),
+    case scan_name(T1) of
+        {invalid_name, _} ->
+            {[S], T1};
+        {QName, T2} ->
+            try
+                "=" ++ T3 = strip_ws_c(T2),
+                Q = QName,
+                E = {'=', ?L, '='},
+                % now in the attribute value
+                [Delim|T4] = strip_ws_c(T3),
+                {V, T5} = scan_dir_attr_value(Delim, T4),
+                {[S,Q,E,V], T5}
+            catch
+                _:_ ->
+                    ?err('XPST0003', {?F, ?L})
+            end
+    end;
 scan_dir_attr(T) -> {[],T}.
 
 % { [AttributeStack], T }
@@ -295,6 +307,8 @@ scan_dir_attr_value($", T) ->
    {Text, T1} = scan_dir_attr_quot_value(T, []),
    {[{'quot', ?L, 'quot'}, Text, {'quot', ?L, 'quot'}], T1} .
 
+scan_dir_attr_apos_value([], _) ->
+    ?err('XPST0003', {?F, ?L});
 scan_dir_attr_apos_value("''" ++ T, Acc) -> 
    scan_dir_attr_apos_value(T, [{'EscapeApos', ?L, "'"}|Acc]);
 scan_dir_attr_apos_value("'" ++ T, Acc) ->
@@ -312,39 +326,45 @@ scan_dir_attr_apos_value("{{" ++ T, Acc) ->
 scan_dir_attr_apos_value("}" ++ T, Acc) -> % end on an expression
    scan_dir_attr_apos_value(T, [{'}', ?L, '}'}|Acc]);
 scan_dir_attr_apos_value([H|T], Acc) ->
-   case is_apos_attr_content_char(H) of
-      true ->
-         scan_dir_attr_apos_value(T, [{'AposAttrContentChar', ?L, H}|Acc]);
-      _ ->
-         % check for predef entities
-         if H == $& ->
-               %% in an attribute and got an entity
-               Str = [H|T],
-               {Pre, T2} = case Str of
+    case is_apos_attr_content_char(H) of
+        true ->
+            scan_dir_attr_apos_value(T, [{'AposAttrContentChar', ?L, H}|Acc]);
+        _ ->
+            % check for predef entities
+            if 
+                H == $& ->
+                %% in an attribute and got an entity
+                Str = [H|T],
+                {Pre, T2} = 
+                    case Str of
                         "&lt;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$<]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$<]}, T1};
                         "&gt;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$>]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$>]}, T1};
                         "&amp;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$&]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$&]}, T1};
                         "&quot;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$"]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$"]}, T1};
                         "&apos;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$']}, T1}
-                     end,
-                     %?dbg("scan_dir_attr_quot_value predef entities",{Pre, T2}),
-                     scan_dir_attr_apos_value(T2, [Pre | Acc]);
-            true ->
-               %% in an attribute and got an expression
-               % scan ahead to the end of the enclosed statement
-               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
-               %SExpr = remove_all_comments(Expr),
-               Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
-               scan_dir_attr_apos_value(T1, [Encl | Acc])
-         end
-   end.
+                            {{'PredefinedEntityRef', ?L, [$']}, T1};
+                        _ -> % unknown predef
+                            ?err('XPST0003', {?F, ?L})
+                    end,
+                    %?dbg("scan_dir_attr_quot_value predef entities",{Pre, T2}),
+                    scan_dir_attr_apos_value(T2, [Pre | Acc]);
+                true ->
+                    %% in an attribute and got an expression
+                    % scan ahead to the end of the enclosed statement
+                    {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
+                    %SExpr = remove_all_comments(Expr),
+                    Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
+                    scan_dir_attr_apos_value(T1, [Encl | Acc])
+            end
+    end.
 
 
+scan_dir_attr_quot_value([], _) ->
+    ?err('XPST0003', {?F, ?L});
 scan_dir_attr_quot_value("\"\"" ++ T, Acc) -> 
    scan_dir_attr_quot_value(T, [{'EscapeQuot', ?L, "\""}|Acc]);
 scan_dir_attr_quot_value("\"" ++ T, Acc) ->
@@ -362,40 +382,44 @@ scan_dir_attr_quot_value("{{" ++ T, Acc) ->
 scan_dir_attr_quot_value("}" ++ T, Acc) -> % end on an expression
    scan_dir_attr_quot_value(T, [{'}', ?L, '}'}|Acc]);
 scan_dir_attr_quot_value([H|T], Acc) ->
-   case is_quot_attr_content_char(H) of
-      true ->
-         scan_dir_attr_quot_value(T, [{'QuotAttrContentChar', ?L, H}|Acc]);
-      _ ->
-         % check for predef entities
-         if H == $& ->
-               %% in an attribute and got an entity
-               Str = [H|T],
-               {Pre, T2} = case Str of
+    case is_quot_attr_content_char(H) of
+        true ->
+            scan_dir_attr_quot_value(T, [{'QuotAttrContentChar', ?L, H}|Acc]);
+        _ ->
+            % check for predef entities
+            if 
+                H == $& ->
+                %% in an attribute and got an entity
+                Str = [H|T],
+                {Pre, T2} = 
+                    case Str of
                         "&lt;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$<]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$<]}, T1};
                         "&gt;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$>]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$>]}, T1};
                         "&amp;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$&]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$&]}, T1};
                         "&quot;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$"]}, T1};
+                            {{'PredefinedEntityRef', ?L, [$"]}, T1};
                         "&apos;" ++ T1 ->
-                           {{'PredefinedEntityRef', ?L, [$']}, T1}
-                     end,
-                     %?dbg("scan_dir_attr_quot_value predef entities",{Pre, T2}),
-                     scan_dir_attr_quot_value(T2, [Pre | Acc]);
-            true ->
-               %% in an attribute and got an expression
-               % scan ahead to the end of the enclosed statement
-               {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
-               %?dbg("scan_dir_attr_quot_value Expr",Expr),
-               %SExpr = remove_all_comments(Expr),
-               Encl = tokens_encl(Expr, [{'{', ?L, '{'}]),
-               %?dbg("scan_dir_attr_quot_value Encl",Encl),
-               %?dbg("scan_dir_attr_quot_value T1",T1),
-               scan_dir_attr_quot_value(T1, [Encl | Acc])
-         end
-   end.
+                            {{'PredefinedEntityRef', ?L, [$']}, T1};
+                        _ -> % unknown predef
+                            ?err('XPST0003', {?F, ?L})
+                    end,
+                    %?dbg("scan_dir_attr_quot_value predef entities",{Pre, T2}),
+                    scan_dir_attr_quot_value(T2, [Pre | Acc]);
+                true ->
+                    %% in an attribute and got an expression
+                    % scan ahead to the end of the enclosed statement
+                    {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0, false),
+                    %?dbg("scan_dir_attr_quot_value Expr",Expr),
+                    %SExpr = remove_all_comments(Expr),
+                    Encl = tokens_encl(Expr, [{'{', ?L, '{'}]),
+                    %?dbg("scan_dir_attr_quot_value Encl",Encl),
+                    %?dbg("scan_dir_attr_quot_value T1",T1),
+                    scan_dir_attr_quot_value(T1, [Encl | Acc])
+            end
+    end.
 
 
 is_apos_attr_content_char($') -> false;
@@ -763,9 +787,13 @@ scan_token("<=" ++ T, _A) ->  {{'<=', ?L, '<='}, T};
 scan_token(">=" ++ T, _A) ->  {{'>=', ?L, '>='}, T};
 scan_token(">>" ++ T, _A) ->  {{'>>', ?L, '>>'}, T};
 scan_token("-" ++ T, _A) ->  {{'-', ?L, '-'}, T};
-scan_token("$" ++ T, _A) ->  
-   {QName, T2} = scan_QName(strip_ws(T)),
-   {[{'$', ?L, '$'}, QName], T2};
+scan_token("$" ++ T, _A) ->
+    case scan_QName(strip_ws(T)) of
+        {invalid_name, _} ->
+            ?err('XPST0003', {?F, ?L});
+        {QName, T2} ->
+            {[{'$', ?L, '$'}, QName], T2}
+    end;
 scan_token("(" ++ T, _A) ->  {{'(', ?L, '('}, T};
 scan_token(")" ++ T, _A) ->  {{')', ?L, ')'}, T};
 scan_token("*" ++ T, _A) ->  {{'*', ?L, '*'}, T};
@@ -778,51 +806,53 @@ scan_token("." ++ T, A) ->
          {{'.', ?L, '.'}, T}
    end;
 scan_token("/" ++ T, A) ->  
-   % look ahead for non path character
-   [H1|T1] = strip_ws(T),
-   case xqerl_lib:is_xsncname_start_char(H1) of
-      true ->
-         {{'/', ?L, '/'}, T};
-      _ ->
-         case H1 of
-            $< ->
-               {{'/', ?L, '/'}, T};
-            $> ->
-               {{'/>', ?L, '/>'}, T1};
-            $@ ->
-               {{'/', ?L, '/'}, T};
-            $( ->
-               {{'/', ?L, '/'}, T};
-            $[ ->
-               {{'/', ?L, '/'}, T};
-            $* ->
-               {{'/', ?L, '/'}, T};
-            $$ ->
-               {{'/', ?L, '/'}, T};
-            $. ->
-               {{'/', ?L, '/'}, T};
-            %H1 when H1 =< $0, H1 >= $9  ->
-            %   {{'/', ?L, '/'}, T};
-            _ -> %% kludge
-               case lookback(A) of
-                  '/>' ->
-                     {{'/', ?L, '/'}, T};
-                  'maybeNCName' ->
-                     {{'/', ?L, '/'}, T};
-                  ')' ->
-                     {{'/', ?L, '/'}, T};
-                  ']' ->
-                     {{'/', ?L, '/'}, T};
-                  {'$',_,_} ->
-                     {{'/', ?L, '/'}, T};
-                  'IntegerLiteral' ->
-                     ?err('XPTY0019', {?F, ?L}); % path on number
-                  _B ->
-                     %?dbg("B",B),
-                     {{'lone-slash', ?L, 'lone-slash'}, T}
-               end
-         end
-   end;
+    % look ahead for non path character
+    case strip_ws(T) of
+        [H1|T1] ->
+            case xqerl_lib:is_xsncname_start_char(H1) of
+                true ->
+                    {{'/', ?L, '/'}, T};
+                _ ->
+                    case H1 of
+                        $< ->
+                            {{'/', ?L, '/'}, T};
+                        $> ->
+                            {{'/>', ?L, '/>'}, T1};
+                        $@ ->
+                            {{'/', ?L, '/'}, T};
+                        $( ->
+                            {{'/', ?L, '/'}, T};
+                        $[ ->
+                            {{'/', ?L, '/'}, T};
+                        $* ->
+                            {{'/', ?L, '/'}, T};
+                        $$ ->
+                            {{'/', ?L, '/'}, T};
+                        $. ->
+                            {{'/', ?L, '/'}, T};
+                        _ -> %% kludge
+                            case lookback(A) of
+                                '/>' ->
+                                    {{'/', ?L, '/'}, T};
+                                'maybeNCName' ->
+                                    {{'/', ?L, '/'}, T};
+                                ')' ->
+                                    {{'/', ?L, '/'}, T};
+                                ']' ->
+                                    {{'/', ?L, '/'}, T};
+                                {'$',_,_} ->
+                                    {{'/', ?L, '/'}, T};
+                                'IntegerLiteral' ->
+                                    ?err('XPTY0019', {?F, ?L}); % path on number
+                                _B ->
+                                    %?dbg("B",B),
+                                    {{'lone-slash', ?L, 'lone-slash'}, T}
+                            end
+                    end
+            end;
+        _ ->
+            ?err('XPST0003', {?F, ?L})
+    end;
 scan_token(":)" ++ _T, A) -> % unbalanced comment
    ?dbg("A",A),
    ?dbg(?LINE,'XPST0003'),
@@ -1011,7 +1041,9 @@ scan_double([H|T], Acc) when H >= $0, H =< $9 ->
          {{double, ?L, infinity}, T1};
       Dbl ->
          {{double, ?L, Dbl}, T1}
-   end.
+   end;
+scan_double(_, _) -> % not a number
+    ?err('XPST0003', {?F, ?L}).
 
 %% scan_number will catch a leading dot
 
@@ -1032,30 +1064,32 @@ scan_digits([H|T], Acc) when H >= $0, H =< $9 ->
 scan_digits(T, Acc) ->
    {lists:reverse(Acc), T}.
 
+scan_literal([], _, _) ->
+    ?err('XPST0003', {?F, ?L});
 scan_literal([H, H | T], H, Acc) -> % double delim
-   scan_literal(T, H, [H|Acc]);
+    scan_literal(T, H, [H|Acc]);
 scan_literal([H|T], H, Acc) ->
     {lists:reverse(Acc), T};
 scan_literal("&apos;" ++ T, Delim, Acc) ->
-   scan_literal(T, Delim, [$'|Acc]);
+    scan_literal(T, Delim, [$'|Acc]);
 scan_literal("&quot;" ++ T, Delim, Acc) ->
-   scan_literal(T, Delim, [$"|Acc]);
+    scan_literal(T, Delim, [$"|Acc]);
 scan_literal("&amp;" ++ T, Delim, Acc) ->
-   scan_literal(T, Delim, [$&|Acc]);
+    scan_literal(T, Delim, [$&|Acc]);
 scan_literal("&gt;" ++ T, Delim, Acc) ->
-   scan_literal(T, Delim, [$>|Acc]);
+    scan_literal(T, Delim, [$>|Acc]);
 scan_literal("&lt;" ++ T, Delim, Acc) ->
-   scan_literal(T, Delim, [$<|Acc]);
+    scan_literal(T, Delim, [$<|Acc]);
 scan_literal("&#x" ++ T, Delim, Acc) ->
-   {{'CharRef', _, CP}, T1} = scan_hex_char_ref(T, []),
-   scan_literal(T1, Delim, [CP|Acc]);
+    {{'CharRef', _, CP}, T1} = scan_hex_char_ref(T, []),
+    scan_literal(T1, Delim, [CP|Acc]);
 scan_literal("&#" ++ T, Delim, Acc) ->
-   {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
-   scan_literal(T1, Delim, [CP|Acc]);
+    {{'CharRef', _, CP}, T1} = scan_dec_char_ref(T, []),
+    scan_literal(T1, Delim, [CP|Acc]);
 scan_literal("&" ++ _T, _Delim, _Acc) -> % not allowed in literal
-   ?err('XPST0003', {?F, ?L});
+    ?err('XPST0003', {?F, ?L});
 scan_literal([H|T], Delim, Acc) ->
-   scan_literal(T, Delim, [H|Acc]).
+    scan_literal(T, Delim, [H|Acc]).
 
 scan_QName("Q{" ++ T) ->
    {Uri, T1} = scan_braced_uri(T,[]),
@@ -1584,24 +1618,28 @@ scan_direct_pi_constructor([H1, H2, H3, H4 | _]) when H1 == $X orelse H1 == $x ,
                                                       ?whitespace(H4) ->  
    ?err('XPST0003', {?F, ?L});
 scan_direct_pi_constructor([H|_]) when ?whitespace(H) -> ?err('XPST0003', {?F, ?L});
-scan_direct_pi_constructor(Str) ->  
-   {{_,_,Target}, T1} = scan_name(Str),
-   % significant ws
-   case T1 of
-      [H|T2] when ?whitespace(H) ->
-         ?INC(H),
-         T3 = strip_ws(T2),
-         case scan_direct_pi_contents(T3, []) of
-            {Contents, T4} ->
-               {{'PITarget', ?L, Target}, {'DirPIContents', ?L, Contents}, T4};
-            {T4} ->
-               {{'PITarget', ?L, Target}, [], T4}
-         end;
-      "?>" ++ T9 ->
-         {{'PITarget', ?L, Target}, [], "?>" ++ T9};
-      _ ->
-         ?err('XPST0003', {?F, ?L}) % no significant whitespace found
-   end.
+scan_direct_pi_constructor(Str) ->
+    case scan_name(Str) of
+        {{_,_,Target}, T1} ->
+            % significant ws
+            case T1 of
+                [H|T2] when ?whitespace(H) ->
+                    ?INC(H),
+                    T3 = strip_ws(T2),
+                    case scan_direct_pi_contents(T3, []) of
+                        {Contents, T4} ->
+                            {{'PITarget', ?L, Target}, {'DirPIContents', ?L, Contents}, T4};
+                        {T4} ->
+                            {{'PITarget', ?L, Target}, [], T4}
+                    end;
+                "?>" ++ T9 ->
+                    {{'PITarget', ?L, Target}, [], "?>" ++ T9};
+                _ ->
+                    ?err('XPST0003', {?F, ?L}) % no significant whitespace found
+            end;
+        _ -> % bad name
+            ?err('XPST0003', {?F, ?L})
+    end.
    
 scan_direct_pi_contents([], Acc) ->
    {lists:reverse(Acc), []};
@@ -1615,37 +1653,50 @@ scan_direct_pi_contents([H|T], Acc) ->
 
 
 scan_dec_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
-  scan_dec_char_ref(T, [H|Acc]);
-scan_dec_char_ref([H|T], Acc) when H == $; ->
-   CP = list_to_integer(lists:reverse(Acc)),
-   Valid = xqerl_lib:is_xschar(CP),
-   if Valid ->
-         {{'CharRef', ?L, CP}, T};
-      true ->
-         ?err('XQST0090', {?F, ?L})
-   end.
+    scan_dec_char_ref(T, [H|Acc]);
+scan_dec_char_ref([$;|_], []) ->
+    ?err('XPST0003', {?F, ?L});
+scan_dec_char_ref([$;|T], Acc) ->
+    CP = list_to_integer(lists:reverse(Acc)),
+    Valid = xqerl_lib:is_xschar(CP),
+    if 
+        Valid ->
+            {{'CharRef', ?L, CP}, T};
+        true ->
+            ?err('XQST0090', {?F, ?L})
+    end;
+scan_dec_char_ref(_, _) ->
+    ?err('XPST0003', {?F, ?L}).
 
 scan_hex_char_ref([H|T], Acc) when H >= $0, H =< $9  ->
-   scan_hex_char_ref(T, [H|Acc]);
+    scan_hex_char_ref(T, [H|Acc]);
 scan_hex_char_ref([H|T], Acc) when H >= $a, H =< $f  ->
-   scan_hex_char_ref(T, [H|Acc]);
+    scan_hex_char_ref(T, [H|Acc]);
 scan_hex_char_ref([H|T], Acc) when H >= $A, H =< $F  ->
-   scan_hex_char_ref(T, [H|Acc]);
-scan_hex_char_ref([H|T], Acc) when H == $; ->
-   Hex = lists:reverse(Acc),
-   CP = list_to_integer(Hex, 16),
-   Valid = xqerl_lib:is_xschar(CP),
-   if Valid ->
-         {{'CharRef', ?L, CP}, T};
-      true ->
-         ?err('XQST0090', {?F, ?L})
-   end.
+    scan_hex_char_ref(T, [H|Acc]);
+scan_hex_char_ref([$;|_], []) ->
+    ?err('XPST0003', {?F, ?L});
+scan_hex_char_ref([$;|T], Acc) ->
+    Hex = lists:reverse(Acc),
+    CP = list_to_integer(Hex, 16),
+    Valid = xqerl_lib:is_xschar(CP),
+    if 
+        Valid ->
+            {{'CharRef', ?L, CP}, T};
+        true ->
+            ?err('XQST0090', {?F, ?L})
+    end;
+scan_hex_char_ref(_, _) ->
+    ?err('XPST0003', {?F, ?L}).
 
+
+scan_entity_ref([], _) ->
+    ?err('XPST0003', {?F, ?L});
 scan_entity_ref([H|T], Acc) when H == $; ->
-   {{'EntityRef', ?L, lists:reverse([H|Acc])}, T};
+    {{'EntityRef', ?L, lists:reverse([H|Acc])}, T};
 scan_entity_ref([H|T], Acc) ->
-   ?INC(H),
-   scan_entity_ref(T, [H|Acc]).
+    ?INC(H),
+    scan_entity_ref(T, [H|Acc]).
 
 scan_enclosed_expr("(:" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth, Q) ->
    T1 = trim_comment(T),   
@@ -1739,41 +1790,48 @@ scan_str_const([H|T], A, L) ->
 
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
 scan_pragma("(#" ++ T, _A, _L) ->
-   T1 = strip_ws_c(T), % optional ws
-   case T1 of
-      [$Q|_] ->
-         {L1,T2} = scan_QName(T1),
-         {N1,T3} = scan_name(T2),
-         L2 = lists:flatten([{'S', ?L, 'S'}, N1,lists:reverse(L1), {'(#', ?L, '(#'}]),
-         ?dbg("L2", L2),
-         scan_pragma(strip_ws_c(T3), [], L2);
-      _ ->
-         {Name, [H2|T2]} =  scan_name(T1),
-         L1 = [{'S', ?L, 'S'}, Name, {'(#', ?L, '(#'}],
-         if ?whitespace(H2) ->
-               scan_pragma(strip_ws_c(T2), [], L1);
-            true ->
-               case T2 of
-                  ")"++_ when H2 == $# ->
-                     scan_pragma([H2|T2], [], L1);
-                  _ ->
-                     ?dbg("XPST0003",T2),
-                     ?err('XPST0003', {?F, ?L})
-               end
-         end
-   end;
+    T1 = strip_ws_c(T), % optional ws
+    case T1 of
+        [$Q|_] ->
+            {L1,T2} = scan_QName(T1),
+            {N1,T3} = scan_name(T2),
+            L2 = lists:flatten([{'S', ?L, 'S'}, N1,lists:reverse(L1), {'(#', ?L, '(#'}]),
+            ?dbg("L2", L2),
+            scan_pragma(strip_ws_c(T3), [], L2);
+        _ ->
+            case scan_name(T1) of
+                {Name, [H2|T2]} ->
+                    L1 = [{'S', ?L, 'S'}, Name, {'(#', ?L, '(#'}],
+                    if
+                        ?whitespace(H2) ->
+                            scan_pragma(strip_ws_c(T2), [], L1);
+                        true ->
+                            case T2 of
+                                ")"++_ when H2 == $# ->
+                                    scan_pragma([H2|T2], [], L1);
+                                _ ->
+                                    ?dbg("XPST0003",T2),
+                                    ?err('XPST0003', {?F, ?L})
+                            end
+                    end;
+                _ ->
+                    ?err('XPST0003', {?F, ?L})
+            end
+    end;
 scan_pragma("#)"++T, [], L) ->
-   case  hd(L) of
-      {'S',_,_} ->
-         {lists:reverse([{'#)', ?L, '#)'} | tl(L)]),  T};
-      _ ->
-         {lists:reverse([{'#)', ?L, '#)'} | L]),  T}
-   end;
+    case hd(L) of
+        {'S',_,_} ->
+            {lists:reverse([{'#)', ?L, '#)'} | tl(L)]),  T};
+        _ ->
+            {lists:reverse([{'#)', ?L, '#)'} | L]),  T}
+    end;
 scan_pragma("#)"++T, A, L) ->
-   {lists:reverse([{'#)', ?L, '#)'}, {'PragmaContents',2,lists:reverse(A)} | L]),  T};
+    {lists:reverse([{'#)', ?L, '#)'}, {'PragmaContents',2,lists:reverse(A)} | L]),  T};
 scan_pragma([H|T], A, L) ->
-   scan_pragma(T, [H|A], L).
-%PragmaContents
+    scan_pragma(T, [H|A], L);
+scan_pragma([], _, _) ->
+    ?err('XPST0003', {?F, ?L}).
+
 
 scan_braced_uri("}" ++ T, Acc) -> 
    {lists:reverse(Acc), T};

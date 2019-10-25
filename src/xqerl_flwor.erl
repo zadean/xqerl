@@ -159,7 +159,7 @@ flatten_window_return(WType, Bw) ->
        case xqerl_types:instance_of(S, WType) of
           true ->
              setelement(9, B, S);
-          _ -> 
+          _ ->
              ?err('XPTY0004')
        end
     end || B <- Bw, B =/= []].
@@ -1054,9 +1054,9 @@ split_where_comparisons([{'where', WId,
                                             rhs = Rhs,
                                             anno = Line} = WExpr} = Where|T], G) ->
    
-   LNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
+   LNm = #qname{namespace = <<>>, prefix = <<>>, 
                 local_name = <<"~lhs_", (integer_to_binary(CId))/binary>>},
-   RNm = #qname{namespace = 'no-namespace', prefix = <<>>, 
+   RNm = #qname{namespace = <<>>, prefix = <<>>, 
                 local_name = <<"~rhs_", (integer_to_binary(CId))/binary>>},
 
    Lhs1 = case Lhs of
@@ -1353,7 +1353,7 @@ leading_where_as_if(O,_,_) -> O.
 
 
 
-sim_name(#qname{namespace = N, local_name = L}) -> {N,L}.
+sim_name(#xqQName{namespace = N, local_name = L}) -> {N,L}.
 
 vertex_name(#xqWindow{win_variable = #xqVar{id = I, name = N}}) ->
    {I,sim_name(N)};
@@ -1381,14 +1381,14 @@ shiftable_expression(_,_) ->
 shiftable_expression_1(Expr, Det) ->
    F = fun O([]) ->
             true;
-           O(#xqFunctionCall{name = #qname{}} = F) ->
+           O(#xqFunctionCall{name = #xqQName{}} = F) ->
               O(Det(F));
-           O(#annotation{name = 
-                           #qname{namespace = <<"http://xqerl.org/xquery">>,
+           O(#xqAnnotation{name = 
+                           #xqQName{namespace = <<"http://xqerl.org/xquery">>,
                                   local_name = <<"non-deterministic">>}}) ->
               false;
-           O(#annotation{name = 
-                           #qname{namespace = <<"http://www.w3.org/2012/xquery">>,
+           O(#xqAnnotation{name = 
+                           #xqQName{namespace = <<"http://www.w3.org/2012/xquery">>,
                                   local_name = <<"updating">>}}) ->
               false;
            O(T) when is_tuple(T) ->

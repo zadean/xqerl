@@ -346,10 +346,10 @@ environment('user-defined-types',__BaseDir) ->
    Qry = "
         import module namespace m=\"http://example.com/hof-003\"; 
         let $f := m:f#1 return $f(17)", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-hof-003.xq"), <<"Q{http://example.com/hof-003}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-hof-003.xq"), <<"Q{http://example.com/hof-003}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "hof-003.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2255,10 +2255,10 @@ key: z, value: (zebra)\"") of
          let $f := func:curry(concat#5)
          return $f(\"foo\")(\" bar\")(\" baz\")(\" what's\")(\" next?\")
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/functional.xq"), <<"Q{http://snelson.org.uk/functions/functional}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/functional.xq"), <<"Q{http://snelson.org.uk/functions/functional}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof2.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2307,10 +2307,10 @@ return string($a)
 , \"
 \")
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/functional.xq"), <<"Q{http://snelson.org.uk/functions/functional}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/functional.xq"), <<"Q{http://snelson.org.uk/functions/functional}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof3.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2652,10 +2652,10 @@ return string($a)
          fn:static-base-uri#0(),
          fn:static-base-uri()
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof16.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2691,10 +2691,10 @@ return string($a)
          <main/>/name#0(),
          <main/>/name()
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof17.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2719,10 +2719,10 @@ return string($a)
          function-lookup#2(xs:QName(\"fn:static-base-uri\"),0)(),
          function-lookup(xs:QName(\"fn:static-base-uri\"),0)()
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof18.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -2758,10 +2758,10 @@ return string($a)
          <main/>/function-lookup#2(xs:QName(\"fn:name\"),0)(),
          <main/>/function-lookup(xs:QName(\"fn:name\"),0)()
       ", 
-   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "HigherOrderFunctions/module-xqhof16.xq"), <<"Q{lib}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "xqhof19.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

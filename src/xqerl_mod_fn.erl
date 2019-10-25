@@ -34,6 +34,7 @@
 -define(str(Val), Val).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
 -define(atm(Typ,Val), #xqAtomicValue{type = Typ, value = Val}).
+-define(is_array(A), is_tuple(A), element(1, A) == array).
 
 -define(A(T),<<T>>).
 -define(NS, ?A("http://www.w3.org/2005/xpath-functions")).
@@ -54,464 +55,464 @@
 -'module-namespace'({?NS, ?PX}).
 -variables([]).
 -functions([
-{{qname, ?NS, ?PX,?A("abs")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'abs', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-dateTime-to-timezone")},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
- {'adjust-dateTime-to-timezone', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-dateTime-to-timezone")},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
- {'adjust-dateTime-to-timezone', 3}, 2,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-date-to-timezone")},{xqSeqType, 'xs:date', zero_or_one}, [], 
- {'adjust-date-to-timezone', 2}, 1, [{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-date-to-timezone")},{xqSeqType, 'xs:date', zero_or_one}, [], 
- {'adjust-date-to-timezone', 3},2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-time-to-timezone")},{xqSeqType, 'xs:time', zero_or_one}, [], 
- {'adjust-time-to-timezone', 2},1, [{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("adjust-time-to-timezone")},{xqSeqType, 'xs:time', zero_or_one}, [], 
- {'adjust-time-to-timezone', 3},2,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}, [], 
- {'analyze-string', 3},2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}, [], 
- {'analyze-string', 4},3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("apply")},{xqSeqType, item, zero_or_many}, [], 
- {'apply_', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("available-environment-variables")},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, ?PX,?A("abs")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'abs', 2}, 1,[{seqType, 'xs:numeric', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-dateTime-to-timezone")},{seqType, 'xs:dateTime', zero_or_one}, [],
+ {'adjust-dateTime-to-timezone', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-dateTime-to-timezone")},{seqType, 'xs:dateTime', zero_or_one}, [],
+ {'adjust-dateTime-to-timezone', 3}, 2,[{seqType, 'xs:dateTime', zero_or_one},{seqType, 'xs:dayTimeDuration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-date-to-timezone")},{seqType, 'xs:date', zero_or_one}, [], 
+ {'adjust-date-to-timezone', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-date-to-timezone")},{seqType, 'xs:date', zero_or_one}, [], 
+ {'adjust-date-to-timezone', 3},2,[{seqType, 'xs:date', zero_or_one},{seqType, 'xs:dayTimeDuration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-time-to-timezone")},{seqType, 'xs:time', zero_or_one}, [], 
+ {'adjust-time-to-timezone', 2},1, [{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("adjust-time-to-timezone")},{seqType, 'xs:time', zero_or_one}, [], 
+ {'adjust-time-to-timezone', 3},2,[{seqType, 'xs:time', zero_or_one},{seqType, 'xs:dayTimeDuration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("analyze-string")},{seqType, {kindTest,element,undefined,undefined}, one}, [], 
+ {'analyze-string', 3},2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("analyze-string")},{seqType, {kindTest,element,undefined,undefined}, one}, [], 
+ {'analyze-string', 4},3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("apply")},{seqType, item, zero_or_many}, [], 
+ {'apply_', 3}, 2,[{seqType,{funTest,function,[],undefined,any,any}, one},{seqType, {funTest,array,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("available-environment-variables")},{seqType, 'xs:string', zero_or_many}, [],
  {'available-environment-variables', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("avg")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'avg', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("base-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("avg")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'avg', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("base-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
  {'base-uri', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("base-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'base-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("boolean")},{xqSeqType, 'xs:boolean', one}, [], 
- {'boolean', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("ceiling")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'ceiling', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("codepoint-equal")},{xqSeqType, 'xs:boolean', zero_or_one}, [],
- {'codepoint-equal', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("codepoints-to-string")},{xqSeqType, 'xs:string', one}, [], 
- {'codepoints-to-string', 2}, 1,[{xqSeqType, 'xs:integer', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("collation-key")},{xqSeqType, 'xs:base64Binary', one}, [], 
- {'collation-key', 2},1, [{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("collation-key")},{xqSeqType, 'xs:base64Binary', one}, [], 
- {'collation-key', 3},2,[{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("collection")},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, ?PX,?A("base-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'base-uri', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("boolean")},{seqType, 'xs:boolean', one}, [], 
+ {'boolean', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("ceiling")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'ceiling', 2}, 1,[{seqType, 'xs:numeric', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("codepoint-equal")},{seqType, 'xs:boolean', zero_or_one}, [],
+ {'codepoint-equal', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("codepoints-to-string")},{seqType, 'xs:string', one}, [], 
+ {'codepoints-to-string', 2}, 1,[{seqType, 'xs:integer', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("collation-key")},{seqType, 'xs:base64Binary', one}, [], 
+ {'collation-key', 2},1, [{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("collation-key")},{seqType, 'xs:base64Binary', one}, [], 
+ {'collation-key', 3},2,[{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("collection")},{seqType, item, zero_or_many}, [], 
  {'collection', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("collection")},{xqSeqType, item, zero_or_many}, [], 
- {'collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("compare")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'compare', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("compare")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'compare', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("concat")},{xqSeqType, 'xs:string', one}, [], 
- {'concat', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("contains")},{xqSeqType, 'xs:boolean', one}, [], 
- {'contains', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("contains")},{xqSeqType, 'xs:boolean', one}, [], 
- {'contains', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("contains-token")},{xqSeqType, 'xs:boolean', one}, [], 
- {'contains-token', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("contains-token")},{xqSeqType, 'xs:boolean', one}, [], 
- {'contains-token', 4}, 3,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("count")},{xqSeqType, 'xs:integer', one}, [], 
- {'count', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("current-date")},{xqSeqType, 'xs:date', one}, [], 
+{{qname, ?NS, ?PX,?A("collection")},{seqType, item, zero_or_many}, [], 
+ {'collection', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("compare")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'compare', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("compare")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'compare', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("concat")},{seqType, 'xs:string', one}, [], 
+ {'concat', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("contains")},{seqType, 'xs:boolean', one}, [], 
+ {'contains', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("contains")},{seqType, 'xs:boolean', one}, [], 
+ {'contains', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("contains-token")},{seqType, 'xs:boolean', one}, [], 
+ {'contains-token', 3}, 2,[{seqType, 'xs:string', zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("contains-token")},{seqType, 'xs:boolean', one}, [], 
+ {'contains-token', 4}, 3,[{seqType, 'xs:string', zero_or_many},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("count")},{seqType, 'xs:integer', one}, [], 
+ {'count', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("current-date")},{seqType, 'xs:date', one}, [], 
  {'current-date', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("current-dateTime")},{xqSeqType, 'xs:dateTime', one}, [], 
+{{qname, ?NS, ?PX,?A("current-dateTime")},{seqType, 'xs:dateTime', one}, [], 
  {'current-dateTime', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("current-time")},{xqSeqType, 'xs:time', one}, [], 
+{{qname, ?NS, ?PX,?A("current-time")},{seqType, 'xs:time', one}, [], 
  {'current-time', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("data")},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, ?PX,?A("data")},{seqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'data', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("data")},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
- {'data', 2}, 1, [{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("dateTime")},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
- {'dateTime', 3}, 2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("day-from-date")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'day-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("day-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'day-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("days-from-duration")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'days-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("deep-equal")},{xqSeqType, 'xs:boolean', one}, [], 
- {'deep-equal', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("deep-equal")},{xqSeqType, 'xs:boolean', one}, [], 
- {'deep-equal', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("default-collation")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("data")},{seqType, 'xs:anyAtomicType', zero_or_many}, [],
+ {'data', 2}, 1, [{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("dateTime")},{seqType, 'xs:dateTime', zero_or_one}, [],
+ {'dateTime', 3}, 2,[{seqType, 'xs:date', zero_or_one},{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("day-from-date")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'day-from-date', 2}, 1,[{seqType, 'xs:date', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("day-from-dateTime")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'day-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("days-from-duration")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'days-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("deep-equal")},{seqType, 'xs:boolean', one}, [], 
+ {'deep-equal', 3}, 2,[{seqType, item, zero_or_many},{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("deep-equal")},{seqType, 'xs:boolean', one}, [], 
+ {'deep-equal', 4}, 3,[{seqType, item, zero_or_many},{seqType, item, zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("default-collation")},{seqType, 'xs:string', one}, [], 
  {'default-collation', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("default-language")},{xqSeqType, 'xs:language', one}, [], 
+{{qname, ?NS, ?PX,?A("default-language")},{seqType, 'xs:language', one}, [], 
  {'default-language', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("distinct-values")},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
- {'distinct-values', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("distinct-values")},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
- {'distinct-values', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("doc")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, zero_or_one}, [],
- {'doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("doc-available")},{xqSeqType, 'xs:boolean', one}, [], 
- {'doc-available', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("document-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("distinct-values")},{seqType, 'xs:anyAtomicType', zero_or_many}, [],
+ {'distinct-values', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("distinct-values")},{seqType, 'xs:anyAtomicType', zero_or_many}, [],
+ {'distinct-values', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("doc")},{seqType, {kindTest,'document-node',undefined,undefined}, zero_or_one}, [],
+ {'doc', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("doc-available")},{seqType, 'xs:boolean', one}, [], 
+ {'doc-available', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("document-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
  {'document-uri', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("document-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'document-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
- {'element-with-id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
- {'element-with-id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("empty")},{xqSeqType, 'xs:boolean', one}, [], 
- {'empty', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("encode-for-uri")},{xqSeqType, 'xs:string', one}, [], 
- {'encode-for-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("ends-with")},{xqSeqType, 'xs:boolean', one}, [], 
- {'ends-with', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("ends-with")},{xqSeqType, 'xs:boolean', one}, [], 
- {'ends-with', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("environment-variable")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'environment-variable', 2}, 1, [{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("error")},{xqSeqType, 'empty-sequence', none}, [], 
+{{qname, ?NS, ?PX,?A("document-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'document-uri', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("element-with-id")},{seqType, {kindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'element-with-id', 2}, 1,[{seqType, 'xs:string', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("element-with-id")},{seqType, {kindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'element-with-id', 3}, 2,[{seqType, 'xs:string', zero_or_many},{seqType, {kindTest,node,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("empty")},{seqType, 'xs:boolean', one}, [], 
+ {'empty', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("encode-for-uri")},{seqType, 'xs:string', one}, [], 
+ {'encode-for-uri', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("ends-with")},{seqType, 'xs:boolean', one}, [], 
+ {'ends-with', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("ends-with")},{seqType, 'xs:boolean', one}, [], 
+ {'ends-with', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("environment-variable")},{seqType, 'xs:string', zero_or_one}, [],
+ {'environment-variable', 2}, 1, [{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("error")},{seqType, 'empty-sequence', none}, [], 
  {'error', 1},0, []},
-{{qname, ?NS, ?PX,?A("error")},{xqSeqType, 'empty-sequence', none}, [], 
- {'error', 2},1, [{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("error")},{xqSeqType, 'empty-sequence', none}, [], 
- {'error', 3},2,[{xqSeqType, 'xs:QName', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("error")},{xqSeqType, 'empty-sequence', none}, [], 
- {'error', 4},3,[{xqSeqType, 'xs:QName', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("escape-html-uri")},{xqSeqType, 'xs:string', one}, [], 
- {'escape-html-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("exactly-one")},{xqSeqType, item, one}, [], 
- {'exactly-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("exists")},{xqSeqType, 'xs:boolean', one}, [], 
- {'exists', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("false")},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, ?PX,?A("error")},{seqType, 'empty-sequence', none}, [], 
+ {'error', 2},1, [{seqType, 'xs:QName', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("error")},{seqType, 'empty-sequence', none}, [], 
+ {'error', 3},2,[{seqType, 'xs:QName', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("error")},{seqType, 'empty-sequence', none}, [], 
+ {'error', 4},3,[{seqType, 'xs:QName', zero_or_one},{seqType, 'xs:string', one},{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("escape-html-uri")},{seqType, 'xs:string', one}, [], 
+ {'escape-html-uri', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("exactly-one")},{seqType, item, one}, [], 
+ {'exactly-one', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("exists")},{seqType, 'xs:boolean', one}, [], 
+ {'exists', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("false")},{seqType, 'xs:boolean', one}, [], 
  {'false', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("filter")},{xqSeqType, item, zero_or_many}, [], 
- {'filter', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("filter")},[{xqSeqType, item, one}],{xqSeqType, 'xs:boolean', one}},one}]},
-{{qname, ?NS, ?PX,?A("floor")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'floor', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("fold-left")},{xqSeqType, item, zero_or_many}, [], 
- {'fold-left', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("fold-left")},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, ?NS, ?PX,?A("fold-right")},{xqSeqType, item, zero_or_many}, [], 
- {'fold-right', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("fold-right")},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, ?NS, ?PX,?A("for-each")},{xqSeqType, item, zero_or_many}, [], 
- {'for-each', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("for-each")},[{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},zero_or_many}]},
-{{qname, ?NS, ?PX,?A("for-each-pair")},{xqSeqType, item, zero_or_many}, [], 
- {'for-each-pair', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("for-each-pair")},[{xqSeqType, item, one},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, ?NS, ?PX,?A("format-date")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-date', 3}, 2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("format-date")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-date', 6}, 5,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("format-dateTime")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-dateTime', 3}, 2,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("format-dateTime")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-dateTime', 6}, 5,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("format-integer")},{xqSeqType, 'xs:string', one}, [], 
- {'format-integer', 3}, 2,[{xqSeqType, 'xs:integer', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("format-integer")},{xqSeqType, 'xs:string', one}, [], 
- {'format-integer', 4}, 3,[{xqSeqType, 'xs:integer', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("format-number")},{xqSeqType, 'xs:string', one}, [], 
- {'format-number', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("format-number")},{xqSeqType, 'xs:string', one}, [], 
- {'format-number', 4}, 3,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("format-time")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-time', 3}, 2,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("format-time")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'format-time', 6}, 5,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("function-arity")},{xqSeqType, 'xs:integer', one}, [], 
- {'function-arity', 2}, 1,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("function-lookup")},{xqSeqType,{xqFunTest,function,[],undefined,any,any},zero_or_one},[], 
- {'function-lookup', 3}, 2,[{xqSeqType, 'xs:QName', one},{xqSeqType, 'xs:integer', one}]},
-{{qname, ?NS, ?PX,?A("function-name")},{xqSeqType, 'xs:QName', zero_or_one}, [],
- {'function-name', 2}, 1,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("generate-id")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("filter")},{seqType, item, zero_or_many}, [], 
+ {'filter', 3}, 2,[{seqType, item, zero_or_many},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("filter")},[{seqType, item, one}],{seqType, 'xs:boolean', one}},one}]},
+{{qname, ?NS, ?PX,?A("floor")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'floor', 2}, 1,[{seqType, 'xs:numeric', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("fold-left")},{seqType, item, zero_or_many}, [], 
+ {'fold-left', 4}, 3,[{seqType, item, zero_or_many},{seqType, item, zero_or_many},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("fold-left")},[{seqType, item, zero_or_many},{seqType, item, one}],{seqType, item, zero_or_many}},one}]},
+{{qname, ?NS, ?PX,?A("fold-right")},{seqType, item, zero_or_many}, [], 
+ {'fold-right', 4}, 3,[{seqType, item, zero_or_many},{seqType, item, zero_or_many},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("fold-right")},[{seqType, item, zero_or_many},{seqType, item, one}],{seqType, item, zero_or_many}},one}]},
+{{qname, ?NS, ?PX,?A("for-each")},{seqType, item, zero_or_many}, [], 
+ {'for-each', 3}, 2,[{seqType, item, zero_or_many},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("for-each")},[{seqType, item, one}],{seqType, item, zero_or_many}},zero_or_many}]},
+{{qname, ?NS, ?PX,?A("for-each-pair")},{seqType, item, zero_or_many}, [], 
+ {'for-each-pair', 4}, 3,[{seqType, item, zero_or_many},{seqType, item, zero_or_many},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("for-each-pair")},[{seqType, item, one},{seqType, item, one}],{seqType, item, zero_or_many}},one}]},
+{{qname, ?NS, ?PX,?A("format-date")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-date', 3}, 2,[{seqType, 'xs:date', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("format-date")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-date', 6}, 5,[{seqType, 'xs:date', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("format-dateTime")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-dateTime', 3}, 2,[{seqType, 'xs:dateTime', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("format-dateTime")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-dateTime', 6}, 5,[{seqType, 'xs:dateTime', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("format-integer")},{seqType, 'xs:string', one}, [], 
+ {'format-integer', 3}, 2,[{seqType, 'xs:integer', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("format-integer")},{seqType, 'xs:string', one}, [], 
+ {'format-integer', 4}, 3,[{seqType, 'xs:integer', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("format-number")},{seqType, 'xs:string', one}, [], 
+ {'format-number', 3}, 2,[{seqType, 'xs:numeric', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("format-number")},{seqType, 'xs:string', one}, [], 
+ {'format-number', 4}, 3,[{seqType, 'xs:numeric', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("format-time")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-time', 3}, 2,[{seqType, 'xs:time', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("format-time")},{seqType, 'xs:string', zero_or_one}, [],
+ {'format-time', 6}, 5,[{seqType, 'xs:time', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("function-arity")},{seqType, 'xs:integer', one}, [], 
+ {'function-arity', 2}, 1,[{seqType,{funTest,function,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("function-lookup")},{seqType,{funTest,function,[],undefined,any,any},zero_or_one},[], 
+ {'function-lookup', 3}, 2,[{seqType, 'xs:QName', one},{seqType, 'xs:integer', one}]},
+{{qname, ?NS, ?PX,?A("function-name")},{seqType, 'xs:QName', zero_or_one}, [],
+ {'function-name', 2}, 1,[{seqType,{funTest,function,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("generate-id")},{seqType, 'xs:string', one}, [], 
  {'generate-id', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("generate-id")},{xqSeqType, 'xs:string', one}, [], 
- {'generate-id', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("has-children")},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, ?PX,?A("generate-id")},{seqType, 'xs:string', one}, [], 
+ {'generate-id', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("has-children")},{seqType, 'xs:boolean', one}, [], 
  {'has-children', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("has-children")},{xqSeqType, 'xs:boolean', one}, [], 
- {'has-children', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("head")},{xqSeqType, item, zero_or_one}, [], 
- {'head', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("hours-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'hours-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("hours-from-duration")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'hours-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("hours-from-time")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'hours-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
- {'id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
- {'id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
- {'idref', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
- {'idref', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("implicit-timezone")},{xqSeqType, 'xs:dayTimeDuration', one}, [],
+{{qname, ?NS, ?PX,?A("has-children")},{seqType, 'xs:boolean', one}, [], 
+ {'has-children', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("head")},{seqType, item, zero_or_one}, [], 
+ {'head', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("hours-from-dateTime")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'hours-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("hours-from-duration")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'hours-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("hours-from-time")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'hours-from-time', 2}, 1,[{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("id")},{seqType, {kindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'id', 2}, 1,[{seqType, 'xs:string', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("id")},{seqType, {kindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'id', 3}, 2,[{seqType, 'xs:string', zero_or_many},{seqType, {kindTest,node,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("idref")},{seqType, {kindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'idref', 2}, 1,[{seqType, 'xs:string', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("idref")},{seqType, {kindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'idref', 3}, 2,[{seqType, 'xs:string', zero_or_many},{seqType, {kindTest,node,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("implicit-timezone")},{seqType, 'xs:dayTimeDuration', one}, [],
  {'implicit-timezone', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("index-of")},{xqSeqType, 'xs:integer', zero_or_many}, [],
- {'index-of', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, ?PX,?A("index-of")},{xqSeqType, 'xs:integer', zero_or_many}, [],
- {'index-of', 4}, 3,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("innermost")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
- {'innermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("in-scope-prefixes")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'in-scope-prefixes', 2}, 1,[{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("insert-before")},{xqSeqType, item, zero_or_many}, [], 
- {'insert-before', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("iri-to-uri")},{xqSeqType, 'xs:string', one}, [], 
- {'iri-to-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("json-doc")},{xqSeqType, item, zero_or_one}, [], 
- {'json-doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("json-doc")},{xqSeqType, item, zero_or_one}, [], 
- {'json-doc', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
- {'json-to-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
- {'json-to-xml', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("lang")},{xqSeqType, 'xs:boolean', one}, [], 
- {'lang', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("lang")},{xqSeqType, 'xs:boolean', one}, [], 
- {'lang', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("last")},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, ?PX,?A("index-of")},{seqType, 'xs:integer', zero_or_many}, [],
+ {'index-of', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:anyAtomicType', one}]},
+{{qname, ?NS, ?PX,?A("index-of")},{seqType, 'xs:integer', zero_or_many}, [],
+ {'index-of', 4}, 3,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:anyAtomicType', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("innermost")},{seqType, {kindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'innermost', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("in-scope-prefixes")},{seqType, 'xs:string', zero_or_many}, [],
+ {'in-scope-prefixes', 2}, 1,[{seqType, {kindTest,element,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("insert-before")},{seqType, item, zero_or_many}, [], 
+ {'insert-before', 4}, 3,[{seqType, item, zero_or_many},{seqType, 'xs:integer', one},{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("iri-to-uri")},{seqType, 'xs:string', one}, [], 
+ {'iri-to-uri', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("json-doc")},{seqType, item, zero_or_one}, [], 
+ {'json-doc', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("json-doc")},{seqType, item, zero_or_one}, [], 
+ {'json-doc', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("json-to-xml")},{seqType, {kindTest,'document-node',undefined,undefined}, one}, [],
+ {'json-to-xml', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("json-to-xml")},{seqType, {kindTest,'document-node',undefined,undefined}, one}, [],
+ {'json-to-xml', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("lang")},{seqType, 'xs:boolean', one}, [], 
+ {'lang', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("lang")},{seqType, 'xs:boolean', one}, [], 
+ {'lang', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {kindTest,node,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("last")},{seqType, 'xs:integer', one}, [], 
  {'last', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("load-xquery-module")},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
- {'load-xquery-module', 2}, 1,[{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("load-xquery-module")},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
- {'load-xquery-module', 3}, 2,[{xqSeqType, 'xs:string', one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("local-name")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("load-xquery-module")},{seqType, {funTest,map,[],undefined,any,any}, one}, [], 
+ {'load-xquery-module', 2}, 1,[{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("load-xquery-module")},{seqType, {funTest,map,[],undefined,any,any}, one}, [], 
+ {'load-xquery-module', 3}, 2,[{seqType, 'xs:string', one},{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("local-name")},{seqType, 'xs:string', one}, [], 
  {'local-name', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("local-name")},{xqSeqType, 'xs:string', one}, [], 
- {'local-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("local-name-from-QName")},{xqSeqType, 'xs:NCName', zero_or_one}, [],
- {'local-name-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("lower-case")},{xqSeqType, 'xs:string', one}, [], 
- {'lower-case', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("matches")},{xqSeqType, 'xs:boolean', one}, [], 
- {'matches', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("matches")},{xqSeqType, 'xs:boolean', one}, [], 
- {'matches', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("max")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'max', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("max")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'max', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("min")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'min', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("min")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'min', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("minutes-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'minutes-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("minutes-from-duration")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'minutes-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("minutes-from-time")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'minutes-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("month-from-date")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'month-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("month-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'month-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("months-from-duration")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'months-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("name")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("local-name")},{seqType, 'xs:string', one}, [], 
+ {'local-name', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("local-name-from-QName")},{seqType, 'xs:NCName', zero_or_one}, [],
+ {'local-name-from-QName', 2}, 1,[{seqType, 'xs:QName', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("lower-case")},{seqType, 'xs:string', one}, [], 
+ {'lower-case', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("matches")},{seqType, 'xs:boolean', one}, [], 
+ {'matches', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("matches")},{seqType, 'xs:boolean', one}, [], 
+ {'matches', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("max")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'max', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("max")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'max', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("min")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'min', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("min")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'min', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("minutes-from-dateTime")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'minutes-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("minutes-from-duration")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'minutes-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("minutes-from-time")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'minutes-from-time', 2}, 1,[{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("month-from-date")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'month-from-date', 2}, 1,[{seqType, 'xs:date', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("month-from-dateTime")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'month-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("months-from-duration")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'months-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("name")},{seqType, 'xs:string', one}, [], 
  {'name', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("name")},{xqSeqType, 'xs:string', one}, [], 
- {'name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("namespace-uri")},{xqSeqType, 'xs:anyURI', one}, [], 
+{{qname, ?NS, ?PX,?A("name")},{seqType, 'xs:string', one}, [], 
+ {'name', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("namespace-uri")},{seqType, 'xs:anyURI', one}, [], 
  {'namespace-uri', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("namespace-uri")},{xqSeqType, 'xs:anyURI', one}, [], 
- {'namespace-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("namespace-uri-for-prefix")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'namespace-uri-for-prefix', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("namespace-uri-from-QName")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'namespace-uri-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("nilled")},{xqSeqType, 'xs:boolean', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("namespace-uri")},{seqType, 'xs:anyURI', one}, [], 
+ {'namespace-uri', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("namespace-uri-for-prefix")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'namespace-uri-for-prefix', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {kindTest,element,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("namespace-uri-from-QName")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'namespace-uri-from-QName', 2}, 1,[{seqType, 'xs:QName', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("nilled")},{seqType, 'xs:boolean', zero_or_one}, [],
  {'nilled', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("nilled")},{xqSeqType, 'xs:boolean', zero_or_one}, [],
- {'nilled', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("node-name")},{xqSeqType, 'xs:QName', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("nilled")},{seqType, 'xs:boolean', zero_or_one}, [],
+ {'nilled', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("node-name")},{seqType, 'xs:QName', zero_or_one}, [],
  {'node-name', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("node-name")},{xqSeqType, 'xs:QName', zero_or_one}, [],
- {'node-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("normalize-space")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("node-name")},{seqType, 'xs:QName', zero_or_one}, [],
+ {'node-name', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("normalize-space")},{seqType, 'xs:string', one}, [], 
  {'normalize-space', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("normalize-space")},{xqSeqType, 'xs:string', one}, [], 
- {'normalize-space', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("normalize-unicode")},{xqSeqType, 'xs:string', one}, [], 
- {'normalize-unicode', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("normalize-unicode")},{xqSeqType, 'xs:string', one}, [], 
- {'normalize-unicode', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("not")},{xqSeqType, 'xs:boolean', one}, [], 
- {'not', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("number")},{xqSeqType, 'xs:double', one}, [], 
+{{qname, ?NS, ?PX,?A("normalize-space")},{seqType, 'xs:string', one}, [], 
+ {'normalize-space', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("normalize-unicode")},{seqType, 'xs:string', one}, [], 
+ {'normalize-unicode', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("normalize-unicode")},{seqType, 'xs:string', one}, [], 
+ {'normalize-unicode', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("not")},{seqType, 'xs:boolean', one}, [], 
+ {'not', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("number")},{seqType, 'xs:double', one}, [], 
  {'number', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("number")},{xqSeqType, 'xs:double', one}, [], 
- {'number', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("one-or-more")},{xqSeqType, item, one_or_many}, [], 
- {'one-or-more', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("outermost")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
- {'outermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("parse-ietf-date")},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
- {'parse-ietf-date', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("parse-json")},{xqSeqType, item, zero_or_one}, [], 
- {'parse-json', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("parse-json")},{xqSeqType, item, zero_or_one}, [], 
- {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("parse-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
- {'parse-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("parse-xml-fragment")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, zero_or_one}, [],
- {'parse-xml-fragment', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("path")},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("number")},{seqType, 'xs:double', one}, [], 
+ {'number', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("one-or-more")},{seqType, item, one_or_many}, [], 
+ {'one-or-more', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("outermost")},{seqType, {kindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'outermost', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("parse-ietf-date")},{seqType, 'xs:dateTime', zero_or_one}, [],
+ {'parse-ietf-date', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("parse-json")},{seqType, item, zero_or_one}, [], 
+ {'parse-json', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("parse-json")},{seqType, item, zero_or_one}, [], 
+ {'parse-json', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("parse-xml")},{seqType, {kindTest,'document-node',undefined,undefined}, one}, [],
+ {'parse-xml', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("parse-xml-fragment")},{seqType, {kindTest,'document-node',undefined,undefined}, zero_or_one}, [],
+ {'parse-xml-fragment', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("path")},{seqType, 'xs:string', zero_or_one}, [],
  {'path', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("path")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'path', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("position")},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, ?PX,?A("path")},{seqType, 'xs:string', zero_or_one}, [],
+ {'path', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("position")},{seqType, 'xs:integer', one}, [], 
  {'position', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("prefix-from-QName")},{xqSeqType, 'xs:NCName', zero_or_one}, [],
- {'prefix-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("QName")},{xqSeqType, 'xs:QName', one}, [], 
- {'QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("random-number-generator")},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
+{{qname, ?NS, ?PX,?A("prefix-from-QName")},{seqType, 'xs:NCName', zero_or_one}, [],
+ {'prefix-from-QName', 2}, 1,[{seqType, 'xs:QName', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("QName")},{seqType, 'xs:QName', one}, [], 
+ {'QName', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("random-number-generator")},{seqType,{funTest,map,[],undefined,[{seqType, 'xs:string', one}],{seqType, item, one}},one},[], 
  {'random-number-generator', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("random-number-generator")},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
- {'random-number-generator', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("remove")},{xqSeqType, item, zero_or_many}, [], 
- {'remove', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one}]},
-{{qname, ?NS, ?PX,?A("replace")},{xqSeqType, 'xs:string', one}, [], 
- {'replace', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("replace")},{xqSeqType, 'xs:string', one}, [], 
- {'replace', 5}, 4,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("resolve-QName")},{xqSeqType, 'xs:QName', zero_or_one}, [],
- {'resolve-QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("resolve-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'resolve-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("resolve-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'resolve-uri', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("reverse")},{xqSeqType, item, zero_or_many}, [], 
- {'reverse', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}, [], 
+{{qname, ?NS, ?PX,?A("random-number-generator")},{seqType,{funTest,map,[],undefined,[{seqType, 'xs:string', one}],{seqType, item, one}},one},[], 
+ {'random-number-generator', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("remove")},{seqType, item, zero_or_many}, [], 
+ {'remove', 3}, 2,[{seqType, item, zero_or_many},{seqType, 'xs:integer', one}]},
+{{qname, ?NS, ?PX,?A("replace")},{seqType, 'xs:string', one}, [], 
+ {'replace', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("replace")},{seqType, 'xs:string', one}, [], 
+ {'replace', 5}, 4,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("resolve-QName")},{seqType, 'xs:QName', zero_or_one}, [],
+ {'resolve-QName', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, {kindTest,element,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("resolve-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'resolve-uri', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("resolve-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
+ {'resolve-uri', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("reverse")},{seqType, item, zero_or_many}, [], 
+ {'reverse', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("root")},{seqType, {kindTest,node,undefined,undefined}, one}, [], 
  {'root', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}, [],
- {'root', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("round")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'round', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("round")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'round', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:integer', one}]},
-{{qname, ?NS, ?PX,?A("round-half-to-even")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'round-half-to-even', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("round-half-to-even")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
- {'round-half-to-even', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:integer', one}]},
-{{qname, ?NS, ?PX,?A("seconds-from-dateTime")},{xqSeqType, 'xs:decimal', zero_or_one}, [],
- {'seconds-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("seconds-from-duration")},{xqSeqType, 'xs:decimal', zero_or_one}, [],
- {'seconds-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("seconds-from-time")},{xqSeqType, 'xs:decimal', zero_or_one}, [],
- {'seconds-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("serialize")},{xqSeqType, 'xs:string', one}, [], 
- {'serialize', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("serialize")},{xqSeqType, 'xs:string', one}, [], 
- {'serialize', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("sort")},{xqSeqType, item, zero_or_many}, [], 
- {'sort', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("sort")},{xqSeqType, item, zero_or_many}, [], 
- {'sort', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("sort")},{xqSeqType, item, zero_or_many}, [], 
- {'sort', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, ?PX,?A("sort")},[{xqSeqType, item, one}],{xqSeqType, 'xs:anyAtomicType', zero_or_many}},one}]},
-{{qname, ?NS, ?PX,?A("starts-with")},{xqSeqType, 'xs:boolean', one}, [], 
- {'starts-with', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("starts-with")},{xqSeqType, 'xs:boolean', one}, [], 
- {'starts-with', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("static-base-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("root")},{seqType, {kindTest,node,undefined,undefined}, zero_or_one}, [],
+ {'root', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("round")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'round', 2}, 1,[{seqType, 'xs:numeric', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("round")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'round', 3}, 2,[{seqType, 'xs:numeric', zero_or_one},{seqType, 'xs:integer', one}]},
+{{qname, ?NS, ?PX,?A("round-half-to-even")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'round-half-to-even', 2}, 1,[{seqType, 'xs:numeric', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("round-half-to-even")},{seqType, 'xs:numeric', zero_or_one}, [],
+ {'round-half-to-even', 3}, 2,[{seqType, 'xs:numeric', zero_or_one},{seqType, 'xs:integer', one}]},
+{{qname, ?NS, ?PX,?A("seconds-from-dateTime")},{seqType, 'xs:decimal', zero_or_one}, [],
+ {'seconds-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("seconds-from-duration")},{seqType, 'xs:decimal', zero_or_one}, [],
+ {'seconds-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("seconds-from-time")},{seqType, 'xs:decimal', zero_or_one}, [],
+ {'seconds-from-time', 2}, 1,[{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("serialize")},{seqType, 'xs:string', one}, [], 
+ {'serialize', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("serialize")},{seqType, 'xs:string', one}, [], 
+ {'serialize', 3}, 2,[{seqType, item, zero_or_many},{seqType, item, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("sort")},{seqType, item, zero_or_many}, [], 
+ {'sort', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("sort")},{seqType, item, zero_or_many}, [], 
+ {'sort', 3}, 2,[{seqType, item, zero_or_many},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("sort")},{seqType, item, zero_or_many}, [], 
+ {'sort', 4}, 3,[{seqType, item, zero_or_many},{seqType, 'xs:string', zero_or_one},{seqType,{funTest,function,[],{qname, ?NS, ?PX,?A("sort")},[{seqType, item, one}],{seqType, 'xs:anyAtomicType', zero_or_many}},one}]},
+{{qname, ?NS, ?PX,?A("starts-with")},{seqType, 'xs:boolean', one}, [], 
+ {'starts-with', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("starts-with")},{seqType, 'xs:boolean', one}, [], 
+ {'starts-with', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("static-base-uri")},{seqType, 'xs:anyURI', zero_or_one}, [],
  {'static-base-uri', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("string")},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, ?PX,?A("string")},{seqType, 'xs:string', one}, [], 
  {'string', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("string")},{xqSeqType, 'xs:string', one}, [], 
- {'string', 2}, 1,[{xqSeqType, item, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("string-join")},{xqSeqType, 'xs:string', one}, [], 
- {'string-join', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("string-join")},{xqSeqType, 'xs:string', one}, [], 
- {'string-join', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("string-length")},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, ?PX,?A("string")},{seqType, 'xs:string', one}, [], 
+ {'string', 2}, 1,[{seqType, item, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("string-join")},{seqType, 'xs:string', one}, [], 
+ {'string-join', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("string-join")},{seqType, 'xs:string', one}, [], 
+ {'string-join', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("string-length")},{seqType, 'xs:integer', one}, [], 
  {'string-length', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("string-length")},{xqSeqType, 'xs:integer', one}, [], 
- {'string-length', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("string-to-codepoints")},{xqSeqType, 'xs:integer', zero_or_many}, [],
- {'string-to-codepoints', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("subsequence")},{xqSeqType, item, zero_or_many}, [], 
- {'subsequence', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:double', one}]},
-{{qname, ?NS, ?PX,?A("subsequence")},{xqSeqType, item, zero_or_many}, [], 
- {'subsequence', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:double', one},{xqSeqType, 'xs:double', one}]},
-{{qname, ?NS, ?PX,?A("substring")},{xqSeqType, 'xs:string', one}, [], 
- {'substring', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:double', one}]},
-{{qname, ?NS, ?PX,?A("substring")},{xqSeqType, 'xs:string', one}, [], 
- {'substring', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:double', one},{xqSeqType, 'xs:double', one}]},
-{{qname, ?NS, ?PX,?A("substring-after")},{xqSeqType, 'xs:string', one}, [], 
- {'substring-after', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("substring-after")},{xqSeqType, 'xs:string', one}, [], 
- {'substring-after', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("substring-before")},{xqSeqType, 'xs:string', one}, [], 
- {'substring-before', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("substring-before")},{xqSeqType, 'xs:string', one}, [], 
- {'substring-before', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("sum")},{xqSeqType, 'xs:anyAtomicType', one}, [],
- {'sum', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("sum")},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
- {'sum', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("tail")},{xqSeqType, item, zero_or_many}, [], 
- {'tail', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("timezone-from-date")},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
- {'timezone-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("timezone-from-dateTime")},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
- {'timezone-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("timezone-from-time")},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
- {'timezone-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("tokenize")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'tokenize', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("tokenize")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'tokenize', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("tokenize")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'tokenize', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("trace")},{xqSeqType, item, zero_or_many}, [], 
- {'trace', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("trace")},{xqSeqType, item, zero_or_many}, [], 
- {'trace', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("transform")},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
- {'transform', 2}, 1,[{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("translate")},{xqSeqType, 'xs:string', one}, [], 
- {'translate', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("true")},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, ?PX,?A("string-length")},{seqType, 'xs:integer', one}, [], 
+ {'string-length', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("string-to-codepoints")},{seqType, 'xs:integer', zero_or_many}, [],
+ {'string-to-codepoints', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("subsequence")},{seqType, item, zero_or_many}, [], 
+ {'subsequence', 3}, 2,[{seqType, item, zero_or_many},{seqType, 'xs:double', one}]},
+{{qname, ?NS, ?PX,?A("subsequence")},{seqType, item, zero_or_many}, [], 
+ {'subsequence', 4}, 3,[{seqType, item, zero_or_many},{seqType, 'xs:double', one},{seqType, 'xs:double', one}]},
+{{qname, ?NS, ?PX,?A("substring")},{seqType, 'xs:string', one}, [], 
+ {'substring', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:double', one}]},
+{{qname, ?NS, ?PX,?A("substring")},{seqType, 'xs:string', one}, [], 
+ {'substring', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:double', one},{seqType, 'xs:double', one}]},
+{{qname, ?NS, ?PX,?A("substring-after")},{seqType, 'xs:string', one}, [], 
+ {'substring-after', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("substring-after")},{seqType, 'xs:string', one}, [], 
+ {'substring-after', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("substring-before")},{seqType, 'xs:string', one}, [], 
+ {'substring-before', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("substring-before")},{seqType, 'xs:string', one}, [], 
+ {'substring-before', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("sum")},{seqType, 'xs:anyAtomicType', one}, [],
+ {'sum', 2}, 1,[{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX,?A("sum")},{seqType, 'xs:anyAtomicType', zero_or_one}, [],
+ {'sum', 3}, 2,[{seqType, 'xs:anyAtomicType', zero_or_many},{seqType, 'xs:anyAtomicType', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("tail")},{seqType, item, zero_or_many}, [], 
+ {'tail', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("timezone-from-date")},{seqType, 'xs:dayTimeDuration', zero_or_one}, [],
+ {'timezone-from-date', 2}, 1,[{seqType, 'xs:date', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("timezone-from-dateTime")},{seqType, 'xs:dayTimeDuration', zero_or_one}, [],
+ {'timezone-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("timezone-from-time")},{seqType, 'xs:dayTimeDuration', zero_or_one}, [],
+ {'timezone-from-time', 2}, 1,[{seqType, 'xs:time', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("tokenize")},{seqType, 'xs:string', zero_or_many}, [],
+ {'tokenize', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("tokenize")},{seqType, 'xs:string', zero_or_many}, [],
+ {'tokenize', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("tokenize")},{seqType, 'xs:string', zero_or_many}, [],
+ {'tokenize', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("trace")},{seqType, item, zero_or_many}, [], 
+ {'trace', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("trace")},{seqType, item, zero_or_many}, [], 
+ {'trace', 3}, 2,[{seqType, item, zero_or_many},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("transform")},{seqType, {funTest,map,[],undefined,any,any}, one}, [], 
+ {'transform', 2}, 1,[{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("translate")},{seqType, 'xs:string', one}, [], 
+ {'translate', 4}, 3,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("true")},{seqType, 'xs:boolean', one}, [], 
  {'true', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("unordered")},{xqSeqType, item, zero_or_many}, [], 
- {'unordered', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("unparsed-text")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'unparsed-text', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("unparsed-text")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'unparsed-text', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("unparsed-text-available")},{xqSeqType, 'xs:boolean', one}, [], 
- {'unparsed-text-available', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("unparsed-text-available")},{xqSeqType, 'xs:boolean', one}, [], 
- {'unparsed-text-available', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("unparsed-text-lines")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'unparsed-text-lines', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("unparsed-text-lines")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'unparsed-text-lines', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("upper-case")},{xqSeqType, 'xs:string', one}, [], 
- {'upper-case', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("uri-collection")},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
+{{qname, ?NS, ?PX,?A("unordered")},{seqType, item, zero_or_many}, [], 
+ {'unordered', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("unparsed-text")},{seqType, 'xs:string', zero_or_one}, [],
+ {'unparsed-text', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("unparsed-text")},{seqType, 'xs:string', zero_or_one}, [],
+ {'unparsed-text', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("unparsed-text-available")},{seqType, 'xs:boolean', one}, [], 
+ {'unparsed-text-available', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("unparsed-text-available")},{seqType, 'xs:boolean', one}, [], 
+ {'unparsed-text-available', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("unparsed-text-lines")},{seqType, 'xs:string', zero_or_many}, [],
+ {'unparsed-text-lines', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("unparsed-text-lines")},{seqType, 'xs:string', zero_or_many}, [],
+ {'unparsed-text-lines', 3}, 2,[{seqType, 'xs:string', zero_or_one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("upper-case")},{seqType, 'xs:string', one}, [], 
+ {'upper-case', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("uri-collection")},{seqType, 'xs:anyURI', zero_or_many}, [],
  {'uri-collection', 1}, 0, []},
-{{qname, ?NS, ?PX,?A("uri-collection")},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
- {'uri-collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("xml-to-json")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'xml-to-json', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("xml-to-json")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("year-from-date")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'year-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("year-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'year-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("years-from-duration")},{xqSeqType, 'xs:integer', zero_or_one}, [],
- {'years-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("zero-or-one")},{xqSeqType, item, zero_or_one}, [], 
- {'zero-or-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
- {'put', 3}, 2,[{xqSeqType, item, one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
- {'put', 4}, 3,[{xqSeqType, item, one},{xqSeqType, 'xs:string', one},{xqSeqType, item, zero_or_one}]}
+{{qname, ?NS, ?PX,?A("uri-collection")},{seqType, 'xs:anyURI', zero_or_many}, [],
+ {'uri-collection', 2}, 1,[{seqType, 'xs:string', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("xml-to-json")},{seqType, 'xs:string', zero_or_one}, [],
+ {'xml-to-json', 2}, 1,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("xml-to-json")},{seqType, 'xs:string', zero_or_one}, [],
+ {'xml-to-json', 3}, 2,[{seqType, {kindTest,node,undefined,undefined}, zero_or_one},{seqType, {funTest,map,[],undefined,any,any}, one}]},
+{{qname, ?NS, ?PX,?A("year-from-date")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'year-from-date', 2}, 1,[{seqType, 'xs:date', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("year-from-dateTime")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'year-from-dateTime', 2}, 1,[{seqType, 'xs:dateTime', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("years-from-duration")},{seqType, 'xs:integer', zero_or_one}, [],
+ {'years-from-duration', 2}, 1,[{seqType, 'xs:duration', zero_or_one}]},
+{{qname, ?NS, ?PX,?A("zero-or-one")},{seqType, item, zero_or_one}, [], 
+ {'zero-or-one', 2}, 1,[{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("put")},{seqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
+ {'put', 3}, 2,[{seqType, item, one},{seqType, 'xs:string', one}]},
+{{qname, ?NS, ?PX,?A("put")},{seqType, 'empty-sequence', one},[{annotation,{qname, ?A("http://www.w3.org/2012/xquery"), <<>>,?A("updating")},[]}],
+ {'put', 4}, 3,[{seqType, item, one},{seqType, 'xs:string', one},{seqType, item, zero_or_one}]}
 ]).
 
 %% ====================================================================
@@ -783,8 +784,8 @@ dummy_timezone(Tab) ->
         xq_types:context(), 
         xq_types:xs_string() | [],
         xq_types:xs_string()) -> xq_types:xml_element().
-'analyze-string'(Ctx,Input,Pattern) ->
-   'analyze-string'(Ctx,Input,Pattern,?str(<<>>)).
+'analyze-string'(Ctx, Input, Pattern) ->
+    'analyze-string'(Ctx, Input, Pattern, <<>>).
 
 %% fn:analyze-string(
 %%    $input    as xs:string?,
@@ -795,92 +796,107 @@ dummy_timezone(Tab) ->
         xq_types:xs_string() | [],
         xq_types:xs_string(),
         xq_types:xs_string()) -> xq_types:xml_element().
-'analyze-string'(Ctx,Input,Pattern0,Flags) ->
-   Pattern = xqerl_types:string_value(Pattern0),
-   Flags1 = xqerl_types:string_value(Flags),
-   case xs_regex:analyze(Pattern,Flags1) of
-      {error, {invalid_flag, _}} ->
-         ?dbg("invalid_flag",invalid_flag),
-         ?err('FORX0001');
-      {error, Err} ->
-         ?dbg("Err",Err),
-         ?err('FORX0002');
-      {true, _, _} ->
-         ?dbg("true",true),
-         ?err('FORX0003');
-       {_, MP, Grps} ->
-         Input1 = string_value(Input),
-         Content = case re:run(Input1, MP, [global]) of
-                      nomatch ->
-                         [];
-                      {match,List} ->
-                         List
-                   end,
-         Expr = if Input1 == <<>> -> [];
-                   true ->
-                      analyze_string1(Content, Input1, Grps)
+'analyze-string'(Ctx, Input, Pattern0, Flags) ->
+    Pattern = xqerl_types:string_value(Pattern0),
+    Flags1 = xqerl_types:string_value(Flags),
+    case xs_regex:analyze(Pattern,Flags1) of
+        {error, {invalid_flag, _}} ->
+            ?dbg("invalid_flag",invalid_flag),
+            ?err('FORX0001');
+        {error, Err} ->
+            ?dbg("Err",Err),
+            ?err('FORX0002');
+        {true, _, _} ->
+            ?dbg("true",true),
+            ?err('FORX0003');
+        {_, MP, Grps} ->
+            Input1 = string_value(Input),
+            Content = 
+                case re:run(Input1, MP, [global]) of
+                    nomatch ->
+                        [];
+                    {match,List} ->
+                        List
                 end,
-         Frag = #xqElementNode{name = #qname{namespace = ?NS,
-                                             prefix = ?PX,
-                                             local_name = ?A("analyze-string-result")},
-                               content = Expr},
-         xqerl_node:new_fragment(Ctx, Frag)
-   end.
-
-analyze_string1([],String, _) -> % no matches
-   #xqElementNode{name = #qname{namespace = ?NS,
-                                prefix = ?PX,
-                                local_name = ?A("non-match")},
-                         content = ?str(String)};
-analyze_string1(List, String, GrpTree) ->
-   Fun = 
-     fun([{Start, End}|Groups], LastPos) ->
-            NextPos = Start + End,
-           % leading non-match node
-           Pre = if Start =/= LastPos ->
-                       Slc = string:slice(String, LastPos, (Start - LastPos)),
-                       [analyze_string1([], Slc, [])];
-                    true ->
-                       []
-                 end,
-           Matches = 
-              case Groups of
-                [] ->
-                   S = string:slice(String, Start, End),
-                   #xqTextNode{string_value = ?str(S)};
-                _ ->
-                   {Groups1, _} = fill_groups(GrpTree, Groups),
-                   {Es,Ee} = hd(lists:reverse(Groups)),
-                   GrpSize = Es+Ee,
-                   Tail = if (Start + End) > GrpSize -> % non-grouped tail match 
-                                Slc1 = string:slice(String,GrpSize,
-                                                    Start + End - GrpSize),
-                                [#xqTextNode{string_value = ?str(Slc1)}];
-                             true ->
-                                []
-                          end,
-                   GEls = get_groups(String,Groups1, Start), 
-                   GEls ++ Tail
+            Ref = make_ref(),
+            Expr =
+              if 
+                  Input1 == <<>> -> [];
+                  true ->
+                      analyze_string1(Ref, Content, Input1, Grps)
               end,
-           Match = #xqElementNode{name = #qname{namespace = ?NS,
-                                                prefix = ?PX,
-                                                local_name = ?A("match")},
-                                  content = Matches},
-           if End == 0 ->
-                 ?err('FORX0003'); % would match empty str
-              true ->
-                 {Pre++[Match], NextPos}
-           end
-     end,
+            Frag = elem(Ref, <<"analyze-string-result">>, [], Expr),
+            xqerl_node:contruct(Ctx, Frag#{id := {Ref, -1}})
+    end.
+
+elem(Ref, LocalName, Atts, Contents) ->
+    #{nk => element,
+      id => {Ref, -1},
+      nn => {?NS, ?PX, LocalName},
+      tn => 'xs:untyped',
+      at => Atts,
+      ch => Contents}.
+
+attribute(Ref, LocalName, String) ->
+    #{nk => attribute,
+      id => {Ref, -1},
+      nn => {<<>>, <<>>, LocalName},
+      tn => 'xs:untypedAtomic',
+      sv => String}.
+
+analyze_string1(Ref, [], String, _) -> % no matches
+    elem(Ref, <<"non-match">>, [], [String]);
+analyze_string1(Ref, List, String, GrpTree) ->
+    Fun = fun(A, B) ->
+                 analyze_string_2(Ref, A, B, String, GrpTree)
+          end,
    {Els, Pos} = lists:mapfoldl(Fun, 0, List),
    StrLen = string:length(String),
    Return = if Pos =/= StrLen andalso StrLen > 0 ->
                   % non-match at end
-                  Els ++ [analyze_string1([],string:slice(String, Pos), [])];
+                  Els ++ [analyze_string1(Ref, [],string:slice(String, Pos), [])];
                true ->
                   Els
             end,
    Return.
+
+analyze_string_2(Ref, [{Start, End}|Groups], LastPos, String, GrpTree) ->
+    NextPos = Start + End,
+    % leading non-match node
+    Pre = 
+        if 
+            Start =/= LastPos ->
+                Slc = string:slice(String, LastPos, (Start - LastPos)),
+                [analyze_string1(Ref, [], Slc, [])];
+            true ->
+                []
+        end,
+    Matches =
+        case Groups of
+            [] ->
+                [string:slice(String, Start, End)];
+            _ ->
+                {Groups1, _} = fill_groups(GrpTree, Groups),
+                {Es,Ee} = hd(lists:reverse(Groups)),
+                GrpSize = Es+Ee,
+                Tail = 
+                    if 
+                        (Start + End) > GrpSize -> % non-grouped tail match 
+                            [string:slice(String, GrpSize, 
+                                          Start + End - GrpSize)];
+                        true ->
+                            []
+                    end,
+                GEls = get_groups(Ref, String,Groups1, Start), 
+                GEls ++ Tail
+        end,
+    Match = elem(Ref, <<"match">>, [], Matches),
+    if 
+        End == 0 ->
+            ?err('FORX0003'); % would match empty str
+        true ->
+            {Pre++[Match], NextPos}
+    end.
 
 fill_groups(Gs, []) ->
     {[], Gs};
@@ -896,48 +912,26 @@ fill_groups([{group, P}|Gs], [M|Ms]) ->
 fill_groups([], Ms) ->
     {[], Ms}.
 
-get_groups(String, [{P, {Start, Size, Subs}}|T], _Pos) ->
+get_groups(Ref, String, [{P, {Start, Size, Subs}}|T], _Pos) ->
     Pos1 = Start + Size,
-    SubGs = get_groups(String, Subs, Start),
-    QGrp = #qname{namespace = ?NS,
-                  prefix = ?PX,
-                  local_name = ?A("group")},
-    QNr = #qname{namespace = 'no-namespace', 
-                 prefix = <<>>,
-                 local_name = ?A("nr")},
-    TGs = get_groups(String, T, Pos1),
-    Elem = #xqElementNode{
-                name = QGrp,
-                content = 
-                  [#xqAttributeNode{name = QNr,
-                                    string_value = integer_to_binary(P)}
-                  |SubGs]},
+    SubGs = get_groups(Ref, String, Subs, Start),
+    TGs = get_groups(Ref, String, T, Pos1),
+    Elem = elem(Ref, <<"group">>, [attribute(Ref, <<"nr">>, integer_to_binary(P))], SubGs),
     [Elem|TGs];
-get_groups(String, [{P, {Start, Size}}|T], Pos) ->
+get_groups(Ref, String, [{P, {Start, Size}}|T], Pos) ->
     Len = Start - Pos,
-    Txt1 = #xqTextNode{string_value = string:slice(String, Start, Size)},
+    Txt1 = [string:slice(String, Start, Size)],
     Pos1 = Start + Size,
-    QGrp = #qname{namespace = ?NS,
-                  prefix = ?PX,
-                  local_name = ?A("group")},
-    QNr = #qname{namespace = 'no-namespace', 
-                 prefix = <<>>,
-                 local_name = ?A("nr")},
-    TGs = get_groups(String, T, Pos1),
-    Elem = #xqElementNode{
-                name = QGrp,
-                content = 
-                  [#xqAttributeNode{name = QNr,
-                                    string_value = integer_to_binary(P)}
-                  , Txt1]},
+    TGs = get_groups(Ref, String, T, Pos1),
+    Elem = elem(Ref, <<"group">>, [attribute(Ref, <<"nr">>, integer_to_binary(P))], Txt1),
     if
         Pos < Start ->
-            Txt = #xqTextNode{string_value = string:slice(String, Pos, Len)},
+            Txt = [string:slice(String, Pos, Len)],
             [Txt,Elem|TGs];
         true ->
             [Elem|TGs]
     end;
-get_groups(_, [], _) ->
+get_groups(_, _, [], _) ->
     [].
 
 %% Makes a dynamic call on a function with an argument list supplied 
@@ -949,15 +943,15 @@ get_groups(_, [], _) ->
         xq_types:xq_array()) -> xq_types:xq_item() | 
                                   list(xq_types:xq_item()) |
                                   xq_types:xs_error().
-'apply_'(Ctx,Function,#array{data = Args}) when is_map(Function) ->
-   xqerl_operators:lookup(Ctx, Function, Args);
-'apply_'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
+'apply_'(Ctx,Function,Args) when is_map(Function), ?is_array(Args) ->
+   xqerl_operators:lookup(Ctx, Function, array:to_list(Args));
+'apply_'(Ctx,Function,Args) when is_function(Function), ?is_array(Args) ->
    try
       case Function == fun ?MODULE:concat/2 of
          true ->
-            erlang:apply(Function, [Ctx,Args]);
+            erlang:apply(Function, [Ctx,array:to_list(Args)]);
          _ ->
-            erlang:apply(Function, [Ctx|Args])
+            erlang:apply(Function, [Ctx|array:to_list(Args)])
       end
    catch
       _:{badarity,_} ->
@@ -1017,20 +1011,15 @@ avg1([H|T], Sum, Count) ->
 %% fn:base-uri($arg as node()?) as xs:anyURI?
 -spec 'base-uri'(xq_types:context(),
                  [] | xq_types:xml_node()) -> [] | xq_types:xs_anyURI().
-'base-uri'(_Ctx,[]) -> [];
-'base-uri'(Ctx,[N]) -> 'base-uri'(Ctx,N);
-'base-uri'(_Ctx,#{nk := _} = Node) ->
-   case xqldb_xpath:base_uri(Node) of
-      [] -> [];
-      <<>> -> [];
-      BaseUri ->
-         try xqerl_mod_xs:xs_anyURI([], ?str(BaseUri))
-         catch _:_E ->
-                 %?dbg("E",{BaseUri,E}),
-                  []
-         end      
-         %?atm('xs:anyURI',BaseUri)
-   end;
+'base-uri'(_Ctx, []) -> [];
+'base-uri'(Ctx, [N]) -> 'base-uri'(Ctx, N);
+'base-uri'(_Ctx, #{nk := _} = Node) ->
+    case xqldb_xpath:base_uri(Node) of
+        [] -> [];
+        <<>> -> [];
+        BaseUri ->
+            ?atm('xs:anyURI',BaseUri)
+    end;
 'base-uri'(_,_) -> ?err('XPTY0004').
 
 %% Computes the effective boolean value of the sequence $arg. 
@@ -1114,7 +1103,7 @@ cp_to_bin([C|T],Acc) when is_integer(C) ->
    cp_to_bin(T,<<Acc/binary,C/utf8>>);
 cp_to_bin([#xqAtomicValue{value = C}|T],Acc) when is_integer(C) ->
    cp_to_bin(T,<<Acc/binary,C/utf8>>);
-cp_to_bin([#xqRange{min = C}|_],_) 
+cp_to_bin([#range{min = C}|_],_) 
    when C < 9;
         C =:= 11;
         C =:= 12;
@@ -1122,9 +1111,9 @@ cp_to_bin([#xqRange{min = C}|_],_)
         C =:= 65534;
         C =:= 65535 ->
    throw({error,bad_codepoint});
-cp_to_bin([#xqRange{min = Min,max = Max}|T],Acc) when Min < Max ->
-   cp_to_bin([#xqRange{min = Min + 1,max = Max,cnt = 1}|T],<<Acc/binary,Min/utf8>>);
-cp_to_bin([#xqRange{min = Min}|T],Acc) ->
+cp_to_bin([#range{min = Min,max = Max}|T],Acc) when Min < Max ->
+   cp_to_bin([#range{min = Min + 1,max = Max,cnt = 1}|T],<<Acc/binary,Min/utf8>>);
+cp_to_bin([#range{min = Min}|T],Acc) ->
    cp_to_bin(T,<<Acc/binary,Min/utf8>>);
 cp_to_bin([],Acc) -> Acc.
 
@@ -1282,20 +1271,22 @@ concat_1([H|T], Acc) ->
          xq_types:xs_boolean().
 'contains'(_Ctx,Arg1,Arg2,Collation) when is_function(Collation);
                                           is_atom(Collation) ->
-   S1 = xqerl_types:value(Arg1),
-   S2 = xqerl_types:value(Arg2),
-   B1 = xqerl_coll:binary(S1, Collation),
-   B2 = xqerl_coll:binary(S2, Collation),
-   if B2 =:= <<>> ->
-         ?bool(true);
-      true ->
-         case binary:matches(B1,B2) of
-            [] when S2 =/= [] ->
-               ?bool(false);
-            _ ->
-               ?bool(true)
-         end
-   end;
+    S1 = xqerl_types:value(Arg1),
+    S2 = xqerl_types:value(Arg2),
+    B1 = xqerl_coll:binary(S1, Collation),
+    B2 = xqerl_coll:binary(S2, Collation),
+    if 
+        B2 =:= <<>> -> ?bool(true);
+        is_binary(B1), is_binary(B2) ->
+            case binary:matches(B1,B2) of
+                [] when S2 =/= [] ->
+                    ?bool(false);
+                _ ->
+                    ?bool(true)
+            end;
+        true ->
+            ?err('XPTY0004')
+    end;
 'contains'(Ctx,Arg1,Arg2,Collation) -> 
    Coll = xqerl_coll:parse(xqerl_types:value(Collation)),
    'contains'(Ctx,Arg1,Arg2,Coll).
@@ -1351,7 +1342,7 @@ concat_1([H|T], Acc) ->
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          xq_types:xs_integer().
 'count'(_Ctx,#{nk := _}) -> ?atint(1);
-'count'(_Ctx,#array{}) -> ?atint(1);
+'count'(_Ctx,A) when ?is_array(A) -> ?atint(1);
 'count'(_Ctx,Arg1) ->
    Size = xqerl_seq3:size(Arg1),
    ?atint(Size).
@@ -1396,7 +1387,7 @@ concat_1([H|T], Acc) ->
    data1(lists:flatten(Arg1)).
 
 data1([]) -> [];
-data1([#array{} = H|T]) ->
+data1([H|T]) when ?is_array(H) ->
    Flat = xqerl_mod_array:flatten([], H),
    data1(Flat ++ T);
 data1([H|T]) when is_number(H);
@@ -1407,8 +1398,8 @@ data1([#xqAtomicValue{} = H|T]) ->
    [H|data1(T)];
 data1([#{nk := _} = H|T]) ->
    [xqerl_types:atomize(H)|data1(T)];
-data1([H|T]) when ?noderecs(H) ->
-   xqerl_node:atomize_nodes(H) ++ data1(T);
+%% data1([H|T]) when ?noderecs(H) ->
+%%    xqerl_node:atomize_nodes(H) ++ data1(T);
 data1(_) ->
    ?err('FOTY0013').
 
@@ -1508,9 +1499,9 @@ data1(_) ->
                                            Collation =/= codepoint -> 
    CollFun = xqerl_coll:parse(xqerl_types:string_value(Collation)),
    'deep-equal'(Ctx,Arg1,Arg2,CollFun);
-'deep-equal'(Ctx,[#xqRange{} = Arg1],Arg2,Collation) ->
+'deep-equal'(Ctx,[#range{} = Arg1],Arg2,Collation) ->
    'deep-equal'(Ctx,xqerl_seq3:expand(Arg1),Arg2,Collation);
-'deep-equal'(Ctx,Arg1,[#xqRange{} = Arg2],Collation) ->
+'deep-equal'(Ctx,Arg1,[#range{} = Arg2],Collation) ->
    'deep-equal'(Ctx,Arg1,xqerl_seq3:expand(Arg2),Collation);
 'deep-equal'(Ctx,Arg1,Arg2,CollFun) when is_function(CollFun);
                                          is_atom(CollFun) -> 
@@ -1594,10 +1585,10 @@ deep_equal_1({#xqFunction{}, _}, _, _) ->
 deep_equal_1({V1, V2}, _, _) when is_function(V1),
                                   is_function(V2) ->
    V1 == V2;
-deep_equal_1({{array,A1},{array,A2}}, Ctx, CollFun) ->
-   'deep-equal'(Ctx,A1,A2,CollFun);
-deep_equal_1({{array,_},_}, _, _) -> false;
-deep_equal_1({{_, array},_}, _, _) -> false;
+deep_equal_1({A1, A2}, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
+   'deep-equal'(Ctx, array:to_list(A1), array:to_list(A2), CollFun);
+deep_equal_1({A1, _}, _, _) when ?is_array(A1) -> false;
+deep_equal_1({_, A2}, _, _) when ?is_array(A2) -> false;
 deep_equal_1({M1, M2}, Ctx, CollFun) when is_map(M1),
                                           is_map(M2) ->
    Sz1 = xqerl_mod_map:size([], M1),
@@ -1678,7 +1669,7 @@ deep_equal_1({N1, N2}, _, _) ->
                    A = xqerl_types:atomize(N),
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
                    {Key, A}
-             end,                   
+             end,
    Arg = xqerl_seq3:expand(Arg1),
    Unique = distinct_vals(Arg,CompVal),
    val_reverse(Unique, []);
@@ -1928,9 +1919,9 @@ distinct_vals(Vals,Fun) ->
               [] | xq_types:xs_QName(),
               xq_types:xs_string()) -> xq_types:xs_error().
 'error'(_Ctx,[],Description) -> 
-   exit(xqerl_error:error('FOER0000',Description));
+   throw(xqerl_error:error('FOER0000',Description));
 'error'(_Ctx,QName,Description) -> 
-   exit(xqerl_error:error(xqerl_types:value(QName),Description)).
+   throw(xqerl_error:error(xqerl_types:value(QName),Description)).
 
 %% Calling the fn:error function raises an application-defined error.
 %% fn:error(
@@ -1943,9 +1934,9 @@ distinct_vals(Vals,Fun) ->
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          xq_types:xs_error().
 'error'(_Ctx,[],Description,Object) ->
-   exit(xqerl_error:error('FOER0000',Description, Object));
+   throw(xqerl_error:error('FOER0000',Description, Object));
 'error'(_Ctx,QName,Description,Object) ->
-   exit(xqerl_error:error(xqerl_types:value(QName),Description, Object)).
+   throw(xqerl_error:error(xqerl_types:value(QName),Description, Object)).
 
 %% Escapes a URI in the same way that HTML user agents handle attribute 
 %% values expected to contain URIs. 
@@ -2018,7 +2009,7 @@ pct_encode3([H|T]) ->
    'filter'(Ctx,[Seq],F);
 'filter'(Ctx,Seq,#xqFunction{body = F}) ->
    'filter'(Ctx,Seq,F);
-'filter'(Ctx,Seq,MA) when is_record(MA, array);
+'filter'(Ctx,Seq,MA) when ?is_array(MA);
                           is_map(MA) ->
    lists:filter(fun(S) ->
                    case xqerl_operators:lookup(Ctx, MA, S) of
@@ -2328,8 +2319,7 @@ zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
          ?err('FOFD1340')
    end.
 
-is_valid_calendar({Ns,Name}) when Ns =:= 'no-namespace';
-                                  Ns =:= <<>> ->
+is_valid_calendar({<<>>, Name}) ->
    Known = [?A("AD"),?A("AH"),?A("AME"),?A("AM"),?A("AP"),?A("AS"),?A("BE"),?A("CB"),?A("CE"),?A("CL"),?A("CS"),?A("EE"),
             ?A("FE"),?A("ISO"),?A("JE"),?A("KE"),?A("KY"),?A("ME"),?A("MS"),?A("NS"),?A("OS"),?A("RS"),?A("SE"),?A("SH"),
             ?A("SS"),?A("TE"),?A("VE"),?A("VS")],
@@ -2377,7 +2367,7 @@ is_valid_calendar({_,_}) ->
                       xq_types:xs_string()) -> 
          xq_types:xs_string().
 'format-number'(#{known_dec_formats := Dfs} = Ctx,Arg1,Arg2) ->
-   [DF] = [D || {<<>>,D} <- Dfs],
+   [DF] = [D || {<<>>,_,D} <- Dfs],
    'format-number'(Ctx,Arg1,Arg2,DF).
 
 %% fn:format-number(
@@ -2420,7 +2410,7 @@ is_valid_calendar({_,_}) ->
    S2 = xqerl_lib:trim(S1),
    try xqerl_types:value(xqerl_types:cast_as(?str(S2), 'xs:QName', Nss)) of
       #qname{namespace = N,local_name = L} ->
-         case [D || {#qname{namespace = N1, local_name = L1},D} <- Dfs, 
+         case [D || {#qname{namespace = N1, local_name = L1},_,D} <- Dfs, 
                     L == L1, 
                     N == N1] of
             [DF] ->
@@ -2661,7 +2651,7 @@ unmask_static_mod_ns(T) -> T.
 'head'(_,Seq) -> head_1(Seq).
 
 head_1([]) -> [];
-head_1(#xqRange{min = Min}) -> ?atint(Min);
+head_1(#range{min = Min}) -> ?atint(Min);
 head_1([H|_]) -> H;
 head_1(H) -> H.
 
@@ -2870,6 +2860,7 @@ head_1(H) -> H.
    lists:usort([#xqAtomicValue{type = 'xs:NCName', value = <<"xml">>}|
                   lists:filtermap(Filt, InScopeNs)]).
 
+
 %% Returns a sequence constructed by inserting an item or a sequence of items 
 %% at a given position within an existing sequence. 
 %% fn:insert-before(
@@ -2970,10 +2961,10 @@ check_json_doc_opts(#{?A("escape") := {_,?bool(true)},
                       ?A("fallback") := _}) ->
    ?err('FOJS0005');
 check_json_doc_opts(#{?A("fallback") := {_,#xqFunction{body = B} = Fx}}) ->
-   Ty = #xqSeqType{type = #xqFunTest{kind = function,
-                                     params = [#xqSeqType{type = 'xs:string',
+   Ty = #seqType{type = #funTest{kind = function,
+                                     params = [#seqType{type = 'xs:string',
                                                           occur = one}],
-                                     type   = #xqSeqType{type = 'xs:string',
+                                     type   = #seqType{type = 'xs:string',
                                                          occur = one}}},
    case xqerl_types:instance_of(Fx, Ty) of
       true ->
@@ -3087,7 +3078,7 @@ check_json_to_xml_opts(_) ->
 'load-xquery-module'(_, <<>>, _) -> ?err('FOQM0001');
 'load-xquery-module'(Ctx, ModUri, Opts) ->
    try
-      xqerl_code_server:get_signatures(<<"Q{", ModUri/binary, "}">>)
+      xqerl_code_server:get_signatures(ModUri)
    of
       {ok, {Mod, Funs, Vars}} ->
          Opts1 = parse_load_opts(
@@ -3098,7 +3089,7 @@ check_json_to_xml_opts(_) ->
          try
             Ctx2 = Mod:init(Ctx1),
             % check that any context item type matches
-            CiType = proplists:get_value(context_item_type, Mod:static_props(), #xqSeqType{}),
+            CiType = proplists:get_value(context_item_type, Mod:static_props(), #seqType{}),
             _ = case Opts1 of
                    #{'context-item' := {CI,_}} ->
                       try
@@ -3158,8 +3149,8 @@ merge_function_map(_, _, [], Mapped) ->
 parse_load_opts(['context-item'|T], #{<<"context-item">> := {_, V}} = O, M) ->
    parse_load_opts(T, O, M#{'context-item' => {V, 1}}); % item plus position
 parse_load_opts([variables|T], #{<<"variables">> := {_, V}} = O, M) ->
-   _ = xqerl_types:promote(V, #xqSeqType{type = #xqFunTest{kind = map,
-                                            params = [#xqSeqType{type = 'xs:QName', occur = one}]}, occur = one}),
+   _ = xqerl_types:promote(V, #seqType{type = #funTest{kind = map,
+                                            params = [#seqType{type = 'xs:QName', occur = one}]}, occur = one}),
    F = fun({#xqAtomicValue{value = #qname{namespace = N,local_name = L}}, Val}) ->
              {true, {<<"Q{", N/binary, "}", L/binary>>, Val}};
           (_) ->
@@ -3168,11 +3159,11 @@ parse_load_opts([variables|T], #{<<"variables">> := {_, V}} = O, M) ->
    NVs = maps:from_list(lists:filtermap(F, maps:values(V))),
    parse_load_opts(T, O, maps:merge(M, NVs));
 parse_load_opts(['vendor-options'|T], #{<<"vendor-options">> := {_, V}} = O, M) ->
-   _ = xqerl_types:promote(V, #xqSeqType{type = #xqFunTest{kind = map,
-                                            params = [#xqSeqType{type = 'xs:QName', occur = one}]}, occur = one}),
+   _ = xqerl_types:promote(V, #seqType{type = #funTest{kind = map,
+                                            params = [#seqType{type = 'xs:QName', occur = one}]}, occur = one}),
    parse_load_opts(T, O, M);
 parse_load_opts(['xquery-version'|T], #{<<"xquery-version">> := {_, V}} = O, M) ->
-   V1 = xqerl_types:promote(V, #xqSeqType{type = 'xs:decimal', occur = one}),
+   V1 = xqerl_types:promote(V, #seqType{type = 'xs:decimal', occur = one}),
    _ = case xqerl_types:value(V1) of
           #xsDecimal{int = 31, scf = 1} -> ok;
           #xsDecimal{int = 3, scf = 0} -> ok;
@@ -3375,8 +3366,8 @@ compare_convert_seq([], Acc, SeqType) ->
    {Acc,SeqType};
 compare_convert_seq([[]|T], Acc, SeqType) ->
    compare_convert_seq(T, Acc, SeqType);
-compare_convert_seq([#array{data = L}|T], Acc, SeqType) ->
-   compare_convert_seq(L ++ T, Acc, SeqType);
+compare_convert_seq([H|T], Acc, SeqType) when ?is_array(H) ->
+   compare_convert_seq(array:to_list(H) ++ T, Acc, SeqType);
 compare_convert_seq([#{nk := _,
                        tv := Tv}|T], Acc, SeqType) ->
    compare_convert_seq([Tv|T], Acc, SeqType);
@@ -3718,8 +3709,6 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 'namespace-uri-from-QName'(_,[]) -> [];
 'namespace-uri-from-QName'(_Ctx,Arg1) ->
    case xqerl_types:value(Arg1) of
-      #qname{namespace = 'no-namespace'} ->
-         ?atm('xs:anyURI',<<>>);
       #qname{namespace = Uri} ->
          ?atm('xs:anyURI',Uri);
       <<>> ->
@@ -3769,11 +3758,11 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
    case NodeName of
       {<<>>,<<>>,<<>>} ->
          [];
-      {_,Px,_} when Nk == namespace ->
-         Q = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = Px},
+      {_,Px} when Nk == namespace ->
+         Q = #qname{namespace = <<>>, prefix = <<>>, local_name = Px},
          ?atm('xs:QName',Q);
       {<<>>,Px,Ln} ->
-         Q = #qname{namespace = 'no-namespace', prefix = Px, local_name = Ln},
+         Q = #qname{namespace = <<>>, prefix = Px, local_name = Ln},
          ?atm('xs:QName',Q);
       {Ns,Px,Ln} ->
          Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
@@ -3889,20 +3878,21 @@ shrink_spaces(<<H,T/binary>>) ->
 -spec 'number'(xq_types:context(),
                [] | xq_types:xs_anyAtomicType()) ->
          xq_types:xs_double().
-'number'(Ctx,[Arg1]) -> 'number'(Ctx,Arg1);
-'number'(_Ctx,[]) -> ?dbl(nan); 
-'number'(_Ctx,Arg1) -> 
-   NVal = xqerl_types:value(Arg1),
-   if is_integer(NVal) ->
-         ?dbl(xqerl_numeric:double(NVal));
-      true ->
-         case catch xqerl_types:cast_as(Arg1, 'xs:double') of
-            {'EXIT',_} ->
-               ?dbl(nan);
-            V ->
-               V
-         end
-   end.
+'number'(Ctx, [Arg1]) -> 'number'(Ctx, Arg1);
+'number'(_Ctx, []) -> ?dbl(nan); 
+'number'(_Ctx, Arg1) -> 
+    NVal = xqerl_types:value(Arg1),
+    if 
+        is_integer(NVal) ->
+            xqerl_numeric:double(NVal);
+        true ->
+            try
+                xqerl_types:cast_as(Arg1, 'xs:double')
+            catch 
+                _:_ ->
+                    nan
+            end
+    end.
 
 %% Returns $arg if it contains one or more items. Otherwise, raises an error. 
 %% fn:one-or-more($arg as item()*) as item()+
@@ -4096,7 +4086,7 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
 'parse-xml'(#{'base-uri' := BaseUri} = Ctx,Arg1) ->
    String = xqerl_types:string_value(Arg1),
    if String =:= <<>> ->
-         xqerl_node:new_fragment(Ctx, []);
+         xqerl_node:contruct(Ctx, []);
       true ->
          BaseUri1 = xqerl_types:string_value(BaseUri),
          try
@@ -4296,9 +4286,9 @@ path_2('processing-instruction',[#{id := NId} = Node|Rest],Acc, Parent) ->
       <<>> ->
          ?err('FOCA0002');
       Str ->
-         StrUri = ns_from_str(string_value(Uri)),
+         StrUri = string_value(Uri),
          {Prefix, Local} = pre_loc_from_str(Str),
-         if Prefix =/= <<>>, StrUri == 'no-namespace' ->
+         if Prefix =/= <<>>, StrUri == <<>> ->
                ?err('FOCA0002');
             StrUri == ?A("http://www.w3.org/XML/1998/namespace"),
             Prefix == <<>> ->
@@ -4312,13 +4302,9 @@ path_2('processing-instruction',[#{id := NId} = Node|Rest],Acc, Parent) ->
          end
    end.
 
-ns_from_str('no-namespace') -> 'no-namespace';
-ns_from_str(<<>>) -> 'no-namespace';
-ns_from_str(Uri) -> Uri.
-
 pre_loc_from_str(Str) ->
    case catch xqerl_types:scan_ncname(Str) of
-      {'EXIT',_} ->
+      #xqError{} ->
          ?err('FOCA0002');
       {P, L} ->
          {P, L};
@@ -4364,9 +4350,9 @@ pre_loc_from_str(Str) ->
                   List3 = lists:keysort(1, List2),
                   [I || {_,I} <- List3]
             end,
-   Permute = #xqFunction{params = [#xqSeqType{type = item, 
+   Permute = #xqFunction{params = [#seqType{type = item, 
                                               occur = zero_or_many}], 
-                         type = #xqSeqType{type = item, occur = zero_or_many},
+                         type = #seqType{type = item, occur = zero_or_many},
                          arity = 1,
                          body = FunBod},
    NextFun = fun(_) -> 
@@ -4865,14 +4851,14 @@ sort1(Ctx,A,B,Coll) ->
          xq_types:xs_string().
 'string'(Ctx,[V]) -> 'string'(Ctx,V); 
 'string'(_Ctx,[]) -> ?str(<<>>); 
-'string'(_Ctx,Node) when ?noderecs(Node) ->
-   Atomized = xqerl_types:atomize(Node),
-   xqerl_types:cast_as(Atomized, 'xs:string');
+'string'(_Ctx, #{nk := _} = Node) ->
+    Atomized = xqerl_types:atomize(Node),
+    xqerl_types:cast_as(Atomized, 'xs:string');
 'string'(_Ctx, S) when is_binary(S) -> S;
 'string'(_Ctx,#xqFunction{}) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_map(Fx) -> ?err('FOTY0014');
-'string'(_Ctx,#array{}) -> ?err('FOTY0014');
+'string'(_Ctx,A) when ?is_array(A) -> ?err('FOTY0014');
 'string'(_Ctx,Arg1) -> 
    xqerl_types:cast_as(Arg1, 'xs:string').
 
@@ -5002,9 +4988,9 @@ sort1(Ctx,A,B,Coll) ->
                         end,
          if Start1 > Size orelse End < 1 ->
                [];
-            is_record(SourceSeq, xqRange) ->
-               Min = SourceSeq#xqRange.min + Start1 - 1,
-               Max = erlang:min(SourceSeq#xqRange.max, 
+            is_record(SourceSeq, range) ->
+               Min = SourceSeq#range.min + Start1 - 1,
+               Max = erlang:min(SourceSeq#range.max, 
                                 Min + erlang:round(VLen) - 1),
                %?dbg("{Len,Min,Max}",{Len,Min,Max}),
                xqerl_seq3:range(Min, Max);
@@ -5215,7 +5201,7 @@ sum1([H|T], Sum) ->
              [] | xq_types:sequence(xq_types:xq_item())) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'tail'(_Ctx, []) -> [];
-'tail'(_Ctx, #xqRange{min = Min,max = Max}) ->
+'tail'(_Ctx, #range{min = Min,max = Max}) ->
    xqerl_seq3:range(Min + 1, Max);
 'tail'(_Ctx,[_|T]) -> T;
 'tail'(_Ctx,_) -> [].
@@ -5414,7 +5400,7 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
             if Enc =:= <<>> ->
                   ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary)));
                true ->
-                  ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary, Enc)))
+                  ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary, Enc), Enc))
             end
       end
    catch 
@@ -5425,6 +5411,13 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
          ?dbg("Stack",Stack),
          ?err('FOUT1170')
    end.
+
+valid_cps(Bin, <<"utf8+">>) -> % special for json
+   _ = [?err('FOUT1190')
+        || <<C/utf8>> <= Bin,
+           (C =:= 0 orelse C =:= 16#FFFE)],
+   Bin;
+valid_cps(Bin, _) -> valid_cps(Bin).
 
 valid_cps(Bin) -> 
    _ = [?err('FOUT1190')

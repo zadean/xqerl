@@ -31,24 +31,25 @@
 -export([foldl/4,        % used in array and fn
          get_seq_type/1  % used in types
         ]).
+
 % functions called directly from XQuery and elsewhere
 -export([size/1,
          flatten/1,
          expand/1,
-         range/2, range/3, % can fail
+         range/2, % can fail
          to_list/1,
-         singleton_value/1, singleton_value/2 % can fail
+         singleton_value/1 % can fail
         ]).
 % functions *only* called directly from XQuery, some can fail
--export([ensure_one/2,
-         ensure_one_or_more/2,
-         ensure_zero_or_one/2,
-         ensure_zero_or_more/2,
-         map/3,
-         union/2,
+-export([ensure_one/1,
+         ensure_one_or_more/1,
+         ensure_zero_or_one/1,
+         ensure_zero_or_more/1,
+         map/3, % can fail
+         union/1, union/2,
          intersect/2,
          except/2,
-         path_map/2, path_map/3,
+         path_map/2,
          sequence/1,
          pmap/3, % parallel, not reporting error line
          pmap/2, % parallel, not reporting error line
@@ -59,7 +60,7 @@
          last/1,
          filter/3,
          do_call/3,
-         val_map/3]).
+         val_map/2]).
 
 -include("xqerl.hrl").
 
@@ -82,23 +83,24 @@
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Functions called from XQuery modules directly 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ensure_one(_, [A]) -> A;
-ensure_one(L, []) -> ?err('XPTY0004', L);
-ensure_one(L, [_|_]) -> ?err('XPTY0004', L);
-ensure_one(_, A) -> A.
 
-ensure_one_or_more(L, []) -> ?err('XPTY0004', L);
-ensure_one_or_more(_, [A]) -> A;
-ensure_one_or_more(_, A) -> A.
+ensure_one([A]) -> A;
+ensure_one([]) -> {error, 'XPTY0004'};
+ensure_one([_|_]) -> {error, 'XPTY0004'};
+ensure_one(A) -> A.
 
-ensure_zero_or_one(_, []) -> [];
-ensure_zero_or_one(_, [A]) -> A;
-ensure_zero_or_one(L, [_|_]) -> ?err('XPTY0004', L);
-ensure_zero_or_one(_, A) -> A.
+ensure_one_or_more([]) -> {error, 'XPTY0004'};
+ensure_one_or_more([A]) -> A;
+ensure_one_or_more(A) -> A.
 
-ensure_zero_or_more(_, A) -> A.
+ensure_zero_or_one([]) -> [];
+ensure_zero_or_one([A]) -> A;
+ensure_zero_or_one([_|_]) -> {error, 'XPTY0004'};
+ensure_zero_or_one(A) -> A.
 
-size(#xqRange{cnt = Size}) -> Size;
+ensure_zero_or_more(A) -> A.
+
+size(#range{cnt = Size}) -> Size;
 size(List) when is_list(List) ->
    size_1(List, 0);
 size(_) -> 1.
@@ -114,7 +116,7 @@ map(Ctx, Fun,Seq) ->
    if is_function(Fun1) ->
          map(Ctx, Fun1,Seq);
       true ->
-         ?err('XPTY0004', maps:get(line_num, Ctx))
+         ?err('XPTY0004')
    end.
 
 flatten([[]|T]) -> 
@@ -143,13 +145,13 @@ flatten([H|T]) -> [H | flatten(T)];
 flatten([]) -> [];
 flatten(E) -> [E].
 
-expand(#xqRange{} = R) ->
+expand(#range{} = R) ->
    expand1(R);
-expand([#xqRange{} = R]) ->
+expand([#range{} = R]) ->
    expand1(R);
 expand(L) when is_list(L) ->
    HasRange = lists:any(fun(R) ->
-                              is_record(R, xqRange) orelse is_list(R)
+                              is_record(R, range) orelse is_list(R)
                         end, L),
    if HasRange ->
          expand1(L);
@@ -158,14 +160,6 @@ expand(L) when is_list(L) ->
    end;
 expand(L) ->
    [L].
-
-range({File, Line}, A, B) -> 
-    try
-        range(A, B)
-    catch
-        _:#xqError{} = E ->
-            erlang:exit(E#xqError{location = {File, Line, 0}})
-    end.
 
 range(_, []) -> [];
 range([], _) -> [];
@@ -205,16 +199,24 @@ range(From, To) ->
    end.
 
 to_list([]) -> [];
-to_list(#xqRange{min = Min, max = Max}) ->
+to_list(#range{min = Min, max = Max}) ->
    range_2(Min,Max);
-to_list(#array{} = A) -> xqerl_mod_array:flatten([], A);
-to_list([#xqRange{} = H|T]) -> 
+to_list(A) when is_tuple(A), element(1, A) =:= array -> 
+    xqerl_mod_array:flatten([], A);
+to_list([#range{} = H|T]) -> 
    to_list(H) ++ to_list(T);
-to_list([#array{} = H|T]) -> 
+to_list([A|T]) when is_tuple(A), element(1, A) =:= array -> 
+   to_list(array:to_list(A)) ++ to_list(T);
+to_list([H|T]) when is_list(H) -> 
    to_list(H) ++ to_list(T);
 to_list([H|T]) -> 
    [H|to_list(T)];
 to_list(S) when not is_list(S) -> [S].
+
+union([S]) -> [S];
+union([S1, S2]) -> union(S1, S2);
+union([S1, S2 | T]) -> 
+    union(union(S1, S2), T).
 
 union(Seq1, []) when is_list(Seq1) ->
    xqldb_xpath:document_order(Seq1);
@@ -254,26 +256,11 @@ except(Seq1, Seq2) when is_list(Seq2) ->
 except(Seq1, Seq2) ->
    except([Seq1], [Seq2]).
 
-singleton_value(_, []) -> [];
-singleton_value(_, [V]) -> V;
-singleton_value(Ln, [_|_]) ->
-    ?err('XPTY0004', Ln);
-singleton_value(_, S) ->
-    singleton_value(S).
-
 singleton_value([]) -> [];
 singleton_value([V]) -> V;
 singleton_value([_|_]) -> ?err('XPTY0004');
 singleton_value(#xqFunction{body = V}) -> V;
 singleton_value(V) -> V.
-
-path_map({File, Line}, Fun, Seq) ->
-    try
-        path_map(Fun, Seq)
-    catch
-        _:#xqError{} = E ->
-            ?err(E, {File, Line})
-    end.
 
 path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
@@ -289,8 +276,9 @@ path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
             check(Mapped,nonnode)
       end
    catch 
-      _:function_clause ->
-            ?err('XPTY0020')
+      _:function_clause:Stack ->
+          ?dbg("Stack", Stack),
+          ?err('XPTY0020')
    end;
 path_map(Fun,List) when is_function(Fun,3) ->
    path_map(Fun,[List]);
@@ -300,34 +288,24 @@ path_map(#xqFunction{body = Fun},List) ->
 sequence(L) when is_list(L) -> L;
 sequence(L) -> [L].
 
-formap({_, Ctx, _} = FCT, Seq) ->
-    try
-        formap_1(FCT, Seq)
-    catch
-        _:#xqError{} = E ->
-            ?err(E, maps:get(line_num, Ctx))
-    end.
+formap({_, _, _} = FCT, Seq) ->
+    formap_1(FCT, Seq).
 
 formap_1(_,[]) -> [];
-formap_1({F, Ctx, Tuple} = FCT,[#xqRange{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 3) ->
-   [F(Ctx, Tuple, ?int_rec(Min))|formap_1(FCT,[R#xqRange{min = Min + 1}|T])];
-formap_1(F,[#xqRange{}|T]) -> formap_1(F,T);
+formap_1({F, Ctx, Tuple} = FCT,[#range{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 3) ->
+   [F(Ctx, Tuple, ?int_rec(Min))|formap_1(FCT,[R#range{min = Min + 1}|T])];
+formap_1(F,[#range{}|T]) -> formap_1(F,T);
 formap_1({F, Ctx, Tuple} = FCT,[H|T]) when is_function(F, 3) ->
    [F(Ctx, Tuple, H)|formap_1(FCT,T)];
 formap_1(F,L) when not is_list(L) -> formap_1(F,[L]).
 
-forposmap({_, Ctx, _} = FCT, Seq, P) ->
-    try
-        forposmap_1(FCT, Seq, P)
-    catch
-        _:#xqError{} = E ->
-            ?err(E, maps:get(line_num, Ctx))
-    end.
+forposmap({_, _, _} = FCT, Seq, P) ->
+    forposmap_1(FCT, Seq, P).
 
 forposmap_1(_,[],_) -> [];
-forposmap_1({F, Ctx, Tuple} = FCT,[#xqRange{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 4) ->
-   [F(Ctx, Tuple, ?int_rec(Min),P)|forposmap_1(FCT,[R#xqRange{min = Min + 1}|T],P + 1)];
-forposmap_1(F,[#xqRange{}|T],P) -> forposmap_1(F,T,P);
+forposmap_1({F, Ctx, Tuple} = FCT,[#range{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 4) ->
+   [F(Ctx, Tuple, ?int_rec(Min),P)|forposmap_1(FCT,[R#range{min = Min + 1}|T],P + 1)];
+forposmap_1(F,[#range{}|T],P) -> forposmap_1(F,T,P);
 forposmap_1({F, Ctx, Tuple} = FCT,[H|T],P) when is_function(F, 4) ->
    [F(Ctx, Tuple, H,P)|forposmap_1(FCT,T,P + 1)];
 forposmap_1(F,L,P) when not is_list(L) -> forposmap_1(F,[L],P).
@@ -391,20 +369,20 @@ position_filter(Ctx, Positions, Seq) ->
    position_filter(Ctx, Positions, [Seq]).
 
 last([]) -> [];
-last([#xqRange{max = Max}]) -> ?int_rec(Max);
-last(#xqRange{max = Max}) -> ?int_rec(Max);
+last([#range{max = Max}]) -> ?int_rec(Max);
+last(#range{max = Max}) -> ?int_rec(Max);
 last(List) when is_list(List) -> 
    case lists:last(List) of
-      #xqRange{max = Max} -> ?int_rec(Max);
+      #range{max = Max} -> ?int_rec(Max);
       L ->
          L
    end;
 last(S) ->
   S.
 
-filter(Ctx, Fun, [#xqRange{} = Range]) ->
+filter(Ctx, Fun, [#range{} = Range]) ->
    filter(Ctx, Fun, to_list(Range));
-filter(Ctx, Fun, #xqRange{} = Range) ->
+filter(Ctx, Fun, #range{} = Range) ->
    filter(Ctx, Fun, to_list(Range));
 filter(Ctx, #xqAtomicValue{} = Pos,Seq) ->
    position_filter(Ctx, [Pos], Seq);
@@ -426,23 +404,17 @@ filter(Ctx, Fun, Seq2) when is_function(Fun,4) ->
       _:#xqError{name = #xqAtomicValue{value = 
                                          #qname{local_name = <<"XPTY0019">>}}} ->
          % context was not a node when one was expected
-         ?err('XPTY0020', maps:get(line_num, Ctx));
+         ?err('XPTY0020');
       _:function_clause:StackTrace ->
          ?dbg("H",StackTrace),
          % context was not a node when one was expected
-         ?err('XPTY0020', maps:get(line_num, Ctx));
+         ?err('XPTY0020');
       _:#xqError{} = E:_StackTrace ->
-         ?err(E, maps:get(line_num, Ctx))
+         ?err(E)
   end.
 
 do_call(Ctx, MapArrayOrFun, Args) ->
-    try
-        do_call_1(Ctx, MapArrayOrFun, Args)
-    catch
-        _:#xqError{} = E ->
-            {F, L} = maps:get(line_num, Ctx),
-            ?err(E, {F, L})
-    end.
+    do_call_1(Ctx, MapArrayOrFun, Args).
 
 do_call_1(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
    build_call(Ctx,MapArrayOrFun,Args);
@@ -462,19 +434,11 @@ do_call_1(_,M,A) ->
    ?dbg("do_call",{M,A}),
    ?err('XPTY0004').
 
-val_map({F, L}, Fun, Seq) ->
-    try
-        val_map(Fun, Seq)
-    catch
-        _:#xqError{} = E ->
-            ?err(E, {F, L})
-    end.
-
 val_map(Fun,[]) -> Fun([]);
 val_map(Fun,H) when not is_list(H) ->
    val_map(Fun,[H]);
 val_map(Fun,[[H]|T]) -> val_map(Fun,[H|T]);
-val_map(Fun,[#xqRange{} = H|T]) ->
+val_map(Fun,[#range{} = H|T]) ->
    val_map(Fun,expand(H) ++ T);
 val_map(Fun,[H|T]) ->
    Val = try 
@@ -483,7 +447,7 @@ val_map(Fun,[H|T]) ->
             _:#xqError{} = E:Stack ->
                ?dbg("H  ",H),
                ?dbg("Err",Stack),
-               exit(E);
+               ?err(E);
             _:{badkey,_} -> % This happens when a variable is not yet 
                             % initialized, so there must have been a cycle
                             % missed at static time.
@@ -507,7 +471,7 @@ val_map(Fun,[H|T]) ->
 %% Helpers for functions called directly from XQuery modules 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-size_1([#xqRange{cnt = C}|T], Sum) ->
+size_1([#range{cnt = C}|T], Sum) ->
    size_1(T, Sum + C);
 size_1([H|T], Sum) when is_list(H) ->
    size_1(T, Sum + size_1(H, 0));
@@ -516,7 +480,7 @@ size_1([_|T], Sum) ->
 size_1([], Sum) -> Sum.
 
 map1(_Ctx, _Fun, [], _Pos, _Size) -> [];
-map1(Ctx, Fun, [#xqRange{} = H|T], Pos, Size) ->
+map1(Ctx, Fun, [#range{} = H|T], Pos, Size) ->
    map1(Ctx, Fun, to_list(H) ++ T, Pos, Size);
 map1(Ctx, Fun, [H|T], Pos, Size) ->
    try
@@ -530,19 +494,19 @@ map1(Ctx, Fun, [H|T], Pos, Size) ->
       _:#xqError{} = E:StackTrace ->
          ?dbg("error",StackTrace),
          ?dbg("FUNINFO",erlang:fun_info(Fun)),
-         exit(E);
+         ?err(E);
       _:E:StackTrace ->
          ?dbg("E",E),
          ?dbg("error",StackTrace),
          ?err('XPTY0004')
    end.
 
-expand1(#xqRange{min = Min, max = Max, cnt = Cnt}) when Cnt < 100 ->
+expand1(#range{min = Min, max = Max, cnt = Cnt}) when Cnt < 100 ->
    [?int_rec(A) || A <- lists:seq(Min, Max)];
-expand1(#xqRange{min = Min, max = Max}) ->
+expand1(#range{min = Min, max = Max}) ->
    range_2(Min,Max);
 expand1([]) -> [];
-expand1([#xqRange{min = Min, max = Max}|T]) -> 
+expand1([#range{min = Min, max = Max}|T]) -> 
    range_2(Min,Max) ++ expand1(T);
 expand1([H|T]) -> 
    [H | expand1(T)].
@@ -550,7 +514,7 @@ expand1([H|T]) ->
 range1(Min,Max) when Min =< Max ->
    Cnt = Max - Min + 1,
    if Cnt > 100 ->
-         #xqRange{min = Min, max = Max, cnt = Cnt};
+         #range{min = Min, max = Max, cnt = Cnt};
       true ->
          [?int_rec(C) || C <- lists:seq(Min, Max)]
    end;
@@ -593,31 +557,33 @@ except_1(Ns1, []) -> Ns1.
 
 do_path_map(_,[],_,_) -> [];
 do_path_map(F,[H|T],P,S) ->
-   case F(H,P,S) of
-      L when is_list(L) ->
-         L ++ do_path_map(F,T,P + 1,S);
-      I ->
-         [I|do_path_map(F,T,P + 1,S)]
-   end.
+    case F(H,P,S) of
+        L when is_list(L) ->
+            lists:flatten(L) ++ do_path_map(F,T,P + 1,S);
+        I ->
+            [I|do_path_map(F,T,P + 1,S)]
+    end.
 
 check({error, non_node},node) -> ?err('XPTY0018');
 check(List,node) ->
-   Fun = fun(#{nk := _}) -> ok;
-            (_) -> ?err('XPTY0018')
-         end,
-   lists:foreach(Fun, List),
-   List;
+    Fun = 
+        fun(#{nk := _}) -> ok;
+           (_) ->
+               ?err('XPTY0018')
+        end,
+    lists:foreach(Fun, List),
+    List;
 check(List,nonnode) ->
-   Fun = fun(#{nk := _}) -> ?err('XPTY0018');
-            (_) -> ok
-         end,
-   lists:foreach(Fun, List),
-   List.
+    Fun = fun(#{nk := _}) -> ?err('XPTY0018');
+             (_) -> ok
+          end,
+    lists:foreach(Fun, List),
+    List.
 
 pformap(From,[],FCT,Limit,Left,[P|Ps],Acc) when Left < Limit ->
    receive
       {P,{'EXIT',Ex}} ->
-         exit(Ex);
+         throw(Ex);
       {P,X} -> 
          pformap(From,[],FCT,Limit,Left + 1,Ps, [X|Acc])
    after 60000 -> error
@@ -630,16 +596,16 @@ pformap(From,List,FCT,Limit,0,[P|Ps],Acc) ->
          pformap(From,List,FCT,Limit,1,Ps,[X|Acc])
    after 60000 -> error
    end;
-pformap(From,[#xqRange{min = Min, max = Max} = R|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc)
+pformap(From,[#range{min = Min, max = Max} = R|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc)
    when Min =< Max, is_function(Fun, 3) ->
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
                  Self ! {self(), catch Fun(Ctx#{parent => Self}, Tuple, ?int_rec(Min))} 
            end),
-   pformap(From,[R#xqRange{min = Min + 1}|T],
+   pformap(From,[R#range{min = Min + 1}|T],
            FCT,Limit,Left - 1,Pids ++ [Pid], Acc);
-pformap(From,[#xqRange{}|T],FCT,Limit,Left,Pids,Acc) ->
+pformap(From,[#range{}|T],FCT,Limit,Left,Pids,Acc) ->
    pformap(From,T,FCT,Limit,Left,Pids,Acc);
 pformap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),
@@ -664,7 +630,7 @@ pmap(From,[],FCT,Limit,Left,Ps,Acc) ->
    %when Left < Limit ->
    receive
       {_,{'EXIT',Ex}} ->
-         exit(Ex);
+         throw(Ex);
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
          pmap(From,[],FCT,Limit,Left + 1,NewPs, [X|Acc])
@@ -693,11 +659,11 @@ position_filter1([Pos|Rest], CurrPos, [H|T]) ->
    end.
 
 nth(_, []) -> [];
-nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
+nth(N, [#range{cnt = C}|T]) when N > C -> 
    nth(N - C, T);
-nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
+nth(N, [#range{max = M,cnt = C}|_]) when N == C -> 
    ?int_rec(M);
-nth(N, [#xqRange{min = M}|_]) -> 
+nth(N, [#range{min = M}|_]) -> 
    ?int_rec(M + N - 1);
 nth(1,  [H|_]) -> H;
 nth(2,  [_,H|_]) -> H;
@@ -869,20 +835,20 @@ get_unique_values1([H|T]) when is_integer(H) ->
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
 
-get_seq_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
-get_seq_type(#xqRange{}) ->
-   #xqSeqType{type = 'xs:integer', occur = one_or_many};
+get_seq_type([]) -> #seqType{type = 'empty-sequence', occur = zero};
+get_seq_type(#range{}) ->
+   #seqType{type = 'xs:integer', occur = one_or_many};
 get_seq_type([Singleton]) ->
    Type = get_item_type(Singleton),
-   #xqSeqType{type = Type, occur = one};
+   #seqType{type = Type, occur = one};
 get_seq_type([Hd|Tl]) ->
    %?dbg("Hd",Hd),
    HType = get_item_type(Hd),
    Type = get_seq_type1(Tl,xqerl_btypes:get_type(HType)),
    if Tl == [] ->
-         #xqSeqType{type = Type, occur = one};
+         #seqType{type = Type, occur = one};
       true ->
-         #xqSeqType{type = Type, occur = one_or_many}
+         #seqType{type = Type, occur = one_or_many}
    end;
 get_seq_type(List) ->
    get_seq_type([List]).
@@ -938,14 +904,7 @@ get_item_type(#{nk := _} = Node) ->
    xqerl_node:get_node_type(Node);
 get_item_type(Item) when is_map(Item) ->
    map;
-get_item_type(#array{}) ->
+get_item_type(A) when is_tuple(A), element(1, A) =:= array ->
    array;
 get_item_type(#qname{}) ->
-   'xs:QName';
-get_item_type(#xqElementNode{}) -> 'element';
-get_item_type(#xqAttributeNode{}) -> 'attribute';
-get_item_type(#xqTextNode{}) -> 'text';
-get_item_type(#xqCommentNode{}) -> 'comment';
-get_item_type(#xqNamespaceNode{}) -> 'namespace';
-get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
-get_item_type(#xqDocumentNode{}) -> 'document-node'.
+   'xs:QName'.

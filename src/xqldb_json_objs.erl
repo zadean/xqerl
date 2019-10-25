@@ -54,7 +54,7 @@ string_to_json_bin(Bin) when is_binary(Bin) ->
 string_to_json_bin(String) ->
    try
       {ok,Toks,_} = xqldb_json_scanner:string(String),
-      ?dbg("Toks",Toks),
+      %?dbg("Toks",Toks),
       xqldb_json_bin:parse(Toks)
    catch
       _:_:_ ->

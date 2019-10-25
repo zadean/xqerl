@@ -40,19 +40,19 @@
 -variables([]).
 -functions([
  {{qname,?NS, ?PX, <<"parse">>}, 
-  {xqSeqType, {xqFunTest,array,[],undefined,any,any}, zero_or_one}, [], {'parse', 2}, 1, 
-  [{xqSeqType, 'xs:string', zero_or_one}]},
+  {seqType, {funTest,array,[],undefined,any,any}, zero_or_one}, [], {'parse', 2}, 1, 
+  [{seqType, 'xs:string', zero_or_one}]},
  {{qname,?NS, ?PX, <<"parse">>}, 
-  {xqSeqType, {xqFunTest,array,[],undefined,any,any}, zero_or_one}, [], {'parse', 3}, 2, 
-  [{xqSeqType, 'xs:string', zero_or_one},
-   {xqSeqType, {xqFunTest,map,[],undefined,any,any}, zero_or_one}]},
+  {seqType, {funTest,array,[],undefined,any,any}, zero_or_one}, [], {'parse', 3}, 2, 
+  [{seqType, 'xs:string', zero_or_one},
+   {seqType, {funTest,map,[],undefined,any,any}, zero_or_one}]},
  {{qname,?NS, ?PX, <<"serialize">>}, 
-  {xqSeqType, 'xs:string', zero_or_one}, [], {'serialize', 2}, 1, 
-  [{xqSeqType, {xqFunTest,array,[],undefined,any,any}, zero_or_one}]},
+  {seqType, 'xs:string', zero_or_one}, [], {'serialize', 2}, 1, 
+  [{seqType, {funTest,array,[],undefined,any,any}, zero_or_one}]},
  {{qname,?NS, ?PX, <<"serialize">>}, 
-  {xqSeqType, 'xs:string', zero_or_one}, [], {'serialize', 3}, 2, 
-  [{xqSeqType, {xqFunTest,array,[],undefined,any,any}, zero_or_one},
-   {xqSeqType, {xqFunTest,map,[],undefined,any,any}, zero_or_one}]}]).
+  {seqType, 'xs:string', zero_or_one}, [], {'serialize', 3}, 2, 
+  [{seqType, {funTest,array,[],undefined,any,any}, zero_or_one},
+   {seqType, {funTest,map,[],undefined,any,any}, zero_or_one}]}]).
 
 
 %% Parse string as CSV input. Returns array of arrays.

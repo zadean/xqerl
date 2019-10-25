@@ -96,57 +96,61 @@
         }).
 
 start_link() ->
-   gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
+    gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
 stop() ->
-   cowboy:stop_listener(xqerl_listener),
-   gen_server:stop(?MODULE).
+    cowboy:stop_listener(xqerl_listener),
+    gen_server:stop(?MODULE).
 
 get_static_signatures() ->
-   gen_server:call(?MODULE, get_static_sigs, ?TIMEOUT).
+    gen_server:call(?MODULE, get_static_sigs, ?TIMEOUT).
 
 get_signatures(ModNamespace) ->
-   Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, ?TIMEOUT),
-   case Rep of
-      {error, unknown_namespace} ->
-         exit(xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, ModNamespace));
-      _ ->
-         {ok, Rep}
-   end.
+    Rep = gen_server:call(?MODULE, {get_signatures, ModNamespace}, ?TIMEOUT),
+    case Rep of
+        {error, unknown_namespace} ->
+            throw(xqerl_error:error('XQST0059', <<"Unknown ModNamespace">>, ModNamespace));
+        _ ->
+            {ok, Rep}
+    end.
 
 get_function_signatures(Namespace, LocalName) ->
-   Rep = gen_server:call(?MODULE, {get_fun_sigs, Namespace, LocalName}, ?TIMEOUT),
-   {ok, Rep}.
+    Rep = gen_server:call(?MODULE, {get_fun_sigs, Namespace, LocalName}, ?TIMEOUT),
+    {ok, Rep}.
 
 library_namespaces() ->
-   gen_server:call(?MODULE, get_lib_namespaces, ?TIMEOUT).
+    gen_server:call(?MODULE, get_lib_namespaces, ?TIMEOUT).
 
 unload(_) ->
-   gen_server:call(?MODULE, unload, ?TIMEOUT).
+    gen_server:call(?MODULE, unload, ?TIMEOUT).
 
 
 compile(Filename) ->
-   {ok, Bin} = file:read_file(Filename),
-   Str = binary_to_list(Bin),
-   compile(Filename, Str, []).
+    {ok, Bin} = file:read_file(Filename),
+    Str = binary_to_list(Bin),
+    compile(Filename, Str, []).
 
 compile(_, []) -> ?err('XPST0003'); % no empty queries
 compile(Filename, Str) ->
-   compile(Filename, Str, []).
+    compile(Filename, Str, []).
 
 % compilation needs to happen in the calling process
 % only the results from compilation are sent to the server
 compile(Filename, [], Hints) -> 
-   {ok, Bin} = file:read_file(Filename),
-   Str = binary_to_list(Bin),
-   do_compile(Filename, Str, Hints);
+    {ok, Bin} = file:read_file(Filename),
+    Str = binary_to_list(Bin),
+    do_compile(Filename, Str, Hints);
 compile(Filename, Str, Hints) ->
-   do_compile(Filename, Str, Hints).
+    do_compile(Filename, Str, Hints).
 
 %% takes a list of [{Filename, QNamespace}]
-compile_files(Hints) -> 
-   do_compile_files(Hints).
-
+compile_files(Hints) ->
+    try
+        do_compile_files(Hints)
+    catch
+        _:#xqError{} = E ->
+            [E]
+    end.
 
 %% ====================================================================
 %% Behavioural functions
@@ -162,23 +166,23 @@ compile_files(Hints) ->
 	Timeout :: non_neg_integer() | infinity.
 
 init([]) ->
-   % base code directory, home of dets table
-   CodeDir = application:get_env(xqerl, code_dir, "./code"),
-   TabName = filename:join(CodeDir, "code.tab"),
-   % ebin directory for beam files
-   EbinDir = filename:join(CodeDir, "ebin"),
-   ok = filelib:ensure_dir(EbinDir ++ "/x"),
-   % create or open table
-   {ok, Tab} = dets:open_file(TabName, [{type, set},{keypos, 2}]),
-   % add ebin path to code path
-   true = code:add_patha(EbinDir),
-   DispatchFileName = filename:join(CodeDir, "dispatch.dat"),
-   ok = init_rest(DispatchFileName),
-   {ok, #{dir  => CodeDir,
-          stat => static_signatures(),
-          tab  => Tab,
-          ebin => EbinDir,
-          disp => DispatchFileName}, ?TIMEOUT}.
+    % base code directory, home of dets table
+    CodeDir = application:get_env(xqerl, code_dir, "./code"),
+    TabName = filename:join(CodeDir, "code.tab"),
+    % ebin directory for beam files
+    EbinDir = filename:join(CodeDir, "ebin"),
+    ok = filelib:ensure_dir(EbinDir ++ "/x"),
+    % create or open table
+    {ok, Tab} = dets:open_file(TabName, [{type, set},{keypos, 2}]),
+    % add ebin path to code path
+    true = code:add_patha(EbinDir),
+    DispatchFileName = filename:join(CodeDir, "dispatch.dat"),
+    ok = init_rest(DispatchFileName),
+    {ok, #{dir  => CodeDir,
+           stat => static_signatures(),
+           tab  => Tab,
+           ebin => EbinDir,
+           disp => DispatchFileName}, ?TIMEOUT}.
 
 
 -spec handle_call(Request :: term(), From :: {pid(), Tag :: term()}, State :: term()) -> Result when
@@ -198,58 +202,55 @@ init([]) ->
 handle_call(unload, _From, #{tab  := Tab,
                              ebin := Ebin,
                              disp := DispatchFile} = State) ->
-   Reply = do_unload(Tab, Ebin, DispatchFile),
-   {reply, Reply, State, ?TIMEOUT};
+    Reply = do_unload(Tab, Ebin, DispatchFile),
+    {reply, Reply, State, ?TIMEOUT};
 
 handle_call(get_static_sigs, _From, #{stat := Sigs} = State) ->
-   {reply, Sigs, State, ?TIMEOUT};
+    {reply, Sigs, State, ?TIMEOUT};
 
-handle_call({get_fun_sigs, 'no-namespace', _}, _From, State) ->
-   {reply, [], State, ?TIMEOUT};
-handle_call({get_fun_sigs, Namespace, LocalName}, _From, #{tab  := Tab,
-                                                           stat := {Sigs,_,_}} = State) ->
-   Reply = 
-      case lists:member(Namespace, static_module_namespaces()) of
-         true ->
-            [Sig || 
-             Sig <- Sigs,
-             (element(1,Sig))#qname.local_name == LocalName,
-             (element(1,Sig))#qname.namespace == Namespace
-            ];
-         false ->
-            QNs = <<"Q{", Namespace/binary, "}">>,
-            case dets:lookup(Tab, QNs) of
-               [] -> [];
-               [#xq_module{function_sigs = Funs}] ->
-                  [F || 
-                   F <- Funs,
-                   (element(1,F))#qname.local_name == LocalName]
-            end
-      end,
-   {reply, Reply, State, ?TIMEOUT};
-   
-handle_call({get_signatures, Namespace0}, _From, #{tab := Tab} = State) ->
-   Namespace = trim_q(Namespace0),
-   
-   Reply = case dets:lookup(Tab, Namespace) of
-              [] ->
-                 {error, unknown_namespace};
-              [#xq_module{module_name   = Name,
-                          function_sigs = Funs,
-                          variable_sigs = Vars}] ->
-                 {Name, Funs, Vars}
-           end,
+handle_call({get_fun_sigs, <<>>, _}, _From, State) ->
+    {reply, [], State, ?TIMEOUT};
+handle_call({get_fun_sigs, Namespace, LocalName}, _From, 
+            #{tab  := Tab,
+              stat := {Sigs,_,_}} = State) ->
+    Reply =
+        case lists:member(Namespace, static_module_namespaces()) of
+            true ->
+                [Sig ||
+                 Sig <- Sigs,
+                 (element(1,Sig))#qname.local_name == LocalName,
+                 (element(1,Sig))#qname.namespace == Namespace];
+            false ->
+                case dets:lookup(Tab, Namespace) of
+                    [] -> [];
+                    [#xq_module{function_sigs = Funs}] ->
+                        [F ||
+                         F <- Funs,
+                         (element(1,F))#qname.local_name == LocalName]
+                end
+        end,
+    {reply, Reply, State, ?TIMEOUT};
+
+handle_call({get_signatures, Namespace}, _From, #{tab := Tab} = State) ->
+    Reply = 
+        case dets:lookup(Tab, Namespace) of
+            [] ->
+                {error, unknown_namespace};
+            [#xq_module{module_name   = Name,
+                        function_sigs = Funs,
+                        variable_sigs = Vars}] ->
+                {Name, Funs, Vars}
+        end,
     {reply, Reply, State, ?TIMEOUT};
 handle_call(get_lib_namespaces, _From, #{tab := Tab} = State) ->
-   Reply = dets:select(Tab, [{'$1',
-                              [{'==',{element,#xq_module.type,'$1'}, library}],
-                              [{element,#xq_module.target_namespace,'$1'}]}]),
-   {reply, Reply, State, ?TIMEOUT};
+    Reply = dets:select(Tab, [{'$1',
+                               [{'==',{element,#xq_module.type,'$1'}, library}],
+                               [{element,#xq_module.target_namespace,'$1'}]}]),
+    {reply, Reply, State, ?TIMEOUT};
 
 handle_call({save_mod, Rec, Beam}, _From, State) ->
-   Reply = save_module(Rec, Beam, State),
-   {reply, Reply, State, ?TIMEOUT}.
-
+    Reply = save_module(Rec, Beam, State),
+    {reply, Reply, State, ?TIMEOUT}.
 
 -spec handle_cast(Request :: term(), State :: term()) -> Result when
 	Result :: {noreply, NewState}
@@ -282,7 +283,7 @@ handle_info(_Info, State) ->
 			| term().
 
 terminate(_Reason, _State) ->
-   cowboy:stop_listener(xqerl_listener).
+    cowboy:stop_listener(xqerl_listener).
 
 
 -spec code_change(OldVsn, State :: term(), Extra :: term()) -> Result when
@@ -298,38 +299,34 @@ code_change(_OldVsn, State, _Extra) ->
 %% ====================================================================
 
 static_module_namespaces() ->
-   [Ns ||
-    {Px, Ns} <- xqerl_context:static_namespaces(),
-    Px =/= <<>>, Px =/= <<"local">>, Px =/= <<"xsi">>, Px =/= <<"xml">>].
+    [Ns ||
+     {Px, Ns} <- xqerl_context:static_namespaces(),
+     Px =/= <<>>, Px =/= <<"local">>, Px =/= <<"xsi">>, Px =/= <<"xml">>].
 
 static_signatures() ->
-   Mods = ?STATIC_MODS,
-   Query = 
-     fun(Mod,{PFunsAcc,PVarsAcc,_}) ->
-           Atts = Mod:module_info(attributes),
-           Vars = proplists:get_value(variables, Atts, []),
-           Funs = proplists:get_value(functions, Atts, []),
-           PVars = [prepend_mod(Mod, V) || V <- Vars],
-           PFuns = [prepend_mod(Mod, V) || V <- Funs],
-           {PFuns ++ PFunsAcc, PVars ++ PVarsAcc, []}
-     end,
-   lists:foldl(Query, {[],[],[]}, Mods).
+    Query =
+        fun(Mod,{PFunsAcc,PVarsAcc,_}) ->
+               Atts = Mod:module_info(attributes),
+               Vars = proplists:get_value(variables, Atts, []),
+               Funs = proplists:get_value(functions, Atts, []),
+               PVars = [prepend_mod(Mod, V) || V <- Vars],
+               PFuns = [prepend_mod(Mod, V) || V <- Funs],
+               {PFuns ++ PFunsAcc, PVars ++ PVarsAcc, []}
+        end,
+    lists:foldl(Query, {[],[],[]}, ?STATIC_MODS).
 
 patch(Tups, Mod) ->
-   [prepend_mod(Mod, Tup) || Tup <- Tups].
+    [prepend_mod(Mod, Tup) || Tup <- Tups].
 
 prepend_mod(Mod, Tup) ->
-   case element(4, Tup) of
-      {_, F, A} ->
-         setelement(4, Tup, {Mod, F, A});
-      {F, A} ->
-         setelement(4, Tup, {Mod, F, A});
-      F ->
-         setelement(4, Tup, {Mod, F})
-   end.
-
-add_stacktrace(E, StackTrace) ->
-   E#xqError{additional = xqerl_lib:format_stacktrace(StackTrace)}.
+    case element(4, Tup) of
+        {_, F, A} ->
+            setelement(4, Tup, {Mod, F, A});
+        {F, A} ->
+            setelement(4, Tup, {Mod, F, A});
+        F ->
+            setelement(4, Tup, {Mod, F})
+    end.
 
 -define(NOT_FOUND(V), 
         #xqError{name =
@@ -340,343 +337,277 @@ add_stacktrace(E, StackTrace) ->
 
 
 do_compile(Filename, Str, false) ->
-   OldProcDict = erlang:erase(),
-   try
-   %%%
-      Toks = scan_tokens(Filename, Str),
-%io:format("~p~n", [Toks]),
-      _ = xqerl_context:init(parser),
-      Tree = parse_tokens(Filename, Toks),
-%io:format("~p~n", [Tree]),
-      FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-      Static = scan_tree_static(Tree, FileUri, []),
-%io:format("~p~n", [maps:get(body, Static)]),
-      {_,_,_,_,_,Forms,_} = scan_tree(FileUri, Static),
-      xqerl_context:destroy(Static),
-%io:format("~p~n", [Forms]),
-      {ok,M,B} = compile:forms(Forms,
-                               [deterministic,
-                                debug_info, verbose,
-                                return_errors, no_auto_import,
-                                binary]),
-      code:load_binary(M, "", B),
-      _ = print_erl(M, B),
-      M
-   catch 
-      _:#xqError{} = Error:StackTrace ->
-         add_stacktrace(Error, StackTrace);
-      _:Error:_ ->
-         Error
-   %%%
-   after
-      _ = erlang:erase(),
-      _ = [erlang:put(K, V) || {K, V} <- OldProcDict]
-   end;   
-
+    catch do_compile(Filename, Str, []);
 do_compile(Filename, Str, []) ->
-   OldProcDict = erlang:get(), 
-   try
-      erlang:erase(),
-   %%%
-      Toks = scan_tokens(Filename, Str),
-%io:format("~p~n", [Toks]),
-      _ = xqerl_context:init(parser),
-      Tree = parse_tokens(Filename, Toks),
-      do_compile_tree(Filename, Tree, Str, [])
-   catch 
-      _:?NOT_FOUND(_) = Error:StackTrace ->
-         ?dbg("Error",Error),
-         ?dbg("Error",StackTrace),
-         _ = erlang:erase(),
-         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
-         Error;
-      _:#xqError{} = Error:StackTrace ->
-         ?dbg("Error",Error),
-         ?dbg("Error",StackTrace),
-         % TODO save the error
-         _ = erlang:erase(),
-         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
-         add_stacktrace(Error, StackTrace);
-      _:Error:StackTrace ->
-         ?dbg("Error",Error),
-         ?dbg("Error",StackTrace),
-         _ = erlang:erase(),
-         _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
-         % TODO save the error
-         Error
-   %%%
-   end;
+    OldProcDict = erlang:get(), 
+    try
+        erlang:erase(),
+        Toks = scan_tokens(Filename, Str),
+        _ = xqerl_context:init(parser),
+        Tree = parse_tokens(Filename, Toks),
+        do_compile_tree(Filename, Tree, Str, [])
+    catch
+        _:#xqError{} = Error ->
+            % error is static and has no stack
+            %?dbg("Error",Error),
+            % TODO save the error
+            throw(Error)
+    after
+        _ = erlang:erase(),
+        _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
+        ok
+    end;
 do_compile(_, _, Hints) ->
-   Failed = [{Hint, R} ||
-             {Filename, _} = Hint <- Hints,
-             R <- [compile(Filename)],
-             not is_atom(R)
-            ],
-   if Failed == [] ->
-         ok;
-      length(Failed) == length(Hints) ->
-         {_, H} = hd(Failed),
-         H;
-      true ->
-         NewFailed = [H || {H,_} <- Failed],
-         do_compile(a, a, NewFailed)
-   end.
+    Failed = [{Hint, R} ||
+              {Filename, _} = Hint <- Hints,
+              R <- [compile(Filename)],
+              not is_atom(R)],
+    if 
+        Failed == [] ->
+            ok;
+        length(Failed) == length(Hints) ->
+            {_, H} = hd(Failed),
+            H;
+        true ->
+            NewFailed = [H || {H,_} <- Failed],
+            do_compile(a, a, NewFailed)
+    end.
 
 do_compile_tree(Filename, Tree, Str, Imports) ->
-%io:format("~p~n", [element(5, Tree)]),
-   FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-   Static = scan_tree_static(Tree, FileUri, Imports),
-%io:format("~p~n", [Tree]),
-%io:format("~p~n", [maps:get(body, Static)]),
-   {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = scan_tree(FileUri, Static),
-   xqerl_context:destroy(Static),
-%io:format("~p~n", [Forms]),
+    FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+    Static = scan_tree_static(Tree, FileUri, Imports),
+    {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Forms,RestXQ} = 
+        scan_tree(FileUri, Static),
+    xqerl_context:destroy(Static),
 
-   {ok,M,B} = compile:forms(Forms,
-                            [debug_info, verbose,
-                             return_errors, no_auto_import,
-                             binary]),
-   Rec =        
-     #xq_module{target_namespace = ModNs,
-                type = ModType,
-                status = compiled,
-                module_name = M,
-                full_text = {text, Str},
-                error = undefined,
-                last_compile_time = erlang:system_time(),
-                imported_modules = ImportedMods,
-                function_sigs = patch(FunSigs,M),
-                variable_sigs = patch(VarSigs,M),
-                rest_xq = RestXQ},
-   code:purge(M),
-   %?dbg("WORKED", M),
-   gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT).
+    {ok,M,B} = compile:forms(Forms,
+                             [debug_info, verbose,
+                              return_errors, no_auto_import,
+                              binary]),
+    Rec =
+        #xq_module{target_namespace = ModNs,
+                   type = ModType,
+                   status = compiled,
+                   module_name = M,
+                   full_text = {text, Str},
+                   error = undefined,
+                   last_compile_time = erlang:system_time(),
+                   imported_modules = ImportedMods,
+                   function_sigs = patch(FunSigs,M),
+                   variable_sigs = patch(VarSigs,M),
+                   rest_xq = RestXQ},
+    code:purge(M), %% XXX do the swap in the server
+    gen_server:call(?MODULE, {save_mod, Rec, B}, ?TIMEOUT).
+
 
 %% {Uri, Tree, Str, Filename} -> {Uri, Tree, Str, Filename, Imports}
 append_imports(Parsed) ->
-   UriTrees = [{Uri, Tree} || {Uri, Tree, _, _} <- Parsed],
-   Imports = xqerl_module:expand_imports(UriTrees),
-   %?dbg("Imports",Imports),
-   [{Uri, Tree, Str, Filename, proplists:get_value(Uri, Imports, [])} 
-   || {Uri, Tree, Str, Filename} <- Parsed].
-   
+    UriTrees = [{Uri, Tree} || {Uri, Tree, _, _} <- Parsed],
+    Imports = xqerl_module:expand_imports(UriTrees),
+    %?dbg("Imports",Imports),
+    [{Uri, Tree, Str, Filename, proplists:get_value(Uri, Imports, [])} || 
+     {Uri, Tree, Str, Filename} <- Parsed].
+
+-define(E(E), #xqError{name = #xqAtomicValue{value =
+                                             #qname{prefix = <<"err">>,
+                                                    local_name = E}}}).
+
 %% {Uri, Tree, Str, Filename}
 parse_files(Filenames) ->
-   OldProcDict = erlang:erase(),
-   _ = xqerl_context:init(parser),
-   F1 = fun(Filename) ->
-            try
-               case file:read_file(Filename) of
-                  {ok, Bin} ->
-                     Str = binary_to_list(Bin),
-                     Toks = scan_tokens(Filename, Str),
-                     Tree = parse_tokens(Filename, Toks),
-                     {xqerl_module:module_namespace(Tree, Filename), 
-                      Tree, Str, Filename};
-                  _ ->
-                     ?err('XQST0059') % non-recoverable
-               end
-            catch
-               _:E:_S ->
-                  {Filename, E, [], Filename}
-            end
+    OldProcDict = erlang:erase(),
+    _ = xqerl_context:init(parser),
+    F1 = 
+        fun(Filename) ->
+                try
+                    case file:read_file(Filename) of
+                        {ok, Bin} ->
+                            Str = binary_to_list(Bin),
+                            Toks = scan_tokens(Filename, Str),
+                            Tree = parse_tokens(Filename, Toks),
+                            {xqerl_module:module_namespace(Tree, Filename),
+                             Tree, Str, Filename};
+                        _ ->
+                            ?err('XQST0059') % non-recoverable
+                    end
+                catch
+                    _:?E(<<"XQST0059">>) = E:_ ->
+                        {Filename, E, [], Filename};
+                    _:E:_ ->
+                        throw(E) % non-recoverable
+                        %?err(E) % non-recoverable
+                end
         end,
-   Out = merge_mods(lists:map(F1, Filenames)),
-   _ = erlang:erase(),
-   _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
-   Out.
+    Out = merge_mods(lists:map(F1, Filenames)),
+    _ = erlang:erase(),
+    _ = [erlang:put(K, V) || {K, V} <- OldProcDict],
+    Out.
 
-
+module_not_found_errors([{_,?E(<<"XQST0059">>),_,_,_} = E|T]) ->
+    [E|module_not_found_errors(T)];
+module_not_found_errors([{_,?E(<<"XPST0008">>),_,_,_} = E|T]) ->
+    [E|module_not_found_errors(T)];
+module_not_found_errors([{_,?E(<<"XPST0017">>),_,_,_} = E|T]) ->
+    [E|module_not_found_errors(T)];
+module_not_found_errors([_|T]) ->
+    module_not_found_errors(T);
+module_not_found_errors([]) -> [].
 
 do_compile_files(List) ->
-   Files = lists:usort([Name || {Name, _} <- List]),
-   %?dbg("List",List),
-   %Merged = merge_files(List),
-   %?dbg("Merged",Merged),
-   Parsed = parse_files(Files),
-   Imports = append_imports(Parsed),
-   %?dbg("Imports",Imports),
-   Errors = do_compile_files(Imports, []),
-   %?dbg("Errors",Errors),
-   [A || {_,A,_,_,_} <- Errors].
+    Files = lists:usort([Name || {Name, _} <- List]),
+    Parsed = parse_files(Files),
+    Imports = append_imports(Parsed),
+    Errors = do_compile_files(Imports, []),
+    [A || {_,A,_,_,_} <- Errors].
 
 do_compile_files([], Acc) ->
-   %?dbg("Acc",Acc),
-   Early = [E || {_,?NOT_FOUND(_),_,_,_} = E <- Acc],
-   Failed = lists:subtract([E || {_,#xqError{},_,_,_} = E <- Acc], Early),
-   Passed = [B || {_,A,_,_,_} = B <- Acc, is_atom(A)],
-   %?dbg("Early", Early),
-   %?dbg("Failed",length(Failed)),
-   %?dbg("Passed",length(Passed)),
-   if Passed == [] ->
-         Failed ++ Early;
-      true ->
-         Failed ++ do_compile_files(Early, [])
-   end;
+    Early = module_not_found_errors(Acc),
+    %?dbg("Early", Early),
+    Failed = lists:subtract([E || {_,#xqError{},_,_,_} = E <- Acc], Early),
+    %?dbg("Failed", Failed),
+    Passed = [B || {_,A,_,_,_} = B <- Acc, is_atom(A)],
+    if 
+        Passed == [] ->
+            Failed ++ Early;
+        Early == [] ->
+            Failed;
+        true ->
+            Failed ++ do_compile_files(Early, [])
+    end;
 do_compile_files([{Uri, #xqError{} = Res, [], Filename, I}|Rest], Acc) ->
-   ?dbg("NOT TRYING", Uri),
-   do_compile_files(Rest, [{Uri, Res, [], Filename, I}|Acc]);
+    ?dbg("NOT TRYING", Uri),
+    do_compile_files(Rest, [{Uri, Res, [], Filename, I}|Acc]);
 do_compile_files([{Uri, #xqError{}, Str, Filename, I}|Rest], Acc) ->
-   ?dbg("TRYING", Uri),
-   Res = try do_compile(Filename, Str, []) catch _:E -> E end,
-   %?dbg("TRIED", {Uri, Res}),
-   do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]);
+    ?dbg("TRYING again", Uri),
+    Res = try do_compile(Filename, Str, []) catch _:E -> ?dbg("FAILED again", {Uri, E}), E end,
+    do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]);
 do_compile_files([{Uri, Tree, Str, Filename, I}|Rest], Acc) ->
-   ?dbg("TRYING", Uri),
-   Res = try
-            do_compile_tree(Filename, Tree, Str, I)
-         catch
+    ?dbg("TRYING", Uri),
+    Res = 
+        try
+            Ok = do_compile_tree(Filename, Tree, Str, I),
+            ?dbg("WORKED", Uri),
+            Ok
+        catch
             _:E ->
-               E
-         end,   
-   %?dbg("TRIED", {Uri, Res, Tree}),
-   do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]).
-   
-   
+                ?dbg("FAILED", {Uri, E}),
+                E
+        end,   
+    do_compile_files(Rest, [{Uri, Res, Str, Filename, I}|Acc]).
+
 scan_tokens(Filename, Str) ->
-   try 
-      xqerl_scanner:tokens({Filename, Str}) 
-   catch
-      _:#xqError{} = E:S ->
-         E1 = add_stacktrace(E, S),
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err(E1, {FileUri, 0});
-      _:E:StackTrace ->
-         ?dbg("scan_tokens",E),
-         ?dbg("scan_tokens",StackTrace),
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err('XPST0003', {FileUri, 0})
-   end.
+    FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+    xqerl_scanner:tokens({FileUri, Str}).
 
 parse_tokens(Filename, Tokens) ->
-   try 
-      {ok, Tree} = xqerl_parser:parse(Tokens),
-      Tree
-   catch
-      _:#xqError{location = {undefined,Ln,_}} = E:S ->
-         % patch filename of the error
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err(add_stacktrace(E, S), {FileUri,Ln});
-      _:#xqError{} = E:S ->
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err(add_stacktrace(E, S), {FileUri,0});
-      _:{badmatch,{error,{Ln,xqerl_parser,_}}} ->
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err('XPST0003', {FileUri, Ln});
-      _:E:StackTrace ->
-         ?dbg("parse_tokens e",E),
-         ?dbg("parse_tokens e",StackTrace),
-         ?dbg("parse_tokens e",Tokens),
-         FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
-         ?err('XPST0003', {FileUri, 0})
-   end.
+    try 
+        {ok, Tree} = xqerl_parser:parse(Tokens),
+        Tree
+    catch
+        _:#xqError{location = {undefined,Ln,_}} = E ->
+            % patch filename of the error
+            FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+            ?err(E, {FileUri,Ln});
+        _:#xqError{} = E ->
+            ?err(E);
+        _:{badmatch,{error,{Ln,xqerl_parser,_}}} ->
+            FileUri = xqldb_lib:filename_to_uri(unicode:characters_to_binary(Filename)),
+            ?err('XPST0003', {FileUri, Ln})
+    end.
 
 scan_tree_static(Tree, FileUri, Imports) ->
-   try 
-      xqerl_static:handle_tree(Tree, FileUri, Imports)
-   catch
-      _:#xqError{location = {undefined,Ln,_}} = E:S ->
-         % patch filename of the error
-         ?err(add_stacktrace(E, S), {FileUri,Ln});
-      _:#xqError{} = E:S ->
-         ?dbg("parse_tokens e",{E, S}),
-         exit(add_stacktrace(E, S));
-      _:E:StackTrace ->
-         ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",StackTrace),
-         ?err('XPST0003')
-   end.
+    try 
+        xqerl_static:handle_tree(Tree, FileUri, Imports)
+    catch
+        _:#xqError{location = {undefined,Ln,_}} = E ->
+            % patch filename of the error
+            ?err(E, {FileUri,Ln});
+        _:#xqError{} = E ->
+            ?err(E)
+    end.
 
 scan_tree(FileUri, Tree) ->
-   try 
-      xqerl_abs:scan_mod(Tree)
-   catch
-      _:#xqError{location = {undefined,Ln,_}} = E:S ->
-         % patch filename of the error
-         ?err(add_stacktrace(E, S), {FileUri,Ln});
-      _:#xqError{} = E:S ->
-         exit(add_stacktrace(E, S));
-      _:E:StackTrace ->
-         ?dbg("scan_tree",E),
-         ?dbg("scan_tree",StackTrace),
-         io:format("~p~n",[StackTrace]),
-         ?err('XPST0003', {FileUri, 0})
-   end.
+    try 
+        xqerl_abs:scan_mod(Tree)
+    catch
+        _:#xqError{location = {undefined,Ln,_}} = E ->
+            % patch filename of the error
+            ?err(E, {FileUri,Ln});
+        _:#xqError{} = E ->
+            ?err(E)
+    end.
 
 save_module(#xq_module{module_name = ModName,
                        rest_xq = RestXq} = ModuleRecord,
             Beam, #{tab  := Tab,
                     ebin := Ebin,
                     disp := Dispatch }) ->
-   BeamFilename = filename:join([Ebin, ModName]) ++ ".beam",
-   %?dbg("ModName",ModName),
-   _ = print_erl(ModName, Beam),
-   file:write_file(BeamFilename, Beam),
-   dets:insert(Tab, ModuleRecord),
-   %%% XXX might be nasty
-   code:purge(ModName),
-   code:delete(ModName),
-   code:purge(ModName),
-   code:load_file(ModName),
-   %%%
-   if RestXq == [] ->
-         ModName;
-      true ->
-         _ = merge_load_dispatch(ModName, RestXq, Dispatch),
-         ModName
-   end.
+    BeamFilename = filename:join([Ebin, ModName]) ++ ".beam",
+    _ = print_erl(ModName, Beam),
+    ok = file:write_file(BeamFilename, Beam),
+    dets:insert(Tab, ModuleRecord),
+    %%% XXX might be nasty
+    code:purge(ModName),
+    code:delete(ModName),
+    code:purge(ModName),
+    code:load_file(ModName),
+    %%%
+    if 
+        RestXq == [] ->
+            ModName;
+        true ->
+            _ = merge_load_dispatch(ModName, RestXq, Dispatch),
+            ModName
+    end.
 
 init_rest(DispatchFileName) ->
-   Port = application:get_env(xqerl, port, 8081),
-   Paths  = case filelib:is_regular(DispatchFileName) of
-                true ->
-                   {ok, Dis} = file:consult(DispatchFileName),
-                   case Dis of
-                      [] ->
-                         [];
-                      [D] ->
-                         D
-                   end;
-                false ->
-                   Dis = [],
-                   ok = write_dispatch(DispatchFileName, Dis),
-                   Dis
-             end,
-   DisTerm = xqerl_restxq:endpoint_sort(Paths),
-   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
-   _ = cowboy:start_clear(xqerl_listener, 
-                          [{port, Port}], 
-                          #{env => #{dispatch => Dispatch}}),
-   ok.
+    Port = application:get_env(xqerl, port, 8081),
+    Paths = 
+        case filelib:is_regular(DispatchFileName) of
+            true ->
+                {ok, Dis} = file:consult(DispatchFileName),
+                case Dis of
+                    [] -> [];
+                    [D] -> D
+                end;
+            false ->
+                Dis = [],
+                ok = write_dispatch(DispatchFileName, Dis),
+                Dis
+        end,
+    DisTerm = xqerl_restxq:endpoint_sort(Paths),
+    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+    _ = cowboy:start_clear(xqerl_listener, 
+                           [{port, Port}], 
+                           #{env => #{dispatch => Dispatch}}),
+    ok.
 
 merge_load_dispatch(Module, Rest, DispatchFile) ->
-   {ok, OldEndPoints} = file:consult(DispatchFile),
-   NewEndPoints = xqerl_restxq:build_endpoints(Module, Rest),
-   OldEndPoints1 = remove_module_from_endpoints(Module, OldEndPoints),
-   EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints1),
-   DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
-   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
-   _ = write_dispatch(DispatchFile, EndPoints),
-   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
-   ok.
+    {ok, OldEndPoints} = file:consult(DispatchFile),
+    NewEndPoints = xqerl_restxq:build_endpoints(Module, Rest),
+    OldEndPoints1 = remove_module_from_endpoints(Module, OldEndPoints),
+    EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints1),
+    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
+    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+    _ = write_dispatch(DispatchFile, EndPoints),
+    _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+    ok.
 
 remove_module_from_endpoints(_Module, []) -> [];
 remove_module_from_endpoints(Module, [EndPoints]) ->
-   [Ep || #endpoint{module = M} = Ep <- EndPoints, M =/= Module].
-   
+    [Ep || #endpoint{module = M} = Ep <- EndPoints, M =/= Module].
+
 remove_module_dispatch(Module, DispatchFile) ->
-   {ok, OldEndPoints} = file:consult(DispatchFile),
-   EndPoints = remove_module_from_endpoints(Module, OldEndPoints),
-   _ = write_dispatch(DispatchFile, EndPoints),
-   DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
-   Dispatch = cowboy_router:compile([{'_', DisTerm}]),
-   _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
-   ok.
-   
+    {ok, OldEndPoints} = file:consult(DispatchFile),
+    EndPoints = remove_module_from_endpoints(Module, OldEndPoints),
+    _ = write_dispatch(DispatchFile, EndPoints),
+    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
+    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+    _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
+    ok.
 
 write_dispatch(Filename, Term) ->
-   Ser = io_lib:format("~tp.~n", [Term]),
-   file:write_file(Filename, Ser).
+    Ser = io_lib:format("~tp.~n", [Term]),
+    file:write_file(Filename, Ser).
 
 % RestEndpoints = xqerl_restxq:build_endpoints(ModName, RestWrappers),
 % Dispatch = cowboy_router:compile([{'_', RestEndpoints}]),
@@ -684,44 +615,38 @@ write_dispatch(Filename, Term) ->
 % _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
 
 
-%% trim_q(<<"Q{", Namespace0/binary>>) ->
-%%    binary:part(Namespace0, 0, byte_size(Namespace0) - 1);
-trim_q(Namespace0) -> Namespace0.
-
-%% add_q(Namespace) ->
-%%    <<"Q{",Namespace/binary,"}">>.
-
-
 do_unload(Tab, Ebin, DispatchFile) ->
-   All = dets:match(Tab, '$1'),
-   _ = [begin
-           file:delete(filename:join(Ebin, Mod) ++ ".beam"),
-           code:purge(Mod),
-           code:delete(Mod),
-           code:purge(Mod),
-           dets:delete(Tab, Key),
-           if R == [] ->
-                 ok;
-              true ->
-                 remove_module_dispatch(Mod, DispatchFile)
-           end
-        end || 
-        A <- All,
-        #xq_module{target_namespace = Key, module_name = Mod, rest_xq = R} <- A],
-   ok.
+    All = dets:match(Tab, '$1'),
+    _ = [begin
+             file:delete(filename:join(Ebin, Mod) ++ ".beam"),
+             code:purge(Mod),
+             code:delete(Mod),
+             code:purge(Mod),
+             dets:delete(Tab, Key),
+             if 
+                 R == [] ->
+                     ok;
+                 true ->
+                     remove_module_dispatch(Mod, DispatchFile)
+             end
+         end || 
+         A <- All,
+         #xq_module{target_namespace = Key, 
+                    module_name = Mod, 
+                    rest_xq = R} <- A],
+    ok.
 
 merge_mods(List) ->
-   merge_mods(List, #{}).
+    merge_mods(List, #{}).
 
 %% {Uri, Tree, Str, Filename}
 merge_mods([{Ns, Mod, Str, Name}|Mods], Acc) ->
-   Up = fun({O, Str0, Name0}) -> {[Mod|O], Str0, Name0} end, 
-   merge_mods(Mods, maps:update_with(Ns, Up, {[Mod], Str, Name}, Acc));
+    Up = fun({O, Str0, Name0}) -> {[Mod|O], Str0, Name0} end, 
+    merge_mods(Mods, maps:update_with(Ns, Up, {[Mod], Str, Name}, Acc));
 merge_mods([], Acc) ->
-   List = maps:to_list(Acc),
-   [{Uri, xqerl_module:merge_library_trees(Mods), Str, Name}
-    || {Uri, {Mods, Str, Name}} <- List].
-
+    List = maps:to_list(Acc),
+    [{Uri, xqerl_module:merge_library_trees(Mods), Str, Name} || 
+     {Uri, {Mods, Str, Name}} <- List].
 
 -define(PRINT,false).
 %-define(PRINT,true).

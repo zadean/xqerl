@@ -24,7 +24,6 @@
 
 -module(xqerl_static_analysis).
 
--include("xqerl.hrl").
 -include("xqerl_parser.hrl").
 
 %% ====================================================================
@@ -35,29 +34,34 @@
          add_edge/3]).
 
 analyze(Body, Functions, Variables) ->
-   G = digraph:new([]),
-   if Body == [] ->
-         add_vertex(G, library);
-      true ->
-         add_vertex(G, main)
-   end,
-   % add the variables
-   M1 = add_glob_variables(G, Variables),
-   % add the functions
-   M2 = add_glob_funs(G, Functions, M1),
-   % strip non-functions
-   Functions1 = [F || #xqFunctionDef{} = F  <- Functions],
-   % strip non-variables
-   Variables1 = [V || #xqVar{} = V  <- Variables] ++ 
-                  [C || {'context-item', _} = C <- Variables],
-   % globals are set now recurse for dependencies
-   Body1 = l(Body),
-   % analyze
-   _ = x(G, M2, Body1 ++ Functions1 ++ Variables1, []),
-   %print(G),
-   %XXX later, this should do something
-   %_ = xqerl_static_path_analysis:analyze(G),
-   G.
+    G = digraph:new([]),
+    ModType = 
+        if
+            Body == [] ->
+                library;
+            true ->
+                main
+        end,
+    add_vertex(G, ModType),
+    % add the variables
+    M1 = add_glob_variables(G, Variables),
+    % add the functions
+    M2 = add_glob_funs(G, Functions, M1),
+    % strip non-functions
+    Functions1 = [F || #xqFunctionDef{} = F  <- Functions],
+    % strip non-variables
+    Variables1 = [V || #xqVar{} = V  <- Variables] ++ 
+                  [C || #xqContextItemDecl{} = C <- Variables],
+    % globals are set now recurse for dependencies
+    Body1 = l(Body),
+    % analyze
+    All = Body1 ++ Functions1 ++ Variables1,
+    %?parse_dbg("All", All),
+    _ = x(G, M2, All, []),
+    %print(G),
+    %XXX later, this should do something
+    %_ = xqerl_static_path_analysis:analyze(G),
+    G.
 
 %% print(G) ->
 %%    Paths = [P || {_,{'no-namespace',_}} = P <- digraph:vertices(G)],
@@ -89,45 +93,32 @@ x(G, Map, Parent, #xqComparisonExpr{id = Id,
    Map;
 
 % path expressions
-%% x(G, Map, Parent,{path_expr,Id,Expr} ) ->
-%%    x(G, Map#{path := Id}, Parent, Expr),
-%%    Map;
-x(G, Map, Parent,{path_expr,Id,Expr} ) ->
+x(G, Map, Parent, #xqPathExpr{id = Id, expr = Expr} ) ->
+   add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,known_namespaces},Parent, property),
    K = {Id,path_expr},
-   %?dbg("{K,Parent}",{K,Parent, Expr}),
+   %?parse_dbg("{K,Parent}",{K,Parent, Expr}),
    add_vertex(G, K),
    case Parent of
       {_,{axisStep,_,_}} ->
          add_edge(G, K, Parent, {predicate, Parent, K}),
          x(G, Map#{path := Id}, K, Expr),
          Map;
-      %{_,{_,B}} when is_binary(B) ->
-      %   add_edge(G, K, Parent, {path, maps:get(path, Map)}),
-      %   x(G, Map#{path := Id}, K, Expr),
-      %   Map;
       _ ->
          add_edge(G, K, Parent, {Parent, '=', K}),
          x(G, Map#{path := Id}, K, Expr),
          Map
    end;
-
 % variable ref in path
 x(G, Map, Parent, [V|T]) when V == 'root';
-                              V == 'any-root' ->
+                              V == 'context-item' ->
    M = x(G, Map, Parent, V),
    x(G, M, context_item, T);
-%% x(G, Map, Parent, [#xqVarRef{name = Nm0} = V|T]) -> %% this makes a sequence crappy
-%%    M = x(G, Map, Parent, V),
-%%    Nm = sim_name(Nm0),
-%%    Id = maps:get(Nm, M),
-%%    %?dbg("{V,Parent}",{{Id, Nm},Parent}),
-%%    x(G, M, {Id, Nm}, T);
 x(G, Map, Parent, [#xqAxisStep{id = Id,
                                axis = Axis,
                                node_test = Nt,
                                predicates = Preds}|T] ) ->
    K = {Id, {axisStep, Axis, Nt}},
-   %?dbg("{K,Parent}",{K,Parent}),
    add_vertex(G, K),
    add_edge(G, K, Parent, {path, maps:get(path, Map)}),
    case Preds of
@@ -141,24 +132,6 @@ x(G, Map, Parent, [#xqAxisStep{id = Id,
    end,
    x(G, Map, K, T),
    Map;
-
-%% x(G, Map, Parent, [{sequence, [{union, Unions}]}|T] ) ->
-%%    Fun = fun({path_expr,Id,Paths}) ->
-%%                K = {Id, union},
-%%                NewPaths = Paths ++ T, % adding tail to each path
-%%                add_edge(G, K, Parent, {path, maps:get(path, Map)}),
-%%                x(G, Map, Parent, {path_expr,Id,NewPaths});
-%%             ({sequence, [{path_expr,Id,Paths}]}) ->
-%%                K = {Id, union},
-%%                NewPaths = Paths ++ T, % adding tail to each path
-%%                add_edge(G, K, Parent, {path, maps:get(path, Map)}),
-%%                x(G, Map, Parent, {path_expr,Id,NewPaths});
-%%             (Other) ->
-%%                x(G, Map, Parent, Other)
-%%          end,
-%%    lists:foreach(Fun, Unions),
-%%    Map;
-
 x(G, Map, Parent, #xqAxisStep{id = Id,
                               axis = Axis,
                               node_test = Nt,
@@ -178,19 +151,19 @@ x(G, Map, Parent, #xqAxisStep{id = Id,
          x(G, Map, {Id, predicate}, Preds)
    end,
    Map;
-
 % Left hand side is the context item
-x(G, Map, Parent, {'simple-map', Id, Lhs, Rhs}) ->
+x(G, Map, Parent, #xqSimpleMap{id = Id, lhs = Lhs, rhs = Rhs}) ->
    K = {Id, map},
    add_vertex(G, K),
    add_edge(G, K, Parent, map),
    x(G, Map, Parent, Lhs),
    x(G, Map, K, Rhs),
    Map;
-
 x(G, Map, Parent, #xqModifyExpr{id = Id, vars = Vars, expr = Expr, return = Return}) ->
    K = {Id, modify},
+   add_vertex(G, {static,base_uri}),
    add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,base_uri},Parent, property),
    add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
@@ -201,36 +174,34 @@ x(G, Map, Parent, #xqModifyExpr{id = Id, vars = Vars, expr = Expr, return = Retu
    x(G, LM, K, Return);
 x(G, Map, Parent, #xqUpdateExpr{id = Id,src = A, tgt = B}) ->
    K = {Id, update}, % ensure updates are not moved
+   add_vertex(G, {static,base_uri}),
    add_vertex(G, {static,known_namespaces}),
+   add_edge(G,{static,base_uri},Parent, property),
    add_edge(G,{static,known_namespaces},Parent, property),
    add_vertex(G, K),
    add_edge(G,K,Parent, update),
    x(G, Map, K, A),
    x(G, Map, K, B),
    Map;
-x(G, Map, Parent,{where,Id,Expr} ) ->
+x(G, Map, Parent, #xqWhere{id = Id, expr = Expr} ) ->
    K = {Id,where},
    add_vertex(G, K),
    add_edge(G,K,Parent, where),
    x(G, Map, K, Expr),
    Map;
-
-x(G, Map, Parent,{order_by,Id,Expr} ) ->
+x(G, Map, Parent, #xqOrderByClause{id = Id, spec = Expr}) ->
    K = {Id,order_by},
    add_vertex(G, K),
    add_edge(G,K,Parent, order),
    x(G, Map, K, Expr),
    Map;
-
-x(G, Map, Parent,{group_by,Id,Expr} ) ->
+x(G, Map, Parent, #xqGroup{id = Id, vars = Expr}) ->
    K = {Id,group_by},
    %?dbg("{Id,group}",K),
    add_vertex(G, K),
    add_edge(G,K,Parent, group),
    x(G, Map, K, Expr),
    Map;
-
-
 x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos,
                          anno = LineNum}) ->
    Nm = sim_name(Nm0),
@@ -238,11 +209,11 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos,
    add_edge(G, {Id,Nm}, Parent, []),
    M1 = add_variable_to_scope(Nm0, Id, Map, G),
    case D of
-      #xqFlwor{return = {path_expr, PathId, _}} -> % flwor return is path
+      #xqFlwor{return = #xqPathExpr{id = PathId}} -> % flwor return is path
          K = {PathId, path_expr},
          add_vertex(G, K),
          add_edge(G, K, {Id,Nm}, {variable, Id, set});
-      {path_expr, PathId, _} -> % expression is path
+      #xqPathExpr{id = PathId} -> % expression is path
          K = {PathId, path_expr},
          add_vertex(G, K),
          add_edge(G, K, {Id,Nm}, {variable, Id, set});
@@ -250,11 +221,9 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos,
          RefNm = sim_name(RefNm0),
          case catch maps:get(RefNm, Map) of
             {'EXIT',_} ->
-               ?dbg("RefNm0",RefNm0),
-               ?err('XPST0008', {undefined, LineNum1});
+               ?parse_err('XPST0008', {undefined, LineNum1});
             RefId when {RefId,RefNm} == Parent ->
-               ?dbg("RefNm0",RefNm0),
-               ?err('XPST0008', {undefined, LineNum1}); % self reference, variable does not exist yet
+               ?parse_err('XPST0008', {undefined, LineNum1}); % self reference, variable does not exist yet
             RefId ->
                add_edge(G, {RefId,RefNm}, {Id,Nm}, {variable, Id, set}),
                ok
@@ -265,7 +234,7 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos,
    case Pos of
       #xqPosVar{id = Id1, name = Nm1} ->
          if Nm0 == Nm1 ->
-               ?err('XQST0089', {undefined, LineNum});
+               ?parse_err('XQST0089', {undefined, LineNum});
             true ->
                ok
          end,
@@ -359,10 +328,10 @@ x(G, Map, [#xqVar{id = Id, name = Nm0, expr = Body}|T], _Data) ->
    Nm = sim_name(Nm0),
    % all global variable bodies can have dependency on context item
    add_vertex(G, {Id,Nm}),
+   x(G, Map, {Id,Nm}, Body),
    case maps:is_key(context_item, Map) of
       true ->
          %add_edge(G,context_item,{Id,Nm}),
-         x(G, Map, {Id,Nm}, Body),
          ContextEdges = digraph_utils:reaching([{Id,Nm}], G),
          case lists:member({dynamic,context_item}, ContextEdges) of
             true ->
@@ -371,7 +340,7 @@ x(G, Map, [#xqVar{id = Id, name = Nm0, expr = Body}|T], _Data) ->
                ok
          end;
       _ ->
-         x(G, Map, {Id,Nm}, Body)
+         ok
    end,
    x(G, Map, T, []);
 % main query
@@ -387,7 +356,7 @@ x(G, Map, [#xqQuery{query = Qry}|T], _Data) ->
       _ ->
          ok
    end;
-x(G, Map, [{'context-item',{_,_,Expr}}|T],_Data ) ->
+x(G, Map, [#xqContextItemDecl{default = Expr}|T],_Data ) ->
    add_vertex(G, context_item),
    add_edge(G,context_item,main, ext),
    x(G, Map, context_item, Expr),
@@ -396,9 +365,8 @@ x(G, Map, Parent, Data) when is_list(Data) ->
    lists:foldl(fun(D,M) ->
                      x(G, M, Parent, D)
                  end, Map, Data);
-
 %'if-then-else' branches
-x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
+x(G, Map, Parent, #xqIfExpr{condition = If, if_true = {TI,Then}, if_false = {EI,Else}}) ->
    add_vertex(G, {TI,'if-then-else'}),
    add_vertex(G, {EI,'if-then-else'}),
    add_edge(G,{TI,'if-then-else'},Parent, conditional),
@@ -407,8 +375,8 @@ x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
    x(G, Map, {TI,'if-then-else'}, Then),
    x(G, Map, {EI,'if-then-else'}, Else),
    Map;
-
 x(G, Map, Parent, #xqTryCatch{id = Id, expr = Expr, catches = Catches}) ->
+   %?parse_dbg("Line", ?LINE),
    K = {Id, try_catch},
    add_vertex(G, K),
    add_edge(G, K, Parent, try_catch),
@@ -436,17 +404,15 @@ x(G, Map, Parent, #xqTryCatch{id = Id, expr = Expr, catches = Catches}) ->
              E6 => E6,
              E7 => E7},
    x(G, M2, K, Catches);
-x(G, Map, Parent, #qname{local_name = <<"QName">>}) ->
+x(G, Map, Parent, #xqQName{local_name = <<"QName">>}) ->
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,known_namespaces},Parent, property),
    Map;
-x(G, Map, Parent, {Cons,Bod}) when Cons =:= direct_cons;
-                                   Cons =:= comp_cons ->
+x(G, Map, Parent, #xqNodeConstructor{cons = Bod}) ->
    add_vertex(G, {static,base_uri}),
    add_vertex(G, {static,known_namespaces}),
    add_edge(G,{static,base_uri},Parent, property),
    add_edge(G,{static,known_namespaces},Parent, property),
-   %?dbg("Bod",Bod),
    x(G, Map, Parent, Bod),
    Map;
 x(G, Map, Parent, #xqFlwor{} = Data) ->
@@ -458,17 +424,17 @@ x(G, Map, Parent, #xqPosVar{id = Id1, name = Nm1}) ->
    M2 = maps:put(sim_name(Nm1), Id1, Map),
    x(G, M2, Parent, []),
    M2;
-x(_, _, _, #xqVarRef{name = #qname{namespace = undefined}, anno = LineNum}) ->
-   ?err('XPST0081', {undefined, LineNum}); % unknown prefix/namespace for variable
+x(_, _, _, #xqVarRef{name = #xqQName{namespace = undefined}, anno = LineNum}) ->
+   ?parse_err('XPST0081', {undefined, LineNum}); % unknown prefix/namespace for variable
 x(G, Map, Parent, #xqVarRef{name = Nm0, anno = LineNum}) ->
    Nm = sim_name(Nm0),
    case catch maps:get(Nm, Map) of
       {'EXIT',_} ->
-         ?dbg("XPST0008",{Parent, Nm0}),
-         ?err('XPST0008', {undefined, LineNum});
+         ?parse_dbg("XPST0008", Nm0),
+         ?parse_err('XPST0008', {undefined, LineNum});
       Id when {Id,Nm} == Parent ->
-         ?dbg("XPST0008",{Parent, Nm0}),
-         ?err('XPST0008', {undefined, LineNum}); % self reference, variable does not exist yet
+         ?parse_dbg("XPST0008", Nm0),
+         ?parse_err('XPST0008', {undefined, LineNum}); % self reference, variable does not exist yet
       Id ->
          %?dbg("Parent",Parent),
          add_edge(G, {Id,Nm}, Parent, {variable, Id, ref}),
@@ -514,7 +480,9 @@ x(G, Map, Parent, #xqFunctionCall{name = Nm0,
          x(G, Map, Parent, Args)
    end,
    Map;
-x(G, Map, Parent, {'partial-function', Nm0, Ar, Args}) ->
+x(G, Map, Parent, #xqPartialFunctionCall{name = Nm0, 
+                                  arity = Ar, 
+                                  args = Args}) ->
    Nm = sim_name(Nm0),
    case maps:is_key({Nm, Ar}, Map) of 
       true ->
@@ -552,7 +520,50 @@ x(G, Map, Parent, {'partial-function', Nm0, Ar, Args}) ->
          x(G, Map, Parent, Args)
    end,
    Map;
-x(G, Map, Parent, {'function-ref', Nm0, Ar}) ->
+x(G, Map, Parent, #xqPostfixExpr{part = true, 
+                                 expr = #xqQName{} = Nm0,
+                                 post = [#xqArgumentList{args = Args}]
+                                }) ->
+    Ar = length(Args),
+    Nm = sim_name(Nm0),
+   case maps:is_key({Nm, Ar}, Map) of 
+      true ->
+         Id = get_fun_id({Nm, Ar}, Map),
+         if Id == 0 ->
+               add_vertex(G, {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, static),
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, static)
+               end;
+            true ->
+               case is_axis_parent(Parent) of 
+                  true ->
+                     %?dbg("Axis Parent", {Id,Nm,Ar}),
+                     add_edge(G, {Id,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+                  false ->
+                     add_edge(G, {Id,Nm,Ar}, Parent, local)
+               end
+         end,
+         x(G, Map, Parent, Args);
+      _ -> % non local function
+         %?parse_dbg("Nm0, Ar", {Nm0, Ar}),
+         add_properties(G, Nm0, Ar),
+         add_vertex(G, {-1,Nm,Ar}),
+         case is_axis_parent(Parent) of 
+            true ->
+               %?dbg("Axis Parent", {-1,Nm,Ar}),
+               add_edge(G, {-1,Nm,Ar}, Parent, {path, maps:get(path, Map)});
+            false ->
+               add_edge(G, {-1,Nm,Ar}, Parent, ext)
+         end,
+         x(G, Map, Parent, Args)
+   end,
+   Map;
+x(G, Map, Parent, #xqFunctionRef{name = Nm0, arity = Ar}) ->
    Nm = sim_name(Nm0),
    case maps:is_key({Nm, Ar}, Map) of 
       true ->
@@ -601,19 +612,19 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
    add_vertex(G, Key),
    add_edge(G,Key,Parent, []),
    Le = lists:flatmap(fun(#xqWindow{} = E) ->
-                           l(E);
-                         ({group_by,_,_} = E) ->
-                           l(E);
-                         ({where,_,_} = E) ->
-                           l(E);
-                         ({order_by,_,_} = E) ->
-                           l(E);
-                         ({for,_,_} = E) ->
-                           l(E);
-                         ({'let',_,_} = E) ->
-                           l(E);
-                         ({_,E}) ->
-                           l(E)
+                             l(E);
+                         (#xqGroup{} = E) ->
+                             l(E);
+                         (#xqWhere{} = E) ->
+                             l(E);
+                         (#xqOrderByClause{} = E) ->
+                             l(E);
+                         (#xqFor{} = E) ->
+                             l(E);
+                         (#xqLet{} = E) ->
+                             l(E);
+                         (#xqCount{} = E) ->
+                             l(E)
                       end, Loop),
    LM = lists:foldl(fun(E,M) ->
                         %x(G, M, E, Parent)
@@ -640,19 +651,17 @@ add_edge(G, A, B, L) ->
    ok.
 
 has_cycle(G, Variables) ->
-   Vars = [{Id,sim_name(Nm)} || #xqVar{id = Id, name = Nm} <- Variables],
-   lists:foreach(fun(Var) ->
+   Vars = [{{Id,sim_name(Nm)}, L} || #xqVar{anno = L, id = Id, name = Nm} <- Variables],
+   lists:foreach(fun({Var, L}) ->
                        case digraph:get_cycle(G, Var) of
                            false ->
                               ok;
                           C ->
-                             ?dbg("C",C),
                              Cond = [N || {N,'if-then-else'} <- C],
                              case Cond of
                                 [] ->
-                                   ?err('XQDY0054'); % variable cycle
-                                [N|X] ->
-                                   ?dbg("[N|X]",[N|X]),
+                                   ?parse_err('XQDY0054', {undefined, L}); % variable cycle
+                                [N|_] ->
                                    % cycle was in a logic branch. 
                                    % it may never happen, throw at run-time
                                    erlang:put({'if-then-else',N}, 'XQDY0054')
@@ -666,12 +675,13 @@ l(L) when is_list(L) ->
 l(L) ->
   [L].
 
-sim_name(#qname{namespace = N, local_name = L}) -> {N,L}.
+sim_name(#xqQName{namespace = N, local_name = L}) -> {N,L};
+sim_name({qname, N, _, L}) -> {N,L}.
 
 % returns map
 add_glob_variables(G, Variables) ->
-   %?dbg("Variables",Variables),
-   Fun = fun({#qname{} = Nm,_,Annos,_,_}, Map) ->
+   %?parse_dbg("Variables",Variables),
+   Fun = fun({#xqQName{anno = LineNum} = Nm,_,Annos,_,_}, Map) ->
                IsPriv = is_private(Annos),
                if IsPriv ->
                      Map;
@@ -682,20 +692,35 @@ add_glob_variables(G, Variables) ->
                         #{Sim := 0} ->
                            Map;
                         #{Sim := _} ->
-                           ?dbg("Sim",Sim),
-                           ?err('XQST0049');
+                           ?parse_err('XQST0049', {undefined, LineNum});
                         _ ->
                            maps:put(Sim, 0, Map)
                      end
                end;
+%%             ({ {qname,_,_,_} = Nm,_,Annos,_,_}, Map) ->
+%%                IsPriv = is_private(Annos),
+%%                if IsPriv ->
+%%                      Map;
+%%                   true ->
+%%                      Sim = sim_name(Nm),
+%%                      add_vertex(G, {0,sim_name(Nm)}),
+%%                      case Map of
+%%                         #{Sim := 0} ->
+%%                            Map;
+%%                         #{Sim := _} ->
+%%                            ?parse_err('XQST0049', {undefined, 0});
+%%                         _ ->
+%%                            maps:put(Sim, 0, Map)
+%%                      end
+%%                end;
             (#xqVar{id = Id, name = Nm, anno = LineNum}, Map) ->
                Sim = sim_name(Nm),
                add_vertex(G, {Id,sim_name(Nm)}),
                case maps:is_key(Sim, Map) of
-                  true -> ?err('XQST0049', {undefined, LineNum});
+                  true -> ?parse_err('XQST0049', {undefined, LineNum});
                   _ -> maps:put(Sim, Id, Map)
                end;
-            ({'context-item',_}, Map) ->
+            (#xqContextItemDecl{}, Map) ->
                add_vertex(G, context_item),
                maps:put(context_item, -1, Map)
          end,
@@ -704,8 +729,8 @@ add_glob_variables(G, Variables) ->
 % returns map
 add_glob_funs(G, Functions, Map0) ->
    %?dbg("Functions",Functions),
-   Fun = fun(#xqFunctionDef{name = #qname{namespace = undefined}, anno = LineNum}, _) ->
-               ?err('XQST0060', {undefined, LineNum});
+   Fun = fun(#xqFunctionDef{name = #xqQName{namespace = undefined}, anno = LineNum}, _) ->
+               ?parse_err('XQST0060', {undefined, LineNum});
             (#xqFunctionDef{id = Id, name = Nm, arity = Ar, params = Params, anno = LineNum}, Map) ->
                S = sim_name(Nm),
                FnKey = {Id,S, Ar},
@@ -719,11 +744,10 @@ add_glob_funs(G, Functions, Map0) ->
                                   end, 1, Params),
                case maps:is_key({S, Ar}, Map) of
                   true ->
-                     ?dbg("XQST0034", {S, Ar}),
-                     ?err('XQST0034', {undefined, LineNum});
+                     ?parse_err('XQST0034', {undefined, LineNum});
                   _ -> maps:put({S, Ar}, Id, Map)
                end;
-            ({#qname{} = Nm,_,Annos,_,Ar,_}, Map) ->
+            ({#xqQName{anno = LineNum} = Nm,_,Annos,_,Ar,_}, Map) ->
                IsPriv = is_private(Annos),
                if IsPriv ->
                      Map;
@@ -735,12 +759,29 @@ add_glob_funs(G, Functions, Map0) ->
                         #{TempKey := 0} ->
                            Map;
                         #{TempKey := _} ->
-                           ?dbg("XQST0034", TempKey),
-                           ?err('XQST0034');
+                           ?parse_err('XQST0034', {undefined, LineNum});
                         _ ->
                            maps:put(TempKey, 0, Map)
                      end
                end
+%% ;
+%%             ({ {qname, _, _, _} = Nm,_,Annos,_,Ar,_}, Map) ->
+%%                IsPriv = is_private(Annos),
+%%                if IsPriv ->
+%%                      Map;
+%%                   true ->
+%%                      S = sim_name(Nm),
+%%                      add_properties(G, Nm, Ar),
+%%                      TempKey = {S, Ar}, 
+%%                      case Map of
+%%                         #{TempKey := 0} ->
+%%                            Map;
+%%                         #{TempKey := _} ->
+%%                            ?parse_err('XQST0034', {undefined, 0});
+%%                         _ ->
+%%                            maps:put(TempKey, 0, Map)
+%%                      end
+%%                end
          end,
    lists:foldl(Fun, Map0, Functions).
 
@@ -767,9 +808,8 @@ add_variable_to_scope(Nm, Id, Map, _G) ->
 
 
 is_private([]) -> false;
-is_private([{annotation, 
-             #qname{namespace = <<"http://www.w3.org/2012/xquery">>,
-                    local_name = <<"private">>}, _}|_]) -> true;
+is_private([#xqAnnotation{name = #xqQName{namespace = <<"http://www.w3.org/2012/xquery">>,
+                                           local_name = <<"private">>}}|_]) -> true;
 is_private([_|T]) -> is_private(T).
 
 

@@ -708,8 +708,6 @@ environment('works-mod',__BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
         . gt xs:date('1900-01-01')
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -724,6 +722,8 @@ environment('works-mod',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-047.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -744,11 +744,11 @@ environment('works-mod',__BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule1\"; 
       	. = 17
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-1.xq"), <<"Q{http://www.w3.org/TestModules/libmodule1}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-1.xq"), <<"Q{http://www.w3.org/TestModules/libmodule1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-048.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -771,11 +771,11 @@ environment('works-mod',__BaseDir) ->
         declare context item as xs:date := current-date();
         . gt xs:date('1900-01-01')
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-049.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -797,11 +797,11 @@ environment('works-mod',__BaseDir) ->
         declare context item as xs:integer := 23;
         . eq 23
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-050.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -824,11 +824,11 @@ environment('works-mod',__BaseDir) ->
         declare context item as node() external;
         . instance of element()
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-051.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -850,11 +850,11 @@ environment('works-mod',__BaseDir) ->
         import module namespace m=\"http://www.w3.org/TestModules/libmodule3\"; 
         . eq 23
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-3.xq"), <<"Q{http://www.w3.org/TestModules/libmodule3}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-3.xq"), <<"Q{http://www.w3.org/TestModules/libmodule3}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-052.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -907,8 +907,6 @@ environment('works-mod',__BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
         xs:date(.) gt xs:date('1900-01-01')
       ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -923,6 +921,8 @@ environment('works-mod',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-2.xq"), <<"Q{http://www.w3.org/TestModules/libmodule2}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-054.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -972,8 +972,6 @@ environment('works-mod',__BaseDir) ->
       declare context item as array(xs:string) external;
       $m:v eq 'green'
     ", 
-   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-5.xq"), <<"Q{http://www.w3.org/TestModules/libmodule5}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, []}, 
 {collections, []}, 
@@ -988,6 +986,8 @@ environment('works-mod',__BaseDir) ->
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "ContextItemDecl/libmodule-5.xq"), <<"Q{http://www.w3.org/TestModules/libmodule5}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "contextDecl-058.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

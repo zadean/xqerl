@@ -186,8 +186,8 @@ parse_annos([?anno(#qname{namespace = ?ONS} = Q,[?SV(V)])|T], #{output := O} = A
 parse_annos([?anno(?QN(_),_)|_], _) ->
    {error, unknown_parameter};
 % unknown namespaces 
-parse_annos([?anno(Q,_)|T], Acc) ->
-   ?dbg("Skipping",Q),
+parse_annos([?anno(_Q,_)|T], Acc) ->
+   %?dbg("Skipping",Q),
    parse_annos(T,Acc);
 parse_annos([], Acc) ->
    validate_annos(Acc).
