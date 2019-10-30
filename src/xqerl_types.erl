@@ -66,6 +66,8 @@
 -define(xav(T,V),  #xqAtomicValue{type = T, value = V}).
 -define(ERROR_MATCH(E),
         _:#xqError{name = #xqAtomicValue{value=#qname{local_name = E}}}).
+
+-dialyzer(no_opaque). % block array:array(_) warnings
 -define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
 is_date_type('xs:duration')               -> true;

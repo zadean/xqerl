@@ -36,6 +36,8 @@
 -define(STR_REST(Str,Rest), <<Str,Rest/binary>>).
 -define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
 -define(SSTR(S), <<S>>).
+
+-dialyzer(no_opaque). % block array:array(_) warnings
 -define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
 -define(xml, <<"http://www.w3.org/XML/1998/namespace">>).

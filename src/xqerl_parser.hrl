@@ -28,7 +28,7 @@
 
 -define(node(I), (I=='node' orelse I=='document' orelse I=='document-node' orelse I=='element' orelse I=='attribute' orelse I=='namespace' orelse I=='text' orelse I=='comment' orelse I=='processing-instruction')).
 
--type(anno() :: undefined | pos_integer()).
+-type(anno() :: undefined | non_neg_integer()).
 
 -record(xqURILiteral, {
     anno :: anno(),
@@ -121,7 +121,7 @@
 
 -record(xqTextNode, {
     anno :: anno(),
-    id   :: pos_integer(),
+    id   :: undefined | pos_integer(),
     type :: direct | comp,
     text :: term()
 }).
@@ -214,7 +214,7 @@
 }).
 
 -record(xqGroupBy, {
-    grp_variable :: #xqVarRef{},
+    grp_variable :: #xqVarRef{} | {variable, atom()},
     collation
 }).
 
@@ -239,8 +239,8 @@
 -record(xqIfExpr, {
     anno      :: anno(),
     condition :: term(),
-    if_true   :: {pos_integer(), term()},
-    if_false  :: {pos_integer(), term()}
+    if_true   :: {pos_integer(), term()} | {error, anno(), any()},
+    if_false  :: {pos_integer(), term()} | {error, anno(), any()}
 }).
 
 -record(xqQuantifiedExpr, {
@@ -513,7 +513,7 @@
     anno                  :: anno(),
     direction = ascending :: ascending | descending,
     empty     = default   :: default | least | greatest,
-    collation = default   :: default | binary()
+    collation = default   :: default | binary() | #xqURILiteral{}
 }).
 
 -record(xqOrderSpec, {

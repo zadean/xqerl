@@ -34,7 +34,9 @@
 -define(str(Val), Val).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
 -define(atm(Typ,Val), #xqAtomicValue{type = Typ, value = Val}).
--define(is_array(A), is_tuple(A), element(1, A) == array).
+
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
 -define(A(T),<<T>>).
 -define(NS, ?A("http://www.w3.org/2005/xpath-functions")).
@@ -42,14 +44,6 @@
 -define(ERROR_MATCH(Err), 
         _:#xqError{name = #xqAtomicValue{value= #qname{local_name = Err}}}).
 
--define(noderecs(N), (is_map(N) andalso is_map_key(nk, N));
-                     is_record(N, xqElementNode);
-                     is_record(N, xqDocumentNode);
-                     is_record(N, xqAttributeNode);
-                     is_record(N, xqCommentNode);
-                     is_record(N, xqTextNode);
-                     is_record(N, xqProcessingInstructionNode);
-                     is_record(N, xqNamespaceNode)).
 
 -include("xqerl.hrl").
 -'module-namespace'({?NS, ?PX}).
@@ -1398,8 +1392,6 @@ data1([#xqAtomicValue{} = H|T]) ->
    [H|data1(T)];
 data1([#{nk := _} = H|T]) ->
    [xqerl_types:atomize(H)|data1(T)];
-%% data1([H|T]) when ?noderecs(H) ->
-%%    xqerl_node:atomize_nodes(H) ++ data1(T);
 data1(_) ->
    ?err('FOTY0013').
 
@@ -4083,30 +4075,25 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
                    [] | xq_types:xs_string()) ->
          [] | xq_types:xml_document().
 'parse-xml'(_,[]) -> [];
-'parse-xml'(#{'base-uri' := BaseUri} = Ctx,Arg1) ->
-   String = xqerl_types:string_value(Arg1),
-   if String =:= <<>> ->
-         xqerl_node:contruct(Ctx, []);
-      true ->
-         BaseUri1 = xqerl_types:string_value(BaseUri),
-         try
-            Cwd = case 
-                     catch(filename:dirname(
-                             xqldb_lib:uri_to_filename(BaseUri1)))
-                     of
-                     {'EXIT',_} ->
-                        [];
-                     C ->
-                        C
-                  end,
-            xqldb_mem_nodes:parse_binary(String, {Cwd, BaseUri1})
-         catch 
-            _:E:S ->
-               ?dbg("E",E),
-               ?dbg("S",S),
-               ?err('FODC0006')
-         end
-   end.
+'parse-xml'(#{'base-uri' := BaseUri}, Arg1) ->
+    String = xqerl_types:string_value(Arg1),
+    BaseUri1 = xqerl_types:string_value(BaseUri),
+    try
+        Cwd = 
+            case catch(filename:dirname(
+                         xqldb_lib:uri_to_filename(BaseUri1))) of
+                {'EXIT',_} ->
+                    [];
+                C ->
+                    C
+            end,
+        xqldb_mem_nodes:parse_binary(String, {Cwd, BaseUri1})
+    catch
+        _:E:S ->
+            ?dbg("E",E),
+            ?dbg("S",S),
+            ?err('FODC0006')
+    end.
 
 %% This function takes as input an XML external entity represented as a string,
 %% and returns the document node at the root of an XDM tree representing the 

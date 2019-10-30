@@ -66,19 +66,9 @@
 
 -define(int_rec(Val), Val).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
-%-define(seq, gb_trees).
-%-define(seq, array).
-%-define(set, ordsets).
-%-define(set, gb_sets).
--define(noderecs(N), is_map(N) andalso is_map_key(nk,N);
-                     is_record(N, xqElementNode);
-                     is_record(N, xqDocumentNode);
-                     is_record(N, xqAttributeNode);
-                     is_record(N, xqCommentNode);
-                     is_record(N, xqTextNode);
-                     is_record(N, xqProcessingInstructionNode);
-                     is_record(N, xqNamespaceNode)).
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Functions called from XQuery modules directly 
@@ -201,11 +191,11 @@ range(From, To) ->
 to_list([]) -> [];
 to_list(#range{min = Min, max = Max}) ->
    range_2(Min,Max);
-to_list(A) when is_tuple(A), element(1, A) =:= array -> 
+to_list(A) when ?is_array(A) -> 
     xqerl_mod_array:flatten([], A);
 to_list([#range{} = H|T]) -> 
    to_list(H) ++ to_list(T);
-to_list([A|T]) when is_tuple(A), element(1, A) =:= array -> 
+to_list([A|T]) when ?is_array(A) -> 
    to_list(array:to_list(A)) ++ to_list(T);
 to_list([H|T]) when is_list(H) -> 
    to_list(H) ++ to_list(T);

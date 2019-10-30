@@ -75,9 +75,9 @@
 }).
 
 -record(qname, {
-    namespace  :: binary(),
-    prefix     :: undefined | binary(),
-    local_name :: binary()
+    namespace ,
+    prefix    ,
+    local_name
 }).
 
 -record(nameTest, {

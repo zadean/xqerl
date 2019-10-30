@@ -48,6 +48,8 @@
 -define(is_numeric(V), 
         (is_number(V) orelse V == nan orelse V == infinity 
         orelse V == neg_infinity orelse V == neg_zero)).
+
+-dialyzer(no_opaque). % block array:array(_) warnings
 -define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
 %-define(T(A,B),io:format("~p: ~p~n",[A,B])).

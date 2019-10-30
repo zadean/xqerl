@@ -32,6 +32,9 @@
 -define(NS,<<"http://www.w3.org/2005/xpath-functions/map">>).
 -define(PX,<<"map">>).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 -export(['contains'/3]).
 -export(['entry'/3]).
 -export(['find'/3]).
@@ -122,7 +125,7 @@ find1([H|T], Key) when is_map(H) ->
       {ok, {_,V}} ->
          [V|find1(Vals ++ T, Key)]
    end;
-find1([H|T], Key) when is_tuple(H), element(1, H) =:= array ->
+find1([H|T], Key) when ?is_array(H) ->
     find1(array:to_list(H) ++ T, Key);
 find1([_|T], Key) ->
    find1(T, Key).

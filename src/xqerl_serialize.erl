@@ -35,6 +35,9 @@
 -define(svg,    <<"http://www.w3.org/2000/svg">>).
 -define(mathml, <<"http://www.w3.org/1998/Math/MathML">>).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 serialize(Seq, Opts) ->
    Opts1 = maps:merge(default_opts(), Opts),
    do_serialize(Seq, Opts1).
@@ -98,7 +101,7 @@ norm_s1(Seq) when is_list(Seq) ->
 norm_s1(Seq) ->
    norm_s1([Seq]).
 
-norm_s1_([A|T]) when is_tuple(A), element(1, A) =:= array ->
+norm_s1_([A|T]) when ?is_array(A) ->
    xqerl_mod_array:flatten(#{}, A) ++ norm_s1_(T);
 norm_s1_([H|T]) -> [H|norm_s1_(T)];
 norm_s1_([]) -> [].
@@ -385,7 +388,7 @@ do_serialize_json(#{nk := _} = Node,
                                'omit-xml-declaration' := true},
    Val = do_serialize(Node, NewOpts),
    to_json_string(Val, Opts);
-do_serialize_json(A, Opts) when is_tuple(A), element(1, A) =:= array ->
+do_serialize_json(A, Opts) when ?is_array(A) ->
    Vals1 = [do_serialize_json(V, Opts) || V <- array:to_list(A)],
    Vals2 = string_join(Vals1, <<$,>>),
    <<$[,Vals2/binary,$]>>;
@@ -488,7 +491,7 @@ do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts) ->
    TypeBin = atom_to_binary(Type, utf8),
    Str = xqerl_types:string_value(Val),
    <<TypeBin/binary,$(,$",Str/binary,$",$)>>;
-do_serialize_adaptive(A, Opts) when is_tuple(A), element(1, A) =:= array ->
+do_serialize_adaptive(A, Opts) when ?is_array(A) ->
    Vals1 = [if is_list(V) ->
                   do_serialize_adaptive_seq(V, Opts);
                true ->

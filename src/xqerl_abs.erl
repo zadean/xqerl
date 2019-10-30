@@ -304,7 +304,6 @@ scan_mod(#xqModule{prolog = #xqProlog{sect_1 = Prolog1,
 
     _ = init_mod_scan(),
     _ = set_filename(ModNs),
-    ok = set_globals(Prolog2, Map),
     _ = add_used_record_type(xqAtomicValue),
     _ = add_used_record_type(seqType),
     Variables = get_prolog_variables_and_context(Prolog2),
@@ -399,7 +398,6 @@ scan_mod(#xqModule{prolog = #xqProlog{sect_1 = Prolog1,
     _ = init_mod_scan(),
     _ = set_filename(FileName),
     FileNameList = binary_to_list(FileName),
-    ok = set_globals(Prolog2, Map),
     _ = add_used_record_type(xqAtomicValue),
     _ = add_used_record_type(seqType),
 
@@ -769,50 +767,13 @@ param_queries(Params,Map) ->
            ])
     end || {ParamName, VarName, Default0} <- Params]].
 
-get_imported_variables(Module) ->
-   {_,Variables,_} = xqerl_context:get_module_exports(Module),
-   [{var,?LINE,V} || {_,_,_A,{_,V},_} <- lists:sort(Variables)].
+%% get_imported_variables(Module) ->
+%%    {_,Variables,_} = xqerl_context:get_module_exports(Module),
+%%    [{var,?LINE,V} || {_,_,_A,{_,V},_} <- lists:sort(Variables)].
+%% 
+%% get_local_variables(Variables) ->
+%%    [{var,?LINE,V} || {_,_,_,V,_} <- Variables].
 
-get_local_variables(Variables) ->
-   [{var,?LINE,V} || {_,_,_,V,_} <- Variables].
-
-%% get_imported_variable_tuple(Module) ->
-%%    VarList = get_imported_variables(Module),
-%%    ?P(?LINE,"{_@@VarList}").
-
-%% XXX fix
-set_globals(Prolog, Map) ->
-   Vars = [V || #xqVar{} = V <- Prolog],
-   Variables = scan_variables(Map, Vars),
-   Locals = get_local_variables(Variables),
-   Stats = [N || {_,N} <- xqerl_context:static_namespaces()],
-   ImportedMods = [E || 
-                {'module-import',{N,P} = E} <- Prolog,
-                not lists:member(N, Stats),
-                P =/= []],
-   ok = global_variable_map_match(ImportedMods,Locals),
-   ok = global_variable_map_set(ImportedMods,Locals),
-   ok.
-
-%% USED ??? no
-global_variable_map_match(Modules,Locals) ->
-   Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
-%?parse_dbg("Vars",Vars),
-   Matches = [{map_field_exact,?LINE,{atom,?LINE,V},V1} || {_,_,V} = V1 <- Vars ++ Locals],
-   O = {map,?LINE,Matches},
-   erlang:put(global_var_match, O),
-   ok.
-
-global_variable_map_set(Modules,Locals) ->
-   Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
-%?parse_dbg("Vars",Vars),
-   Match = fun({_,_,V} = _V1) ->
-                 ?e:map_field_assoc({atom,?LINE,V}, ?e:variable(V))
-           end,
-   Matches =  [Match(V1) || V1 <- Vars ++ Locals],
-   O = ?e:map_expr(Matches), 
-   erlang:put(global_var_set, O),
-   ok.
 
 
 body_function(ContextMap, Body, ImportNss, ContextTypes) ->

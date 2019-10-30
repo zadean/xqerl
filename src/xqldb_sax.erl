@@ -35,14 +35,23 @@
          split_parse_file/3
         ]).
 
--type state()::#{pos      => non_neg_integer(),
-                 parent   => [non_neg_integer()],
-                 uri      => binary(),
-                 db       => db(),
-                 node_stk => list(#{}),
-                 chld_stk => list(#{}),
-                 nsp_on   => list({_,_}),
-                 nsp_off  => list({_,_,_})}.
+-type state() ::
+    #{att_dec   => map(),    % from DTD for typing info
+      counter   => _,
+      curr_path => list(),   % paths used right now, a stack
+      db        => _,
+      doc_id    => {{_, _}, binary()}, % unique document ID
+      has_ns    => boolean(),    % the next element has a namespace
+      ignore_ws => boolean(),   % ignore all WS text nodes or not
+      names     => map(),      % all names used so far
+      nsps      => map(),       % all inscope namespaces so far
+      parent    => binary(),     % node stack  -> each node Pos is appended, makes up the unique NodeId
+      paths     => map(),      % paths used : path => ID
+      pos       => integer(),  % current position    -> simply counts forward
+      texts     => map(),     % cache short text binaries
+      uri       => _,      % document-uri
+      writer    => _       % index writer/collector process 
+     }.
 
 -define(u2b(S), unicode:characters_to_binary(S)).
 %-define(MAX_PROCS, 45).

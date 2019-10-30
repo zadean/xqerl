@@ -5655,7 +5655,7 @@ check_fun_arg_type(State, Arg, TargetType, Line) ->
             #xqSeqType{type = {parameter,_}} -> % passed in as 'item'
                 ParamType#xqSeqType{type = item};
             undefined ->
-                ParamType#xqSeqType{type = item, occur = zero_or_many};
+                ?seqtype(0);
             _ ->
                 case Param of
                     {'context-item', _} ->
@@ -6388,7 +6388,7 @@ maybe_strip_whitespace(#state{boundary_space = strip}, Content0) ->
 
 get_clause_anno(#xqFor{var = #xqVar{anno = A}}) -> A;
 get_clause_anno(#xqLet{var = #xqVar{anno = A}}) -> A;
-get_clause_anno(#xqGroupBy{grp_variable = #xqVar{anno = A}}) -> A;
+get_clause_anno(#xqGroupBy{grp_variable = #xqVarRef{anno = A}}) -> A;
 get_clause_anno(#xqWindow{win_variable = #xqVar{anno = A}}) -> A;
 get_clause_anno(_) -> undefined.
 
