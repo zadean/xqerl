@@ -108,8 +108,10 @@ parse_annos([?anno(?QN(<<"path">>), [?SV(V)])|T], Acc) ->
    Fields0 = maps:get(fields, Acc, []),
    {Fields, Path} = parse_path(V),
    parse_annos(T, Acc#{fields => Fields ++ Fields0, path => Path});
+parse_annos([?anno(?QN(<<"OPTIONS">>), [])|T], #{method := Methods} = Acc) ->
+   parse_annos(T, Acc#{method := [options|Methods]});
 parse_annos([?anno(?QN(<<"GET">>), [])|T], #{method := Methods} = Acc) ->
-   parse_annos(T, Acc#{method := [get|Methods]});
+   parse_annos(T, Acc#{method := [head,get|Methods]}); % adds head too
 parse_annos([?anno(?QN(<<"HEAD">>), [])|T], #{method := Methods} = Acc) ->
    parse_annos(T, Acc#{method := [head|Methods]});
 parse_annos([?anno(?QN(<<"DELETE">>), [])|T], #{method := Methods} = Acc) ->
@@ -183,7 +185,8 @@ parse_annos([?anno(?QN(<<"cookie-param">>), Vals)|T],
 % serialization parameters
 parse_annos([?anno(#qname{namespace = ?ONS} = Q,[?SV(V)])|T], #{output := O} = Acc) ->
    parse_annos(T,Acc#{output := [{Q,V}|O]});
-parse_annos([?anno(?QN(_),_)|_], _) ->
+parse_annos([?anno(?QN(_),_) = H|_], _) ->
+    ?dbg("unknown_parameter", H),
    {error, unknown_parameter};
 % unknown namespaces 
 parse_annos([?anno(_Q,_)|T], Acc) ->

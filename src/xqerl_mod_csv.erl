@@ -54,6 +54,9 @@
   [{seqType, {funTest,array,[],undefined,any,any}, zero_or_one},
    {seqType, {funTest,map,[],undefined,any,any}, zero_or_one}]}]).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 
 %% Parse string as CSV input. Returns array of arrays.
 %% csv:parse(
@@ -68,7 +71,7 @@ parse(_Ctx, Input) when is_binary(Input) ->
       Str = unicode:characters_to_list(Input),
       {ok, Toks, _} = xqerl_mod_csv_lexer:string(Str),
       {ok, Arrs} = xqerl_mod_csv_parse:parse(Toks),
-      {array, [{array, R} || R <- Arrs]}
+      array:from_list([array:from_list(R) || R <- Arrs])
    catch
       _:_ ->
          throw_error(parse)
@@ -102,7 +105,7 @@ parse(_Ctx, Input, Options) when is_binary(Input),
                             xqerl_mod_csv_t_lexer:string(Str)
                       end,
       {ok, Arrs} = xqerl_mod_csv_parse:parse(Toks),
-      {array, [{array, R} || R <- Arrs]}
+      array:from_list([array:from_list(R) || R <- Arrs])
    catch
       _:_ ->
          throw_error(parse)
@@ -121,12 +124,12 @@ parse(Ctx, Input, Options) ->
         Input :: xq_types:xq_array() | []) -> xq_types:xs_string() | [].
 serialize(_Ctx, []) -> [];
 serialize(Ctx, [Input]) -> serialize(Ctx, Input);
-serialize(_Ctx, {array, Arrays}) ->
+serialize(_Ctx, Arrays) when ?is_array(Arrays) ->
    try
       CP = binary:compile_pattern(<<$">>),
       Sep = <<$,>>,
       Nl  = <<13,10>>,
-      Deep = [ [quote_row(A, Sep, CP), Nl] || A <- Arrays],
+      Deep = [ [quote_row(A, Sep, CP), Nl] || A <- array:to_list(Arrays)],
       erlang:iolist_to_binary(Deep)
    catch
       _:Err ->
@@ -150,7 +153,7 @@ serialize(_Ctx, [], _) -> [];
 serialize(Ctx, Input, []) -> serialize(Ctx, Input);
 serialize(Ctx, [Input], Opt) -> serialize(Ctx, Input, Opt);
 serialize(Ctx, Input, [Opt]) -> serialize(Ctx, Input, Opt);
-serialize(_Ctx, {array, Arrays}, Options) when is_map(Options) ->
+serialize(_Ctx, Arrays, Options) when is_map(Options), ?is_array(Arrays) ->
    try
       #{sep := Sep0,
         quo := Quo} = parse_options(Options),
@@ -162,10 +165,10 @@ serialize(_Ctx, {array, Arrays}, Options) when is_map(Options) ->
       Nl  = <<13,10>>,
       Deep = case Quo of
                 false ->
-                   [ [noquote_row(A, Sep), Nl] || A <- Arrays];
+                   [ [noquote_row(A, Sep), Nl] || A <- array:to_list(Arrays)];
                 true ->
                    CP = binary:compile_pattern(<<$">>),
-                   [ [quote_row(A, Sep, CP), Nl] || A <- Arrays]
+                   [ [quote_row(A, Sep, CP), Nl] || A <- array:to_list(Arrays)]
              end,
       erlang:iolist_to_binary(Deep)
    catch
@@ -240,16 +243,26 @@ do_throw(Name, Desc) ->
                 },
    exit(E).
 
-noquote_row({array, [H|T]}, Sep) ->
-   [s(H), [ [Sep, s(V)] || V <- T] ];
+noquote_row(A, Sep) when ?is_array(A) ->
+    case array:to_list(A) of
+        [H|T] ->
+            [s(H), [ [Sep, s(V)] || V <- T] ];
+        [] ->
+            []
+    end;
 noquote_row(_,_) ->
-   ?err('XPST0004').
+    ?err('XPST0004').
 
-quote_row({array, [H|T]}, Sep, CP) ->
-   Q = <<$">>,
-   [Q, qs(H, CP), Q, [ [Sep, Q, qs(V, CP), Q] || V <- T] ];
+quote_row(A, Sep, CP) when ?is_array(A) ->
+    case array:to_list(A) of
+        [H|T] ->
+            Q = <<$">>,
+            [Q, qs(H, CP), Q, [ [Sep, Q, qs(V, CP), Q] || V <- T] ];
+        [] ->
+            []
+    end;
 quote_row(_,_,_) ->
-   ?err('XPST0004').
+    ?err('XPST0004').
 
 
 s(V) -> xqerl_types:string_value(V).

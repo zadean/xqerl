@@ -553,7 +553,7 @@ rest_functions(Ctx, Functions) ->
               _ = add_global_funs([G0]),
               ?Q("-export([allowed_methods/2]).")
         end,
-   %?parse_dbg("UsedMethods",UsedMethods),
+%   ?parse_dbg("UsedMethods",UsedMethods),
    IsProv = UsedMethods =/= [],%[1 || M <- UsedMethods, M == get orelse M == head orelse M == put orelse M == post] =/= [],
    IsAccp = UsedMethods =/= [],%[1 || M <- UsedMethods, M == put orelse M == post] =/= [],
    IsDele = lists:member(delete, UsedMethods),
@@ -685,11 +685,11 @@ rest_fun_name(Id) ->
 % join their clauses to one function.
 join_functions([]) -> [];
 join_functions([H|_] = Funs) ->
-   Name = ?e:function_name(H),
-   Clauses = lists:flatten([?e:function_clauses(H) || 
-                              F <- Funs, 
-                              ?e:type(F) == function]),
-   ?e:function(Name, Clauses).
+    Name = ?e:function_name(H),
+    Clauses = lists:flatten([?e:function_clauses(F) || 
+                               F <- Funs,
+                               ?e:type(F) == function]),
+    ?e:function(Name, Clauses).
 
 init_ctx_function(Ctx) ->
    MapItems = init_fun_abs(Ctx, lists:usort(maps:get(stat_props, Ctx) ++ [options,module] )),
