@@ -662,10 +662,10 @@ environment('xqdy0084',__BaseDir) ->
 'combined-errors-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \"ABC\"", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "CombinedErrorCodes/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq"), <<"Q{http://www.w3.org/TestModules/defs}">>},{filename:join(__BaseDir, "CombinedErrorCodes/test1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test1}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "combined-errors-1.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -3994,10 +3994,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_02'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; true()", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_02.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4150,10 +4150,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_09'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://www.w3.org/\" at \"%gg\"; 1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_09.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4181,10 +4181,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_10'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"%gg\"; true()", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_10.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4212,10 +4212,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0046_11'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.w3.org/\" at \"%gg\"; 1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0046_lib.xq"), <<"Q{http://www.example.org/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0046_11.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4273,10 +4273,10 @@ environment('xqdy0084',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\";
          1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0047_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0047_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0047.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4295,10 +4295,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0048'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/foo\"; 1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0048_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0048_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0048.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4375,10 +4375,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0059_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq"), <<"Q{http://www.example.org}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq"), <<"Q{http://www.example.org}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0059_2.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4416,10 +4416,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0059_5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/\"; foo:bar()", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq"), <<"Q{http://www.example.org}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0059_lib.xq"), <<"Q{http://www.example.org}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0059_5.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4587,10 +4587,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0070_3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = 'http://www.example.org/'; 1 + 2", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0070_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0070_lib.xq"), <<"Q{http://www.example.org/foo}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0070_3.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4730,10 +4730,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0088_2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; 1", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0088_lib.xq"), <<"Q{http://www.example.org/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0088_lib.xq"), <<"Q{http://www.example.org/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0088_2.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -4787,10 +4787,10 @@ environment('xqdy0084',__BaseDir) ->
 'XQST0093a'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = " import module namespace foo=\"http://www.example.org/foo\"; $foo:variable2 ", 
-   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq"), <<"Q{http://www.example.org/foo}">>},{filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq"), <<"Q{http://www.example.org/foo}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq"), <<"Q{http://www.example.org/foo}">>},{filename:join(__BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq"), <<"Q{http://www.example.org/foo}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "XQST0093a.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

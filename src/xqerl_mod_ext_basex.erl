@@ -48,28 +48,28 @@
 -variables([]).
 -functions([
  {{qname,?NS, ?PX, <<"connect">>}, 
-  {xqSeqType, 'xs:anyURI', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'xs:anyURI', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'connect', 5}, 4, 
-  [{xqSeqType, 'xs:string', one},
-   {xqSeqType, 'xs:integer', one},
-   {xqSeqType, 'xs:string', one},
-   {xqSeqType, 'xs:string', one}]},
+  [{seqType, 'xs:string', one},
+   {seqType, 'xs:integer', one},
+   {seqType, 'xs:string', one},
+   {seqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"execute">>}, 
-  {xqSeqType, 'xs:string', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'xs:string', one}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'execute', 3}, 2, 
-  [{xqSeqType, 'xs:anyURI', one},
-   {xqSeqType, 'xs:string', one}]},
+  [{seqType, 'xs:anyURI', one},
+   {seqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"query">>}, 
-  {xqSeqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'query', 3}, 2, 
-  [{xqSeqType, 'xs:anyURI', one},
-   {xqSeqType, 'xs:string', one}]},
+  [{seqType, 'xs:anyURI', one},
+   {seqType, 'xs:string', one}]},
  {{qname,?NS, ?PX, <<"query">>}, 
-  {xqSeqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
+  {seqType, 'item', zero_or_many}, [{annotation,{qname, ?XL, <<>>, ?ND},[]}], 
   {'query', 4}, 3, 
-  [{xqSeqType, 'xs:anyURI', one},
-   {xqSeqType, 'xs:string', one},
-   {xqSeqType, {xqFunTest,map,[],undefined,any,any}, zero_or_one}]}]).
+  [{seqType, 'xs:anyURI', one},
+   {seqType, 'xs:string', one},
+   {seqType, {funTest,map,[],undefined,any,any}, zero_or_one}]}]).
 
 
 %% Connect to a BaseX server.
@@ -268,7 +268,7 @@ item_string_type(#{nk := Nk} = N) ->
 item_string_type(_) -> 
    throw_error(func).
 
-key_to_name({'no-namespace', LocalName}) when is_binary(LocalName) ->
+key_to_name({<<>>, LocalName}) when is_binary(LocalName) ->
    LocalName;
 key_to_name({Namespace, LocalName}) when is_binary(Namespace), 
                                          is_binary(LocalName) ->

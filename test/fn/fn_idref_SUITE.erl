@@ -264,11 +264,11 @@ environment('functx_book',__BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:idref(\"argument1\", $var)
       ", 
-   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "id/copy.xq"), <<"Q{http://www.w3.org/QT3/copy}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-idref-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

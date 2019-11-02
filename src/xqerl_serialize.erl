@@ -35,6 +35,9 @@
 -define(svg,    <<"http://www.w3.org/2000/svg">>).
 -define(mathml, <<"http://www.w3.org/1998/Math/MathML">>).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 serialize(Seq, Opts) ->
    Opts1 = maps:merge(default_opts(), Opts),
    do_serialize(Seq, Opts1).
@@ -98,8 +101,8 @@ norm_s1(Seq) when is_list(Seq) ->
 norm_s1(Seq) ->
    norm_s1([Seq]).
 
-norm_s1_([#array{} = H|T]) ->
-   xqerl_mod_array:flatten(#{}, H) ++ norm_s1_(T);
+norm_s1_([A|T]) when ?is_array(A) ->
+   xqerl_mod_array:flatten(#{}, A) ++ norm_s1_(T);
 norm_s1_([H|T]) -> [H|norm_s1_(T)];
 norm_s1_([]) -> [].
   
@@ -385,8 +388,8 @@ do_serialize_json(#{nk := _} = Node,
                                'omit-xml-declaration' := true},
    Val = do_serialize(Node, NewOpts),
    to_json_string(Val, Opts);
-do_serialize_json(#array{data = Vals}, Opts) ->
-   Vals1 = [do_serialize_json(V, Opts) || V <- Vals],
+do_serialize_json(A, Opts) when ?is_array(A) ->
+   Vals1 = [do_serialize_json(V, Opts) || V <- array:to_list(A)],
    Vals2 = string_join(Vals1, <<$,>>),
    <<$[,Vals2/binary,$]>>;
 do_serialize_json(Map, Opts) when is_map(Map) ->
@@ -478,11 +481,7 @@ do_serialize_adaptive(#xqAtomicValue{type = Type,
                                                     local_name = Ln}}, _Opts)
    when Type == 'xs:QName';
         Type == 'xs:NOTATION' ->
-   if Ns == 'no-namespace' ->
-         <<$Q,${,$},Ln/binary>>;
-      true ->
-         <<$Q,${,Ns/binary,$},Ln/binary>>
-   end;
+   <<$Q,${,Ns/binary,$},Ln/binary>>;
 do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts)
    when ?xs_duration(Type) ->
    TypeBin = <<"xs:duration">>,
@@ -492,12 +491,12 @@ do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts) ->
    TypeBin = atom_to_binary(Type, utf8),
    Str = xqerl_types:string_value(Val),
    <<TypeBin/binary,$(,$",Str/binary,$",$)>>;
-do_serialize_adaptive(#array{data = Vals}, Opts) ->
+do_serialize_adaptive(A, Opts) when ?is_array(A) ->
    Vals1 = [if is_list(V) ->
                   do_serialize_adaptive_seq(V, Opts);
                true ->
                   do_serialize_adaptive(V, Opts)
-            end || V <- Vals],
+            end || V <- array:to_list(A)],
    Vals2 = string_join(Vals1, <<$,>>),
    <<$[,Vals2/binary,$]>>;
 do_serialize_adaptive(Map, Opts) when is_map(Map) ->
@@ -550,10 +549,13 @@ do_serialize_text(Seq, Opts) ->
    xqldb_mem_nodes:string_value(Norm).
 
 do_serialize_html(Seq, #{'html-version' := 5.0} = Opts) ->
-   Seq1 = normalize_prefixes(Seq, #{<<>> => <<>>}),
-   do_serialize_html(Seq1, Opts, #{<<>> => <<>>});
+   Seq1 = normalize_prefixes(Seq, #{<<>> => <<>>,
+                                    <<"xml">> => ?xml}),
+   do_serialize_html(Seq1, Opts, #{<<>> => <<>>,
+                                   <<"xml">> => ?xml});
 do_serialize_html(Seq, Opts) ->
-   do_serialize_html(Seq, Opts, #{<<>> => <<>>}).
+   do_serialize_html(Seq, Opts, #{<<>> => <<>>,
+                                  <<"xml">> => ?xml}).
 
 do_serialize_html(#{nk := document} = Doc, Opts, NsInScope) ->
    Ch = xqldb_mem_nodes:children(Doc),
@@ -611,6 +613,7 @@ do_serialize_html(#{nk := element,
    At = xqldb_mem_nodes:attributes(Node),
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
+   %?dbg("NewNs", NewNs),
    InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
    %NsStr = <<>>,
    NsStr = << <<" ", (encode_namespace(P, N))/binary>> ||
@@ -663,10 +666,13 @@ do_serialize_html(_, _, _) ->
    ?err('SENR0001').
 
 do_serialize_xhtml(Seq, #{'html-version' := 5.0} = Opts) ->
-   Seq1 = normalize_prefixes(Seq, #{<<>> => <<>>}),
-   do_serialize_xhtml(Seq1, Opts, #{<<>> => <<>>});
+   Seq1 = normalize_prefixes(Seq, #{<<>> => <<>>,
+                                    <<"xml">> => ?xml}),
+   do_serialize_xhtml(Seq1, Opts, #{<<>> => <<>>,
+                                    <<"xml">> => ?xml});
 do_serialize_xhtml(Seq, Opts) ->
-   do_serialize_xhtml(Seq, Opts, #{<<>> => <<>>}).
+   do_serialize_xhtml(Seq, Opts, #{<<>> => <<>>,
+                                   <<"xml">> => ?xml}).
 
 do_serialize_xhtml(#{nk := document} = Doc, Opts, NsInScope) ->
    Ch = xqldb_mem_nodes:children(Doc),
@@ -781,7 +787,8 @@ do_serialize_xhtml(_, _, _) ->
 
 
 do_serialize_xml(Seq, Opts) ->
-   IoList = do_serialize_xml(Seq, Opts, #{<<>> => <<>>}),
+   IoList = do_serialize_xml(Seq, Opts, #{<<>> => <<>>,
+                                          <<"xml">> => ?xml}),
    iolist_to_binary(IoList).
 
 do_serialize_xml(#{nk := document} = Doc, Opts, NsInScope) ->
@@ -866,8 +873,8 @@ encode_namespace(Px, Ns) ->
    <<"xmlns:", Px/binary, "=\"", Ns1/binary, "\"">>.
            
 
-get_new_namespaces(Current, Old) ->
-   [{K,V} || {K,V} <- maps:to_list(Current),
+get_new_namespaces(New, Old) ->
+   [{K,V} || {K,V} <- maps:to_list(New),
              maps:find(K, Old) =/= {ok,V}].
 
 normalize_prefixes(#{nk := document} = Node, Nss) ->
@@ -1167,8 +1174,7 @@ can_indent({Ns, _, Ln}, Children, #{'suppress-indentation' := Els}) ->
    Ln0 = string:lowercase(Ln),
    case [1 || #qname{namespace = Ns1, local_name = Ln1} <- Els,
               Ln0 == string:lowercase(Ln1),
-              Ns == Ns1 orelse 
-                (Ns == <<>> andalso Ns1 == 'no-namespace')] =/= [] of
+              Ns == Ns1 ] =/= [] of
       true ->
          false;
       false ->
@@ -1179,7 +1185,7 @@ is_cdata_node({Ns, _, Ln}, #{'cdata-section-elements' := Els}) ->
    [1 ||
     #qname{namespace = Ns1, local_name = Ln1} <- Els,
     Ln == Ln1,
-    Ns == Ns1 orelse (Ns == <<>> andalso Ns1 == 'no-namespace')] =/= [].
+    Ns == Ns1] =/= [].
 
 do_xml_declaration(Wellformed, ElementName, 
                    #{'omit-xml-declaration' := O,

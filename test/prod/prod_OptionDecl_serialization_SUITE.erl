@@ -133,10 +133,10 @@ groups() -> [
          import module namespace test=\"http://www.w3.org/TestModules/test\";
          <result>{test:ok()}</result>
       ", 
-   Hints = [{filename:join(__BaseDir, "Serialization/serialization1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "Serialization/serialization1-lib.xq"), <<"Q{http://www.w3.org/TestModules/test}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "Serialization-003.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

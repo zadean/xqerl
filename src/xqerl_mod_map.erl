@@ -32,6 +32,9 @@
 -define(NS,<<"http://www.w3.org/2005/xpath-functions/map">>).
 -define(PX,<<"map">>).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 -export(['contains'/3]).
 -export(['entry'/3]).
 -export(['find'/3]).
@@ -49,28 +52,28 @@
 -export([construct/2]).
 
 -functions([
-{{qname, ?NS, ?PX, <<"contains">>},{xqSeqType, 'xs:boolean', one}, [], 
- {'contains', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, ?PX, <<"entry">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
- {'entry', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX, <<"find">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
- {'find', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, ?PX, <<"for-each">>},{xqSeqType, item, zero_or_many}, [], 
- {'for-each', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, ?NS, ?PX, <<"get">>},{xqSeqType, item, zero_or_many}, [], 
- {'get', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, ?PX, <<"keys">>},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
- {'keys', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, ?NS, ?PX, <<"merge">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
- {'merge', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many}]},
-{{qname, ?NS, ?PX, <<"merge">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
- {'merge', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, ?NS, ?PX, <<"put">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
- {'put', 4}, 3,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX, <<"remove">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
- {'remove', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, ?PX, <<"size">>},{xqSeqType, 'xs:integer', one}, [], 
- {'size', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]}]).
+{{qname, ?NS, ?PX, <<"contains">>},{seqType, 'xs:boolean', one}, [], 
+ {'contains', 3}, 2,[{seqType, {funTest, map, [], undefined, any, any},one},{seqType, 'xs:anyAtomicType', one}]},
+{{qname, ?NS, ?PX, <<"entry">>},{seqType, {funTest, map, [], undefined, any, any},one},[], 
+ {'entry', 3}, 2,[{seqType, 'xs:anyAtomicType', one},{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX, <<"find">>},{seqType, {funTest, array, [], undefined, any, any},one},[], 
+ {'find', 3}, 2,[{seqType, item, zero_or_many},{seqType, 'xs:anyAtomicType', one}]},
+{{qname, ?NS, ?PX, <<"for-each">>},{seqType, item, zero_or_many}, [], 
+ {'for-each', 3}, 2,[{seqType, {funTest, map, [], undefined, any, any},one},{seqType,{funTest, function, [], undefined,[{seqType, 'xs:anyAtomicType', one},{seqType, item, zero_or_many}],{seqType, item, zero_or_many}},one}]},
+{{qname, ?NS, ?PX, <<"get">>},{seqType, item, zero_or_many}, [], 
+ {'get', 3}, 2,[{seqType, {funTest, map, [], undefined, any, any},one},{seqType, 'xs:anyAtomicType', one}]},
+{{qname, ?NS, ?PX, <<"keys">>},{seqType, 'xs:anyAtomicType', zero_or_many}, [],
+ {'keys', 2}, 1,[{seqType, {funTest, map, [], undefined, any, any},one}]},
+{{qname, ?NS, ?PX, <<"merge">>},{seqType, {funTest, map, [], undefined, any, any},one},[], 
+ {'merge', 2}, 1,[{seqType, {funTest, map, [], undefined, any, any},zero_or_many}]},
+{{qname, ?NS, ?PX, <<"merge">>},{seqType, {funTest, map, [], undefined, any, any},one},[], 
+ {'merge', 3}, 2,[{seqType, {funTest, map, [], undefined, any, any},zero_or_many},{seqType, {funTest, map, [], undefined, any, any},one}]},
+{{qname, ?NS, ?PX, <<"put">>},{seqType, {funTest, map, [], undefined, any, any},one},[], 
+ {'put', 4}, 3,[{seqType, {funTest, map, [], undefined, any, any},one},{seqType, 'xs:anyAtomicType', one},{seqType, item, zero_or_many}]},
+{{qname, ?NS, ?PX, <<"remove">>},{seqType, {funTest, map, [], undefined, any, any},one},[], 
+ {'remove', 3}, 2,[{seqType, {funTest, map, [], undefined, any, any},one},{seqType, 'xs:anyAtomicType', zero_or_many}]},
+{{qname, ?NS, ?PX, <<"size">>},{seqType, 'xs:integer', one}, [], 
+ {'size', 2}, 1,[{seqType, {funTest, map, [], undefined, any, any},one}]}]).
 
 %% Tests whether a supplied map contains an entry for a given key 
 %% map:contains($map as map(*), $key as xs:anyAtomicType) as xs:boolean
@@ -111,7 +114,7 @@
 'find'(_Ctx,Input,Key) ->
    MKey = xqerl_operators:key_val(Key),
    L = find1(Input, MKey),
-   #array{data = L}.
+   array:from_list(L).
 
 find1([], _Key) -> [];
 find1([H|T], Key) when is_map(H) ->
@@ -122,8 +125,8 @@ find1([H|T], Key) when is_map(H) ->
       {ok, {_,V}} ->
          [V|find1(Vals ++ T, Key)]
    end;
-find1([#array{data = H}|T], Key) ->
-   find1(H ++ T, Key);
+find1([H|T], Key) when ?is_array(H) ->
+    find1(array:to_list(H) ++ T, Key);
 find1([_|T], Key) ->
    find1(T, Key).
 
@@ -139,9 +142,8 @@ find1([_|T], Key) ->
 'for-each'(Ctx,[Map],F) -> 'for-each'(Ctx,Map,F);
 'for-each'(_Ctx,Map,[]) when is_map(Map) -> Map;
 'for-each'(Ctx,Map,Action) when is_map(Map), is_function(Action) ->
-   lists:map(fun({K,V}) ->
-                   Action(Ctx,K,V)
-             end, maps:values(Map));
+    Deep = lists:map(fun({K,V}) -> Action(Ctx,K,V) end, maps:values(Map)),
+    lists:flatten(Deep);
 'for-each'(_Ctx,Map,#xqFunction{body = Function}) when is_map(Map), 
                                                        is_function(Function) ->
    'for-each'(_Ctx,Map,Function).
@@ -377,14 +379,14 @@ get_matched(Map,Keys) when is_map(Map) ->
                         [] | xq_types:sequence(xq_types:xq_item())})) -> 
          xq_types:xq_map().
 construct(_, KeyValList) ->
-   lists:foldl(fun({Key,Val},Map) ->
-                  Key1 = xqerl_operators:key_val(Key),
-                  case maps:is_key(Key1, Map) of
-                     true ->
-                        % no duplicates on construct
-                        ?err('XQDY0137');
-                     _ ->
-                        maps:put(Key1, {Key, Val}, Map)
-                  end
-               end, #{}, KeyValList).
+    lists:foldl(fun({Key,Val}, Map) ->
+                       Key1 = xqerl_operators:key_val(Key),
+                       case maps:is_key(Key1, Map) of
+                           true ->
+                               % no duplicates on construct
+                               ?err('XQDY0137');
+                           _ ->
+                               Map#{Key1 => {Key, Val}}
+                       end
+                end, #{}, KeyValList).
 

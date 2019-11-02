@@ -21,7 +21,6 @@
 %% -------------------------------------------------------------------
 -module(xqerl_module).
 
--include("xqerl.hrl").
 -include("xqerl_parser.hrl").
 
 %% ====================================================================
@@ -44,62 +43,64 @@
 %% This function is here to allow cyclic dependencies among modules.
 %% Returns: [{Uri, ImportedAstList}]
 expand_imports(List) ->
-   F = fun({Uri, #xqError{}}) ->
-             {Uri, {[], [], [], []}};
-          ({Uri, Mod}) ->
-             I = collect_imports(Mod, List),
-             Fs = filter(I, 'xqFunctionDef', Uri),
-             Vs = filter(I, 'xqVar', Uri),
-             {Uri, {clear_id(Fs), function_sigs(Fs), 
-                    clear_id(Vs), variable_sigs(Vs)}}
-       end,
-   lists:map(F, List).
+    F = fun({Uri, #xqError{}}) ->
+               {Uri, {[], [], [], []}};
+           ({Uri, Mod}) ->
+               I = collect_imports(Mod, List),
+               Fs = filter(I, 'xqFunctionDef', Uri),
+               Vs = filter(I, 'xqVar', Uri),
+               {Uri, {clear_id(Fs), function_sigs(Fs), 
+                      clear_id(Vs), variable_sigs(Vs)}}
+        end,
+    lists:map(F, List).
 
 module_namespace(#xqModule{type = library,
-                           declaration = {ModNs, _}}, _Def) ->
-   ModNs;
+                           declaration = #xqModuleDecl{namespace = ModNs}}, _Def) ->
+    ModNs;
 module_namespace(_, Def) -> Def.
 
 collect_imports(#xqModule{type = library,
-                          declaration = {ModNs, _},
+                          declaration = #xqModuleDecl{namespace = ModNs},
                           prolog = Prolog}, All) ->
-   Imports = get_imported(Prolog),
-   collect_imports(Imports, All, [ModNs]).
+    Imports = get_imported(Prolog),
+    collect_imports(Imports, All, [ModNs]).
 
 collect_imports([ModNs|Imports], All, Acc) ->
-   case lists:member(ModNs, Acc) of
-      true ->
-         % already in the list
-         collect_imports(Imports, All, Acc);
-      false ->
-         % find imports for this mod and add to the Imports
-         Imps = get_imported(get_module_prolog(ModNs, All)),
-         collect_imports(Imps ++ Imports, All, [ModNs|Acc])
-   end;
+    case lists:member(ModNs, Acc) of
+        true ->
+            % already in the list
+            collect_imports(Imports, All, Acc);
+        false ->
+            % find imports for this mod and add to the Imports
+            Pro = get_module_prolog(ModNs, All),
+            Imps = get_imported(Pro),
+            collect_imports(Imps ++ Imports, All, [ModNs|Acc])
+    end;
 collect_imports([], All, Acc) ->
-   F = fun(Ns) ->
-             Prolog = get_module_prolog(Ns, All),
-             Vars = filter(Prolog, 'xqVar'),
-             Funs = filter(Prolog, 'xqFunctionDef'),
-             Funs ++ Vars
-       end,
-   lists:flatmap(F, Acc).
+    F = fun(Ns) ->
+                Prolog = get_module_prolog(Ns, All),
+                Vars = filter(Prolog, 'xqVar'),
+                Funs = filter(Prolog, 'xqFunctionDef'),
+                Funs ++ Vars
+        end,
+    lists:flatmap(F, Acc).
 
+get_imported(undefined) -> [];
 get_imported(Prolog) ->
-   lists:usort([Ns || {_, {Ns,_}} <- filter(Prolog, 'module-import')]).
+    lists:usort([Ns || #xqImport{uri = Ns} <- Prolog]).
 
 get_module_prolog(Ns, All) ->
-   P = [Prolog ||
-        {ModNs, #xqModule{type = library,
-                          declaration = {ModNs, _},
-                          prolog = Prolog}} <- All,
-        ModNs == Ns],
-   lists:flatten(P).
+    P = [Prolog ||
+         {ModNs, #xqModule{type = library,
+                           declaration = #xqModuleDecl{namespace = ModNs},
+                           prolog = Prolog}} 
+        <- All, ModNs == Ns],
+    lists:flatten(P).
 
 clear_id([#xqFunctionDef{} = H|T]) ->
-   [H#xqFunctionDef{id = 0}|clear_id(T)];
+    [H#xqFunctionDef{id = 0}|clear_id(T)];
 clear_id([#xqVar{} = H|T]) ->
-   [H#xqVar{id = 0}|clear_id(T)];
+    [H#xqVar{id = 0}|clear_id(T)];
 clear_id([]) -> [].
 
 
@@ -107,79 +108,45 @@ clear_id([]) -> [].
 %% merges library ASTs from the same target namespace into one module
 merge_library_trees([Mod]) -> Mod;
 merge_library_trees([#xqModule{type = library,
-                               declaration = {ModNs, ModPxA},
-                               prolog = PrologA} = A,
+                               declaration = #xqModuleDecl{namespace = ModNs,
+                                                           prefix = ModPxA},
+                               prolog = PrologA} = ModA,
                      #xqModule{type = library,
-                               declaration = {ModNs, ModPxB},
+                               declaration = #xqModuleDecl{namespace = ModNs,
+                                                           prefix = ModPxB},
                                prolog = PrologB}|Mods]) ->
-   FirstFun = fun({'element-namespace', _}) -> true;
-                 ({'function-namespace', _}) -> true;
-                 ({'set', _}) -> true;
-                 ({'namespace', _}) -> true;
-                 ({'module-import', _}) -> true;
-                 (_) -> false               
-              end,
-   SecondFun = fun({'context-item', _}) -> true;
-                  (#xqFunctionDef{}) -> true;
-                  (#xqVar{}) -> true;
-                  ({'option', _}) -> true;
-                  (_) -> false               
-              end,
-   {Pro1A, RestA} = lists:splitwith(FirstFun, PrologA),
-   {Pro1B, RestB} = lists:splitwith(FirstFun, PrologB),
-   {Pro2A, Rest1A} = lists:splitwith(SecondFun, RestA),
-   {Pro2B, Rest1B} = lists:splitwith(SecondFun, RestB),
-   
-   ElNs = unique('element-namespace', Pro1A, Pro1B),
-   FnNs = unique('function-namespace', Pro1A, Pro1B),
-   Sets = unique('set', Pro1A, Pro1B),
-   Nsps = unique('namespace', Pro1A, Pro1B),
-   Imps = unique('module-import', Pro1A, Pro1B),
-   
-   ImNs = patch_imports(Imps, Nsps, ModNs),
-
-   Ctxs = unique('context-item', Pro2A, Pro2B),
-   Opts = unique('option', Pro2A, Pro2B),
-   Vars = filter(Pro2A, 'xqVar') ++ filter(Pro2B, 'xqVar'),
-   Funs = filter(Pro2A, 'xqFunctionDef') ++ filter(Pro2B, 'xqFunctionDef'),
-   
-   ExNs = if ModPxA == ModPxB ->
-                [];
-             true ->
-                N = {'namespace', {ModNs, ModPxB}},
-                case lists:member(N, Nsps) of
-                   true ->
-                      [];
-                   false ->
-                      [N]
-                end
-          end,
-   
-   NewA = A#xqModule{prolog = 
-                       ElNs ++ FnNs ++ Sets ++ ExNs ++ ImNs ++
-                       Ctxs ++ Opts ++ Vars ++ Funs
-                       ++ Rest1A ++ Rest1B},
+    {PrologA1, PrologA2} = xqerl_static:prolog_order(PrologA),
+    {PrologB1, PrologB2} = xqerl_static:prolog_order(PrologB),
+    Prolog1 = unique_prolog_1(PrologA1, PrologB1),
+    Prolog2 = unique_prolog_2(PrologA2, PrologB2),
+    Prolog1_1 = patch_imports(Prolog1, ModNs),
+    Prolog1_2 = 
+        if 
+            ModPxA == ModPxB ->
+                Prolog1_1;
+            true ->
+                N = #xqNamespaceDecl{uri = ModNs, prefix = ModPxB},
+                [N|without(N, Prolog1_1)]
+        end,
+   NewA = ModA#xqModule{prolog = Prolog1_2 ++ Prolog2},
    merge_library_trees([NewA|Mods]).
 
 % if self is imported change it to namespace declaration unless already there.
-patch_imports(Imps, Nsps, ModNs) ->
-   Self = [{'namespace', {Ns, Px}} || {'module-import', {Ns,Px}} <- Imps, Ns == ModNs],
-   Flt = fun({'module-import', {Ns,_}}) when Ns == ModNs -> false;
-            (_) -> true
-         end,
-   case Self of
-      [] ->
-         Imps ++ Nsps;
-      _ ->
-         lists:foldl(fun(Ns, Acc) ->
-                           case lists:member(Ns, Acc) of
-                              true ->
-                                 Acc;
-                              false ->
-                                 [Ns|Acc]
-                           end
-                     end, Nsps, Self) ++ lists:filter(Flt, Imps)
-   end.
+patch_imports(Prolog, ModNs) ->
+    Self = [#xqNamespaceDecl{uri = Ns, prefix = Px}
+           || #xqImport{kind = module,
+                        uri = Ns,
+                        prefix = Px} <- Prolog, Ns == ModNs],
+    Flt = fun(#xqImport{kind = module,
+                        uri = Ns}) when Ns == ModNs -> false;
+             (_) -> true
+          end,
+    case Self of
+        [] ->
+            Prolog;
+        _ ->
+            Self ++ lists:filter(Flt, Prolog) 
+    end.
 
 filter([E|T], Atom) when is_tuple(E), element(1, E) == Atom ->
    [E|filter(T, Atom)];
@@ -187,27 +154,22 @@ filter([_|T], Atom) ->
    filter(T, Atom);
 filter([], _) -> [].
 
-filter([#xqFunctionDef{name = #qname{namespace = Ns0}} = E|T], 'xqFunctionDef', Ns) when Ns0 =/= Ns ->
+filter([#xqFunctionDef{name = #xqQName{namespace = Ns0}} = E|T], 'xqFunctionDef', Ns) when Ns0 =/= Ns ->
    [E|filter(T, 'xqFunctionDef', Ns)];
-filter([#xqVar{name = #qname{namespace = Ns0}} = E|T], 'xqVar', Ns) when Ns0 =/= Ns ->
+filter([#xqVar{name = #xqQName{namespace = Ns0}} = E|T], 'xqVar', Ns) when Ns0 =/= Ns ->
    [E|filter(T, 'xqVar', Ns)];
 filter([_|T], Atom, Ns) ->
    filter(T, Atom, Ns);
 filter([], _, _) -> [].
 
-unique(Name, A, B) ->
-   A1 = filter(A, Name),
-   B1 = filter(B, Name) -- A1,
-   A1 ++ B1.
- 
 function_sigs(Functions) ->
    %ModName = xqerl_static:string_atom(ModNs),
-   Specs = [ {Name#qname{prefix = <<>>}, 
+   Specs = [ {Name#xqQName{prefix = <<>>}, 
               Type, 
               Annos,
               begin
                  {F,A} = xqerl_static:function_hash_name(Name,Arity),
-                 {xqerl_static:string_atom(Name#qname.namespace),F,A}
+                 {xqerl_static:string_atom(Name#xqQName.namespace),F,A}
               end, 
               Arity, 
               param_types(Params) } 
@@ -223,9 +185,8 @@ function_sigs(Functions) ->
 
 %% {Name, Type, Annos, function_name, External }
 variable_sigs(Variables) ->
-   %ModName = xqerl_static:string_atom(ModNs),
-   [{Name#qname{prefix = <<>>}, Type, Annos, 
-     {xqerl_static:string_atom(Name#qname.namespace), 
+   [{Name#xqQName{prefix = <<>>}, Type, Annos, 
+     {xqerl_static:string_atom(Name#xqQName.namespace), 
       xqerl_static:variable_hash_name(Name)},External}
    || #xqVar{annotations = Annos, 
              name = Name,
@@ -236,8 +197,69 @@ variable_sigs(Variables) ->
 
 not_private(Annos) ->
    [ok || 
-    #annotation{name = #qname{namespace = <<"http://www.w3.org/2012/xquery">>,
-                              local_name = <<"private">>}} <- Annos] == [].
+    #xqAnnotation{name = #xqQName{namespace = <<"http://www.w3.org/2012/xquery">>,
+                                  local_name = <<"private">>}} <- Annos] == [].
 
 param_types(Params) ->
    [ T || #xqVar{type = T} <- Params].
+
+unique_prolog_1(PrologA1, PrologB1) ->
+    F = fun(A, Acc) ->
+               without(A, Acc)
+        end,
+    Without = lists:foldl(F, PrologB1, PrologA1),
+    PrologA1 ++ Without.
+
+unique_prolog_2(PrologA2, PrologB2) ->
+    F = fun(#xqVar{}, Acc) -> Acc;
+           (#xqFunctionDef{}, Acc) -> Acc;
+           (A, Acc) ->
+               without(A, Acc)
+        end,
+    Without = lists:foldl(F, PrologB2, PrologA2),
+    PrologA2 ++ Without.
+
+without(#xqOptionDecl{name = #xqQName{namespace = N, local_name = L}} = A, 
+        [#xqOptionDecl{name = #xqQName{namespace = N, local_name = L}}|T]) ->
+    without(A, T);
+without(#xqContextItemDecl{type = Y} = A, 
+        [#xqContextItemDecl{type = Y}|T]) ->
+    without(A, T);
+without(#xqDefaultNamespaceDecl{kind = K, uri = U} = A, 
+        [#xqDefaultNamespaceDecl{kind = K, uri = U}|T]) ->
+    without(A, T);
+without(#xqDecimalFormatDecl{name = #xqQName{namespace = N, local_name = L}} = A, 
+        [#xqDecimalFormatDecl{name = #xqQName{namespace = N, local_name = L}}|T]) ->
+    without(A, T);
+without(#xqCopyNamespacesDecl{inh = I, pre = P} = A, 
+        [#xqCopyNamespacesDecl{inh = I, pre = P}|T]) ->
+    without(A, T);
+without(#xqEmptyOrderDecl{mode = M} = A, 
+        [#xqEmptyOrderDecl{mode = M}|T]) ->
+    without(A, T);
+without(#xqOrderingModeDecl{mode = M} = A, 
+        [#xqOrderingModeDecl{mode = M}|T]) ->
+    without(A, T);
+without(#xqConstructionDecl{mode = M} = A, 
+        [#xqConstructionDecl{mode = M}|T]) ->
+    without(A, T);
+without(#xqBaseURIDecl{uri = U} = A, 
+        [#xqBaseURIDecl{uri = U}|T]) ->
+    without(A, T);
+without(#xqDefaultCollationDecl{uri = U} = A, 
+        [#xqDefaultCollationDecl{uri = U}|T]) ->
+    without(A, T);
+without(#xqBoundarySpaceDecl{mode = M} = A, 
+        [#xqBoundarySpaceDecl{mode = M}|T]) ->
+    without(A, T);
+without(#xqRevalidationDecl{kind = K} = A, 
+        [#xqRevalidationDecl{kind = K}|T]) ->
+    without(A, T);
+without(#xqNamespaceDecl{uri = U, prefix = P} = A, 
+        [#xqNamespaceDecl{uri = U, prefix = P}|T]) ->
+    without(A, T);
+without(#xqImport{kind = K, uri = U, prefix = P} = A, 
+        [#xqImport{kind = K, uri = U, prefix = P}|T]) ->
+    without(A, T);
+without(A, [H|T]) -> [H|without(A, T)];
+without(_, []) -> [].

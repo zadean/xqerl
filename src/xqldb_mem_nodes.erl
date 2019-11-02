@@ -388,7 +388,7 @@ string_value(#{ch := _} = N) ->
               Nk == text orelse Nk == element],
    build_string_value(Tx);
 string_value(#{nk := namespace,
-               nn := {U,_,_}}) -> U.
+               nn := {U,_}}) -> U.
 
 
 

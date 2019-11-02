@@ -102,19 +102,19 @@
 
 -type sequence(L) :: list(L) | L.
 
--type xq_item() :: xs_anyAtomicType() | xml_node() | xq_function() | #xqRange{}.
+-type xq_item() :: xs_anyAtomicType() | xml_node() | xq_function() | #range{}.
 
--type xml_node() :: #{nk := _, _ := _} |
+-type xml_node() :: 
         xml_attribute() | xml_comment() | xml_document() | 
         xml_element() | xml_namespace() | xml_pi() | xml_text().
 
--type xml_attribute() :: #xqAttributeNode{} | #{nk := attribute, _ := _}.
--type xml_comment() :: #xqCommentNode{} | #{nk := comment, _ := _}.
--type xml_document() :: #xqDocumentNode{} | #{nk := document, _ := _}.
--type xml_element() :: #xqElementNode{} | #{nk := element, _ := _}.
--type xml_namespace() :: #xqNamespaceNode{} .
--type xml_pi() :: #xqProcessingInstructionNode{} | #{nk := 'processing-instruction', _ := _}.
--type xml_text() :: #xqTextNode{} | #{nk := text, _ := _}.
+-type xml_attribute() :: #{nk := attribute, _ => _}.
+-type xml_comment() :: #{nk := comment, _ => _}.
+-type xml_document() :: #{nk := document, _ => _}.
+-type xml_element() :: #{nk := element, _ => _}.
+-type xml_namespace() :: #{nk := namespace, _ => _}.
+-type xml_pi() :: #{nk := 'processing-instruction', _ => _}.
+-type xml_text() :: #{nk := text, _ => _}.
 
 
 
@@ -352,7 +352,7 @@
 
 
 -type xq_function() :: fun() | #xqFunction{} | xq_array() | xq_map().
--type xq_array() :: {array, [xq_item()]}.
+-type xq_array() :: array:array().
 -type xq_map() :: #{ map_key() => {xs_anyAtomicType(), xq_item()} }.
 -type xq_map(K,V) :: #{ map_key() => {K, V} }.
 

@@ -249,7 +249,7 @@ get_group_key(#{id := {Pid, DocId, _Id},
                 pa := PathId}) when is_pid(Pid) ->
    {Pid, DocId, PathId};
 get_group_key(_) ->
-   exit(xqerl_error:error('XPTY0019')).
+   throw(xqerl_error:error('XPTY0019')).
 
 %% do_predicates(Ds, Preds)
 
@@ -1245,7 +1245,7 @@ self_text(#{nk := _}, _) -> [].
 document_order([_] = NodeList) -> NodeList;
 document_order([]) -> [];
 document_order(NodeList) when is_list(NodeList) ->
-   case catch (doc_ord(NodeList)) of
+   case catch (doc_ord(lists:flatten(NodeList))) of
       {'EXIT',_} ->
          {error, non_node};
       O ->

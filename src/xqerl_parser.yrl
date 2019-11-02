@@ -120,7 +120,7 @@ Terminals
 'minus-sign' 'NaN' 'percent' 'per-mille' 'zero-digit' 'digit' 
 'pattern-separator' 'exponent-separator' 'context' '%' 'allowing' 'tumbling' 
 'sliding' 'window' 'start' 'when' 'only' 'end' 'previous' 'next' 'count' 'group'
-'switch' 'catch' 'try' '||' '=>' 'type' '!' '#' 'map' 'array' 'namespace-node'
+'switch' 'catch' 'try' '||' '=>' type '!' '#' 'map' 'array' 'namespace-node'
 '``[' ']``' '`{' '}`' '*:' ':*' 'PragmaContents' 'StringConstructorChars' 'Q'.
 
 Rootsymbol 'Module'.
@@ -164,81 +164,108 @@ Nonassoc 2200 ':' ' :' ': '.
 
 %Right 9999 'NCName'.
 
-'Module'                 -> 'VersionDecl' 'MainModule'   : _ = next_id(), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
-'Module'                 -> 'VersionDecl' 'LibraryModule': _ = next_id(), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
-'Module'                 -> 'MainModule'                 : _ = next_id(), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = main,    declaration = [],               prolog = element(2, '$1'), body = element(3, '$1')}.
-'Module'                 -> 'LibraryModule'              : _ = next_id(), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = library, declaration = element(1, '$1'), prolog = element(2, '$1'), body = []}.
+'Module'                 -> 'VersionDecl' 'MainModule'   : 
+    _ = next_id(), 
+    ('$2')#xqModule{version = '$1'}.
+'Module'                 -> 'VersionDecl' 'LibraryModule': 
+    _ = next_id(), 
+    ('$2')#xqModule{version = '$1'}.
+'Module'                 -> 'MainModule'                 : 
+    _ = next_id(), 
+    ('$1')#xqModule{version = {<<"3.1">>,<<"UTF-8">>}}.
+'Module'                 -> 'LibraryModule'              : 
+    _ = next_id(), 
+    ('$1')#xqModule{version = {<<"3.1">>,<<"UTF-8">>}}.
 
-'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'encoding' 'StringLiteral' 'Separator' 
-                              : {bin_value_of('$3'), bin_value_of('$5')}.
-'VersionDecl'            -> 'xquery' 'encoding' 'StringLiteral' 'Separator' 
-                              : {<<"3.1">>, bin_value_of('$3')}.
-'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'Separator' 
-                              : {bin_value_of('$3'),<<"UTF-8">>}.
+'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'encoding' 'StringLiteral' 'Separator' : 
+    {bin_value_of('$3'), bin_value_of('$5')}.
+'VersionDecl'            -> 'xquery' 'encoding' 'StringLiteral' 'Separator' : 
+    V = <<"3.1">>,
+    {V, bin_value_of('$3')}.
+'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'Separator' : 
+    E = <<"UTF-8">>,
+    {bin_value_of('$3'), E}.
 
-'MainModule'             -> 'Prolog' 'QueryBody' : {undefined, '$1', '$2'}. %% TODO local functions and variables, multiple namespaces!
-'MainModule'             ->          'QueryBody' : {undefined, [], '$1'}.
+'MainModule'             -> 'Prolog' 'QueryBody' :
+    #xqModule{type = main, prolog = '$1', body = '$2'}.
+'MainModule'             ->          'QueryBody' : 
+    #xqModule{type = main, body = '$1'}.
 
-'LibraryModule'          -> 'ModuleDecl' 'Prolog' : {'$1', '$2', undefined}.
-'LibraryModule'          -> 'ModuleDecl'          : {'$1', [], undefined}.
+'LibraryModule'          -> 'ModuleDecl' 'Prolog' : 
+    #xqModule{type = library, declaration = '$1', prolog = '$2'}.
+'LibraryModule'          -> 'ModuleDecl'          : 
+    #xqModule{type = library, declaration = '$1'}.
 
-'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
-                           : if '$5' == <<>> -> ?err('XQST0088', {undefined, line('$4')});
-                                true ->
-                                 check_prefix_namespace(line('$2'), bin_value_of('$3'), '$5'),
-                                 Ns = list_to_binary(["Q{", '$5',"}"]),
-                                 xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
-                                        {Ns, bin_value_of('$3')}
-                             end.
+'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' : 
+    L = line('$1'),
+    #xqURILiteral{str = U} = '$5',
+    case U of
+        <<>> ->
+            ?parse_err('XQST0088', {undefined, L});
+        _ ->
+            #xqNCName{str = P} = '$3',
+            check_prefix_namespace(L, P, U),
+            xqerl_context:add_statically_known_namespace(parser, U, P), 
+            #xqModuleDecl{namespace = U, prefix = P}
+    end.
 
 'Separator'              -> ';'.
 
-'Prolog'                 -> 'Prolog1s' : lists:flatten('$1'). % strip the table inserts
-%'Prolog'                 -> 'Prolog1s' : [P || P <- lists:flatten('$1'), not is_atom(P)]. % strip the table inserts
+'Prolog'                 -> 'Prolog1s' : '$1'.
 
 % prolog part I
-'Prolog1'                -> 'DefaultNamespaceDecl' 'Separator' : ['$1'].
-'Prolog1'                -> 'Setter' 'Separator' : ['$1'].
-'Prolog1'                -> 'NamespaceDecl' 'Separator' : ['$1']. 
-'Prolog1'                -> 'Import' 'Separator' : ['$1'].
+'Prolog1'                -> 'DefaultNamespaceDecl' 'Separator' : '$1'.
+'Prolog1'                -> 'Setter' 'Separator' : '$1'.
+'Prolog1'                -> 'NamespaceDecl' 'Separator' : '$1'. 
+'Prolog1'                -> 'Import' 'Separator' : '$1'.
 % prolog part II
-'Prolog1'                -> 'ContextItemDecl' 'Separator' : ['$1']. %3.1
-'Prolog1'                -> 'AnnotatedDecl' 'Separator' : ['$1'].   %3.1
-'Prolog1'                -> 'OptionDecl' 'Separator' : ['$1'].
+'Prolog1'                -> 'ContextItemDecl' 'Separator' : '$1'. %3.1
+'Prolog1'                -> 'AnnotatedDecl' 'Separator' : '$1'.   %3.1
+'Prolog1'                -> 'OptionDecl' 'Separator' : '$1'.
 
-%'Prolog1'                -> 'VarDecl' : ['$1'].
-%'Prolog1'                -> 'FunctionDecl' : ['$1'].
-
-'Prolog1s'               -> 'Prolog1' 'Prolog1s' : ['$1' , '$2'].
+'Prolog1s'               -> 'Prolog1' 'Prolog1s' : ['$1' | '$2'].
 'Prolog1s'               -> 'Prolog1' : ['$1'].
 
-'Setter'                 -> 'BoundarySpaceDecl'    : {set, '$1'}.
-'Setter'                 -> 'DefaultCollationDecl' : {set, '$1'}.
-'Setter'                 -> 'BaseURIDecl'          : {set, '$1'}.
-'Setter'                 -> 'ConstructionDecl'     : {set, '$1'}.
-'Setter'                 -> 'OrderingModeDecl'     : {set, '$1'}.
-'Setter'                 -> 'EmptyOrderDecl'       : {set, '$1'}.
-'Setter'                 -> 'CopyNamespacesDecl'   : {set, '$1'}.
-'Setter'                 -> 'DecimalFormatDecl'    : {set, '$1'}.
-'Setter'                 -> 'RevalidationDecl'    : {set, '$1'}.
+'Setter'                 -> 'BoundarySpaceDecl'    : '$1'.
+'Setter'                 -> 'DefaultCollationDecl' : '$1'.
+'Setter'                 -> 'BaseURIDecl'          : '$1'.
+'Setter'                 -> 'ConstructionDecl'     : '$1'.
+'Setter'                 -> 'OrderingModeDecl'     : '$1'.
+'Setter'                 -> 'EmptyOrderDecl'       : '$1'.
+'Setter'                 -> 'CopyNamespacesDecl'   : '$1'.
+'Setter'                 -> 'DecimalFormatDecl'    : '$1'.
+'Setter'                 -> 'RevalidationDecl'     : '$1'.
 
-'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'preserve' : {'boundary-space', 'preserve'}.
-'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'strip'    : {'boundary-space', 'strip'}.
+'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'preserve' : 
+    #xqBoundarySpaceDecl{anno = line('$1'), mode = preserve}.
+'BoundarySpaceDecl'      -> 'declare' 'boundary-space' 'strip'    : 
+    #xqBoundarySpaceDecl{anno = line('$1'), mode = strip}.
 
-'DefaultCollationDecl'   -> 'declare' 'default' 'collation' 'URILiteral' : {'default-collation', '$4'}. 
+'DefaultCollationDecl'   -> 'declare' 'default' 'collation' 'URILiteral' : 
+    #xqURILiteral{str = U} = '$4',
+    #xqDefaultCollationDecl{anno = line('$1'), uri = U}.
 
-'BaseURIDecl'            -> 'declare' 'base-uri' 'URILiteral' : {'base-uri', '$3'}.
+'BaseURIDecl'            -> 'declare' 'base-uri' 'URILiteral' : 
+    #xqURILiteral{str = U} = '$3',
+    #xqBaseURIDecl{anno = line('$1'), uri = U}.
 
-'ConstructionDecl'       -> 'declare' 'construction' 'strip'    : {'construction-mode', 'strip'}.
-'ConstructionDecl'       -> 'declare' 'construction' 'preserve' : {'construction-mode', 'preserve'}.
+'ConstructionDecl'       -> 'declare' 'construction' 'strip'    : 
+    #xqConstructionDecl{anno = line('$1'), mode = strip}.
+'ConstructionDecl'       -> 'declare' 'construction' 'preserve' : 
+    #xqConstructionDecl{anno = line('$1'), mode = preserve}.
 
-'OrderingModeDecl'       -> 'declare' 'ordering' 'ordered'   : {'ordering-mode', 'ordered'}.
-'OrderingModeDecl'       -> 'declare' 'ordering' 'unordered' : {'ordering-mode', 'unordered'}.
+'OrderingModeDecl'       -> 'declare' 'ordering' 'ordered'   : 
+    #xqOrderingModeDecl{anno = line('$1'), mode = ordered}.
+'OrderingModeDecl'       -> 'declare' 'ordering' 'unordered' : 
+    #xqOrderingModeDecl{anno = line('$1'), mode = unordered}.
 
-'EmptyOrderDecl'         -> 'declare' 'default' 'order' 'empty' 'greatest' : {'empty-seq-order', 'greatest'}.
-'EmptyOrderDecl'         -> 'declare' 'default' 'order' 'empty' 'least'    : {'empty-seq-order', 'least'}.
+'EmptyOrderDecl'         -> 'declare' 'default' 'order' 'empty' 'greatest' : 
+    #xqEmptyOrderDecl{anno = line('$1'), mode = greatest}.
+'EmptyOrderDecl'         -> 'declare' 'default' 'order' 'empty' 'least'    : 
+    #xqEmptyOrderDecl{anno = line('$1'), mode = least}.
 
-'CopyNamespacesDecl'     -> 'declare' 'copy-namespaces' 'PreserveMode' ',' 'InheritMode' : {'copy-namespaces', {'$3', '$5'}}.
+'CopyNamespacesDecl'     -> 'declare' 'copy-namespaces' 'PreserveMode' ',' 'InheritMode' : 
+    #xqCopyNamespacesDecl{anno = line('$1'), pre = '$3', inh = '$5'}.
 
 'PreserveMode'           -> 'preserve' : 'preserve'.
 'PreserveMode'           -> 'no-preserve' : 'no-preserve'.
@@ -246,15 +273,20 @@ Nonassoc 2200 ':' ' :' ': '.
 'InheritMode'            -> 'inherit' : 'inherit'.
 'InheritMode'            -> 'no-inherit' : 'no-inherit'.
 
-'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : {'decimal-format', qname(other,'$3'), '$4'}.
-'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : {'decimal-format', <<>>, '$4'}.
+'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : 
+    #xqDecimalFormatDecl{anno = line('$1'), name = expand_qname(other,'$3'), props = '$4'}.
+'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : 
+    #xqDecimalFormatDecl{anno = line('$1'), props = '$4'}.
 
-'RevalidationDecl'       -> 'declare' 'revalidation' 'strict' : ?err('XUST0026', {undefined, line('$3')}). %{'revalidation', 'strict'}.
-'RevalidationDecl'       -> 'declare' 'revalidation' 'lax' : ?err('XUST0026', {undefined, line('$3')}). %{'revalidation', 'lax'}.
-'RevalidationDecl'       -> 'declare' 'revalidation' 'skip' : {'revalidation', 'skip'}.
+'RevalidationDecl'       -> 'declare' 'revalidation' 'strict' : ?parse_err('XUST0026', {undefined, line('$1')}). %{'revalidation', 'strict'}.
+'RevalidationDecl'       -> 'declare' 'revalidation' 'lax'    : ?parse_err('XUST0026', {undefined, line('$1')}). %{'revalidation', 'lax'}.
+'RevalidationDecl'       -> 'declare' 'revalidation' 'skip'   : 
+    #xqRevalidationDecl{anno = line('$1'), kind = skip}.
 
-'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral'  : [{'$1', bin_value_of('$3')}].
-'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral' 'DFPropertyNameList' : [{'$1', bin_value_of('$3')}|'$4'].
+'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral'  : 
+    [{'$1', line('$2'), bin_value_of('$3')}].
+'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral' 'DFPropertyNameList' : 
+    [{'$1', line('$2'), bin_value_of('$3')}|'$4'].
 
 'DFPropertyName'         -> 'decimal-separator'  : 'decimal-separator' .
 'DFPropertyName'         -> 'grouping-separator' : 'grouping-separator'.
@@ -268,77 +300,123 @@ Nonassoc 2200 ':' ' :' ': '.
 'DFPropertyName'         -> 'pattern-separator'  : 'pattern-separator' .
 'DFPropertyName'         -> 'exponent-separator' : 'exponent-separator'.
 
-'Import'                 -> 'SchemaImport' : ?err('XQST0009', {undefined, 1}).
-'Import'                 -> 'ModuleImport' : {'module-import', '$1'}.
+'Import'                 -> 'SchemaImport' : ?parse_err('XQST0009', {undefined, 1}).
+'Import'                 -> 'ModuleImport' : '$1'.
 
 %list of URILiteral
 'URILiteralList'         -> 'URILiteral' : ['$1'].
 'URILiteralList'         -> 'URILiteral' ',' 'URILiteralList' : ['$1'|'$3'].
 
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(line('$2'),'$3', '$4'),{schema, {'$3', '$4'}, check_uri_hints(line('$5'), '$6')}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(line('$2'),<<>>,'$3'),{schema, {<<>>, '$3'}, check_uri_hints(line('$4'), '$5')}.
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : check_schema_prefix_namespace(line('$2'),'$3', '$4'),{schema, {'$3', '$4'}}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : check_schema_prefix_namespace(line('$2'),<<>>,'$3'),{schema, {<<>>, '$3'}}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : 
+    L = line('$1'),
+    P = '$3',
+    #xqURILiteral{str = U} = '$4',
+    check_schema_prefix_namespace(L,P,U),
+    #xqImport{anno = L, kind = schema, uri = U, prefix = P, hints = '$6'}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : 
+    L = line('$1'),
+    P = <<>>,
+    #xqURILiteral{str = U} = '$3',
+    check_schema_prefix_namespace(L,P,U),
+    #xqImport{anno = L, kind = schema, uri = U, prefix = P, hints = '$5'}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : 
+    L = line('$1'),
+    P = '$3',
+    #xqURILiteral{str = U} = '$4',
+    check_schema_prefix_namespace(L,P,U),
+    #xqImport{anno = L, kind = schema, uri = U, prefix = P, hints = []}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : 
+    L = line('$1'),
+    P = <<>>,
+    #xqURILiteral{str = U} = '$3',
+    check_schema_prefix_namespace(L,P,U),
+    #xqImport{anno = L, kind = schema, uri = U, prefix = P, hints = []}.
 
-'SchemaPrefix'           -> 'namespace' 'NCName' '=' : bin_value_of('$2').
-'SchemaPrefix'           -> 'default' 'element' 'namespace' : 'default-element-namespace'.
+'SchemaPrefix'           -> 'namespace' 'NCName' '=' : #xqNCName{str = P} = '$2', P.
+'SchemaPrefix'           -> 'default' 'element' 'namespace' : <<>>.
 
-'ModuleImport'           -> 'import' 'module' 'URILiteral'
-                           : if '$3' == <<>> ->
-                                    ?err('XQST0088', {undefined, line('$2')});
-                                 true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri(line('$2'), '$3'), "}"]), 
-                                    xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
-                                    {Ns, <<>>}
-                              end.
-'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : if '$6' == <<>> ->
-                                    ?err('XQST0088', {undefined, line('$5')});
-                                 true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri(line('$5'), '$6'), "}"]), 
-                                    xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
-                                    {Ns, bin_value_of('$4')}
-                              end.
-'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' 
-                           : if '$3' == <<>> ->
-                                    ?err('XQST0088', {undefined, line('$2')});
-                                 true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri(line('$2'), '$3'), "}"]), 
-                                    xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
-                                    {Ns, <<>>}
-                              end.
-'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 'at' 'URILiteralList' 
-                           : if '$6' == <<>> ->
-                                    ?err('XQST0088', {undefined, line('$5')});
-                                 true ->
-                                    Ns = list_to_binary(["Q{", check_import_uri(line('$5'), '$6'), "}"]), 
-                                    xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
-                                    {Ns, bin_value_of('$4')}
-                              end.
+'ModuleImport'           -> 'import' 'module' 'URILiteral' :
+    L = line('$1'),
+    P = <<>>,
+    #xqURILiteral{str = U} = '$3',
+    case U of
+        <<>> ->
+            ?parse_err('XQST0088', {undefined, L});
+        _ ->
+            U1 = check_import_uri(L, U),
+            ok = check_prefix_namespace(L, P, U1),
+            xqerl_context:add_statically_known_namespace(parser, U, P),
+            #xqImport{anno = L, kind = module, uri = U, prefix = P, hints = []}
+    end.
+'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' : 
+    L = line('$1'),
+    #xqNCName{str = P} = '$4',
+    #xqURILiteral{str = U} = '$6',
+    case U of
+        <<>> ->
+            ?parse_err('XQST0088', {undefined, L});
+        _ ->
+            U1 = check_import_uri(L, U),
+            ok = check_prefix_namespace(L, P, U1),
+            xqerl_context:add_statically_known_namespace(parser, U, P),
+            #xqImport{anno = L, kind = module, uri = U, prefix = P, hints = []}
+    end.
+'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' : 
+    L = line('$1'),
+    P = <<>>,
+    #xqURILiteral{str = U} = '$3',
+    case U of
+        <<>> ->
+            ?parse_err('XQST0088', {undefined, L});
+        _ ->
+            U1 = check_import_uri(L, U),
+            ok = check_prefix_namespace(L, P, U1),
+            xqerl_context:add_statically_known_namespace(parser, U, P),
+            #xqImport{anno = L, kind = module, uri = U, prefix = P, hints = '$5'}
+    end.
+'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 'at' 'URILiteralList' : 
+    L = line('$1'),
+    #xqNCName{str = P} = '$4',
+    #xqURILiteral{str = U} = '$6',
+    case U of
+        <<>> ->
+            ?parse_err('XQST0088', {undefined, L});
+        _ ->
+            U1 = check_import_uri(L, U),
+            ok = check_prefix_namespace(L, P, U1),
+            xqerl_context:add_statically_known_namespace(parser, U, P),
+            #xqImport{anno = L, kind = module, uri = U, prefix = P, hints = '$8'}
+    end.
 
-'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : check_prefix_namespace(line('$2'), bin_value_of('$3'), check_import_uri(line('$4'), '$5')), 
-                             xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
-                             {namespace, {'$5', bin_value_of('$3')}}.
+'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' : 
+    L = line('$1'),
+    #xqNCName{str = P} = '$3',
+    #xqURILiteral{str = U} = '$5',
+    ok = check_prefix_namespace(L, P, check_import_uri(L, U)), 
+    xqerl_context:add_statically_known_namespace(parser,U, P),
+    #xqNamespaceDecl{anno = L, uri = U, prefix = P}.
 
-'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' 
-                           : 
-case '$5' of
-   <<>> -> {'element-namespace', 'no-namespace'};
-   _ ->
-      Ns = list_to_binary(["Q{", '$5',"}"]),
-      xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
-      xqerl_context:set_default_element_type_namespace(parser,'$5'),
-      {'element-namespace', '$5'}
-end.
-'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
-                           : Ns =   case '$5' of 
-                                       <<>> -> '$5'; 
-                                       <<"http://www.w3.org/2005/xpath-functions">> -> '$5';
-                                       _ -> list_to_binary(["Q{", '$5',"}"])
-                                    end,
-                             xqerl_context:set_default_function_namespace(parser,Ns), 
-                             {'function-namespace', '$5'}.
+'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' : 
+    case '$5' of
+        #xqURILiteral{str = <<>>} ->
+            #xqDefaultNamespaceDecl{anno = line('$1'), kind = element, uri = <<>>};
+        #xqURILiteral{str = N} ->
+            xqerl_context:add_statically_known_namespace(parser, N, <<>>),
+            xqerl_context:set_default_element_type_namespace(parser, N),
+            #xqDefaultNamespaceDecl{anno = line('$1'), kind = element, uri = N}
+    end.
+'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' : 
+    Ns = 
+        case '$5' of
+            #xqURILiteral{str = <<>>} ->
+                <<>>;
+            #xqURILiteral{str = <<"http://www.w3.org/2005/xpath-functions">>} ->
+                <<"http://www.w3.org/2005/xpath-functions">>;
+            #xqURILiteral{str = N} ->
+                N
+        end,
+    xqerl_context:set_default_function_namespace(parser, Ns), 
+    #xqDefaultNamespaceDecl{anno = line('$1'), kind = function, uri = Ns}.
 
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2', anno = line('$1')}.
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'FunctionDecl' : ('$3')#xqFunctionDef{annotations = '$2', anno = line('$1')}.
@@ -346,60 +424,90 @@ end.
 'AnnotatedDecl'          -> 'declare' 'FunctionDecl'                  : ('$2')#xqFunctionDef{anno = line('$1')}.
  
 'AnnotationList'         -> 'Annotation' 'AnnotationList' : ['$1' | '$2'].
-'AnnotationList'         -> 'updating'   'AnnotationList' : [#annotation{name = {qname,<<"http://www.w3.org/2012/xquery">>,<<>>,<<"updating">>}, values = []} | '$2'].
+'AnnotationList'         -> 'updating'   'AnnotationList' : 
+    [#xqAnnotation{anno = line('$1'), name = #xqQName{namespace = <<"http://www.w3.org/2012/xquery">>, prefix = <<>>, local_name = <<"updating">>}, values = []} | '$2'].
 'AnnotationList'         -> 'Annotation' : ['$1'].
-'AnnotationList'         -> 'updating' : [#annotation{name = {qname,<<"http://www.w3.org/2012/xquery">>,<<>>,<<"updating">>}, values = []}].
+'AnnotationList'         -> 'updating' : 
+    [#xqAnnotation{anno = line('$1'), name = #xqQName{namespace = <<"http://www.w3.org/2012/xquery">>, prefix = <<>>, local_name = <<"updating">>}, values = []}].
 
 'LiteralList'            -> 'Literal' ',' 'LiteralList' : ['$1' | '$3'].
 'LiteralList'            -> 'Literal' : ['$1'].
 
-'Annotation'             -> '%' 'EQName' '(' 'LiteralList' ')' : #annotation{name = qname(anno, '$2'), values = '$4'}.
-'Annotation'             -> '%' 'EQName'                       : #annotation{name = qname(anno, '$2'), values = []}.
+'Annotation'             -> '%' 'EQName' '(' 'LiteralList' ')' : 
+    #xqAnnotation{anno = line('$1'), name = expand_qname(anno, '$2'), values = '$4'}.
+'Annotation'             -> '%' 'EQName'                       : 
+    #xqAnnotation{anno = line('$1'), name = expand_qname(anno, '$2'), values = []}.
 
 %% 
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'expr' = '$7'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'expr' = '$6'}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'                    : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true, 'expr' = '$6', type = undefined}.
-'VarDecl'                -> 'variable' '$' 'VarName' 'external'                                           : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'external' = true               , type = undefined}.
-'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                                      : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'expr' = '$5'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = '$4', 'external' = true, expr = '$7'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external'                         : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = '$4', 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' ':=' 'VarValue'                    : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = '$4', expr = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external' ':=' 'VarDefaultValue'                    : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = #xqSeqType{anno = line('$1')}, 'external' = true, expr = '$6'}.
+'VarDecl'                -> 'variable' '$' 'VarName' 'external'                                           : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = #xqSeqType{anno = line('$1')}, 'external' = true}.
+'VarDecl'                -> 'variable' '$' 'VarName' ':=' 'VarValue'                                      : 
+    #xqVar{anno = line('$1'), id = next_id(), name = expand_qname(var,'$3'), type = #xqSeqType{anno = line('$1')}, expr = '$5'}.
 
 'VarValue'               -> 'ExprSingle' : '$1'.
 'VarDefaultValue'        -> 'ExprSingle' : '$1'.
 
-'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' ':=' 'VarValue'                   : {'context-item', {'$5', 'undefined', '$7'}}.
-'ContextItemDecl'        -> 'declare' 'context' 'item'                 ':=' 'VarValue'                   : {'context-item', {'item', 'undefined', '$5'}}.
-'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external' ':=' 'VarDefaultValue' : {'context-item', {'$5', 'external', '$8'}}.
-'ContextItemDecl'        -> 'declare' 'context' 'item'                 'external' ':=' 'VarDefaultValue' : {'context-item', {'item', 'external', '$6'}}.
-'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external'                        : {'context-item', {'$5', 'external', 'undefined'}}.
-'ContextItemDecl'        -> 'declare' 'context' 'item'                 'external'                        : {'context-item', {'item', 'external', 'undefined'}}.
+'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' ':=' 'VarValue'                   : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1'), type = '$5', occur = one}, external = false, default = '$7'}.
+'ContextItemDecl'        -> 'declare' 'context' 'item'                 ':=' 'VarValue'                   : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1')}, external = false, default = '$5'}.
+'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external' ':=' 'VarDefaultValue' : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1'), type = '$5', occur = one}, external = true, default = '$8'}.
+'ContextItemDecl'        -> 'declare' 'context' 'item'                 'external' ':=' 'VarDefaultValue' : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1')}, external = true, default = '$6'}.
+'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external'                        : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1'), type = '$5', occur = one}, external = true}.
+'ContextItemDecl'        -> 'declare' 'context' 'item'                 'external'                        : 
+    #xqContextItemDecl{anno = line('$1'), type = #xqSeqType{anno = line('$1')}, external = true}.
 
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', body = '$8'}.
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'external'     : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', external = true}.
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4',              body = '$6'}.
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'external'     : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4',              external = true}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'),                                      type = '$6', body = '$7'}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'external'     : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'),                                      type = '$6', external = true}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'),                                                   body = '$5'}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'external'     : #xqFunctionDef{anno = line('$1'), id = next_id(), name = qname(func, '$2'),                                                   external = true}.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', body = '$8'}.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'external'     : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', external = true}.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), arity = length('$4'), params = '$4', type = #xqSeqType{anno = line('$1')}, body = '$6'}.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'external'     : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), arity = length('$4'), params = '$4', type = #xqSeqType{anno = line('$1')}, external = true}.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), type = '$6', body = '$7'}.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'external'     : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), type = '$6', external = true}.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), type = #xqSeqType{anno = line('$1')}, body = '$5'}.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'external'     : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), name = expand_qname(func, '$2'), type = #xqSeqType{anno = line('$1')}, external = true}.
 
 'ParamList'              -> 'Param' ',' 'ParamList' : ['$1' | '$3'].
 'ParamList'              -> 'Param' : ['$1'].
 
-'Param'                  -> '$' 'EQName' 'TypeDeclaration' : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = '$3', anno = line('$1')}.
-'Param'                  -> '$' 'EQName'                   : #xqVar{id = next_id(), name = qname(var, '$2'), 'type' = #xqSeqType{}, anno = line('$1')}.
+'Param'                  -> '$' 'EQName' 'TypeDeclaration' : 
+    #xqVar{id = next_id(), name = expand_qname(var, '$2'), type = '$3', anno = line('$1')}.
+'Param'                  -> '$' 'EQName'                   : 
+    #xqVar{id = next_id(), name = expand_qname(var, '$2'), type = #xqSeqType{anno = line('$1')}, anno = line('$1')}.
 
 'FunctionBody'           -> 'EnclosedExpr' : '$1'.
 
-'EnclosedExpr'           -> '{' 'Expr' '}' : '$2'.
-'EnclosedExpr'           -> '{' '}' : 'empty-expr'.
+'EnclosedExpr'           -> '{' 'Expr' '}' : 
+    #xqEnclosedExpr{anno = line('$1'), expr = '$2'}.
+'EnclosedExpr'           -> '{' '}' : 
+    #xqEnclosedExpr{anno = line('$1'), expr = 'empty-expr'}.
 
-'OptionDecl'             -> 'declare' 'option' 'EQName' 'StringLiteral' : {'option', {qname(opt, '$3'), bin_value_of('$4')}}.
+'OptionDecl'             -> 'declare' 'option' 'EQName' 'StringLiteral' : 
+    #xqOptionDecl{anno = line('$1'), name = expand_qname(opt, '$3'), val = bin_value_of('$4')}.
 
 'QueryBody'              -> 'Expr' : #xqQuery{query = '$1'}.
 
 'Expr'                   -> 'ExprSingle' ',' 'Expr' : ['$1' | '$3'].
 'Expr'                   -> 'ExprSingle' : ['$1'].
+
 % [40]
 'ExprSingle'             -> 'FLWORExpr' : '$1'.
 'ExprSingle'             -> 'QuantifiedExpr' : '$1'.
@@ -446,8 +554,9 @@ end.
 
 % [207]
 'UpdatingFunctionCall' -> 'invoke' 'updating' 'PrimaryExpr' 'ArgumentList' : 
-    #xqArgumentList{args = Args} = '$4',
-    {'updating-function-call', '$3', length(Args), Args}.
+    % updating no different than regular call with update 3.0
+    Part = is_partial_impl('$4'),
+    #xqPostfixExpr{id = next_id(), part = Part, expr = '$3', post = '$4'}.
 
 % [208]
 'CopyModifyExpr' -> 'copy' 'CopyBindingList' 'modify' 'ExprSingle' 'return' 'ExprSingle' :
@@ -456,12 +565,15 @@ end.
 'CopyBindingList' -> 'CopyBinding' ',' 'CopyBindingList' : ['$1'|'$3'].
 'CopyBindingList' -> 'CopyBinding' : ['$1'].
 
-'CopyBinding' -> '$' 'VarName' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'expr' = '$4', anno = line('$1')}.
-  
+'CopyBinding' -> '$' 'VarName' ':=' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', expr = '$4', anno = line('$1')}.
 
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = element(2, '$3'), anno = element(1, '$3')}.
-'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = element(2, '$2'), anno = element(1, '$2')}.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : 
+    #xqFlwor{id = next_id(), loop = '$1'++'$2', return = '$3'}.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : 
+    #xqFlwor{id = next_id(), loop = '$1', return = '$2'}.
+
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -475,40 +587,52 @@ end.
 'IntermediateClause'     -> 'GroupByClause'  : '$1'.
 'IntermediateClause'     -> 'OrderByClause'  : '$1'.
 'IntermediateClause'     -> 'CountClause' : '$1'.
+
 % [44]
 'ForClause'              -> 'for' 'ForBindingList' : '$2'.
-% [45]
-'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{for,'$1',undefined} | '$3'] .
-'ForBindingList'         -> 'ForBinding' : [{for,'$1',undefined}].
 
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                 position = '$4', expr = '$6', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName'                                   'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                position = '$3', expr = '$5', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true,                  expr = '$6', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty'                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true,                  expr = '$5', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                                  expr = '$5', anno = line('$1')}.
-'ForBinding'             -> '$' 'VarName'                                                   'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                                 expr = '$4', anno = line('$1')}.
+% [45]
+'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [#xqFor{var = '$1'} | '$3'] .
+'ForBindingList'         -> 'ForBinding' : [#xqFor{var = '$1'}].
+
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', type = '$3', 'empty' = true, position = '$5', expr = '$7', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', 'empty' = true, position = '$4', expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                 'PositionalVar' 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', type = '$3', position = '$4', expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                                   'PositionalVar' 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', position = '$3', expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty'                 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', type = '$3', 'empty' = true, expr = '$6', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty'                 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', 'empty' = true, expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                                 'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', type = '$3', expr = '$5', anno = line('$1')}.
+'ForBinding'             -> '$' 'VarName'                                                   'in' 'ExprSingle' : 
+    #xqVar{id = next_id(), name = '$2', expr = '$4', anno = line('$1')}.
 % [46]
 'AllowingEmpty'          -> 'allowing' 'empty' : true.
 % [47]
 'PositionalVar'          -> 'at' '$' 'VarName' : #xqPosVar{id = next_id(), name = '$3'} .
+
 % [48]
 'LetClause'              -> 'let' 'LetBindingList' : '$2'. 
 % [49]
-'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1',undefined}|'$3'].
-'LetBindingList'         -> 'LetBinding' : [{'let', '$1',undefined}] .
+'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [#xqLet{var = '$1'}|'$3'].
+'LetBindingList'         -> 'LetBinding' : [#xqLet{var = '$1'}] .
 
-'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5', anno = line('$1')}.
-'LetBinding'             -> '$' 'VarName'                   ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'expr' = '$4', anno = line('$1')}.
+'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), name = '$2', type = '$3', expr = '$5', anno = line('$1')}.
+'LetBinding'             -> '$' 'VarName'                   ':=' 'ExprSingle' : #xqVar{id = next_id(), name = '$2',                expr = '$4', anno = line('$1')}.
 
 % [50]
 'WindowClause'           -> 'for' 'TumblingWindowClause' : ['$2'].
 'WindowClause'           -> 'for' 'SlidingWindowClause'  : ['$2'].
+
 % [51]
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', type = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -523,7 +647,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -538,7 +662,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition'                      : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', type = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -547,7 +671,7 @@ end.
                                     }.
 'TumblingWindowClause'   -> 'tumbling' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition'                      : 
                            #xqWindow{type = tumbling, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -557,7 +681,7 @@ end.
 % [52]
 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = sliding, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', 'type' = '$5', expr = '$7', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', type = '$5', expr = '$7', anno = line('$3')},
                                      start_expr = element(5, '$8'),
                                      s          = element(1, '$8'),
                                      spos       = element(2, '$8'),
@@ -572,7 +696,7 @@ end.
                                     }.
 'SlidingWindowClause'    -> 'sliding' 'window' '$' 'VarName'                   'in' 'ExprSingle' 'WindowStartCondition' 'WindowEndCondition' : 
                            #xqWindow{type = sliding, 
-                                     win_variable = #xqVar{id = next_id(), 'name' = '$4', expr = '$6', anno = line('$3')},
+                                     win_variable = #xqVar{id = next_id(), name = '$4', expr = '$6', anno = line('$3')},
                                      start_expr = element(5, '$7'),
                                      s          = element(1, '$7'),
                                      spos       = element(2, '$7'),
@@ -585,14 +709,17 @@ end.
                                      enext      = element(4, '$8'),
                                      only       = element(6, '$8')
                                     }.
+
 % [53]
 'WindowStartCondition'   -> 'start' 'WindowVars' 'when' 'ExprSingle' : erlang:append_element('$2', '$4').
-'WindowStartCondition'   -> 'start' 'when' 'ExprSingle' : {'undefined','undefined','undefined','undefined','$3'}.
+'WindowStartCondition'   -> 'start'              'when' 'ExprSingle' : {'undefined','undefined','undefined','undefined','$3'}.
+
 % [54]
 'WindowEndCondition'     -> 'only' 'end' 'WindowVars' 'when' 'ExprSingle' : erlang:append_element(erlang:append_element('$3', '$5'),'true').
 'WindowEndCondition'     ->        'end' 'WindowVars' 'when' 'ExprSingle' : erlang:append_element(erlang:append_element('$2', '$4'),'false').
 'WindowEndCondition'     -> 'only' 'end'              'when' 'ExprSingle' : {'undefined','undefined','undefined','undefined','$4','true'}.
 'WindowEndCondition'     ->        'end'              'when' 'ExprSingle' : {'undefined','undefined','undefined','undefined','$3','false'}.
+
 % [55]
 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : {'$2',       '$3',       '$6',       '$9'}.
 'WindowVars'             ->                   'PositionalVar' 'previous' '$' 'PreviousItem' 'next' '$' 'NextItem' : {'undefined','$1',       '$4',       '$7'}.
@@ -609,133 +736,193 @@ end.
 'WindowVars'             -> '$' 'CurrentItem' 'PositionalVar'                                                     : {'$2',       '$3',       'undefined','undefined'}.
 'WindowVars'             ->                   'PositionalVar'                                                     : {'undefined','$1',       'undefined','undefined'}.
 'WindowVars'             -> '$' 'CurrentItem'                                                                     : {'$2',       'undefined','undefined','undefined'}.
+
 % [56]
-'CurrentItem'            -> 'EQName' : #xqVar{id = next_id(), 'name' = qname(var, '$1')}.
+'CurrentItem'            -> 'EQName' :
+    #xqQName{anno = A} = '$1',
+    #xqVar{anno = A, id = next_id(), name = expand_qname(var, '$1')}.
+
 % [57]
-'PreviousItem'           -> 'EQName' : #xqVar{id = next_id(), 'name' = qname(var, '$1')}.
+'PreviousItem'           -> 'EQName' :
+    #xqQName{anno = A} = '$1',
+    #xqVar{anno = A, id = next_id(), name = expand_qname(var, '$1')}.
+
 % [58]
-'NextItem'               -> 'EQName' : #xqVar{id = next_id(), 'name' = qname(var, '$1')}.
+'NextItem'               -> 'EQName' :
+    #xqQName{anno = A} = '$1',
+    #xqVar{anno = A, id = next_id(), name = expand_qname(var, '$1')}.
+
 % [59]
-'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3'), type = #xqSeqType{type = 'xs:integer', occur = one}, anno = line('$2')}}].
+'CountClause'            -> 'count' '$' 'VarName' : 
+    [#xqCount{var = #xqVar{id = next_id(), 
+                           name = expand_qname(var, '$3'),
+                           type = #xqSeqType{anno = line('$2'), type = 'xs:integer', occur = one}, 
+                           anno = line('$2')}}].
+
 % [60]
-'WhereClause'            -> 'where' 'ExprSingle' : split_where_statement('$2').
+'WhereClause'            -> 'where' 'ExprSingle' : split_where_statement('$2', line('$1')).
+
 % [61]
-'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : sort_grouping('$3', next_id()).
+'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : sort_grouping('$3', next_id(), line('$1')).
 % [62]
 'GroupingSpecList'       ->  'GroupingSpec' ',' 'GroupingSpecList' : '$1' ++ '$3'.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
+
 % [63]
 %% Grouping makes a new variable to group on by injecting a let statement
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$3'), name = '$1'},collation = '$6'}] .
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$3'), id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$3'), name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = '$5'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{anno = line('$2'), id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
-                                                                                                                #xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{anno = line('$2'), name = '$1'},collation = '$3'}].
-'GroupingSpec'           ->  'GroupingVariable'                                                              : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}].
-% [64]
-'GroupingVariable'       ->  '$' 'VarName' : '$2'.
-% [65]
-'OrderByClause'          -> 'order' 'by' 'OrderSpecList'          : [{order_by, next_id(), '$3'}].
-'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : [{order_by, next_id(), '$4'}]. % always stable
-% [66]
-'OrderSpecList'          -> 'OrderSpec' ',' 'OrderSpecList' : '$1' ++ '$3'.
-'OrderSpecList'          -> 'OrderSpec' : '$1'.
-% [67]
-'OrderSpec'              -> 'ExprSingle' 'OrderModifier' : [#xqOrderSpec{expr = '$1', modifier = '$2'}].
-'OrderSpec'              -> 'ExprSingle'                 : [#xqOrderSpec{expr = '$1', modifier = #xqOrderModifier{}}].
-% [68]
-'OrderModifier'          -> 'ascending'  'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{empty = greatest, collation = '$5'}.
-'OrderModifier'          -> 'descending' 'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{direction = descending, empty = greatest, collation = '$5'}.
-'OrderModifier'          ->              'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{empty = greatest, collation = '$4'}.
-'OrderModifier'          -> 'ascending'  'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{empty = least, collation = '$5'}.
-'OrderModifier'          -> 'descending' 'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{direction = descending, empty = least, collation = '$5'}.
-'OrderModifier'          ->              'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{empty = least, collation = '$4'}.
-'OrderModifier'          -> 'ascending'                     'collation' 'URILiteral' : #xqOrderModifier{collation = '$3'}.
-'OrderModifier'          -> 'descending'                    'collation' 'URILiteral' : #xqOrderModifier{direction = descending, collation = '$3'}.
-'OrderModifier'          ->                                 'collation' 'URILiteral' : #xqOrderModifier{collation = '$2'}.
-'OrderModifier'          -> 'ascending'  'empty' 'greatest'                          : #xqOrderModifier{empty = greatest}.
-'OrderModifier'          -> 'descending' 'empty' 'greatest'                          : #xqOrderModifier{direction = descending, empty = greatest}.
-'OrderModifier'          ->              'empty' 'greatest'                          : #xqOrderModifier{empty = greatest}.
-'OrderModifier'          -> 'ascending'  'empty' 'least'                             : #xqOrderModifier{empty = least}.
-'OrderModifier'          -> 'descending' 'empty' 'least'                             : #xqOrderModifier{direction = descending, empty = least}.
-'OrderModifier'          ->              'empty' 'least'                             : #xqOrderModifier{empty = least}.
-'OrderModifier'          -> 'ascending'                                              : #xqOrderModifier{}.
-'OrderModifier'          -> 'descending'                                             : #xqOrderModifier{direction = descending}.
-% [69]
-'ReturnClause'           -> 'return' 'ExprSingle' : {line('$1'), '$2'}.
-% [70]
-'QuantifiedExpr'         -> 'some'  'InStatements' 'satisfies' 'ExprSingle' : {'some' , '$2', '$4'}.
-'QuantifiedExpr'         -> 'every' 'InStatements' 'satisfies' 'ExprSingle' : {'every', '$2', '$4'}.
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : 
+    [#xqLet{var = #xqVar{anno = line('$3'), id = next_id(), name = ('$1')#xqVarRef.name, type = '$2', expr = '$4'}},
+     #xqGroupBy{grp_variable = '$1', collation = '$6'}] .
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : 
+    [#xqLet{var = #xqVar{anno = line('$3'), id = next_id(), name = ('$1')#xqVarRef.name, type = '$2', expr = '$4'}},
+     #xqGroupBy{grp_variable = '$1', collation = 'default'}] .
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : 
+    [#xqLet{var = #xqVar{anno = line('$2'), id = next_id(), name = ('$1')#xqVarRef.name, expr = '$3'}},
+     #xqGroupBy{grp_variable = '$1', collation = '$5'}] .
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : 
+    [#xqLet{var = #xqVar{anno = line('$2'), id = next_id(), name = ('$1')#xqVarRef.name, expr = '$3'}},
+     #xqGroupBy{grp_variable = '$1', collation = 'default'}] .
+'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : 
+    [#xqGroupBy{grp_variable = '$1', collation = '$3'}].
+'GroupingSpec'           ->  'GroupingVariable'                                                              : 
+    [#xqGroupBy{grp_variable = '$1', collation = 'default'}].
 
-'InStatement'            -> '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' : #xqVar{anno = line('$1'), id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
-'InStatement'            -> '$' 'VarName' 'in' 'ExprSingle'                   : #xqVar{anno = line('$1'), id = next_id(), 'name' = '$2',                'expr' = '$4'}.
+% [64]
+'GroupingVariable'       ->  '$' 'VarName' : 
+    #xqVarRef{anno = line('$1'), name = '$2'}.
+
+% [65]
+'OrderByClause'          ->          'order' 'by' 'OrderSpecList' : 
+    [#xqOrderByClause{anno = line('$1'), id = next_id(), spec = '$3'}].
+'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : 
+    [#xqOrderByClause{anno = line('$2'), id = next_id(), spec = '$4'}]. % always stable
+
+% [66]
+'OrderSpecList'          -> 'OrderSpec' ',' 'OrderSpecList' : ['$1' | '$3'].
+'OrderSpecList'          -> 'OrderSpec' : ['$1'].
+
+% [67]
+'OrderSpec'              -> 'ExprSingle' 'OrderModifier' : 
+    #xqOrderSpec{expr = '$1', modifier = '$2'}.
+'OrderSpec'              -> 'ExprSingle'                 : 
+    #xqOrderSpec{expr = '$1', modifier = #xqOrderModifier{}}.
+
+% [68]
+'OrderModifier'          -> 'ascending'  'empty' 'greatest' 'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), empty = greatest, collation = '$5'}.
+'OrderModifier'          -> 'descending' 'empty' 'greatest' 'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), direction = descending, empty = greatest, collation = '$5'}.
+'OrderModifier'          ->              'empty' 'greatest' 'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), empty = greatest, collation = '$4'}.
+'OrderModifier'          -> 'ascending'  'empty' 'least'    'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), empty = least, collation = '$5'}.
+'OrderModifier'          -> 'descending' 'empty' 'least'    'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), direction = descending, empty = least, collation = '$5'}.
+'OrderModifier'          ->              'empty' 'least'    'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), empty = least, collation = '$4'}.
+'OrderModifier'          -> 'ascending'                     'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), collation = '$3'}.
+'OrderModifier'          -> 'descending'                    'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), direction = descending, collation = '$3'}.
+'OrderModifier'          ->                                 'collation' 'URILiteral' : 
+    #xqOrderModifier{anno = line('$1'), collation = '$2'}.
+'OrderModifier'          -> 'ascending'  'empty' 'greatest'                          : 
+    #xqOrderModifier{anno = line('$1'), empty = greatest}.
+'OrderModifier'          -> 'descending' 'empty' 'greatest'                          : 
+    #xqOrderModifier{anno = line('$1'), direction = descending, empty = greatest}.
+'OrderModifier'          ->              'empty' 'greatest'                          : 
+    #xqOrderModifier{anno = line('$1'), empty = greatest}.
+'OrderModifier'          -> 'ascending'  'empty' 'least'                             : 
+    #xqOrderModifier{empty = least}.
+'OrderModifier'          -> 'descending' 'empty' 'least'                             : 
+    #xqOrderModifier{anno = line('$1'), direction = descending, empty = least}.
+'OrderModifier'          ->              'empty' 'least'                             : 
+    #xqOrderModifier{anno = line('$1'), empty = least}.
+'OrderModifier'          -> 'ascending'                                              : 
+    #xqOrderModifier{anno = line('$1')}.
+'OrderModifier'          -> 'descending'                                             : 
+    #xqOrderModifier{anno = line('$1'), direction = descending}.
+
+% [69]
+'ReturnClause'           -> 'return' 'ExprSingle' : '$2'.
+
+% [70]
+'QuantifiedExpr'         -> 'some'  'InStatements' 'satisfies' 'ExprSingle' : 
+    #xqQuantifiedExpr{which = some, in_expr = '$2', satisfies = '$4'}.
+'QuantifiedExpr'         -> 'every' 'InStatements' 'satisfies' 'ExprSingle' : 
+    #xqQuantifiedExpr{which = every, in_expr = '$2', satisfies = '$4'}.
+
+'InStatement'            -> '$' 'VarName' 'TypeDeclaration' 'in' 'ExprSingle' : 
+    #xqVar{anno = line('$1'), id = next_id(), name = '$2', type = '$3', expr = '$5'}.
+'InStatement'            -> '$' 'VarName' 'in' 'ExprSingle'                   : 
+    #xqVar{anno = line('$1'), id = next_id(), name = '$2', expr = '$4'}.
 
 'InStatements'           -> 'InStatement' ',' 'InStatements': ['$1' | '$3'].
 'InStatements'           -> 'InStatement' : ['$1'].
 
-% [71] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-'SwitchExpr'             ->  'switch' '(' 'Expr' ')' 'SwitchCaseClauses' 'default' 'return' 'ExprSingle' 
-                              : #xqSwitch{id      = next_id(),
-                                          operand = '$3',
-                                          clauses = '$5',
-                                          default = '$8'}.
+% [71]
+'SwitchExpr'             ->  'switch' '(' 'Expr' ')' 'SwitchCaseClauses' 'default' 'return' 'ExprSingle' : 
+    #xqSwitch{id      = next_id(),
+              operand = '$3',
+              clauses = '$5',
+              default = '$8'}.
+
 % [72]
-'SwitchCaseClause'       -> 'SwitchCase' 'return' 'ExprSingle' 
-                              : #xqSwitchClause{operands = '$1', expr = '$3'}.
+'SwitchCaseClause'       -> 'SwitchCase' 'return' 'ExprSingle' : 
+    #xqSwitchClause{operands = '$1', expr = '$3'}.
 
 'SwitchCaseClauses'      -> 'SwitchCaseClause' 'SwitchCaseClauses' : ['$1'|'$2'].
 'SwitchCaseClauses'      -> 'SwitchCaseClause' : ['$1'].
 'SwitchCase'             -> 'case' 'SwitchCaseOperand' : ['$2'] .
 'SwitchCase'             -> 'case' 'SwitchCaseOperand' 'SwitchCase' : ['$2'|'$3'] .
+
 % [73]
 'SwitchCaseOperand'      -> 'ExprSingle' : '$1'  .
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% [74] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default' '$' 'VarName' 'return' 'ExprSingle' 
-                           : #xqTypeswitch{id = next_id(),
-                                           input = '$3', 
-                                           cases = '$5', 
-                                           default = #xqTypeswitchCase{variable = #xqVar{anno = line('$7'), id = next_id(), 'name' = '$8',expr = '$10'}}}.  
-'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default'               'return' 'ExprSingle' 
-                           : #xqTypeswitch{id = next_id(),
-                                           input = '$3', 
-                                           cases = '$5', 
-                                           default = #xqTypeswitchCase{expr = '$8'}}.  
+% [74]
+'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default' '$' 'VarName' 'return' 'ExprSingle' : 
+    #xqTypeswitch{anno = line('$1'),
+                  id = next_id(),
+                  input = '$3', 
+                  cases = '$5', 
+                  default = #xqTypeswitchCase{variable = #xqVar{anno = line('$7'), id = next_id(), name = '$8',expr = '$10'}}}.  
+'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default'               'return' 'ExprSingle' : 
+    #xqTypeswitch{anno = line('$1'),
+                  id = next_id(),
+                  input = '$3', 
+                  cases = '$5', 
+                  default = #xqTypeswitchCase{expr = '$8'}}.  
+
 % [75]
-'CaseClause'             -> 'case' '$' 'VarName' 'as' 'SequenceTypeUnion' 'return' 'ExprSingle' 
-                           : #xqTypeswitchCase{types = '$5', variable = #xqVar{anno = line('$2'), id = next_id(), 'name' = '$3',expr = '$7'}}.
-'CaseClause'             -> 'case'                    'SequenceTypeUnion' 'return' 'ExprSingle' 
-                           : #xqTypeswitchCase{types = '$2', expr = '$4'}.
+'CaseClause'             -> 'case' '$' 'VarName' 'as' 'SequenceTypeUnion' 'return' 'ExprSingle': 
+    #xqTypeswitchCase{types = '$5', variable = #xqVar{anno = line('$2'), id = next_id(), name = '$3',expr = '$7'}}.
+'CaseClause'             -> 'case'                    'SequenceTypeUnion' 'return' 'ExprSingle' : 
+    #xqTypeswitchCase{types = '$2', expr = '$4'}.
 
 'CaseClauses'            -> 'CaseClause' 'CaseClauses' : ['$1'|'$2'].
 'CaseClauses'            -> 'CaseClause' : ['$1'].
 % [76]
 'SequenceTypeUnion'      -> 'SequenceType' '|' 'SequenceTypeUnion' : ['$1'|'$3']. 
 'SequenceTypeUnion'      -> 'SequenceType' : ['$1'].
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % [77]
-'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : {'if-then-else', '$3', {next_id(),'$6'}, {next_id(),'$8'}}.
+'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : 
+    #xqIfExpr{anno = line('$2'), condition = '$3', if_true = {next_id(),'$6'}, if_false = {next_id(),'$8'}}.
+
 % [78]
-'TryCatchExpr'           -> 'TryClause' 'CatchClauses' 
-                           : #xqTryCatch{id = next_id(), expr = '$1', catches = '$2'}.
+'TryCatchExpr'           -> 'TryClause' 'CatchClauses' :
+    #xqTryCatch{id = next_id(), expr = '$1', catches = '$2'}.
 % [79]
 'TryClause'              -> 'try' 'EnclosedTryTargetExpr' : '$2'.
 % [80]
-'EnclosedTryTargetExpr'  -> 'EnclosedExpr' : {expr, '$1'}.
+'EnclosedTryTargetExpr'  -> 'EnclosedExpr' : '$1'.
 % [81]
-'CatchClause'            -> 'catch' 'CatchErrorList' 'EnclosedExpr' : {'$2', {expr, '$3'}}.
+'CatchClause'            -> 'catch' 'CatchErrorList' 'EnclosedExpr' : {'$2', '$3'}.
 'CatchClauses'           -> 'CatchClause' 'CatchClauses' : ['$1'|'$2'].
 'CatchClauses'           -> 'CatchClause' : ['$1'].
 % [82]
 'CatchErrorList'         -> 'NameTest' '|' 'CatchErrorList' : ['$1'|'$3'].
 'CatchErrorList'         -> 'NameTest' : ['$1'].
-%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % [83]  
 'OrExprs'                -> 'AndExpr' 'or' 'OrExprs' : 
@@ -746,6 +933,7 @@ end.
                   anno = line('$2')}.
 'OrExprs'                -> 'AndExpr' : '$1'.
 'OrExpr'                 -> 'OrExprs' : '$1'.
+
 % [84]  
 'AndExprs'               -> 'ComparisonExpr' : '$1'.
 'AndExprs'               -> 'ComparisonExpr' 'and' 'AndExprs' :
@@ -755,6 +943,7 @@ end.
                   rhs = '$3',
                   anno = line('$2')}.
 'AndExpr'                -> 'AndExprs' : '$1'.
+
 % [85]  
 'ComparisonExpr'         -> 'StringConcatExpr' 'ValueComp'   'StringConcatExpr' : 
    #xqComparisonExpr{id = next_id(), 
@@ -775,13 +964,22 @@ end.
                      rhs = '$3', 
                      anno = line('$2')}.
 'ComparisonExpr'         -> 'StringConcatExpr' : '$1'.
+
 % [86]
-'StringConcatExpr'       -> 'RangeExpr' '||' 'StringConcatExpr' : {'concat', '$1', '$3'}.
-%% {'concat', ['$1', '$3']}.
+'StringConcatExpr'       -> 'RangeExpr' '||' 'StringConcatExpr' : 
+    case '$3' of
+        #xqConcatExpr{expr = L} ->
+            #xqConcatExpr{anno = line('$2'), expr = ['$1'|L]};
+        _ ->
+            #xqConcatExpr{anno = line('$2'), expr = ['$1', '$3']}
+    end.
 'StringConcatExpr'       -> 'RangeExpr' : '$1'.
+
 % [87] 
-'RangeExpr'              -> 'AdditiveExpr' 'to' 'AdditiveExpr' : {'range', '$1', '$3'}.
+'RangeExpr'              -> 'AdditiveExpr' 'to' 'AdditiveExpr' : 
+    #xqRange{anno = line('$2'), from = '$1', to = '$3'}.
 'RangeExpr'              -> 'AdditiveExpr' : '$1'.
+
 % [88]   
 'AdditiveExpr'          -> 'AdditiveExpr' '+' 'MultiplicativeExpr' : 
    #xqArithExpr{id = next_id(), 
@@ -796,6 +994,7 @@ end.
                 rhs = '$3',
                 anno = line('$2')}.
 'AdditiveExpr'          -> 'MultiplicativeExpr' : '$1'.
+
 % [89]  
 'MultiplicativeExpr'    -> 'MultiplicativeExpr' '*'    'UnionExpr' : 
    #xqArithExpr{id = next_id(), 
@@ -822,48 +1021,62 @@ end.
                 rhs = '$3',
                 anno = line('$2')}.
 'MultiplicativeExpr'    -> 'UnionExpr'  : '$1'.
+
 % [90]   
 'UnionExprs'             -> 'IntersectExceptExpr' 'union' 'UnionExprs' : 
-case '$3' of
-   {'union', L} ->
-      {'union', ['$1'|L]};
-   _ ->
-      {'union', ['$1', '$3']}
-end.
+    case '$3' of
+        #xqNodeUnionExpr{expr = L} ->
+            #xqNodeUnionExpr{anno = line('$2'), expr = ['$1'|L]};
+        _ ->
+            #xqNodeUnionExpr{anno = line('$2'), expr = ['$1', '$3']}
+    end.
 'UnionExprs'             -> 'IntersectExceptExpr' '|' 'UnionExprs' : 
-case '$3' of
-   {'union', L} ->
-      {'union', ['$1'|L]};
-   _ ->
-      {'union', ['$1','$3']}
-end.
+    case '$3' of
+        #xqNodeUnionExpr{expr = L} ->
+            #xqNodeUnionExpr{anno = line('$2'), expr = ['$1'|L]};
+        _ ->
+            #xqNodeUnionExpr{anno = line('$2'), expr = ['$1', '$3']}
+    end.
 'UnionExprs'             -> 'IntersectExceptExpr' : '$1'.
 'UnionExpr'              -> 'UnionExprs' : '$1'.
+
 % [91]     IntersectExceptExpr     ::=      InstanceofExpr ( ("intersect" | "except") InstanceofExpr )* 
-'IntersectExceptExprs'   -> 'InstanceofExpr' 'intersect' 'IntersectExceptExprs' : {'intersect', '$1', '$3'}.
-'IntersectExceptExprs'   -> 'InstanceofExpr' 'except' 'IntersectExceptExprs' : {'except', '$1', '$3'}.
+'IntersectExceptExprs'   -> 'InstanceofExpr' 'intersect' 'IntersectExceptExprs' : 
+    #xqNodeSetExpr{anno = line('$2'), kind = intersect, lhs = '$1', rhs = '$3'}.
+'IntersectExceptExprs'   -> 'InstanceofExpr' 'except' 'IntersectExceptExprs' : 
+    #xqNodeSetExpr{anno = line('$2'), kind = except, lhs = '$1', rhs = '$3'}.
 'IntersectExceptExprs'   -> 'InstanceofExpr' : '$1'.
 'IntersectExceptExpr'    -> 'IntersectExceptExprs' : '$1'.
+
 % [92]     InstanceofExpr    ::=      TreatExpr ( "instance" "of" SequenceType )?  
-'InstanceofExpr'         -> 'TreatExpr' 'instance' 'of' 'SequenceType' : {'instance_of', '$1', '$4'}.
+'InstanceofExpr'         -> 'TreatExpr' 'instance' 'of' 'SequenceType' : 
+    #xqTypingExpr{anno = line('$2'), kind = instance, expr = '$1', type = '$4'}.
 'InstanceofExpr'         -> 'TreatExpr' : '$1'.
+
 % [93]     TreatExpr      ::=      CastableExpr ( "treat" "as" SequenceType )?  
-'TreatExpr'              -> 'CastableExpr' 'treat' 'as' 'SequenceType' : {'treat_as', '$1', '$4'}.
+'TreatExpr'              -> 'CastableExpr' 'treat' 'as' 'SequenceType' : 
+    #xqTypingExpr{anno = line('$2'), kind = treat, expr = '$1', type = '$4'}.
 'TreatExpr'              -> 'CastableExpr' : '$1'.
+
 % [94]     CastableExpr      ::=      CastExpr ( "castable" "as" SingleType )?  
-'CastableExpr'           -> 'CastExpr' 'castable' 'as' 'SingleType' : {'castable_as', '$1', '$4'}.
+'CastableExpr'           -> 'CastExpr' 'castable' 'as' 'SingleType' : 
+    #xqTypingExpr{anno = line('$2'), kind = castable, expr = '$1', type = '$4'}.
 'CastableExpr'           -> 'CastExpr' : '$1'.
+
 % [95]     CastExpr    ::=      ArrowExpr ( "cast" "as" SingleType )?  
-'CastExpr'               -> 'ArrowExpr' 'cast' 'as' 'SingleType' : {'cast_as', '$1', '$4'}.
+'CastExpr'               -> 'ArrowExpr' 'cast' 'as' 'SingleType' : 
+    #xqTypingExpr{anno = line('$2'), kind = cast, expr = '$1', type = '$4'}.
 'CastExpr'               -> 'ArrowExpr' : '$1'.
+
 % [96]     ArrowExpr      ::=      UnaryExpr ( "=>" ArrowFunctionSpecifier ArgumentList )*  
 'ArrowExpr'              -> 'ArrowExpr' '=>' 'ArrowFunctionSpecifier' 'ArgumentList' : 
     #xqArgumentList{args = Args} = '$4',
     case '$3' of
-        #qname{} ->
+        #xqQName{} ->
             #xqFunctionCall{name = '$3', arity = length(['$1'|Args]), args = ['$1'|Args], anno = line('$2')};
         _ ->
-            {'postfix', next_id(), '$3',[{arguments,['$1'|Args]}] }
+            Part = is_partial_impl(['$4']),
+            #xqPostfixExpr{id = next_id(), part = Part, expr = '$3', post = ('$4')#xqArgumentList{args = ['$1'|Args]}}
     end.
 'ArrowExpr'              -> 'TransformWithExpr' : '$1'.
 
@@ -871,13 +1084,13 @@ end.
 'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' '}' : 
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
-   Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], expr = #xqVarRef{anno = line('$2'), name = Nm}, return = #xqVarRef{anno = line('$2'), name = Nm}, anno = line('$2')}.
+   Nm = #xqQName{namespace = <<>>, prefix = <<>>, local_name = B},
+   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, expr = '$1', anno = line('$2')}], expr = #xqVarRef{anno = line('$2'), name = Nm}, return = #xqVarRef{anno = line('$2'), name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' 'transform' 'with' '{' 'Expr' '}' :
    Id = next_id(),
    B = list_to_binary(["~", integer_to_list(Id)]),
-   Nm = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = B},
-   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, 'expr' = '$1', anno = line('$2')}], 
+   Nm = #xqQName{namespace = <<>>, prefix = <<>>, local_name = B},
+   #xqModifyExpr{id = next_id(), vars = [#xqVar{id = Id, name = Nm, expr = '$1', anno = line('$2')}], 
                  expr = #xqSimpleMap{id = next_id(), lhs = #xqVarRef{anno = line('$2'), name = Nm}, rhs = '$5', anno = line('$2')}, 
                  return = #xqVarRef{anno = line('$2'), name = Nm}, anno = line('$2')}.
 'TransformWithExpr' -> 'UnaryExpr' : '$1'.
@@ -887,17 +1100,27 @@ end.
 'UnaryExpr'              -> 'uplus' : '$1'.
 'UnaryExpr'              -> 'ValueExpr' : '$1'.
 
-'uminus'                 -> '-' 'ValueExpr' : {'unary', '-', '$2'}.
-'uminus'                 -> '-' 'uminus' : {'unary', '-', '$2'}.
-'uminus'                 -> '-' 'uplus'  : {'unary', '-', '$2'}.
+'uminus'                 -> '-' 'ValueExpr' : 
+    #xqUnaryExpr{anno = line('$1'), sign = '-', expr = '$2'}.
+'uminus'                 -> '-' 'uminus' : 
+    #xqUnaryExpr{anno = line('$1'), sign = '-', expr = '$2'}.
+'uminus'                 -> '-' 'uplus'  : 
+    #xqUnaryExpr{anno = line('$1'), sign = '-', expr = '$2'}.
 
-'uplus'                  -> '+' 'ValueExpr' : {'unary', '+', '$2'}.
-'uplus'                  -> '+' 'uminus' : {'unary', '+', '$2'}.
-'uplus'                  -> '+' 'uplus'  : {'unary', '+', '$2'}.
+'uplus'                  -> '+' 'ValueExpr' : 
+    #xqUnaryExpr{anno = line('$1'), sign = '+', expr = '$2'}.
+'uplus'                  -> '+' 'uminus' : 
+    #xqUnaryExpr{anno = line('$1'), sign = '+', expr = '$2'}.
+'uplus'                  -> '+' 'uplus'  : 
+    #xqUnaryExpr{anno = line('$1'), sign = '+', expr = '$2'}.
+
 % [98]     ValueExpr      ::=      ValidateExpr | ExtensionExpr | SimpleMapExpr 
-'ValueExpr'              -> 'ValidateExpr'   : ?err('XQST0075', {undefined, 1}). %TODO Schema Aware Feature
+'ValueExpr'              -> 'ValidateExpr'   : 
+    #xqValidateExpr{anno = A} = '$1',
+    ?parse_err('XQST0075', {undefined, A}). %TODO Schema Aware Feature
 'ValueExpr'              -> 'ExtensionExpr'  : '$1'.
 'ValueExpr'              -> 'SimpleMapExpr'  : '$1'.
+
 % [99]     GeneralComp    ::=      "=" | "!=" | "<" | "<=" | ">" | ">="   
 'GeneralComp'            -> '='  : '$1'.
 'GeneralComp'            -> '!=' : '$1'.
@@ -905,6 +1128,7 @@ end.
 'GeneralComp'            -> '<=' : '$1'.
 'GeneralComp'            -> '>'  : '$1'.
 'GeneralComp'            -> '>=' : '$1'.
+
 % [100]    ValueComp      ::=      "eq" | "ne" | "lt" | "le" | "gt" | "ge"   
 'ValueComp'              -> 'eq' : '$1'. 
 'ValueComp'              -> 'ne' : '$1'.
@@ -912,165 +1136,255 @@ end.
 'ValueComp'              -> 'le' : '$1'.
 'ValueComp'              -> 'gt' : '$1'.
 'ValueComp'              -> 'ge' : '$1'.
+
 % [101]    NodeComp    ::=      "is" | "<<" | ">>"   
 'NodeComp'               -> 'is' : '$1'.
 'NodeComp'               -> '<<' : '$1'.
 'NodeComp'               -> '>>' : '$1'.
+
 % [102]    ValidateExpr      ::=      "validate" (ValidationMode | ("type" TypeName))? "{" Expr "}"
-'ValidateExpr'           -> 'validate' 'ValidationMode'  '{' 'Expr' '}' : {validate, {'mode', '$2'}, '$4'}.
-'ValidateExpr'           -> 'validate' 'type' 'TypeName' '{' 'Expr' '}' : {validate, {'type', '$3'}, '$5'}. 
-'ValidateExpr'           -> 'validate'                   '{' 'Expr' '}' : {validate, [], '$3'}.
+'ValidateExpr'           -> 'validate' 'ValidationMode'  '{' 'Expr' '}' : 
+    #xqValidateExpr{anno = line('$1')}.
+'ValidateExpr'           -> 'validate' type 'TypeName' '{' 'Expr' '}' : 
+    #xqValidateExpr{anno = line('$1')}.
+'ValidateExpr'           -> 'validate'                   '{' 'Expr' '}' : 
+    #xqValidateExpr{anno = line('$1')}.
+
 % [103]    ValidationMode    ::=      "lax" | "strict"
 'ValidationMode'         -> 'lax'    : 'lax'.
 'ValidationMode'         -> 'strict' : 'strict'.
+
 % [104]    ExtensionExpr     ::=      Pragma+ "{" Expr? "}"
-'ExtensionExpr'          -> 'Pragmas' '{' 'Expr' '}' : {pragma, '$1', '$3'}.
-'ExtensionExpr'          -> 'Pragmas' '{' '}' : {pragma, '$1', []}.
+'ExtensionExpr'          -> 'Pragmas' '{' 'Expr' '}' : 
+    #xqExtensionExpr{anno = line('$2'), pragmas = '$1', expr = '$3'}.
+'ExtensionExpr'          -> 'Pragmas' '{' '}' : 
+    %#xqExtensionExpr{anno = line('$2'), pragmas = '$1', expr = []}.
+    ?parse_err('XQST0079', {undefined, line('$2')}).
+
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
-'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$3'), bin_value_of('$5')}.
-'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$2'), bin_value_of('$4')}.
-'Pragma'                 -> '(#' 'S' 'EQName' '#)' : {qname(var,'$3'), []}.
-'Pragma'                 -> '(#'     'EQName' '#)' : {qname(var,'$2'), []}.
+'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' :
+    case expand_qname(var,'$3') of
+        {error, Err} ->
+            ?parse_err(Err, {undefined, line('$1')});
+        Name ->
+            {Name, bin_value_of('$5')}
+    end.
+'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : 
+    case expand_qname(var,'$2') of
+        {error, Err} ->
+            ?parse_err(Err, {undefined, line('$1')});
+        Name ->
+            {Name, bin_value_of('$4')}
+    end.
+'Pragma'                 -> '(#' 'S' 'EQName' '#)' : 
+    case expand_qname(var,'$3') of
+        {error, Err} ->
+            ?parse_err(Err, {undefined, line('$1')});
+        Name ->
+            {Name, <<>>}
+    end.
+'Pragma'                 -> '(#'     'EQName' '#)' : 
+    case expand_qname(var,'$2') of
+        {error, Err} ->
+            ?parse_err(Err, {undefined, line('$1')});
+        Name ->
+            {Name, <<>>}
+    end.
 
 'Pragmas'                -> 'Pragma' 'Pragmas' : ['$1'|'$2'].
 'Pragmas'                -> 'Pragma' : ['$1'].
+
 % [106]    PragmaContents    ::=      (Char* - (Char* '#)' Char*))
 %% done in scanner  
+
 % [107]    SimpleMapExpr     ::=      PathExpr ("!" PathExpr)*
 'SimpleMapExpr'          -> 'PathExpr' '!' 'SimpleMapExpr' : 
-case '$3' of
-    #xqSimpleMap{id = I, lhs = P, rhs = S, anno = A} ->
-        #xqSimpleMap{id = I, lhs = #xqSimpleMap{id = next_id(), lhs = '$1', rhs = P, anno = line('$2')}, rhs = S, anno = A};
-    _ ->
-        #xqSimpleMap{id = next_id(), lhs = '$1', rhs = '$3', anno = line('$2')}
-end.
+    case '$3' of
+        #xqSimpleMap{id = I, lhs = P, rhs = S, anno = A} ->
+            #xqSimpleMap{id = I, lhs = #xqSimpleMap{id = next_id(), lhs = '$1', rhs = P, anno = line('$2')}, rhs = S, anno = A};
+        _ ->
+            #xqSimpleMap{id = next_id(), lhs = '$1', rhs = '$3', anno = line('$2')}
+    end.
 'SimpleMapExpr'          -> 'PathExpr' : '$1'.
 
 % [108]    PathExpr    ::=      ("/" RelativePathExpr?)| ("//" RelativePathExpr)| RelativePathExpr   /* xgc: leading-lone-slash */
-'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, next_id(), ['root' | '$2']}.            %/* xgs: leading-lone-slash */
-'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{id = next_id(),axis = 'descendant-or-self', anno = line('$1')}|'$2']}.
+'PathExpr'               -> '/' 'RelativePathExpr'  : 
+    #xqPathExpr{anno = line('$1'), id = next_id(), expr = [{root, line('$1')} | '$2']}.
+'PathExpr'               -> '//' 'RelativePathExpr' : 
+    A = line('$1'),
+    New = #xqAxisStep{anno = A, id = next_id(), axis = 'descendant-or-self'},
+    #xqPathExpr{anno = A, id = next_id(), expr = [{root, A}, New | '$2']}.
 'PathExpr'               -> 'RelativePathExpr'     : 
-   case '$1' of 
-      ['root'] = V -> {path_expr, next_id(), V};
-      [#xqAxisStep{}] = V -> {path_expr, next_id(), V};
-      [V] -> V; 
-      V -> {path_expr, next_id(), V} 
-   end.
+    %?parse_dbg("'$1'",'$1'),
+    case '$1' of 
+        [{'root', A}] = V -> 
+            #xqPathExpr{anno = A, id = next_id(), expr = V};
+        [#xqAxisStep{anno = A}] = V -> 
+            #xqPathExpr{anno = A, id = next_id(), expr = [{'context-item', A}|V]};
+        [V] -> 
+            V;
+        V ->  
+            #xqPathExpr{id = next_id(), expr = V}
+    end.
+
 'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
 'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : 
- case '$3' of 
-   [#xqAxisStep{axis = child, predicates = []} = H|T] -> 
-      ['$1',H#xqAxisStep{axis = descendant}|T];
-   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self',anno = line('$2')} | '$3'] 
- end.
+     case '$3' of 
+        [#xqAxisStep{axis = child, predicates = []} = H|T] -> 
+            ['$1', H#xqAxisStep{axis = descendant} | T];
+        _ ->
+            New = #xqAxisStep{anno = line('$2'), id = next_id(), axis = 'descendant-or-self'},
+            ['$1', New | '$3'] 
+     end.
 'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
 
 % [110]    StepExpr    ::=      PostfixExpr | AxisStep  
 'StepExpr'               -> 'PostfixExpr' : '$1'.
 'StepExpr'               -> 'AxisStep'   : '$1'.
-'StepExpr'               -> 'lone-slash'   : 'root'.
+'StepExpr'               -> 'lone-slash'   : {root, line('$1')}.
 
 % [111]    AxisStep    ::=      (ReverseStep | ForwardStep) PredicateList 
-'AxisStep'               -> 'ReverseStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2', anno = element(3,'$1')}.
-'AxisStep'               -> 'ReverseStep'                 : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = [], anno = element(3,'$1')}.
-'AxisStep'               -> 'ForwardStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2', anno = element(3,'$1')}.
-'AxisStep'               -> 'ForwardStep'                 : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = [], anno = element(3,'$1')}.
+'AxisStep'               -> 'ReverseStep' 'PredicateList' : ('$1')#xqAxisStep{predicates = '$2'}.
+'AxisStep'               -> 'ReverseStep'                 : '$1'.
+'AxisStep'               -> 'ForwardStep' 'PredicateList' : ('$1')#xqAxisStep{predicates = '$2'}.
+'AxisStep'               -> 'ForwardStep'                 : '$1'.
 
 % [112]    ForwardStep    ::=      (ForwardAxis NodeTest) | AbbrevForwardStep   
 'ForwardStep'            -> 'ForwardAxis' 'NodeTest' : 
-   erlang:append_element(
-      name_to_kind_test({element(1, '$1'), '$2'}), 
-      element(2, '$1')).
-'ForwardStep'            -> 'AbbrevForwardStep'      : 
-   erlang:append_element(name_to_kind_test('$1'), -1).
+    case '$1' of
+        #xqAxisStep{axis = 'attribute'} ->
+            ('$1')#xqAxisStep{node_test = node_to_kind_test('$2', attribute)};
+        _ ->
+            ('$1')#xqAxisStep{node_test = node_to_kind_test('$2', element)}
+    end.
+'ForwardStep'            -> 'AbbrevForwardStep'      : '$1'.
+
 % [113]    ForwardAxis    ::=      ("child" "::")| ("descendant" "::")| ("attribute" "::")| ("self" "::")| 
 %                                  ("descendant-or-self" "::")| ("following-sibling" "::")| ("following" "::") 
-'ForwardAxis'            -> 'child' '::'              : {'child', line('$1')}.
-'ForwardAxis'            -> 'descendant' '::'         : {'descendant', line('$1')}.
-'ForwardAxis'            -> 'attribute' '::'          : {'attribute', line('$1')}.
-'ForwardAxis'            -> 'self' '::'               : {'self', line('$1')}.
-'ForwardAxis'            -> 'descendant-or-self' '::' : {'descendant-or-self', line('$1')}.
-'ForwardAxis'            -> 'following-sibling' '::'  : {'following-sibling', line('$1')}.
-'ForwardAxis'            -> 'following' '::'          : {'following', line('$1')}.
+'ForwardAxis'            -> 'child' '::'              : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'child'}.
+'ForwardAxis'            -> 'descendant' '::'         : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'descendant'}.
+'ForwardAxis'            -> 'attribute' '::'          : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'attribute'}.
+'ForwardAxis'            -> 'self' '::'               : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'self'}.
+'ForwardAxis'            -> 'descendant-or-self' '::' : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'descendant-or-self'}.
+'ForwardAxis'            -> 'following-sibling' '::'  : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'following-sibling'}.
+'ForwardAxis'            -> 'following' '::'          : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = forward, axis = 'following'}.
+
 % [114]    AbbrevForwardStep    ::=      "@"? NodeTest  
-'AbbrevForwardStep'      -> '@' 'NodeTest' : {'attribute', '$2', line('$1')}.
-'AbbrevForwardStep'      -> 'NodeTest'     : case ('$1') of
-                                                #xqKindTest{kind = 'attribute'} ->
-                                                  {'attribute', '$1'};
-                                                #xqKindTest{kind = 'namespace'} ->
-                                                  ?err('XQST0134', {undefined, 0}); % no abbrev namespace allowed
-                                                _ ->
-                                                  {'child', '$1'}
-                                             end.
+'AbbrevForwardStep'      -> '@' 'NodeTest' : 
+    case node_to_kind_test('$2', 'attribute') of
+        #xqKindTest{anno = A, kind = 'attribute'} = Kt ->
+            #xqAxisStep{anno = A, id = next_id(), direction = forward, axis = 'attribute', node_test = Kt}
+    end.
+'AbbrevForwardStep'      -> 'NodeTest'     : 
+    case node_to_kind_test('$1', 'element') of
+        #xqKindTest{anno = A, kind = 'attribute'} = Kt ->
+            #xqAxisStep{anno = A, id = next_id(), direction = forward, axis = 'attribute', node_test = Kt};
+        #xqKindTest{anno = A, kind = 'namespace'} ->
+            ?parse_err('XQST0134', {undefined, A}); % no abbrev namespace allowed
+        #xqKindTest{anno = A} = Kt ->
+            #xqAxisStep{anno = A, id = next_id(), direction = forward, axis = 'child', node_test = Kt}
+    end.
+
 % [115]    ReverseStep    ::=      (ReverseAxis NodeTest) | AbbrevReverseStep   
 'ReverseStep' -> 'ReverseAxis' 'NodeTest' : 
-   erlang:append_element(
-      name_to_kind_test({element(1, '$1'), '$2'}), 
-      element(2, '$1')).
-'ReverseStep' -> 'AbbrevReverseStep'      : 
-   {element(1, '$1'), #xqKindTest{kind = 'node'}, element(2, '$1')}.
+    ('$1')#xqAxisStep{node_test = node_to_kind_test('$2', node)}.
+'ReverseStep' -> 'AbbrevReverseStep'      : '$1'.
+
 % [116]    ReverseAxis    ::=      ("parent" "::") | ("ancestor" "::")| ("preceding-sibling" "::")| ("preceding" "::")| ("ancestor-or-self" "::")   
-'ReverseAxis' -> 'parent' '::'            : {'parent', line('$1')}.
-'ReverseAxis' -> 'ancestor' '::'          : {'ancestor', line('$1')}.
-'ReverseAxis' -> 'preceding-sibling' '::' : {'preceding-sibling', line('$1')}.
-'ReverseAxis' -> 'preceding' '::'         : {'preceding', line('$1')}.
-'ReverseAxis' -> 'ancestor-or-self' '::'  : {'ancestor-or-self', line('$1')}.
+'ReverseAxis' -> 'parent' '::'            : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, axis = 'parent'}.
+'ReverseAxis' -> 'ancestor' '::'          : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, axis = 'ancestor'}.
+'ReverseAxis' -> 'preceding-sibling' '::' : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, axis = 'preceding-sibling'}.
+'ReverseAxis' -> 'preceding' '::'         : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, axis = 'preceding'}.
+'ReverseAxis' -> 'ancestor-or-self' '::'  : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, axis = 'ancestor-or-self'}.
+
 % [117]    AbbrevReverseStep    ::=      ".."
-'AbbrevReverseStep'      -> '..' : {'parent', line('$1')}.
+'AbbrevReverseStep'      -> '..' : 
+    #xqAxisStep{anno = line('$1'), id = next_id(), direction = reverse, 
+                axis = parent, node_test = #xqKindTest{anno = line('$1')}}.
+
 % [118]    NodeTest    ::=      KindTest | NameTest  
 'NodeTest'               -> 'KindTest' : '$1'.
 'NodeTest'               -> 'NameTest' : '$1'.
+
 % [119]    NameTest    ::=      EQName | Wildcard 
-'NameTest'               -> 'EQName'   : #xqNameTest{name = qname(nametest,'$1')}.
-'NameTest'               -> 'Wildcard' : #xqNameTest{name = qname(wildcard,'$1')}.
+'NameTest'               -> 'EQName'   : 
+    #xqQName{anno = A} = '$1',
+    #xqNameTest{anno = A, name = expand_qname(nametest,'$1')}.
+'NameTest'               -> 'Wildcard' : 
+    #xqQName{anno = A} = '$1',
+    #xqNameTest{anno = A, name = expand_qname(wildcard,'$1')}.
+
 % [120]    Wildcard    ::=      "*" | (NCName ":*") | ("*:" NCName) | (BracedURILiteral "*")   /* ws: explicit */
-'Wildcard'               -> '*'           : #'qname'{prefix = <<"*">>, local_name = <<"*">>}. 
-'Wildcard'               -> 'NCName' ':*' : #'qname'{prefix = bin_value_of('$1'), local_name = <<"*">>}.
-'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = <<"*">>, local_name = bin_value_of('$2')}.
-'Wildcard'               -> '*' ':*' : #'qname'{prefix = <<"*">>, local_name = <<"*">>}.
-'Wildcard'               -> '*:' '*' : #'qname'{prefix = <<"*">>, local_name = <<"*">>}.
-'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = <<"*">>}.
+'Wildcard'               -> '*'           : 
+    #xqQName{anno = line('$1'), prefix = <<"*">>, local_name = <<"*">>}.
+'Wildcard'               -> 'NCName' ':*' : 
+    #xqQName{anno = line('$2'), prefix = ('$1')#xqNCName.str, local_name = <<"*">>}.
+'Wildcard'               -> '*:' 'NCName' : 
+    #xqQName{anno = line('$1'), prefix = <<"*">>, local_name = ('$2')#xqNCName.str}.
+'Wildcard'               -> '*' ':*' : 
+    #xqQName{anno = line('$1'), prefix = <<"*">>, local_name = <<"*">>}.
+'Wildcard'               -> '*:' '*' : 
+    #xqQName{anno = line('$1'), prefix = <<"*">>, local_name = <<"*">>}.
+'Wildcard'               -> 'BracedURILiteral' '*'  :
+    #xqURILiteral{str = U} = '$1',
+    #xqQName{anno = line('$2'), namespace = U, local_name = <<"*">>}.
+
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
-'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : case is_partial_impl('$2') of
-                                                            true ->
-                                                               {partial_postfix, next_id(), '$1', '$2'};
-                                                            _ ->
-                                                               {postfix, next_id(), '$1', '$2'}
-                                                         end.
+'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : 
+    Part = is_partial_impl('$2'),
+    #xqPostfixExpr{id = next_id(), part = Part, expr = '$1', post = '$2'}.
 'PostfixExpr'            -> 'PrimaryExpr'              : '$1'.
-'PostFixes'              -> 'Predicate'    : [{'predicate', '$1'}].
-'PostFixes'              -> 'ArgumentList' :
-    #xqArgumentList{args = Args} = '$1', 
-    [{'arguments', Args}].
-'PostFixes'              -> 'Lookup'       : [{'lookup', '$1'}].
-'PostFixes'              -> 'Predicate'    'PostFixes' : [{'predicate', '$1'}|'$2'].
-'PostFixes'              -> 'ArgumentList' 'PostFixes' : 
-    #xqArgumentList{args = Args} = '$1', 
-    [{'arguments', Args}|'$2'].
-'PostFixes'              -> 'Lookup'       'PostFixes' : [{'lookup', '$1'}|'$2'].
+
+'PostFixes'              -> 'Predicate'                : ['$1'].
+'PostFixes'              -> 'ArgumentList'             : ['$1'].
+'PostFixes'              -> 'Lookup'                   : ['$1'].
+'PostFixes'              -> 'Predicate'    'PostFixes' : ['$1'|'$2'].
+'PostFixes'              -> 'ArgumentList' 'PostFixes' : ['$1'|'$2'].
+'PostFixes'              -> 'Lookup'       'PostFixes' : ['$1'|'$2'].
+
 % [122]    ArgumentList      ::=      "(" (Argument ("," Argument)*)? ")"
 'ArgumentList'           -> '(' ')' : #xqArgumentList{args = [], anno = line('$1')}.
 'ArgumentList'           -> '(' 'Arguments' ')' : #xqArgumentList{args = '$2', anno = line('$1')}.
 
 'Arguments'              -> 'Argument' : as_list('$1').
 'Arguments'              -> 'Argument' ',' 'Arguments': as_list('$1') ++ '$3'.
+
 % [123]    PredicateList     ::=      Predicate*  
-'PredicateList'          -> 'Predicate' 'PredicateList' : as_list({'predicate', '$1'}) ++ '$2'.  
-'PredicateList'          -> 'Predicate' : as_list({'predicate', '$1'}).
+'PredicateList'          -> 'Predicate' 'PredicateList' : ['$1'|'$2'].  
+'PredicateList'          -> 'Predicate' : ['$1'].
+
 % [124]    Predicate      ::=      "[" Expr "]"   
-'Predicate'              -> '[' 'Expr' ']' : '$2'.
+'Predicate'              -> '[' 'Expr' ']' : 
+    #xqPredicate{anno = line('$1'), expr = '$2'}.
+
 % [125]    Lookup      ::=      "?" KeySpecifier
-'Lookup'                 -> '?' 'KeySpecifier' : '$2'.
+'Lookup'                 -> '?' 'KeySpecifier' : 
+    #xqLookup{anno = line('$1'), key = '$2'}.
+
 % [126]    KeySpecifier      ::=      NCName | IntegerLiteral | ParenthesizedExpr | "*"
 'KeySpecifier'           -> 'NCName'         : xqAtomicValue('xs:NCName', bin_value_of('$1')).
 'KeySpecifier'           -> 'IntegerLiteral' : xqAtomicValue('xs:integer', value_of('$1')).
 'KeySpecifier'           -> 'ParenthesizedExpr' : '$1'.
 'KeySpecifier'           -> '*'        : 'wildcard'.
 'KeySpecifier'           -> 'wildcard' : 'wildcard'.
+
 % [127]    ArrowFunctionSpecifier     ::=      EQName | VarRef | ParenthesizedExpr
-'ArrowFunctionSpecifier' -> 'EQName' : qname(func, '$1').
+'ArrowFunctionSpecifier' -> 'EQName' : expand_qname(func, '$1').
 'ArrowFunctionSpecifier' -> 'VarRef' : '$1'.
 'ArrowFunctionSpecifier' -> 'ParenthesizedExpr' : '$1'.
+
 % [128]    PrimaryExpr    ::=      Literal | VarRef | ParenthesizedExpr | ContextItemExpr | FunctionCall | 
 % OrderedExpr | UnorderedExpr | NodeConstructor | FunctionItemExpr | MapConstructor | ArrayConstructor | 
 % StringConstructor | UnaryLookup  
@@ -1087,138 +1401,219 @@ end.
 'PrimaryExpr'            -> 'ArrayConstructor' : '$1'.
 'PrimaryExpr'            -> 'StringConstructor' : '$1'.
 'PrimaryExpr'            -> 'UnaryLookup' : '$1'.
-% [129]    Literal     ::=      NumericLiteral | StringLiteral   
 
-%% -record(xqAtomicValue,
-%%         {
-%%          type  = undefined :: atom(),
-%%          value = undefined :: term() 
-%%         }).
+% [129]    Literal     ::=      NumericLiteral | StringLiteral   
 'Literal'                -> 'NumericLiteral' : '$1'.
-'Literal'                -> 'StringLiteral'  : xqAtomicValue('xs:string',bin_value_of('$1')).
+'Literal'                -> 'StringLiteral'  : xqAtomicValue('xs:string', bin_value_of('$1')).
+
 % [130]    NumericLiteral    ::=      IntegerLiteral | DecimalLiteral | DoubleLiteral 
-%'NumericLiteral'         -> 'IntegerLiteral' : value_of('$1').
-'NumericLiteral'         -> 'IntegerLiteral' : xqAtomicValue('xs:integer',value_of('$1')).
-'NumericLiteral'         -> 'DecimalLiteral' : xqAtomicValue('xs:decimal',value_of('$1')).
-'NumericLiteral'         -> 'DoubleLiteral'  : xqAtomicValue('xs:double',value_of('$1')).
+'NumericLiteral'         -> 'IntegerLiteral' : xqAtomicValue('xs:integer', value_of('$1')).
+'NumericLiteral'         -> 'DecimalLiteral' : xqAtomicValue('xs:decimal', value_of('$1')).
+'NumericLiteral'         -> 'DoubleLiteral'  : xqAtomicValue('xs:double', value_of('$1')).
+
 % [131]    VarRef      ::=      "$" VarName 
 'VarRef'                 -> '$' 'VarName' : #xqVarRef{anno = line('$1'), name = '$2'}.
+
 % [132]    VarName     ::=      EQName   
-'VarName'                -> 'EQName' : qname(var, '$1').
+'VarName'                -> 'EQName' : expand_qname(var, '$1').
+
 % [133]    ParenthesizedExpr    ::=      "(" Expr? ")"  
 'ParenthesizedExpr'      -> '(' ')' : 'empty-sequence'.
-'ParenthesizedExpr'      -> '(' 'Expr' ')' : {'sequence', '$2'}.
+'ParenthesizedExpr'      -> '(' 'Expr' ')' : 
+    #xqSequence{vals = '$2'}.
+
 % [134]    ContextItemExpr      ::=      "."   
-'ContextItemExpr'        -> '.' : 'context-item'.
+'ContextItemExpr'        -> '.' : {'context-item', line('$1')}.
+
 % [135]    OrderedExpr    ::=      "ordered" EnclosedExpr  
-'OrderedExpr'            -> 'ordered' 'EnclosedExpr' : {'ordered-expr', '$2'}.
+'OrderedExpr'            -> 'ordered' 'EnclosedExpr' : '$2'.
+%{'ordered-expr', '$2'}.
+
 % [136]    UnorderedExpr     ::=      "unordered" EnclosedExpr
-'UnorderedExpr'          -> 'unordered' 'EnclosedExpr' : {'unordered-expr', '$2'}.
+'UnorderedExpr'          -> 'unordered' 'EnclosedExpr' : 
+    case '$2' of
+        #xqEnclosedExpr{expr = 'empty-expr'} -> 
+            %?parse_err('XPST0003', {undefined, line('$1')});
+            % not error in 3.1
+            '$2';
+        _ ->
+            '$2'
+    end.
+%{'unordered-expr', '$2'}.
+
 % [137]    FunctionCall      ::=      EQName ArgumentList  /* xgc: reserved-function-names *//* gn: parens */
 'FunctionCall'           -> 'EQName' 'ArgumentList' :
-    #xqArgumentList{args = Args, anno = Line}  = '$2',
-    case lists:any(fun({'?',_}) -> true; (_) -> false end, Args) of
+    #xqArgumentList{args = Args}  = '$2',
+    #xqQName{anno = L} = '$1',
+    N = expand_qname(func, '$1'),
+    case lists:any(fun(#xqArgumentPlaceholder{}) -> true; (_) -> false end, Args) of
         true ->
-            {'partial-function', qname(func, '$1'),length(Args),  Args};
+            #xqPartialFunctionCall{name = N, arity = length(Args), args = Args, anno = L};
         _ ->
-            #xqFunctionCall{name = qname(func, '$1'), arity = length(Args), args = Args, anno = Line}
+            #xqFunctionCall{name = N, arity = length(Args), args = Args, anno = L}
     end.
 'FunctionCall'           -> 'return' 'ArgumentList' : % functions named 'return' can screw things up 
-    #xqArgumentList{args = Args, anno = Line}  = '$2',
-    case lists:any(fun({'?',_}) -> true; (_) -> false end, Args) of
+    #xqArgumentList{args = Args}  = '$2',
+    L = line('$1'),
+    N = expand_qname(func, #xqQName{anno = L, namespace = default, prefix = <<>>, local_name = <<"return">>}),
+    case lists:any(fun(#xqArgumentPlaceholder{}) -> true; (_) -> false end, Args) of
         true ->
-            {'partial-function', qname(func, {qname,default,<<>>,<<"return">>}),length(Args),  Args};
+            #xqPartialFunctionCall{name = N, arity = length(Args), args = Args, anno = L};
         _ ->
-            #xqFunctionCall{name = qname(func, {qname,default,<<>>,<<"return">>}), arity = length(Args), args = Args, anno = Line}
+            #xqFunctionCall{name = N, arity = length(Args), args = Args, anno = L}
     end.
 'FunctionCall'           -> 'in' 'ArgumentList' : % functions named 'in' can screw things up 
-    #xqArgumentList{args = Args, anno = Line}  = '$2',
-    case lists:any(fun({'?',_}) -> true; (_) -> false end, Args) of
+    #xqArgumentList{args = Args}  = '$2',
+    L = line('$1'),
+    N = expand_qname(func, #xqQName{anno = L, namespace = default, prefix = <<>>, local_name = <<"in">>}),
+    case lists:any(fun(#xqArgumentPlaceholder{}) -> true; (_) -> false end, Args) of
         true ->
-            {'partial-function', qname(func, {qname,default,<<>>,<<"in">>}),length(Args),  Args};
+            #xqPartialFunctionCall{name = N, arity = length(Args), args = Args, anno = L};
         _ ->
-            #xqFunctionCall{name = qname(func, {qname,default,<<>>,<<"in">>}), arity = length(Args), args = Args, anno = Line}
+            #xqFunctionCall{name = N, arity = length(Args), args = Args, anno = L}
     end.
+
 % [138]    Argument    ::=      ExprSingle | ArgumentPlaceholder 
 'Argument'               -> 'ExprSingle' : '$1'.
 'Argument'               -> 'ArgumentPlaceholder' : '$1'.
+
 % [139]    ArgumentPlaceholder     ::=      "?"
-'ArgumentPlaceholder'    -> '?' : {value_of('$1'), next_id()}.
+'ArgumentPlaceholder'    -> '?' : 
+    #xqArgumentPlaceholder{anno = line('$1'), id = next_id()}.
+
 % [140]    NodeConstructor      ::=      DirectConstructor | ComputedConstructor   
-'NodeConstructor'        -> 'DirectConstructor'   : {direct_cons, '$1'}.
-'NodeConstructor'        -> 'ComputedConstructor' : {comp_cons, '$1'}.
+'NodeConstructor'        -> 'DirectConstructor'   : 
+    #xqNodeConstructor{id = next_id(), type = direct, cons = '$1'}.
+'NodeConstructor'        -> 'ComputedConstructor' : 
+    #xqNodeConstructor{id = next_id(), type = comp, cons = '$1'}.
+
 % [141]    DirectConstructor    ::=      DirElemConstructor | DirCommentConstructor | DirPIConstructor   
 'DirectConstructor'      -> 'DirElemConstructor'    : '$1'.
 'DirectConstructor'      -> 'DirCommentConstructor' : '$1'.
 'DirectConstructor'      -> 'DirPIConstructor'      : '$1'.
+
 % [142]    DirElemConstructor      ::=      "<" QName DirAttributeList ("/>" | (">" DirElemContent* "</" QName S? ">"))   /* ws: explicit */
-'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '/>' 
-                              : #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')}.
-'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' '>' 
-                              : if '$2' == '$7' ->
-                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2'), content = '$5'};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end. 
-'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
-                              : if '$2' == '$7' ->
-                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2'), content = '$5'};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end. 
-'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' '>' 
-                              : if '$2' == '$6' ->
-                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end.  
-'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' 'S' '>' 
-                              : if '$2' == '$6' ->
-                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end.  
-'DirElemConstructor'     -> '<' 'EQName' '/>' 
-                              : #xqElementNode{identity = next_id(), name = qname(other,'$2')}.
-'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' '>' 
-                              : #xqElementNode{identity = next_id(), name = qname(other,'$2'), content = '$4'}. 
-'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
-                              : #xqElementNode{identity = next_id(), name = qname(other,'$2'), content = '$4'}. 
-'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' '>' 
-                              : if '$2' == '$5' ->
-                                 #xqElementNode{identity = next_id(), name = qname(other,'$2')};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end.  
-'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' 'S' '>' 
-                              : if '$2' == '$5' ->
-                                 #xqElementNode{identity = next_id(), name = qname(other,'$2')};
-                                 true -> ?err('XQST0118', {undefined, line('$1')})
-                                end.  
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '/>' :
+    #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), attributes = '$3'}.
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' '>' :
+    case qname_equal('$2', '$7') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), attributes = '$3', content = '$5'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$6')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' 'S' '>' : 
+    case qname_equal('$2', '$7') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), attributes = '$3', content = '$5'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$6')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' '>' : 
+    case qname_equal('$2', '$6') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), attributes = '$3'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$5')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' 'S' '>' :
+    case qname_equal('$2', '$6') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), attributes = '$3'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$5')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' '/>' : 
+    #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2')}.
+'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' '>' :
+    case qname_equal('$2', '$6') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), content = '$4'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$5')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' 'S' '>' :
+    case qname_equal('$2', '$6') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2'), content = '$4'};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$5')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' '>' :
+    case qname_equal('$2', '$5') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2')};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$4')})
+    end.  
+'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' 'S' '>' : 
+    case qname_equal('$2', '$5') of
+        true ->
+            #xqElementNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(other,'$2')};
+        false ->
+            ?parse_err('XQST0118', {undefined, line('$4')})
+    end.  
+
 % [143]    DirAttributeList     ::=      (S (QName S? "=" S? DirAttributeValue)?)* /* ws: explicit */
-'DirAttributeList'       -> 'DirAttribute' 'DirAttributeList' : case '$1' of
-                                                                  #xqNamespaceNode{} ->
-                                                                     ['$1' | '$2'];
-                                                                  _ ->
-                                                                      '$2' ++ ['$1']
-                                                               end.
+'DirAttributeList'       -> 'DirAttribute' 'DirAttributeList' : 
+    case '$1' of
+        #xqNamespaceNode{} ->
+            ['$1' | '$2'];
+        _ ->
+            '$2' ++ ['$1']
+    end.
 'DirAttributeList'       -> 'DirAttribute' : ['$1'].
 
-'DirAttribute'           -> 'S' 'QName'     '='     'DirAttributeValue' : dir_att('$2', '$4').
-'DirAttribute'           -> 'S' 'QName' 'S' '='     'DirAttributeValue' : dir_att('$2', '$5').
-'DirAttribute'           -> 'S' 'QName' 'S' '=' 'S' 'DirAttributeValue' : dir_att('$2', '$6').
-'DirAttribute'           -> 'S' 'QName'     '=' 'S' 'DirAttributeValue' : dir_att('$2', '$5').
+'DirAttribute'           -> 'S' 'QName'     '='     'DirAttributeValue' : 
+    case dir_att('$2', '$4') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, line('$3')});
+        Att ->
+            Att
+    end.
+'DirAttribute'           -> 'S' 'QName' 'S' '='     'DirAttributeValue' : 
+    case dir_att('$2', '$5') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, line('$4')});
+        Att ->
+            Att
+    end.
+'DirAttribute'           -> 'S' 'QName' 'S' '=' 'S' 'DirAttributeValue' : 
+    case dir_att('$2', '$6') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, line('$4')});
+        Att ->
+            Att
+    end.
+'DirAttribute'           -> 'S' 'QName'     '=' 'S' 'DirAttributeValue' : 
+    case dir_att('$2', '$5') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, line('$3')});
+        Att ->
+            Att
+    end.
 'DirAttribute'           -> 'S' : [].
+
 % [144]    DirAttributeValue    ::=      ('"' (EscapeQuot | QuotAttrValueContent)* '"') | ("'" (EscapeApos | AposAttrValueContent)* "'")   /* ws: explicit */
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' 'DirAttributeValuesQuot' : ['$1' | '$2'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : [{entity_ref,<<"\"">>} | '$2'].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : 
+    [#xqEntityRef{ref = <<"\"">>} | '$2'].
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' : ['$1'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           : [{entity_ref,<<"\"">>}].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           : 
+    [#xqEntityRef{ref = <<"\"">>}].
 
 'DirAttributeValuesApos' -> 'AposAttrValueContent' 'DirAttributeValuesApos' : ['$1' | '$2'].
-'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : [{entity_ref,<<"'">>} | '$2'].
+'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : 
+    [#xqEntityRef{ref = <<"'">>} | '$2'].
 'DirAttributeValuesApos' -> 'AposAttrValueContent' : ['$1'].
-'DirAttributeValuesApos' -> 'EscapeApos'           : [{entity_ref,<<"'">>}].
+'DirAttributeValuesApos' -> 'EscapeApos'           : 
+    [#xqEntityRef{ref = <<"'">>}].
 
 'DirAttributeValue'      -> 'quot' 'DirAttributeValuesQuot' 'quot' : '$2'.
 'DirAttributeValue'      -> 'quot'                          'quot' : [].
 'DirAttributeValue'      -> 'apos' 'DirAttributeValuesApos' 'apos' : '$2'.
 'DirAttributeValue'      -> 'apos'                          'apos' : [].
+
 % [145]    QuotAttrValueContent    ::=      QuotAttrContentChar | CommonContent   
 'QuotAttrValueContent'   -> 'QuotAttrContentChars' : xqAtomicValue('xs:string', '$1').
 'QuotAttrValueContent'   -> 'CommonContent' : '$1'.
@@ -1231,6 +1626,7 @@ end.
 
 'AposAttrContentChars'   -> 'AposAttrContentChar' 'AposAttrContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 'AposAttrContentChars'   -> 'AposAttrContentChar' : bin_value_of('$1').
+
 % [147]    DirElemContent    ::=      DirectConstructor | CDataSection | CommonContent | ElementContentChar 
 'DirElemContents'        -> 'DirElemContent' 'DirElemContents' : ['$1' | '$2'].
 'DirElemContents'        -> 'DirElemContent' : ['$1'].
@@ -1238,43 +1634,47 @@ end.
 'DirElemContent'         -> 'DirectConstructor'   : '$1'.
 'DirElemContent'         -> 'CDataSection'        : '$1'.
 'DirElemContent'         -> 'CommonContent'       : '$1'.
-'DirElemContent'         -> 'ElementContentChars' : xqAtomicValue('xs:string', '$1').
+'DirElemContent'         -> 'ElementContentChars' : '$1'.
 
 'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 'ElementContentChars'    -> 'S'                  'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 'ElementContentChars'    -> 'ElementContentChar' : bin_value_of('$1').
 'ElementContentChars'    -> 'S'                  : bin_value_of('$1').
+
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
-'CommonContent'          -> 'PredefinedEntityRef' : {entity_ref, bin_value_of('$1')}.
-'CommonContent'          -> 'CharRef'             : {char_ref, bin_value_of('$1')}.
-'CommonContent'          -> '{{'                  : xqAtomicValue('xs:string', <<"{">>).
-'CommonContent'          -> '}}'                  : xqAtomicValue('xs:string', <<"}">>).
-'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
+'CommonContent'          -> 'PredefinedEntityRef' : 
+    #xqEntityRef{ref = bin_value_of('$1')}.
+'CommonContent'          -> 'CharRef'             : 
+    #xqCharRef{ref = bin_value_of('$1')}.
+'CommonContent'          -> '{{'                  : <<"{">>.
+'CommonContent'          -> '}}'                  : <<"}">>.
+'CommonContent'          -> 'EnclosedExpr' : '$1'.
+
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
 'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : 
-   #xqCommentNode{identity = next_id(), string_value = '$2'}.
+    #xqCommentNode{anno = line('$1'), id = next_id(), type = direct, text = '$2'}.
+
 % [150]    DirCommentContents      ::=      ((Char - '-') | ('-' (Char - '-')))*
 %% done in scanner
-'DirCommentContents'     -> 'comment-text' : xqAtomicValue('xs:string', bin_value_of('$1')).
+'DirCommentContents'     -> 'comment-text' : bin_value_of('$1').
+
 % [151]    DirPIConstructor     ::=      "<?" PITarget (S DirPIContents)? "?>"  /* ws: explicit */
 'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : 
-   #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2'))}.
+    #xqProcessingInstructionNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(pi, '$2'), data = <<>>}.
 'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : 
-   #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2')),
-   string_value = xqAtomicValue('xs:string', bin_value_of('$3'))}.
+    #xqProcessingInstructionNode{anno = line('$1'), id = next_id(), type = direct, name = expand_qname(pi, '$2'), data = bin_value_of('$3')}.
+
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
+
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
 'CDataSection'           -> '<![CDATA[' 'CDataSectionContents' ']]>' : 
-   if '$2' == [] ->
-         #xqTextNode{identity = next_id(), cdata = true, string_value = []};
-      true ->
-         #xqTextNode{identity = next_id(), cdata = true, 
-            string_value = xqAtomicValue('xs:string', '$2')}
-   end.
+    #xqTextNode{anno = line('$1'), id = next_id(), type = direct, text = '$2'}.
+
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
 %% done in scanner
 'CDataSectionContents'   -> 'cdata-contents' : bin_value_of('$1').
+
 % [155]    ComputedConstructor     ::=      CompDocConstructor | CompElemConstructor | CompAttrConstructor | 
 %                                           CompNamespaceConstructor | CompTextConstructor | CompCommentConstructor | CompPIConstructor
 'ComputedConstructor'    -> 'CompDocConstructor'  : '$1'.
@@ -1284,73 +1684,104 @@ end.
 'ComputedConstructor'    -> 'CompTextConstructor' : '$1'.
 'ComputedConstructor'    -> 'CompCommentConstructor' : '$1'.
 'ComputedConstructor'    -> 'CompPIConstructor' : '$1'.
+
 % [156]    CompDocConstructor      ::=      "document" EnclosedExpr 
 'CompDocConstructor'     -> 'document' 'EnclosedExpr' : 
-   #xqDocumentNode{identity = next_id(), content = {content_expr, '$2'}}.
+    #xqDocumentNode{anno = line('$1'), id = next_id(), content = '$2'}.
+
 % [157]    CompElemConstructor     ::=      "element" (EQName | ("{" Expr "}")) EnclosedContentExpr  
 'CompElemConstructor'    -> 'element'    'return'    'EnclosedContentExpr' : 
-   #xqElementNode{identity = next_id(), name = qname(other,to_NCName('$2')), content = '$3'}. 
+    #xqElementNode{anno = line('$1'), id = next_id(), type = comp, name = expand_qname(other,to_NCName('$2')), content = '$3'}. 
 'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : 
-   #xqElementNode{identity = next_id(), name = qname(other,'$2'), content = '$3'}. 
+    #xqElementNode{anno = line('$1'), id = next_id(), type = comp, name = expand_qname(other,'$2'), content = '$3'}. 
 'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : 
-   #xqElementNode{identity = next_id(), name = '$3', content = '$5'}.
+    #xqElementNode{anno = line('$1'), id = next_id(), type = comp, name = '$3', content = '$5'}.
+
 % [158]    EnclosedContentExpr     ::=      EnclosedExpr
-'EnclosedContentExpr'    -> 'EnclosedExpr' : {content_expr, '$1'}.
+'EnclosedContentExpr'    -> 'EnclosedExpr' : '$1'.
+
 % [159]    CompAttrConstructor     ::=      "attribute" (EQName | ("{" Expr "}")) EnclosedExpr 
 'CompAttrConstructor'    -> 'attribute'    'return'    'EnclosedExpr' : 
-   #xqAttributeNode{identity = next_id(), name = qname(other,to_NCName('$2')), string_value = {content_expr, '$3'}}.
+    #xqAttributeNode{anno = line('$1'), id = next_id(), type = comp, name = expand_qname(other,to_NCName('$2')), text = '$3'}.
 'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : 
-   #xqAttributeNode{identity = next_id(), name = qname(other,'$2'), string_value = {content_expr, '$3'}}.
+    #xqAttributeNode{anno = line('$1'), id = next_id(), type = comp, name = expand_qname(other,'$2'), text = '$3'}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : 
-   #xqAttributeNode{identity = next_id(), name = '$3', string_value = {content_expr, '$5'}}.
+    #xqAttributeNode{anno = line('$1'), id = next_id(), type = comp, name = '$3', text = '$5'}.
+
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
 'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : 
-   #xqNamespaceNode{identity = next_id(), uri = '$3', prefix = bin_value_of('$2')}.
+    #xqNCName{str = S} = '$2',
+    #xqNamespaceNode{anno = line('$1'), id = next_id(), type = comp, uri = '$3', prefix = S}.
 'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : 
-   #xqNamespaceNode{identity = next_id(), uri = '$3', prefix = '$2'}.
+    #xqNamespaceNode{anno = line('$1'), id = next_id(), type = comp, uri = '$3', prefix = '$2'}.
+
 % [161]    Prefix      ::=      NCName
 % block due to conflict with LocalPart 'Prefix'                 -> 'NCName' : value_of('$1').
+
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
-'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {expr, '$1'}.
-%'EnclosedPrefixExpr'     -> 'EnclosedExpr' : {prefix_expr, '$1'}.
+'EnclosedPrefixExpr'     -> 'EnclosedExpr' : '$1'.
 % [163]    EnclosedURIExpr      ::=      EnclosedExpr   
-'EnclosedURIExpr'        -> 'EnclosedExpr' : {expr, '$1'}.
-%'EnclosedURIExpr'        -> 'EnclosedExpr' : {uri_expr, '$1'}.
+'EnclosedURIExpr'        -> 'EnclosedExpr' : '$1'.
+
 % [164]    CompTextConstructor     ::=      "text" EnclosedExpr  
 'CompTextConstructor'    -> 'text' 'EnclosedExpr' : 
-   #xqTextNode{identity = next_id(), string_value = {content_expr, '$2'}}.
+    #xqTextNode{anno = line('$1'), id = next_id(), type = comp, text = '$2'}.
+
 % [165]    CompCommentConstructor     ::=      "comment" EnclosedExpr  
 'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : 
-   #xqCommentNode{identity = next_id(), string_value = {content_expr, '$2'}}.
+    #xqCommentNode{anno = line('$1'), id = next_id(), type = comp, text = '$2'}.
+
 % [166]    CompPIConstructor    ::=      "processing-instruction" (NCName | ("{" Expr "}")) EnclosedExpr   
 'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : 
-   #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2')), string_value = {content_expr, '$3'}}.
+    #xqProcessingInstructionNode{anno = line('$1'), id = next_id(), type = comp, name = expand_qname(pi, '$2'), data = '$3'}.
 'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : 
-   #xqProcessingInstructionNode{identity = next_id(), name = '$3',                     string_value = {content_expr, '$5'}}.
+    #xqProcessingInstructionNode{anno = line('$1'), id = next_id(), type = comp, name = '$3', data = '$5'}.
+
 % [167]    FunctionItemExpr     ::=      NamedFunctionRef | InlineFunctionExpr
 'FunctionItemExpr'       -> 'NamedFunctionRef' : '$1'.
 'FunctionItemExpr'       -> 'InlineFunctionExpr' : '$1'.
+
 % [168]    NamedFunctionRef     ::=      EQName "#" IntegerLiteral  /* xgc: reserved-function-names */
-'NamedFunctionRef'       -> 'EQName' '#' 'IntegerLiteral' : {'function-ref', qname(func, '$1'), value_of('$3')}.
+'NamedFunctionRef'       -> 'EQName' '#' 'IntegerLiteral' :
+    L = line('$2'),
+    case expand_qname(func, '$1') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, L});
+        Name ->
+            #xqFunctionRef{anno = L, name = Name, arity = value_of('$3')}
+    end.
+
 % [169]    InlineFunctionExpr      ::=      Annotation* "function" "(" ParamList? ")" ("as" SequenceType)? FunctionBody   
-'InlineFunctionExpr'     -> 'AnnotationList' 'function' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined, arity = length('$4'), params = '$4', type = '$7', body = '$8'}.
-'InlineFunctionExpr'     ->                  'function' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined, arity = length('$3'), params = '$3', type = '$6', body = '$7'}.
-'InlineFunctionExpr'     -> 'AnnotationList' 'function' '('             ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined,                                      type = '$6', body = '$7'}.
-'InlineFunctionExpr'     ->                  'function' '('             ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined,                                      type = '$5', body = '$6'}.
-'InlineFunctionExpr'     -> 'AnnotationList' 'function' '(' 'ParamList' ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined, arity = length('$4'), params = '$4',              body = '$6'}.
-'InlineFunctionExpr'     ->                  'function' '(' 'ParamList' ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined, arity = length('$3'), params = '$3',              body = '$5'}.
-'InlineFunctionExpr'     -> 'AnnotationList' 'function' '('             ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined,                                                   body = '$5'}.
-'InlineFunctionExpr'     ->                  'function' '('             ')'                     'FunctionBody' : #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined,                                                   body = '$4'}.
+'InlineFunctionExpr'     -> 'AnnotationList' 'function' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined, arity = length('$4'), params = '$4', type = '$7', body = '$8'}.
+'InlineFunctionExpr'     ->                  'function' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined, arity = length('$3'), params = '$3', type = '$6', body = '$7'}.
+'InlineFunctionExpr'     -> 'AnnotationList' 'function' '('             ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined,                                      type = '$6', body = '$7'}.
+'InlineFunctionExpr'     ->                  'function' '('             ')' 'as' 'SequenceType' 'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined,                                      type = '$5', body = '$6'}.
+'InlineFunctionExpr'     -> 'AnnotationList' 'function' '(' 'ParamList' ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined, arity = length('$4'), params = '$4',              body = '$6'}.
+'InlineFunctionExpr'     ->                  'function' '(' 'ParamList' ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined, arity = length('$3'), params = '$3',              body = '$5'}.
+'InlineFunctionExpr'     -> 'AnnotationList' 'function' '('             ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$2'), id = next_id(), annotations = '$1',name = undefined,                                                   body = '$5'}.
+'InlineFunctionExpr'     ->                  'function' '('             ')'                     'FunctionBody' : 
+    #xqFunctionDef{anno = line('$1'), id = next_id(), annotations = []  ,name = undefined,                                                   body = '$4'}.
 
 % [170]    MapConstructor    ::=      "map" "{" (MapConstructorEntry ("," MapConstructorEntry)*)? "}"
-'MapConstructor'         -> 'map' '{' 'MapConstructorEntries' '}' : {'map', '$3'}.
-'MapConstructor'         -> 'map' '{' '}' : {'map', []}.
+'MapConstructor'         -> 'map' '{' 'MapConstructorEntries' '}' : 
+    #xqMapConst{anno = line('$1'), content = '$3'}.
+'MapConstructor'         -> 'map' '{' '}' : 
+    #xqMapConst{anno = line('$1'), content = []}.
+
 % [171]    MapConstructorEntry     ::=      MapKeyExpr ":" MapValueExpr   
-%% % special case {*:*}
-%% 'MapConstructorEntry'    -> 'Wildcard' : Q = qname(wildcard,#'qname'{prefix = <<"*">>, local_name = <<"*">>}), {'map-key-val', Q, Q}.
-'MapConstructorEntry'    -> 'MapKeyExpr' ':'  'MapValueExpr' : {'map-key-val', '$1', '$3'}.
-'MapConstructorEntry'    -> 'MapKeyExpr' ' :' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
-'MapConstructorEntry'    -> 'MapKeyExpr' ': ' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ':'  'MapValueExpr' : 
+    #xqMapEntry{anno = line('$2'), key = '$1', value = '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ' :' 'MapValueExpr' : 
+    #xqMapEntry{anno = line('$2'), key = '$1', value = '$3'}.
+'MapConstructorEntry'    -> 'MapKeyExpr' ': ' 'MapValueExpr' : 
+    #xqMapEntry{anno = line('$2'), key = '$1', value = '$3'}.
 'MapConstructorEntries'  -> 'MapConstructorEntry' : ['$1'].
 'MapConstructorEntries'  -> 'MapConstructorEntry' ',' 'MapConstructorEntries' : ['$1'|'$3'].
 % [172]    MapKeyExpr     ::=      ExprSingle  
@@ -1358,45 +1789,71 @@ end.
 %'MapKeyExpr'             -> 'NCName'     : #'qname'{namespace = 'default', prefix = 'default', local_name = value_of('$1')}.
 % [173]    MapValueExpr      ::=      ExprSingle  
 'MapValueExpr'           -> 'ExprSingle' : '$1'.
+
 % [174]    ArrayConstructor     ::=      SquareArrayConstructor | CurlyArrayConstructor
 'ArrayConstructor'       -> 'SquareArrayConstructor' : '$1'. 
 'ArrayConstructor'       -> 'CurlyArrayConstructor' : '$1'. 
+
 % [175]    SquareArrayConstructor     ::=      "[" (ExprSingle ("," ExprSingle)*)? "]"   
-'SquareArrayConstructor' -> '[' ']' : {'array', []}.
-'SquareArrayConstructor' -> '[' 'ExprSingleList' ']' : {'array', '$2'}.
+'SquareArrayConstructor' -> '[' ']' : 
+    #xqArrayConst{anno = line('$1'), content = []}.
+'SquareArrayConstructor' -> '[' 'ExprSingleList' ']' : 
+    #xqArrayConst{anno = line('$1'), content = '$2'}.
 
 'ExprSingleList'         -> 'ExprSingle' : ['$1'].
 'ExprSingleList'         -> 'ExprSingle' ',' 'ExprSingleList' : ['$1'|'$3']. 
+
 % [176]    CurlyArrayConstructor      ::=      "array" EnclosedExpr 
-'CurlyArrayConstructor'  -> 'array' 'EnclosedExpr' : {'array', {content_expr, '$2'}}.
+'CurlyArrayConstructor'  -> 'array' 'EnclosedExpr' : 
+    #xqArrayConst{anno = line('$1'), content = '$2'}.
+
 % [177]    StringConstructor    ::=      "``[" StringConstructorContent "]``"   /* ws: explicit */
-'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : {'string-constructor', '$2'}.
+'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : 
+    #xqStringConstructor{anno = line('$1'), content = '$2'}.
+
 % [178]    StringConstructorContent      ::=      StringConstructorChars (StringConstructorInterpolation StringConstructorChars)*  /* ws: explicit */
-'StringConstructorContent'-> 'StringConstructorChars'                                 : [xqAtomicValue('xs:string', bin_value_of('$1'))].
-'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [xqAtomicValue('xs:string', bin_value_of('$1'))|'$2'].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [xqAtomicValue('xs:string', bin_value_of('$2'))].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[xqAtomicValue('xs:string', bin_value_of('$2'))|'$3'].
+'StringConstructorContent'-> 'StringConstructorChars'                                 : 
+    [ bin_value_of('$1') ].
+'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : 
+    [ bin_value_of('$1') | '$2' ].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : 
+    '$1' ++ [ bin_value_of('$2') ].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': 
+    '$1' ++ [ bin_value_of('$2') | '$3' ].
+
 % [179]    StringConstructorChars     ::=      (Char* - (Char* ('`{' | ']``') Char*)) /* ws: explicit */
 %% done in scanner
+
 % [180]    StringConstructorInterpolation      ::=      "`{" Expr? "}`"   
 'StringConstructorInterpolation' -> '`{' 'Expr' '}`' : '$2'.
 'StringConstructorInterpolation' -> '`{' '}`' : [].
+
 % [181]    UnaryLookup    ::=      "?" KeySpecifier  
-'UnaryLookup'            -> '?' 'KeySpecifier' : {lookup, '$2'}.
+'UnaryLookup'            -> '?' 'KeySpecifier' : 
+    #xqLookup{anno = line('$1'), key = '$2'}.
+
 % [182]    SingleType     ::=      SimpleTypeName "?"?  
-'SingleType'             -> 'SimpleTypeName' '?' : #xqSeqType{type = '$1', occur = 'zero_or_one'}.
-'SingleType'             -> 'SimpleTypeName'     : #xqSeqType{type = '$1', occur = 'one'}.
+'SingleType'             -> 'SimpleTypeName' '?' : 
+    #xqSeqType{anno = line('$2'), type = '$1', occur = 'zero_or_one'}.
+'SingleType'             -> 'SimpleTypeName'     : 
+    #xqSeqType{anno = 0, type = '$1', occur = 'one'}.
+
 % [183]    TypeDeclaration      ::=      "as" SequenceType 
 'TypeDeclaration'        -> 'as' 'SequenceType' : '$2'.
+
 % [184]    SequenceType      ::=      ("empty-sequence" "(" ")")| (ItemType OccurrenceIndicator?)   
-'SequenceType'           -> 'empty-sequence' '(' ')'         : #xqSeqType{type = 'empty-sequence', occur = 'zero'}.
-'SequenceType'           -> 'ItemType' 'OccurrenceIndicator' : #xqSeqType{type = '$1', occur = '$2'}.
-'SequenceType'           -> 'ItemType'                       : #xqSeqType{type = '$1', occur = 'one'}.
+'SequenceType'           -> 'empty-sequence' '(' ')'         : 
+    #xqSeqType{anno = line('$1'), type = 'empty-sequence', occur = 'zero'}.
+'SequenceType'           -> 'ItemType' 'OccurrenceIndicator' : 
+    #xqSeqType{anno = 0, type = '$1', occur = '$2'}.
+'SequenceType'           -> 'ItemType'                       : 
+    #xqSeqType{anno = 0, type = '$1', occur = 'one'}.
+
 % [185]    OccurrenceIndicator     ::=      "?" | "*" | "+"   /* xgc: occurrence-indicators */ 
 'OccurrenceIndicator'    -> '?'           : 'zero_or_one'.
-%'OccurrenceIndicator'    -> 'wildcard'    : 'zero_or_many'.
 'OccurrenceIndicator'    -> '*'           : 'zero_or_many'.
 'OccurrenceIndicator'    -> '+'           : 'one_or_many'.
+
 % [186]    ItemType    ::=      KindTest | ("item" "(" ")") | FunctionTest | MapTest | ArrayTest | AtomicOrUnionType | ParenthesizedItemType   
 'ItemType'               -> 'KindTest'     : '$1'.
 'ItemType'               -> 'item' '(' ')' : 'item'.
@@ -1405,18 +1862,19 @@ end.
 'ItemType'               -> 'ArrayTest'    : '$1'.
 'ItemType'               -> 'AtomicOrUnionType'     : '$1'.
 'ItemType'               -> 'ParenthesizedItemType' : '$1'.
+
 % [187]    AtomicOrUnionType    ::=      EQName   
-'AtomicOrUnionType'      -> 'EQName' : case qname(type,'$1') of
-                                          #qname{namespace = _, prefix = <<"xs">>, local_name = <<"*">>} = Q ->
-                                             Q;
-                                          #qname{namespace = _, prefix = <<"xs">>, local_name = _} = Q ->
-                                             qname_to_atom(Q);
-                                          #qname{namespace = default, prefix = default, local_name = _} = Q ->
-                                             qname(wildcard,Q#qname{prefix = <<>>});
-                                          Q ->
-                                             Q
-                                       end.
-%% 'AtomicOrUnionType'      -> 'EQName' : qname_to_atom(qname(type,'$1')).
+'AtomicOrUnionType'      -> 'EQName' : 
+    case '$1' of
+        #xqQName{prefix = <<"xs">>, local_name = <<"*">>} -> '$1';
+        #xqQName{namespace = <<"http://www.w3.org/2001/XMLSchema">>} -> 
+            qname_to_atom(('$1')#xqQName{prefix = <<"xs">>});
+        #xqQName{prefix = <<"xs">>} -> qname_to_atom('$1');
+        #xqQName{namespace = default, prefix = default} = Q -> 
+            expand_qname(wildcard, Q#xqQName{prefix = <<>>});
+        Q -> Q
+    end.
+
 % [188]    KindTest    ::=      DocumentTest | ElementTest | AttributeTest | SchemaElementTest | SchemaAttributeTest | 
 %                               PITest | CommentTest | TextTest | NamespaceNodeTest | AnyKindTest  
 'KindTest'               -> 'DocumentTest' : '$1'.
@@ -1429,44 +1887,85 @@ end.
 'KindTest'               -> 'TextTest'  : '$1'.
 'KindTest'               -> 'NamespaceNodeTest'  : '$1'.
 'KindTest'               -> 'AnyKindTest' : '$1'.
+
 % [189]    AnyKindTest    ::=      "node" "(" ")" 
-'AnyKindTest'            -> 'node' '(' ')' : #xqKindTest{kind = 'node'}.
+'AnyKindTest'            -> 'node' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'node'}.
+
 % [190]    DocumentTest      ::=      "document-node" "(" (ElementTest | SchemaElementTest)? ")"
-'DocumentTest'           -> 'document-node' '(' 'ElementTest' ')'       : ('$3')#xqKindTest{kind = 'document-node'}.
-'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : ?err('XPST0008', {undefined, line('$1')}).
-%'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : ('$3')#xqKindTest{kind = 'document-node'}.
-'DocumentTest'           -> 'document-node' '(' ')'                     : #xqKindTest{kind = 'document-node'}.
+'DocumentTest'           -> 'document-node' '(' 'ElementTest' ')'       : 
+    ('$3')#xqKindTest{anno = line('$1'), kind = 'document-node'}.
+'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : 
+    ?parse_err('XPST0008', {undefined, line('$1')}).
+'DocumentTest'           -> 'document-node' '(' ')'                     : 
+    #xqKindTest{anno = line('$1'), kind = 'document-node'}.
+
 % [191]    TextTest    ::=      "text" "(" ")" 
-'TextTest'               -> 'text' '(' ')' : #xqKindTest{kind = 'text'}.
+'TextTest'               -> 'text' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'text'}.
+
 % [192]    CommentTest    ::=      "comment" "(" ")" 
-'CommentTest'            -> 'comment' '(' ')' : #xqKindTest{kind = 'comment'}.
+'CommentTest'            -> 'comment' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'comment'}.
+
 % [193]    NamespaceNodeTest    ::=      "namespace-node" "(" ")"   
-'NamespaceNodeTest'      -> 'namespace-node' '(' ')' : #xqKindTest{kind = 'namespace'}.
+'NamespaceNodeTest'      -> 'namespace-node' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'namespace'}.
+
 % [194]    PITest      ::=      "processing-instruction" "(" (NCName | StringLiteral)? ")"  
-'PITest'                 -> 'processing-instruction' '(' 'NCName' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,bin_value_of('$3'))}.
-'PITest'                 -> 'processing-instruction' '(' 'StringLiteral' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,bin_value_of('$3'))}.
-'PITest'                 -> 'processing-instruction' '(' ')' : #xqKindTest{kind = 'processing-instruction'}.
+'PITest'                 -> 'processing-instruction' '(' 'NCName' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'processing-instruction', name = expand_qname(pi, '$3')}.
+'PITest'                 -> 'processing-instruction' '(' 'StringLiteral' ')' : 
+    L = line('$1'),
+    case expand_qname(pi, '$3') of
+        {error, Code} ->
+            ?parse_err(Code, {undefined, L});
+        Name ->
+            #xqKindTest{anno = L, kind = 'processing-instruction', name = Name}
+    end.
+'PITest'                 -> 'processing-instruction' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'processing-instruction'}.
+
 % [195]    AttributeTest     ::=      "attribute" "(" (AttribNameOrWildcard ("," TypeName)?)? ")" 
-'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ',' 'TypeName' ')' : #xqKindTest{kind = 'attribute', name = '$3', type = #xqSeqType{type = '$5', occur = one}}.
-'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ')' : #xqKindTest{kind = 'attribute', name = '$3'}.
-'AttributeTest'          -> 'attribute' '(' ')' : #xqKindTest{kind = 'attribute'}.
+'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ',' 'TypeName' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'attribute', name = '$3', type = #xqSeqType{anno = line('$1'), type = '$5', occur = one}}.
+'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'attribute', name = '$3'}.
+'AttributeTest'          -> 'attribute' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'attribute'}.
+
 % [196]    AttribNameOrWildcard    ::=      AttributeName | "*"  
-'AttribNameOrWildcard'   -> 'AttributeName' : qname(attwildcard,'$1').
-'AttribNameOrWildcard'   -> '*' : {qname,<<"*">>,<<"*">>,<<"*">>}.
+'AttribNameOrWildcard'   -> 'AttributeName' : 
+    expand_qname(attwildcard, '$1').
+'AttribNameOrWildcard'   -> '*' : 
+    #xqQName{anno = line('$1'), namespace = <<"*">>, prefix = <<"*">>, local_name = <<"*">>}.
+
 % [197]    SchemaAttributeTest     ::=      "schema-attribute" "(" AttributeDeclaration ")" 
-'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = qname(wildcard,'$3')}.
+'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'schema-attribute', name = expand_qname(wildcard,'$3')}.
+
 % [198]    AttributeDeclaration    ::=      AttributeName  
 'AttributeDeclaration'   -> 'AttributeName' : '$1'.
+
 % [199]    ElementTest    ::=      "element" "(" (ElementNameOrWildcard ("," TypeName "?"?)?)? ")"   
-'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ',' 'TypeName' '?' ')' : #xqKindTest{kind = 'element', name = '$3', type = #xqSeqType{type = '$5', occur = zero_or_one}}.
-'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ',' 'TypeName' ')' : #xqKindTest{kind = 'element', name = '$3', type = #xqSeqType{type = '$5', occur = one}}.
-'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ')' : #xqKindTest{kind = 'element', name = '$3'}.
-'ElementTest'            -> 'element' '(' ')' : #xqKindTest{kind = 'element'}.
+'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ',' 'TypeName' '?' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'element', name = '$3', type = #xqSeqType{anno = line('$1'), type = '$5', occur = zero_or_one}}.
+'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ',' 'TypeName' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'element', name = '$3', type = #xqSeqType{anno = line('$1'), type = '$5', occur = one}}.
+'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'element', name = '$3'}.
+'ElementTest'            -> 'element' '(' ')' : 
+    #xqKindTest{anno = line('$1'), kind = 'element'}.
+
 % [200]    ElementNameOrWildcard      ::=      ElementName | "*" 
-'ElementNameOrWildcard'  -> '*' : {qname,<<"*">>,<<"*">>,<<"*">>}.
-'ElementNameOrWildcard'  -> 'ElementName' : qname(nametest,'$1').
+'ElementNameOrWildcard'  -> '*' : 
+    #xqQName{anno = line('$1'), namespace = <<"*">>, prefix = <<"*">>, local_name = <<"*">>}.
+'ElementNameOrWildcard'  -> 'ElementName' : 
+    expand_qname(nametest, '$1').
+
 % [201]    SchemaElementTest    ::=      "schema-element" "(" ElementDeclaration ")"  
-'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' : #xqKindTest{kind = 'schema-element', name = qname(wildcard,'$3')}.
+'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' :
+    #xqKindTest{anno = line('$1'), kind = 'schema-element', name = expand_qname(wildcard, '$3')}.
 % [202]    ElementDeclaration      ::=      ElementName 
 'ElementDeclaration'     -> 'ElementName' : '$1'.
 % [203]    AttributeName     ::=      EQName   
@@ -1476,77 +1975,87 @@ end.
 % [205]    SimpleTypeName    ::=      TypeName
 'SimpleTypeName'         -> 'TypeName' : '$1'.
 % [206]    TypeName    ::=      EQName   
-'TypeName'               -> 'EQName' : qname(type,'$1').
+'TypeName'               -> 'EQName' : '$1'.
+
 % [207]    FunctionTest      ::=      Annotation* (AnyFunctionTest | TypedFunctionTest)
-%% -record(xqFunTest, {
-%%    kind   = function :: function | map,
-%%    annotations = [] :: [ #annotation{} ],
-%%    name   :: #qname{},
-%%    params = [] :: [#xqSeqType{}],
-%%    type   = #xqSeqType{} :: #xqSeqType{}
-%% }).
-'FunctionTest'            -> 'AnnotationList' 'AnyFunctionTest':   #xqFunTest{kind = function, annotations = '$1', params = any, type = any} .
-'FunctionTest'            -> 'AnnotationList' 'TypedFunctionTest': #xqFunTest{kind = function, annotations = '$1', params = element(2,'$2'), type = element(1,'$2')} .
-'FunctionTest'            -> 'AnyFunctionTest':                    #xqFunTest{kind = function, annotations = [], params = any, type = any} .
-'FunctionTest'            -> 'TypedFunctionTest':                  #xqFunTest{kind = function, annotations = [], params = element(2,'$1'), type = element(1,'$1')} .
+'FunctionTest'            -> 'AnnotationList' 'AnyFunctionTest':
+    #xqFunTest{annotations = '$1'} .
+'FunctionTest'            -> 'AnnotationList' 'TypedFunctionTest': 
+    #xqFunTest{annotations = '$1', params = element(2,'$2'), type = element(1,'$2')}.
+'FunctionTest'            -> 'AnyFunctionTest':                    
+    #xqFunTest{}.
+'FunctionTest'            -> 'TypedFunctionTest':                  
+    #xqFunTest{params = element(2,'$1'), type = element(1,'$1')}.
+
 % [208]    AnyFunctionTest      ::=      "function" "(" "*" ")"  
-'AnyFunctionTest'         -> 'function' '(' '*' ')' : '*'.
 % [209]    TypedFunctionTest    ::=      "function" "(" (SequenceType ("," SequenceType)*)? ")" "as" SequenceType   
+'AnyFunctionTest'         -> 'function' '(' '*' ')' : '*'.
 'TypedFunctionTest'       -> 'function' '(' 'SequenceTypeList' ')' 'as' 'SequenceType' : {'$6', '$3'}.
 'TypedFunctionTest'       -> 'function' '(' ')' 'as' 'SequenceType' : {'$5', []}.
 
 'SequenceTypeList'        -> 'SequenceType' : ['$1'].
 'SequenceTypeList'        -> 'SequenceType' ',' 'SequenceTypeList' : ['$1'|'$3'].
+
 % [210]    MapTest     ::=      AnyMapTest | TypedMapTest  
 'MapTest'                 -> 'AnyMapTest' : '$1'.
 'MapTest'                 -> 'TypedMapTest' : '$1'.
+
 % [211]    AnyMapTest     ::=      "map" "(" "*" ")" 
-'AnyMapTest'              -> 'map' '(' '*' ')' : #xqFunTest{kind = map, annotations = [], params = any, type = any} .
 % [212]    TypedMapTest      ::=      "map" "(" AtomicOrUnionType "," SequenceType ")"   
-'TypedMapTest'            -> 'map' '(' 'AtomicOrUnionType' ',' 'SequenceType' ')' : #xqFunTest{kind = map, annotations = [], params = [#xqSeqType{type = '$3', occur = one}], type = '$5'} .
+'AnyMapTest'              -> 'map' '(' '*' ')' : 
+    #xqFunTest{kind = map}.
+'TypedMapTest'            -> 'map' '(' 'AtomicOrUnionType' ',' 'SequenceType' ')' : 
+    #xqFunTest{kind = map, params = [#xqSeqType{anno = line('$1'), type = '$3', occur = one}], type = '$5'}.
+
 % [213]    ArrayTest      ::=      AnyArrayTest | TypedArrayTest 
 'ArrayTest'               -> 'AnyArrayTest' : '$1'.
 'ArrayTest'               -> 'TypedArrayTest' : '$1'.
-% [214]    AnyArrayTest      ::=      "array" "(" "*" ")"  
-'AnyArrayTest'            -> 'array' '(' '*' ')' : #xqFunTest{kind = array, annotations = [], params = any, type = any} .
-% [215]    TypedArrayTest    ::=      "array" "(" SequenceType ")"
-'TypedArrayTest'          -> 'array' '(' 'SequenceType' ')' : #xqFunTest{kind = array, annotations = [], params = any, type = '$3'} .
-% [216]    ParenthesizedItemType      ::=      "(" ItemType ")"  
+
+% [214] AnyArrayTest   ::= "array" "(" "*" ")"  
+% [215] TypedArrayTest ::= "array" "(" SequenceType ")"
+'AnyArrayTest'            -> 'array' '(' '*' ')' : 
+    #xqFunTest{kind = array}.
+'TypedArrayTest'          -> 'array' '(' 'SequenceType' ')' : 
+    #xqFunTest{kind = array, type = '$3'}.
+
+% [216] ParenthesizedItemType ::= "(" ItemType ")" 
 'ParenthesizedItemType'  -> '(' 'ItemType' ')' : '$2'.
-% [217]    URILiteral     ::=      StringLiteral  
-'URILiteral'             -> 'StringLiteral' : 
-   BV = bin_value_of('$1'),
-   case xqerl_lib:check_uri_string(BV) of
-      {error,_} when BV == <<>> ->
-         ?err('FORG0001', {undefined, line('$1')});
-      {error,_} ->
-         BV;
-%         ?err('XQST0046');
-      Val ->
-         Val
-   end.
-%'URILiteral'             -> 'StringLiteral' : xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(value_of('$1')))).
-%'URILiteral'             -> 'StringLiteral' : [{bin_element,?L,{string,?L,value_of('$1')},default,default}].
-% [218]    EQName      ::=      QName | URIQualifiedName
+
+% [217] URILiteral ::= StringLiteral  
+'URILiteral'             -> 'StringLiteral' : % StringLiteral is terminal from scanner
+    {_, Anno, List} = '$1',
+    Bv = bin(List),
+    Bv1 = 
+        case xqerl_lib:check_uri_string(Bv) of
+            {error,_} when Bv == <<>> ->
+                ?parse_err('FORG0001', {undefined, Anno});
+            {error,_} -> Bv;
+            Val -> Val
+        end,
+    #xqURILiteral{anno = Anno, str = Bv1}.
+
+% [218] EQName ::= QName | URIQualifiedName
 'EQName'                 -> 'PrefixedName' : '$1'.
 'EQName'                 -> 'UnprefixedName' : '$1'.
 'EQName'                 -> 'URIQualifiedName' : '$1'.
 
 'QName'                  -> 'PrefixedName'   : '$1'.
 'QName'                  -> 'UnprefixedName' : '$1'.
-%'PrefixedName'           -> '*'      ':' 'NCName'    : #'qname'{prefix = "*", local_name = value_of('$3')}.
-%'PrefixedName'           -> 'NCName' ':' '*'         : #'qname'{prefix = value_of('$1'), local_name = "*"}.
-'PrefixedName'           -> 'NCName' ':' 'NCName'    : #'qname'{prefix = bin_value_of('$1'), local_name = bin_value_of('$3')}.
-'UnprefixedName'         -> 'NCName'                 : #'qname'{namespace = 'default', prefix = 'default', local_name = bin_value_of('$1')}.
-%'LocalPart'              -> 'NCName' : value_of('$1').
-%'LocalPart'              -> 'Prefix' : '$1'.
 
+'PrefixedName'           -> 'NCName' ':' 'NCName' : 
+    #xqQName{anno = line('$1'), prefix = ('$1')#xqNCName.str, local_name = ('$3')#xqNCName.str}.
+'UnprefixedName'         -> 'NCName' : 
+    #xqQName{anno = line('$1'), namespace = 'default', prefix = 'default', local_name = ('$1')#xqNCName.str}.
 
-'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == <<"http://www.w3.org/2000/xmlns/">> -> ?err('XQST0070', {undefined, line('$2')});
-                                                             true -> #'qname'{namespace = '$1', local_name = bin_value_of('$2')}
-                                                          end.
-'BracedURILiteral'       -> 'Q' '{' 'URILiteral' '}'    : '$3'.
-'BracedURILiteral'       -> 'Q' '{' '}'    : 'no-namespace'.
+'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' :
+    case '$1' of
+        #xqURILiteral{anno = A, str = <<"http://www.w3.org/2000/xmlns/">>} ->
+            ?parse_err('XQST0070', {undefined, A});
+        #xqURILiteral{str = S} ->
+            #xqQName{anno = line('$1'), namespace = S, local_name = ('$2')#xqNCName.str}
+    end.
+'BracedURILiteral'       -> 'Q' '{' 'URILiteral' '}' : '$3'.
+'BracedURILiteral'       -> 'Q' '{'              '}' : #xqURILiteral{anno = line('$2'), str = <<>>}.
 
 
 %% 'ElementContentChar'     -> 'Char' : value_of('$1'). % Char - [{}<&]
@@ -1555,7 +2064,7 @@ end.
 
 %% Here keywords from the scanner can fallback to NCName.
 %% Not all keywords are eligible to fallback, only the ones here.
-'NCName' -> 'maybeNCName' : '$1'.
+'NCName' -> 'maybeNCName' : to_NCName('$1').
 'NCName' -> 'NaN' : to_NCName('$1').
 'NCName' -> 'after' : to_NCName('$1').
 'NCName' -> 'allowing' : to_NCName('$1').
@@ -1717,16 +2226,24 @@ end.
 
 %% @doc Parser for the XQuery 3.1 Grammar.
 
--include("xqerl.hrl").
+%-include("xqerl.hrl").
 -include("xqerl_parser.hrl").
 
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
 -dialyzer(no_return).
 
-to_NCName({A,B,C}) ->
-%?dbg("Token to NCName", C),
-   {A,B,erlang:atom_to_list(C)}.
+bin(List) when is_list(List) ->
+    unicode:characters_to_binary(List);
+bin(Int) when is_integer(Int) ->
+    <<Int/utf8>>;
+bin(Bin) when is_binary(Bin) ->
+    Bin;
+bin(Atom) when is_atom(Atom) ->
+    atom_to_binary(Atom, utf8).
+
+to_NCName({_,B,C}) ->
+    #xqNCName{anno = B, str = bin(C)}.
 
 value_of(Token) ->
    element(3, Token).
@@ -1754,293 +2271,253 @@ next_id() ->
          Id
    end.
 
-qname_to_atom(Q) ->
-   L = get_qname_local_name(Q),
-   P = get_qname_prefix(Q),
+expand_qname(wildcard, #xqQName{anno = L, namespace = default, prefix = default} = Eq) ->
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, <<>>),
+        Eq#xqQName{namespace = Ns, prefix = <<>>}
+    catch
+        _:Err ->
+            ?parse_err(Err, {undefined, L})
+    end;
+expand_qname(wildcard, #xqQName{namespace = default} = Eq) ->
+    Eq#xqQName{namespace = <<>>, prefix = <<>>};
+expand_qname(wildcard, #xqQName{namespace = undefined, prefix = <<"*">>} = Eq) ->
+    Eq#xqQName{namespace = <<"*">>};
+expand_qname(wildcard, #xqQName{anno = L, namespace = undefined, prefix = Px} = Eq) ->
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, Px),
+        Eq#xqQName{namespace = Ns}
+    catch
+        _:Err ->
+            ?parse_err(Err, {undefined, L})
+    end;
+expand_qname(wildcard, #xqQName{prefix = default} = Eq) ->
+    Eq#xqQName{prefix = <<"*">>};
+expand_qname(wildcard, #xqQName{} = Eq) ->
+    Eq;
+expand_qname(nametest, #xqQName{namespace = default, prefix = default} = Eq) ->
+    Ns = xqerl_context:get_default_element_type_namespace(parser),
+    Eq#xqQName{namespace = Ns, prefix = <<>>};
+expand_qname(nametest, Eq) ->
+    expand_qname(wildcard, Eq);
+expand_qname(attwildcard, #xqQName{namespace = default, prefix = default} = Eq) ->
+    Eq#xqQName{namespace = <<>>, prefix = <<>>};
+expand_qname(attwildcard, Eq) ->
+   expand_qname(wildcard, Eq);
+expand_qname(pi, {'PITarget', A, N}) ->
+    #xqQName{anno = A, namespace = <<>>, prefix = <<>>, local_name = bin(N)};
+expand_qname(pi, #xqNCName{anno = A, str = N}) ->
+    #xqQName{anno = A, namespace = <<>>, prefix = <<>>, local_name = N};
+expand_qname(pi, {'StringLiteral', A, N}) ->
+    try
+        #xqAtomicValue{value = NC} = xqerl_types:cast_as(bin(N), 'xs:NCName'),
+        #xqQName{anno = A, namespace = <<>>, prefix = <<>>, local_name = NC}
+    catch
+        _:_ ->
+            {error, 'XPTY0004'}
+    end;
+expand_qname(func, #xqQName{namespace = Ns, prefix = undefined} = Eq) -> % may be known in static namespaces
+    try
+        Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
+        Eq#xqQName{prefix = Px}
+    catch _:_ ->
+        Eq
+    end;
+expand_qname(func, #xqQName{namespace = undefined, prefix = Px} = Eq) -> % may be known in static namespaces
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
+        Eq#xqQName{namespace = Ns}
+    catch _:_ ->
+        Eq
+    end;
+% reserved function names
+expand_qname(func, #xqQName{namespace = default, local_name = Ln})
+    when Ln == <<"array">>;
+         Ln == <<"attribute">>;
+         Ln == <<"comment">>;
+         Ln == <<"document-node">>;
+         Ln == <<"element">>;
+         Ln == <<"empty-sequence">>;
+         Ln == <<"function">>;
+         Ln == <<"if">>;
+         Ln == <<"item">>;
+         Ln == <<"map">>;
+         Ln == <<"namespace-node">>;
+         Ln == <<"node">>;
+         Ln == <<"processing-instruction">>;
+         Ln == <<"schema-attribute">>;
+         Ln == <<"schema-element">>;
+         Ln == <<"switch">>;
+         Ln == <<"text">>;
+         Ln == <<"typeswitch">> -> {error, 'XPST0003'};
+% default
+expand_qname(func, #xqQName{namespace = default} = Eq) ->
+    Ns = xqerl_context:get_default_function_namespace(parser),
+    Eq#xqQName{namespace = Ns, prefix = <<>>};
+expand_qname(func, #xqQName{namespace = <<>>} = Eq) ->
+    Eq#xqQName{namespace = <<>>, prefix = <<>>};
+expand_qname(func, #xqQName{} = Eq) ->
+    Eq;
+expand_qname(other, #xqQName{prefix = <<"err">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xqt-errors">>};
+expand_qname(other, #xqQName{namespace = <<"http://www.w3.org/2005/xqt-errors">>} = Eq) ->
+    Eq#xqQName{prefix = <<"err">>};
+expand_qname(other, #xqQName{prefix = undefined} = Eq) ->
+   expand_qname(func, Eq);
+expand_qname(other, #xqQName{prefix = <<"*">>, local_name = <<"*">>} = Eq) ->
+    Eq#xqQName{namespace = <<"*">>};
+expand_qname(other, #xqQName{prefix = <<"*">>} = Eq) ->
+    Eq#xqQName{namespace = <<"*">>};
+expand_qname(other, #xqQName{namespace = undefined, prefix = Px, local_name = <<"*">>} = Eq) ->
+    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
+    Eq#xqQName{namespace = Ns};    
+expand_qname(other, #xqQName{prefix = <<"fn">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xpath-functions">>};
+expand_qname(other, #xqQName{prefix = <<"xsi">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2001/XMLSchema-instance">>};
+expand_qname(other, #xqQName{prefix = <<"xml">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/XML/1998/namespace">>};
+expand_qname(other, #xqQName{prefix = <<"xs">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2001/XMLSchema">>};
+expand_qname(other, #xqQName{prefix = <<"math">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xpath-functions/math">>};
+expand_qname(other, #xqQName{prefix = <<"map">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xpath-functions/map">>};
+expand_qname(other, #xqQName{prefix = <<"array">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xpath-functions/array">>};
+expand_qname(other, #xqQName{prefix = <<"local">>} = Eq) ->
+    Eq#xqQName{namespace = <<"http://www.w3.org/2005/xquery-local-functions">>};
+expand_qname(other, #xqQName{prefix = default} = Eq) ->
+    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,<<>>),
+    Eq#xqQName{namespace = Ns, prefix = <<>>};
+expand_qname(other, #xqQName{anno = L, prefix = Px} = Eq) ->
+    try
+        xqerl_context:get_statically_known_namespace_from_prefix(parser,Px) 
+    of
+        <<>> ->
+            ?parse_err('XPST0081', {undefined, L});
+        Ns ->
+            Eq#xqQName{namespace = Ns}
+    catch _:_ ->
+        Eq
+    end;
+
+expand_qname(var, #xqQName{namespace = <<>>, prefix = Px} = Eq) when Px =/= <<>> ->
+   Eq#xqQName{namespace = <<>>, prefix = <<>>};
+expand_qname(var, #xqQName{namespace = default, prefix = default} = Eq) ->
+   Eq#xqQName{namespace = <<>>, prefix = <<>>};
+expand_qname(var, #xqQName{namespace = default, prefix = <<>>} = Eq) ->
+   Eq#xqQName{namespace = <<>>};
+expand_qname(var, #xqQName{namespace = undefined, prefix = <<"err">>} = Eq) ->
+   expand_qname(var, Eq#xqQName{namespace = <<"http://www.w3.org/2005/xqt-errors">>});
+expand_qname(var, #xqQName{namespace = undefined, prefix = <<>>} = Eq) -> % may be known in static namespaces
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,<<>>),
+        Eq#xqQName{namespace = Ns}
+    catch _:_ ->
+        Eq
+    end;
+expand_qname(var, #xqQName{anno = L, namespace = undefined, prefix = Px} = Eq) -> % may be known in static namespaces
+    try
+        xqerl_context:get_statically_known_namespace_from_prefix(parser,Px)
+    of
+        <<>> ->
+            ?parse_err('XPST0081', {undefined, L});
+        Ns ->
+            Eq#xqQName{namespace = Ns}
+    catch _:_ ->
+        Eq
+    end;
+expand_qname(var, #xqQName{namespace = Ns, prefix = undefined} = Eq) -> % may be known in static namespaces
+    try
+        Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
+        Eq#xqQName{prefix = Px}
+    catch _:_ ->
+        Eq
+    end;
+expand_qname(var, #xqQName{} = Eq) ->
+    Eq;
+
+expand_qname(opt, #xqQName{anno = L, namespace = undefined, prefix = Px} = Eq) ->
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
+        Eq#xqQName{namespace = Ns}
+    catch
+        _:Err ->
+            ?parse_err(Err, {undefined, L})
+    end;
+expand_qname(opt, #xqQName{namespace = default} = Eq) ->
+    Ns  = <<"http://www.w3.org/2012/xquery">>,
+    Eq#xqQName{namespace = Ns, prefix = <<>>};
+expand_qname(opt, #xqQName{} = Eq) ->
+    Eq;
+expand_qname(anno, #xqQName{anno = L, namespace = undefined, prefix = Px} = Eq) ->
+    try
+        Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
+        Eq#xqQName{namespace = Ns, prefix = Px}
+    catch
+        _:Err ->
+            ?parse_err(Err, {undefined, L})
+    end;
+expand_qname(anno, #xqQName{namespace = default} = Eq) ->
+    Ns  = <<"http://www.w3.org/2012/xquery">>,
+    Eq#xqQName{namespace = Ns, prefix = <<>>};
+expand_qname(anno, #xqQName{} = Eq) ->
+    Eq.
+
+qname_to_atom(#xqQName{prefix = P, local_name = L}) ->
    binary_to_atom(<<P/binary,":",L/binary>>,utf8).
 
 xqAtomicValue('xs:string', Value) -> Value;
 xqAtomicValue('xs:integer', Value) -> Value;
 xqAtomicValue('xs:double', Value) -> Value;
 xqAtomicValue(Type,Value) ->
-   #xqAtomicValue{type = Type, value = Value}.
-
-qname(func, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
-   try
-      Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
-      {qname,Ns,Px,Ln}
-   catch _:_ ->
-      {qname,Ns,undefined,Ln}
-   end;
-qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
-   try
-      Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-      {qname,Ns,Px,Ln}
-   catch _:_ ->
-      {qname,undefined,Px,Ln}
-   end;
-% reserved function names
-qname(func, {qname,default,_,<<"array">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"attribute">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"comment">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"document-node">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"element">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"empty-sequence">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"function">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"if">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"item">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"map">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"namespace-node">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"node">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"processing-instruction">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"schema-attribute">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"schema-element">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"switch">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"text">>}) -> ?err('XPST0003');
-qname(func, {qname,default,_,<<"typeswitch">>}) -> ?err('XPST0003');
-% default
-qname(func, {qname,default,_Px,Ln}) ->
-   {qname,xqerl_context:get_default_function_namespace(parser),<<>>,Ln};
-qname(func, {qname,<<>>,Px,Ln}) ->
-   {qname,'no-namespace',Px,Ln};
-qname(func, {qname,Ns,Px,Ln}) ->
-   {qname,Ns,Px,Ln};
-
-qname(pi, Ln) ->
-   <<H,Str/binary>> = Name = string:trim(Ln),
-   case xqerl_lib:is_xsncname_start_char(H) of
-      true ->
-         lists:foreach(fun($:) -> ?err('XPTY0004');
-                          (C) ->
-                           case xqerl_lib:is_xsname_char(C) of
-                              false ->
-                                 ?dbg("C",C),
-                                 ?err('XPTY0004');
-                              _ -> ok
-                           end
-                        end, unicode:characters_to_list(Str));
-      _ ->
-         ?err('XPTY0004')
-   end,
-   % allow "xml" here
-   {qname,'no-namespace',<<>>,Name};
-qname(type, Q) -> Q;
-
-qname(var, {qname,<<>>,_,Ln}) ->
-   qname(var, {qname,'no-namespace',<<>>,Ln});
-qname(var, {qname,default,default,Ln}) ->
-   qname(var, {qname,'no-namespace',<<>>,Ln});
-qname(var, {qname,default,<<>>,Ln}) ->
-   qname(var, {qname,'no-namespace',<<>>,Ln});
-qname(var, {qname,_,<<"err">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
-qname(var, {qname,undefined,Px,Ln}) when Px =/= <<>> -> % may be known in static namespaces
-   try
-      xqerl_context:get_statically_known_namespace_from_prefix(parser,Px)
-   of
-      <<>> ->
-         ?err('XPST0081');
-      Ns ->
-         {qname,Ns,Px,Ln}
-   catch _:_ ->
-      {qname,undefined,Px,Ln}
-   end;
-qname(var, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
-   try
-      Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-      {qname,Ns,Px,Ln}
-   catch _:_ ->
-      {qname,undefined,Px,Ln}
-   end;
-qname(var, {qname,Ns,undefined,Ln}) -> % may be known in static namespaces
-   try
-      Px = xqerl_context:get_statically_known_prefix_from_namespace(parser,Ns),
-      {qname,Ns,Px,Ln}
-   catch _:_ ->
-      {qname,Ns,undefined,Ln}
-   end;
-qname(var, {qname,Ns,Px,Ln}) ->
-   {qname,Ns,Px,Ln};
-
-qname(anno, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-   {qname,Ns,Px,Ln};
-qname(anno, {qname,default,_,Ln}) ->
-   Ns  = <<"http://www.w3.org/2012/xquery">>,
-   {qname,Ns,<<>>,Ln};
-qname(anno, {qname,Ns,Px,Ln}) ->
-   {qname,Ns,Px,Ln};
-
-qname(opt, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-   {qname,Ns,Px,Ln};
-qname(opt, {qname,default,_,Ln}) ->
-   Ns  = <<"http://www.w3.org/2012/xquery">>,
-   {qname,Ns,<<>>,Ln};
-qname(opt, {qname,Ns,Px,Ln}) ->
-   {qname,Ns,Px,Ln};
-
-qname(attwildcard, {qname,default,default,Ln}) ->
-   Ns = 'no-namespace',
-   {qname,Ns,<<>>,Ln};
-qname(attwildcard, Q) ->
-   qname(wildcard, Q);
-
-qname(nametest, {qname,default,default,Ln}) ->
-   Ns = xqerl_context:get_default_element_type_namespace(parser),
-%?dbg("Ns",Ns),
-   {qname,Ns,<<>>,Ln};
-qname(nametest, Q) ->
-   qname(wildcard, Q);
-qname(wildcard, {qname,default,default,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, <<>>),
-   {qname,Ns,<<>>,Ln};
-qname(wildcard, {qname,default,_Px,Ln}) ->
-   {qname,'no-namespace',<<>>,Ln};
-qname(wildcard, {qname,undefined,<<"*">>,Ln}) ->
-   {qname,<<"*">>,<<"*">>,Ln};
-qname(wildcard, {qname,undefined,Px,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, Px),
-   {qname,Ns,Px,Ln};
-qname(wildcard, {qname,Ns,default,Ln}) ->
-   {qname,Ns,<<"*">>,Ln};
-qname(wildcard, {qname,Ns,Px,Ln}) ->
-   {qname,Ns,Px,Ln};
-
-
-qname(other, {qname,_,<<"err">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
-qname(other, {qname,<<"http://www.w3.org/2005/xqt-errors">>,_,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
-qname(other, {qname,_,undefined,_} = Q) ->
-   qname(func, Q);
-qname(other, {qname,_,<<"*">>,<<"*">>}) ->
-   {qname,<<"*">>,<<"*">>,<<"*">>};
-qname(other, {qname,_,<<"*">>,Ln}) ->
-   {qname,<<"*">>,<<"*">>,Ln};
-qname(other, {qname,undefined,Px,<<"*">>}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-   {qname,Ns,Px,<<"*">>};
-qname(other, {qname,_,<<"fn">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xpath-functions">>,<<"fn">>,Ln};
-qname(other, {qname,_,<<"xsi">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2001/XMLSchema-instance">>,<<"xsi">>,Ln};
-qname(other, {qname,_,<<"xml">>,Ln}) ->
-   {qname,<<"http://www.w3.org/XML/1998/namespace">>,<<"xml">>,Ln};
-qname(other, {qname,_,<<"xs">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2001/XMLSchema">>,<<"xs">>,Ln};
-qname(other, {qname,_,<<"math">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xpath-functions/math">>,<<"math">>,Ln};
-qname(other, {qname,_,<<"map">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xpath-functions/map">>,<<"map">>,Ln};
-qname(other, {qname,_,<<"array">>,Ln}) ->
-   {qname,<<"http://www.w3.org/2005/xpath-functions/array">>,<<"array">>,Ln};
-qname(other, {qname,_,default,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,<<>>),
-   {qname,Ns,<<>>,Ln};
-qname(other, {qname,Ns,Px,Ln}) ->
-   try xqerl_context:get_statically_known_namespace_from_prefix(parser,Px) of
-      Ns1 -> {qname,Ns1,Px,Ln}
-   catch _:_ -> 
-      {qname,Ns,Px,Ln}
-   end.
-
-get_qname_local_name({qname,_,_,Nm}) ->
-  Nm.
-get_qname_prefix({qname,_,Px,_}) ->
-  Px.
-
-at_value([]) ->
-   [];
-at_value([#xqAtomicValue{value = At}]) ->
-   At;
-at_value(A) when is_list(A) ->
-   try
-      L = lists:map( fun(V) when is_binary(V) ->
-                            V;
-                        (#xqAtomicValue{value = V}) ->
-                            V;
-                        ({expr,E}) ->
-                            at_value(E);
-                        ({entity_ref,E}) ->
-                            E;
-                        ({char_ref,E}) ->
-                            E
-                     end, A),
-      list_to_binary(L)
-   catch _:E ->
-      ?dbg("XQST0022",E),
-      ?dbg("XQST0022",A),
-      ?err('XQST0022')
-   end;
-at_value(#xqAtomicValue{value = V}) ->
-   V;
-at_value({expr,A}) ->
-   at_value(A);
-at_value(A) ->
-   ?dbg("XQST0022",A),
-   ?err('XQST0022').
+    #xqAtomicValue{type = Type, value = Value}.
 
 ns_value([]) ->
-   [];
+    <<>>;
 ns_value([At]) when is_binary(At) ->
-   %?dbg("1705",At),
-   xqerl_lib:normalize_spaces(At);
-   %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
-ns_value([{expr,A}]) ->
-   ?dbg("XQST0022",A),
-   ?err('XQST0022');
+    xqerl_lib:normalize_spaces(At);
 ns_value(A) when is_list(A) ->
-   %?dbg("1708",A),
-   try
-      L = lists:map( fun(V) when is_binary(V) ->
-                            V;
-                        ({expr,_E}) ->
-                            ?err('XQST0022');
-                        ({entity_ref,E}) ->
-                            E;
-                        ({char_ref,E}) ->
-                            E
-                     end, A),
-      xqerl_lib:normalize_spaces(list_to_binary(L))
-      %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
-   catch _:_ ->
-      ?dbg("XQST0022",A),
-      ?err('XQST0022')
-   end;
-ns_value(A) ->
-   ?dbg("XQST0022",A),
-   ?err('XQST0022').
-
+    try
+        L = lists:map(fun(V) when is_binary(V) -> V;
+                         (#xqEntityRef{ref = R}) -> R;
+                         (#xqCharRef{ref = R}) -> R;
+                         (_) -> throw('XQST0022')
+                      end, A),
+        xqerl_lib:normalize_spaces(list_to_binary(L))
+    catch _:_ ->
+        {error, 'XQST0022'}
+    end;
+ns_value(_) ->
+    {error, 'XQST0022'}.
 
 as_list(L) ->
    if is_list(L) -> L;
       true -> [L]
    end.
 
-dir_att(QName, Value) ->
-%?dbg("{QName, Value}",{QName, Value}),
-   if QName#qname.prefix == <<"xmlns">>  ->
-         xqerl_context:add_statically_known_namespace(parser,ns_value(Value),QName#qname.local_name),
-         #xqNamespaceNode{uri = ns_value(Value), prefix = QName#qname.local_name};
-      QName#qname.local_name == <<"xmlns">> andalso QName#qname.prefix == default ->
-         case at_value(Value) of 
-            [] ->
-               xqerl_context:add_statically_known_namespace(parser,'no-namespace',<<>>),
-               #xqNamespaceNode{uri = 'no-namespace', prefix = <<>>};
-            _ -> 
-               xqerl_context:add_statically_known_namespace(parser,ns_value(Value),<<>>),
-               #xqNamespaceNode{uri = ns_value(Value), prefix = <<>>} 
-         end;
-      true ->
-         #xqAttributeNode{name = qname(other,QName), 
-                          string_value = case Value of
-                                    [] -> [xqAtomicValue('xs:string', <<>>)];
-                                    undefined -> 
-                                       [xqAtomicValue('xs:string', <<>>)];
-                                    _ -> normalize_att_content(Value)
-                                    end}
-   end.
+dir_att(#xqQName{anno = A, prefix = <<"xmlns">>, local_name = LocalStr}, Value) ->
+    case ns_value(Value) of
+        {error, _} = Err ->
+            Err;
+        Ns ->
+            _ = xqerl_context:add_statically_known_namespace(parser, Ns, LocalStr),
+            #xqNamespaceNode{anno = A, id = next_id(), type = direct, uri = Ns, prefix = LocalStr}
+    end;
+dir_att(#xqQName{anno = A, prefix = default, local_name = <<"xmlns">>}, Value) ->
+    case ns_value(Value) of
+        {error, _} = Err ->
+            Err;
+        <<>> ->
+            _ = xqerl_context:add_statically_known_namespace(parser,<<>>,<<>>),
+            #xqNamespaceNode{anno = A, id = next_id(), type = direct, uri = <<>>, prefix = <<>>};
+        Ns ->
+            _ = xqerl_context:add_statically_known_namespace(parser,Ns,<<>>),
+            #xqNamespaceNode{anno = A, id = next_id(), type = direct, uri = Ns, prefix = <<>>}
+    end;
+dir_att(#xqQName{anno = A} = QName, Value) ->
+    #xqAttributeNode{anno = A, id = next_id(), type = direct, name = expand_qname(other, QName), text = normalize_att_content(Value)}.
   
 normalize_att_content(Content) ->
    lists:map(
@@ -2060,64 +2537,64 @@ normalize_whitespace(<<H,T/binary>>) ->
 normalize_whitespace(<<>>) ->
    <<>>.
 
+qname_equal(#xqQName{namespace = N, prefix = P, local_name = L}, 
+            #xqQName{namespace = N, prefix = P, local_name = L}) -> true;
+qname_equal(_, _) -> false.
+
 is_partial_impl(PostFixes) ->
-   lists:any(fun({arguments,Args}) ->
-                  lists:any(fun({'?',_}) -> true;
+   lists:any(fun(#xqArgumentList{args = Args}) ->
+                  lists:any(fun(#xqArgumentPlaceholder{}) -> true;
                                (_) -> false
                             end, Args);
                 (_) -> false
              end,PostFixes).
 
-sort_grouping(Groups, Id) ->
-   Lets = [E || E <- Groups, element(1, E) == 'let'],
-   Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
-   Lets ++ [{group_by, Id, Vars}].
+sort_grouping(Groups, Id, Line) ->
+    Lets = [E || E <- Groups, is_record(E, xqLet)],
+    Vars = [E || E <- Groups, is_record(E, xqGroupBy)],
+    Lets ++ [#xqGroup{anno = Line, id = Id, vars = Vars}].
 
-split_where_statement(#xqLogicalExpr{comp = 'and', lhs = A, rhs = B}) ->
-   split_where_statement(A) ++ split_where_statement(B);
-split_where_statement(A) ->
-   [{'where', next_id(), A}].
+split_where_statement(#xqLogicalExpr{comp = 'and', lhs = A, rhs = B}, L) ->
+   split_where_statement(A, L) ++ split_where_statement(B, L);
+split_where_statement(A, L) ->
+   [#xqWhere{anno = L, id = next_id(), expr = A}].
 
+check_prefix_namespace(L, <<"xml">>,_) -> ?parse_err('XQST0070', {undefined, L});
+check_prefix_namespace(L, <<"xmlns">>,_) -> ?parse_err('XQST0070', {undefined, L});
 check_prefix_namespace(_, _, <<>>) -> ok;
 check_prefix_namespace(L, P, N) ->
-   check_schema_prefix_namespace(L, P, N).
+    %?parse_dbg("CHECK", {L, P, N}),
+    check_schema_prefix_namespace(L, P, N).
   
-check_schema_prefix_namespace(_, <<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
-check_schema_prefix_namespace(L, <<"xml">>,_) -> ?err('XQST0070', {undefined, L});
-check_schema_prefix_namespace(L, _,<<"http://www.w3.org/XML/1998/namespace">>) -> ?err('XQST0070', {undefined, L});
-check_schema_prefix_namespace(L, <<"xmlns">>,_) -> ?err('XQST0070', {undefined, L});
-check_schema_prefix_namespace(L, _,<<"http://www.w3.org/2000/xmlns/">>) -> ?err('XQST0070', {undefined, L});
-check_schema_prefix_namespace(L, _,<<>>) -> ?err('XQST0057', {undefined, L});
+%check_schema_prefix_namespace(_, <<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
+check_schema_prefix_namespace(L, <<"xml">>,_) -> ?parse_err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<"http://www.w3.org/XML/1998/namespace">>) -> ?parse_err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, <<"xmlns">>,_) -> ?parse_err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<"http://www.w3.org/2000/xmlns/">>) -> ?parse_err('XQST0070', {undefined, L});
+check_schema_prefix_namespace(L, _,<<>>) -> ?parse_err('XQST0057', {undefined, L});
 check_schema_prefix_namespace(_, _,_) -> ok.
 
 check_import_uri(L, Uri) ->
-   case xqerl_lib:check_uri_string(Uri) of
-      {error,_} ->
-         ?err('XQST0046', {undefined, L});
-      Val ->
-         Val
-   end.
-
-check_uri_hints(L, Hints) when not is_list(Hints) -> check_uri_hints(L, [Hints]);
-check_uri_hints(L, Hints) ->
-   [ case xqerl_lib:check_uri_string(H) of
+    case xqerl_lib:check_uri_string(Uri) of
         {error,_} ->
-           ?err('XQST0046', {undefined, L});
-        _ ->
-           ok
-     end || H <- Hints],
-   Hints.
+            ?parse_err('XQST0046', {undefined, L});
+        Val ->
+            Val
+    end.
 
-name_to_kind_test({attribute, #xqNameTest{name = Nm}}) ->
-   {attribute, #xqKindTest{kind = attribute, name = Nm}};
-name_to_kind_test({attribute, #xqNameTest{name = Nm}, Ln}) ->
-   {attribute, #xqKindTest{kind = attribute, name = Nm}, Ln};
-name_to_kind_test({Axis, #xqNameTest{name = Nm}}) ->
-   {Axis, #xqKindTest{kind = element, name = Nm}};
-name_to_kind_test({Axis, #xqNameTest{name = Nm}, Ln}) ->
-   {Axis, #xqKindTest{kind = element, name = Nm}, Ln};
-name_to_kind_test({Axis, Test}) ->
-   {Axis, Test};
-name_to_kind_test({Axis, Test, Ln}) ->
-   {Axis, Test, Ln}.
+%% check_uri_hints(L, Hints) when not is_list(Hints) -> check_uri_hints(L, [Hints]);
+%% check_uri_hints(L, Hints) ->
+%%    [ case xqerl_lib:check_uri_string(H) of
+%%         {error,_} ->
+%%            ?parse_err('XQST0046', {undefined, L});
+%%         _ ->
+%%            ok
+%%      end || H <- Hints],
+%%    Hints.
+
+node_to_kind_test(#xqKindTest{} = Kt, _) -> Kt;
+node_to_kind_test(#xqNameTest{anno = A, name = N}, node) -> 
+    #xqKindTest{anno = A, kind = element, name = N};
+node_to_kind_test(#xqNameTest{anno = A, name = N}, Kind) -> 
+    #xqKindTest{anno = A, kind = Kind, name = N}.
 

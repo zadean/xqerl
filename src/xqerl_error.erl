@@ -48,6 +48,7 @@
 %%       location % {Module, Line, Column} %TODO
 %%    }).
 
+error(#xqError{} = Error) -> Error;
 error(#qname{} = Name) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = Name},
                   description = ?str(msg('FOER0000'))},
@@ -95,8 +96,7 @@ error(Code, Msg, Obj) when is_atom(Code), is_binary(Obj) ->
                                                   local_name = 
                                                     atom_to_binary(Code, latin1)}},
                   description = Msg,
-                  value = Obj,
-                  location = {Obj, 0, 0}},
+                  value = Obj},
    Err.
 
 

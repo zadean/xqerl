@@ -95,7 +95,7 @@ type_check_mapped_vals(<<"use-character-maps">>, Val) -> Val;
 type_check_mapped_vals(_,V) -> V .
 
 keys_as_string([{_,{#xqAtomicValue{type = 'xs:QName',
-                                   value = #qname{namespace = 'no-namespace',
+                                   value = #qname{namespace = <<>>,
                                                   local_name = Str}} = N,V}}|T]) ->
    [{Str, {N, V}}|keys_as_string(T)];
 keys_as_string([H|T]) ->
@@ -399,7 +399,7 @@ parse_xml_options([#{nk := text}| T]) ->
 parse_xml_options([#{nk := element,
                      ns := ENs,
                      nn := {?NS,_,Ln},
-                     at := Atts} = N| T]) ->
+                     at := Atts} = N| T]) when Atts =/= [] ->
    [Val] = [xqldb_mem_nodes:string_value(A) || #{nn := {<<>>,_,<<"value">>}} = A <- Atts],
    Val1 = if Ln == <<"use-character-maps">> ->
                 normalize_xml_character_map(N);

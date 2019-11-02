@@ -49,6 +49,9 @@
         (is_number(V) orelse V == nan orelse V == infinity 
         orelse V == neg_infinity orelse V == neg_zero)).
 
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
+
 %-define(T(A,B),io:format("~p: ~p~n",[A,B])).
 
 %(xs:integer, xs:decimal, xs:float, xs:double)
@@ -91,68 +94,57 @@
 -include("xqerl.hrl").
 
 op_and(true, R) ->
-   case R() of
-      [] ->
-         false;
-      O ->
-         O
-   end;
-op_and([], _) ->
-   false;
-op_and(false, _) ->
-   false.
+    case R() of
+        [] -> false;
+        O -> O
+    end;
+op_and([], _) -> false;
+op_and(false, _) -> false.
 
 op_or(true, _) -> true;
 op_or([], R) ->
-   case R() of
-      [] ->
-         false;
-      O ->
-         O
-   end;
+    case R() of
+        [] -> false;
+        O -> O
+    end;
 op_or(false, R) ->
-   case R() of
-      [] ->
-         false;
-      O ->
-         O
-   end.
+    case R() of
+        [] -> false;
+        O -> O
+    end.
 
-lookup(Ctx,Sing,#xqRange{} = R) ->
-   lookup(Ctx,Sing,xqerl_seq3:expand(R));
-lookup(Ctx,Sing,[Value]) ->
-   lookup(Ctx,Sing,Value);
-lookup(Ctx,[Sing],Value) ->
-   lookup(Ctx,Sing,Value);
-lookup(_Ctx,#{nk := _},_) -> ?err('XPTY0004');
-lookup(_Ctx,Map,all) when is_map(Map) ->
-   xqerl_mod_map:values(Map);
-lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
-   V1 = xqerl_seq3:expand(Values), 
-   xqerl_mod_map:get_matched(Map, V1);
-lookup(Ctx,Map,Value) when is_map(Map) ->
-   xqerl_mod_map:get(Ctx, Map, Value);
-lookup(_Ctx,{array,_} = Array,all) ->
-   xqerl_mod_array:values(Array);
-lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
-   V1 = xqerl_seq3:expand(Values), 
-   xqerl_mod_array:get_matched(Array, V1);
-lookup(Ctx,{array,_} = Array, Value) when is_integer(Value) ->
-   xqerl_mod_array:get(Ctx, Array, Value);
-lookup(Ctx,{array,_} = Array,#xqAtomicValue{type = T} = Value) 
-   when ?xs_integer(T) ->
-   xqerl_mod_array:get(Ctx, Array, Value);
-lookup(Ctx,{array,_} = A,#{nk := _} = V) ->
-   lookup(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
-lookup(Ctx,List,Value) when is_list(List) ->
-   V1 = xqerl_seq3:expand(Value), 
-   lists:map(fun(I) ->
-                   lookup(Ctx,I,V1)
-             end, List);
-%% lookup(Ctx,Fun,Value) when is_function(Fun, 2) ->
-%%    Fun(Ctx,Value);
-lookup(_Ctx,_List,_Value) ->
-   ?err('XPTY0004').
+lookup(Ctx, Sing, #range{} = R) ->
+    lookup(Ctx, Sing, xqerl_seq3:expand(R));
+lookup(Ctx, Sing, [Value]) ->
+    lookup(Ctx, Sing, Value);
+lookup(Ctx, [Sing], Value) ->
+    lookup(Ctx, Sing, Value);
+lookup(_Ctx, #{nk := _}, _) -> ?err('XPTY0004');
+lookup(_Ctx, Map, all) when is_map(Map) ->
+    xqerl_mod_map:values(Map);
+lookup(_Ctx, Map, Values) when is_map(Map), is_list(Values) ->
+    V1 = xqerl_seq3:expand(Values), 
+    xqerl_mod_map:get_matched(Map, V1);
+lookup(Ctx, Map, Value) when is_map(Map) ->
+    xqerl_mod_map:get(Ctx, Map, Value);
+lookup(_Ctx, Array, all) when ?is_array(Array) ->
+    xqerl_mod_array:values(Array);
+lookup(_Ctx, Array, Values) when ?is_array(Array), is_list(Values) ->
+    V1 = xqerl_seq3:expand(Values), 
+    xqerl_mod_array:get_matched(Array, V1);
+lookup(Ctx, Array, Value) when ?is_array(Array), is_integer(Value) ->
+    xqerl_mod_array:get(Ctx, Array, Value);
+lookup(Ctx, Array, #xqAtomicValue{type = T} = Value) when ?is_array(Array), ?xs_integer(T) ->
+    xqerl_mod_array:get(Ctx, Array, Value);
+lookup(Ctx, A, #{nk := _} = V) when ?is_array(A) ->
+    lookup(Ctx, A, xqerl_types:cast_as(V, 'xs:integer'));
+lookup(Ctx, List, Value) when is_list(List) ->
+    V1 = xqerl_seq3:expand(Value), 
+    lists:map(fun(I) ->
+                     lookup(Ctx, I, V1)
+              end, List);
+lookup(_Ctx, _List, _Value) ->
+    ?err('XPTY0004').
 
 is_comparable('xs:base64Binary') -> true;
 is_comparable('xs:boolean') -> true;
@@ -173,8 +165,10 @@ add([Arg1], Arg2) ->
    add(Arg1, Arg2);
 add(Arg1, [Arg2]) ->
    add(Arg1, Arg2);
-add(#array{data = [Arg1]}, Arg2) -> add(Arg1, Arg2);
-add(Arg1, #array{data = [Arg2]}) -> add(Arg1, Arg2);
+add(Arg1, Arg2) when ?is_array(Arg1) -> 
+    add(array:to_list(Arg1), Arg2);
+add(Arg1, Arg2) when ?is_array(Arg2) -> 
+    add(Arg1, array:to_list(Arg2));
 add(Arg1, #{nk := _} = Arg2) ->
    Ns = xqerl_types:atomize(Arg2),
    add(Arg1,Ns);
@@ -250,8 +244,10 @@ subtract([Arg1], Arg2) ->
    subtract(Arg1, Arg2);
 subtract(Arg1, [Arg2]) ->
    subtract(Arg1, Arg2);
-subtract(#array{data = [Arg1]}, Arg2) -> subtract(Arg1, Arg2);
-subtract(Arg1, #array{data = [Arg2]}) -> subtract(Arg1, Arg2);
+subtract(Arg1, Arg2) when ?is_array(Arg1) -> 
+    subtract(array:to_list(Arg1), Arg2);
+subtract(Arg1, Arg2) when ?is_array(Arg2) -> 
+    subtract(Arg1, array:to_list(Arg2));
 
 % common
 subtract(ValA, ValB) when is_number(ValA), is_number(ValB) ->
@@ -323,8 +319,10 @@ subtract(Arg1, Arg2) ->
 multiply(_, []) -> [];
 multiply([], _) -> [];
 
-multiply(#array{data = [Arg1]}, Arg2) -> multiply(Arg1, Arg2);
-multiply(Arg1, #array{data = [Arg2]}) -> multiply(Arg1, Arg2);
+multiply(Arg1, Arg2) when ?is_array(Arg1) -> 
+    multiply(array:to_list(Arg1), Arg2);
+multiply(Arg1, Arg2) when ?is_array(Arg2) -> 
+    multiply(Arg1, array:to_list(Arg2));
 
 % common
 multiply([Arg1], Arg2) ->
@@ -366,8 +364,10 @@ divide([Arg1], Arg2) ->
 divide(Arg1, [Arg2]) ->
    divide(Arg1, Arg2);
 
-divide(#array{data = [Arg1]}, Arg2) -> divide(Arg1, Arg2);
-divide(Arg1, #array{data = [Arg2]}) -> divide(Arg1, Arg2);
+divide(Arg1, Arg2) when ?is_array(Arg1) -> 
+    divide(array:to_list(Arg1), Arg2);
+divide(Arg1, Arg2) when ?is_array(Arg2) -> 
+    divide(Arg1, array:to_list(Arg2));
 
 divide(#{nk := _} = Arg1, Arg2) ->
    Ns = xqerl_types:atomize(Arg1),
@@ -400,8 +400,12 @@ idivide([Arg1], Arg2) ->
    idivide(Arg1, Arg2);
 idivide(Arg1, [Arg2]) ->
    idivide(Arg1, Arg2);
-idivide(#array{data = [Arg1]}, Arg2) -> idivide(Arg1, Arg2);
-idivide(Arg1, #array{data = [Arg2]}) -> idivide(Arg1, Arg2);
+
+idivide(Arg1, Arg2) when ?is_array(Arg1) -> 
+    idivide(array:to_list(Arg1), Arg2);
+idivide(Arg1, Arg2) when ?is_array(Arg2) -> 
+    idivide(Arg1, array:to_list(Arg2));
+
 idivide(#{nk := _} = Arg1, Arg2) ->
    Ns = xqerl_types:atomize(Arg1),
    idivide(Ns, Arg2);
@@ -421,8 +425,12 @@ modulo([Arg1], Arg2) ->
    modulo(Arg1, Arg2);
 modulo(Arg1, [Arg2]) ->
    modulo(Arg1, Arg2);
-modulo(#array{data = [Arg1]}, Arg2) -> modulo(Arg1, Arg2);
-modulo(Arg1, #array{data = [Arg2]}) -> modulo(Arg1, Arg2);
+
+modulo(Arg1, Arg2) when ?is_array(Arg1) -> 
+    modulo(array:to_list(Arg1), Arg2);
+modulo(Arg1, Arg2) when ?is_array(Arg2) -> 
+    modulo(Arg1, array:to_list(Arg2));
+
 modulo(#{nk := _} = Arg1, Arg2) ->
    Ns = xqerl_types:atomize(Arg1),
    modulo(Ns, Arg2);
@@ -528,10 +536,11 @@ equal(Arg1, #{nk := _} = Arg2) ->
    equal(Arg1, At);
 equal(Arg1, Arg2) when is_map(Arg1);
                        is_map(Arg2) -> ?err('FOTY0013');
-equal(#array{data = Arg1}, Arg2) ->
-   equal(Arg1, Arg2);
-equal(Arg1, #array{data = Arg2}) ->
-   equal(Arg1, Arg2);
+
+equal(Arg1, Arg2) when ?is_array(Arg1) -> 
+    equal(array:to_list(Arg1), Arg2);
+equal(Arg1, Arg2) when ?is_array(Arg2) -> 
+    equal(Arg1, array:to_list(Arg2));
 
 equal(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, 
       #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -684,10 +693,10 @@ not_equal([], []) -> [];
 not_equal([], _) -> [];
 not_equal(_, []) -> [];
 
-not_equal(#array{data = Arg1}, Arg2) ->
-   not_equal(Arg1, Arg2);
-not_equal(Arg1, #array{data = Arg2}) ->
-   not_equal(Arg1, Arg2);
+not_equal(Arg1, Arg2) when ?is_array(Arg1) -> 
+    not_equal(array:to_list(Arg1), Arg2);
+not_equal(Arg1, Arg2) when ?is_array(Arg2) -> 
+    not_equal(Arg1, array:to_list(Arg2));
 
 not_equal([Arg1], Arg2) ->
    not_equal(Arg1, Arg2);
@@ -722,10 +731,11 @@ greater_than(Arg1, Arg2) when is_map(Arg1);
                               is_map(Arg2) -> ?err('FOTY0013');
 greater_than([], _) -> [];
 greater_than(_, []) -> [];
-greater_than(#array{data = Arg1}, Arg2) ->
-   greater_than(Arg1, Arg2);
-greater_than(Arg1, #array{data = Arg2}) ->
-   greater_than(Arg1, Arg2);
+
+greater_than(Arg1, Arg2) when ?is_array(Arg1) -> 
+    greater_than(array:to_list(Arg1), Arg2);
+greater_than(Arg1, Arg2) when ?is_array(Arg2) -> 
+    greater_than(Arg1, array:to_list(Arg2));
 
 greater_than(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, 
              #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -834,10 +844,11 @@ less_than(Arg1, Arg2) when is_map(Arg1);
                            is_map(Arg2) -> ?err('FOTY0013');
 less_than([], _) -> [];
 less_than(_, []) -> [];
-less_than(#array{data = Arg1}, Arg2) ->
-   less_than(Arg1, Arg2);
-less_than(Arg1, #array{data = Arg2}) ->
-   less_than(Arg1, Arg2);
+
+less_than(Arg1, Arg2) when ?is_array(Arg1) -> 
+    less_than(array:to_list(Arg1), Arg2);
+less_than(Arg1, Arg2) when ?is_array(Arg2) -> 
+    less_than(Arg1, array:to_list(Arg2));
 
 less_than(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, 
           #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -930,10 +941,11 @@ greater_than_eq(Arg1, Arg2) when is_map(Arg1);
                                  is_map(Arg2) -> ?err('FOTY0013');
 greater_than_eq([], _) -> [];
 greater_than_eq(_, []) -> [];
-greater_than_eq(#array{data = Arg1}, Arg2) ->
-   greater_than_eq(Arg1, Arg2);
-greater_than_eq(Arg1, #array{data = Arg2}) ->
-   greater_than_eq(Arg1, Arg2);
+
+greater_than_eq(Arg1, Arg2) when ?is_array(Arg1) -> 
+    greater_than_eq(array:to_list(Arg1), Arg2);
+greater_than_eq(Arg1, Arg2) when ?is_array(Arg2) -> 
+    greater_than_eq(Arg1, array:to_list(Arg2));
 
 greater_than_eq(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, 
                 #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -1001,10 +1013,11 @@ less_than_eq(Arg1, Arg2) when is_map(Arg1);
                               is_map(Arg2) -> ?err('FOTY0013');
 less_than_eq([], _) -> [];
 less_than_eq(_, []) -> [];
-less_than_eq(#array{data = Arg1}, Arg2) ->
-   less_than_eq(Arg1, Arg2);
-less_than_eq(Arg1, #array{data = Arg2}) ->
-   less_than_eq(Arg1, Arg2);
+
+less_than_eq(Arg1, Arg2) when ?is_array(Arg1) -> 
+    less_than_eq(array:to_list(Arg1), Arg2);
+less_than_eq(Arg1, Arg2) when ?is_array(Arg2) -> 
+    less_than_eq(Arg1, array:to_list(Arg2));
 
 less_than_eq(#xqAtomicValue{type = 'xs:anyURI'} = Arg1, 
              #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -1135,57 +1148,57 @@ node_is(O1, O2) ->
    ?dbg("node_is(O1, O2)",{O1, O2}),
    ?err('XPTY0004').
 
-range_val_comp_any(Op, Val, #xqRange{min = Min, max = Min}) ->
+range_val_comp_any(Op, Val, #range{min = Min, max = Min}) ->
    value_compare(Op,Val,?intv(Min));
-range_val_comp_any(Op, #xqRange{min = Min, max = Min}, Val) ->
+range_val_comp_any(Op, #range{min = Min, max = Min}, Val) ->
    value_compare(Op,?intv(Min),Val);
-range_val_comp_any(Op, #xqRange{min = Min} = Range, Val) ->
+range_val_comp_any(Op, #range{min = Min} = Range, Val) ->
    case value_compare(Op,?intv(Min),Val) of
       ?bool(true) ->
          true;
       _ ->
-         range_val_comp_any(Op, Range#xqRange{min = Min + 1}, Val)
+         range_val_comp_any(Op, Range#range{min = Min + 1}, Val)
    end;
-range_val_comp_any(Op, Val, #xqRange{min = Min} = Range) ->
+range_val_comp_any(Op, Val, #range{min = Min} = Range) ->
    case value_compare(Op,Val,?intv(Min)) of
       ?bool(true) ->
          true;
       _ ->
-         range_val_comp_any(Op, Val, Range#xqRange{min = Min + 1})
+         range_val_comp_any(Op, Val, Range#range{min = Min + 1})
    end.
 
 range_range_comp_any(Op, 
                      Range1, 
-                     #xqRange{min = Min} = Range2) ->
+                     #range{min = Min} = Range2) ->
    range_range_comp_any(Op,Range1,Range2,Min) .
 
 range_range_comp_any(Op, 
-                     #xqRange{min = Min1, max = Min1}, 
-                     #xqRange{min = Min2, max = Min2},
+                     #range{min = Min1, max = Min1}, 
+                     #range{min = Min2, max = Min2},
                      _ ) ->
    xqerl_types:value(value_compare(Op,?intv(Min1),?intv(Min2)));
 range_range_comp_any(Op, 
-                     #xqRange{min = Min} = Range1, 
-                     #xqRange{min = Min2, max = Min2},
+                     #range{min = Min} = Range1, 
+                     #range{min = Min2, max = Min2},
                      Orig) ->
    case value_compare(Op,?intv(Min),?intv(Min2)) of
       ?bool(true) ->
          true;
       _ ->
-         range_range_comp_any(Op, Range1#xqRange{min = Min + 1},
-                              #xqRange{min = Orig, max = Min2, cnt = 1},
+         range_range_comp_any(Op, Range1#range{min = Min + 1},
+                              #range{min = Orig, max = Min2, cnt = 1},
                               Orig)
    end;
 range_range_comp_any(Op, 
-                     #xqRange{min = Min} = Range1, 
-                     #xqRange{min = Min2} = Range2,
+                     #range{min = Min} = Range1, 
+                     #range{min = Min2} = Range2,
                      Orig) ->
    case value_compare(Op,?intv(Min),?intv(Min2)) of
       ?bool(true) ->
          true;
       _ ->
          range_range_comp_any(Op, Range1,
-                              Range2#xqRange{min = Min2 + 1},
+                              Range2#range{min = Min2 + 1},
                               Orig)
    end.
 
@@ -1196,19 +1209,21 @@ general_compare(_Op,[],_) -> false;
 general_compare(_Op,_,[]) -> false;
 general_compare(Op,[A],B) -> general_compare(Op,A,B);
 general_compare(Op,A,[B]) -> general_compare(Op,A,B);
-general_compare(Op,{array,L1},L2) -> 
-   general_compare(Op,L1,L2);
-general_compare(Op,L1,{array,L2}) -> 
-   general_compare(Op,L1,L2);
+
+general_compare(Op,Arg1, Arg2) when ?is_array(Arg1) -> 
+    general_compare(Op,array:to_list(Arg1), Arg2);
+general_compare(Op,Arg1, Arg2) when ?is_array(Arg2) -> 
+    general_compare(Op,Arg1, array:to_list(Arg2));
+
 general_compare(Op, A1, A2) when ?is_atomic(A1), ?is_atomic(A2) ->
    value_compare(Op, A1, A2);
-general_compare(Op, #xqRange{} = List1, A2) when ?is_atomic(A2) ->
+general_compare(Op, #range{} = List1, A2) when ?is_atomic(A2) ->
    Bool = range_val_comp_any(Op, List1, A2),
    ?bool(Bool);
-general_compare(Op, A1, #xqRange{} = List2) when ?is_atomic(A1) ->
+general_compare(Op, A1, #range{} = List2) when ?is_atomic(A1) ->
    Bool = range_val_comp_any(Op, A1, List2),
    ?bool(Bool);
-general_compare(Op,#xqRange{} = List1,#xqRange{} = List2) ->
+general_compare(Op,#range{} = List1,#range{} = List2) ->
    Bool = range_range_comp_any(Op, List1, List2),
    ?bool(Bool);
    
@@ -1242,16 +1257,16 @@ general_compare(Op,List1,List2) ->
 
 cartesian_compare(Op,List1,List2) ->
    Bool = lists:any(
-            fun(#xqRange{} = V1) ->
+            fun(#range{} = V1) ->
                   lists:any(
-                    fun(#xqRange{} = V2) ->
+                    fun(#range{} = V2) ->
                           range_range_comp_any(Op, V1, V2);
                        (V2) ->
                           range_val_comp_any(Op, V1, V2)
                     end, List2);
                (V1) ->
                   lists:any(
-                    fun(#xqRange{} = V2) ->
+                    fun(#range{} = V2) ->
                           range_val_comp_any(Op, V1, V2);
                        (V2) ->
                           value_compare(Op, V1, V2)
@@ -1266,7 +1281,7 @@ general_compare_any_1([V1|R1], Op, V2) when ?is_atomic(V1) ->
       _ ->
          general_compare_any_1(R1, Op, V2)
    end;
-general_compare_any_1([#xqRange{} = V1|R1], Op, V2) ->
+general_compare_any_1([#range{} = V1|R1], Op, V2) ->
    case range_val_comp_any(Op,V1,V2) of
       true ->
          true;
@@ -1291,7 +1306,7 @@ general_compare_any_2([V2|R2], Op, V1) when ?is_atomic(V2) ->
       _ ->
          general_compare_any_2(R2, Op, V1)
    end;
-general_compare_any_2([#xqRange{} = V2|R2], Op, V1) ->
+general_compare_any_2([#range{} = V2|R2], Op, V1) ->
    case range_val_comp_any(Op,V1,V2) of
       true ->
          true;
@@ -1431,8 +1446,8 @@ atomize_list(V) when is_atom(V);
    [V];
 atomize_list(#{nk := _} = N) ->
    [xqerl_types:atomize(N)];
-atomize_list(#array{data = List}) ->
-   atomize_list(List);
+atomize_list(A) when ?is_array(A) ->
+   atomize_list(array:to_list(A));
 atomize_list([#xqAtomicValue{} = H|T]) ->
    [H|atomize_list(T)];
 atomize_list([H|T]) when is_atom(H);
@@ -1441,11 +1456,11 @@ atomize_list([H|T]) when is_atom(H);
    [H|atomize_list(T)];
 atomize_list([#{nk := _} = H|T]) ->
    [xqerl_types:atomize(H)|atomize_list(T)];
-atomize_list([#array{data = List}|T]) ->
-   atomize_list(List) ++ atomize_list(T);
+atomize_list([A|T]) when ?is_array(A) ->
+   atomize_list(array:to_list(A)) ++ atomize_list(T);
 atomize_list([H|T]) when is_list(H) ->
    atomize_list(H) ++ atomize_list(T);
-atomize_list([#xqRange{} = H|T]) ->
+atomize_list([#range{} = H|T]) ->
    [H|atomize_list(T)];
 atomize_list([#xqFunction{}|_]) -> ?err('FOTY0013');
 atomize_list(Seq) when not is_list(Seq) ->

@@ -10694,10 +10694,10 @@ string')",
           return
             ($var-values, $fns-values)
     ", 
-   Hints = [{filename:join(__BaseDir, "load-xquery-module/valid-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/valid/module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "load-xquery-module/valid-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/valid/module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-760.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -10739,10 +10739,10 @@ string')",
         return
           $f()
     ", 
-   Hints = [{filename:join(__BaseDir, "load-xquery-module/context-item-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/context-item/module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "load-xquery-module/context-item-module.xqm"), <<"Q{http://www.w3.org/fots/fn/load-xquery-module/context-item/module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-function-lookup-763.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 

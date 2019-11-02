@@ -299,11 +299,12 @@ assert_error(Result, ErrorCode) ->
                  #xqAtomicValue{value = 
                                   #qname{namespace = ErrNs, 
                                          local_name = Err}}} ->
+         %_ = ets:insert(error_collector, Result),
          if Err == ErrorCode;
             ErrorCode == <<"*">> ->
                true;
             true ->
-               case <<"Q{}",Err/binary>> == ErrorCode andalso ErrNs == 'no-namespace'
+               case <<"Q{}",Err/binary>> == ErrorCode andalso ErrNs == <<>>
                   orelse <<"Q{",ErrNs/binary,"}",Err/binary>> == ErrorCode 
                of
                   true ->
@@ -322,12 +323,13 @@ assert_serialization_error(Result, ErrorCode) when is_list(ErrorCode) ->
 assert_serialization_error(#xqError{name = 
                  #xqAtomicValue{value = 
                                   #qname{namespace = ErrNs, 
-                                         local_name = Err}}}, ErrorCode) ->
+                                         local_name = Err}}} = _Result, ErrorCode) ->
+   %_ = ets:insert(error_collector, _Result),
    if Err == ErrorCode;
       ErrorCode == <<"*">> ->
          true;
       true ->
-         case <<"Q{}",Err/binary>> == ErrorCode andalso ErrNs == 'no-namespace'
+         case <<"Q{}",Err/binary>> == ErrorCode andalso ErrNs == <<>>
             orelse <<"Q{",ErrNs/binary,"}",Err/binary>> == ErrorCode 
          of
             true ->
@@ -338,7 +340,7 @@ assert_serialization_error(#xqError{name =
    end;
 assert_serialization_error(Result, ErrorCode) ->
    case catch xqerl_serialize:serialize(Result, #{}) of 
-      {_, #xqError{} = Err} ->
+      #xqError{} = Err ->
          assert_serialization_error(Err, ErrorCode);
       Result1 ->
          {false, {assert_serialization_error,Result1,ErrorCode}}
@@ -1019,7 +1021,7 @@ handle_environment(List) ->
          xqerl_code_server:unload(all);
       true -> ok
    end,
-   ModulesP = [{File,unicode:characters_to_binary("Q{"++Uri++"}")} || 
+   ModulesP = [{File,unicode:characters_to_binary(Uri)} || 
                {File,Uri} <- Modules],
    _ = lists:foreach(fun({File,_Uri}) ->
                            catch xqerl_code_server:compile(File,[],ModulesP)

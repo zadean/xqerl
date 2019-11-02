@@ -677,10 +677,10 @@ environment('cnc-schema',__BaseDir) ->
         return
           element { resolve-QName(\"z:f\", $elem) } {}
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-027.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -702,10 +702,10 @@ environment('cnc-schema',__BaseDir) ->
         let $ns := mod1:one()
         return ($ns is $ns, $ns is mod1:one())
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-028.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -875,10 +875,10 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-035.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -903,10 +903,10 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-036.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -931,10 +931,10 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-037.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
@@ -959,10 +959,10 @@ environment('cnc-schema',__BaseDir) ->
         return
           $elem/outer/inner
       ", 
-   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
-   LibList = xqerl_code_server:compile_files(Hints),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
+   Hints = [{filename:join(__BaseDir, "CompNamespaceConstructor/cnc-module.xq"), <<"Q{http://www.w3.org/TestModules/cnc-module}">>}],
+   LibList = xqerl_code_server:compile_files(Hints),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "nscons-038.xq"), Qry1),
              xqerl:run(Mod) of 
                 Etup when is_tuple(Etup), element(1, Etup) == xqError -> 
