@@ -59,7 +59,8 @@
 
 -export([get_content_media_type/1,
          parse_body/3,
-         read_body/1]).
+         read_body/1,
+         parse_custom_response/1]).
 
 %% http:send-request($request as element(http:request)?,
 %%                   $href as xs:string?,
@@ -100,33 +101,50 @@ parse_request(#{nk := element,
     Headers0 = [parse_header_attributes(A)
                || #{nn := {?NS, _,<<"header">>},
                     at := A} <- Ch],
-    Headers = 
+    {HasCT, Headers} = 
         case [N || {N,_} <- Headers0, 
                    string:lowercase(N) == <<"content-type">>] of
             [] ->
-                [{<<"content-type">>,<<"text/xml">>}|Headers0];
+                {false, [{<<"content-type">>,<<"text/xml">>}|Headers0]};
             _ ->
-                Headers0
+                {true, Headers0}
         end,
     if 
         Method == put;
         Method == post ->
+            [Body] = [C || #{nn := {?NS, _,<<"body">>}} = C <- Ch],
+            SerialOpts = parse_body_attributes(xqldb_mem_nodes:attributes(Body)),
+            %?dbg("SerialOpts", {SerialOpts, Body}),
+            Headers1 = case SerialOpts of
+                #{'media-type' := MT} when HasCT == false ->
+                    lists:keyreplace(<<"content-type">>, 1, Headers, {<<"content-type">>, MT});
+                _ ->
+                    Headers
+            end,
+            CT = proplists:get_value(<<"content-type">>, Headers1),
             case Contents of
                 [] ->
                     try
-                        [Body] = [C || #{nn := {?NS, _,<<"body">>}} = C <- Ch],
-                        SerialOpts = parse_body_attributes(xqldb_mem_nodes:attributes(Body)),
                         Content = xqldb_mem_nodes:children(Body),
                         BodyContent = xqerl_serialize:serialize(Content, SerialOpts),
-                        AttMap#{headers => Headers,
+                        AttMap#{headers => Headers1,
                                 body => BodyContent}
                     catch
                         _:_ ->
                             err_bad_request()
                     end;
+                _ when is_binary(Contents) -> % already serialized
+                    AttMap#{headers => Headers1,
+                            body => Contents};
+                _ when CT == <<"application/octet-stream">> -> % raw binary
+                    AttMap#{headers => Headers1,
+                            body => xqerl_types:value(Contents)};
                 _ ->
-                    BodyContent = xqerl_serialize:serialize(Contents, #{}),
-                    AttMap#{headers => Headers,
+                    BodyContent = xqerl_serialize:serialize(Contents, SerialOpts),
+                    %?dbg("Contents", Contents),
+                    %?dbg("SerialOpts", SerialOpts),
+                    %?dbg("BodyContent", BodyContent),
+                    AttMap#{headers => Headers1,
                             body => BodyContent}
             end;
         true ->
@@ -317,7 +335,7 @@ do_req(Ctx, #{href := URL,
                     err_generic()
             end;
         {ok, StatusCode, RespHeaders} -> % head
-            resp_element(Ctx, StatusCode, RespHeaders, <<>>, Opts)
+            resp_element(Ctx, StatusCode, RespHeaders, head, Opts)
     end.
 
 resp_element(Ctx, StatusCode, Headers0, Body, #{href := URL} = Opts) ->
@@ -331,15 +349,20 @@ resp_element(Ctx, StatusCode, Headers0, Body, #{href := URL} = Opts) ->
         element_node({?NS, ?PX, <<"body">>},
                      [attribute(<<"media-type">>, ContTyp2, Ref)],
                      [], Ref),
-    StatAtts = [attribute(<<"status">>, integer_to_binary(StatusCode), Ref),
-                attribute(<<"message">>, code_text(StatusCode), Ref)],
+    StatAtts = [attribute(<<"message">>, code_text(StatusCode), Ref),
+                attribute(<<"status">>, integer_to_binary(StatusCode), Ref)],
     Elem = 
         element_node({?NS, ?PX, <<"response">>},
                      StatAtts, 
                      HdElems ++ [ContElem],
                      Ref),
-    ParsedBody = parse_body(ContTyp2, Body, URL),
-    [xqerl_node:contruct(Ctx, Elem), ParsedBody].
+    case Body of
+        head -> % methods that have no body
+            xqerl_node:contruct(Ctx, Elem);
+        _ ->
+            ParsedBody = parse_body(ContTyp2, Body, URL),
+            [xqerl_node:contruct(Ctx, Elem), ParsedBody]
+    end.
 
 resp_headers_to_elements(Headers) ->
     [begin
@@ -358,17 +381,46 @@ attribute(LocalName, Value, Ref) ->
     #{nk => attribute,
       id => {Ref, -1},
       nn => {<<>>, <<>>, LocalName},
-      sv => Value}.
+      sv => Value,
+      tn => 'xs:untypedAtomic'}.
 
 element_node(Name, Atts, Expr, Ref) ->
     #{nk => element,
       id => {Ref, -1},
       nn => Name,
       at => Atts,
-      ch => Expr}.
+      ch => Expr,
+      tn => 'xs:untyped',
+      ns => #{<<>> => <<>>,
+              ?PX => ?NS}}.
+
+% returns StatusCode, Headers
+parse_custom_response(#{nk := element,
+                        nn := {?NS, _, <<"response">>},
+                        at := Atts,
+                        ch := Headers}) ->
+    Status = case [binary_to_integer(StatusStr) ||
+                     #{nn := {<<>>, _, <<"status">>},
+                       sv := StatusStr} <- Atts] of
+                 [] ->
+                     200;
+                 [V] ->
+                     V
+             end,
+    NameVals = [parse_header_attributes(A) || 
+                  #{nn := {?NS, _, <<"header">>},
+                    at := A} <- Headers],
+    LowNameVals = [{string:lowercase(Name), Val} || {Name, Val} <- NameVals],
+    {Status, maps:from_list(LowNameVals)}.
+
 
 read_body(Req) ->
-    read_body(Req, <<>>).
+    case cowboy_req:has_body(Req) of
+        true ->
+            read_body(Req, <<>>);
+        false ->
+            <<>>
+    end.
 
 read_body(Req, Acc) ->
     case cowboy_req:read_body(Req) of
@@ -381,28 +433,35 @@ read_body(Req, Acc) ->
 parse_body(MediaTyp, Body, URL) ->
     try
         case get_content_media_type(MediaTyp) of
-            xml when Body == <<>> ->
-                [];
-            xml ->
-                xqldb_mem_nodes:parse_binary(Body, {<<>>, URL});
-            json ->
-                xqerl_json:string(Body, []);
-            html ->
-                xqldb_mem_nodes:parse_binary_html(Body, URL);
             text ->
                 Body;
             binary ->
-                #xqAtomicValue{type = 'xs:base64Binary', value = Body}
+                #xqAtomicValue{type = 'xs:base64Binary', value = Body};
+            _ when Body == <<>> ->
+                [];
+            json ->
+                xqerl_json:string(Body, []);
+            xml ->
+                xqldb_mem_nodes:parse_binary(Body, {<<>>, URL});
+            html ->
+                xqldb_mem_nodes:parse_binary_html(Body, URL);
+            csv ->
+                xqerl_mod_csv:parse(#{}, Body)
         end
     catch 
-        _:_ ->
+        _:Err:Stack ->
+            ?dbg("Err",Err),
+            ?dbg("Stack",Stack),
             ?dbg("MediaTyp",MediaTyp),
+            ?dbg("Body",Body),
             err_parse()
     end.
 
 get_content_media_type(<<"text/xml">>) -> xml;
 get_content_media_type(<<"text/html">>) -> html;
+get_content_media_type(<<"text/csv">>) -> csv;
 get_content_media_type(<<"text/",_/binary>>) -> text;
+get_content_media_type(<<"application/octet-stream">>) -> binary;
 get_content_media_type(<<"application/xml">>) -> xml;
 get_content_media_type(<<"application/json">>) -> json;
 get_content_media_type(<<"application/xhtml+xml">>) -> xhtml;

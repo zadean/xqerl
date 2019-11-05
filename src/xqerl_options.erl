@@ -197,8 +197,9 @@ validate1([{?OUTPUT("json-node-output-method"),Value}|T],State, Namespaces) ->
 %% of the media-type parameter. If the destination of the serialized output is annotated 
 %% with a media type, this parameter MAY be used to provide such an annotation. For example, 
 %% it MAY be used to set the media type in an HTTP header.
-validate1([{?OUTPUT("media-type"),_Value}|T],State, Namespaces) -> 
-   validate1(T,State, Namespaces);
+validate1([{?OUTPUT("media-type"), Value}|T],State, Namespaces) ->
+    String = string_value(Value),
+    validate1(T, State#{'media-type' => String}, Namespaces);
 %% An expanded QName with a non-null namespace URI, or with a null namespace URI and a 
 %% local name equal to one of xml, xhtml, html, text, json, or adaptive. If the namespace 
 %% URI is non-null, the parameter specifies an implementation-defined output method.

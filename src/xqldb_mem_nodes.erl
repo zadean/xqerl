@@ -195,6 +195,7 @@ element(Id,NodeName,TypeName) ->
    #{nk => element,
      id => Id,
      ns => #{},
+     at => [],
      tn => TypeName,
      nn => NodeName}.
 element(Id,NodeName,BaseUri,TypeName) ->
@@ -202,6 +203,7 @@ element(Id,NodeName,BaseUri,TypeName) ->
    #{nk => element,
      id => Id,
      ns => #{},
+     at => [],
      tn => TypeName,
      nn => NodeName,
      bu => BaseUri}.
@@ -259,10 +261,7 @@ add_children(#{nk := document} = Parent,Children) ->
 add_attribute(#{nk := element,
                 at := Ats} = E,
               #{nk := attribute} = At) ->
-   E#{at := [At|Ats]};
-add_attribute(#{nk := element} = E,
-              #{nk := attribute} = At) ->
-   E#{at => [At]}.
+   E#{at := [At|Ats]}.
 
 % namespace must be {Uri,Prefix}
 add_namespace(#{nk := element,

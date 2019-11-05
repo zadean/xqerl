@@ -35,13 +35,9 @@
          endpoint_sort/1,
          parse_annos/1]).
 
--export([stream_body/2]).
-
-%% TODO: when the first value in the return value of a RESTXQ function is
-%% an element rest:response, with possibly http:response inside,
-%% the XML should be turned into header information.
-%% The http:response item must match http response from http_client.
-%% Add this to rest_return_value with Req object from cowboy
+-export([send_reply/3,
+         return_value/3,
+         read_multipart_form_data/1]).
 
 %% TODO: add the standard functions for this namespace
 
@@ -62,21 +58,115 @@
 -define(SV(V), V).
 -define(anno(N,V),#annotation{name = N, values = V}).
 
-stream_body(ReturnVal, Req0) when byte_size(ReturnVal) < 52000 ->
-   cowboy_req:set_resp_body(ReturnVal, Req0);
-stream_body(ReturnVal, Req0) ->
-   Req = cowboy_req:stream_reply(200, Req0),
+return_value(Seq, Ctx, Req) ->
+    return_value(Seq, Ctx, Req, 200).
+
+return_value(Seq, #{pul := Pul} = Ctx, Req, Code) ->
+    ok = xqerl_update:apply_updates(Ctx, Pul),
+    return_value(Seq, maps:remove(pul, Ctx), Req, Code);
+return_value([#{nk := element,
+                nn := {?NS, _, <<"response">>},
+                ch := Ch}|T], Ctx, Req, Code) ->
+    {Code1, Ctx1, Req1} = headers_and_options(Ch, Ctx, Req, Code),
+    return_value(T, Ctx1, Req1, Code1);
+return_value([Seq], Ctx, Req, Code) ->
+    return_value(Seq, Ctx, Req, Code);
+return_value(Seq, #{options := Opts}, Req, Code) ->
+    case Req of % leave raw binary alone
+        #{media_type := {<<"application">>,<<"octet-stream">>,_}} ->
+            {Code, xqerl_types:value(Seq), Req};
+        _ ->
+            {Code, xqerl_serialize:serialize(Seq, Opts), Req}
+    end.
+
+headers_and_options([#{nk := element,
+                       nn := {?HNS, _, <<"response">>}} = H|T], 
+                    Ctx, Req, _Code) ->
+    {Status, Headers} = xqerl_mod_http_client:parse_custom_response(H),
+    Add = fun(K, V, R) ->
+                 cowboy_req:set_resp_header(K, V, R)
+          end,
+    Req1 = maps:fold(Add, Req, Headers), % new take precedence
+    headers_and_options(T, Ctx, Req1, Status);
+headers_and_options([#{nk := element,
+                       nn := {?ONS, _, <<"serialization-parameters">>}} = H|T], 
+                    #{namespaces := Nss,
+                      options := Opts} = Ctx, Req, Code) ->
+    Opts1 = xqerl_options:serialization_option_map(H, Nss),
+    Opts2 = maps:merge(Opts1, Opts),
+    headers_and_options(T, Ctx#{options := Opts2}, Req, Code);
+headers_and_options([_|T], Ctx, Req, Code) ->
+    headers_and_options(T, Ctx, Req, Code);
+headers_and_options([], Ctx, Req, Code) ->
+    {Code, Ctx, Req}.
+
+send_reply(StatusCode, [], Req) ->
+    cowboy_req:reply(StatusCode, Req);
+send_reply(StatusCode, <<>>, Req) ->
+    cowboy_req:reply(StatusCode, Req);
+send_reply(StatusCode, ReturnVal, Req) when byte_size(ReturnVal) < 4097 ->
+    Req1 = cowboy_req:set_resp_body(ReturnVal, Req),
+    cowboy_req:reply(StatusCode, Req1);
+send_reply(StatusCode, ReturnVal, Req) ->
+    stream_body(StatusCode, ReturnVal, Req),
+    Req.
+
+stream_body(StatusCode, ReturnVal, Req0) ->
+   Req = cowboy_req:stream_reply(StatusCode, Req0),
    stream_body_(ReturnVal, Req).
 
 stream_body_(<<S:4096/binary, Rest/binary>>, Req) ->
    cowboy_req:stream_body(S, nofin, Req),
    stream_body_(Rest, Req);
 stream_body_(Bin, Req) ->
-   cowboy_req:stream_body(Bin, fin, maps:remove(resp_body, Req)).
+   cowboy_req:stream_body(Bin, fin, Req).
 
+read_multipart_form_data(#{headers := #{<<"content-type">> := <<"application/x-www-form-urlencoded">>}} = Req) ->
+    {ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req),
+    FormKeyVals;
+read_multipart_form_data(#{headers := #{<<"content-type">> := <<"multipart/form-data", _/binary>>}} = Req) ->
+    collect_multipart_form_data(Req, #{}).
+
+collect_multipart_form_data(Req0, Acc) ->
+    case cowboy_req:read_part(Req0) of
+        {ok, #{<<"content-disposition">> := Disp}, Req1} ->
+            {ok, Body, Req} = stream_form_data_body(Req1, <<>>),
+            Acc1 = add_multipart(Disp, Body, Acc),
+            collect_multipart_form_data(Req, Acc1);
+        {done, _Req} ->
+            maps:to_list(Acc)
+    end.
+
+add_multipart(Disp, Body, Acc) ->
+    case cow_multipart:parse_content_disposition(Disp) of
+        {<<"form-data">>, Vals} ->
+            Name = proplists:get_value(<<"name">>, Vals),
+            Filename = proplists:get_value(<<"filename">>, Vals),
+            add_multipart(Name, Filename, Body, Acc);
+        _ ->
+            Acc
+    end.
+
+add_multipart(Name, Filename, Body, Acc) ->
+    Val = #xqAtomicValue{type = 'xs:base64Binary', value = Body},
+    case Acc of
+        #{Name := Files} ->
+            Acc#{Name := Files#{Filename => {Filename, Val}}};
+        _ ->
+            Acc#{Name => #{Filename => {Filename, Val}}}
+    end.
+
+
+stream_form_data_body(Req0, Acc) ->
+    case cowboy_req:read_part_body(Req0) of
+        {more, Data, Req} ->
+            stream_form_data_body(Req, << Acc/binary, Data/binary >>);
+        {ok, Data, Req} ->
+            {ok, << Acc/binary, Data/binary >>, Req}
+    end.
 
 default_rest_annos() ->
-   #{method         => [], % expanded to all later if not set
+   #{method         => [options], % expanded to all later if not set
      output         => [], % list of serialization parameters
      types_accepted => [<<"*/*">>],
      types_provided => [<<"*/*">>],
@@ -159,7 +249,7 @@ parse_annos([?anno(?QN(<<"form-param">>), Vals)|T],
    Params1 = [{Name, Varname, Default}|Params],
    parse_annos(T, Acc#{param_form := Params1,
                        % forcing type to form
-                       types_accepted => [<<"application/x-www-form-urlencoded">>]});
+                       types_accepted => [<<"application/x-www-form-urlencoded">>, <<"multipart/form-data">>]});
 parse_annos([?anno(?QN(<<"header-param">>), Vals)|T], 
             #{param_header := Params} = Acc) ->
    {Name, RawVar, Default} = 
@@ -201,8 +291,8 @@ parse_annos([], Acc) ->
 validate_annos(#{method := M,
                  output := O} = Map) ->
    if is_map_key(path, Map) ->
-         Map1 = if M == [] ->
-               Map#{method := [get,head,post,put,delete]};
+         Map1 = if M == [options] ->
+               Map#{method := [get,head,post,put,delete,options]};
             true ->
                Map
          end,

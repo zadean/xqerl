@@ -26,8 +26,7 @@
 -compile(inline_list_funcs).
 
 -export([return_value/1,
-         return_value/2,
-         rest_return_value/2]).
+         return_value/2]).
 
 -export([value/1]).
 -export([atomize/1]).
@@ -189,15 +188,6 @@ return_value(Seq, #{options := Opts}) ->
       true ->
          return_value(Seq)
    end.
-
-rest_return_value([Seq], Ctx) ->
-   rest_return_value(Seq, Ctx);
-rest_return_value(Seq, #{pul := Pul} = Ctx) ->
-   ok = xqerl_update:apply_updates(Ctx, Pul),
-   rest_return_value(Seq, maps:remove(pul, Ctx));
-rest_return_value(Seq, #{options := Opts}) ->
-   Seq2 = xqerl_seq3:flatten(Seq),
-   xqerl_serialize:serialize(Seq2, Opts).
 
 string_value([]) -> <<>>;
 string_value(Bin) when is_binary(Bin) -> Bin;

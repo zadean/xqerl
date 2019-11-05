@@ -401,6 +401,7 @@ run(all) ->
    run(array),
    run(math),
    run(expath),
+   run(restxq),
    run(xquts);
 run(app) ->
    run_suites("app", [
@@ -848,6 +849,9 @@ run(op) ->
       op_yearMonthDuration_greater_than_SUITE,
       op_yearMonthDuration_less_than_SUITE,
       op_same_key_SUITE]);
+run(restxq) ->
+   run_suites("restxq", [
+      restxq_SUITE]);
 run(expath) ->
    run_suites("expath", [
       expath_binary2_SUITE,
