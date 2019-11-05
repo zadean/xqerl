@@ -523,7 +523,7 @@ init_function(ModName, Variables, Prolog1) ->
 % if get/head content_types_provided/2 -> {List, Req, State} 
 % if put/post content_types_accepted/2 -> {List, Req, State}
 % if delete   delete_resource/2 -> {true, Req, State}
-rest_functions(Ctx, Functions) ->
+rest_functions(#{module := Mod} = Ctx, Functions) ->
    % internal function name to call from REST wrapper
    FxNameFun = 
      fun(#xqFunctionDef{name = FxName, arity = FxArity}) ->
@@ -588,9 +588,13 @@ rest_functions(Ctx, Functions) ->
              ?Q("-export([content_types_accepted/2]).");
           true -> []
        end,
-   E3 = if IsDele ->
-             G3 = ?P(?LINE, ["delete_resource(Req, State) ->",
-                     " {true, Req, State}."]),
+   E3 =
+     if IsDele ->
+             G3 = ?Q(["delete_resource(Req, #{delete := #{input_media_types := [{_, Fun}]}} = State) ->",
+                      "erlang:apply(_@Mod@, Fun, [Req, State]);",
+                      "delete_resource(Req, State) ->",
+                      " {false, Req, State}."
+                     ]),
              _ = add_global_funs([G3]),
              ?Q("-export([delete_resource/2]).");
           true -> []
@@ -639,7 +643,7 @@ rest_functions(Ctx, Functions) ->
            HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
            G5 = if HasUpd -> 
-                ?Q(["'@FunName@'(#{method := _} = Req, State) -> ",
+                ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
                     " {TRA,_} = locks:begin_transaction(),",
@@ -647,8 +651,13 @@ rest_functions(Ctx, Functions) ->
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                     "xqerl_context:destroy(Ctx),",
-                    "Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
-                    "{stop, Req2, State}."
+                    "case Method of",
+                    " <<\"DELETE\">> ->",
+                    "  {true, Req1, State};",
+                    " _ ->",
+                    "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                    "  {stop, Req2, State}",
+                    "end."
                    ]);
                  true ->
                  ?Q(["'@FunName@'(#{method := _} = Req, State) -> ",
@@ -657,8 +666,13 @@ rest_functions(Ctx, Functions) ->
                      "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                      "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                      "xqerl_context:destroy(Ctx), ",
-                     "Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
-                     "{stop, Req2, State}."
+                     "case Method of",
+                     " <<\"DELETE\">> ->",
+                     "  {true, Req1, State};",
+                     " _ ->",
+                     "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                     "  {stop, Req2, State}",
+                     "end."
                     ])
                  end,
            add_global_funs([G5]),

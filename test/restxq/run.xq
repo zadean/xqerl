@@ -1,5 +1,5 @@
-(
-  (: get_1 :)
+ (
+(:  (: get_1 :)
   (
 let $resp := 
   http:send-request(
@@ -254,6 +254,40 @@ $s = 'xqerl' and $h/@status = '200' and $b/root/a = 'text'
   let $b := $resp[2]
   return
   $h/@status = '200' and empty($b)
+  ),
+  (: '-------------------------------------------------' , :) :)
+  
+  (: post_get_1 :)
+  (
+    let $host := 'http://localhost:8081'
+      , $rand := random:integer(999999)
+      , $orig := <doc id='{$rand}'/>
+      , $post := http:send-request(
+                   <http:request method='post'>
+                     <http:body media-type='text/xml'/>
+                   </http:request>,
+                   $host || '/test/post/get?id=' || $rand,
+                   $orig
+                 )
+      , $loc := $post[1][@status = '201']/http:header[lower-case(@name) = 'location']/@value
+    return
+      if (empty($loc)) then
+        false()
+      else
+        let $get := http:send-request(
+                     <http:request method='get' />,
+                     $host || $loc)
+        return
+          if ($get[2] = $orig) then
+            if (http:send-request(<http:request method='delete' />,
+                                  $host || $loc)[1]/@status = '204') then
+              http:send-request(
+                     <http:request method='get' />,
+                     $host || $loc)[1]/@status = '404'
+            else
+              false()
+          else
+            false()
   ),
   (: '-------------------------------------------------' , :)
   

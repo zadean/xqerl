@@ -219,17 +219,24 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                     Upds = maps:get(DocId, DocMap),
                     Root = xqldb_nodes:get_single_node(DB, DocId, []),
                     MemDoc = xqldb_nodes:deep_copy_node(Root),
-                    Frank = do_updates(MemDoc, Upds), 
-                    MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
-                    DocUri = xqldb_nodes:document_uri(Root),
-                    {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
-                    Stamp = erlang:system_time(),
-                    %% XXX make this work
-                    _ = xqldb_sax:parse_node(DB, MemNode, DocName, Stamp),
-                    xqldb_path_table:insert(DB, {DocName, xml, Stamp}),
-                    xqldb_path_table:maybe_delete_doc_ref(DB, DocId),
-                    %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
-                    in_put_list(Frank, Puts, {DbPid, DocId})
+                    case do_updates(MemDoc, Upds) of
+                        [] -> % complete doc delete
+                            xqldb_path_table:maybe_delete_doc_ref(DB, DocId),
+                            {DocName, _OldStamp} = DocId,
+                            _ = xqldb_path_table:delete(DB, DocName),
+                            [];
+                        Frank ->
+                            MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
+                            DocUri = xqldb_nodes:document_uri(Root),
+                            {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
+                            Stamp = erlang:system_time(),
+                            %% XXX make this work
+                            _ = xqldb_sax:parse_node(DB, MemNode, DocName, Stamp),
+                            xqldb_path_table:insert(DB, {DocName, xml, Stamp}),
+                            xqldb_path_table:maybe_delete_doc_ref(DB, DocId),
+                            %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
+                            in_put_list(Frank, Puts, {DbPid, DocId})
+                    end
                  end
                 || DocId <- DocIds],
             NewPuts
@@ -493,8 +500,8 @@ check_rename_target(_) -> ?err('XUTY0012').
 
 check_delete([#{nk := _} = H|T]) ->
     case xqldb_xpath:parent_node(H, {[]}) of
-        [] ->
-            check_delete(T);
+%%         [] ->
+%%             check_delete(T);
         _ ->
             [id(H)|check_delete(T)]
     end;

@@ -201,3 +201,43 @@ function _:options_xml_103(){
   </rest:response>,
   'empty?'
 };
+
+declare 
+  %rest:path("/test/post/get")
+  %rest:query-param("id", "{$id}")
+  %rest:POST('{$body}')
+  %updating
+function _:post_get_1($body, $id){
+  fn:put($body, 'http://xqerl.org/test/restxq/' || $id),
+  <rest:response>
+    <http:response status="201">
+      <http:header name="Location" value="/test/post/get/doc/{$id}"/>
+    </http:response>
+  </rest:response>
+};
+
+declare 
+  %rest:path("/test/post/get/doc/{$id}")
+  %rest:produces("application/xml")
+  %rest:GET
+function _:post_get_1a($id){
+  let $uri := 'http://xqerl.org/test/restxq/' || $id
+  return
+  if (doc-available($uri)) then
+    doc($uri)
+  else
+  <rest:response>
+    <http:response status="404"/>
+  </rest:response>
+};
+
+declare 
+  %rest:path("/test/post/get/doc/{$id}")
+  %rest:DELETE
+  %updating
+function _:post_get_1b($id){
+  let $doc := doc('http://xqerl.org/test/restxq/' || $id )
+  return
+  delete node $doc
+};
+

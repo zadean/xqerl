@@ -23,7 +23,8 @@ groups() -> [
     [get_1, get_2, get_3, get_4, get_5,
      head_1, head_2, head_3,
      post_1, post_2, post_3, post_4, post_5, post_6,
-     options_1, options_2
+     options_1, options_2,
+     post_get_1
     ]}].
 
 all() -> 
@@ -359,6 +360,45 @@ options_2(Config) ->
   $h/@status = '200' and empty($b)", 
    io:format("Qry: ~p~n",[Qry]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "options_2.xq"), Qry),
+             xqerl:run(Mod,#{}) of D -> D catch _:E -> E end,
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Correct result"};
+      {false, F} -> ct:fail(F) 
+   end.
+
+post_get_1(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $host := 'http://localhost:8081'
+      , $rand := random:integer(999999)
+      , $orig := <doc id='{$rand}'/>
+      , $post := http:send-request(
+                   <http:request method='post'>
+                     <http:body media-type='text/xml'/>
+                   </http:request>,
+                   $host || '/test/post/get?id=' || $rand,
+                   $orig
+                 )
+      , $loc := $post[1][@status = '201']/http:header[lower-case(@name) = 'location']/@value
+    return
+      if (empty($loc)) then
+        false()
+      else
+        let $get := http:send-request(
+                     <http:request method='get' />,
+                     $host || $loc)
+        return
+          if ($get[2] = $orig) then
+            if (http:send-request(<http:request method='delete' />,
+                                  $host || $loc)[1]/@status = '204') then
+              http:send-request(
+                     <http:request method='get' />,
+                     $host || $loc)[1]/@status = '404'
+            else
+              false()
+          else
+            false()", 
+   io:format("Qry: ~p~n",[Qry]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "post_get_1.xq"), Qry),
              xqerl:run(Mod,#{}) of D -> D catch _:E -> E end,
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Correct result"};

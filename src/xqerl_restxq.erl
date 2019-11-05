@@ -71,6 +71,8 @@ return_value([#{nk := element,
     return_value(T, Ctx1, Req1, Code1);
 return_value([Seq], Ctx, Req, Code) ->
     return_value(Seq, Ctx, Req, Code);
+return_value([], _, Req, Code) ->
+    {Code, <<>>, Req};
 return_value(Seq, #{options := Opts}, Req, Code) ->
     case Req of % leave raw binary alone
         #{media_type := {<<"application">>,<<"octet-stream">>,_}} ->
