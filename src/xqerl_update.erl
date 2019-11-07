@@ -23,6 +23,8 @@
 
 -include("xqerl.hrl").
 
+%% TODO add DB module to add/update/delete other types of items
+
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -500,8 +502,10 @@ check_rename_target(_) -> ?err('XUTY0012').
 
 check_delete([#{nk := _} = H|T]) ->
     case xqldb_xpath:parent_node(H, {[]}) of
-%%         [] ->
-%%             check_delete(T);
+        %% nodes without parent (such as document) cannot be deleted this way.
+        %% TODO add DB module to delete nodes completely.
+        [] ->
+            check_delete(T);
         _ ->
             [id(H)|check_delete(T)]
     end;
