@@ -47,6 +47,7 @@
          xqerl_mod_actor,
          xqerl_mod_csv,
          xqerl_mod_event,
+         xqerl_mod_erlang,
          xqerl_error]).
 
 -define(TIMEOUT, 60000).

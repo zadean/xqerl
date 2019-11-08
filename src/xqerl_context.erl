@@ -782,6 +782,7 @@ static_namespaces() ->
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
      {<<"basex">>, <<"http://xqerl.org/modules/client/BaseX">>},
      {<<"csv">>,   <<"http://xqerl.org/modules/csv">>},
+     {<<"erlang">>,<<"http://xqerl.org/modules/erlang">>},
      {<<"event">>, <<"http://xqerl.org/modules/event">>},
      {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].
 
