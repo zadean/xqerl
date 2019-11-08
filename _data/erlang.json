@@ -1,0 +1,67 @@
+{
+  "ns" : "http://xqerl.org/modules/erlang",
+  "px" : "erlang",
+  "desc": "<p>Module for transforming Erlang <==> XQuery types.</p>",
+  "fx" : [
+    {
+      "name" : "term-to-item",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "term", "type" : "item()*"}
+          ],
+          "type" : "item()*"
+        }
+      ],
+      "desc" : "Transforms an Erlang term to an XQuery item."
+    },
+    {
+      "name" : "item-to-term",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "item", "type" : "item()*"}
+          ],
+          "type" : "item()*"
+        }
+      ],
+      "desc" : "Transforms an XQuery item to an Erlang term."
+    },
+    {
+      "name" : "is-reference",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "binary", "type" : "xs:base64Binary"}
+          ],
+          "type" : "xs:boolean"
+        }
+      ],
+      "desc" : "Returns if this binary is a reference."
+    },
+    {
+      "name" : "is-pid",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "binary", "type" : "xs:base64Binary"}
+          ],
+          "type" : "xs:boolean"
+        }
+      ],
+      "desc" : "Returns if this binary is a PID."
+    },
+    {
+      "name" : "is-port",
+      "sigs" : [
+        {
+          "params" : [
+            {"name" : "binary", "type" : "xs:base64Binary"}
+          ],
+          "type" : "xs:boolean"
+        }
+      ],
+      "desc" : "Returns if this binary is a port."
+    }
+  ]
+}
