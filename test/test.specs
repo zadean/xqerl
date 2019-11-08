@@ -8,6 +8,7 @@
     "misc.spec",
     "op.spec",
     "prod.spec",
+    "restxq.spec",
     "ser.spec",
     "xquts.spec",
     "xs.spec"

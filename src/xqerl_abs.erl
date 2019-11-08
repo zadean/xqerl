@@ -523,7 +523,7 @@ init_function(ModName, Variables, Prolog1) ->
 % if get/head content_types_provided/2 -> {List, Req, State} 
 % if put/post content_types_accepted/2 -> {List, Req, State}
 % if delete   delete_resource/2 -> {true, Req, State}
-rest_functions(Ctx, Functions) ->
+rest_functions(#{module := Mod} = Ctx, Functions) ->
    % internal function name to call from REST wrapper
    FxNameFun = 
      fun(#xqFunctionDef{name = FxName, arity = FxArity}) ->
@@ -588,9 +588,13 @@ rest_functions(Ctx, Functions) ->
              ?Q("-export([content_types_accepted/2]).");
           true -> []
        end,
-   E3 = if IsDele ->
-             G3 = ?P(?LINE, ["delete_resource(Req, State) ->",
-                     " {true, Req, State}."]),
+   E3 =
+     if IsDele ->
+             G3 = ?Q(["delete_resource(Req, #{delete := #{input_media_types := [{_, Fun}]}} = State) ->",
+                      "erlang:apply(_@Mod@, Fun, [Req, State]);",
+                      "delete_resource(Req, State) ->",
+                      " {false, Req, State}."
+                     ]),
              _ = add_global_funs([G3]),
              ?Q("-export([delete_resource/2]).");
           true -> []
@@ -638,35 +642,38 @@ rest_functions(Ctx, Functions) ->
 
            HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
-           % TODO stream response body
            G5 = if HasUpd -> 
-                ?P(?LINE, ["'@FunName@'(#{method := Method} = Req, State) -> ",
+                ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
                     " {TRA,_} = locks:begin_transaction(),",
                     "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                    "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
-                    "xqerl_context:destroy(Ctx),{ReturnVal, Req, State}." %,
-                    %"if Method == <<\"POST\">>; Method == <<\"GET\">> -> ",
-                    %"  "
-                    %" {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
-                    %"true -> {ReturnVal, Req, State}"
-                    %"end."
-                     ]);
+                    "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+                    "xqerl_context:destroy(Ctx),",
+                    "case Method of",
+                    " <<\"DELETE\">> ->",
+                    "  {true, Req1, State};",
+                    " _ ->",
+                    "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                    "  {stop, Req2, State}",
+                    "end."
+                   ]);
                  true ->
-                 ?P(?LINE, ["'@FunName@'(#{method := Method} = Req, State) -> ",
-                    "_@Parts,",
-                    "Ctx = init(init_ctx()),"
-                    "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                    "ReturnVal = xqerl_types:rest_return_value(XQuery,Ctx#{options => _@Serial@}),",
-                    "xqerl_context:destroy(Ctx), {ReturnVal, Req, State}."%,
-                    %"if Method == <<\"POST\">>; Method == <<\"GET\">> -> ",
-                   % " "
-                   % " {true, xqerl_restxq:stream_body(ReturnVal, Req), State};",
-                   % "true -> {ReturnVal, Req, State}"
-                   % "end."
-                     ])
+                 ?Q(["'@FunName@'(#{method := _} = Req, State) -> ",
+                     "_@Parts,",
+                     "Ctx = init(init_ctx()),"
+                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+                     "xqerl_context:destroy(Ctx), ",
+                     "case Method of",
+                     " <<\"DELETE\">> ->",
+                     "  {true, Req1, State};",
+                     " _ ->",
+                     "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                     "  {stop, Req2, State}",
+                     "end."
+                    ])
                  end,
            add_global_funs([G5]),
            
@@ -713,20 +720,22 @@ param_fields([{body, VarName}|T],Map) ->
        ])|param_fields(T,Map)];
 param_fields([{Atom, VarName}|T],Map) ->
    {VarId, VarType} = maps:get(VarName, Map),
+   VarType1 = translate_record(VarType),
    VarAtom = {var,?LINE,list_to_atom("Var_" ++ integer_to_list(VarId))},
    TmpAtom = {var,?LINE,list_to_atom("TVar_" ++ integer_to_list(VarId))},
    [?P(?LINE, ["_@TmpAtom = cowboy_req:binding(_@Atom@, Req),",
-        "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
+        "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
        ])|param_fields(T,Map)].
 
 param_headers([],_) -> [];
 param_headers(Params,Map) ->
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
+       VarType1 = translate_record(VarType),
        VarAtom = {var,?LINE,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?LINE,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(?LINE, ["_@TmpAtom = cowboy_req:header(_@ParamName@, Req, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
            ])
     end || {ParamName, VarName, Default0} <- Params].
 
@@ -735,23 +744,25 @@ param_cookies(Params,Map) ->
    [?Q("Cookies = cowboy_req:parse_cookies(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
+       VarType1 = translate_record(VarType),
        VarAtom = {var,?LINE,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?LINE,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(?LINE, ["_@TmpAtom = proplists:get_value(_@CookieName@, Cookies, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
            ])
     end || {CookieName, VarName, Default0} <- Params]
    ].
 
 param_forms([],_) -> [];
-param_forms(Params,Map) ->
-   [?Q("{ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req)")|
+param_forms(Params, Map) ->
+   [?Q("FormKeyVals = xqerl_restxq:read_multipart_form_data(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
+       VarType1 = translate_record(VarType),
        VarAtom = {var,?LINE,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?LINE,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(?LINE, ["_@TmpAtom = proplists:get_value(_@ParamName@, FormKeyVals, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
            ])
     end || {ParamName, VarName, Default0} <- Params]].
 
@@ -760,10 +771,11 @@ param_queries(Params,Map) ->
    [?Q("QueryKeyVals = cowboy_req:parse_qs(Req)")|
    [begin
        {VarId, VarType} = maps:get(VarName, Map),
+       VarType1 = translate_record(VarType),
        VarAtom = {var,?LINE,list_to_atom("Var_" ++ integer_to_list(VarId))},
        TmpAtom = {var,?LINE,list_to_atom("TVar_" ++ integer_to_list(VarId))},
        ?P(?LINE, ["_@TmpAtom = proplists:get_value(_@ParamName@, QueryKeyVals, _@Default0@),",
-           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType@)"
+           "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
            ])
     end || {ParamName, VarName, Default0} <- Params]].
 
