@@ -1,5 +1,5 @@
  (
-(:  (: get_1 :)
+ (: get_1 :)
   (
 let $resp := 
   http:send-request(
@@ -237,9 +237,9 @@ $s = 'xqerl' and $h/@status = '200' and $b/root/a = 'text'
       'http://localhost:8081/test/head/xml'
     )
   let $h := $resp[1]
-  let $b := $resp[2]
+  let $o := $h/http:header[@name = 'allow']/@value
   return
-  $h/@status = '200' and empty($b)
+  $h/@status = '200' and $o eq 'HEAD,OPTIONS'
   ),
   (: '-------------------------------------------------' , :)
   
@@ -251,11 +251,25 @@ $s = 'xqerl' and $h/@status = '200' and $b/root/a = 'text'
       'http://localhost:8081/test/options/xml'
     )
   let $h := $resp[1]
-  let $b := $resp[2]
+  let $o := $h/http:header[@name = 'allow']/@value
   return
-  $h/@status = '200' and empty($b)
+  $h/@status = '200' and $o eq 'GET,HEAD'
   ),
-  (: '-------------------------------------------------' , :) :)
+  (: '-------------------------------------------------' , :)
+  
+  (: options_3 :)
+  (
+  let $resp := 
+    http:send-request(
+      <http:request method='options' />,
+      'http://localhost:8081/test/post/xml'
+    )
+  let $h := $resp[1]
+  let $o := $h/http:header[@name = 'allow']/@value
+  return
+  $h/@status = '200' and $o eq 'OPTIONS,POST'
+  ),
+  (: '-------------------------------------------------' , :)
   
   (: post_get_1 :)
   (

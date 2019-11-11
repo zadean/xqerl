@@ -168,7 +168,7 @@ stream_form_data_body(Req0, Acc) ->
     end.
 
 default_rest_annos() ->
-   #{method         => [options], % expanded to all later if not set
+   #{method         => [], % expanded to all later if not set
      output         => [], % list of serialization parameters
      types_accepted => [<<"*/*">>],
      types_provided => [<<"*/*">>],
@@ -293,7 +293,7 @@ parse_annos([], Acc) ->
 validate_annos(#{method := M,
                  output := O} = Map) ->
    if is_map_key(path, Map) ->
-         Map1 = if M == [options] ->
+         Map1 = if M == [] ->
                Map#{method := [get,head,post,put,delete,options]};
             true ->
                Map
