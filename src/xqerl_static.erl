@@ -314,6 +314,18 @@ handle_tree(#xqModule{version     = {Version,Encoding},
     digraph:delete(DiGraph),
     S1 = [X || #xqQuery{} = X  <- VarFunPart],
     S2 = [X || X  <- lists:reverse(VarFunPart), not is_record(X, xqQuery)],
+    UpdateOrLocks = 
+        case get_contains_updates() of
+            true ->
+                true;
+            Upd ->
+                case lists:member(locks, StatProps) of
+                    true ->
+                        locks;
+                    false ->
+                        Upd
+                end
+        end,
    %%% for now, return a map with everything in it for the abstract part. 
    %% just until it has no idea of static context
    EmptyMap = #{file_name => BaseUri,
@@ -327,7 +339,7 @@ handle_tree(#xqModule{version     = {Version,Encoding},
                 context_item_type => CtxItemType,
                 known_fx_sigs => FinalState#state.known_fx_sigs,
                 tab => Tab,
-                contains_updates => get_contains_updates(), 
+                contains_updates => UpdateOrLocks, 
                 stat_props => StatProps,
                 'boundary-space' => FinalState#state.boundary_space,
                 'construction-mode' => FinalState#state.construction_mode,

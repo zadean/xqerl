@@ -548,4 +548,5 @@ update_query(_, URI) -> URI.
 update_fragment(#{fragment := Fragment}, URI) ->
    <<URI/binary, "#", Fragment/binary>>;
 update_fragment(_, URI) -> URI.
-   
+
+

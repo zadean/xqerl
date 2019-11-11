@@ -1147,7 +1147,7 @@ cp_to_bin([],Acc) -> Acc.
 -spec 'collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'collection'(#{default_collection := DC} = Ctx) ->
-   'collection'(Ctx, DC);
+    'collection'(Ctx, DC);
 'collection'(_Ctx) -> ?err('FODC0002').
 
 %% fn:collection($arg as xs:string?) as item()*
@@ -1155,28 +1155,28 @@ cp_to_bin([],Acc) -> Acc.
                    [] | xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'collection'(_Ctx,[]) -> 
-   'collection'(_Ctx);
-'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   % TODO decide if all documents should be built or a collection type returned
-   try
-      CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      Vals = xqldb_dml:select_collection(CUri),
-      if Vals == [] -> % empty/non-existing collection
-            throw({error, no_collection});
-         true ->
-            Vals
-      end
-   catch
-      _:{error, relative} ->
-         ?err('FODC0004');
-      _:{error, fragment} ->
-         ?err('FODC0004');
-      _:Err ->
-?dbg("Err", Err),
-         ?err('FODC0002')
-   end.
+    'collection'(_Ctx);
+'collection'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try
+        CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+        case xqldb_dml:select_collection(Ctx, CUri) of
+            [] ->
+                % empty/non-existing collection
+                throw({error, no_collection});
+            Vals ->
+                Vals
+        end
+    catch
+        _:{error, relative} ->
+            ?err('FODC0004');
+        _:{error, fragment} ->
+            ?err('FODC0004');
+        _:Err ->
+            ?dbg("Err", Err),
+            ?err('FODC0002')
+    end.
 
 %% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal 
 %% to, or after $comparand2 according to the rules of a selected collation. 
@@ -1720,29 +1720,31 @@ distinct_vals(Vals,Fun) ->
             [] | xq_types:xs_string()) -> 
          [] | xq_types:xml_document().
 'doc'(_Ctx,[]) -> [];
-'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
-      {error,E} when E =/= relative -> % relative is a kludge to get correct error
-         ?err('FODC0005');
-      {error,_} ->
-         ?err('FODC0002');
-      ResVal ->
-         case catch xqldb_dml:select_doc(ResVal) of
-            {error,not_exists} -> % not in db
-               ?err('FODC0002');
-            {'EXIT',_} ->
-               ?err('FODC0005');
-            D ->
-               D
-         end
-   catch 
-      _:_:StackTrace ->
-         ?dbg("FODC0005",{BaseUri, Uri}),
-         ?dbg("FODC0005",StackTrace),
-         ?err('FODC0005')
-   end.
+'doc'(#{'base-uri' := BaseUri0} = Ctx,Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
+    of
+        {error,E} when E =/= relative -> % relative is a kludge to get correct error
+            ?err('FODC0005');
+        {error,_} ->
+            ?err('FODC0002');
+        ResVal ->
+            case catch xqldb_dml:select_doc(Ctx, ResVal) of
+                {error,not_exists} -> % not in db
+                    ?err('FODC0002');
+                {'EXIT',_} ->
+                    ?err('FODC0005');
+                D ->
+                    D
+            end
+    catch 
+        _:_:StackTrace ->
+            ?dbg("FODC0005",{BaseUri, Uri}),
+            ?dbg("FODC0005",StackTrace),
+            ?err('FODC0005')
+    end.
 
 %% The function returns true if and only if the function call fn:doc($uri) 
 %% would return a document node. 
@@ -1750,24 +1752,18 @@ distinct_vals(Vals,Fun) ->
 -spec 'doc-available'(xq_types:context(),
                       [] | xq_types:xs_string()) ->
          [] | xq_types:xs_boolean().
-'doc-available'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
-      %{error,unsafe} ->
-      %   ?err('FODC0005');
-      {error,invalid_uri} ->
-         ?bool(false);
-      ResVal ->
-        %?dbg("ResVal",ResVal),
-         ?bool(xqldb_dml:exists_doc(ResVal))
-   catch
-      %?ERROR_MATCH(?A("FORG0002")) -> ?bool(false);
-      _:_:_Stack ->
-        %?dbg("Stack",Stack),
-         ?bool(false)
-      %_:_ -> ?err('FODC0005') % not in 3.1
-   end.
+'doc-available'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
+        {error,invalid_uri} ->
+            ?bool(false);
+        ResVal ->
+            ?bool(xqldb_dml:exists_doc(Ctx, ResVal))
+    catch
+        _:_:_Stack ->
+            ?bool(false)
+    end.
 
 %% Returns the URI of a resource where a document can be found, if available. 
 %% fn:document-uri() as xs:anyURI?
@@ -5374,13 +5370,13 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
                       xq_types:xs_string()) -> 
          [] | xq_types:xs_string().
 'unparsed-text'(_,_Uri0,[]) -> ?err('XPTY0004');
-'unparsed-text'(#{'base-uri' := BaseUri0},Uri0,Encoding) -> 
+'unparsed-text'(#{'base-uri' := BaseUri0} = Ctx, Uri0, Encoding) -> 
    try
       Uri = xqerl_types:value(Uri0),
       BaseUri = xqerl_types:value(BaseUri0),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Enc = xqerl_types:string_value(Encoding),
-      case xqldb_dml:select_resource(ResVal) of
+      case xqldb_dml:select_resource(Ctx, ResVal, text) of
          {error, _} ->
             ?err('FOUT1170');
          Binary ->
@@ -5501,31 +5497,32 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 -spec 'uri-collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xs_anyURI()).
 'uri-collection'(#{default_collection := DC} = Ctx) ->
-   'uri-collection'(Ctx, DC);
+    'uri-collection'(Ctx, DC);
 'uri-collection'(_Ctx) ->
-   ?err('FODC0002').
+    ?err('FODC0002').
 
 %% fn:uri-collection($arg as xs:string?) as xs:anyURI*
 -spec 'uri-collection'(xq_types:context(),
                        [] | xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xs_anyURI()).
-'uri-collection'(_Ctx,[]) -> 
-   'uri-collection'(_Ctx);
-'uri-collection'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try 
-      CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      Vals = xqldb_dml:select_paths(CUri),
-      if Vals == [] -> % empty/non-existing collection
-            throw(error);
-         true ->
-            [?atm('xs:anyURI',V) || V <- Vals]
-      end
-   catch
-      _:_ ->
-         ?err('FODC0002')
-   end.
+'uri-collection'(Ctx, []) -> 
+    'uri-collection'(Ctx);
+'uri-collection'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+        Vals = xqldb_dml:select_paths(Ctx, CUri),
+        if 
+            Vals == [] -> % empty/non-existing collection
+                throw(error);
+            true ->
+                [?atm('xs:anyURI',V) || V <- Vals]
+        end
+    catch
+        _:_ ->
+            ?err('FODC0002')
+    end.
 
 %% Converts an XML tree, whose format corresponds to the XML representation 
 %% of JSON defined in this specification, into a string conforming to the 
@@ -5599,26 +5596,26 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 'put'(Ctx, Arg1, Arg2) ->
    'put'(Ctx, Arg1, Arg2, []).
 'put'(Ctx, [Node0], Uri0, Opts0) -> 'put'(Ctx, Node0, Uri0, Opts0);
-'put'(#{'base-uri' := BaseUri0} = Ctx, Node0, Uri0, Opts0) -> 
-   ok = case xqldb_mem_nodes:node_kind(Node0) of
-           document -> ok;
-           element -> ok;
-           %comment -> ok;
-           %'processing-instruction' -> ok;
-           _ ->
-              ?err('FOUP0001')
+'put'(#{'base-uri' := BaseUri0} = Ctx, Node, Uri0, Opts0) -> 
+    _ = case xqldb_mem_nodes:node_kind(Node) of
+            document -> ok;
+            element -> ok;
+            _ ->
+                ?err('FOUP0001')
         end,
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try 
-      xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
-   of
-      AbsUri ->
-         Nss = maps:get(namespaces, Ctx, []),
-         Opts = xqerl_options:serialization_option_map(Opts0, Nss),
-         _ = xqerl_update:add(Ctx, {put, Node0, AbsUri, Opts}),
-         []
-   catch
-      _:_ ->
-         ?err('FOUP0002')
-   end.
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
+    of
+        AbsUri ->
+            {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
+            DB = xqldb_db:database(DbUri),
+            Nss = maps:get(namespaces, Ctx, []),
+            _Opts = xqerl_options:serialization_option_map(Opts0, Nss),
+            _ = xqerl_update:add(Ctx, {put, xml, Node, DB, Name}),
+            []
+    catch
+        _:_ ->
+            ?err('FOUP0002')
+    end.

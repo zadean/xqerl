@@ -225,6 +225,7 @@ declare function _:print-test-case($case as element(_:test-case),
   if (empty($skip)) then
   "'" || $name || "'(Config) -> " || $n ||
   "   __BaseDir = ?config(base_dir, Config)," || $n ||
+  "   try" || $n ||
   (
     (: docs to copy :)
     (
@@ -325,7 +326,7 @@ declare function _:print-test-case($case as element(_:test-case),
     ) => string-join("," || $n)
     
   ) => string-join("," || $n) ||
-  "."
+  " catch _:ERR:Stack -> io:format(""~p~n~p~n"", [ERR, Stack]), throw(ERR) end."
   else
   "'" || $name || "'(_Config) -> " || $n ||
   '   {skip, "'||$skip||'"}.'
@@ -366,20 +367,9 @@ declare function _:result_file($path, $name)
   $ResultOffsetPath || $path || $name
 };
 
-declare function _:exports($funs) as xs:string
-{
-  "-export([" || 
-  (
-    for $fun in $funs
-    return
-    "'" || $fun || "'/1"
-  ) => string-join(',' || $n || '         ' )
-  || "])."
-};
-
 declare function _:mod_all($funs)
 {
-  let $max :=  24
+  let $max :=  8
   let $f  := function($a){"'"||$a||"'"}
   let $grpd := 
       for $tc at $y in $funs
@@ -401,14 +391,10 @@ declare function _:mod_all($funs)
 declare function _:header($funs)
 {
 "-module('xquts_SUITE').
+
 -include_lib(""common_test/include/ct.hrl"").
--export([all/0,
-         groups/0,
-         suite/0]).
--export([init_per_suite/1,
-         end_per_suite/1]).
-         
-" || _:exports($funs) || "
+
+-compile([export_all]).
 
 suite() -> [{timetrap,{seconds, 60}}].
 end_per_suite(_Config) -> 

@@ -68,23 +68,27 @@
 %% ====================================================================
 -export([xml_no_escape/2, xml_escape/2, xml_to_json/2]).
 
--export([db_json_to_item/2,
-         string/2,
+-export([string/2,
          string_to_xml/2,
          xml_to_string/2]).
 
-db_json_to_item(Uri, Options) ->
-    State = parse_options(#state{},Options),
-    case xqldb_dml:select_json_doc(Uri) of
-        {error,_} = Err ->
-            Err;
-        Obj ->
-            json_to_map(State, Obj)
-    end.
+string_to_json(Bin) when is_binary(Bin) ->
+   string_to_json(unicode:characters_to_list(Bin));
+string_to_json(String) ->
+   try
+      {ok,Toks,_} = xqldb_json_scanner:string(String),
+      {ok,Obj} = xqldb_json_parser:parse(Toks),
+      Obj
+   catch
+      _:_:_ ->
+         {error,invalid_json}
+   end.
+
+
 string(String, Options) ->
     State = parse_options(#state{},Options),
     try 
-        xqldb_json_objs:string_to_json(String)
+        string_to_json(String)
     of
         {error,invalid_json} ->
             ?err('FOJS0001');
@@ -106,7 +110,7 @@ string_to_xml(String, Options) ->
     State = parse_options(#state{duplicates = retain,
                                  escape = false},Options),
     try
-        xqldb_json_objs:string_to_json(String) 
+        string_to_json(String) 
     of
         {error,invalid_json} ->
             ?err('FOJS0001');

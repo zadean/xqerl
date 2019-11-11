@@ -47,7 +47,7 @@
 
 -include("xqerl.hrl").
 
--define(LB(L), list_to_binary(L)).
+-define(LB(L), unicode:characters_to_binary(L)).
 
 %% assert functions return either true or {false, Result}
 
@@ -118,7 +118,7 @@ assert_xml(Result, {doc_file, FileLoc}) ->
    Norm1 = xqerl_node:to_xml(Doc),   
    assert_xml(Result, Norm1);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
-   assert_xml(Result, unicode:characters_to_binary(QueryString));
+   assert_xml(Result, ?LB(QueryString));
 assert_xml(#xqError{} = Err, QueryString) ->
    {false, {assert_xml,Err,QueryString}};
 assert_xml(Result, QueryString0) ->
@@ -252,7 +252,7 @@ assert_count(Result, TypeString) ->
    end.
 %% assert_string_value    (: string value of result == Str :)
 assert_string_value(Result, String) when is_list(String) ->
-   assert_string_value(Result, unicode:characters_to_binary(String));
+   assert_string_value(Result, ?LB(String));
 assert_string_value(Result, String) ->
    StrVal = string_value(Result),
    if StrVal == String ->
@@ -262,7 +262,7 @@ assert_string_value(Result, String) ->
    end.
 
 assert_norm_string_value(Result, String) when is_list(String) ->
-   assert_norm_string_value(Result, unicode:characters_to_binary(String));
+   assert_norm_string_value(Result, ?LB(String));
 assert_norm_string_value(Result, String) ->
    StrVal = xqerl_lib:normalize_spaces(
               xqerl_lib:normalize_string(
@@ -924,27 +924,26 @@ handle_environment(List) ->
              true ->
                 Map00#{'default-collation' => ?LB(DeCollation)}
           end,
-   _ = lists:foreach(
-                  fun({_MediaType,File,Uri}) ->
-                        %?dbg("MediaType",{MediaType,Uri}),
-                        case xqldb_dml:exists_resource(Uri) of
-                           true ->
-                              ok;
-                           false ->
-                              {ok,Bin} = file:read_file(File),
-                              xqldb_dml:insert_resource(Uri, Bin)
-                        end;
-                     ({File,Uri}) -> 
-                        case xqldb_dml:exists_resource(Uri) of
-                           true ->
-                              ok;
-                           false ->
-                              {ok,Bin} = file:read_file(File),
-                              xqldb_dml:insert_resource(Uri, Bin)
-                        end
-                  end, Resources),
-   _ = lists:foreach(
-         fun({Uri0,CList}) ->
+    _ = lists:foreach(
+          fun({_MediaType,File,Uri0}) ->
+                 Uri = ?LB(Uri0),
+                 case xqldb_dml:exists_resource(Uri) of
+                     true -> ok;
+                     false ->
+                         {ok,Bin} = file:read_file(File),
+                         xqldb_dml:insert_resource(Uri, Bin)
+                 end;
+              ({File,Uri0}) -> 
+                 Uri = ?LB(Uri0),
+                 case xqldb_dml:exists_resource(Uri) of
+                     true -> ok;
+                     false ->
+                         {ok,Bin} = file:read_file(File),
+                         xqldb_dml:insert_resource(Uri, Bin)
+                 end
+          end, Resources),
+    _ = lists:foreach(
+          fun({Uri0,CList}) ->
                CollectionUri = case ?LB(Uri0) of
                                   <<>> ->
                                      DefaultCollection;
@@ -974,12 +973,7 @@ handle_environment(List) ->
                               F = xqldb_lib:filename_to_uri(?LB(FileName0)),
                               {_,BaseName} = xqldb_uri:split_uri(F),
                               DocUri = xqldb_uri:join(CollectionUri, BaseName),
-                              case xqldb_dml:exists_doc(DocUri) of
-                                 true ->
-                                    ok;
-                                 false ->
-                                    xqldb_dml:insert_doc(DocUri, FileName0)
-                              end
+                              catch xqldb_dml:insert_doc(DocUri, FileName0)
                            end || {src,FileName0} <- CList],
                      ok
                end
@@ -987,19 +981,15 @@ handle_environment(List) ->
    {Sources1,EMap} = 
      lists:mapfoldl(
        fun({File0,Role,Uri0},Map) ->
-            FileUri = unicode:characters_to_binary(xqldb_uri:filename_to_uri(File0)),
+            FileUri = ?LB(xqldb_uri:filename_to_uri(File0)),
             Uri2 = if Uri0 == [] ->
                          FileUri;
                       Uri0 == File0 ->
                          FileUri;
                       true ->
-                         unicode:characters_to_binary(Uri0)
+                         ?LB(Uri0)
                    end,
-            case xqldb_dml:exists_doc(Uri2) of
-               true -> ok;
-               false ->
-                  catch xqldb_dml:insert_doc(Uri2, File0)
-            end,
+            catch xqldb_dml:insert_doc(Uri2, File0),
             %?dbg("File0",File0),
             %?dbg("Uri2 ",Uri2),
             %?dbg("Role",Role),
@@ -1025,7 +1015,7 @@ handle_environment(List) ->
          xqerl_code_server:unload(all);
       true -> ok
    end,
-   ModulesP = [{File,unicode:characters_to_binary(Uri)} || 
+   ModulesP = [{File,?LB(Uri)} || 
                {File,Uri} <- Modules],
    _ = lists:foreach(fun({File,_Uri}) ->
                            catch xqerl_code_server:compile(File,[],ModulesP)
@@ -1106,12 +1096,8 @@ load_qt3_xml() ->
    ok.
 
 maybe_insert_file(Filename) ->
-   Uri = xqldb_uri:filename_to_uri(unicode:characters_to_binary(Filename)),
-   case xqldb_dml:exists_doc(Uri) of
-      true -> ok;
-      false ->
-         catch xqldb_dml:insert_doc(Uri, Filename)
-   end.
+   Uri = xqldb_uri:filename_to_uri(?LB(Filename)),
+   catch xqldb_dml:insert_doc(Uri, Filename).
 
 qt3_files() ->
   ["fn/abs.xml",

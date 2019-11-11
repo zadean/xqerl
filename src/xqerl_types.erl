@@ -181,13 +181,15 @@ return_value([Seq], Ctx) ->
 return_value(Seq, #{pul := Pul} = Ctx) ->
    ok = xqerl_update:apply_updates(Ctx, Pul),
    return_value(Seq, maps:remove(pul, Ctx));
-return_value(Seq, #{options := Opts}) ->
+return_value(Seq, #{options := Opts} = Ctx) ->
    if is_map_key(method, Opts) ->
          Seq2 = xqerl_seq3:flatten(Seq),
          xqerl_serialize:serialize(Seq2, Opts);
       true ->
          return_value(Seq)
    end.
+
+
 
 string_value([]) -> <<>>;
 string_value(Bin) when is_binary(Bin) -> Bin;

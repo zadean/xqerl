@@ -46,6 +46,7 @@
          xqerl_mod_ext_basex,
          xqerl_mod_actor,
          xqerl_mod_csv,
+         xqerl_mod_db,
          xqerl_mod_event,
          xqerl_mod_erlang,
          xqerl_error]).

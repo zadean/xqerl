@@ -232,6 +232,7 @@ init_fun_abs(Ctx0, KeysToAdd) ->
 add_context_key(Map, default_calendar, _) -> Map;
 add_context_key(Map, default_place, _) -> Map;
 add_context_key(Map, default_language, _) -> Map;
+add_context_key(Map, locks, _) -> Map;
 add_context_key(Map, module, #{module := M}) ->
    Map#{module => M};
 add_context_key(Map, dynamic_known_functions, #{known_fx_sigs := K}) ->
@@ -652,12 +653,28 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
 
            HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
-           G5 = if HasUpd -> 
+           G5 = if HasUpd == true -> 
                 ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                    " {TRA,_} = locks:begin_transaction(),",
+                    " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
                     "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
+                    "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+                    "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+                    "xqerl_context:destroy(Ctx),",
+                    "case Method of",
+                    " <<\"DELETE\">> ->",
+                    "  {true, Req1, State};",
+                    " _ ->",
+                    "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                    "  {stop, Req2, State}",
+                    "end."
+                   ]);
+                 HasUpd == locks -> 
+                ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
+                    "_@Parts,",
+                    " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+                    "Ctx = (init(init_ctx()))#{trans => TRA},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                     "xqerl_context:destroy(Ctx),",
@@ -853,11 +870,18 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
    BodyAbs = expr_do(maps:put(ctx_var, LastCtx,ContextMap), Body),
    HasUpd = maps:get(contains_updates, ContextMap),
    V1 = ?P(?LINE,"_@@VarSetAbs"),
-   M = if HasUpd ->
+   M = if HasUpd == true ->
              ?P(?LINE, ["main(Options) ->",
                  " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                 " {TRA,_} = locks:begin_transaction(),",
+                 " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
                  " Ctx0 = xqerl_context:merge(init(), Options#{pul => PUL, trans => TRA}),",
+                 " _@@ImportedVars,",
+                 " _@@V1,",
+                 "_@BodyAbs."]);
+          HasUpd == locks ->
+             ?P(?LINE, ["main(Options) ->",
+                 " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+                 " Ctx0 = xqerl_context:merge(init(), Options#{trans => TRA}),",
                  " _@@ImportedVars,",
                  " _@@V1,",
                  "_@BodyAbs."]);
@@ -1579,7 +1603,8 @@ expr_do(Ctx, #xqQuery{query = Qry}) ->
     ?Q(["try",
         " XQuery = begin _@XQ end,",
         " xqerl_types:return_value(XQuery,_@CtxVar)",
-        "catch _:_@Error ->",
+        "catch _:_@Error:Stack ->",
+        "io:format(\"~p~n\", [Stack]),",
         " local_error(_@Error, 0)",
         "after ",
         " xqerl_context:destroy(_@CtxVar)",

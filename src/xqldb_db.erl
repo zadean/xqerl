@@ -141,13 +141,12 @@ init([DBDirectory, Uri]) ->
    Texts = child_map(texts, xqldb_string_table2, [NewOpen, DBDirectory, ?TEXT]), 
    Paths = child_map(paths, xqldb_path_table, [NewOpen, DBDirectory, ?PATH, Uri]),
    Ress  = child_map(resources, xqldb_resource_table, [NewOpen, DBDirectory, ?RESOURCES]),
-   JSON  = child_map(json, xqldb_json_table, [NewOpen, DBDirectory, ?JSON]),
    Index = child_map(index, ?INDEX, [DBDirectory ++ "/ind"]),
    PIndx = child_map(pindex, ?PINDEX, [DBDirectory ++ "/emp", [{spawn_opt, [{fullsweep_after, 50}]}]]),
    Qry   = child_map(queries, xqldb_query_server, []),
    
    {ok, {SupFlags, 
-         [Strct, Names, Texts, Paths, JSON, Ress, Index, PIndx, Qry]}}.
+         [Strct, Names, Texts, Paths, Ress, Index, PIndx, Qry]}}.
 
 %% ====================================================================
 %% Internal functions
