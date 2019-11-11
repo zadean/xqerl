@@ -23,7 +23,7 @@ groups() -> [
     [get_1, get_2, get_3, get_4, get_5,
      head_1, head_2, head_3,
      post_1, post_2, post_3, post_4, post_5, post_6,
-     options_1, options_2,
+     options_1, options_2, options_3,
      post_get_1
     ]}].
 
@@ -336,9 +336,9 @@ options_1(Config) ->
       'http://localhost:8081/test/head/xml'
     )
   let $h := $resp[1]
-  let $b := $resp[2]
+  let $o := $h/http:header[@name = 'allow']/@value
   return
-  $h/@status = '200' and empty($b)", 
+  $h/@status = '200' and $o eq 'HEAD,OPTIONS'", 
    io:format("Qry: ~p~n",[Qry]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "options_1.xq"), Qry),
              xqerl:run(Mod,#{}) of D -> D catch _:E -> E end,
@@ -355,11 +355,30 @@ options_2(Config) ->
       'http://localhost:8081/test/options/xml'
     )
   let $h := $resp[1]
-  let $b := $resp[2]
+  let $o := $h/http:header[@name = 'allow']/@value
   return
-  $h/@status = '200' and empty($b)", 
+  $h/@status = '200' and $o eq 'GET,HEAD'", 
    io:format("Qry: ~p~n",[Qry]),
    Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "options_2.xq"), Qry),
+             xqerl:run(Mod,#{}) of D -> D catch _:E -> E end,
+   case xqerl_test:assert_true(Res) of 
+      true -> {comment, "Correct result"};
+      {false, F} -> ct:fail(F) 
+   end.
+
+options_3(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $resp := 
+    http:send-request(
+      <http:request method='options' />,
+      'http://localhost:8081/test/post/xml'
+    )
+  let $h := $resp[1]
+  let $o := $h/http:header[@name = 'allow']/@value
+  return
+  $h/@status = '200' and $o eq 'OPTIONS,POST'", 
+   io:format("Qry: ~p~n",[Qry]),
+   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "options_3.xq"), Qry),
              xqerl:run(Mod,#{}) of D -> D catch _:E -> E end,
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Correct result"};
