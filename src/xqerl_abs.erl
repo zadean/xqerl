@@ -549,9 +549,19 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
    Ms = [MethodBinFun(M) || M <- UsedMethods],
    E0 = if UsedMethods == [] -> [];
            true ->
-              G0 = ?P(?LINE, ["allowed_methods(Req, State) -> {_@Ms@, Req, State}."]),
+              G0 = ?Q(["allowed_methods(Req, State) -> {_@Ms@, Req, State}.",
+                       "options(Req, State) -> ",
+                       " case State of",
+                       "  #{options := #{input_media_types := [{_, Fun}]}} ->",
+                       "   _@Mod@:Fun(Req, State);",
+                       "  _ -> ",
+                       "   Opts = lists:usort([<<\"OPTIONS\">>|[string:uppercase(erlang:atom_to_binary(Atom, latin1)) || Atom <- maps:keys(State)]]),",
+                       "   <<\",\", Allow/binary>> = << <<\",\", M/binary>> || M <- Opts >>,",
+                       "   Req2 = cowboy_req:set_resp_header(<<\"allow\">>, Allow, Req),"
+                       "  {ok, Req2, State}",
+                       " end."]),
               _ = add_global_funs([G0]),
-              ?Q("-export([allowed_methods/2]).")
+              ?Q("-export([allowed_methods/2, options/2]).")
         end,
 %   ?parse_dbg("UsedMethods",UsedMethods),
    IsProv = UsedMethods =/= [],%[1 || M <- UsedMethods, M == get orelse M == head orelse M == put orelse M == post] =/= [],
@@ -591,7 +601,7 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
    E3 =
      if IsDele ->
              G3 = ?Q(["delete_resource(Req, #{delete := #{input_media_types := [{_, Fun}]}} = State) ->",
-                      "erlang:apply(_@Mod@, Fun, [Req, State]);",
+                      "_@Mod@:Fun(Req, State);",
                       "delete_resource(Req, State) ->",
                       " {false, Req, State}."
                      ]),
