@@ -61,6 +61,7 @@
 %% API functions
 %% ====================================================================
 -export([put/3,
+         link_/3,
          get_/2,
          delete/2,
          delete_collection/2
@@ -71,14 +72,12 @@ put(Ctx, [Item], Uri) ->
     put(Ctx, Item, Uri);
 put(Ctx, #{nk := _} = Node, Uri) ->
     xqerl_mod_fn:put(Ctx, Node, Uri);
-put(#{'base-uri' := BaseUri0,
-      trans      := Agent} = Ctx, Item, Uri0) -> 
+put(#{'base-uri' := BaseUri0} = Ctx, Item, Uri0) -> 
     Uri = xqerl_types:value(Uri0),
     BaseUri = xqerl_types:value(BaseUri0),
     AbsUri = resolve_uri(BaseUri, Uri),
     {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
-    #{db_name := DbPid} = DB = xqldb_db:database(DbUri),
-    locks:lock_nowait(Agent, [DbPid, Name, write], write),
+    DB = xqldb_db:database(DbUri),
     do_put(Ctx, Item, DB, Name).
 
 do_put(Ctx, Item, DB, Name) when is_binary(Item) ->
@@ -96,6 +95,19 @@ do_put(Ctx, Items, DB, Name) when is_list(Items) ->
     xqerl_update:add(Ctx, {put, item, Items, DB, Name});
 do_put(Ctx, Item, DB, Name) ->
     xqerl_update:add(Ctx, {put, item, Item, DB, Name}).
+
+link_(Ctx, [Item], Uri) ->
+    link_(Ctx, Item, Uri);
+link_(#{'base-uri' := BaseUri0} = Ctx, Item, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    AbsUri = resolve_uri(BaseUri, Uri),
+    {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
+    DB = xqldb_db:database(DbUri),
+    do_link(Ctx, Item, DB, Name).
+
+do_link(Ctx, Filename, DB, Name) ->
+    xqerl_update:add(Ctx, {put, link, Filename, DB, Name}).
 
 get_(#{'base-uri' := BaseUri0} = Ctx, Uri0) ->
     Uri = xqerl_types:value(Uri0),
