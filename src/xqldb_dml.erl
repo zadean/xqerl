@@ -87,7 +87,7 @@ select_collection(#{trans := Agent} = Ctx, Uri) ->
                  [normalize_item(Ctx, P, DB) ||
                     P <- xqldb_path_table:all(DB)]
           end,
-    lists:flatten(lists:flatmap(Fun, DBs)).
+    lists:sort(lists:flatten(lists:flatmap(Fun, DBs))).
 
 select_collection(#{trans := Agent} = Ctx, Uri, Type) ->
     DBs = xqldb_db:databases(Uri),
@@ -96,7 +96,7 @@ select_collection(#{trans := Agent} = Ctx, Uri, Type) ->
                  [normalize_item(Ctx, P, DB) ||
                     P <- xqldb_path_table:all(DB, Type)]
           end,
-    lists:flatten(lists:flatmap(Fun, DBs)).
+    lists:sort(lists:flatten(lists:flatmap(Fun, DBs))).
 
 % used in test suite so create lock agent
 delete_collection(Uri) ->

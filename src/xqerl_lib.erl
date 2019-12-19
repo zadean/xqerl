@@ -671,6 +671,7 @@ lput(Key,Val) ->
    _ = erlang:put(Key, Val),
    Val.
 
+%% put this value in an ETS table and return Val
 lput(Tab,Key,Val) ->
    ets:insert(Tab, {Key, Val}),
    Val.

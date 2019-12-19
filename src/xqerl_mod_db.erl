@@ -123,7 +123,6 @@ delete(#{'base-uri' := BaseUri0,
     AbsUri = resolve_uri(BaseUri, Uri),
     {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
     #{db_name := DbPid} = DB = xqldb_db:database(DbUri),
-    locks:lock_nowait(Agent, [DbPid, Name, write], write),
     xqerl_update:add(Ctx, {delete, item, {DB, Name}}).
 
 delete_collection(#{'base-uri' := BaseUri0,

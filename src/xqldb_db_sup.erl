@@ -50,11 +50,13 @@ start_child(Uri) ->
          {DBDirectory, Id} ->
             ok = filelib:ensure_dir(DBDirectory ++ "/x"),
             {ok, P} = supervisor:start_child(?MODULE, [DBDirectory, Uri]),
+            ok = xqldb_db_server:open(Uri, P),
             {ok, P, Id}
       end
    catch 
       _ : Err : Stack ->
          io:format("~p~n", [Stack]),
+         ok = xqldb_db:close(Uri),
          throw(Err)
    end.
 

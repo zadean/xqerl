@@ -211,16 +211,44 @@ simple_path([InitCtxItems], [{'following-sibling', _}] = Steps) ->
    select_fun(Db, [InitCtxItems], Steps);
 simple_path(InitCtxItems, Steps) when is_list(InitCtxItems) ->
    MergedNodes = merge_nodes(InitCtxItems),
+   %?dbg("MergedNodes", MergedNodes),
    % group IDs by Type and DB
    % mem nodes all together
    % DB nodes grouped by DB then by DocId
    % mem nodes means finding each fun for each step without predicates
    % then building a recursive list comprehension for it
-   All = [select_fun(Db, Nodes, Steps) || {Db,Nodes} <- MergedNodes],
+   All =
+        case MergedNodes of
+            [{Db,Nodes}] ->
+                [select_fun(Db, Nodes, Steps)];
+            _ ->
+                select_fun_p(MergedNodes, Steps)
+        end,
    document_order(lists:append(All));
 simple_path(InitCtxItems, Steps) ->
    simple_path([InitCtxItems], Steps).
-  
+
+select_fun_p(MergedNodes, Steps) ->
+    Self = self(),
+    Pids = [begin
+               G = fun() ->
+                          Self ! {self(), select_fun(Db, Nodes, Steps)}
+                   end,
+               spawn(node(DbPid), G)
+            end || 
+            {{DbPid, _, _} = Db, Nodes} <- MergedNodes],
+    %?dbg("count Pids", length(Pids)),
+    collect_select_funs(Pids, []).
+
+collect_select_funs([Pid|T], Acc) ->
+    receive
+        {Pid, V} ->
+            collect_select_funs(T, [V|Acc])
+    after 5000 ->
+        throw({error, timeout})
+    end;
+collect_select_funs([], Acc) ->
+    Acc.
 
 merge_nodes([N]) ->
    Key = get_group_key(N),
@@ -257,38 +285,27 @@ select_fun(mem, Nodes, Steps) ->
    Fun = build_mem_node_fun(Steps),
    lists:flatmap(Fun, Nodes);
 select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
-   % caching this stuff in the query is okay, because only the stuff
-   % that existed at the beginning of the query can exist in the query
-   DB = xqerl_context:get_db(DbPid),
-   ResultSet = 
-      case xqldb_query_server:get(DB, DocId, InPathId, Steps) of
-         undefined ->
-            %io:format("~p~n",[Steps]),
-            LookupKey = {?MODULE, ?FUNCTION_NAME, DbPid, Steps},
-            PathLookup = 
-               case xqerl_lib:lget(LookupKey) of
-                  undefined ->
-                     #{names     := NameMap} = DB,
-                     Steps1 = normalize_step_names(Steps, NameMap),
-                     Lookup = xqldb_structure_index:compile_path(DB, Steps1),
-                     xqerl_lib:lput(LookupKey, Lookup);
-                  F ->
-                     F
-               end,
-           Iters = 
-             [?INDEX:lookup_path(DB, DocId, OutPathId) ||
-                OutPathId <- PathLookup(InPathId)],
-           IterUnion = xqldb_join:union(Iters),
-           Results = case lists:last(Steps) of
+    DB = xqerl_context:get_db(DbPid),
+    ResultSet = 
+        case xqldb_query_server:get(DB, DocId, InPathId, Steps) of
+            undefined ->
+                #{names := NameMap} = DB,
+                Steps1 = normalize_step_names(Steps, NameMap),
+                PathLookup = xqldb_structure_index:compile_path(DB, Steps1),
+                Iters = [?INDEX:lookup_path(DB, DocId, OutPathId) ||
+                           OutPathId <- PathLookup(InPathId)],
+                IterUnion = xqldb_join:union(Iters),
+                Results = 
+                    case lists:last(Steps) of
                         atomize ->
-                           xqldb_nodes:iterator_to_atom_set(IterUnion, DB);
+                            xqldb_nodes:iterator_to_atom_set(IterUnion, DB);
                         double ->
-                           xqldb_nodes:iterator_to_dbl_set(IterUnion, DB);
+                            xqldb_nodes:iterator_to_dbl_set(IterUnion, DB);
                         _ ->
-                           xqldb_nodes:iterator_to_node_set(IterUnion, DB)
-                     end,
-            xqldb_query_server:put(DB, DocId, InPathId, Steps, Results),
-            Results;
+                            xqldb_nodes:iterator_to_node_set(IterUnion, DB)
+                    end,
+                xqldb_query_server:put(DB, DocId, InPathId, Steps, Results),
+                Results;
          Results ->
             Results
       end,
@@ -309,7 +326,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
       _ ->
          lists:flatmap(EachNode, Nodes)
    end.
-   
+
 normalize_step_names([atomize|T], NameMap) ->
    normalize_step_names(T, NameMap);
 normalize_step_names([double|T], NameMap) ->

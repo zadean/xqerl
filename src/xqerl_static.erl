@@ -1053,8 +1053,8 @@ handle_node(State,
                    true ->
                        {IParams, IType}
                 end;
-            #xqSeqType{} ->
-                {[], FType};
+            #xqSeqType{anno = Ia, type = It} ->
+                {[], ?seqtype(Ia, It, zero_or_many)};
             _Other ->
                 {[], ?seqtype(Ln)}
         end,

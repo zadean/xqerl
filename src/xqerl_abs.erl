@@ -357,7 +357,7 @@ scan_mod(#xqModule{prolog = #xqProlog{sect_1 = Prolog1,
     P3 = ?Q(["-module('@ModName@').",
              "-export([static_props/0]).",
              "-export([init/1])."]),
-    P5 = ?Q(["-compile(inline).",
+    P5 = ?Q(["%-compile(inline).",
              "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
     P6 = init_function(ModName, scan_variables(EmptyMap1, Variables), Prolog1),
@@ -1128,7 +1128,7 @@ expr_do(Ctx, {variable, {Name, 1}}) when is_atom(Name) ->
     M = var(?LINE, get_context_variable_name(Ctx)),
     Result = var(?LINE, next_var_name()),
     ?Q(["case maps:get('@Name@',_@M, undefined) of",
-        " undefined -> erlang:throw(xqerl_error:error('XQDY0054'));",
+        " undefined -> io:format(\"~p~n\", ['@Name@']),erlang:throw(xqerl_error:error('XQDY0054'));",
         " _@Result -> _@Result",
         "end"]);
 
@@ -4329,8 +4329,9 @@ group_part(#{grp_variables := GrpVars,
     OutgoingVarTup = get_variable_tuple(Ctx1),
 
     FunctionName = glob_fun_name({group_by, Id}),
-   
-    Hd = ?Q("erlang:hd([_@OuterTups || _@OutgoingVarTup <- List])"),
+    %?parse_dbg("OuterVars", OuterVars),
+    %?parse_dbg("OutgoingVarTup", OutgoingVarTup),
+    Hd = ?Q("erlang:hd([_@OuterTups || _@OutgoingVarTup0 <- List])"),
     Flatten = ?Q("lists:flatten(['@FunctionName@'(Ctx,T,_@CollNT) || T <- List])"),
     Rest = if OuterVars =:= [] -> {nil,?LINE}; true -> Hd end,
     %?parse_dbg("_@@CollMatch",?P(?LINE,"_@@CollMatch")),

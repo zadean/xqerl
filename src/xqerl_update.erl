@@ -75,28 +75,31 @@ add(#{pul := Pid}, Command) ->
     add(Pid, Command).
 
 lock_command_target({put, _, _, Db, Name}, Agent) ->
-    locks:lock_nowait(Agent, [Db, Name, write], write);
+    write_lock(Agent, [Db, Name, write]);
 lock_command_target({delete, item, {Db, Name}}, Agent) ->
-    locks:lock_nowait(Agent, [Db, Name, write], write);
+    write_lock(Agent, [Db, Name, write]);
 lock_command_target({delete, all, Db}, Agent) ->
-    locks:lock_nowait(Agent, [Db, write], write);
+    write_lock(Agent, [Db, write]);
 lock_command_target({_, Target, _}, Agent) ->
     case lock_id(Target) of
         none ->
             ok;
         Id ->
-            locks:lock_nowait(Agent, Id, write)
+            write_lock(Agent, Id)
     end;
 lock_command_target({_, Target}, Agent) ->
     case lock_id(Target) of
         none ->
             ok;
         Id ->
-            locks:lock_nowait(Agent, Id, write)
+            write_lock(Agent, Id)
     end;
-
 lock_command_target(_, _) ->
     ok.
+
+write_lock(Agent, Id) ->
+    locks:lock_nowait(Agent, Id, write).
+
 
 add_command({'before', Target, Content}) ->
     check_split_insert(before, Target, Content);
@@ -131,7 +134,7 @@ apply_local_updates(Ctx, Pid, Vars) when is_pid(Pid) ->
             %io:format("~p~n", [Pul]),
             ok = compatibilityCheck(Pul),
             PulMap = mergeUpdates(Pul),
-            applyUpdates(Ctx, PulMap, Vars)         
+            applyUpdates(Ctx, PulMap, Vars)
     end.
 
 apply_updates(Ctx, Pid) when is_pid(Pid) ->
