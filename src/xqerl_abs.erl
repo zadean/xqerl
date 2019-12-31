@@ -2242,7 +2242,7 @@ expr_do(Ctx, #xqQuantifiedExpr{which = Op,
                E = expr_do(Ctx1, Expr),
                {?e:generator(
                   var(Line, VarName), 
-                  ?Q("xqerl_seq3:to_list(_@E)")), Ctx2}
+                  ?Q("xqerl_seq3:flatten(_@E)")), Ctx2}
         end,
     {Gens, Ctx3} = lists:mapfoldl(Fun, Ctx, l(Vars)),
     F = case Op of
