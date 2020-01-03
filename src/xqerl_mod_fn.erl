@@ -1497,110 +1497,112 @@ data1(_) ->
    'deep-equal'(Ctx,Arg1,xqerl_seq3:expand(Arg2),Collation);
 'deep-equal'(Ctx,Arg1,Arg2,CollFun) when is_function(CollFun);
                                          is_atom(CollFun) -> 
-   case count([], Arg1) =/= count([], Arg2) of
-      true ->
-         ?bool(false);
-      _ ->
-         Zip = lists:zip(Arg1, Arg2),
-         %?dbg("Zip",Zip),
-         EqFun = fun({X,Y}) ->
-                       deep_equal_1({X, Y}, Ctx, CollFun)
-                 end,
-         try
-            ?bool(lists:all(EqFun, Zip))
-         catch
-            ?ERROR_MATCH(?A("FOTY0015")) = E -> throw(E);
-            _:_ ->
-               %?dbg("deep-equal",StackTrace),
-               ?bool(false)
-         end
-   end.
+    EqFun = fun(X,Y) ->
+                   deep_equal_1(X, Y, Ctx, CollFun)
+            end,
+    try
+        deep_equal_all(Arg1, Arg2, EqFun)
+    catch
+        ?ERROR_MATCH(?A("FOTY0015")) = E -> throw(E);
+        _:_ ->
+           %?dbg("deep-equal",StackTrace),
+           ?bool(false)
+    end.
 
-deep_equal_1({X, Y}, Ctx, CollFun) when is_list(X), is_list(Y) ->
+deep_equal_all([], [], _) -> true;
+deep_equal_all(_, [], _) -> false;
+deep_equal_all([],_,  _) -> false;
+deep_equal_all([X|Xs], [Y|Ys], F) ->
+    case F(X, Y) of
+        false ->
+            false;
+        true ->
+            deep_equal_all(Xs, Ys, F)
+    end.
+
+deep_equal_1(X, Y, Ctx, CollFun) when is_list(X), is_list(Y) ->
    'deep-equal'(Ctx,X,Y,CollFun);
-deep_equal_1({#{nk := _} = N1,#{nk := _} = N2}, _, CollFun) ->
+deep_equal_1(#{nk := _} = N1,#{nk := _} = N2, _, CollFun) ->
    xqerl_node:nodes_equal(N1,N2,CollFun);
-deep_equal_1({#xqAtomicValue{value = nan},
-              #xqAtomicValue{value = nan}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = nan},
+             #xqAtomicValue{value = nan}, _, _) ->
    true;
-deep_equal_1({nan, #xqAtomicValue{value = nan}}, _, _) ->
+deep_equal_1(nan, #xqAtomicValue{value = nan}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = nan}, nan}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = nan}, nan, _, _) ->
    true;
-deep_equal_1({nan, nan}, _, _) ->
+deep_equal_1(nan, nan, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = infinity},
-              #xqAtomicValue{value = infinity}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = infinity},
+             #xqAtomicValue{value = infinity}, _, _) ->
    true;
-deep_equal_1({infinity, #xqAtomicValue{value = infinity}}, _, _) ->
+deep_equal_1(infinity, #xqAtomicValue{value = infinity}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = infinity}, infinity}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = infinity}, infinity, _, _) ->
    true;
-deep_equal_1({infinity, infinity}, _, _) ->
+deep_equal_1(infinity, infinity, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = neg_infinity},
-              #xqAtomicValue{value = neg_infinity}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = neg_infinity},
+             #xqAtomicValue{value = neg_infinity}, _, _) ->
    true;
-deep_equal_1({neg_infinity, #xqAtomicValue{value = neg_infinity}}, _, _) ->
+deep_equal_1(neg_infinity, #xqAtomicValue{value = neg_infinity}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = neg_infinity}, neg_infinity}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = neg_infinity}, neg_infinity, _, _) ->
    true;
-deep_equal_1({neg_infinity, neg_infinity}, _, _) ->
+deep_equal_1(neg_infinity, neg_infinity, _, _) ->
    true;
-deep_equal_1({true, true}, _, _) ->
+deep_equal_1(true, true, _, _) ->
    true;
-deep_equal_1({true, false}, _, _) ->
+deep_equal_1(true, false, _, _) ->
    false;
-deep_equal_1({false, false}, _, _) ->
+deep_equal_1(false, false, _, _) ->
    true;
-deep_equal_1({false, true}, _, _) ->
+deep_equal_1(false, true, _, _) ->
    false;
-deep_equal_1({#xqAtomicValue{type = T1, value = V1}, V2}, Ctx, CollFun)
+deep_equal_1(#xqAtomicValue{type = T1, value = V1}, V2, Ctx, CollFun)
    when ?xs_string(T1);
         T1 == 'xs:anyURI';
         T1 == 'xs:untypedAtomic' ->
-   deep_equal_1({V1, V2}, Ctx, CollFun);
-deep_equal_1({V1, #xqAtomicValue{type = T2, value = V2}}, Ctx, CollFun)
+   deep_equal_1(V1, V2, Ctx, CollFun);
+deep_equal_1(V1, #xqAtomicValue{type = T2, value = V2}, Ctx, CollFun)
    when ?xs_string(T2);
         T2 == 'xs:anyURI';
         T2 == 'xs:untypedAtomic' ->
-   deep_equal_1({V1, V2}, Ctx, CollFun);
-deep_equal_1({V1, V2}, Ctx, CollFun) when is_binary(V1),
+   deep_equal_1(V1, V2, Ctx, CollFun);
+deep_equal_1(V1, V2, Ctx, CollFun) when is_binary(V1),
                                           is_binary(V2) ->
    compare(Ctx, V1, V2, CollFun) == 0;
-deep_equal_1({N1, N2}, _, _) when is_number(N1), is_number(N2) ->
+deep_equal_1(N1, N2, _, _) when is_number(N1), is_number(N2) ->
    N1 == N2;
-deep_equal_1({_, #xqFunction{}}, _, _) ->
+deep_equal_1(_, #xqFunction{}, _, _) ->
    ?err('FOTY0015');
-deep_equal_1({#xqFunction{}, _}, _, _) ->
+deep_equal_1(#xqFunction{}, _, _, _) ->
    ?err('FOTY0015');
-deep_equal_1({V1, V2}, _, _) when is_function(V1),
+deep_equal_1(V1, V2, _, _) when is_function(V1),
                                   is_function(V2) ->
    V1 == V2;
-deep_equal_1({A1, A2}, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
+deep_equal_1(A1, A2, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
    'deep-equal'(Ctx, array:to_list(A1), array:to_list(A2), CollFun);
-deep_equal_1({A1, _}, _, _) when ?is_array(A1) -> false;
-deep_equal_1({_, A2}, _, _) when ?is_array(A2) -> false;
-deep_equal_1({M1, M2}, Ctx, CollFun) when is_map(M1),
-                                          is_map(M2) ->
+deep_equal_1(A1, _, _, _) when ?is_array(A1) -> false;
+deep_equal_1(_, A2, _, _) when ?is_array(A2) -> false;
+deep_equal_1(M1, M2, Ctx, CollFun) when is_map(M1),
+                                        is_map(M2) ->
    Sz1 = xqerl_mod_map:size([], M1),
    Sz2 = xqerl_mod_map:size([], M2),
    if Sz1 == Sz2 ->
          K1 = xqerl_mod_map:keys([],M1),
          F = fun(K) ->
-                   xqerl_mod_map:contains([], M2, K) == 
-                     ?bool(true) andalso
                    'deep-equal'(
                      Ctx,
                      xqerl_mod_map:get([], M1, K), 
                      xqerl_mod_map:get([], M2, K),
                      CollFun)
-             end,         
+             end,
          lists:all(F, K1);
       true ->
          false
    end;
-deep_equal_1({N1, N2}, _, _) ->
+deep_equal_1(N1, N2, _, _) ->
    xqerl_operators:equal(N1,N2).
 
 
