@@ -93,6 +93,7 @@
 
 -include("xqerl.hrl").
 
+op_and([O], R) -> op_and(O, R);
 op_and(true, R) ->
     case R() of
         [] -> false;
@@ -101,6 +102,7 @@ op_and(true, R) ->
 op_and([], _) -> false;
 op_and(false, _) -> false.
 
+op_or([O], R) -> op_or(O, R);
 op_or(true, _) -> true;
 op_or([], R) ->
     case R() of
