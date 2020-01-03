@@ -1637,81 +1637,103 @@ deep_equal_1({N1, N2}, _, _) ->
    'distinct-values'(Ctx,[Arg1],Collation);
 'distinct-values'(_Ctx,Arg1,Collation) when is_function(Collation);
                                             is_atom(Collation) ->
-   CompVal = fun(#xqAtomicValue{type = T} = A) when ?xs_string(T);
-                                                    T == 'xs:untypedAtomic';
-                                                    T == 'xs:anyURI' ->
-                   Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
-                   {Key, A};
-                (A) when is_binary(A)->
-                   Key = xqerl_coll:sort_key(A, Collation),
-                   {Key, A};
-                (#xqAtomicValue{value = neg_zero} = A) ->
-                   {0, A};
-                (#xqAtomicValue{value = V} = A) when is_atom(V) ->
-                   {V, A};
-                (#xqAtomicValue{} = A) ->
-                   {A, A};
-                (A) when is_number(A) ->
-                   {A, A};
-                (neg_zero = A) ->
-                   {0, A};
-                (A) when is_atom(A) ->
-                   {A, A};
-                (#{nk := _} = N) ->
-                   A = xqerl_types:atomize(N),
-                   Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
-                   {Key, A}
-             end,
    Arg = xqerl_seq3:expand(Arg1),
-   Unique = distinct_vals(Arg,CompVal),
+   Keyed = distinct_vals_key(Arg, Collation), 
+   Unique = (catch distinct_vals(Keyed, [])),
    val_reverse(Unique, []);
 'distinct-values'(Ctx,Arg1,Collation) ->
    Coll = xqerl_types:value(Collation),
    NewColl = xqerl_coll:parse(Coll),
    'distinct-values'(Ctx,Arg1,NewColl).
-   
+
 
 val_reverse([],Acc) -> Acc;
 val_reverse([{_,V}|T], Acc) -> 
    val_reverse(T,[V|Acc]).
 
-distinct_vals(Vals,Fun) ->
-   F = fun(Value, Acc) ->
-             {Key,ActVal} = Fun(Value),
-             X = fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
-                       case Key of
-                          #xqAtomicValue{type = KeyType, value = nan} 
-                             when ?xs_numeric(KeyType) ->
-                             ?xs_numeric(AccType) andalso 
-                               AccKey#xqAtomicValue.value == nan;
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_string(KeyType), ?xs_string(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_duration(KeyType), ?xs_duration(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = AccType} ->
-                              xqerl_operators:equal(AccKey, Key);
-                          _ when is_number(Key) ->
-                             xqerl_operators:equal(AccKey, Key);
-                          _ ->
-                             false
-                       end;
-                    ({AccKey,_}) when is_number(AccKey) ->
-                       (catch xqerl_operators:equal(AccKey, Key)) == true;
-                    ({AccKey,_}) ->
-                       Key == AccKey
-                 end,
-             InList = lists:any(X, Acc),
-             if InList -> Acc;
-                true -> [{Key,ActVal}|Acc]
-             end
-       end,
-   lists:foldl(F,[],Vals).
+distinct_vals_key([], _) -> [];
+distinct_vals_key([A|T], C) when is_number(A) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([A|T], C) when is_binary(A)->
+    Key = xqerl_coll:sort_key(A, C),
+    [{Key, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{type = Ty} = A|T], C) 
+  when ?xs_string(Ty);
+       Ty == 'xs:untypedAtomic';
+       Ty == 'xs:anyURI' ->
+    Key = xqerl_coll:sort_key(xqerl_types:value(A), C),
+    [{Key, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{value = neg_zero} = A|T], C) ->
+    [{0, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{value = V} = A|T], C) when is_atom(V) ->
+    [{V, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{} = A|T], C) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([neg_zero = A|T], C) ->
+    [{0, A}|distinct_vals_key(T, C)];
+distinct_vals_key([A|T], C) when is_atom(A) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#{nk := _} = N|T], C) ->
+    A = xqerl_types:atomize(N),
+    Key = xqerl_coll:sort_key(xqerl_types:value(A), C),
+    [{Key, A}|distinct_vals_key(T, C)].
 
+distinct_vals_eq({Int, _}, {Int, _}) when is_integer(Int) -> true;
+distinct_vals_eq({Int, _}, {Int2, _}) when is_integer(Int), is_integer(Int2)-> 
+    false;
+distinct_vals_eq({Bin, _}, {Bin, _}) when is_binary(Bin) -> true;
+distinct_vals_eq({Bin, _}, {Bin2, _}) when is_binary(Bin), is_binary(Bin2)-> 
+    false;
+distinct_vals_eq({#xqAtomicValue{type = KeyType, value = nan}, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_numeric(KeyType) ->
+    ?xs_numeric(AccType) andalso AccKey#xqAtomicValue.value == nan;
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_string(KeyType), ?xs_string(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_duration(KeyType), ?xs_duration(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = AccType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({Key, _}, {#xqAtomicValue{} = AccKey, _}) 
+  when is_number(Key) -> 
+    (catch xqerl_operators:equal(AccKey, Key)) == true;
+distinct_vals_eq(_, {#xqAtomicValue{type = _}, _}) ->
+    false;
+
+distinct_vals_eq({Key, _}, {AccKey,_}) when is_number(AccKey) -> 
+    (catch xqerl_operators:equal(AccKey, Key)) == true;
+distinct_vals_eq({Key, _}, {AccKey, _}) -> 
+    Key == AccKey.
+
+distinct_vals_any(_, []) ->
+    false;
+distinct_vals_any(Val, [H|T]) ->
+    case distinct_vals_eq(Val, H) of
+        true ->
+            true;
+        false ->
+            distinct_vals_any(Val, T)
+    end.
+
+distinct_vals([Val|T], []) ->
+    distinct_vals(T, [Val]);
+distinct_vals([], Acc) -> Acc;
+distinct_vals([Val|T], Acc) ->
+    case distinct_vals_any(Val, Acc) of
+        true ->
+            distinct_vals(T, Acc);
+        false ->
+            distinct_vals(T, [Val|Acc])
+    end.
 
 %% Retrieves a document using a URI supplied as an xs:string, and returns 
 %% the corresponding document node. 
