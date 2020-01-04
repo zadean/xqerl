@@ -148,7 +148,7 @@ do_get_open(Path, Ets) ->
    MatchSpec = [{{{MPattern,'_'}, '_', open},[],['$1']},
                 {{{MPattern,'_'}, '_', closed},[],['$1']}],
    Res = ets:select(Ets, MatchSpec),
-   [filename:join([<<".">>|R]) || R <- Res].
+   lists:sort([filename:join([<<".">>|R]) || R <- Res]).
 
 get_next_id(Name) ->
    Fun = fun({_,{I,_}}, A) when I > A ->

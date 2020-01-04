@@ -217,13 +217,13 @@ handle_call(all, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{'$1',{'$2','$3'}},[],[{{'$1','$2','$3'}}]},
                 {{'$1',{'$2','$3','$4'}},[],[{{'$1','$2','$3','$4'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
+   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
 
 handle_call({all, Type}, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{'$1',{Type,'$2'}},[],[{{'$1',Type,'$2'}}]},
                 {{'$1',{Type,'$2','$3'}},[],[{{'$1',Type,'$2','$3'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
+   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
 
 handle_call({delete, Name, DB}, _From, 
             #{tab  := HeapFile} = State) ->
