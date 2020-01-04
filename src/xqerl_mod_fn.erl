@@ -1570,7 +1570,7 @@ deep_equal_1(V1, #xqAtomicValue{type = T2, value = V2}, Ctx, CollFun)
         T2 == 'xs:untypedAtomic' ->
    deep_equal_1(V1, V2, Ctx, CollFun);
 deep_equal_1(V1, V2, Ctx, CollFun) when is_binary(V1),
-                                          is_binary(V2) ->
+                                        is_binary(V2) ->
    compare(Ctx, V1, V2, CollFun) == 0;
 deep_equal_1(N1, N2, _, _) when is_number(N1), is_number(N2) ->
    N1 == N2;
@@ -1579,7 +1579,7 @@ deep_equal_1(_, #xqFunction{}, _, _) ->
 deep_equal_1(#xqFunction{}, _, _, _) ->
    ?err('FOTY0015');
 deep_equal_1(V1, V2, _, _) when is_function(V1),
-                                  is_function(V2) ->
+                                is_function(V2) ->
    V1 == V2;
 deep_equal_1(A1, A2, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
    'deep-equal'(Ctx, array:to_list(A1), array:to_list(A2), CollFun);
@@ -1587,21 +1587,25 @@ deep_equal_1(A1, _, _, _) when ?is_array(A1) -> false;
 deep_equal_1(_, A2, _, _) when ?is_array(A2) -> false;
 deep_equal_1(M1, M2, Ctx, CollFun) when is_map(M1),
                                         is_map(M2) ->
-   Sz1 = xqerl_mod_map:size([], M1),
-   Sz2 = xqerl_mod_map:size([], M2),
-   if Sz1 == Sz2 ->
-         K1 = xqerl_mod_map:keys([],M1),
-         F = fun(K) ->
-                   'deep-equal'(
-                     Ctx,
-                     xqerl_mod_map:get([], M1, K), 
-                     xqerl_mod_map:get([], M2, K),
-                     CollFun)
-             end,
-         lists:all(F, K1);
-      true ->
-         false
-   end;
+    Sz1 = maps:size(M1),
+    Sz2 = maps:size(M2),
+    if 
+        Sz1 == Sz2 ->
+            K1s = maps:keys(M1),
+            case lists:all(fun(K) -> is_map_key(K, M2) end, K1s) of
+                false ->
+                    false;
+                true ->
+                    F = fun(K) ->
+                               #{K := {_, M1v}} = M1,
+                               #{K := {_, M2v}} = M2,
+                               'deep-equal'(Ctx, M1v, M2v, CollFun)
+                        end,
+                    lists:all(F, K1s)
+            end;
+        true ->
+            false
+    end;
 deep_equal_1(N1, N2, _, _) ->
    xqerl_operators:equal(N1,N2).
 
