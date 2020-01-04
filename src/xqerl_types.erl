@@ -1072,7 +1072,7 @@ try_cast(Av, Type) ->
       ?ERROR_MATCH(<<"FODT0002">>) -> ?false;
       ?ERROR_MATCH(<<"FOCA0002">>) -> ?false;
       ?ERROR_MATCH(<<"XPST0081">>) -> ?false;
-      _:E -> throw(E)            
+      _:E -> throw(E)
    end.
 
 try_cast(Av, Type, Namespaces) ->
