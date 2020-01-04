@@ -37,12 +37,15 @@ compile(Filename) ->
 run(Mod) -> run(Mod, #{}).
 
 run(Mod, Options) when is_atom(Mod) ->
+    OldProcDict = erlang:erase(),
     try
         Mod:main(Options)
     catch
         _:#xqError{} = E ->
-            %?dbg("run",E),
             xqerl_lib:format_stacktrace(E)
+    after
+        _ = erlang:erase(),
+        [erlang:put(K, V) || {K,V} <- OldProcDict]
     end;
 run(#xqError{} = E, _Options) -> E;
 run(Str, Options) ->

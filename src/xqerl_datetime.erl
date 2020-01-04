@@ -553,8 +553,8 @@ string_to_dayTimeDuration(String) ->
       end
    catch
       ?THROW(E);
-      _:_:ST ->
-         io:format("~p~n",[ST]),
+      _:_:_ST ->
+         %io:format("~p~n",[ST]),
          ?err('FORG0001')
    end.
 

@@ -37,6 +37,8 @@
          lput/2,
          lput/3]).
 
+-export([get_remote_resource/2]).
+
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
 -export([is_xschar/1]).
@@ -669,6 +671,7 @@ lput(Key,Val) ->
    _ = erlang:put(Key, Val),
    Val.
 
+%% put this value in an ETS table and return Val
 lput(Tab,Key,Val) ->
    ets:insert(Tab, {Key, Val}),
    Val.
@@ -745,3 +748,30 @@ async_single_call(Fun, Arg) when is_function(Fun,1) ->
                 R = (catch Fun(Arg)),
                 ReplyTo ! {self(), {reply, R}}
           end).
+
+
+%% Attempts to retrieve a file or http resource
+-spec get_remote_resource(Uri :: binary(), xml | binary | text) ->
+           binary().
+get_remote_resource(<<"file:", _/binary>> = FileUri, xml) ->
+    xqldb_mem_nodes:parse_file(FileUri);
+get_remote_resource(<<"file:", _/binary>> = FileUri, Type) ->
+    Filename = xqldb_lib:uri_to_filename(FileUri),
+    {ok, Bin} = file:read_file(Filename),
+    case Type of
+        binary ->
+            #xqAtomicValue{type = 'xs:base64Binary', value = Bin};
+        text ->
+            Bin
+    end;
+get_remote_resource(Uri, Type) ->
+    {ok, 200, _Headers, ClientRef} = hackney:request(Uri),
+    {ok, Body} = hackney:body(ClientRef),
+    case Type of
+        xml ->
+            xqldb_mem_nodes:parse_binary(Body, {Uri, Uri});
+        binary ->
+            #xqAtomicValue{type = 'xs:base64Binary', value = Body};
+        text ->
+            Body
+    end.

@@ -34,6 +34,8 @@
 -define(PX,<<"erlang">>).
 
 -define(av(T, V), #xqAtomicValue{type = T, value = V}).
+-dialyzer(no_opaque). % block array:array(_) warnings
+-define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
 %% ====================================================================
 %% API functions
@@ -170,7 +172,7 @@ item_to_term(?av(_, Num)) when is_number(Num) ->
     Num;
 item_to_term(?av(_, _) = Av) ->
     xqerl_types:cast_as(Av, 'xs:string');
-item_to_term(Array) when is_tuple(Array), element(1, Array) =:= array ->
+item_to_term(Array) when ?is_array(Array) ->
     case array:is_array(Array) of
         false ->
             throw({error, array});

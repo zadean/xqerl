@@ -69,6 +69,7 @@
 -dialyzer(no_opaque). % block array:array(_) warnings
 -define(is_array(A), is_tuple(A), element(1, A) =:= array).
 
+-define(TIMEOUT, 90000).
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Functions called from XQuery modules directly 
@@ -305,7 +306,7 @@ pformap(Fun,List) ->
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
-   after 60000 -> error
+   after ?TIMEOUT -> error
    end.
 
 pmap(FCT,List) ->
@@ -316,7 +317,7 @@ pmap(FCT,List,Limit) ->
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
-   after 60000 -> error
+   after ?TIMEOUT -> error
    end.
 
 position_filter(_Ctx, I, Seq) when is_list(Seq),
@@ -434,13 +435,14 @@ val_map(Fun,[H|T]) ->
    Val = try 
             Fun(H) 
          catch 
-            _:#xqError{} = E:Stack ->
-               ?dbg("H  ",H),
-               ?dbg("Err",Stack),
+            _:#xqError{} = E:_Stack ->
+               %?dbg("H  ",H),
+               %?dbg("Err",Stack),
                ?err(E);
-            _:{badkey,_} -> % This happens when a variable is not yet 
+            _:{badkey,Err} -> % This happens when a variable is not yet 
                             % initialized, so there must have been a cycle
                             % missed at static time.
+               ?dbg("Err",Err),
                ?err('XQDY0054');
             _:Err:Stack ->
                ?dbg("Err",Err),
@@ -498,6 +500,8 @@ expand1(#range{min = Min, max = Max}) ->
 expand1([]) -> [];
 expand1([#range{min = Min, max = Max}|T]) -> 
    range_2(Min,Max) ++ expand1(T);
+expand1([H|T]) when is_list(H) -> 
+   expand1(H) ++ expand1(T);
 expand1([H|T]) -> 
    [H | expand1(T)].
 
@@ -607,6 +611,8 @@ pformap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
 pformap(From,NL,FCT,Limit,Left,Pids,Acc) when not is_list(NL) ->
    pformap(From,[NL],FCT,Limit,Left,Pids,Acc).
 
+pmap(From,#range{} = L, FCT, Limit, Left, Ps, Acc) ->
+    pmap(From, expand(L), FCT, Limit, Left, Ps, Acc);
 pmap(From,[],_FCT,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
 pmap(From,List,FCT,Limit,0,Ps,Acc) ->
@@ -619,12 +625,12 @@ pmap(From,List,FCT,Limit,0,Ps,Acc) ->
 pmap(From,[],FCT,Limit,Left,Ps,Acc) ->
    %when Left < Limit ->
    receive
-      {_,{'EXIT',Ex}} ->
+      {_, #xqError{} = Ex} ->
          throw(Ex);
-      {Py,X} ->
+      {Py, X} ->
          NewPs = lists:delete(Py, Ps),
          pmap(From,[],FCT,Limit,Left + 1,NewPs, [X|Acc])
-   after 60000 -> error
+   after ?TIMEOUT -> error
    end;
 pmap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),

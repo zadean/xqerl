@@ -37,6 +37,20 @@ pending_update_list(Pid) ->
     F = fun() -> loop({Pid, []}) end,
     erlang:spawn_link(F).
 
+%% {insertInto, {Db, Pos}, Val}
+%% {insertAttributes, {Db, Pos}, Val}
+%% {replaceValue, {Db, Pos}, Val} * 
+%% {rename, {Db, Pos}, Val} * 
+%% {insertBefore, {Db, Pos}, Val}
+%% {insertAfter, {Db, Pos}, Val}
+%% {insertIntoAsFirst, {Db, Pos}, Val}
+%% {insertIntoAsLast, {Db, Pos}, Val}
+%% {replaceNode, {Db, Pos}, Val}
+%% {replaceElementContent, {Db, Pos}, Val}
+%% {delete, {Db, Pos}}
+%% {put, xml | text | raw | item, Item, Db, Name}
+%% {delete, item, {Db, Name}}
+%% {delete, all, Db}
 add(Pid, Command) when is_pid(Pid) ->
     case add_command(Command) of
         [] ->
@@ -52,8 +66,40 @@ add(Pid, Command) when is_pid(Pid) ->
             Pid ! Command1,
             []
     end;
+add(#{pul := Pid,
+      trans := Agent}, Command) ->
+    lock_command_target(Command, Agent),
+    add(Pid, Command);
 add(#{pul := Pid}, Command) ->
+    % no DB nodes, just local
     add(Pid, Command).
+
+lock_command_target({put, _, _, Db, Name}, Agent) ->
+    write_lock(Agent, [Db, Name, write]);
+lock_command_target({delete, item, {Db, Name}}, Agent) ->
+    write_lock(Agent, [Db, Name, write]);
+lock_command_target({delete, all, Db}, Agent) ->
+    write_lock(Agent, [Db, write]);
+lock_command_target({_, Target, _}, Agent) ->
+    case lock_id(Target) of
+        none ->
+            ok;
+        Id ->
+            write_lock(Agent, Id)
+    end;
+lock_command_target({_, Target}, Agent) ->
+    case lock_id(Target) of
+        none ->
+            ok;
+        Id ->
+            write_lock(Agent, Id)
+    end;
+lock_command_target(_, _) ->
+    ok.
+
+write_lock(Agent, Id) ->
+    locks:lock_nowait(Agent, Id, write).
+
 
 add_command({'before', Target, Content}) ->
     check_split_insert(before, Target, Content);
@@ -65,6 +111,10 @@ add_command({'into_first', Target, Content}) ->
     check_split_insert(into_first, Target, Content);
 add_command({'into_last', Target, Content}) ->
     check_split_insert(into_last, Target, Content);
+add_command({'delete', item, {Db, Name}}) ->
+    {delete, item, {Db, Name}};
+add_command({delete, all, Db}) ->
+    {delete, all, Db};
 add_command({'delete', Targets}) ->
     {delete, check_delete(Targets)};
 add_command({'replace', Target, Content}) ->
@@ -73,23 +123,9 @@ add_command({'replace_value', Target, Content}) ->
     check_replace_value(Target, Content);
 add_command({'rename', Target, Content}) ->
     check_rename(Target, Content);
-add_command({put, Node, Uri, Params}) ->
-    put(Node, Uri, Params).
+add_command({put, Type, Node, Db, Name}) ->
+    put(Type, Node, Db, Name).
 
-lock_targets(Agent, PulMap) ->
-    DBs = [K || K <- maps:keys(PulMap), K =/= put],
-    OIDs = [{[DB, Nm], write} ||
-            DB <- DBs,
-            {Nm, _Ts} <- maps:keys(maps:get(DB, PulMap))],
-    Objs = lists:usort(OIDs),
-    case Objs of
-        [] ->
-            ok;
-        _ ->
-            locks:lock_objects(Agent, Objs),
-            {have_all_locks, _} = locks:await_all_locks(Agent),
-            ok
-    end.
 
 apply_local_updates(Ctx, Pid, Vars) when is_pid(Pid) ->
     Pid ! done,
@@ -98,7 +134,7 @@ apply_local_updates(Ctx, Pid, Vars) when is_pid(Pid) ->
             %io:format("~p~n", [Pul]),
             ok = compatibilityCheck(Pul),
             PulMap = mergeUpdates(Pul),
-            applyUpdates(Ctx, PulMap, Vars)         
+            applyUpdates(Ctx, PulMap, Vars)
     end.
 
 apply_updates(Ctx, Pid) when is_pid(Pid) ->
@@ -121,8 +157,8 @@ apply_updates(Ctx, Pid) when is_pid(Pid) ->
 %%    $node as node(),
 %%    $uri as xs:string,
 %%    $params as item())
-put(Node, Uri, Params) ->
-    {put, Node, Uri, Params}.
+put(Type, Node, DB, Name) ->
+    {put, Type, Node, DB, Name}.
 
 %% ====================================================================
 %% Update Routines
@@ -140,7 +176,7 @@ compatibilityCheck(Pul) ->
     %% Two or more upd:replaceElementContent primitives in $pul have the same target node
     _ = if_dupe([Target || {replaceElementContent, Target, _} <- Pul], 'XUDY0017'),
     %% Two or more upd:put primitives in $pul have the same $uri operand
-    _ = if_dupe([Uri || {put, _, Uri, _} <- Pul], 'XUDY0031'),
+    _ = if_dupe([{PDB, PName} || {put, _, _, PDB, PName} <- Pul], 'XUDY0031'),
     %% Two or more primitives in $pul create conflicting namespace bindings for the same element node [err:XUDY0024]. The following kinds of primitives create namespace bindings:
     %%    upd:insertAttributes creates one namespace binding on the $target element corresponding to the implied namespace binding of the name of each attribute node in $content.
     %%    upd:replaceNode creates one namespace binding on the $target element corresponding to the implied namespace binding of the name of each attribute node in $replacement.
@@ -152,17 +188,33 @@ compatibilityCheck(Pul) ->
 mergeUpdates(Pul) ->
     mergeUpdates(Pul, #{put => []}).
 
-mergeUpdates([{put, _, _, _} = H|T], #{put := Puts} = Acc) ->
+mergeUpdates([{put, _, _, _, _} = H|T], #{put := Puts} = Acc) ->
     mergeUpdates(T, Acc#{put := [H|Puts]});
 mergeUpdates([{delete, {Db, DocId, Id}}|T], Acc) -> % db node
     mergeUpdates(T, do_merge(Acc, Db, delete, {DocId, Id}, []));
 mergeUpdates([{delete, {Db, Id}}|T], Acc) -> % mem node
     mergeUpdates(T, do_merge(Acc, Db, delete, Id, []));
+mergeUpdates([{delete, item, {DB, Name}}|T], Acc) -> % complete entry
+    mergeUpdates(T, do_merge(Acc, DB, delete, Name, []));
+mergeUpdates([{delete, all, DB}|T], Acc) -> % complete DB
+    mergeUpdates(T, do_merge(Acc, DB, delete, all, []));
 mergeUpdates([{Type, {Db, DocId, Id}, Val}|T], Acc) ->
     mergeUpdates(T, do_merge(Acc, Db, Type, {DocId, Id}, Val));
 mergeUpdates([{Type, {Db, Pos}, Val}|T], Acc) ->
     mergeUpdates(T, do_merge(Acc, Db, Type, Pos, Val));
 mergeUpdates([], Acc) -> Acc.
+
+do_merge(Acc, #{db_name := DbPid} = DB, delete, all, _) -> 
+    % DB delete, so block/delete any other changes
+    Acc#{DbPid => {delete, DB}};
+do_merge(Acc, #{db_name := DbPid} = DB, delete, Name, _) -> 
+    % Doc delete, so block/delete any other changes
+    case maps:get(DbPid, Acc, #{}) of
+        delete -> % collection already gone
+            Acc;
+        DbMap ->
+            Acc#{DbPid => DbMap#{Name => {delete, DB}}}
+    end;
 
 do_merge(Acc, Db, Type, Pos, Val) when is_reference(Db) -> % mem nodes
     DbMap = maps:get(Db, Acc, #{}),
@@ -170,14 +222,31 @@ do_merge(Acc, Db, Type, Pos, Val) when is_reference(Db) -> % mem nodes
     List1 = [{Pos,Val}|List],
     Acc#{Db => DbMap#{Type => List1}};
 do_merge(Acc, Db, Type, {DocId, Pos}, Val) -> % db nodes
-    DbMap = maps:get(Db, Acc, #{}),
-    DbDocMap = maps:get(DocId, DbMap, #{}),
-    List = maps:get(Type, DbDocMap, []),
-    List1 = [{Pos,Val}|List],
-    Acc#{Db => DbMap#{DocId => DbDocMap#{Type => List1}}}.
+    case maps:get(Db, Acc, #{}) of
+        {delete, _} -> % collection already gone
+            Acc;
+        DbMap ->
+            case maps:get(element(1, DocId), DbMap, #{}) of
+                {delete, _} ->
+                    Acc;
+                _ ->
+                    DbDocMap = maps:get(DocId, DbMap, #{}),
+                    List = maps:get(Type, DbDocMap, []),
+                    List1 = [{Pos,Val}|List],
+                    Acc#{Db => DbMap#{DocId => DbDocMap#{Type => List1}}}
+            end
+    end.
 
-do_put(Node, DocUri) ->
-    xqldb_dml:insert_doc_node(DocUri, Node).
+do_put(xml, Node, DB, Name) ->
+    xqldb_dml:insert_doc_node(Node, DB, Name);
+do_put(text, Node, DB, Name) ->
+    xqldb_dml:insert_text_resource(DB, Name, Node);
+do_put(raw, Node, DB, Name) ->
+    xqldb_dml:insert_binary_resource(DB, Name, Node);
+do_put(item, Node, DB, Name) ->
+    xqldb_dml:insert_item(DB, Name, Node);
+do_put(link, Filename, DB, Name) ->
+    xqldb_dml:link_resource(DB, Name, Filename).
 
 % applies updates to persisted DB nodes, non DB nodes ignored
 applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
@@ -185,108 +254,97 @@ applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
                   not is_reference(Key),
                   Key =/= put],
     Puts = maps:get(put, PulMap, []),
-    ok = lock_targets(Agent, PulMap),
     % wait for all locks 
-    % check that all documents being changed are the same as selected
-    % if any are not, throw error and do not continue
-    % Optimistic Concurrency
-    ok = 
-        lists:foreach(
-          fun(put) -> ok;
-             (DbPid) ->
-                DB = xqldb_db:database(DbPid),
-                DocMap = maps:get(DbPid, PulMap),
-                DocIds = maps:keys(DocMap),
-                Ok = lists:all(
-                       fun({Nm, Ts}) ->
-                             {xml, Ts1} = xqldb_path_table:lookup(DB, Nm),
-                             Ts1 == Ts
-                       end, DocIds),
-                if 
-                    Ok ->
-                        ok;
-                    true ->
-                        locks:end_transaction(Agent),
-                        throw({error, unstable_document})
-                end
-          end, DBs),
+    try
+        ok = await_locks(Agent),
+        UFun = fun(DbPid) ->
+                      sub_transaction(Ctx, PulMap, DbPid)
+               end,
+        NewPuts1 = 
+            case catch lists:flatten(lists:map(UFun, DBs)) of
+                % duplicate attributes
+                ?ERROR_MATCH(<<"XQDY0025">>) ->
+                    ?err('XUDY0021');
+                #xqError{} = E ->
+                    throw(E);
+                {error, unknown_namespace} ->
+                    ?err('XUDY0023');
+                O ->
+                    O
+            end,
+        PutFun = fun({put, PType, PNode, PDB, PName}) ->
+                        do_put(PType, PNode, PDB, PName);
+                    (Other) ->
+                        Other
+                 end,
+        Merged = merge_puts(Puts, NewPuts1),
+        Transactions = lists:map(PutFun, Merged),
+        xqldb_dml:commit(Transactions)
+    catch
+        _:#xqError{} = Err ->
+            throw(Err);
+        _:Error:Stack ->
+            ?dbg("Error", Error),
+            ?dbg("Stack", Stack),
+            % just for now
+            ?err('XUDY0021') 
+    end.
 
-    UFun =
-        fun(DbPid) ->
-            DocMap = maps:get(DbPid, PulMap),
-            DocIds = maps:keys(DocMap),
+sub_transaction(Ctx, PulMap, DbPid) ->
+    Puts0 = maps:get(put, PulMap, []),
+    Puts = [P || {put, xml, _, _, _} = P <- Puts0],
+    % item and DB deletes are transformed,
+    % puts are let be
+    case maps:get(DbPid, PulMap) of
+        {delete, DB} ->
+            % DB delete
+            [{DB, delete, all}];
+        DocMap ->
             DB = xqldb_db:database(DbPid),
-            NewPuts =
-                [begin
-                    Upds = maps:get(DocId, DocMap),
-                    Root = xqldb_nodes:get_single_node(DB, DocId, []),
-                    MemDoc = xqldb_nodes:deep_copy_node(Root),
-                    case do_updates(MemDoc, Upds) of
-                        [] -> % complete doc delete
-                            xqldb_path_table:maybe_delete_doc_ref(DB, DocId),
-                            {DocName, _OldStamp} = DocId,
-                            _ = xqldb_path_table:delete(DB, DocName),
-                            [];
-                        Frank ->
-                            MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
-                            DocUri = xqldb_nodes:document_uri(Root),
-                            {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
-                            Stamp = erlang:system_time(),
-                            %% XXX make this work
-                            _ = xqldb_sax:parse_node(DB, MemNode, DocName, Stamp),
-                            xqldb_path_table:insert(DB, {DocName, xml, Stamp}),
-                            xqldb_path_table:maybe_delete_doc_ref(DB, DocId),
-                            %_ = xqldb_path_table:delete(Paths, {DocUri, xml, DocPos}),
-                            in_put_list(Frank, Puts, {DbPid, DocId})
-                    end
-                 end
-                || DocId <- DocIds],
-            NewPuts
-        end,
-    NewPuts1 = 
-        case catch lists:flatten(lists:map(UFun, DBs)) of
-            % duplicate attributes
-            ?ERROR_MATCH(<<"XQDY0025">>) ->
-                ?err('XUDY0021');
-            #xqError{} = E ->
-                throw(E);
-            {error, unknown_namespace} ->
-                ?err('XUDY0023');
-            [] ->
-                [];
-            Puts0 when is_list(Puts0) ->
-                Puts0;
-            O ->
-                %?dbg("O",O),
-                O
-        end,
-    PutFun = fun({put, PNode, PUri, _Params}) -> %TODO use Params
-                    ok = do_put(PNode, PUri)
-             end,
-    _ = lists:foreach(PutFun, merge_puts(Puts, NewPuts1)),
-    locks:end_transaction(Agent),
-    ok.
+            DocIdsToUpds = maps:to_list(DocMap),
+            F = fun({DocName, {delete, DB0}}) ->
+                        [{DB0, delete, DocName}];
+                   ({DocId, Upds}) ->
+                        Root = xqldb_nodes:get_single_node(DB, DocId, []),
+                        MemDoc = xqldb_nodes:deep_copy_node(Root),
+                        Frank = do_local_updates(MemDoc, Upds),
+                        DocUri = xqldb_nodes:document_uri(Root),
+                        {_DbUri,DocName} = xqldb_uri:split_uri(DocUri),
+                        MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
+                        case in_put_list(Frank, Puts, {DbPid, DocId}) of
+                            [] ->
+                                % not in 'put' list so add it
+                                [{put, xml, MemNode, DB, DocName}];
+                            [ModNode] ->
+                                [ModNode, {put, xml, MemNode, DB, DocName}]
+                        end
+                end,
+            lists:map(F, DocIdsToUpds)
+    end.
+
 
 merge_puts(OldPuts, NewPuts) ->
-    F = fun({_,_,U,_} = P, Acc) ->
-               lists:keyreplace(U, 3, Acc, P)
-        end,
-    lists:foldl(F, OldPuts, NewPuts).
+    O = maps:from_list([{{Pid,Name}, P} || {_,_,_,#{db_name := Pid},Name} = P <- OldPuts]),
+    N = maps:from_list([{{Pid,Name}, P} || {_,_,_,#{db_name := Pid},Name} = P <- NewPuts]),
+    M = maps:merge(O, N),
+    [P || P <- NewPuts, element(1, P) =/= put] ++ maps:values(M).
 
+% check if any changes were also in a node to 'put'
+% include that 'put' with this one
 in_put_list([Frank], Puts, OldId) -> in_put_list(Frank, Puts, OldId);
-in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, #{id := {OPid, ODoc, OPos}}, U, O}|_], {OPid, ODoc}) ->
+in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, Type, #{id := {OPid, ODoc, OPos}}, DB, Name}|_], {OPid, ODoc}) ->
     case do_find_node({Ref, OPos}, Frank) of
         [] ->
             [];
         List ->
-            [{put, N, U, O} || N <- List]
+            [{put, Type, N, DB, Name} || N <- List]
     end;
-in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, #{id := {ORef, OPos}}, U, O}|_], ORef) ->
+in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, Type, #{id := {ORef, OPos}}, DB, Name}|_], ORef) ->
     case do_find_node({Ref, OPos}, Frank) of
         [] ->
             [];
         List ->
-            [{put, N, U, O} || N <- List]
+            [{put, Type, N, DB, Name} || N <- List]
     end;
 in_put_list(Frank, [_|Puts], Id) ->
     in_put_list(Frank, Puts, Id);
@@ -314,7 +372,7 @@ applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
                                 % this will rebuild namespace scopes
                                 xqerl_node:contruct(Ctx#{updating => true}, V);
                             {ok, Val} ->
-                                Frank = do_updates(V, Val),
+                                Frank = do_local_updates(V, Val),
                                 xqerl_node:contruct(Ctx#{updating => true}, Frank)
                         end
                 end,
@@ -334,7 +392,7 @@ applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
 %% {delete, {Db, Pos}}
 %% {put, Node, Uri, Params}
 
-do_updates(V0, UpdateMap) ->
+do_local_updates(V0, UpdateMap) ->
     V1 = local_insert_into(V0, maps:get(insertInto, UpdateMap, [])),
     V2 = local_insert_attributes(V1, maps:get(insertAttributes, UpdateMap, [])),
     V3 = local_replace_value(V2, maps:get(replaceValue, UpdateMap, [])),
@@ -726,6 +784,11 @@ has_duplicates(L) ->
 id(#{id := Id}) -> Id;
 id([#{id := Id}]) -> Id.
 
+lock_id([N]) -> lock_id(N);
+lock_id(#{id := {DbPid, DocName, _}}) -> [DbPid, DocName, write];
+lock_id(_) ->
+    none.
+
 loop({Pid, List}) ->
     receive
         Any ->
@@ -904,3 +967,14 @@ check_attributes(Ats) ->
         _ ->
             ?err('XUDY0021')
     end.
+
+await_locks(Agent) ->
+    case locks_agent:transaction_status(Agent) of
+        no_locks ->
+            ok;
+        _ ->
+            {have_all_locks, _} = locks:await_all_locks(Agent),
+            ok
+    end.
+
+        

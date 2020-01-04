@@ -866,11 +866,11 @@ ensure_qname(QName, InScopeNamespaces) when is_list(QName) ->
       [H] ->
          ensure_qname(H, InScopeNamespaces);
       _ ->
-         ?dbg("XPTY0004",{QName, InScopeNamespaces}),
+         ?dbg("XPTY0004",QName),
          ?err('XPTY0004')
    end;
-ensure_qname(QName, InScopeNamespaces) ->
-   ?dbg("XPTY0004",{QName, InScopeNamespaces}),
+ensure_qname(QName, _InScopeNamespaces) ->
+   ?dbg("XPTY0004",QName),
    ?err('XPTY0004').
 
 %% A namespace binding is created for each namespace declared in the current 

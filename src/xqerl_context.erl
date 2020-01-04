@@ -230,18 +230,24 @@ init(_) ->
    Now = erlang:timestamp(),
    add_default_static_values(Tab, Now).
 
+destroy(#{trans := Agent,
+          tab := Tab}) ->
+    _ = delete_clients(Tab),
+    ets:delete(Tab),
+    locks:end_transaction(Agent);
 destroy(#{tab := Tab}) ->
-   %?dbg("Tab",Tab),
+    _ = delete_clients(Tab),
+   ets:delete(Tab),
+   ok.
+
+delete_clients(Tab) ->
    case ets:lookup(Tab, clients) of
       [{clients,Map}] ->
          [Close() || {_, Close} <- maps:values(Map), is_function(Close)];
       _ ->
          ok
-   end,
-   ets:delete(Tab),
-   %erlang:erase(),
-   ok.
-
+   end.
+    
 
 %%% STATIC CONTEXT
 get_statically_known_namespaces(parser) ->
@@ -782,6 +788,7 @@ static_namespaces() ->
      {<<"random">>,<<"http://xqerl.org/modules/random">>},
      {<<"basex">>, <<"http://xqerl.org/modules/client/BaseX">>},
      {<<"csv">>,   <<"http://xqerl.org/modules/csv">>},
+     {<<"db">>,    <<"http://xqerl.org/modules/database">>},
      {<<"erlang">>,<<"http://xqerl.org/modules/erlang">>},
      {<<"event">>, <<"http://xqerl.org/modules/event">>},
      {<<"err">>,   <<"http://www.w3.org/2005/xqt-errors">>}].

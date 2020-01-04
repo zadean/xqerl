@@ -164,8 +164,18 @@ norm_s4([]) -> [].
 %% also, if this is a DB node, do deep copy for serialization
 norm_s5([#{id := {_,_,_},
            nk := _} = H|T]) ->
-   H1 = xqldb_nodes:deep_copy_node(H),
-   norm_s5([H1|T]);
+    ReturnTo = self(),
+    F = fun () ->
+                D = xqldb_nodes:deep_copy_node(H),
+                ReturnTo ! {self(), D}
+        end,
+    S = erlang:spawn_link(F),
+    H1 = fun() ->
+                receive
+                    {S, V} -> V
+                end
+         end,
+    norm_s5([H1|T]);
 norm_s5([#{nk := document, ch := []}|T]) ->
    norm_s5(T);
 norm_s5([#{nk := document} = H|T]) ->
@@ -179,6 +189,10 @@ norm_s5([]) -> [].
 %%    subsequence concatenated in order. Any text nodes with values of zero 
 %%    length are dropped. Copy all other items to the new sequence. 
 %%    The new sequence is S6.
+norm_s6([F|T]) when is_function(F, 0) ->
+    norm_s6([F()|T]);
+norm_s6([#{nk := document, ch := C}|T]) ->
+   norm_s6(C ++ T);
 norm_s6([#{nk := text, sv := <<>>}|T]) ->
    norm_s6(T);
 norm_s6([#{nk := text, sv := V1} = Tx,#{nk := text, sv := V2}|T]) ->
@@ -449,7 +463,7 @@ do_serialize_adaptive(#{nk := _} = Node, #{'use-character-maps' := CMap} = Opts)
                _ ->
                   encode_text_(Bin, CMap)
             end
-      end,                       
+      end,
    do_serialize_xml(Node, Opts#{text_encoder => TextEncoder});
 do_serialize_adaptive(true, _Opts) ->
    <<"true()">>;
@@ -1216,7 +1230,7 @@ do_xml_declaration(Wellformed, ElementName,
                          <<"<!DOCTYPE ", ElementName/binary, " PUBLIC \"", P/binary, "\" \"",D/binary,"\">\n">>
                    end
              end,
-                   
+
    if Wellformed == false, D =/= <<>> ->
          ?err('SEPM0004');
       Standalone == true, Wellformed == false ->

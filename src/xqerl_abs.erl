@@ -232,6 +232,7 @@ init_fun_abs(Ctx0, KeysToAdd) ->
 add_context_key(Map, default_calendar, _) -> Map;
 add_context_key(Map, default_place, _) -> Map;
 add_context_key(Map, default_language, _) -> Map;
+add_context_key(Map, locks, _) -> Map;
 add_context_key(Map, module, #{module := M}) ->
    Map#{module => M};
 add_context_key(Map, dynamic_known_functions, #{known_fx_sigs := K}) ->
@@ -356,7 +357,7 @@ scan_mod(#xqModule{prolog = #xqProlog{sect_1 = Prolog1,
     P3 = ?Q(["-module('@ModName@').",
              "-export([static_props/0]).",
              "-export([init/1])."]),
-    P5 = ?Q(["-compile(inline).",
+    P5 = ?Q(["%-compile(inline).",
              "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
     P6 = init_function(ModName, scan_variables(EmptyMap1, Variables), Prolog1),
@@ -652,12 +653,28 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
 
            HasUpd = maps:get(contains_updates, Ctx),
            FunName = rest_fun_name(FId),
-           G5 = if HasUpd -> 
+           G5 = if HasUpd == true -> 
                 ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                    " {TRA,_} = locks:begin_transaction(),",
+                    " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
                     "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
+                    "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+                    "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+                    "xqerl_context:destroy(Ctx),",
+                    "case Method of",
+                    " <<\"DELETE\">> ->",
+                    "  {true, Req1, State};",
+                    " _ ->",
+                    "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+                    "  {stop, Req2, State}",
+                    "end."
+                   ]);
+                 HasUpd == locks -> 
+                ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
+                    "_@Parts,",
+                    " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+                    "Ctx = (init(init_ctx()))#{trans => TRA},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                     "xqerl_context:destroy(Ctx),",
@@ -853,11 +870,18 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
    BodyAbs = expr_do(maps:put(ctx_var, LastCtx,ContextMap), Body),
    HasUpd = maps:get(contains_updates, ContextMap),
    V1 = ?P(?LINE,"_@@VarSetAbs"),
-   M = if HasUpd ->
+   M = if HasUpd == true ->
              ?P(?LINE, ["main(Options) ->",
                  " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                 " {TRA,_} = locks:begin_transaction(),",
+                 " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
                  " Ctx0 = xqerl_context:merge(init(), Options#{pul => PUL, trans => TRA}),",
+                 " _@@ImportedVars,",
+                 " _@@V1,",
+                 "_@BodyAbs."]);
+          HasUpd == locks ->
+             ?P(?LINE, ["main(Options) ->",
+                 " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+                 " Ctx0 = xqerl_context:merge(init(), Options#{trans => TRA}),",
                  " _@@ImportedVars,",
                  " _@@V1,",
                  "_@BodyAbs."]);
@@ -1104,7 +1128,7 @@ expr_do(Ctx, {variable, {Name, 1}}) when is_atom(Name) ->
     M = var(?LINE, get_context_variable_name(Ctx)),
     Result = var(?LINE, next_var_name()),
     ?Q(["case maps:get('@Name@',_@M, undefined) of",
-        " undefined -> erlang:throw(xqerl_error:error('XQDY0054'));",
+        " undefined -> io:format(\"~p~n\", ['@Name@']),erlang:throw(xqerl_error:error('XQDY0054'));",
         " _@Result -> _@Result",
         "end"]);
 
@@ -1579,7 +1603,8 @@ expr_do(Ctx, #xqQuery{query = Qry}) ->
     ?Q(["try",
         " XQuery = begin _@XQ end,",
         " xqerl_types:return_value(XQuery,_@CtxVar)",
-        "catch _:_@Error ->",
+        "catch _:_@Error:Stack ->",
+        "io:format(\"~p~n\", [Stack]),",
         " local_error(_@Error, 0)",
         "after ",
         " xqerl_context:destroy(_@CtxVar)",
@@ -2217,7 +2242,7 @@ expr_do(Ctx, #xqQuantifiedExpr{which = Op,
                E = expr_do(Ctx1, Expr),
                {?e:generator(
                   var(Line, VarName), 
-                  ?Q("xqerl_seq3:to_list(_@E)")), Ctx2}
+                  ?Q("xqerl_seq3:expand(_@E)")), Ctx2}
         end,
     {Gens, Ctx3} = lists:mapfoldl(Fun, Ctx, l(Vars)),
     F = case Op of
@@ -4304,8 +4329,9 @@ group_part(#{grp_variables := GrpVars,
     OutgoingVarTup = get_variable_tuple(Ctx1),
 
     FunctionName = glob_fun_name({group_by, Id}),
-   
-    Hd = ?Q("erlang:hd([_@OuterTups || _@OutgoingVarTup <- List])"),
+    %?parse_dbg("OuterVars", OuterVars),
+    %?parse_dbg("OutgoingVarTup", OutgoingVarTup),
+    Hd = ?Q("erlang:hd([_@OuterTups || _@OutgoingVarTup0 <- List])"),
     Flatten = ?Q("lists:flatten(['@FunctionName@'(Ctx,T,_@CollNT) || T <- List])"),
     Rest = if OuterVars =:= [] -> {nil,?LINE}; true -> Hd end,
     %?parse_dbg("_@@CollMatch",?P(?LINE,"_@@CollMatch")),

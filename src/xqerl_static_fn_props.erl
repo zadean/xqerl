@@ -40,6 +40,7 @@
 -define(RD, <<"http://xqerl.org/modules/random">>).
 -define(BX, <<"http://xqerl.org/modules/client/BaseX">>).
 -define(CV, <<"http://xqerl.org/modules/csv">>).
+-define(DB, <<"http://xqerl.org/modules/database">>).
 
 %% map returned as 
 %%    #{deterministic      => Deterministic,
@@ -56,6 +57,10 @@ get_props(#xqQName{namespace = ?CV, local_name = <<"serialize">>}, 1) ->
    props(true, false, false, false, [], []);
 get_props(#xqQName{namespace = ?CV, local_name = <<"serialize">>}, 2) -> 
    props(true, false, false, false, [], []);
+
+% all DB use the base-uri
+get_props(#xqQName{namespace = ?DB}, _) -> 
+  props(true, true, false, false, [base_uri, locks], [available_collections]);
 
 get_props(#xqQName{namespace = ?FL,local_name = <<"base-dir">>}, 0) -> 
   props(true, true, false, false, [base_uri], []);
@@ -173,9 +178,9 @@ get_props(#xqQName{namespace = ?FN,local_name = <<"collation-key">>}, 1) ->
 get_props(#xqQName{namespace = ?FN,local_name = <<"collation-key">>}, 2) -> 
   props(true, true, false, false, [known_collations], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"collection">>}, 0) -> 
-  props(true, true, false, false, [base_uri], [available_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"collection">>}, 1) -> 
-  props(true, true, false, false, [base_uri], [available_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"compare">>}, 2) -> 
   props(true, true, false, false, [known_collations], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"compare">>}, 3) -> 
@@ -223,9 +228,9 @@ get_props(#xqQName{namespace = ?FN,local_name = <<"distinct-values">>}, 1) ->
 get_props(#xqQName{namespace = ?FN,local_name = <<"distinct-values">>}, 2) -> 
   props(true, true, false, false, [known_collations,base_uri], [implicit_timezone]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"doc">>}, 1) -> 
-  props(true, true, false, false, [base_uri], [available_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"doc-available">>}, 1) -> 
-  props(true, true, false, false, [base_uri], [available_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"document-uri">>}, 0) -> 
   props(true, true, true, false, [], [context_item]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"document-uri">>}, 1) -> 
@@ -296,7 +301,7 @@ get_props(#xqQName{namespace = ?FN,local_name = <<"function-arity">>}, 1) ->
   props(true, false, false, true, [], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"function-lookup">>}, 2) -> 
   props(true, true, true, true, [known_decimal_formats,known_namespaces,known_collations,
-                                 dynamic_known_functions,base_uri,default_calendar,default_language,default_place], 
+                                 dynamic_known_functions,base_uri,default_calendar,default_language,default_place, locks], 
                                 [available_collections,available_uri_collections,context_item,context_position,
                                  context_size,environment_variables,implicit_timezone]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"function-name">>}, 1) -> 
@@ -340,9 +345,9 @@ get_props(#xqQName{namespace = ?FN,local_name = <<"insert-before">>}, 3) ->
 get_props(#xqQName{namespace = ?FN,local_name = <<"iri-to-uri">>}, 1) -> 
   props(true, false, false, false, [], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"json-doc">>}, 1) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"json-doc">>}, 2) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"json-to-xml">>}, 1) -> 
   props(false, true, false, false, [base_uri], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"json-to-xml">>}, 2) -> 
@@ -560,23 +565,23 @@ get_props(#xqQName{namespace = ?FN,local_name = <<"true">>}, 0) ->
 get_props(#xqQName{namespace = ?FN,local_name = <<"unordered">>}, 1) -> 
   props(false, false, false, false, [], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text">>}, 1) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text">>}, 2) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text-available">>}, 1) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text-available">>}, 2) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text-lines">>}, 1) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"unparsed-text-lines">>}, 2) -> 
-  props(true, true, false, false, [base_uri], []);
+  props(true, true, false, false, [base_uri, locks], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"upper-case">>}, 1) -> 
   props(true, false, false, false, [], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"uri-collection">>}, 0) -> 
-  props(true, true, false, false, [base_uri], [available_uri_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_uri_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"uri-collection">>}, 1) -> 
-  props(true, true, false, false, [base_uri], [available_uri_collections]);
+  props(true, true, false, false, [base_uri, locks], [available_uri_collections]);
 get_props(#xqQName{namespace = ?FN,local_name = <<"xml-to-json">>}, 1) -> 
   props(true, false, false, false, [base_uri], []);
 get_props(#xqQName{namespace = ?FN,local_name = <<"xml-to-json">>}, 2) -> 

@@ -1147,7 +1147,7 @@ cp_to_bin([],Acc) -> Acc.
 -spec 'collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'collection'(#{default_collection := DC} = Ctx) ->
-   'collection'(Ctx, DC);
+    'collection'(Ctx, DC);
 'collection'(_Ctx) -> ?err('FODC0002').
 
 %% fn:collection($arg as xs:string?) as item()*
@@ -1155,28 +1155,28 @@ cp_to_bin([],Acc) -> Acc.
                    [] | xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'collection'(_Ctx,[]) -> 
-   'collection'(_Ctx);
-'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   % TODO decide if all documents should be built or a collection type returned
-   try
-      CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      Vals = xqldb_dml:select_collection(CUri),
-      if Vals == [] -> % empty/non-existing collection
-            throw({error, no_collection});
-         true ->
-            Vals
-      end
-   catch
-      _:{error, relative} ->
-         ?err('FODC0004');
-      _:{error, fragment} ->
-         ?err('FODC0004');
-      _:Err ->
-?dbg("Err", Err),
-         ?err('FODC0002')
-   end.
+    'collection'(_Ctx);
+'collection'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try
+        CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+        case xqldb_dml:select_collection(Ctx, CUri) of
+            [] ->
+                % empty/non-existing collection
+                throw({error, no_collection});
+            Vals ->
+                Vals
+        end
+    catch
+        _:{error, relative} ->
+            ?err('FODC0004');
+        _:{error, fragment} ->
+            ?err('FODC0004');
+        _:Err ->
+            ?dbg("Err", Err),
+            ?err('FODC0002')
+    end.
 
 %% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal 
 %% to, or after $comparand2 according to the rules of a selected collation. 
@@ -1497,110 +1497,116 @@ data1(_) ->
    'deep-equal'(Ctx,Arg1,xqerl_seq3:expand(Arg2),Collation);
 'deep-equal'(Ctx,Arg1,Arg2,CollFun) when is_function(CollFun);
                                          is_atom(CollFun) -> 
-   case count([], Arg1) =/= count([], Arg2) of
-      true ->
-         ?bool(false);
-      _ ->
-         Zip = lists:zip(Arg1, Arg2),
-         %?dbg("Zip",Zip),
-         EqFun = fun({X,Y}) ->
-                       deep_equal_1({X, Y}, Ctx, CollFun)
-                 end,
-         try
-            ?bool(lists:all(EqFun, Zip))
-         catch
-            ?ERROR_MATCH(?A("FOTY0015")) = E -> throw(E);
-            _:_ ->
-               %?dbg("deep-equal",StackTrace),
-               ?bool(false)
-         end
-   end.
+    EqFun = fun(X,Y) ->
+                   deep_equal_1(X, Y, Ctx, CollFun)
+            end,
+    try
+        deep_equal_all(Arg1, Arg2, EqFun)
+    catch
+        ?ERROR_MATCH(?A("FOTY0015")) = E -> throw(E);
+        _:_ ->
+           %?dbg("deep-equal",StackTrace),
+           ?bool(false)
+    end.
 
-deep_equal_1({X, Y}, Ctx, CollFun) when is_list(X), is_list(Y) ->
+deep_equal_all([], [], _) -> true;
+deep_equal_all(_, [], _) -> false;
+deep_equal_all([],_,  _) -> false;
+deep_equal_all([X|Xs], [Y|Ys], F) ->
+    case F(X, Y) of
+        false ->
+            false;
+        true ->
+            deep_equal_all(Xs, Ys, F)
+    end.
+
+deep_equal_1(X, Y, Ctx, CollFun) when is_list(X), is_list(Y) ->
    'deep-equal'(Ctx,X,Y,CollFun);
-deep_equal_1({#{nk := _} = N1,#{nk := _} = N2}, _, CollFun) ->
+deep_equal_1(#{nk := _} = N1,#{nk := _} = N2, _, CollFun) ->
    xqerl_node:nodes_equal(N1,N2,CollFun);
-deep_equal_1({#xqAtomicValue{value = nan},
-              #xqAtomicValue{value = nan}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = nan},
+             #xqAtomicValue{value = nan}, _, _) ->
    true;
-deep_equal_1({nan, #xqAtomicValue{value = nan}}, _, _) ->
+deep_equal_1(nan, #xqAtomicValue{value = nan}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = nan}, nan}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = nan}, nan, _, _) ->
    true;
-deep_equal_1({nan, nan}, _, _) ->
+deep_equal_1(nan, nan, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = infinity},
-              #xqAtomicValue{value = infinity}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = infinity},
+             #xqAtomicValue{value = infinity}, _, _) ->
    true;
-deep_equal_1({infinity, #xqAtomicValue{value = infinity}}, _, _) ->
+deep_equal_1(infinity, #xqAtomicValue{value = infinity}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = infinity}, infinity}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = infinity}, infinity, _, _) ->
    true;
-deep_equal_1({infinity, infinity}, _, _) ->
+deep_equal_1(infinity, infinity, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = neg_infinity},
-              #xqAtomicValue{value = neg_infinity}}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = neg_infinity},
+             #xqAtomicValue{value = neg_infinity}, _, _) ->
    true;
-deep_equal_1({neg_infinity, #xqAtomicValue{value = neg_infinity}}, _, _) ->
+deep_equal_1(neg_infinity, #xqAtomicValue{value = neg_infinity}, _, _) ->
    true;
-deep_equal_1({#xqAtomicValue{value = neg_infinity}, neg_infinity}, _, _) ->
+deep_equal_1(#xqAtomicValue{value = neg_infinity}, neg_infinity, _, _) ->
    true;
-deep_equal_1({neg_infinity, neg_infinity}, _, _) ->
+deep_equal_1(neg_infinity, neg_infinity, _, _) ->
    true;
-deep_equal_1({true, true}, _, _) ->
+deep_equal_1(true, true, _, _) ->
    true;
-deep_equal_1({true, false}, _, _) ->
+deep_equal_1(true, false, _, _) ->
    false;
-deep_equal_1({false, false}, _, _) ->
+deep_equal_1(false, false, _, _) ->
    true;
-deep_equal_1({false, true}, _, _) ->
+deep_equal_1(false, true, _, _) ->
    false;
-deep_equal_1({#xqAtomicValue{type = T1, value = V1}, V2}, Ctx, CollFun)
+deep_equal_1(#xqAtomicValue{type = T1, value = V1}, V2, Ctx, CollFun)
    when ?xs_string(T1);
         T1 == 'xs:anyURI';
         T1 == 'xs:untypedAtomic' ->
-   deep_equal_1({V1, V2}, Ctx, CollFun);
-deep_equal_1({V1, #xqAtomicValue{type = T2, value = V2}}, Ctx, CollFun)
+   deep_equal_1(V1, V2, Ctx, CollFun);
+deep_equal_1(V1, #xqAtomicValue{type = T2, value = V2}, Ctx, CollFun)
    when ?xs_string(T2);
         T2 == 'xs:anyURI';
         T2 == 'xs:untypedAtomic' ->
-   deep_equal_1({V1, V2}, Ctx, CollFun);
-deep_equal_1({V1, V2}, Ctx, CollFun) when is_binary(V1),
-                                          is_binary(V2) ->
+   deep_equal_1(V1, V2, Ctx, CollFun);
+deep_equal_1(V1, V2, Ctx, CollFun) when is_binary(V1),
+                                        is_binary(V2) ->
    compare(Ctx, V1, V2, CollFun) == 0;
-deep_equal_1({N1, N2}, _, _) when is_number(N1), is_number(N2) ->
+deep_equal_1(N1, N2, _, _) when is_number(N1), is_number(N2) ->
    N1 == N2;
-deep_equal_1({_, #xqFunction{}}, _, _) ->
+deep_equal_1(_, #xqFunction{}, _, _) ->
    ?err('FOTY0015');
-deep_equal_1({#xqFunction{}, _}, _, _) ->
+deep_equal_1(#xqFunction{}, _, _, _) ->
    ?err('FOTY0015');
-deep_equal_1({V1, V2}, _, _) when is_function(V1),
-                                  is_function(V2) ->
+deep_equal_1(V1, V2, _, _) when is_function(V1),
+                                is_function(V2) ->
    V1 == V2;
-deep_equal_1({A1, A2}, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
+deep_equal_1(A1, A2, Ctx, CollFun) when ?is_array(A1), ?is_array(A2) ->
    'deep-equal'(Ctx, array:to_list(A1), array:to_list(A2), CollFun);
-deep_equal_1({A1, _}, _, _) when ?is_array(A1) -> false;
-deep_equal_1({_, A2}, _, _) when ?is_array(A2) -> false;
-deep_equal_1({M1, M2}, Ctx, CollFun) when is_map(M1),
-                                          is_map(M2) ->
-   Sz1 = xqerl_mod_map:size([], M1),
-   Sz2 = xqerl_mod_map:size([], M2),
-   if Sz1 == Sz2 ->
-         K1 = xqerl_mod_map:keys([],M1),
-         F = fun(K) ->
-                   xqerl_mod_map:contains([], M2, K) == 
-                     ?bool(true) andalso
-                   'deep-equal'(
-                     Ctx,
-                     xqerl_mod_map:get([], M1, K), 
-                     xqerl_mod_map:get([], M2, K),
-                     CollFun)
-             end,         
-         lists:all(F, K1);
-      true ->
-         false
-   end;
-deep_equal_1({N1, N2}, _, _) ->
+deep_equal_1(A1, _, _, _) when ?is_array(A1) -> false;
+deep_equal_1(_, A2, _, _) when ?is_array(A2) -> false;
+deep_equal_1(M1, M2, Ctx, CollFun) when is_map(M1),
+                                        is_map(M2) ->
+    Sz1 = maps:size(M1),
+    Sz2 = maps:size(M2),
+    if 
+        Sz1 == Sz2 ->
+            K1s = maps:keys(M1),
+            case lists:all(fun(K) -> is_map_key(K, M2) end, K1s) of
+                false ->
+                    false;
+                true ->
+                    F = fun(K) ->
+                               #{K := {_, M1v}} = M1,
+                               #{K := {_, M2v}} = M2,
+                               'deep-equal'(Ctx, M1v, M2v, CollFun)
+                        end,
+                    lists:all(F, K1s)
+            end;
+        true ->
+            false
+    end;
+deep_equal_1(N1, N2, _, _) ->
    xqerl_operators:equal(N1,N2).
 
 
@@ -1637,81 +1643,103 @@ deep_equal_1({N1, N2}, _, _) ->
    'distinct-values'(Ctx,[Arg1],Collation);
 'distinct-values'(_Ctx,Arg1,Collation) when is_function(Collation);
                                             is_atom(Collation) ->
-   CompVal = fun(#xqAtomicValue{type = T} = A) when ?xs_string(T);
-                                                    T == 'xs:untypedAtomic';
-                                                    T == 'xs:anyURI' ->
-                   Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
-                   {Key, A};
-                (A) when is_binary(A)->
-                   Key = xqerl_coll:sort_key(A, Collation),
-                   {Key, A};
-                (#xqAtomicValue{value = neg_zero} = A) ->
-                   {0, A};
-                (#xqAtomicValue{value = V} = A) when is_atom(V) ->
-                   {V, A};
-                (#xqAtomicValue{} = A) ->
-                   {A, A};
-                (A) when is_number(A) ->
-                   {A, A};
-                (neg_zero = A) ->
-                   {0, A};
-                (A) when is_atom(A) ->
-                   {A, A};
-                (#{nk := _} = N) ->
-                   A = xqerl_types:atomize(N),
-                   Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
-                   {Key, A}
-             end,
    Arg = xqerl_seq3:expand(Arg1),
-   Unique = distinct_vals(Arg,CompVal),
+   Keyed = distinct_vals_key(Arg, Collation), 
+   Unique = (catch distinct_vals(Keyed, [])),
    val_reverse(Unique, []);
 'distinct-values'(Ctx,Arg1,Collation) ->
    Coll = xqerl_types:value(Collation),
    NewColl = xqerl_coll:parse(Coll),
    'distinct-values'(Ctx,Arg1,NewColl).
-   
+
 
 val_reverse([],Acc) -> Acc;
 val_reverse([{_,V}|T], Acc) -> 
    val_reverse(T,[V|Acc]).
 
-distinct_vals(Vals,Fun) ->
-   F = fun(Value, Acc) ->
-             {Key,ActVal} = Fun(Value),
-             X = fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
-                       case Key of
-                          #xqAtomicValue{type = KeyType, value = nan} 
-                             when ?xs_numeric(KeyType) ->
-                             ?xs_numeric(AccType) andalso 
-                               AccKey#xqAtomicValue.value == nan;
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_string(KeyType), ?xs_string(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = KeyType} 
-                             when ?xs_duration(KeyType), ?xs_duration(AccType) ->
-                              xqerl_operators:equal(AccKey, Key);
-                          #xqAtomicValue{type = AccType} ->
-                              xqerl_operators:equal(AccKey, Key);
-                          _ when is_number(Key) ->
-                             xqerl_operators:equal(AccKey, Key);
-                          _ ->
-                             false
-                       end;
-                    ({AccKey,_}) when is_number(AccKey) ->
-                       (catch xqerl_operators:equal(AccKey, Key)) == true;
-                    ({AccKey,_}) ->
-                       Key == AccKey
-                 end,
-             InList = lists:any(X, Acc),
-             if InList -> Acc;
-                true -> [{Key,ActVal}|Acc]
-             end
-       end,
-   lists:foldl(F,[],Vals).
+distinct_vals_key([], _) -> [];
+distinct_vals_key([A|T], C) when is_number(A) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([A|T], C) when is_binary(A)->
+    Key = xqerl_coll:sort_key(A, C),
+    [{Key, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{type = Ty} = A|T], C) 
+  when ?xs_string(Ty);
+       Ty == 'xs:untypedAtomic';
+       Ty == 'xs:anyURI' ->
+    Key = xqerl_coll:sort_key(xqerl_types:value(A), C),
+    [{Key, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{value = neg_zero} = A|T], C) ->
+    [{0, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{value = V} = A|T], C) when is_atom(V) ->
+    [{V, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#xqAtomicValue{} = A|T], C) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([neg_zero = A|T], C) ->
+    [{0, A}|distinct_vals_key(T, C)];
+distinct_vals_key([A|T], C) when is_atom(A) ->
+    [{A, A}|distinct_vals_key(T, C)];
+distinct_vals_key([#{nk := _} = N|T], C) ->
+    A = xqerl_types:atomize(N),
+    Key = xqerl_coll:sort_key(xqerl_types:value(A), C),
+    [{Key, A}|distinct_vals_key(T, C)].
 
+distinct_vals_eq({Int, _}, {Int, _}) when is_integer(Int) -> true;
+distinct_vals_eq({Int, _}, {Int2, _}) when is_integer(Int), is_integer(Int2)-> 
+    false;
+distinct_vals_eq({Bin, _}, {Bin, _}) when is_binary(Bin) -> true;
+distinct_vals_eq({Bin, _}, {Bin2, _}) when is_binary(Bin), is_binary(Bin2)-> 
+    false;
+distinct_vals_eq({#xqAtomicValue{type = KeyType, value = nan}, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_numeric(KeyType) ->
+    ?xs_numeric(AccType) andalso AccKey#xqAtomicValue.value == nan;
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_string(KeyType), ?xs_string(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = KeyType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) 
+  when ?xs_duration(KeyType), ?xs_duration(AccType) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({#xqAtomicValue{type = AccType} = Key, _}, 
+                 {#xqAtomicValue{type = AccType} = AccKey, _}) ->
+    xqerl_operators:equal(AccKey, Key);
+distinct_vals_eq({Key, _}, {#xqAtomicValue{} = AccKey, _}) 
+  when is_number(Key) -> 
+    (catch xqerl_operators:equal(AccKey, Key)) == true;
+distinct_vals_eq(_, {#xqAtomicValue{type = _}, _}) ->
+    false;
+
+distinct_vals_eq({Key, _}, {AccKey,_}) when is_number(AccKey) -> 
+    (catch xqerl_operators:equal(AccKey, Key)) == true;
+distinct_vals_eq({Key, _}, {AccKey, _}) -> 
+    Key == AccKey.
+
+distinct_vals_any(_, []) ->
+    false;
+distinct_vals_any(Val, [H|T]) ->
+    case distinct_vals_eq(Val, H) of
+        true ->
+            true;
+        false ->
+            distinct_vals_any(Val, T)
+    end.
+
+distinct_vals([Val|T], []) ->
+    distinct_vals(T, [Val]);
+distinct_vals([], Acc) -> Acc;
+distinct_vals([Val|T], Acc) ->
+    case distinct_vals_any(Val, Acc) of
+        true ->
+            distinct_vals(T, Acc);
+        false ->
+            distinct_vals(T, [Val|Acc])
+    end.
 
 %% Retrieves a document using a URI supplied as an xs:string, and returns 
 %% the corresponding document node. 
@@ -1720,29 +1748,31 @@ distinct_vals(Vals,Fun) ->
             [] | xq_types:xs_string()) -> 
          [] | xq_types:xml_document().
 'doc'(_Ctx,[]) -> [];
-'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
-      {error,E} when E =/= relative -> % relative is a kludge to get correct error
-         ?err('FODC0005');
-      {error,_} ->
-         ?err('FODC0002');
-      ResVal ->
-         case catch xqldb_dml:select_doc(ResVal) of
-            {error,not_exists} -> % not in db
-               ?err('FODC0002');
-            {'EXIT',_} ->
-               ?err('FODC0005');
-            D ->
-               D
-         end
-   catch 
-      _:_:StackTrace ->
-         ?dbg("FODC0005",{BaseUri, Uri}),
-         ?dbg("FODC0005",StackTrace),
-         ?err('FODC0005')
-   end.
+'doc'(#{'base-uri' := BaseUri0} = Ctx,Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
+    of
+        {error,E} when E =/= relative -> % relative is a kludge to get correct error
+            ?err('FODC0005');
+        {error,_} ->
+            ?err('FODC0002');
+        ResVal ->
+            case catch xqldb_dml:select_doc(Ctx, ResVal) of
+                {error,not_exists} -> % not in db
+                    ?err('FODC0002');
+                {'EXIT',_} ->
+                    ?err('FODC0005');
+                D ->
+                    D
+            end
+    catch 
+        _:_:StackTrace ->
+            ?dbg("FODC0005",{BaseUri, Uri}),
+            ?dbg("FODC0005",StackTrace),
+            ?err('FODC0005')
+    end.
 
 %% The function returns true if and only if the function call fn:doc($uri) 
 %% would return a document node. 
@@ -1750,24 +1780,18 @@ distinct_vals(Vals,Fun) ->
 -spec 'doc-available'(xq_types:context(),
                       [] | xq_types:xs_string()) ->
          [] | xq_types:xs_boolean().
-'doc-available'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
-      %{error,unsafe} ->
-      %   ?err('FODC0005');
-      {error,invalid_uri} ->
-         ?bool(false);
-      ResVal ->
-        %?dbg("ResVal",ResVal),
-         ?bool(xqldb_dml:exists_doc(ResVal))
-   catch
-      %?ERROR_MATCH(?A("FORG0002")) -> ?bool(false);
-      _:_:_Stack ->
-        %?dbg("Stack",Stack),
-         ?bool(false)
-      %_:_ -> ?err('FODC0005') % not in 3.1
-   end.
+'doc-available'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
+        {error,invalid_uri} ->
+            ?bool(false);
+        ResVal ->
+            ?bool(xqldb_dml:exists_doc(Ctx, ResVal))
+    catch
+        _:_:_Stack ->
+            ?bool(false)
+    end.
 
 %% Returns the URI of a resource where a document can be found, if available. 
 %% fn:document-uri() as xs:anyURI?
@@ -5374,13 +5398,13 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
                       xq_types:xs_string()) -> 
          [] | xq_types:xs_string().
 'unparsed-text'(_,_Uri0,[]) -> ?err('XPTY0004');
-'unparsed-text'(#{'base-uri' := BaseUri0},Uri0,Encoding) -> 
+'unparsed-text'(#{'base-uri' := BaseUri0} = Ctx, Uri0, Encoding) -> 
    try
       Uri = xqerl_types:value(Uri0),
       BaseUri = xqerl_types:value(BaseUri0),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Enc = xqerl_types:string_value(Encoding),
-      case xqldb_dml:select_resource(ResVal) of
+      case xqldb_dml:select_resource(Ctx, ResVal, text) of
          {error, _} ->
             ?err('FOUT1170');
          Binary ->
@@ -5501,31 +5525,32 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 -spec 'uri-collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xs_anyURI()).
 'uri-collection'(#{default_collection := DC} = Ctx) ->
-   'uri-collection'(Ctx, DC);
+    'uri-collection'(Ctx, DC);
 'uri-collection'(_Ctx) ->
-   ?err('FODC0002').
+    ?err('FODC0002').
 
 %% fn:uri-collection($arg as xs:string?) as xs:anyURI*
 -spec 'uri-collection'(xq_types:context(),
                        [] | xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xs_anyURI()).
-'uri-collection'(_Ctx,[]) -> 
-   'uri-collection'(_Ctx);
-'uri-collection'(#{'base-uri' := BaseUri0},Uri0) -> 
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try 
-      CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      Vals = xqldb_dml:select_paths(CUri),
-      if Vals == [] -> % empty/non-existing collection
-            throw(error);
-         true ->
-            [?atm('xs:anyURI',V) || V <- Vals]
-      end
-   catch
-      _:_ ->
-         ?err('FODC0002')
-   end.
+'uri-collection'(Ctx, []) -> 
+    'uri-collection'(Ctx);
+'uri-collection'(#{'base-uri' := BaseUri0} = Ctx, Uri0) -> 
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+        Vals = xqldb_dml:select_paths(Ctx, CUri),
+        if 
+            Vals == [] -> % empty/non-existing collection
+                throw(error);
+            true ->
+                [?atm('xs:anyURI',V) || V <- Vals]
+        end
+    catch
+        _:_ ->
+            ?err('FODC0002')
+    end.
 
 %% Converts an XML tree, whose format corresponds to the XML representation 
 %% of JSON defined in this specification, into a string conforming to the 
@@ -5599,26 +5624,26 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 'put'(Ctx, Arg1, Arg2) ->
    'put'(Ctx, Arg1, Arg2, []).
 'put'(Ctx, [Node0], Uri0, Opts0) -> 'put'(Ctx, Node0, Uri0, Opts0);
-'put'(#{'base-uri' := BaseUri0} = Ctx, Node0, Uri0, Opts0) -> 
-   ok = case xqldb_mem_nodes:node_kind(Node0) of
-           document -> ok;
-           element -> ok;
-           %comment -> ok;
-           %'processing-instruction' -> ok;
-           _ ->
-              ?err('FOUP0001')
+'put'(#{'base-uri' := BaseUri0} = Ctx, Node, Uri0, Opts0) -> 
+    _ = case xqldb_mem_nodes:node_kind(Node) of
+            document -> ok;
+            element -> ok;
+            _ ->
+                ?err('FOUP0001')
         end,
-   Uri = xqerl_types:value(Uri0),
-   BaseUri = xqerl_types:value(BaseUri0),
-   try 
-      xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
-   of
-      AbsUri ->
-         Nss = maps:get(namespaces, Ctx, []),
-         Opts = xqerl_options:serialization_option_map(Opts0, Nss),
-         _ = xqerl_update:add(Ctx, {put, Node0, AbsUri, Opts}),
-         []
-   catch
-      _:_ ->
-         ?err('FOUP0002')
-   end.
+    Uri = xqerl_types:value(Uri0),
+    BaseUri = xqerl_types:value(BaseUri0),
+    try 
+        xqerl_lib:resolve_against_base_uri(BaseUri, Uri) 
+    of
+        AbsUri ->
+            {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
+            DB = xqldb_db:database(DbUri),
+            Nss = maps:get(namespaces, Ctx, []),
+            _Opts = xqerl_options:serialization_option_map(Opts0, Nss),
+            _ = xqerl_update:add(Ctx, {put, xml, Node, DB, Name}),
+            []
+    catch
+        _:_ ->
+            ?err('FOUP0002')
+    end.

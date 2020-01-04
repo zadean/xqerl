@@ -32,8 +32,6 @@
 %%  It can be set by insertion or update
 %%  This process is always the last thing to be updated.
 
-%% Write locks should be on [DB_URI, Name].
-
 -module(xqldb_path_table).
 
 -behaviour(gen_server).
@@ -55,13 +53,13 @@
          uri/1,
          insert/2,
          lookup/2,
-         all/1,
+         all/1, all/2,
          delete/2,
          delete_all/1,
-         
+
 maybe_delete_doc_ref/2]).
 
--define(CLOSE_TIMEOUT, 12000000).
+-define(CLOSE_TIMEOUT, 12000000). % TODO put this value in the config
 
 -type state() :: #{tab => dets:tab_name(),
                    next => non_neg_integer()}.
@@ -117,8 +115,8 @@ delete_all(#{paths := Pid} = DB) ->
          {xml,  VersionStamp} |
          {item, VersionStamp, {Pos, Len}} |
          {link, VersionStamp, FileName} |
-         {res,  VersionStamp, {Pos, Len}} |
-         {json, VersionStamp, {Pos, Len}} |
+         {text, VersionStamp, {Pos, Len}} |
+         {raw,  VersionStamp, {Pos, Len}} |
          []
    when  VersionStamp :: integer(),
          Name :: binary(),
@@ -141,6 +139,20 @@ lookup(#{paths := Pid}, Req) when is_pid(Pid) ->
 
 all(#{paths := Pid}) when is_pid(Pid) ->
    gen_server:call(Pid, all).
+
+%% Returns all names of a given type in the table.
+-spec all(db(), Type :: res_type()) -> 
+          [{Name :: binary(),
+            Type :: res_type(),
+            VersionStamp :: integer()}|
+             {Name :: binary(), 
+              Type :: res_type(),
+              VersionStamp :: integer(),
+              {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}
+          ].
+
+all(#{paths := Pid}, Type) when is_pid(Pid) ->
+   gen_server:call(Pid, {all, Type}).
 
 %% ====================================================================
 %% Internal functions
@@ -205,9 +217,15 @@ handle_call(all, _From, #{tab  := HeapFile} = State) ->
    MatchSpec = [{{'$1',{'$2','$3'}},[],[{{'$1','$2','$3'}}]},
                 {{'$1',{'$2','$3','$4'}},[],[{{'$1','$2','$3','$4'}}]}],
    Got = dets:select(HeapFile, MatchSpec),
-   {reply, lists:flatten(Got), State, ?CLOSE_TIMEOUT};
+   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
 
-handle_call({delete, Name, #{resources := Res} = DB}, _From, 
+handle_call({all, Type}, _From, #{tab  := HeapFile} = State) ->
+   MatchSpec = [{{'$1',{Type,'$2'}},[],[{{'$1',Type,'$2'}}]},
+                {{'$1',{Type,'$2','$3'}},[],[{{'$1',Type,'$2','$3'}}]}],
+   Got = dets:select(HeapFile, MatchSpec),
+   {reply, lists:sort(lists:flatten(Got)), State, ?CLOSE_TIMEOUT};
+
+handle_call({delete, Name, DB}, _From, 
             #{tab  := HeapFile} = State) ->
    case dets:lookup(HeapFile, Name) of
       [{Name, {xml, Sp}}] ->
@@ -215,15 +233,14 @@ handle_call({delete, Name, #{resources := Res} = DB}, _From,
                          maybe_delete_doc_ref(DB, {Name, Sp})
                    end),
          dets:delete(HeapFile, Name);
-      [{Name, {res, _, PosLen}}] ->
-         xqldb_resource_table:delete(Res, PosLen),
+      [{Name, {Type, _, PosLen}}] when Type == raw;
+                                       Type == text;
+                                       Type == item ->
+         xqldb_resource_table:delete(DB, PosLen),
          dets:delete(HeapFile, Name);
-      [{Name, {item, _, PosLen}}] ->
-         xqldb_resource_table:delete(Res, PosLen),
+      [{Name,_}] -> % link
          dets:delete(HeapFile, Name);
-      [{Name,_}] ->
-         dets:delete(HeapFile, Name);
-      _ ->
+      _ -> % not found
          ok
    end,
    {reply, ok, State, ?CLOSE_TIMEOUT};
@@ -233,11 +250,9 @@ handle_call({delete_all, DB}, _From, #{tab  := HeapFile} = State) ->
                   maybe_delete_doc_ref(DB, {Name, Sp}),
                   dets:delete(HeapFile, Name),
                   continue;
-               ({Name, {res, _, PosLen}}) ->
-                  xqldb_resource_table:delete(DB, PosLen),
-                  dets:delete(HeapFile, Name),
-                  continue;
-               ({Name, {item, _, PosLen}}) ->
+               ({Name, {Type, _, PosLen}})when Type == raw;
+                                               Type == text;
+                                               Type == item ->
                   xqldb_resource_table:delete(DB, PosLen),
                   dets:delete(HeapFile, Name),
                   continue;

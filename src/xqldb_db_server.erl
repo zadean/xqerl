@@ -148,7 +148,7 @@ do_get_open(Path, Ets) ->
    MatchSpec = [{{{MPattern,'_'}, '_', open},[],['$1']},
                 {{{MPattern,'_'}, '_', closed},[],['$1']}],
    Res = ets:select(Ets, MatchSpec),
-   [filename:join([<<".">>|R]) || R <- Res].
+   lists:sort([filename:join([<<".">>|R]) || R <- Res]).
 
 get_next_id(Name) ->
    Fun = fun({_,{I,_}}, A) when I > A ->
@@ -159,7 +159,7 @@ get_next_id(Name) ->
                I;
             (_, A) ->
                A
-         end,            
+         end,
    Max = dets:foldl(Fun, 0, Name),
    io:format("Count of DBs: ~p~n",[Max]),
    if Max =:= 0 -> 0; true -> Max + 1 end.
@@ -171,7 +171,7 @@ dets_to_ets(TabName, Ets) ->
             ({P,I}, E) ->
                ets:insert(E, {{P,I}, undefined, closed}),
                E
-         end,            
+         end,
    _ = dets:foldl(Fun, Ets, TabName),
    ok.
 

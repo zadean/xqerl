@@ -243,9 +243,10 @@ map_from_node_bin(#{names      := Names} = DB,
      nn => get_name(NsRef, PxRef, NameRef, Names),
      tn => attribute_type_to_name(Type),
      sv => get_string_value(TextRef, DB)};
-map_from_node_bin(_, <<?document, UriRef/binary>>) ->
+map_from_node_bin(DB, <<?document, UriRef/binary>>) ->
+    Uri = xqldb_string_table2:lookup(DB, UriRef),
    #{nk => document,
-     du => UriRef};
+     du => Uri};
 map_from_node_bin(DB, <<?comment, TextRef/binary>>) ->
    #{nk => comment,
      sv => get_string_value(TextRef, DB)};
