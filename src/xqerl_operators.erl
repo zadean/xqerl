@@ -142,9 +142,10 @@ lookup(Ctx, A, #{nk := _} = V) when ?is_array(A) ->
     lookup(Ctx, A, xqerl_types:cast_as(V, 'xs:integer'));
 lookup(Ctx, List, Value) when is_list(List) ->
     V1 = xqerl_seq3:expand(Value), 
-    lists:map(fun(I) ->
-                     lookup(Ctx, I, V1)
-              end, List);
+    L1 = lists:map(fun(I) ->
+                          lookup(Ctx, I, V1)
+                   end, List),
+    lists:flatten(L1);
 lookup(_Ctx, _List, _Value) ->
     ?err('XPTY0004').
 
