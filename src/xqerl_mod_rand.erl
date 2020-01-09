@@ -78,11 +78,11 @@ double(_) ->
    rand:uniform().
 
 integer(_) ->
-   rand:uniform(?MAXINT).
+   rand:uniform(?MAXINT) - 1.
 
 integer(_, 1) -> 0;
 integer(_, Max) when is_integer(Max), Max >= 2 ->
-   rand:uniform(Max - 1);
+   rand:uniform(Max) - 1;
 integer(_, Max) when is_integer(Max), Max < 2 ->
    throw({error, negative});
 integer(Ctx, Max) ->
