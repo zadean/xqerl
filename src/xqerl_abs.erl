@@ -687,7 +687,7 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                     "end."
                    ]);
                  true ->
-                 ?Q(["'@FunName@'(#{method := _} = Req, State) -> ",
+                 ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                      "_@Parts,",
                      "Ctx = init(init_ctx()),"
                      "XQuery = '@FName@'(Ctx, _@@LocalParams),",
