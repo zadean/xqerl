@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -959,9 +959,13 @@ get_groups(_, _, [], _) ->
 %% fn:available-environment-variables() as xs:string*
 -spec 'available-environment-variables'(
         xq_types:context()) -> [].
-'available-environment-variables'(_Ctx) -> 
-   % NOT ALLOWING ACCESS TO ENVIRONMENT
-   [].
+'available-environment-variables'(Ctx) ->
+    case application:get_env(xqerl, environment_access, false) of
+        true ->
+            xqerl_lib:get_environment_variable_names(Ctx);
+        false ->
+            []
+    end.
 
 %% Returns the average of the values in the input sequence $arg, that is, 
 %% the sum of the values divided by the number of values. 
@@ -1903,9 +1907,14 @@ distinct_vals([Val|T], Acc) ->
 -spec 'environment-variable'(xq_types:context(),
                              xq_types:xs_string()) ->
          [] | xq_types:xs_string().
-'environment-variable'(_Ctx,_Arg1) -> 
-   %% NOT IMPLEMENTING
-   [].
+'environment-variable'(Ctx, Arg1) ->
+    case application:get_env(xqerl, environment_access, false) of
+        true ->
+            Str1 = xqerl_types:string_value(Arg1),
+            xqerl_lib:get_environment_variable(Ctx, Str1);
+        false ->
+            []
+    end.
 
 %% -record(xqError, {
 %%       name,

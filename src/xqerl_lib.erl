@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -37,7 +37,9 @@
          lput/2,
          lput/3]).
 
--export([get_remote_resource/2]).
+-export([get_remote_resource/2,
+         get_environment_variable/2,
+         get_environment_variable_names/1]).
 
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
@@ -774,4 +776,39 @@ get_remote_resource(Uri, Type) ->
             #xqAtomicValue{type = 'xs:base64Binary', value = Body};
         text ->
             Body
+    end.
+
+get_environment_variable(#{tab := Tab} = Ctx, Name) ->
+    Key = environment_variables,
+    case ets:lookup(Tab, Key) of
+        [{_, Vars}] ->
+            maps:get(Name, Vars, []);
+        [] ->
+            ok = set_environment_variables(Ctx),
+            get_environment_variable(Ctx, Name)
+    end.
+
+get_environment_variable_names(#{tab := Tab} = Ctx) ->
+    Key = environment_variables,
+    case ets:lookup(Tab, Key) of
+        [{_, Vars}] ->
+            maps:keys(Vars);
+        [] ->
+            ok = set_environment_variables(Ctx),
+            get_environment_variable_names(Ctx)
+    end.
+
+set_environment_variables(#{tab := Tab}) ->
+    Key = environment_variables,
+    case ets:lookup(Tab, Key) of
+        [_] ->
+            ok;
+        [] ->
+            Values = [unicode:characters_to_binary(S) || S <- os:getenv()],
+            Values1 = lists:foldl(fun(I, A) ->
+                               [K, V] = string:split(I, <<"=">>),
+                               A#{K => V}
+                        end, #{}, Values),
+            true = ets:insert(Tab, {Key, Values1}),
+            ok
     end.
