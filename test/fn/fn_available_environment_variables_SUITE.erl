@@ -26,6 +26,10 @@ end_per_suite(_Config) ->
    ct:timetrap({seconds,60}), 
    xqerl_code_server:unload(all).
 init_per_suite(Config) -> 
+   %% Special for this suite, variables must be set
+   true = os:putenv("QTTEST", "42"),
+   true = os:putenv("QTTEST2", "other"),
+   true = os:putenv("QTTESTEMPTY", ""),
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
    TD = filename:join(DD, "QT3-test-suite"),
