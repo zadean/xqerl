@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -3321,20 +3321,26 @@ handle_node(State, ?CALL(#xqQName{namespace = ?FN,
     Type = ?seqtype(Line, 'xs:anyURI', zero_or_one),
     ArgSt = ?atomic('xs:anyURI', Base),
     set_statement_and_type(State, ArgSt, Type);
-% BLOCKed functions
-% TODO the rest of them...
 handle_node(State, ?CALL(#xqQName{namespace = ?FN,
-                                  local_name = <<"environment-variable">>}, 
-                         1, [Arg], Line)) -> 
+                                  local_name = <<"environment-variable">>} = Name, 
+                         1, [Arg], Line) = Call) -> 
+    F = get_static_function(State, {Name, 1}),
     Type = ?seqtype(Line, 'xs:string', zero_or_one),
     ArgS = handle_node(State, Arg),
+    ArgSt = get_statement(ArgS),
     _ = check_fun_arg_types(State, [ArgS], [?stringone(Line)], Line),   
-    set_statement_and_type(State, 'empty-sequence', Type);
+    set_statement_and_type(State,
+                           Call?CALL(F#xqFunctionDef{anno = Line,
+                                                     params = [ArgSt], 
+                                                     type = Type}, Line), Type);
 handle_node(State, ?CALL(#xqQName{namespace = ?FN,
-                                  local_name = <<"available-environment-variables">>}, 
-                         0, [], Line)) -> 
+                                  local_name = <<"available-environment-variables">>} = Name, 
+                         0, [], Line) = Call) -> 
+    F = get_static_function(State, {Name, 0}),
     Type = ?seqtype(Line, 'xs:string', zero_or_many),
-    set_statement_and_type(State, 'empty-sequence', Type);
+    set_statement_and_type(State,
+                           Call?CALL(F#xqFunctionDef{anno = Line, 
+                                                     type = Type}, Line), Type);
 % list distinct / takes type of the arg, unless node then xs:anyAtomicType
 handle_node(State, ?CALL(#xqQName{namespace = ?FN,
                                   local_name = <<"distinct-values">>} = Name, 
