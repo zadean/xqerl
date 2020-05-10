@@ -1,8 +1,7 @@
 {
   "ns": "http://www.w3.org/2005/xpath-functions",
   "px": "fn",
-  "desc": "<p>XPath and XQuery built-in functions.</p>
-  <p>The optional functions <code>fn:load-xquery-module</code> and <code>fn:transform</code> are not implemented and will throw errors when used.</p>",
+  "desc": "<p>XPath and XQuery built-in functions.</p><p>The optional function <code>fn:transform</code> is not implemented and will throw error <code>err:FOXT0001</code> when used.</p><p>The functions <code>fn:available-environment-variables</code> and <code>fn:environment-variable</code> will only return values if the application configuration value <code>environment_access</code> is set to <code>true</code>.</p>",
   "fx": [
     {
       "sigs": [

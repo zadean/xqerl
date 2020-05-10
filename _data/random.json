@@ -29,8 +29,7 @@
           "type" : "xs:integer"
         }
       ],
-      "desc" : "Returns a random <code>xs:integer</code> value greater than or equal to 0 and less than <code>$max</code>.<br/>
-      The 0-ary version of this function is the same as calling the 1-ary version using 2^64."
+      "desc" : "Returns a random <code>xs:integer</code> value greater than or equal to 0 and less than <code>$max</code>.<br/> The 0-ary version of this function is the same as calling the 1-ary version using 2^64."
     },
     {
       "name" : "seeded-double",
