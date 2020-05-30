@@ -304,14 +304,6 @@ do_req(Ctx, #{href := URL,
               headers := Headers,
               body := Serial,
               timeout := TO} = Opts) ->
-    Serial1 =
-      case [gzip || {K, <<"gzip">>} <- Headers, 
-                    string:lowercase(K) == <<"content-encoding">>] of
-          [gzip] ->
-              zlib:gzip(Serial);
-          [] ->
-              Serial
-      end,
     TimeOut = [{recv_timeout, TO * 1000}],
     Auth = 
         if 
@@ -331,7 +323,7 @@ do_req(Ctx, #{href := URL,
             false ->
                 Auth
         end,
-    case hackney:request(Method, URL, Headers, Serial1, Redirect) of
+    case hackney:request(Method, URL, Headers, Serial, Redirect) of
         {error, timeout} -> err_timeout();
         {error, connect_timeout} -> err_timeout();
         {error, _} -> err_generic();
