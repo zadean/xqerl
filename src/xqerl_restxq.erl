@@ -115,13 +115,7 @@ send_reply(StatusCode, ReturnVal, Req) ->
 
 stream_body(StatusCode, ReturnVal, Req0) ->
    Req = cowboy_req:stream_reply(StatusCode, Req0),
-   stream_body_(ReturnVal, Req).
-
-stream_body_(<<S:4096/binary, Rest/binary>>, Req) ->
-   cowboy_req:stream_body(S, nofin, Req),
-   stream_body_(Rest, Req);
-stream_body_(Bin, Req) ->
-   cowboy_req:stream_body(Bin, fin, Req).
+   cowboy_req:stream_body(ReturnVal, fin, Req).
 
 read_multipart_form_data(#{headers := #{<<"content-type">> := <<"application/x-www-form-urlencoded">>}} = Req) ->
     {ok, FormKeyVals, _} = cowboy_req:read_urlencoded_body(Req),

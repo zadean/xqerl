@@ -580,7 +580,9 @@ init_rest(DispatchFileName) ->
     Dispatch = cowboy_router:compile([{'_', DisTerm}]),
     _ = cowboy:start_clear(xqerl_listener, 
                            [{port, Port}], 
-                           #{env => #{dispatch => Dispatch}}),
+                           #{env => #{dispatch => Dispatch},
+                             stream_handlers => [cowboy_compress_h,
+                                                 cowboy_stream_h]}),
     ok.
 
 merge_load_dispatch(Module, Rest, DispatchFile) ->

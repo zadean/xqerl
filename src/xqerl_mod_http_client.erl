@@ -342,6 +342,7 @@ resp_element(Ctx, StatusCode, Headers0, Body, #{href := URL} = Opts) ->
     Headers = normalize_headers(Headers0),
     HdElems = resp_headers_to_elements(Headers),
     ContTyp = proplists:get_value(<<"content-type">>, Headers, <<"text/xml">>),
+    Encoding = proplists:get_value(<<"content-encoding">>, Headers, plain),
     [ContTyp1|_] = string:split(ContTyp, ";"),
     ContTyp2 = maps:get('override-media-type', Opts, ContTyp1),
     Ref = make_ref(),
@@ -359,6 +360,10 @@ resp_element(Ctx, StatusCode, Headers0, Body, #{href := URL} = Opts) ->
     case Body of
         head -> % methods that have no body
             xqerl_node:contruct(Ctx, Elem);
+        _ when Encoding == <<"gzip">> -> % zipped
+            Body1 = zlib:gunzip(Body),
+            ParsedBody = parse_body(ContTyp2, Body1, URL),
+            [xqerl_node:contruct(Ctx, Elem), ParsedBody];
         _ ->
             ParsedBody = parse_body(ContTyp2, Body, URL),
             [xqerl_node:contruct(Ctx, Elem), ParsedBody]
