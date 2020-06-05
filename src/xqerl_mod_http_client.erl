@@ -462,7 +462,7 @@ parse_body(MediaTyp, Body, URL) ->
             err_parse()
     end.
 
-get_content_media_type(<<"text/xml">>) -> xml;
+get_content_media_type(<<"text/xml",_/binary>>) -> xml;
 get_content_media_type(<<"text/html">>) -> html;
 get_content_media_type(<<"text/csv">>) -> csv;
 get_content_media_type(<<"text/",_/binary>>) -> text;
