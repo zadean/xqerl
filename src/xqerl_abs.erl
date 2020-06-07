@@ -658,7 +658,7 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                     "_@Parts,",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
                     " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
-                    "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA},"
+                    "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA, restxq_ctx => Req},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                     "xqerl_context:destroy(Ctx),",
@@ -674,7 +674,7 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                 ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                     "_@Parts,",
                     " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
-                    "Ctx = (init(init_ctx()))#{trans => TRA},"
+                    "Ctx = (init(init_ctx()))#{trans => TRA, restxq_ctx => Req},"
                     "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                     "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                     "xqerl_context:destroy(Ctx),",
@@ -689,7 +689,7 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                  true ->
                  ?Q(["'@FunName@'(#{method := Method} = Req, State) -> ",
                      "_@Parts,",
-                     "Ctx = init(init_ctx()),"
+                     "Ctx = (init(init_ctx()))#{restxq_ctx => Req},"
                      "XQuery = '@FName@'(Ctx, _@@LocalParams),",
                      "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
                      "xqerl_context:destroy(Ctx), ",

@@ -41,6 +41,7 @@
          xqerl_mod_xs,
          xqerl_mod_expath_file,
          xqerl_mod_expath_binary,
+         xqerl_mod_exquery_request,
          xqerl_mod_http_client,
          xqerl_mod_rand,
          xqerl_mod_ext_basex,
