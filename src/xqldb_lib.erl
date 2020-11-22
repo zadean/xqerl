@@ -20,25 +20,30 @@
 %%
 %% -------------------------------------------------------------------
 -module(xqldb_lib).
+
 -include("xqerl_db.hrl").
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([join_uris/2,
-         normalize_uri/1,
-         filename_to_uri/1,
-         uri_to_filename/1]).
+-export([
+    join_uris/2,
+    normalize_uri/1,
+    filename_to_uri/1,
+    uri_to_filename/1
+]).
 
--export([pforeach/3,
-         pmap/3]).
+-export([
+    pforeach/3,
+    pmap/3
+]).
 
 -export([valid_http/1]).
 
--spec join_uris(BaseUri :: binary(),
-                RefUri  :: binary()) -> 
-         binary() | {error,_}.
-
+-spec join_uris(
+    BaseUri :: binary(),
+    RefUri :: binary()
+) -> binary() | {error, _}.
 %% join_uris(_, "urn:" ++ _ = Uri) -> Uri;   % known non-heir. scheme
 %% join_uris(_, "mailto:" ++ _ = Uri) -> Uri;% known non-heir. scheme
 %% join_uris(_, "news:" ++ _ = Uri) -> Uri;% known non-heir. scheme
@@ -50,19 +55,19 @@
 %% join_uris(_, "https:" ++ _ = Uri) -> simple_parse(Uri);
 %% join_uris(_, "HTTP:" ++ _ = Uri) -> simple_parse(Uri);
 %% join_uris(_, "HTTPS:" ++ _ = Uri) -> simple_parse(Uri);
-join_uris(BaseUri,RefUri) ->
-%?dbg("{BaseUri,RefUri}",{BaseUri,RefUri}),
-   B = parse(BaseUri),
-   R = parse(RefUri),
-%?dbg("{B,R}",{B,R}),
-   J = join(B,R),
-%?dbg("J",J),
-   case J of
-      {error,_} = E ->
-         E;
-      _ ->
-         recompose(J)
-   end.
+join_uris(BaseUri, RefUri) ->
+    %?dbg("{BaseUri,RefUri}",{BaseUri,RefUri}),
+    B = parse(BaseUri),
+    R = parse(RefUri),
+    %?dbg("{B,R}",{B,R}),
+    J = join(B, R),
+    %?dbg("J",J),
+    case J of
+        {error, _} = E ->
+            E;
+        _ ->
+            recompose(J)
+    end.
 
 %% simple_parse(Uri) ->
 %%    case parse_uri(Uri) of
@@ -71,7 +76,7 @@ join_uris(BaseUri,RefUri) ->
 %%    end.
 
 filename_to_uri(Filename) ->
-   xqldb_uri:filename_to_uri(Filename).
+    xqldb_uri:filename_to_uri(Filename).
 
 %%    case http_uri:parse(Filename) of
 %%       {error,_} ->
@@ -89,47 +94,46 @@ filename_to_uri(Filename) ->
 %%          Filename
 %%    end.
 
-uri_to_filename(<<"file:///",Rest/binary>>) ->
-   case Rest of
-      <<L,$:,_/binary>> when L >= $A, L =< $Z;
-                             L >= $a, L =< $z ->
-         do_decode_binary(filename:absname(Rest));
-      _ ->
-         do_decode_binary(filename:absname(<<$/,Rest/binary>>))
-   end;
-uri_to_filename("file:///"++Rest) ->
-   case Rest of
-      [L,$:|_] when L >= $A, L =< $Z; 
-                    L >= $a, L =< $z ->
-         do_decode(filename:absname(Rest));
-      _ ->
-         do_decode(filename:absname([$/|Rest]))
-   end.
+uri_to_filename(<<"file:///", Rest/binary>>) ->
+    case Rest of
+        <<L, $:, _/binary>> when L >= $A, L =< $Z; L >= $a, L =< $z ->
+            do_decode_binary(filename:absname(Rest));
+        _ ->
+            do_decode_binary(filename:absname(<<$/, Rest/binary>>))
+    end;
+uri_to_filename("file:///" ++ Rest) ->
+    case Rest of
+        [L, $: | _] when L >= $A, L =< $Z; L >= $a, L =< $z ->
+            do_decode(filename:absname(Rest));
+        _ ->
+            do_decode(filename:absname([$/ | Rest]))
+    end.
 
 normalize_uri(Uri) ->
-   case parse(Uri) of
-      #{path := <<F,_/binary>> = P} = M ->
-         case valid_http(P) of
-            true ->
-               case uri_string:normalize(P) of
-                  <<F,_/binary>> = N -> % absolute/relative unchanged
-                     uri_string:recompose(M#{path := N});
-                  _ ->
-                     uri_string:recompose(M)
-               end;
-            false ->
-               {error,invalid_uri,Uri}
-         end;
-      #{path := <<>>} = M ->
-         uri_string:recompose(M);
-      {error,_,_} = Err ->
-         case has_for_high_codepoint_or_space(Uri) of
-            true ->
-               Uri;
-            false ->
-               Err
-         end
-   end.
+    case parse(Uri) of
+        #{path := <<F, _/binary>> = P} = M ->
+            case valid_http(P) of
+                true ->
+                    case uri_string:normalize(P) of
+                        % absolute/relative unchanged
+                        <<F, _/binary>> = N ->
+                            uri_string:recompose(M#{path := N});
+                        _ ->
+                            uri_string:recompose(M)
+                    end;
+                false ->
+                    {error, invalid_uri, Uri}
+            end;
+        #{path := <<>>} = M ->
+            uri_string:recompose(M);
+        {error, _, _} = Err ->
+            case has_for_high_codepoint_or_space(Uri) of
+                true ->
+                    Uri;
+                false ->
+                    Err
+            end
+    end.
 
 %% ====================================================================
 %% Internal functions
@@ -138,7 +142,7 @@ normalize_uri(Uri) ->
 %% uri_string:parse doesn`t like high codepoints or the space character
 %% check for existence . of course this lets crap come through...
 has_for_high_codepoint_or_space(Bin) ->
-   [C || <<C/utf8>> <= Bin, is_legacy(C)] =/= [].
+    [C || <<C/utf8>> <= Bin, is_legacy(C)] =/= [].
 
 % list of legacy characters accepted in XQuery
 is_legacy(16#20) -> true;
@@ -156,7 +160,7 @@ is_legacy(C) when C >= 16#7f, C =< 16#d7ff -> true;
 %is_legacy(16#200f) -> true;
 %is_legacy(C) when C >= 16#202a, C =< 16#202e -> true;
 is_legacy(C) when C >= 16#fff0, C =< 16#fffd -> true;
-is_legacy(_) -> false.   
+is_legacy(_) -> false.
 
 %recompose({Scheme, UserInfo, Host, Port, "/", Query, Fragment}) ->
 %   recompose({Scheme, UserInfo, Host, Port, [], Query, Fragment});
@@ -166,23 +170,23 @@ is_legacy(_) -> false.
 %% recompose({Scheme, UserInfo, Host, Port, Path, Query, Fragment}) ->
 %%    atom_to_list(Scheme) ++ ":" ++
 %%      get_host_port(Scheme, UserInfo, Host, Port) ++
-%%      Path ++ 
+%%      Path ++
 %%      Query ++
 %%      Fragment.
-%% 
+%%
 %% get_host_port(Scheme, UserInfo, Host, Port) ->
 %%    Stndrd = is_standard(Port, Scheme),
 %%    "//" ++
 %%    if UserInfo == [] -> "";
 %%       true -> UserInfo ++ "@"
 %%    end ++
-%%    Host ++ 
+%%    Host ++
 %%    if Stndrd ->
 %%          "";
 %%       true ->
 %%          ":" ++ integer_to_list(Port)
 %%    end.
-%% 
+%%
 %% is_standard(Port,Scheme) ->
 %%    Stnd = [{file,1},{urn,2}|http_uri:scheme_defaults()],
 %%    case lists:keyfind(Scheme, 1, Stnd) of
@@ -192,76 +196,80 @@ is_legacy(_) -> false.
 %%          false
 %%    end.
 
-join(_, Rel) when is_map_key(scheme, Rel) -> 
-   % relative with scheme is absolute
-   Rel;
-join(Base, Rel) when not is_map_key(scheme, Base),
-                     not is_map_key(scheme, Rel) -> 
-   {error, relative};
-join(Base, _) when is_map_key(fragment, Base) -> 
-   % Fragment in base is not okay
-   {error, fragment};
-
-join(#{scheme := Scheme,
-       path   := Path}, Rel) 
-   when is_map_key(userinfo, Rel); 
-        is_map_key(host, Rel); 
-        is_map_key(port, Rel) ->
-   % no relative scheme, but has user info, host, or port.
-   Rel#{scheme => Scheme,
-        path   => maybe_normalize(Path)};
-
+join(_, Rel) when is_map_key(scheme, Rel) ->
+    % relative with scheme is absolute
+    Rel;
+join(Base, Rel) when not is_map_key(scheme, Base), not is_map_key(scheme, Rel) ->
+    {error, relative};
+join(Base, _) when is_map_key(fragment, Base) ->
+    % Fragment in base is not okay
+    {error, fragment};
+join(
+    #{
+        scheme := Scheme,
+        path := Path
+    },
+    Rel
+) when is_map_key(userinfo, Rel); is_map_key(host, Rel); is_map_key(port, Rel) ->
+    % no relative scheme, but has user info, host, or port.
+    Rel#{
+        scheme => Scheme,
+        path => maybe_normalize(Path)
+    };
 join(#{scheme := BScheme} = Base, Rel) ->
-   BUserInfo = maps:get(userinfo, Base, <<>>),
-   BHost     = maps:get(host, Base, <<>>),
-   BPort     = maps:get(port, Base, -1),
-   BPath     = maps:get(path, Base, <<>>),
-   BQuery    = maps:get(query, Base, <<>>),
+    BUserInfo = maps:get(userinfo, Base, <<>>),
+    BHost = maps:get(host, Base, <<>>),
+    BPort = maps:get(port, Base, -1),
+    BPath = maps:get(path, Base, <<>>),
+    BQuery = maps:get(query, Base, <<>>),
 
-   Path      = maps:get(path, Rel, <<>>),
-   Query     = maps:get(query, Rel, <<>>),
-   Fragment  = maps:get(fragment, Rel, <<>>),
-   
-   {TPath,TQuery} = 
-     case Path of
-        <<>> ->
-           if Query == <<>> ->
-                 {BPath, BQuery};
-              true ->
-                 {BPath, Query}
-           end;
-        <<"/", _/binary>> ->
-           {maybe_normalize(Path),Query};
-        _ ->
-           Temp = merge_path(BUserInfo, BPath, Path),
-           {maybe_normalize(Temp),Query}
-     end,
-   M = #{scheme => BScheme,
-         host => BHost
-        },
-   M0 = add_to_map_if_not(M, path,TPath,9999999999),
-   M1 = add_to_map_if_not(M0,userinfo,BUserInfo,<<>>),
-   M2 = add_to_map_if_not(M1,query,TQuery,<<>>),
-   M3 = add_to_map_if_not(M2,fragment,Fragment,<<>>),
-   M4 = add_to_map_if_not(M3,port,BPort,-1),
-   %?dbg("M4",M4),
-   M4;
+    Path = maps:get(path, Rel, <<>>),
+    Query = maps:get(query, Rel, <<>>),
+    Fragment = maps:get(fragment, Rel, <<>>),
 
-join({error,E,_}, _) -> {error,E};
-join(_, {error,E,_}) -> {error,E}.
+    {TPath, TQuery} =
+        case Path of
+            <<>> ->
+                if
+                    Query == <<>> ->
+                        {BPath, BQuery};
+                    true ->
+                        {BPath, Query}
+                end;
+            <<"/", _/binary>> ->
+                {maybe_normalize(Path), Query};
+            _ ->
+                Temp = merge_path(BUserInfo, BPath, Path),
+                {maybe_normalize(Temp), Query}
+        end,
+    M = #{
+        scheme => BScheme,
+        host => BHost
+    },
+    M0 = add_to_map_if_not(M, path, TPath, 9999999999),
+    M1 = add_to_map_if_not(M0, userinfo, BUserInfo, <<>>),
+    M2 = add_to_map_if_not(M1, query, TQuery, <<>>),
+    M3 = add_to_map_if_not(M2, fragment, Fragment, <<>>),
+    M4 = add_to_map_if_not(M3, port, BPort, -1),
+    %?dbg("M4",M4),
+    M4;
+join({error, E, _}, _) ->
+    {error, E};
+join(_, {error, E, _}) ->
+    {error, E}.
 
-add_to_map_if_not(Map,_Key,Value,Value) ->
-   Map;
-add_to_map_if_not(Map,Key,Value,_Not) ->
-   Map#{Key => Value}.
+add_to_map_if_not(Map, _Key, Value, Value) ->
+    Map;
+add_to_map_if_not(Map, Key, Value, _Not) ->
+    Map#{Key => Value}.
 
 maybe_normalize(Path) ->
-   case uri_string:normalize(Path) of
-      {error,_,_} ->
-         Path;
-      Norm ->
-         Norm
-   end.
+    case uri_string:normalize(Path) of
+        {error, _, _} ->
+            Path;
+        Norm ->
+            Norm
+    end.
 
 %% parse_uri(Uri) ->
 %%    case http_uri:parse(Uri,opts()) of
@@ -269,7 +277,7 @@ maybe_normalize(Path) ->
 %%       {ok,{_, _, _, _, _, _, []} = P} -> P;
 %%       {ok,_} -> {error,base_with_fragment}
 %%    end.
-%% 
+%%
 %% parse_ref_uri(MaybeUri) ->
 %%    case http_uri:parse(MaybeUri,opts()) of
 %%       {error,_} ->
@@ -290,7 +298,7 @@ maybe_normalize(Path) ->
 %%                        end,
 %%                {undefined, [], [], -1, NPath, Query, Fragment}
 %%          end;
-%%       {ok,{_, _, _, _, "/", _, _} = P} -> 
+%%       {ok,{_, _, _, _, "/", _, _} = P} ->
 %%          case lists:last(MaybeUri) of
 %%             $/ ->
 %%                P;
@@ -301,67 +309,67 @@ maybe_normalize(Path) ->
 %%    end.
 
 merge_path(BUserInfo, BPath, RPath) ->
-   if BUserInfo =/= <<>>, BPath == <<>> ->
-         <<"/", RPath/binary>>;
-      BPath == <<>>, RPath =/= <<>> ->
-         F = binary:first(RPath),
-         if F == $/ ->
-               RPath;
-            true ->
-               <<"/", RPath/binary>>
-         end;
-      true ->
-         append_last_slash(BPath, RPath)
-   end.
+    if
+        BUserInfo =/= <<>>, BPath == <<>> ->
+            <<"/", RPath/binary>>;
+        BPath == <<>>, RPath =/= <<>> ->
+            F = binary:first(RPath),
+            if
+                F == $/ ->
+                    RPath;
+                true ->
+                    <<"/", RPath/binary>>
+            end;
+        true ->
+            append_last_slash(BPath, RPath)
+    end.
 
 parse(Uri) ->
-   case uri_string:parse(Uri) of
-      {error,_,_} ->
-         fallback_parse(Uri);
-      Map ->
-         Map
-   end.
+    case uri_string:parse(Uri) of
+        {error, _, _} ->
+            fallback_parse(Uri);
+        Map ->
+            Map
+    end.
 
 fallback_parse(Uri) ->
-   case http_uri:parse(Uri, opts()) of
-      {error, no_scheme} ->
-         NewUri = <<"http://x/",Uri/binary>>,
-         case http_uri:parse(NewUri, opts()) of
-            {error,_} = E1 ->
-               E1;
-            {ok,{_, UserInfo1, _, _, Path1, Query1, Fragment1}} ->
-               build_map({none, UserInfo1, <<>>, -1, Path1, Query1, Fragment1})
-         end;
-      {error,E} ->
-         ?dbg("E",{E,Uri}),
-         {error, invalid_uri, Uri};
-      {ok,{SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment}} ->
-         build_map({SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment})
-   end.
+    case http_uri:parse(Uri, opts()) of
+        {error, no_scheme} ->
+            NewUri = <<"http://x/", Uri/binary>>,
+            case http_uri:parse(NewUri, opts()) of
+                {error, _} = E1 ->
+                    E1;
+                {ok, {_, UserInfo1, _, _, Path1, Query1, Fragment1}} ->
+                    build_map({none, UserInfo1, <<>>, -1, Path1, Query1, Fragment1})
+            end;
+        {error, E} ->
+            ?dbg("E", {E, Uri}),
+            {error, invalid_uri, Uri};
+        {ok, {SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment}} ->
+            build_map({SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment})
+    end.
 
 build_map({SchemeAtom, UserInfo, Host, Port, Path, Query, Fragment}) ->
-   Port1 = case is_default_port(SchemeAtom, Port) of
-              true ->
-                 -1;
-              _ ->
-                 Port
-           end,
-   M1 = add_to_map_if_not(#{}, scheme, atom_to_binary(SchemeAtom, utf8), <<"none">>),
-   M2 = add_to_map_if_not(M1, userinfo, UserInfo, <<>>),
-   M3 = add_to_map_if_not(M2, host, Host, <<>>),
-   M4 = add_to_map_if_not(M3, port, Port1, -1),
-   M5 = add_to_map_if_not(M4, path, Path, 99999999999),
-   M6 = add_to_map_if_not(M5, query, Query, <<>>),
-   M7 = add_to_map_if_not(M6, fragment, Fragment, <<>>),
-   %?dbg("M7",M7),
-   M7.
-
-   
+    Port1 =
+        case is_default_port(SchemeAtom, Port) of
+            true ->
+                -1;
+            _ ->
+                Port
+        end,
+    M1 = add_to_map_if_not(#{}, scheme, atom_to_binary(SchemeAtom, utf8), <<"none">>),
+    M2 = add_to_map_if_not(M1, userinfo, UserInfo, <<>>),
+    M3 = add_to_map_if_not(M2, host, Host, <<>>),
+    M4 = add_to_map_if_not(M3, port, Port1, -1),
+    M5 = add_to_map_if_not(M4, path, Path, 99999999999),
+    M6 = add_to_map_if_not(M5, query, Query, <<>>),
+    M7 = add_to_map_if_not(M6, fragment, Fragment, <<>>),
+    %?dbg("M7",M7),
+    M7.
 
 append_last_slash(BPath, RPath) ->
-   {Head,_} = string:take(BPath,"/",true,trailing),
-   <<Head/binary, RPath/binary>>.
-
+    {Head, _} = string:take(BPath, "/", true, trailing),
+    <<Head/binary, RPath/binary>>.
 
 %% remove_dot_segments([]) -> [];
 %% remove_dot_segments(Path) ->
@@ -399,37 +407,37 @@ append_last_slash(BPath, RPath) ->
 %%    H ++ build_path(T);
 %% build_path([H|T]) ->
 %%    H ++ "/" ++ build_path(T).
-%% 
+%%
 
-is_default_port(Scheme,Port) ->
-   case lists:keyfind(Scheme, 1, [{file,1},{urn,2}|http_uri:scheme_defaults()]) of
-      {Scheme, Port} ->
-         true;
-      _ ->
-         false
-   end.
+is_default_port(Scheme, Port) ->
+    case lists:keyfind(Scheme, 1, [{file, 1}, {urn, 2} | http_uri:scheme_defaults()]) of
+        {Scheme, Port} ->
+            true;
+        _ ->
+            false
+    end.
 
 do_decode_binary(<<$%, Hex:2/binary, Rest/bits>>) ->
-   <<(binary_to_integer(Hex, 16)), (do_decode_binary(Rest))/binary>>;
+    <<(binary_to_integer(Hex, 16)), (do_decode_binary(Rest))/binary>>;
 do_decode_binary(<<First:1/binary, Rest/bits>>) ->
-   <<First/binary, (do_decode_binary(Rest))/binary>>;
+    <<First/binary, (do_decode_binary(Rest))/binary>>;
 do_decode_binary(<<>>) ->
-   <<>>.
+    <<>>.
 
-do_decode([$%,Hex1,Hex2|Rest]) ->
-   [list_to_integer([Hex1, Hex2], 16)|do_decode(Rest)];
-do_decode([First|Rest]) ->
-   [First|do_decode(Rest)];
+do_decode([$%, Hex1, Hex2 | Rest]) ->
+    [list_to_integer([Hex1, Hex2], 16) | do_decode(Rest)];
+do_decode([First | Rest]) ->
+    [First | do_decode(Rest)];
 do_decode([]) ->
-   [].
+    [].
 
 opts() ->
-   [{scheme_defaults,
-     [{file,1},{urn,2}|http_uri:scheme_defaults()]},
-    {ipv6_host_with_brackets, true},
-    {fragment,true}].
+    [
+        {scheme_defaults, [{file, 1}, {urn, 2} | http_uri:scheme_defaults()]},
+        {ipv6_host_with_brackets, true},
+        {fragment, true}
+    ].
 
- 
 %{Scheme, UserInfo, Host, Port, Path, Query, Fragment}
 
 %% valid_path(Scheme,Path) when Scheme =:= http;
@@ -443,110 +451,115 @@ opts() ->
 %% valid_path(_Scheme,Path) -> Path.
 
 -define(HEX(V), V >= $0, V =< $9; V >= $A, V =< $F; V >= $a, V =< $f).
+
 %-define(I(A,B), io:format("~p:~p~n",[A,B])).
 
-valid_http(<<>>) -> true;
-valid_http(<<$/,C,$:,$/,Rest/binary>>) when C >= $A, C =< $Z; C >= $a, C =< $z -> 
-   valid_http(Rest);
-valid_http(<<$:,_/binary>>) -> false;
-valid_http(<<$%,A,B,T/binary>>) when ?HEX(A) -> 
-   if ?HEX(B) ->
-         valid_http(T);
-      true ->
-         false
-   end;
-valid_http(<<$%,_/binary>>) -> false;
-valid_http(<<_,T/binary>>) -> valid_http(T).
+valid_http(<<>>) ->
+    true;
+valid_http(<<$/, C, $:, $/, Rest/binary>>) when C >= $A, C =< $Z; C >= $a, C =< $z ->
+    valid_http(Rest);
+valid_http(<<$:, _/binary>>) ->
+    false;
+valid_http(<<$%, A, B, T/binary>>) when ?HEX(A) ->
+    if
+        ?HEX(B) ->
+            valid_http(T);
+        true ->
+            false
+    end;
+valid_http(<<$%, _/binary>>) ->
+    false;
+valid_http(<<_, T/binary>>) ->
+    valid_http(T).
 
+pforeach(List, Limit, Fun) ->
+    pforeach(self(), List, Fun, Limit, Limit),
+    receive
+        done ->
+            ok
+    end.
 
-pforeach(List,Limit,Fun) ->
-   pforeach(self(),List,Fun,Limit,Limit),
-   receive
-      done ->
-         ok
-     end.
+pforeach(From, [], Fun, Limit, Left) when Left < Limit ->
+    receive
+        X ->
+            From ! X,
+            pforeach(From, [], Fun, Limit, Left + 1)
+    end;
+pforeach(From, [], _, _, _) ->
+    From ! done;
+pforeach(From, List, Fun, Limit, 0) ->
+    receive
+        _ ->
+            pforeach(From, List, Fun, Limit, 1)
+    end;
+pforeach(From, [H | T], Fun, Limit, Left) ->
+    Self = self(),
+    _Pid = erlang:spawn_link(fun() -> Self ! Fun(H) end),
+    pforeach(From, T, Fun, Limit, Left - 1).
 
-pforeach(From,[],Fun,Limit,Left) when Left < Limit ->
-   receive
-      X ->
-         From ! X,
-         pforeach(From,[],Fun,Limit,Left + 1)
-   end;
-pforeach(From,[],_,_,_) ->
-   From ! done;
-pforeach(From,List,Fun,Limit,0) ->
-   receive
-      _ ->
-         pforeach(From,List,Fun,Limit,1)
-   end;
-pforeach(From,[H|T],Fun,Limit,Left) ->
-   Self = self(),
-   _Pid = erlang:spawn_link(fun() -> Self ! Fun(H) end),
-   pforeach(From,T,Fun,Limit,Left - 1).
+pmap(List, Limit, Fun) ->
+    pmap(self(), List, Fun, Limit, Limit, [], []),
+    receive
+        {done, Acc2} ->
+            lists:reverse(Acc2)
+    after 15000 -> error
+    end.
 
-  
-pmap(List,Limit,Fun) -> 
-   pmap(self(),List,Fun,Limit,Limit,[],[]),
-   receive
-      {done,Acc2} ->
-         lists:reverse(Acc2)
-   after 15000 -> error
-   end.
-
-pmap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
-   receive
-      {P,{'EXIT',Ex}} ->
-         throw(Ex);
-      {P,X} -> 
-         pmap(From,[],Fun,Limit,Left + 1,Ps, [X|Acc])
-   after 10000 -> error
-   end;
-pmap(From,[],_Fun,_Limit,_Left,[],Acc) ->
-   From ! {done,Acc};
-
-pmap(From,List,Fun,Limit,0,[P|Ps],Acc) ->
-   receive
-      {P,X} ->
-         pmap(From,List,Fun,Limit,1,Ps,[X|Acc])
-   after 10000 -> error
-   end;
-pmap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
-   Self = self(),
-   Pid = erlang:spawn_link(
-           fun() -> 
-                 Self ! {self(), catch Fun(H)} 
-           end),
-   pmap(From,T,Fun,Limit,Left - 1,Pids ++ [Pid], Acc).
+pmap(From, [], Fun, Limit, Left, [P | Ps], Acc) when Left < Limit ->
+    receive
+        {P, {'EXIT', Ex}} ->
+            throw(Ex);
+        {P, X} ->
+            pmap(From, [], Fun, Limit, Left + 1, Ps, [X | Acc])
+    after 10000 -> error
+    end;
+pmap(From, [], _Fun, _Limit, _Left, [], Acc) ->
+    From ! {done, Acc};
+pmap(From, List, Fun, Limit, 0, [P | Ps], Acc) ->
+    receive
+        {P, X} ->
+            pmap(From, List, Fun, Limit, 1, Ps, [X | Acc])
+    after 10000 -> error
+    end;
+pmap(From, [H | T], Fun, Limit, Left, Pids, Acc) ->
+    Self = self(),
+    Pid = erlang:spawn_link(
+        fun() ->
+            Self ! {self(), catch Fun(H)}
+        end
+    ),
+    pmap(From, T, Fun, Limit, Left - 1, Pids ++ [Pid], Acc).
 
 recompose(#{path := P} = URIMap) ->
-   case has_for_high_codepoint_or_space(P) of
-      false ->
-         uri_string:recompose(URIMap);
-      true ->
-         legacy_recompose(URIMap)
-   end;
+    case has_for_high_codepoint_or_space(P) of
+        false ->
+            uri_string:recompose(URIMap);
+        true ->
+            legacy_recompose(URIMap)
+    end;
 recompose(URIMap) ->
-   uri_string:recompose(URIMap).
+    uri_string:recompose(URIMap).
 
 legacy_recompose(UriMap) ->
-   Sep = [path, fragment, query],
-   Head = uri_string:recompose((maps:without(Sep, UriMap))#{path => <<>>}),
-   Tail = maps:with(Sep, UriMap),
-   U1 = update_path(Tail, Head),
-   U2 = update_query(Tail, U1),
-   update_fragment(Tail, U2).
+    Sep = [path, fragment, query],
+    Head = uri_string:recompose((maps:without(Sep, UriMap))#{path => <<>>}),
+    Tail = maps:with(Sep, UriMap),
+    U1 = update_path(Tail, Head),
+    U2 = update_query(Tail, U1),
+    update_fragment(Tail, U2).
 
 % from uri_string, kind of
 update_path(#{path := Path}, URI) ->
-   <<URI/bits, Path/bits>>;
-update_path(_, URI) -> URI.
+    <<URI/bits, Path/bits>>;
+update_path(_, URI) ->
+    URI.
 
 update_query(#{query := Query}, URI) ->
-   <<URI/binary, "?", Query/binary>>;
-update_query(_, URI) -> URI.
+    <<URI/binary, "?", Query/binary>>;
+update_query(_, URI) ->
+    URI.
 
 update_fragment(#{fragment := Fragment}, URI) ->
-   <<URI/binary, "#", Fragment/binary>>;
-update_fragment(_, URI) -> URI.
-
-
+    <<URI/binary, "#", Fragment/binary>>;
+update_fragment(_, URI) ->
+    URI.

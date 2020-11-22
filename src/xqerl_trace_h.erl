@@ -9,21 +9,21 @@
 %% ====================================================================
 
 init([]) ->
-   {ok, #{}}.
+    {ok, #{}}.
 
 handle_event({trace, Label, Value}, State) ->
-   io:format("*** TRACE ***~n~s:~p~n", [Label, Value]),
-   {ok, State};
+    io:format("*** TRACE ***~n~s:~p~n", [Label, Value]),
+    {ok, State};
 handle_event({trace, Value}, State) ->
-   io:format("*** TRACE ***~n~p~n", [Value]),
-   {ok, State};
+    io:format("*** TRACE ***~n~p~n", [Value]),
+    {ok, State};
 handle_event(Unknown, State) ->
-   io:format("*** UNKNOWN TRACE ***~n~p~n", [Unknown]),
-   {ok, State}.
+    io:format("*** UNKNOWN TRACE ***~n~p~n", [Unknown]),
+    {ok, State}.
 
 handle_call(_Request, State) ->
-   Reply = ok,
-   {ok, Reply, State}.
+    Reply = ok,
+    {ok, Reply, State}.
 
 handle_info(_Info, State) -> {ok, State}.
 

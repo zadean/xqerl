@@ -27,147 +27,142 @@
 
 -behaviour(gen_server).
 
--export([init/1, 
-         handle_call/3, 
-         handle_cast/2, 
-         handle_info/2, 
-         terminate/2, 
-         code_change/3]).
+-export([
+    init/1,
+    handle_call/3,
+    handle_cast/2,
+    handle_info/2,
+    terminate/2,
+    code_change/3
+]).
 
 -define(STALE, 60000).
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([start_link/0,
-         sweep/1,
-         get/4,
-         put/5,
-         delete/2]).
-
+-export([
+    start_link/0,
+    sweep/1,
+    get/4,
+    put/5,
+    delete/2
+]).
 
 start_link() ->
-   {ok, Pid} = gen_server:start_link(?MODULE, [], []),
-   sweep(Pid),
-   {ok, Pid}.
+    {ok, Pid} = gen_server:start_link(?MODULE, [], []),
+    sweep(Pid),
+    {ok, Pid}.
 
 %% do a sweep of the cache, clearing out old stuff
 sweep(Server) ->
-   Now = erlang:system_time(millisecond),
-   gen_server:cast(Server, {sweep, Now}),
-   timer:apply_after(?STALE, ?MODULE, ?FUNCTION_NAME, [Server]),
-   ok.
+    Now = erlang:system_time(millisecond),
+    gen_server:cast(Server, {sweep, Now}),
+    timer:apply_after(?STALE, ?MODULE, ?FUNCTION_NAME, [Server]),
+    ok.
 
 % try to get the ets table id for this doc/query, return undefined if not there.
 get(#{queries := Server}, DocId, InPathId, Steps) ->
-   Key = {?MODULE, ?FUNCTION_NAME, Server, DocId, InPathId, Steps},
-   case erlang:get(Key) of
-      undefined ->
-         Val = gen_server:call(Server, {get, DocId, InPathId, Steps}),
-         _ = erlang:put(Key, Val),
-         Val;
-      V ->
-         gen_server:cast(Server, {touch, DocId, InPathId, Steps}),
-         V
-   end.
+    Key = {?MODULE, ?FUNCTION_NAME, Server, DocId, InPathId, Steps},
+    case erlang:get(Key) of
+        undefined ->
+            Val = gen_server:call(Server, {get, DocId, InPathId, Steps}),
+            _ = erlang:put(Key, Val),
+            Val;
+        V ->
+            gen_server:cast(Server, {touch, DocId, InPathId, Steps}),
+            V
+    end.
 
 put(#{queries := Server}, DocId, InPathId, Steps, Results) ->
-   true = ets:give_away(Results, Server, ok),
-   gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
+    true = ets:give_away(Results, Server, ok),
+    gen_server:call(Server, {put, DocId, InPathId, Steps, Results}).
 
 delete(#{queries := Server}, DocId) ->
-   gen_server:cast(Server, {delete, DocId}).
+    gen_server:cast(Server, {delete, DocId}).
 
 %% ====================================================================
 %% Behavioural functions
 %% ====================================================================
 
 init([]) ->
-   Tab = ets:new(?MODULE, [public]),
-   {ok, #{tab => Tab}}.
-
+    Tab = ets:new(?MODULE, [public]),
+    {ok, #{tab => Tab}}.
 
 handle_call({put, DocId, InPathId, Steps, Results}, _, #{tab := Tab} = State) ->
-   Key = {DocId, InPathId, Steps},
-   Now = expire(),
-   _ = ets:insert(Tab, {Key, Results, Now}),
-   %io:format("~p~n", [{?LINE, Now}]),
-   {reply, ok, State};
-   
+    Key = {DocId, InPathId, Steps},
+    Now = expire(),
+    _ = ets:insert(Tab, {Key, Results, Now}),
+    %io:format("~p~n", [{?LINE, Now}]),
+    {reply, ok, State};
 handle_call({get, DocId, InPathId, Steps}, ReplyTo, #{tab := Tab} = State) ->
-   Fun = fun() ->
-               Key = {DocId, InPathId, Steps},
-               Reply = case ets:lookup(Tab, Key) of
-                  [] ->
-                     undefined;
-                  [{_, undefined, _}] ->
-                     undefined;
-                  [{_, T, _}] ->
-                     Now = expire(),
-                     ets:update_element(Tab, Key, {3, Now}),
-                     T
-               end,
-               gen_server:reply(ReplyTo, Reply)
-         end,
-   _ = erlang:spawn_link(Fun),
-   {noreply, State};
+    Fun = fun() ->
+        Key = {DocId, InPathId, Steps},
+        Reply =
+            case ets:lookup(Tab, Key) of
+                [] ->
+                    undefined;
+                [{_, undefined, _}] ->
+                    undefined;
+                [{_, T, _}] ->
+                    Now = expire(),
+                    ets:update_element(Tab, Key, {3, Now}),
+                    T
+            end,
+        gen_server:reply(ReplyTo, Reply)
+    end,
+    _ = erlang:spawn_link(Fun),
+    {noreply, State};
 handle_call(_Request, _From, State) ->
-   Reply = ok,
-   {reply, Reply, State}.
+    Reply = ok,
+    {reply, Reply, State}.
 
 handle_cast({sweep, Then}, #{tab := Tab} = State) ->
-   MS = [{{'$1','$2','$3'},
-          [{'<','$3',Then},{'=/=','$3',undefined}],
-          [{{'$1','$2'}}]}],
-   ToDel = ets:select(Tab, MS),
-   Del = fun({K, T}) ->
-               ets:delete(T),
-               ets:insert(Tab, {K, undefined, undefined})
-         end,               
-   ok = lists:foreach(Del, ToDel),
-   {noreply, State};
+    MS = [{{'$1', '$2', '$3'}, [{'<', '$3', Then}, {'=/=', '$3', undefined}], [{{'$1', '$2'}}]}],
+    ToDel = ets:select(Tab, MS),
+    Del = fun({K, T}) ->
+        ets:delete(T),
+        ets:insert(Tab, {K, undefined, undefined})
+    end,
+    ok = lists:foreach(Del, ToDel),
+    {noreply, State};
 handle_cast({delete, {Doc, Stmp}}, #{tab := Tab} = State) ->
-   MS = [{{{{Doc, Stmp},'$1','$2'},'$3','_'},[],[{{'$1','$2','$3'}}]}],
-   ToDel = ets:select(Tab, MS),
-   Del = fun({K1, K2, undefined}) ->
-               K = {{Doc, Stmp}, K1, K2},
-               ets:delete(Tab, K);
-            ({K1, K2, T}) ->
-               ets:delete(T),
-               K = {{Doc, Stmp}, K1, K2},
-               ets:delete(Tab, K)
-         end,               
-   ok = lists:foreach(Del, ToDel),
-   {noreply, State};
+    MS = [{{{{Doc, Stmp}, '$1', '$2'}, '$3', '_'}, [], [{{'$1', '$2', '$3'}}]}],
+    ToDel = ets:select(Tab, MS),
+    Del = fun
+        ({K1, K2, undefined}) ->
+            K = {{Doc, Stmp}, K1, K2},
+            ets:delete(Tab, K);
+        ({K1, K2, T}) ->
+            ets:delete(T),
+            K = {{Doc, Stmp}, K1, K2},
+            ets:delete(Tab, K)
+    end,
+    ok = lists:foreach(Del, ToDel),
+    {noreply, State};
 handle_cast({touch, DocId, InPathId, Steps}, #{tab := Tab} = State) ->
-   Now = expire(),
-   Key = {DocId, InPathId, Steps},
-   _ = ets:update_element(Tab, Key, {3, Now}),
-   {noreply, State};
+    Now = expire(),
+    Key = {DocId, InPathId, Steps},
+    _ = ets:update_element(Tab, Key, {3, Now}),
+    {noreply, State};
 handle_cast(_Msg, State) ->
-   {noreply, State}.
+    {noreply, State}.
 
 handle_info(_Info, State) ->
-   {noreply, State}.
+    {noreply, State}.
 
 terminate(_Reason, _State) ->
-   ok.
+    ok.
 
 code_change(_OldVsn, State, _Extra) ->
-   {ok, State}.
-
+    {ok, State}.
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
 
-
 expire() ->
-   erlang:system_time(millisecond) + ?STALE.
-
-
-
-
+    erlang:system_time(millisecond) + ?STALE.
 
 %% should be able to save queries similarly to RDBMS 
 % first time a query comes into a DB, it is analyzed and then cached somewhere. 

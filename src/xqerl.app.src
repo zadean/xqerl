@@ -1,33 +1,31 @@
 {application, xqerl, [
-   {description, "XQuery 3.1 Processor"},
-   {vsn, "0.1.2"},
-   {applications, [
-      kernel,
-      stdlib,
-      syntax_tools,
-      xmerl,
-      compiler,
-      common_test,
-      edoc,
-      eunit,
-      inets,
-      basexerl,
-      cowboy,
-      emojipoo,
-      erluca,
-      hackney,
-      htmerl,
-      locks,
-      merge_index,
-      sext,
-      uuid,
-      xmerl_sax,
-      xs_regex
-      %observer, 
-      %runtime_tools
-   ]},
-   {mod, { xqerl_app, []}},
-   {env, [
-      
-   ]}
- ]}.
+    {description, "XQuery 3.1 Processor"},
+    {vsn, "0.1.2"},
+    {applications, [
+        kernel,
+        stdlib,
+        syntax_tools,
+        xmerl,
+        compiler,
+        common_test,
+        edoc,
+        eunit,
+        inets,
+        basexerl,
+        cowboy,
+        emojipoo,
+        erluca,
+        hackney,
+        htmerl,
+        locks,
+        merge_index,
+        sext,
+        uuid,
+        xmerl_sax,
+        xs_regex
+        %observer,
+        %runtime_tools
+    ]},
+    {mod, {xqerl_app, []}},
+    {env, []}
+]}.

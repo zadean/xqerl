@@ -1,12 +1,20 @@
 -module('fn_month_from_dateTime_SUITE').
+
 -include_lib("common_test/include/ct.hrl").
--export([all/0,
-         groups/0,
-         suite/0]).
--export([init_per_suite/1,
-         init_per_group/2,
-         end_per_group/2,
-         end_per_suite/1]).
+
+-export([
+    all/0,
+    groups/0,
+    suite/0
+]).
+
+-export([
+    init_per_suite/1,
+    init_per_group/2,
+    end_per_group/2,
+    end_per_suite/1
+]).
+
 -export(['fn-month-from-dateTime1args-1'/1]).
 -export(['fn-month-from-dateTime1args-2'/1]).
 -export(['fn-month-from-dateTime1args-3'/1]).
@@ -34,458 +42,805 @@
 -export(['K-MonthFromDateTimeFunc-3'/1]).
 -export(['K-MonthFromDateTimeFunc-4'/1]).
 -export(['K-MonthFromDateTimeFunc-5'/1]).
-suite() -> [{timetrap,{seconds, 180}}].
-init_per_group(_, Config) ->  Config.
-end_per_group(_, _Config) -> 
-   xqerl_code_server:unload(all).
-end_per_suite(_Config) -> 
-   ct:timetrap({seconds,60}), 
-   xqerl_code_server:unload(all).
-init_per_suite(Config) -> 
-   {ok,_} = application:ensure_all_started(xqerl),
-   DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
-   TD = filename:join(DD, "QT3-test-suite"),
-   __BaseDir = filename:join(TD, "fn"),
-   [{base_dir, __BaseDir}|Config].
-all() -> [
-   {group, group_0}, 
-   {group, group_1}
-   ].
-groups() -> [
-   {group_0, [parallel], [
-    'fn-month-from-dateTime1args-1', 
-    'fn-month-from-dateTime1args-2', 
-    'fn-month-from-dateTime1args-3', 
-    'fn-month-from-dateTime-1', 
-    'fn-month-from-dateTime-2', 
-    'fn-month-from-dateTime-3', 
-    'fn-month-from-dateTime-4', 
-    'fn-month-from-dateTime-5', 
-    'fn-month-from-dateTime-6', 
-    'fn-month-from-dateTime-7', 
-    'fn-month-from-dateTime-8', 
-    'fn-month-from-dateTime-9', 
-    'fn-month-from-dateTimeNew-10', 
-    'fn-month-from-dateTime-11', 
-    'fn-month-from-dateTime-12', 
-    'fn-month-from-dateTime-13', 
-    'fn-month-from-dateTime-14', 
-    'fn-month-from-dateTime-15', 
-    'fn-month-from-dateTime-16', 
-    'fn-month-from-dateTime-17', 
-    'fn-month-from-dateTime-18', 
-    'fn-month-from-dateTime-19', 
-    'K-MonthFromDateTimeFunc-1']}, 
-   {group_1, [parallel], [
-    'K-MonthFromDateTimeFunc-2', 
-    'K-MonthFromDateTimeFunc-3', 
-    'K-MonthFromDateTimeFunc-4', 
-    'K-MonthFromDateTimeFunc-5']}].
+
+suite() -> [{timetrap, {seconds, 180}}].
+
+init_per_group(_, Config) -> Config.
+
+end_per_group(_, _Config) ->
+    xqerl_code_server:unload(all).
+
+end_per_suite(_Config) ->
+    ct:timetrap({seconds, 60}),
+    xqerl_code_server:unload(all).
+
+init_per_suite(Config) ->
+    {ok, _} = application:ensure_all_started(xqerl),
+    DD = filename:dirname(filename:dirname(filename:dirname(?config(data_dir, Config)))),
+    TD = filename:join(DD, "QT3-test-suite"),
+    __BaseDir = filename:join(TD, "fn"),
+    [{base_dir, __BaseDir} | Config].
+
+all() ->
+    [
+        {group, group_0},
+        {group, group_1}
+    ].
+
+groups() ->
+    [
+        {group_0, [parallel], [
+            'fn-month-from-dateTime1args-1',
+            'fn-month-from-dateTime1args-2',
+            'fn-month-from-dateTime1args-3',
+            'fn-month-from-dateTime-1',
+            'fn-month-from-dateTime-2',
+            'fn-month-from-dateTime-3',
+            'fn-month-from-dateTime-4',
+            'fn-month-from-dateTime-5',
+            'fn-month-from-dateTime-6',
+            'fn-month-from-dateTime-7',
+            'fn-month-from-dateTime-8',
+            'fn-month-from-dateTime-9',
+            'fn-month-from-dateTimeNew-10',
+            'fn-month-from-dateTime-11',
+            'fn-month-from-dateTime-12',
+            'fn-month-from-dateTime-13',
+            'fn-month-from-dateTime-14',
+            'fn-month-from-dateTime-15',
+            'fn-month-from-dateTime-16',
+            'fn-month-from-dateTime-17',
+            'fn-month-from-dateTime-18',
+            'fn-month-from-dateTime-19',
+            'K-MonthFromDateTimeFunc-1'
+        ]},
+        {group_1, [parallel], [
+            'K-MonthFromDateTimeFunc-2',
+            'K-MonthFromDateTimeFunc-3',
+            'K-MonthFromDateTimeFunc-4',
+            'K-MonthFromDateTimeFunc-5'
+        ]}
+    ].
 
 'fn-month-from-dateTime1args-1'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime1args-1.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime1args-1.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime1args-2'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1996-04-07T01:40:52Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime1args-2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "4") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"1996-04-07T01:40:52Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime1args-2.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "4") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime1args-3'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"2030-12-31T23:59:59Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime1args-3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "12") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"2030-12-31T23:59:59Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime1args-3.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "12") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-1'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-1.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "5") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-1.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "5") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-2'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1999-12-31T19:20:00-05:00\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "12") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"1999-12-31T19:20:00-05:00\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-2.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "12") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-3'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T19:20:00-05:00\"), xs:dayTimeDuration(\"PT0H\")))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T19:20:00-05:00\"), xs:dayTimeDuration(\"PT0H\")))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-3.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-4'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:avg((fn:month-from-dateTime(xs:dateTime(\"1996-12-31T12:00:00Z\")),fn:month-from-dateTime(xs:dateTime(\"2000-10-31T12:00:00Z\"))))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-4.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "11") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:avg((fn:month-from-dateTime(xs:dateTime(\"1996-12-31T12:00:00Z\")),fn:month-from-dateTime(xs:dateTime(\"2000-10-31T12:00:00Z\"))))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-4.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "11") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-5'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count(fn:month-from-dateTime(()))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-5.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "0") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:count(fn:month-from-dateTime(()))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-5.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "0") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-6'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"-1999-01-31T00:20:00-05:00\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-6.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"-1999-01-31T00:20:00-05:00\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-6.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-7'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"0001-12-31T23:20:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-7.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "12") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "fn:month-from-dateTime(xs:dateTime(\"0001-12-31T23:20:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-7.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "12") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-8'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\")) + fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-8.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "2") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\")) + fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-8.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "2") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-9'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-02-01T00:00:00Z\")) - fn:month-from-dateTime(xs:dateTime(\"1969-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-9.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-02-01T00:00:00Z\")) - fn:month-from-dateTime(xs:dateTime(\"1969-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-9.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTimeNew-10'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-03-01T02:00:00Z\")) * fn:month-from-dateTime(xs:dateTime(\"0002-02-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTimeNew-10.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "6") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-03-01T02:00:00Z\")) * fn:month-from-dateTime(xs:dateTime(\"0002-02-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTimeNew-10.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "6") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-11'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1000-10-01T02:00:00Z\")) div fn:month-from-dateTime(xs:dateTime(\"0050-05-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-11.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "2") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1000-10-01T02:00:00Z\")) div fn:month-from-dateTime(xs:dateTime(\"0050-05-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-11.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "2") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-12'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-12T10:00:00Z\")) idiv fn:month-from-dateTime(xs:dateTime(\"1970-02-01T02:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-12.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "0") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-01-12T10:00:00Z\")) idiv fn:month-from-dateTime(xs:dateTime(\"1970-02-01T02:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-12.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "0") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-13'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-10-01T10:00:00Z\")) mod fn:month-from-dateTime(xs:dateTime(\"1970-03-01T03:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-13.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-10-01T10:00:00Z\")) mod fn:month-from-dateTime(xs:dateTime(\"1970-03-01T03:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-13.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-14'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "+fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-14.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "1") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "+fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-14.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "1") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-15'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "-fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-15.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_string_value(Res, "-2") of 
-      true -> {comment, "String correct"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "-fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-15.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_string_value(Res, "-2") of
+            true -> {comment, "String correct"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-16'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\")) eq fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-16.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\")) eq fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-16.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-17'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\")) ne fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-17.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\")) ne fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-17.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-18'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\")) le fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-18.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1970-02-01T10:00:00Z\")) le fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-18.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_false(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'fn-month-from-dateTime-19'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\")) ge fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "fn-month-from-dateTime-19.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry =
+        "fn:month-from-dateTime(xs:dateTime(\"1971-01-01T10:00:00Z\")) ge fn:month-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "fn-month-from-dateTime-19.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'K-MonthFromDateTimeFunc-1'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "month-from-dateTime()", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-MonthFromDateTimeFunc-1.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "month-from-dateTime()",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "K-MonthFromDateTimeFunc-1.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_error(Res, "XPST0017") of
+            true -> {comment, "Correct error"};
+            {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'K-MonthFromDateTimeFunc-2'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "month-from-dateTime((), \"Wrong param\")", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-MonthFromDateTimeFunc-2.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
-      true -> {comment, "Correct error"};
-      {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "month-from-dateTime((), \"Wrong param\")",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "K-MonthFromDateTimeFunc-2.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_error(Res, "XPST0017") of
+            true -> {comment, "Correct error"};
+            {true, F} -> {comment, "WE: XPST0017 " ++ binary_to_list(F)};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'K-MonthFromDateTimeFunc-3'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "empty(month-from-dateTime(()))", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-MonthFromDateTimeFunc-3.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "empty(month-from-dateTime(()))",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "K-MonthFromDateTimeFunc-3.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'K-MonthFromDateTimeFunc-4'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "month-from-dateTime(()) instance of xs:integer?", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-MonthFromDateTimeFunc-4.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end. 
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "month-from-dateTime(()) instance of xs:integer?",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "K-MonthFromDateTimeFunc-4.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.
+
 'K-MonthFromDateTimeFunc-5'(Config) ->
-   __BaseDir = ?config(base_dir, Config),
-   Qry = "month-from-dateTime(xs:dateTime(\"2001-02-03T08:23:12.43\")) eq 2", 
-   Qry1 = Qry,
-   io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_code_server:compile(filename:join(__BaseDir, "K-MonthFromDateTimeFunc-5.xq"), Qry1),
-             xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "Empty"};
-      {false, F} -> F 
-   end, 
-   case Out of
-      {comment, C} -> {comment, C};
-      Err -> ct:fail(Err)
-   end.
+    __BaseDir = ?config(base_dir, Config),
+    Qry = "month-from-dateTime(xs:dateTime(\"2001-02-03T08:23:12.43\")) eq 2",
+    Qry1 = Qry,
+    io:format("Qry1: ~p~n", [Qry1]),
+    Res =
+        try
+            Mod = xqerl_code_server:compile(
+                filename:join(__BaseDir, "K-MonthFromDateTimeFunc-5.xq"),
+                Qry1
+            ),
+            xqerl:run(Mod)
+        of
+            D -> D
+        catch
+            _:E -> E
+        end,
+    Out =
+        case xqerl_test:assert_true(Res) of
+            true -> {comment, "Empty"};
+            {false, F} -> F
+        end,
+    case Out of
+        {comment, C} -> {comment, C};
+        Err -> ct:fail(Err)
+    end.

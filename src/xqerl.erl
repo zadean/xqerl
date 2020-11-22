@@ -27,9 +27,11 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([run/1, 
-         run/2,
-         compile/1]). 
+-export([
+    run/1,
+    run/2,
+    compile/1
+]).
 
 compile(Filename) ->
     xqerl_code_server:compile(Filename).
@@ -45,16 +47,20 @@ run(Mod, Options) when is_atom(Mod) ->
             xqerl_lib:format_stacktrace(E)
     after
         _ = erlang:erase(),
-        [erlang:put(K, V) || {K,V} <- OldProcDict]
+        [erlang:put(K, V) || {K, V} <- OldProcDict]
     end;
-run(#xqError{} = E, _Options) -> E;
+run(#xqError{} = E, _Options) ->
+    E;
 run(Str, Options) ->
     OldProcDict = erlang:erase(),
     try
-       xqerl_code_server:compile(
-         "/xqerl_run" ++
-         integer_to_list(erlang:unique_integer()) ++ 
-         ".xq", Str, false)
+        xqerl_code_server:compile(
+            "/xqerl_run" ++
+                integer_to_list(erlang:unique_integer()) ++
+                ".xq",
+            Str,
+            false
+        )
     of
         #xqError{} = M ->
             M;
@@ -65,5 +71,5 @@ run(Str, Options) ->
             xqerl_lib:format_stacktrace(E)
     after
         _ = erlang:erase(),
-        [erlang:put(K, V) || {K,V} <- OldProcDict]
+        [erlang:put(K, V) || {K, V} <- OldProcDict]
     end.

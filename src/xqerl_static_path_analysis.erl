@@ -3,7 +3,6 @@
 %% XXX Make this module effective for something!
 % currently only a `nice try`
 
-
 -module(xqerl_static_path_analysis).
 
 %% -include("xqerl.hrl").

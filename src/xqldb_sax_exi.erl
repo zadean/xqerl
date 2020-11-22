@@ -27,9 +27,10 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([parse_file/3,
-         parse_dir/2]).
-
+-export([
+    parse_file/3,
+    parse_dir/2
+]).
 
 %% -type state()::#{pos      => non_neg_integer(),
 %%                  parent   => [non_neg_integer()],
@@ -45,29 +46,32 @@
 %%                  }.
 
 parse_dir(DB, Dir) ->
-   xqldb_file:pmap(Dir, ".exi$", true, 
-                   fun(Nm) -> xqldb_sax_exi:parse_file(DB, Nm,<<"x.xml">>) end).
-
+    xqldb_file:pmap(
+        Dir,
+        ".exi$",
+        true,
+        fun(Nm) -> xqldb_sax_exi:parse_file(DB, Nm, <<"x.xml">>) end
+    ).
 
 parse_file(_DB, _File, _Uri) ->
-%%    Self = self(),
-%%    State = default_state(DB,unicode:characters_to_binary(File)),
-%%    %{ok,{Tree,Struct,_,{_Len,Nodes}},_} = 
-%%    {ok,{Nodes,Nsps},_} = 
-%%       xqldb_exi:parse_file(File, 
-%%                            #{event_fun => fun event/2,
-%%                              user_state => State}),
-%%    % stuff for another module
-%%    %{Len,Nodes} = xqldb_nodes:doc_tree_to_node_table(Tree),
-%% %   Struct = xqldb_structure:index_doc(Nodes),
-%% %   Len = byte_size(Nodes) div ?BSZ,
-%% %   DocPos = xqldb_node_table:insert(?NODE_TABLE_P(DB), Nodes),
-%% %   _ = xqldb_structure_index:add(?STRUCT_INDEX_P(DB), Struct),
-%% %   ONsps = [{A + DocPos, B + DocPos,C,D} || {A,B,C,D} <- Nsps],
-%% %   _ = xqldb_ns_node_table:insert(?NS_NODE_TABLE_P(DB), ONsps),
-%% %   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocPos, Len}),
-   ok.
-   
+    %%    Self = self(),
+    %%    State = default_state(DB,unicode:characters_to_binary(File)),
+    %%    %{ok,{Tree,Struct,_,{_Len,Nodes}},_} =
+    %%    {ok,{Nodes,Nsps},_} =
+    %%       xqldb_exi:parse_file(File,
+    %%                            #{event_fun => fun event/2,
+    %%                              user_state => State}),
+    %%    % stuff for another module
+    %%    %{Len,Nodes} = xqldb_nodes:doc_tree_to_node_table(Tree),
+    %% %   Struct = xqldb_structure:index_doc(Nodes),
+    %% %   Len = byte_size(Nodes) div ?BSZ,
+    %% %   DocPos = xqldb_node_table:insert(?NODE_TABLE_P(DB), Nodes),
+    %% %   _ = xqldb_structure_index:add(?STRUCT_INDEX_P(DB), Struct),
+    %% %   ONsps = [{A + DocPos, B + DocPos,C,D} || {A,B,C,D} <- Nsps],
+    %% %   _ = xqldb_ns_node_table:insert(?NS_NODE_TABLE_P(DB), ONsps),
+    %% %   _ = xqldb_path_table:insert(?PATH_TABLE_P(DB), {Uri, xml, DocPos, Len}),
+    ok.
+
 %%    %{File,DocPos}.
 %%    %{Tree,Struct,DocPos}.
 %% 

@@ -32,15 +32,13 @@
 -export([pmap/4]).
 
 pmap(Dir, Pattern, Recursive, Fun) ->
-   Self = self(),
-   Fun2 = fun(Filename, Acc) ->
-                Pid = spawn(fun() -> Self ! {self(), catch(Fun(Filename))} end ),
-                [Pid|Acc]
-          end,
-   Pids = filelib:fold_files(Dir, Pattern, Recursive, Fun2, []),
-   receive_pids(lists:reverse(Pids)).
-
-
+    Self = self(),
+    Fun2 = fun(Filename, Acc) ->
+        Pid = spawn(fun() -> Self ! {self(), catch (Fun(Filename))} end),
+        [Pid | Acc]
+    end,
+    Pids = filelib:fold_files(Dir, Pattern, Recursive, Fun2, []),
+    receive_pids(lists:reverse(Pids)).
 
 %% ====================================================================
 %% Internal functions
@@ -48,18 +46,14 @@ pmap(Dir, Pattern, Recursive, Fun) ->
 
 receive_pids(Pids) -> receive_pids(Pids, []).
 
-receive_pids([H|T], Acc) ->
-   receive
-      {H,V} ->
-         receive_pids(T, [V|Acc])
-   after
-       ?TIMEOUT -> timeout
-   end;
-receive_pids([], Acc) -> Acc.
-
-
-
-
+receive_pids([H | T], Acc) ->
+    receive
+        {H, V} ->
+            receive_pids(T, [V | Acc])
+    after ?TIMEOUT -> timeout
+    end;
+receive_pids([], Acc) ->
+    Acc.
 
 %% -record(file_info,
 %%         {size   :: non_neg_integer() | 'undefined',  % Size of file in bytes.

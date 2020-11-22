@@ -1,15 +1,12 @@
 %% @author Zack
 %% @doc @todo Add description to xqldb_value_index.
 
-
 -module(xqldb_value_index).
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
 -export([]).
-
-
 
 %% ====================================================================
 %% Internal functions
@@ -24,4 +21,3 @@
 
 %% timestamp() ->
 %%    erlang:system_time(microsecond).
-
