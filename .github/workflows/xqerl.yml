@@ -35,7 +35,7 @@ jobs:
           which xqerl
           printf %60s | tr ' ' '-' && echo
     - name: Start up xqerl
-      run: xqerl start
+      run: xqerl daemon
     - name: Beam inspection 
       run: |
           sleep 5
