@@ -35,7 +35,7 @@ jobs:
           which xqerl
           printf %60s | tr ' ' '-' && echo
     - name: Start up xqerl
-      run: xqerl start
+      run: xqerl daemon
     - name: Beam inspection 
       run: |
           sleep 5
@@ -61,7 +61,7 @@ jobs:
           grep -oP 'file(.+)\.xq'
           printf %60s | tr ' ' '-' && echo
           echo ' - compile, run then grep the title'
-          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),xqerl_node:to_xml(S:main(#{})).' | \
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).' | \
           grep -oP '<title>(.+)</title>'
           printf %60s | tr ' ' '-' && echo
           echo -n ' - load an XML file into the DB: '
