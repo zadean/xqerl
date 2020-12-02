@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -66,7 +66,7 @@
         [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'self_', 1}, 0, []}
 ]).
 
--define(bin(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
+-define(BIN(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
 
 %% ====================================================================
 %% API functions
@@ -95,7 +95,7 @@ send(_, ToAddress, Items) when is_pid(ToAddress) ->
             value => Items
         },
     [];
-send(C, ?bin(ToAddress), Items) ->
+send(C, ?BIN(ToAddress), Items) ->
     Pid = pid_from_bin(ToAddress),
     send(C, Pid, Items);
 send(C, T, I) ->
@@ -135,7 +135,7 @@ receive_(_, FromAddress) when is_pid(FromAddress) ->
         {'DOWN', _, FromAddress, Err} ->
             Err
     end;
-receive_(C, ?bin(FromAddress)) ->
+receive_(C, ?BIN(FromAddress)) ->
     FromPid = pid_from_bin(FromAddress),
     receive_(C, FromPid);
 receive_(C, F) ->
@@ -165,7 +165,7 @@ receive_(_, FromAddress, Timeout) when is_pid(FromAddress), is_integer(Timeout),
             Err
     after Timeout -> do_throw(timeout)
     end;
-receive_(C, ?bin(FromAddress), Timeout) ->
+receive_(C, ?BIN(FromAddress), Timeout) ->
     FromPid = pid_from_bin(FromAddress),
     receive_(C, FromPid, Timeout);
 receive_(C, F, T) ->
@@ -183,7 +183,7 @@ receive_(C, F, T) ->
 ) -> xq_types:xs_base64Binary().
 spawn_(Ctx, Fun) when is_function(Fun, 1) ->
     Pid = erlang:spawn_link(erlang, apply, [Fun, [Ctx#{parent => self()}]]),
-    ?bin(pid_to_bin(Pid));
+    ?BIN(pid_to_bin(Pid));
 spawn_(_, Fun) when is_function(Fun) ->
     do_throw(bad_arity);
 spawn_(Ctx, #xqFunction{body = Fun}) when is_function(Fun) ->
@@ -198,7 +198,7 @@ spawn_(_, F) ->
     xq_types:context()
 ) -> xq_types:xs_base64Binary() | [].
 parent(#{parent := Pid}) ->
-    ?bin(pid_to_bin(Pid));
+    ?BIN(pid_to_bin(Pid));
 parent(_) ->
     [].
 
@@ -208,7 +208,7 @@ parent(_) ->
     xq_types:context()
 ) -> xq_types:xs_base64Binary().
 self_(_) ->
-    ?bin(pid_to_bin(self())).
+    ?BIN(pid_to_bin(self())).
 
 %% ====================================================================
 %% Internal functions

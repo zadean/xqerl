@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -432,21 +432,14 @@ get_version(Value) ->
 
 normalize_character_map(Value) ->
     List = [
-        {case Key of
-                <<K/utf8>> ->
-                    K;
-                I when is_integer(I) ->
-                    I;
-                _ ->
-                    ?dbg("Key", Key),
-                    ?err('XPTY0004')
-            end,
-            if
-                is_binary(V) ->
-                    V;
-                true ->
-                    ?err('XPTY0004')
-            end}
+        case Key of
+            <<K/utf8>> when is_binary(V) ->
+                {K, V};
+            I when is_integer(I), is_binary(V) ->
+                {I, V};
+            _ ->
+                ?err('XPTY0004')
+        end
         || {Key, {_, V}} <- maps:to_list(Value)
     ],
     maps:from_list(List).
@@ -467,10 +460,10 @@ parse_xml_options([
 ]) when Atts =/= [] ->
     [Val] = [xqldb_mem_nodes:string_value(A) || #{nn := {<<>>, _, <<"value">>}} = A <- Atts],
     Val1 =
-        if
-            Ln == <<"use-character-maps">> ->
+        case Ln of
+            <<"use-character-maps">> ->
                 normalize_xml_character_map(N);
-            true ->
+            _ ->
                 Val
         end,
     [{#qname{namespace = ?NS, local_name = Ln}, Val1, ENs} | parse_xml_options(T)];
@@ -483,10 +476,10 @@ parse_xml_options([
     | T
 ]) ->
     Val1 =
-        if
-            Ln == <<"use-character-maps">> ->
+        case Ln of
+            <<"use-character-maps">> ->
                 normalize_xml_character_map(N);
-            true ->
+            _ ->
                 <<>>
         end,
     [{#qname{namespace = ?NS, local_name = Ln}, Val1, ENs} | parse_xml_options(T)].

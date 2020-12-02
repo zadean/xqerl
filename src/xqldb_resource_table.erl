@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -97,10 +97,7 @@ new(DBDirectory, TableName) ->
     {ok, Trunc} = file:open(HeapName, [write]),
     file:close(Trunc),
     % new heap
-    {ok, HeapFile} = file:open(
-        HeapName,
-        [read, write, binary, read_ahead, delayed_write, raw]
-    ),
+    {ok, HeapFile} = file_open(HeapName),
     #{
         file => HeapFile,
         free_space => [],
@@ -120,10 +117,7 @@ open(DBDirectory, TableName) ->
         DBDirectory,
         atom_to_list(TableName) ++ ".heap"
     ),
-    {ok, HeapFile} = file:open(
-        HeapName,
-        [read, write, binary, read_ahead, delayed_write, raw]
-    ),
+    {ok, HeapFile} = file_open(HeapName),
     {ok, EOF} = file:position(HeapFile, eof),
     #{
         file => HeapFile,
@@ -145,6 +139,9 @@ get_first_fit([{Len, Pos} | _T], _) ->
 % none
 get_first_fit([], _) ->
     [].
+
+file_open(HeapName) ->
+    file:open(HeapName, [read, write, binary, read_ahead, delayed_write, raw]).
 
 %% ====================================================================
 %% Callbacks
@@ -188,19 +185,16 @@ handle_call(
         [] ->
             ok = file:pwrite(File, Tail, Bin),
             {reply, {Tail, Size}, State#{tail := Tail + Size}};
-        {Len, Pos} = LP ->
+        {Len, Pos} = LP when Size < Len ->
             Fs1 = Fs -- [LP],
             ok = file:pwrite(File, Pos, Bin),
-            Fs2 =
-                if
-                    Size < Len ->
-                        New = {Size - Len, Pos + Size},
-                        lists:sort([New | Fs1]);
-                    % ==
-                    true ->
-                        Fs1
-                end,
-            {reply, {Pos, Size}, State#{free_space := Fs2}}
+            New = {Size - Len, Pos + Size},
+            Fs2 = lists:sort([New | Fs1]),
+            {reply, {Pos, Size}, State#{free_space := Fs2}};
+        {_, Pos} = LP ->
+            Fs1 = Fs -- [LP],
+            ok = file:pwrite(File, Pos, Bin),
+            {reply, {Pos, Size}, State#{free_space := Fs1}}
     end.
 
 handle_info(_Request, State) -> {noreply, State}.

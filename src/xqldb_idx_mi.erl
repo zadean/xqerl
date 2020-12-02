@@ -1,3 +1,25 @@
+%% -------------------------------------------------------------------
+%%
+%% xqerl - XQuery processor
+%%
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
+%%
+%% This file is provided to you under the Apache License,
+%% Version 2.0 (the "License"); you may not use this file
+%% except in compliance with the License.  You may obtain
+%% a copy of the License at
+%%
+%%   http://www.apache.org/licenses/LICENSE-2.0
+%%
+%% Unless required by applicable law or agreed to in writing,
+%% software distributed under the License is distributed on an
+%% "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+%% KIND, either express or implied.  See the License for the
+%% specific language governing permissions and limitations
+%% under the License.
+%%
+%% -------------------------------------------------------------------
+
 -module(xqldb_idx_mi).
 
 -include("xqerl_db.hrl").
@@ -100,7 +122,7 @@ index(
     Timestamp = erlang:system_time(microsecond),
 
     {SetPostings, BagPostings} = split_transform_postings(Postings, Timestamp, [], []),
-    _ = ?PINDEX:batch(PServer, SetPostings),
+    _ = emojipoo:batch(PServer, SetPostings),
     _ = merge_index:index(Server, BagPostings),
     ok.
 
@@ -112,7 +134,7 @@ delete(DB, DocId) ->
 -spec lookup_node(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_node(#{pindex := Server}, DocId, NodeId) ->
     Key = sext:encode({DocId, NodeId}),
-    case ?PINDEX:get(Server, Key) of
+    case emojipoo:get(Server, Key) of
         not_found ->
             [];
         {ok, Value} ->
@@ -129,11 +151,10 @@ lookup_children(#{pindex := Server}, DocId, NodeId) ->
         ({Key, Value}) when Bp == 1 ->
             {_, NodeId0} = sext:decode(Key),
             {NodeBin, PathId} = binary_to_term(Value),
-            IsText = xqldb_nodes:is_text('_', NodeBin),
-            if
-                IsText ->
-                    false;
+            case xqldb_nodes:is_text('_', NodeBin) of
                 true ->
+                    false;
+                false ->
                     {true,
                         {NodeId0, [
                             {b, NodeBin},
@@ -146,11 +167,10 @@ lookup_children(#{pindex := Server}, DocId, NodeId) ->
             {NodeBin, PathId} = binary_to_term(Value),
             case length(NodeId0) of
                 Bp ->
-                    IsAtt = xqldb_nodes:is_attribute({'_', '_'}, '_', NodeBin),
-                    if
-                        IsAtt ->
-                            false;
+                    case xqldb_nodes:is_attribute({'_', '_'}, '_', NodeBin) of
                         true ->
+                            false;
+                        false ->
                             {true,
                                 {NodeId0, [
                                     {b, NodeBin},
@@ -162,7 +182,7 @@ lookup_children(#{pindex := Server}, DocId, NodeId) ->
                     false
             end
     end,
-    ?PINDEX:prefix(Server, Prefix, FilterMap).
+    emojipoo:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_tree(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_tree(#{pindex := Server}, DocId, NodeId) ->
@@ -177,41 +197,35 @@ lookup_tree(#{pindex := Server}, DocId, NodeId) ->
                 {p, PathId}
             ]}}
     end,
-    ?PINDEX:prefix(Server, Prefix, FilterMap).
+    emojipoo:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_following(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_following(#{pindex := Server}, DocId, NodeId) ->
     {_Low, High} = get_node_id_range(NodeId),
     Prefix = sext:prefix({DocId, '_'}),
     FilterMap = fun({Key, Value}) ->
-        {_, NodeId0} = sext:decode(Key),
-        if
-            NodeId0 >= High ->
+        case sext:decode(Key) of
+            {_, NodeId0} when NodeId0 < High ->
+                false;
+            {_, NodeId0} ->
                 {NodeBin, PathId} = binary_to_term(Value),
-                IsAtt = xqldb_nodes:is_attribute({'_', '_'}, '_', NodeBin),
-                if
-                    IsAtt ->
-                        false;
+                case
+                    xqldb_nodes:is_attribute({'_', '_'}, '_', NodeBin) orelse
+                        (xqldb_nodes:is_text('_', NodeBin) andalso length(NodeId0) == 1)
+                of
                     true ->
-                        % block document text
-                        IsText = xqldb_nodes:is_text('_', NodeBin),
-                        if
-                            IsText andalso length(NodeId0) == 1 ->
-                                false;
-                            true ->
-                                {true,
-                                    {NodeId0, [
-                                        {b, NodeBin},
-                                        {d, DocId},
-                                        {p, PathId}
-                                    ]}}
-                        end
-                end;
-            true ->
-                false
+                        false;
+                    false ->
+                        {true,
+                            {NodeId0, [
+                                {b, NodeBin},
+                                {d, DocId},
+                                {p, PathId}
+                            ]}}
+                end
         end
     end,
-    ?PINDEX:prefix(Server, Prefix, FilterMap).
+    emojipoo:prefix(Server, Prefix, FilterMap).
 
 -spec lookup_preceding(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_preceding(#{pindex := Server}, DocId, NodeId) ->
@@ -238,7 +252,7 @@ lookup_preceding(#{pindex := Server}, DocId, NodeId) ->
                     ]}}
         end
     end,
-    ?PINDEX:range(Server, Range, Filter).
+    emojipoo:range(Server, Range, Filter).
 
 -spec lookup_path(db(), DocId :: term(), PathId :: integer()) -> [db_node()].
 lookup_path(
@@ -317,7 +331,7 @@ node_delete(PIndexPid, DocId, PathCollect) ->
         false
     end,
     Prefix = sext:prefix({DocId, '_'}),
-    _ = ?PINDEX:prefix(PIndexPid, Prefix, Fun),
+    _ = emojipoo:prefix(PIndexPid, Prefix, Fun),
     DelPid ! {done, PIndexPid},
     PathCollect ! {done, self()},
     receive
@@ -330,12 +344,12 @@ delete_collector(PIndex) ->
 delete_collector(PIndex, Acc, Cnt) ->
     receive
         Key when is_binary(Key), Cnt > 10000 ->
-            ?PINDEX:batch(PIndex, Acc),
+            emojipoo:batch(PIndex, Acc),
             delete_collector(PIndex, [{delete, Key}], 0);
         Key when is_binary(Key) ->
             delete_collector(PIndex, [{delete, Key} | Acc], Cnt + 1);
         {done, PIndex} ->
-            ?PINDEX:batch(PIndex, Acc),
+            emojipoo:batch(PIndex, Acc),
             ok
     end.
 
@@ -426,7 +440,7 @@ lookup_node_from_iter(_, _, []) ->
     [];
 lookup_node_from_iter(NodeServer, DocId, [{NodeId, _} | T]) ->
     Key = sext:encode({DocId, NodeId}),
-    case ?PINDEX:get(NodeServer, Key) of
+    case emojipoo:get(NodeServer, Key) of
         not_found ->
             ?dbg("Key not found! ", Key),
             lookup_node_from_iter(NodeServer, DocId, T);

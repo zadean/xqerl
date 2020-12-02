@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -32,8 +32,6 @@
 -include("xqerl.hrl").
 -include("xqerl_parser.hrl").
 
--define(atint(I), I).
-
 -export([windowclause/3]).
 -export([windowclause/5]).
 -export([orderbyclause/2]).
@@ -54,6 +52,8 @@
     args = [Arg]
 }).
 
+-type xqFlwor() :: #xqFlwor{}.
+
 % internal use
 %% -export([int_order_1/2]).
 
@@ -64,7 +64,7 @@ add_position(List) ->
     add_position([List]).
 
 add_position([H | T], Cnt, Acc) ->
-    New = {H, ?atint(Cnt)},
+    New = {H, Cnt},
     add_position(T, Cnt + 1, [New | Acc]);
 add_position([], _Cnt, Acc) ->
     lists:reverse(Acc).
@@ -189,71 +189,82 @@ flatten_window_return(WType, Bw) ->
         || B <- Bw, B =/= []
     ].
 
+win_start_tup(S, SPos) -> {S, SPos, [], [], S, SPos, [], [], [S]}.
+
+win_start_next_tup(S, SPos, SNext) -> {S, SPos, [], SNext, S, SPos, [], SNext, [S]}.
+
+win_start_prev_tup(S, SPos, SPrev) -> {S, SPos, SPrev, [], S, SPos, SPrev, [], [S]}.
+
+win_start_last_tup(S, SPos, SPrev) -> {S, SPos, SPrev, [], S, SPos, SPrev, [], S}.
+
+win_start_all_tup(S, SPos, SPrev, SNext) -> {S, SPos, SPrev, SNext, S, SPos, SPrev, SNext, [S]}.
+
+win_start_extract_last({S1, SPos1, SPrev1, SNext1, _, _, _, _, W}) ->
+    {S1, SPos1, SPrev1, SNext1, W}.
+
+win_start_set_acc(Acc) ->
+    R = lists:reverse(element(9, Acc)),
+    setelement(9, Acc, R).
+
 % tumbling window with no end function, means window as if each 'true'
 winstart([], _, _) ->
     [];
 winstart([{S, SPos}], true, _) ->
-    [{S, SPos, [], [], S, SPos, [], [], [S]}];
+    [win_start_tup(S, SPos)];
 winstart([[], {S, SPos}], true, []) ->
-    winstart([{S, SPos}], true, {S, SPos, [], [], S, SPos, [], [], [S]});
+    winstart([{S, SPos}], true, win_start_tup(S, SPos));
 winstart([[], {_, _}] = L, true, Acc) ->
-    R = lists:reverse(element(9, Acc)),
-    [setelement(9, Acc, R) | winstart(L, true, [])];
+    [win_start_set_acc(Acc) | winstart(L, true, [])];
 winstart([[], {S, SPos}, {SNext, _} | _] = L, true, []) ->
-    winstart(tl(L), true, {S, SPos, [], SNext, S, SPos, [], SNext, [S]});
+    winstart(tl(L), true, win_start_next_tup(S, SPos, SNext));
 winstart([[], {_, _}, {_, _} | _] = L, true, Acc) ->
-    R = lists:reverse(element(9, Acc)),
-    [setelement(9, Acc, R) | winstart(L, true, [])];
+    [win_start_set_acc(Acc) | winstart(L, true, [])];
 % last call , returns
 winstart([{SPrev, _}, {S, SPos}], true, []) ->
-    [{S, SPos, SPrev, [], S, SPos, SPrev, [], [S]}];
+    [win_start_prev_tup(S, SPos, SPrev)];
 % last call , returns
 winstart([{SPrev, _}, {S, SPos}], true, Acc) ->
-    R = lists:reverse(element(9, Acc)),
-    [setelement(9, Acc, R), {S, SPos, SPrev, [], S, SPos, SPrev, [], S}];
+    [win_start_set_acc(Acc), win_start_last_tup(S, SPos, SPrev)];
 winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, true, []) ->
-    winstart(tl(L), true, {S, SPos, SPrev, SNext, S, SPos, SPrev, SNext, [S]});
+    winstart(tl(L), true, win_start_all_tup(S, SPos, SPrev, SNext));
 winstart([{_, _}, {_, _}, {_, _} | _] = L, true, Acc) ->
-    R = lists:reverse(element(9, Acc)),
-    [setelement(9, Acc, R) | winstart(L, true, [])];
+    [win_start_set_acc(Acc) | winstart(L, true, [])];
 winstart([{S, SPos}], StartFun, _) ->
     case bool(StartFun({S, SPos, [], []})) of
         true ->
-            [{S, SPos, [], [], S, SPos, [], [], [S]}];
+            [win_start_tup(S, SPos)];
         _ ->
             []
     end;
 winstart([[], {S, SPos}], StartFun, []) ->
     case bool(StartFun({S, SPos, [], []})) of
         true ->
-            winstart([{S, SPos}], StartFun, {S, SPos, [], [], S, SPos, [], [], [S]});
+            winstart([{S, SPos}], StartFun, win_start_tup(S, SPos));
         _ ->
             winstart([{S, SPos}], StartFun, [])
     end;
 winstart([[], {S, SPos}] = L, StartFun, Acc) ->
     case bool(StartFun({S, SPos, [], []})) of
         true ->
-            R = lists:reverse(element(9, Acc)),
-            [setelement(9, Acc, R) | winstart(L, StartFun, [])];
+            [win_start_set_acc(Acc) | winstart(L, StartFun, [])];
         _ ->
-            {S1, SPos1, SPrev1, SNext1, _, _, _, _, W} = Acc,
+            {S1, SPos1, SPrev1, SNext1, W} = win_start_extract_last(Acc),
             NewAcc = {S1, SPos1, SPrev1, SNext1, S, SPos, [], [], [S | W]},
             winstart([{S, SPos}], StartFun, NewAcc)
     end;
 winstart([[], {S, SPos}, {SNext, _} | _] = L, StartFun, []) ->
     case bool(StartFun({S, SPos, [], SNext})) of
         true ->
-            winstart(tl(L), StartFun, {S, SPos, [], SNext, S, SPos, [], SNext, [S]});
+            winstart(tl(L), StartFun, win_start_next_tup(S, SPos, SNext));
         _ ->
             winstart(tl(L), StartFun, [])
     end;
 winstart([[], {S, SPos}, {SNext, _} | _] = L, StartFun, Acc) ->
     case bool(StartFun({S, SPos, [], SNext})) of
         true ->
-            R = lists:reverse(element(9, Acc)),
-            [setelement(9, Acc, R) | winstart(L, StartFun, [])];
+            [win_start_set_acc(Acc) | winstart(L, StartFun, [])];
         _ ->
-            {S1, SPos1, SPrev1, SNext1, _, _, _, _, W} = Acc,
+            {S1, SPos1, SPrev1, SNext1, W} = win_start_extract_last(Acc),
             NewAcc = {S1, SPos1, SPrev1, SNext1, S, SPos, [], SNext, [S | W]},
             winstart(tl(L), StartFun, NewAcc)
     end;
@@ -261,7 +272,7 @@ winstart([[], {S, SPos}, {SNext, _} | _] = L, StartFun, Acc) ->
 winstart([{SPrev, _}, {S, SPos}], StartFun, []) ->
     case bool(StartFun({S, SPos, SPrev, []})) of
         true ->
-            [{S, SPos, SPrev, [], S, SPos, SPrev, [], [S]}];
+            [win_start_prev_tup(S, SPos, SPrev)];
         _ ->
             []
     end;
@@ -269,75 +280,74 @@ winstart([{SPrev, _}, {S, SPos}], StartFun, []) ->
 winstart([{SPrev, _}, {S, SPos}], StartFun, Acc) ->
     case bool(StartFun({S, SPos, SPrev, []})) of
         true ->
-            R = lists:reverse(element(9, Acc)),
-            [setelement(9, Acc, R), {S, SPos, SPrev, [], S, SPos, SPrev, [], S}];
+            [win_start_set_acc(Acc), win_start_last_tup(S, SPos, SPrev)];
         _ ->
-            {S1, SPos1, SPrev1, SNext1, _, _, _, _, W} = Acc,
+            {S1, SPos1, SPrev1, SNext1, W} = win_start_extract_last(Acc),
             [{S1, SPos1, SPrev1, SNext1, S, SPos, SPrev, [], lists:reverse([S | W])}]
     end;
 winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, StartFun, []) ->
     case bool(StartFun({S, SPos, SPrev, SNext})) of
         true ->
-            winstart(tl(L), StartFun, {S, SPos, SPrev, SNext, S, SPos, SPrev, SNext, [S]});
+            winstart(tl(L), StartFun, win_start_all_tup(S, SPos, SPrev, SNext));
         _ ->
             winstart(tl(L), StartFun, [])
     end;
 winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, StartFun, Acc) ->
     case bool(StartFun({S, SPos, SPrev, SNext})) of
         true ->
-            R = lists:reverse(element(9, Acc)),
-            [setelement(9, Acc, R) | winstart(L, StartFun, [])];
+            [win_start_set_acc(Acc) | winstart(L, StartFun, [])];
         _ ->
-            {S1, SPos1, SPrev1, SNext1, _, _, _, _, W} = Acc,
+            {S1, SPos1, SPrev1, SNext1, W} = win_start_extract_last(Acc),
             NewAcc = {S1, SPos1, SPrev1, SNext1, S, SPos, SPrev, SNext, [S | W]},
             winstart(tl(L), StartFun, NewAcc)
     end.
 
+win_start_end_1(SPrev, L, EndFun, Only) ->
+    {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
+    [Win].
+
 winstart([], _StartFun, _EndFun, _Type, _Only) ->
     [];
 winstart([{SPrev, _}] = L, true, EndFun, _Type, Only) ->
-    {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
-    [Win];
-winstart([[], {S, SPos}, {SNext, _} | _] = L, true, EndFun, Type, Only) ->
+    win_start_end_1(SPrev, L, EndFun, Only);
+winstart([[], {S, SPos}, {SNext, _} | _] = L, true, EndFun, tumbling, Only) ->
     {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
-    if
-        Type == tumbling ->
-            [Win | winstart(Rest, true, EndFun, Type, Only)];
-        true ->
-            [Win | winstart(tl(L), true, EndFun, Type, Only)]
-    end;
+    [Win | winstart(Rest, true, EndFun, tumbling, Only)];
+winstart([[], {S, SPos}, {SNext, _} | _] = L, true, EndFun, Type, Only) ->
+    {Win, _Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
+    [Win | winstart(tl(L), true, EndFun, Type, Only)];
 winstart([[], {S, SPos}] = L, true, EndFun, _, Only) ->
     {Win, _Rest} = winend([], S, SPos, [], L, EndFun, [], Only),
     [Win];
 winstart([{SPrev, _}, {S, SPos}] = L, true, EndFun, _, Only) ->
     {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, [], Only),
     [Win];
-winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, true, EndFun, Type, Only) ->
+winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, true, EndFun, tumbling, Only) ->
     {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
-    if
-        Type == tumbling ->
-            [Win | winstart(Rest, true, EndFun, Type, Only)];
-        true ->
-            [Win | winstart(tl(L), true, EndFun, Type, Only)]
-    end;
+    [Win | winstart(Rest, true, EndFun, tumbling, Only)];
+winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, true, EndFun, Type, Only) ->
+    {Win, _Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
+    [Win | winstart(tl(L), true, EndFun, Type, Only)];
 winstart([{SPrev, _}] = L, StartFun, EndFun, _Type, Only) ->
     case bool(StartFun({[], [], SPrev, []})) of
         true ->
-            {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
-            [Win];
+            win_start_end_1(SPrev, L, EndFun, Only);
         _ ->
             []
+    end;
+winstart([[], {S, SPos}, {SNext, _} | _] = L, StartFun, EndFun, tumbling, Only) ->
+    case bool(StartFun({S, SPos, [], SNext})) of
+        true ->
+            {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
+            [Win | winstart(Rest, StartFun, EndFun, tumbling, Only)];
+        _ ->
+            winstart(tl(L), StartFun, EndFun, tumbling, Only)
     end;
 winstart([[], {S, SPos}, {SNext, _} | _] = L, StartFun, EndFun, Type, Only) ->
     case bool(StartFun({S, SPos, [], SNext})) of
         true ->
-            {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
-            if
-                Type == tumbling ->
-                    [Win | winstart(Rest, StartFun, EndFun, Type, Only)];
-                true ->
-                    [Win | winstart(tl(L), StartFun, EndFun, Type, Only)]
-            end;
+            {Win, _Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
+            [Win | winstart(tl(L), StartFun, EndFun, Type, Only)];
         _ ->
             winstart(tl(L), StartFun, EndFun, Type, Only)
     end;
@@ -359,17 +369,21 @@ winstart([{SPrev, _}, {S, SPos}] = L, StartFun, EndFun, Type, Only) ->
         _ ->
             winstart(tl(L), StartFun, EndFun, Type, Only)
     end;
-winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, StartFun, EndFun, Type, Only) ->
+winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, StartFun, EndFun, tumbling, Only) ->
     case bool(StartFun({S, SPos, SPrev, SNext})) of
         true ->
             {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
             % could send Win someplace now
-            if
-                Type == tumbling ->
-                    [Win | winstart(Rest, StartFun, EndFun, Type, Only)];
-                true ->
-                    [Win | winstart(tl(L), StartFun, EndFun, Type, Only)]
-            end;
+            [Win | winstart(Rest, StartFun, EndFun, tumbling, Only)];
+        _ ->
+            winstart(tl(L), StartFun, EndFun, tumbling, Only)
+    end;
+winstart([{SPrev, _}, {S, SPos}, {SNext, _} | _] = L, StartFun, EndFun, Type, Only) ->
+    case bool(StartFun({S, SPos, SPrev, SNext})) of
+        true ->
+            {Win, _Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
+            % could send Win someplace now
+            [Win | winstart(tl(L), StartFun, EndFun, Type, Only)];
         _ ->
             winstart(tl(L), StartFun, EndFun, Type, Only)
     end.
@@ -393,27 +407,13 @@ winend(SPrev, S, SPos, SNext, [[], {E, EPos}] = L, EndFun, Acc, Only) ->
 winend(SPrev, S, SPos, SNext, [{EPrev, _}, {E, EPos}], EndFun, Acc, Only) ->
     NewAcc = [E | Acc],
     case bool(EndFun({S, SPos, SPrev, SNext, E, EPos, EPrev, []})) of
-        true ->
-            {{S, SPos, SPrev, SNext, E, EPos, EPrev, [], lists:reverse(NewAcc)}, []};
-        _ ->
-            if
-                Only == true ->
-                    {[], []};
-                true ->
-                    {{S, SPos, SPrev, SNext, E, EPos, EPrev, [], lists:reverse(NewAcc)}, []}
-            end
+        false when Only == true -> {[], []};
+        _ -> {{S, SPos, SPrev, SNext, E, EPos, EPrev, [], lists:reverse(NewAcc)}, []}
     end;
 winend(SPrev, S, SPos, SNext, [{EPrev, _}], EndFun, Acc, Only) ->
     case bool(EndFun({S, SPos, SPrev, SNext, [], [], EPrev, []})) of
-        true ->
-            {{S, SPos, SPrev, SNext, [], [], EPrev, [], lists:reverse(Acc)}, []};
-        _ ->
-            if
-                Only == true ->
-                    {[], []};
-                true ->
-                    {{S, SPos, SPrev, SNext, [], [], EPrev, [], lists:reverse(Acc)}, []}
-            end
+        false when Only == true -> {[], []};
+        _ -> {{S, SPos, SPrev, SNext, [], [], EPrev, [], lists:reverse(Acc)}, []}
     end;
 winend(
     SPrev,
@@ -505,97 +505,80 @@ orderbyclause(VarStream, Clauses) ->
     ),
     [T || {T, _} <- Sorted].
 
+% stable sort by empty function descending
 do_order({_, []}, {_, []}) ->
     true;
-do_order({TA, [{ValA, descending, Empty} | RestA]}, {TB, [{ValB, _, _} | RestB]}) ->
-    % stable sort by empty function
-    if
-        ValA == [] andalso ValB == [] ->
-            true;
-        Empty == greatest andalso ValA == [] ->
-            true;
-        Empty == greatest andalso ValB == [] ->
-            false;
-        Empty == greatest andalso
-            ValA ==
-                #xqAtomicValue{
-                    type = 'xs:float',
-                    value = nan
-                };
-        Empty == greatest andalso ValA == nan ->
-            true;
-        Empty == least andalso ValA == [] ->
-            false;
-        Empty == least andalso ValB == [] ->
-            true;
-        Empty == least andalso
-            ValB ==
-                #xqAtomicValue{
-                    type = 'xs:float',
-                    value = nan
-                };
-        Empty == least andalso ValB == nan ->
-            true;
+do_order({_, [{[], descending, _} | _]}, {_, [{[], _, _} | _]}) ->
+    true;
+do_order({_, [{[], descending, greatest} | _]}, {_, [{_, _, _} | _]}) ->
+    true;
+do_order({_, [{_, descending, greatest} | _]}, {_, [{[], _, _} | _]}) ->
+    false;
+do_order(
+    {_, [{#xqAtomicValue{type = 'xs:float', value = nan}, descending, greatest} | _]},
+    {_, [{_, _, _} | _]}
+) ->
+    true;
+do_order({_, [{nan, descending, greatest} | _]}, {_, [{_, _, _} | _]}) ->
+    true;
+do_order({_, [{[], descending, least} | _]}, {_, [{_, _, _} | _]}) ->
+    false;
+do_order({_, [{_, descending, least} | _]}, {_, [{[], _, _} | _]}) ->
+    true;
+do_order(
+    {_, [{_, descending, least} | _]},
+    {_, [{#xqAtomicValue{type = 'xs:float', value = nan}, _, _} | _]}
+) ->
+    true;
+do_order({_, [{_, descending, least} | _]}, {_, [{nan, _, _} | _]}) ->
+    true;
+% stable sort by empty function ascending
+do_order({_, [{[], ascending, _} | _]}, {_, [{[], _, _} | _]}) ->
+    true;
+do_order({_, [{[], ascending, greatest} | _]}, {_, [{_, _, _} | _]}) ->
+    false;
+do_order({_, [{_, ascending, greatest} | _]}, {_, [{[], _, _} | _]}) ->
+    true;
+do_order(
+    {_, [{_, ascending, greatest} | _]},
+    {_, [{#xqAtomicValue{type = 'xs:float', value = nan}, _, _} | _]}
+) ->
+    true;
+do_order({_, [{_, ascending, greatest} | _]}, {_, [{nan, _, _} | _]}) ->
+    true;
+do_order({_, [{_, ascending, least} | _]}, {_, [{[], _, _} | _]}) ->
+    false;
+do_order(
+    {_, [{_, ascending, least} | _]},
+    {_, [{#xqAtomicValue{type = 'xs:float', value = nan}, _, _} | _]}
+) ->
+    false;
+do_order({_, [{_, ascending, least} | _]}, {_, [{nan, _, _} | _]}) ->
+    false;
+do_order({_, [{[], ascending, least} | _]}, {_, [{_, _, _} | _]}) ->
+    true;
+do_order(
+    {_, [{#xqAtomicValue{type = 'xs:float', value = nan}, ascending, least} | _]},
+    {_, [{_, _, _} | _]}
+) ->
+    true;
+do_order({_, [{nan, ascending, least} | _]}, {_, [{_, _, _} | _]}) ->
+    true;
+do_order({TA, [{ValA, Dir, _} | RestA]}, {TB, [{ValB, _, _} | RestB]}) ->
+    Before =
+        case Dir of
+            descending -> xqerl_operators:greater_than(ValA, ValB);
+            _ -> xqerl_operators:less_than(ValA, ValB)
+        end,
+    case Before of
         true ->
-            case xqerl_operators:greater_than(ValA, ValB) of
+            true;
+        _ ->
+            case xqerl_operators:equal(ValA, ValB) of
                 true ->
-                    true;
+                    do_order({TA, RestA}, {TB, RestB});
                 _ ->
-                    case xqerl_operators:equal(ValA, ValB) of
-                        true ->
-                            do_order({TA, RestA}, {TB, RestB});
-                        _ ->
-                            false
-                    end
-            end
-    end;
-do_order({TA, [{ValA, ascending, Empty} | RestA]}, {TB, [{ValB, _, _} | RestB]}) ->
-    % stable sort by empty function
-    if
-        ValA == [] andalso ValB == [] ->
-            true;
-        Empty == greatest andalso ValA == [] ->
-            false;
-        Empty == greatest andalso ValB == [] ->
-            true;
-        Empty == greatest andalso
-            ValB ==
-                #xqAtomicValue{
-                    type = 'xs:float',
-                    value = nan
-                };
-        Empty == greatest andalso ValB == nan ->
-            true;
-        Empty == least andalso ValB == [];
-        Empty == least andalso
-            ValB ==
-                #xqAtomicValue{
-                    type = 'xs:float',
-                    value = nan
-                };
-        Empty == least andalso ValB == nan ->
-            false;
-        Empty == least andalso ValA == [] ->
-            true;
-        Empty == least andalso
-            ValA ==
-                #xqAtomicValue{
-                    type = 'xs:float',
-                    value = nan
-                };
-        Empty == least andalso ValA == nan ->
-            true;
-        true ->
-            case xqerl_operators:less_than(ValA, ValB) of
-                true ->
-                    true;
-                _ ->
-                    case xqerl_operators:equal(ValA, ValB) of
-                        true ->
-                            do_order({TA, RestA}, {TB, RestB});
-                        _ ->
-                            false
-                    end
+                    false
             end
     end.
 
@@ -611,7 +594,7 @@ bool(T) -> xqerl_operators:eff_bool_val(T).
 
 %% Attempts to optimize a FLWOR statement by reordering clauses
 %% and removing unused variables
--spec optimize(#xqFlwor{}, digraph:graph(), fun()) -> Result :: #xqFlwor{} | any().
+-spec optimize(xqFlwor(), digraph:graph(), fun()) -> Result :: xqFlwor() | any().
 optimize(#xqFlwor{} = FL, Digraph, Det) ->
     FL0 = optimize_nested(FL, Digraph, Det),
     {B2, F2} = fold_changes(FL0, Digraph, Det),
@@ -625,12 +608,12 @@ optimize(#xqFlwor{} = FL, Digraph, Det) ->
             {B5, F5} = maybe_lift_simple_return(F4, Digraph, Det),
             {B6, F6} = maybe_lift_lets_in_return(F5, Digraph, Det),
             F7 =
-                if
-                    B2 orelse B3 orelse B4 orelse B5 orelse B6 ->
+                case B2 orelse B3 orelse B4 orelse B5 orelse B6 of
+                    true ->
                         %?dbg("F6",F6),
                         % keep cycling until completely optimized
                         optimize(F6, Digraph, Det);
-                    true ->
+                    _ ->
                         F6
                 end,
             _ = print_digraph(Digraph),
@@ -648,7 +631,7 @@ optimize(FL, _, _) ->
     FL.
 
 %% STEP 1
--spec optimize_nested(#xqFlwor{}, digraph:graph(), fun()) -> Result :: #xqFlwor{}.
+-spec optimize_nested(xqFlwor(), digraph:graph(), fun()) -> Result :: xqFlwor().
 optimize_nested(#xqFlwor{loop = L} = FL, G, Det) ->
     Fun = fun
         ({'let', #xqVar{expr = #xqFlwor{} = Fl2} = FV, ST}) ->
@@ -661,8 +644,8 @@ optimize_nested(#xqFlwor{loop = L} = FL, G, Det) ->
     FL#xqFlwor{loop = NewLoop}.
 
 %% STEP 2
--spec fold_changes(#xqFlwor{}, digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec fold_changes(xqFlwor(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 fold_changes(#xqFlwor{} = FL, G, Det) ->
     {B0, F0} = maybe_replace_for_with_let(FL),
     {B0a, F0a} = maybe_split_for(F0, G),
@@ -711,83 +694,66 @@ maybe_replace_for_with_let(#xqFlwor{loop = L} = FL) ->
 %% that appear after other for clauses
 %% and do not rely on each other
 %% then, returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_split_for(#xqFlwor{}, digraph:graph()) -> {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_split_for(xqFlwor(), digraph:graph()) -> {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
-    Fors = [
-        V
-        || {for, _, _} = V <- Clauses
-    ],
-    case Fors of
+    case [V || {for, _, _} = V <- Clauses] of
         [] ->
             {false, FL};
-        %%       [_] -> % single for not split... maybe take this out
-        %%          {false,FL};
-        _ ->
-            F = fun
-                (
-                    {for,
-                        #xqVar{
-                            id = Id0,
-                            expr = Ex,
-                            empty = false
-                        } = FV,
-                        AType} = V
-                ) when
-                    Id0 < 10000 andalso
-                        is_tuple(Ex) andalso
-                        %andalso
-                        element(1, Ex) =/= pragma;
-                    %element(1, Ex) =/= db_path_expr andalso
-                    %element(1, Ex) =/= path_expr
-
-                    Id0 < 10000, not is_tuple(Ex)
-                ->
-                    D = fun(O) ->
-                        not relies_on(V, O, G) orelse length(Fors) == 1
-                    end,
-                    case lists:any(D, Fors) of
-                        % does not depend on some
-                        true ->
-                            #xqVar{id = Id, name = Nm, type = Ty} = FV,
-                            ?dbg("splitting for", Nm),
-                            Let =
-                                {'let',
-                                    #xqVar{
-                                        id = Id,
-                                        name = Nm,
-                                        expr = Ex,
-                                        % new type can `any` sequence
-                                        type =
-                                            maybe_zero_type(
-                                                maybe_many_type(Ty)
-                                            )
-                                    },
-                                    maybe_many_type(AType)},
-                            For =
-                                {'for',
-                                    FV#xqVar{
-                                        id = Id + 10000,
-                                        expr = #xqVarRef{name = Nm}
-                                    },
-                                    AType},
-                            FVx = vertex_name(For),
-                            LVx = vertex_name(Let),
-                            digraph:add_vertex(G, FVx),
-                            digraph:add_vertex(G, LVx),
-
-                            digraph:add_edge(G, LVx, FVx),
-                            digraph:add_edge(G, FVx, LVx),
-
-                            [Let, For];
-                        false ->
-                            %?dbg("NOT splitting for",0),
-                            [V]
-                    end;
-                (O) ->
-                    [O]
-            end,
+        Fors ->
+            F = maybe_split_for_fun(G, Fors),
             Loop = lists:flatmap(F, Clauses),
             {Loop =/= Clauses, FL#xqFlwor{loop = Loop}}
+    end.
+
+maybe_split_for_fun(G, Fors) ->
+    fun
+        ({for, #xqVar{id = Id0, expr = Ex, empty = false} = FV, AType} = V) when
+            Id0 < 10000 andalso is_tuple(Ex) andalso element(1, Ex) =/= pragma;
+            Id0 < 10000, not is_tuple(Ex)
+        ->
+            D = fun(O) ->
+                not relies_on(V, O, G) orelse length(Fors) == 1
+            end,
+            case lists:any(D, Fors) of
+                % does not depend on some
+                true ->
+                    #xqVar{id = Id, name = Nm, type = Ty} = FV,
+                    ?dbg("splitting for", Nm),
+                    Let =
+                        {'let',
+                            #xqVar{
+                                id = Id,
+                                name = Nm,
+                                expr = Ex,
+                                % new type can `any` sequence
+                                type =
+                                    maybe_zero_type(
+                                        maybe_many_type(Ty)
+                                    )
+                            },
+                            maybe_many_type(AType)},
+                    For =
+                        {'for',
+                            FV#xqVar{
+                                id = Id + 10000,
+                                expr = #xqVarRef{name = Nm}
+                            },
+                            AType},
+                    FVx = vertex_name(For),
+                    LVx = vertex_name(Let),
+                    digraph:add_vertex(G, FVx),
+                    digraph:add_vertex(G, LVx),
+
+                    digraph:add_edge(G, LVx, FVx),
+                    digraph:add_edge(G, FVx, LVx),
+
+                    [Let, For];
+                false ->
+                    %?dbg("NOT splitting for",0),
+                    [V]
+            end;
+        (O) ->
+            [O]
     end.
 
 %;
@@ -797,8 +763,8 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
 %% STEP 2.1.b
 %% attempts to lift 'let' clauses above other statements that do not use
 %% them, returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_let(#xqFlwor{}, digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_let(xqFlwor(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G, Det) ->
     PosList = to_pos_list(Clauses),
     Lets = [
@@ -879,7 +845,7 @@ get_first_non_where([{I, _} | _]) -> I.
 %% with their value inline, and remove the let clause
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
 %% TODO: implement, need a good way to scope variables here
--spec maybe_inline_let(#xqFlwor{}, digraph:graph()) -> {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_inline_let(xqFlwor(), digraph:graph()) -> {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_inline_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G) ->
     % lets that rely on nothing are static
     %   PosList = to_pos_list(Clauses),
@@ -899,8 +865,8 @@ maybe_inline_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G)
 %% STEP 2.2.5
 %% attempts to replace any redundant let clauses with the first occurance
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_remove_redundant_let(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_remove_redundant_let(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G) ->
     %% turn off for now
     {false, FL}.
@@ -945,8 +911,8 @@ maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return}
 %% removes any unused variables created in let or count clauses
 %% also removes variables from DiGraph
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec remove_unused_variables(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec remove_unused_variables(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 remove_unused_variables(#xqFlwor{loop = Clauses} = FL, G) ->
     PosList = to_pos_list(Clauses),
     Lets = [
@@ -955,10 +921,10 @@ remove_unused_variables(#xqFlwor{loop = Clauses} = FL, G) ->
            element(1, V) == 'let' orelse element(1, V) == 'count',
            [] == relies_on([], V, G)
     ],
-    if
-        Lets == [] ->
+    case Lets of
+        [] ->
             {false, FL};
-        true ->
+        _ ->
             F = fun({P, Let}, CurrList) ->
                 VN = vertex_name(Let),
                 ?dbg("removing unused variable", VN),
@@ -976,7 +942,7 @@ remove_unused_variables(#xqFlwor{loop = Clauses} = FL, G) ->
 %% place before for clause
 %% sub-return becomes new for-expression
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_nested_for_expression(#xqFlwor{}) -> {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_nested_for_expression(xqFlwor()) -> {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_nested_for_expression(#xqFlwor{loop = Clauses} = FL) ->
     F = fun
         (
@@ -999,18 +965,17 @@ maybe_lift_nested_for_expression(#xqFlwor{loop = Clauses} = FL) ->
         (O, Changed0) ->
             {O, Changed0}
     end,
-    {C1, Changed} = lists:mapfoldl(F, false, Clauses),
-    if
-        Changed ->
+    case lists:mapfoldl(F, false, Clauses) of
+        {C1, true} ->
             {true, FL#xqFlwor{loop = lists:flatten(C1)}};
-        true ->
+        _ ->
             {false, FL}
     end.
 
 %% STEP 2.5
 %% move leading let clauses out of sub-flwors in for or let clauses
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_nested_let_clause(#xqFlwor{}) -> {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_nested_let_clause(xqFlwor()) -> {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
     F = fun
         (
@@ -1028,11 +993,10 @@ maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
         (O, Changed0) ->
             {O, Changed0}
     end,
-    {C1, Changed} = lists:mapfoldl(F, false, Clauses),
-    if
-        Changed ->
+    case lists:mapfoldl(F, false, Clauses) of
+        {C1, true} ->
             {true, FL#xqFlwor{loop = lists:flatten(C1)}};
-        true ->
+        _ ->
             {false, FL}
     end.
 
@@ -1040,8 +1004,8 @@ maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
 %% move leading for clauses out of sub-flwors in let clauses, add dependency
 %% turn for into let and change let fo reference new let
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_nested_for_clause(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_nested_for_clause(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_nested_for_clause(#xqFlwor{loop = Clauses} = FL, G) ->
     F = fun
         (
@@ -1064,19 +1028,18 @@ maybe_lift_nested_for_clause(#xqFlwor{loop = Clauses} = FL, G) ->
         (O, Changed0) ->
             {O, Changed0}
     end,
-    {C1, Changed} = lists:mapfoldl(F, false, Clauses),
-    if
-        Changed ->
+    case lists:mapfoldl(F, false, Clauses) of
+        {C1, true} ->
             {true, FL#xqFlwor{loop = lists:flatten(C1)}};
-        true ->
+        _ ->
             {false, FL}
     end.
 
 %% STEP 2.6
 %% lift 'where' clauses above other statements that do not use them
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_where_clause(#xqFlwor{}, digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_where_clause(xqFlwor(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G, Det) ->
     PosList = to_pos_list(Clauses),
     Lets = [
@@ -1096,8 +1059,8 @@ maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G, Det) ->
 %% STEP 2.7
 %% 'where' clauses directly following 'for' clauses become predicates
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec where_clause_as_predicate(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 where_clause_as_predicate(
     #xqFlwor{
         id = _Id,
@@ -1107,12 +1070,7 @@ where_clause_as_predicate(
     G
 ) ->
     NewClauses = merge_for_where(Clauses, G),
-    if
-        Clauses == NewClauses ->
-            {false, FL};
-        true ->
-            {true, FL#xqFlwor{loop = NewClauses}}
-    end.
+    flwor_changed(FL, Clauses, NewClauses).
 
 merge_for_where(
     [
@@ -1145,29 +1103,22 @@ merge_for_where(
                 WExpr2 ->
                     digraph:add_edge(G, WName, FVName),
                     ?dbg("removed where clause", {FVarRef, WExpr2}),
-                    [
-                        {for,
-                            FVar#xqVar{
-                                expr = {postfix, WId, Expr, [{predicate, ?BOOL_CALL(WExpr2)}]}
-                            },
-                            maybe_zero_type(AType)}
-                        | merge_for_where(T, G)
-                    ]
+                    [boolean_for(FVar, WId, Expr, WExpr2, AType) | merge_for_where(T, G)]
             end;
         false ->
             ?dbg("Lifting where into for as predicate", WExpr),
             ?dbg("removing where clause", WName),
             digraph:add_edge(G, WName, FVName),
-            [
-                {for, FVar#xqVar{expr = {postfix, WId, Expr, [{predicate, ?BOOL_CALL(WExpr)}]}},
-                    maybe_zero_type(AType)}
-                | merge_for_where(T, G)
-            ]
+            [boolean_for(FVar, WId, Expr, WExpr, AType) | merge_for_where(T, G)]
     end;
 merge_for_where([H | T], G) ->
     [H | merge_for_where(T, G)];
 merge_for_where([], _) ->
     [].
+
+boolean_for(FVar, WId, Expr, WExpr, AType) ->
+    {for, FVar#xqVar{expr = {postfix, WId, Expr, [{predicate, ?BOOL_CALL(WExpr)}]}},
+        maybe_zero_type(AType)}.
 
 replace_var_with_context_item(_, predicate) ->
     % an internal predicate cannot use the outside context item
@@ -1195,8 +1146,8 @@ replace_var_with_context_item(_, WExpr) ->
 %% for each side. These `let` expressions can then be possibly lifted
 %% so they are only executed once and not for every iteration.
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_split_comparisons_in_where_clause(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_split_comparisons_in_where_clause(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_split_comparisons_in_where_clause(
     #xqFlwor{
         id = _Id,
@@ -1206,12 +1157,7 @@ maybe_split_comparisons_in_where_clause(
     G
 ) ->
     NewClauses = split_where_comparisons(Clauses, G),
-    if
-        Clauses == NewClauses ->
-            {false, FL};
-        true ->
-            {true, FL#xqFlwor{loop = NewClauses}}
-    end.
+    flwor_changed(FL, Clauses, NewClauses).
 
 %xqComparisonExpr
 split_where_comparisons(
@@ -1288,24 +1234,24 @@ split_where_comparisons(
     LVx = vertex_name(LLet),
     RVx = vertex_name(RLet),
 
-    if
-        is_record(Lhs, xqVarRef), is_record(Rhs, xqVarRef) ->
+    case {Lhs, Rhs} of
+        {#xqVarRef{}, #xqVarRef{}} ->
             [Where | split_where_comparisons(T, G)];
-        is_record(Lhs, xqVarRef) ->
+        {#xqVarRef{}, _} ->
             digraph:add_vertex(G, RVx),
             WName = {CId, comp_right},
             replace_variable_dependancies(G, WName, RVx),
             digraph:add_edge(G, RVx, WName),
             ?dbg("Splitting where comparison", RLet),
             [RLet, Where2] ++ split_where_comparisons(T, G);
-        is_record(Rhs, xqVarRef) ->
+        {_, #xqVarRef{}} ->
             digraph:add_vertex(G, LVx),
             WName = {CId, comp_left},
             replace_variable_dependancies(G, WName, LVx),
             digraph:add_edge(G, LVx, WName),
             ?dbg("Splitting where comparison", LLet),
             [LLet, Where3] ++ split_where_comparisons(T, G);
-        true ->
+        _ ->
             digraph:add_vertex(G, LVx),
             digraph:add_vertex(G, RVx),
             WNameL = {CId, comp_left},
@@ -1325,7 +1271,7 @@ split_where_comparisons([], _) ->
 %% STEP 3
 %% replace empty FLWOR with its return
 %% returns FLWOR :: #xqFlwor{} | any()
--spec strip_empty_flwor(#xqFlwor{}) -> #xqFlwor{} | any().
+-spec strip_empty_flwor(xqFlwor()) -> xqFlwor() | any().
 strip_empty_flwor(#xqFlwor{loop = [], return = Return}) ->
     Return;
 strip_empty_flwor(#xqFlwor{} = FL) ->
@@ -1335,8 +1281,8 @@ strip_empty_flwor(#xqFlwor{} = FL) ->
 %% if last clause is 'for' loop or 'let' and 'return' is simply that variable
 %% replace return with 'for'/'let' expression
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec replace_trailing_for_in_return(#xqFlwor{}, digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec replace_trailing_for_in_return(xqFlwor(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 replace_trailing_for_in_return(
     #xqFlwor{
         id = _Id,
@@ -1348,8 +1294,8 @@ replace_trailing_for_in_return(
 ) when Clauses =/= [] ->
     case lists:last(Clauses) of
         {for, #xqVar{name = N, expr = E, type = Ty}, _} = F ->
-            if
-                is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N ->
+            case Return of
+                #xqVarRef{name = N0} when N0 == N ->
                     VN = vertex_name(F),
                     true = remove_dependancies(G, VN),
                     NewClauses = lists:droplast(Clauses),
@@ -1358,13 +1304,12 @@ replace_trailing_for_in_return(
                         loop = NewClauses,
                         return = {do_ensure, E, maybe_many_type(Ty)}
                     }};
-                true ->
+                _ ->
                     {false, FL}
             end;
         {'let', #xqVar{name = N, expr = E, type = Ty}, _} = F ->
-            CanShift = shiftable_expression(F, Det),
-            if
-                is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N andalso CanShift ->
+            case shiftable_expression(F, Det) of
+                true when is_record(Return, xqVarRef) andalso Return#xqVarRef.name == N ->
                     VN = vertex_name(F),
                     true = remove_dependancies(G, VN),
                     %ok = swap_vertex(VN, 0, G),
@@ -1374,7 +1319,7 @@ replace_trailing_for_in_return(
                         loop = NewClauses,
                         return = {do_ensure, E, Ty}
                     }};
-                true ->
+                _ ->
                     {false, FL}
             end;
         _ ->
@@ -1390,17 +1335,13 @@ replace_trailing_for_in_return(FL, _, _) ->
 
 %% STEP 5
 fold_for_count(F, G) ->
-    {B1, F1} = flatten_leading_for_flwor(F),
-    if
-        B1 ->
-            {B1, F1};
-        true ->
-            {B2, F2} = maybe_lift_count_clause_to_position(F, G),
-            if
-                B2 ->
-                    {B2, F2};
-                true ->
-                    maybe_lift_count_clause_to_let(F, G)
+    case flatten_leading_for_flwor(F) of
+        {true, F1} ->
+            {true, F1};
+        _ ->
+            case maybe_lift_count_clause_to_position(F, G) of
+                {true, F2} -> {true, F2};
+                _ -> maybe_lift_count_clause_to_let(F, G)
             end
     end.
 
@@ -1409,7 +1350,7 @@ fold_for_count(F, G) ->
 %% move flwor above for and set return as expression
 %% positional variable (if any) becomes count clause
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec flatten_leading_for_flwor(#xqFlwor{}) -> {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec flatten_leading_for_flwor(xqFlwor()) -> {Changed :: boolean(), Result :: xqFlwor()}.
 flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
     F = fun
         (
@@ -1427,17 +1368,12 @@ flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
         ) ->
             ?dbg("Flattening FLWOR", N),
             Rst =
-                if
-                    PositionVar == undefined ->
+                case PositionVar of
+                    undefined ->
                         [{for, V#xqVar{expr = Ret}, AType}];
-                    true ->
+                    _ ->
                         [
-                            {for,
-                                V#xqVar{
-                                    expr = Ret,
-                                    position = undefined
-                                },
-                                AType},
+                            {for, V#xqVar{expr = Ret, position = undefined}, AType},
                             {'count', PositionVar}
                         ]
                 end,
@@ -1446,11 +1382,10 @@ flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
         (O, Changed0) ->
             {O, Changed0}
     end,
-    {C1, Changed} = lists:mapfoldl(F, false, Clauses),
-    if
-        Changed ->
+    case lists:mapfoldl(F, false, Clauses) of
+        {C1, true} ->
             {true, FL#xqFlwor{loop = lists:flatten(C1)}};
-        true ->
+        _ ->
             {false, FL}
     end.
 
@@ -1459,8 +1394,8 @@ flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
 %% and second is count clause
 %% move count clause to position
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_count_clause_to_position(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_count_clause_to_position(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_count_clause_to_position(
     #xqFlwor{
         loop = [
@@ -1482,8 +1417,8 @@ maybe_lift_count_clause_to_position(#xqFlwor{} = FL, _) ->
 %% and second is count clause
 %% move count clause to let clause set to position variable
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_count_clause_to_let(#xqFlwor{}, digraph:graph()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{}}.
+-spec maybe_lift_count_clause_to_let(xqFlwor(), digraph:graph()) ->
+    {Changed :: boolean(), Result :: xqFlwor()}.
 maybe_lift_count_clause_to_let(
     #xqFlwor{
         loop = [
@@ -1520,8 +1455,8 @@ maybe_lift_count_clause_to_let(#xqFlwor{} = FL, _) ->
 %% if return is a simple-flwor lift body into current clauses
 %% replace return with sub-return
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_simple_return(#xqFlwor{}, digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{} | any()}.
+-spec maybe_lift_simple_return(xqFlwor(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor() | any()}.
 maybe_lift_simple_return(
     #xqFlwor{
         loop = Clauses,
@@ -1555,8 +1490,8 @@ maybe_lift_simple_return(#xqFlwor{} = FL, _, _) ->
 %% STEP 7
 %% if return is a flwor lift leading lets in body into current clauses
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}}
--spec maybe_lift_lets_in_return(#xqFlwor{} | any(), digraph:graph(), fun()) ->
-    {Changed :: boolean(), Result :: #xqFlwor{} | any()}.
+-spec maybe_lift_lets_in_return(xqFlwor() | any(), digraph:graph(), fun()) ->
+    {Changed :: boolean(), Result :: xqFlwor() | any()}.
 maybe_lift_lets_in_return(
     #xqFlwor{
         loop = Clauses,
@@ -1602,8 +1537,8 @@ combine_wheres([H | T]) ->
 
 %% STEP 9
 %% should the first clause be 'where', change to logical branch
--spec leading_where_as_if(#xqFlwor{}, digraph:graph(), fun()) ->
-    {'if-then-else', _, _, _} | #xqFlwor{}.
+-spec leading_where_as_if(xqFlwor(), digraph:graph(), fun()) ->
+    {'if-then-else', _, _, _} | xqFlwor().
 leading_where_as_if(
     #xqFlwor{id = Id, loop = [{where, I, A}], return = Ret},
     _,
@@ -1831,14 +1766,14 @@ remove_dependancies(G, Vertex) ->
 replace_variable_dependancies(G, OldVertex, NewVertex) ->
     Ins = digraph:in_neighbours(G, OldVertex),
     Out = digraph:out_neighbours(G, OldVertex),
-    [
+    _ = [
         begin
             digraph:add_edge(G, I, NewVertex),
             delete_edges(G, I, OldVertex)
         end
         || I <- Ins
     ],
-    [
+    _ = [
         begin
             digraph:add_edge(G, NewVertex, O),
             delete_edges(G, OldVertex, O)
@@ -1872,3 +1807,6 @@ print_digraph(_G) -> ok.
 %%    E <- [digraph:edge(G, Edge)],
 %%    element(1, element(3,E)) =/= 0
 %%   ].
+
+flwor_changed(FL, Clauses, Clauses) -> {false, FL};
+flwor_changed(FL, _, NewClauses) -> {true, FL#xqFlwor{loop = NewClauses}}.

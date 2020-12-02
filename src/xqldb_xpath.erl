@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -252,6 +252,9 @@ simple_path(InitCtxItems, Steps) when is_list(InitCtxItems) ->
 simple_path(InitCtxItems, Steps) ->
     simple_path([InitCtxItems], Steps).
 
+simple_descendant_path(A, B, P) ->
+    simple_path(P, [{descendant, {A, B}}]).
+
 select_fun_p(MergedNodes, Steps) ->
     Self = self(),
     Pids = [
@@ -321,7 +324,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
                 Steps1 = normalize_step_names(Steps, NameMap),
                 PathLookup = xqldb_structure_index:compile_path(DB, Steps1),
                 Iters = [
-                    ?INDEX:lookup_path(DB, DocId, OutPathId)
+                    xqldb_idx_mi:lookup_path(DB, DocId, OutPathId)
                     || OutPathId <- PathLookup(InPathId)
                 ],
                 IterUnion = xqldb_join:union(Iters),
@@ -778,7 +781,7 @@ descendant_element(
     } = P,
     {{A, B, _}, Preds}
 ) when Nk =:= element; Nk =:= document ->
-    Ds = simple_path(P, [{descendant, {A, B}}]),
+    Ds = simple_descendant_path(A, B, P),
     do_predicates(Ds, Preds);
 descendant_element(#{nk := Nk} = Node, {NameAndType, Preds}) when Nk =:= element; Nk =:= document ->
     Ds = [
@@ -878,7 +881,7 @@ descendant_or_self_element(
     } = P,
     {{A, B, _}, Preds}
 ) ->
-    Ds = simple_path(P, [{descendant, {A, B}}]),
+    Ds = simple_descendant_path(A, B, P),
     do_predicates(Ds, Preds);
 descendant_or_self_element(
     #{
@@ -1653,6 +1656,14 @@ preceding_sibling_text(
 preceding_sibling_text(#{nk := _}, _) ->
     [].
 
+do_predicates_if_matched(NameAndType, NodeName, TypeName, Node, Preds) ->
+    case name_type_match(NameAndType, NodeName, TypeName) of
+        true ->
+            do_predicates([Node], Preds);
+        false ->
+            []
+    end.
+
 %% ==========================
 %% self - forward
 %% ==========================
@@ -1665,12 +1676,7 @@ self_attribute(
     } = Node,
     {NameAndType, Preds}
 ) ->
-    case name_type_match(NameAndType, NodeName, TypeName) of
-        true ->
-            do_predicates([Node], Preds);
-        false ->
-            []
-    end;
+    do_predicates_if_matched(NameAndType, NodeName, TypeName, Node, Preds);
 self_attribute(#{nk := _}, _) ->
     [].
 
@@ -1690,12 +1696,7 @@ self_document_node(
 ) ->
     case child_element(Node, {{'_', '_', '_'}, []}) of
         [#{nn := NodeName}] ->
-            case name_type_match(NameAndType, NodeName, '_') of
-                true ->
-                    do_predicates([Node], Preds);
-                false ->
-                    []
-            end;
+            do_predicates_if_matched(NameAndType, NodeName, '_', Node, Preds);
         _ ->
             []
     end;
@@ -1708,12 +1709,7 @@ self_document_node(
 ) ->
     case child_element(Node, {{'_', '_', '_'}, []}) of
         [#{nn := NodeName, tn := TypeName}] ->
-            case name_type_match(NameAndType, NodeName, TypeName) of
-                true ->
-                    do_predicates([Node], Preds);
-                false ->
-                    []
-            end;
+            do_predicates_if_matched(NameAndType, NodeName, TypeName, Node, Preds);
         [] when Ch == [] ->
             do_predicates([Node], Preds);
         _ ->
@@ -1733,12 +1729,7 @@ self_element(
     } = Node,
     {NameAndType, Preds}
 ) ->
-    case name_type_match(NameAndType, NodeName, '_') of
-        true ->
-            do_predicates([Node], Preds);
-        false ->
-            []
-    end;
+    do_predicates_if_matched(NameAndType, NodeName, '_', Node, Preds);
 self_element(
     #{
         nk := element,
@@ -1747,12 +1738,7 @@ self_element(
     } = Node,
     {NameAndType, Preds}
 ) ->
-    case name_type_match(NameAndType, NodeName, TypeName) of
-        true ->
-            do_predicates([Node], Preds);
-        false ->
-            []
-    end;
+    do_predicates_if_matched(NameAndType, NodeName, TypeName, Node, Preds);
 self_element(#{nk := _}, _) ->
     [].
 

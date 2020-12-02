@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -134,60 +134,60 @@ parse_request(
             _ ->
                 {true, Headers0}
         end,
-    if
-        Method == put; Method == post ->
-            [Body] = [C || #{nn := {?NS, _, <<"body">>}} = C <- Ch],
-            SerialOpts = parse_body_attributes(xqldb_mem_nodes:attributes(Body)),
-            %?dbg("SerialOpts", {SerialOpts, Body}),
-            Headers1 =
-                case SerialOpts of
-                    #{'media-type' := MT} when HasCT == false ->
-                        lists:keyreplace(<<"content-type">>, 1, Headers, {<<"content-type">>, MT});
-                    _ ->
-                        Headers
-                end,
-            CT = proplists:get_value(<<"content-type">>, Headers1),
-            case Contents of
-                [] ->
-                    try
-                        Content = xqldb_mem_nodes:children(Body),
-                        BodyContent = xqerl_serialize:serialize(Content, SerialOpts),
-                        AttMap#{
-                            headers => Headers1,
-                            body => BodyContent
-                        }
-                    catch
-                        _:_ ->
-                            err_bad_request()
-                    end;
-                % already serialized
-                _ when is_binary(Contents) ->
-                    AttMap#{
-                        headers => Headers1,
-                        body => Contents
-                    };
-                % raw binary
-                _ when CT == <<"application/octet-stream">> ->
-                    AttMap#{
-                        headers => Headers1,
-                        body => xqerl_types:value(Contents)
-                    };
-                _ ->
-                    BodyContent = xqerl_serialize:serialize(Contents, SerialOpts),
-                    %?dbg("Contents", Contents),
-                    %?dbg("SerialOpts", SerialOpts),
-                    %?dbg("BodyContent", BodyContent),
-                    AttMap#{
-                        headers => Headers1,
-                        body => BodyContent
-                    }
+    parse_request_1(Method, Ch, HasCT, Headers, Contents, AttMap).
+
+parse_request_1(Method, Ch, HasCT, Headers, Contents, AttMap) when Method == put; Method == post ->
+    [Body] = [C || #{nn := {?NS, _, <<"body">>}} = C <- Ch],
+    SerialOpts = parse_body_attributes(xqldb_mem_nodes:attributes(Body)),
+    %?dbg("SerialOpts", {SerialOpts, Body}),
+    Headers1 =
+        case SerialOpts of
+            #{'media-type' := MT} when HasCT == false ->
+                lists:keyreplace(<<"content-type">>, 1, Headers, {<<"content-type">>, MT});
+            _ ->
+                Headers
+        end,
+    CT = proplists:get_value(<<"content-type">>, Headers1),
+    case Contents of
+        [] ->
+            try
+                Content = xqldb_mem_nodes:children(Body),
+                BodyContent = xqerl_serialize:serialize(Content, SerialOpts),
+                AttMap#{
+                    headers => Headers1,
+                    body => BodyContent
+                }
+            catch
+                _:_ ->
+                    err_bad_request()
             end;
-        true ->
+        % already serialized
+        _ when is_binary(Contents) ->
             AttMap#{
-                headers => Headers,
-                body => <<>>
+                headers => Headers1,
+                body => Contents
+            };
+        % raw binary
+        _ when CT == <<"application/octet-stream">> ->
+            AttMap#{
+                headers => Headers1,
+                body => xqerl_types:value(Contents)
+            };
+        _ ->
+            BodyContent = xqerl_serialize:serialize(Contents, SerialOpts),
+            %?dbg("Contents", Contents),
+            %?dbg("SerialOpts", SerialOpts),
+            %?dbg("BodyContent", BodyContent),
+            AttMap#{
+                headers => Headers1,
+                body => BodyContent
             }
-    end.
+    end;
+parse_request_1(_, _Ch, _HasCT, Headers, _Contents, AttMap) ->
+    AttMap#{
+        headers => Headers,
+        body => <<>>
+    }.
 
 parse_request_attributes([#{nn := {<<>>, _, <<"method">>}, sv := Val} | T], Acc) ->
     parse_request_attributes(T, Acc#{method => get_method(Val)});
@@ -392,15 +392,14 @@ do_req(
 ) ->
     TimeOut = [{recv_timeout, TO * 1000}],
     Auth =
-        if
-            is_map_key('auth-method', Opts) ->
-                #{
-                    username := Username,
-                    password := Username,
-                    'auth-method' := _
-                } = Opts,
-                [{basic_auth, {Username, Username}} | TimeOut];
-            true ->
+        case Opts of
+            #{
+                username := Username,
+                password := Password,
+                'auth-method' := _
+            } ->
+                [{basic_auth, {Username, Password}} | TimeOut];
+            _ ->
                 TimeOut
         end,
     Redirect =

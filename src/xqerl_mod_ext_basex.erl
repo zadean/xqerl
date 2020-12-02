@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -32,8 +32,8 @@
 -define(XL, <<"http://xqerl.org/xquery">>).
 -define(ND, <<"non-deterministic">>).
 
--define(uri(V), #xqAtomicValue{type = 'xs:anyURI', value = V}).
--define(b2l(B), unicode:characters_to_list(B)).
+-define(URI(V), #xqAtomicValue{type = 'xs:anyURI', value = V}).
+-define(B2L(B), unicode:characters_to_list(B)).
 
 %% ====================================================================
 %% API functions
@@ -90,11 +90,11 @@
 connect(Ctx, Host, Port, User, Pass) when
     is_binary(Host), is_integer(Port), is_binary(User), is_binary(Pass)
 ->
-    case basexerl:connect(?b2l(Host), Port, ?b2l(User), ?b2l(Pass)) of
+    case basexerl:connect(?B2L(Host), Port, ?B2L(User), ?B2L(Pass)) of
         {ok, Pid} ->
             Uri = new_connection_uri(),
             true = add_connection_pid(Ctx, Uri, Pid),
-            ?uri(Uri);
+            ?URI(Uri);
         {error, _} ->
             throw_error(connect)
     end;
@@ -117,7 +117,7 @@ connect(Ctx, Host, Port, User, Pass) ->
     xq_types:xs_anyURI(),
     xq_types:xs_string()
 ) -> xq_types:xs_string().
-execute(Ctx, ?uri(Id), Command) when is_binary(Command) ->
+execute(Ctx, ?URI(Id), Command) when is_binary(Command) ->
     Conn = get_connection_pid(Ctx, Id),
     case basexerl:execute(Conn, Command) of
         {ok, Info} ->
@@ -143,7 +143,7 @@ execute(Ctx, Id, Command) ->
     xq_types:xs_anyURI(),
     xq_types:xs_string()
 ) -> [xq_types:xq_item()] | [].
-query(Ctx, ?uri(Id), Query) when is_binary(Query) ->
+query(Ctx, ?URI(Id), Query) when is_binary(Query) ->
     Conn = get_connection_pid(Ctx, Id),
     Qid =
         case basexerl:query(Conn, Query) of
@@ -176,7 +176,7 @@ query(Ctx, Id, Query) ->
 ) -> [xq_types:xq_item()] | [].
 query(Ctx, Id, Query, []) ->
     query(Ctx, Id, Query);
-query(Ctx, ?uri(Id), Query, Bindings) when is_binary(Query), is_map(Bindings) ->
+query(Ctx, ?URI(Id), Query, Bindings) when is_binary(Query), is_map(Bindings) ->
     Conn = get_connection_pid(Ctx, Id),
     Qid =
         case basexerl:query(Conn, Query) of

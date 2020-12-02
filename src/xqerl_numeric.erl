@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -28,6 +28,8 @@
 
 -define(MAXDEC, 20).
 -define(INT_DEC(I), #xsDecimal{int = I, scf = 0}).
+
+-type decimal_rec() :: #xsDecimal{}.
 
 %% ====================================================================
 %% API functions
@@ -64,7 +66,7 @@
 -export([floor/1]).
 -export([abs_val/1]).
 
--spec float_to_decimal(float()) -> #xsDecimal{}.
+-spec float_to_decimal(float()) -> decimal_rec().
 float_to_decimal(Float) when is_float(Float) ->
     String = string(Float),
     [MantStr, ExpStr] =
@@ -90,20 +92,24 @@ float_to_decimal(Float) when is_float(Float) ->
                 [I, <<"0">>]
         end,
     Shift = size(Fract),
-    TotalShift = (Exp - Shift) * -1,
-    IntPart =
-        if
-            TotalShift > 0 ->
-                binary_to_integer(<<Sign/binary, Int/binary, Fract/binary>>);
-            true ->
-                binary_to_integer(
+    case (Exp - Shift) * -1 of
+        TotalShift when TotalShift > 0 ->
+            #xsDecimal{
+                int = binary_to_integer(<<Sign/binary, Int/binary, Fract/binary>>),
+                scf = max(0, TotalShift)
+            };
+        TotalShift ->
+            #xsDecimal{
+                int = binary_to_integer(
                     <<Sign/binary, Int/binary, Fract/binary,
                         (binary:copy(<<"0">>, -TotalShift))/binary>>
-                )
-        end,
-    #xsDecimal{int = IntPart, scf = max(0, TotalShift)}.
+                ),
+                scf = max(0, TotalShift)
+            }
+    end.
 
--spec sortable_decimal(number() | #xsDecimal{} | binary()) -> {0 | 1, pos_integer(), pos_integer()}.
+-spec sortable_decimal(number() | decimal_rec() | binary()) ->
+    {0 | 1, pos_integer(), pos_integer()}.
 sortable_decimal(Num) when is_integer(Num), Num < 0 ->
     {0, abs(Num), 1};
 sortable_decimal(Num) when is_integer(Num) ->
@@ -129,11 +135,10 @@ sortable_decimal(Num) ->
             H1 = binary_to_integer(H),
             {0, H1, 1};
         <<H:Bo/bytes, T:Scf/bytes>> when Bo >= 0 ->
-            H1 = binary_to_integer(H),
-            if
-                H1 < 0 ->
+            case binary_to_integer(H) of
+                H1 when H1 < 0 ->
                     {0, abs(H1), binary_to_integer(<<$1, T/binary>>)};
-                true ->
+                H1 ->
                     {1, H1, binary_to_integer(<<$1, T/binary>>)}
             end;
         <<$-, T/binary>> when Bo < 0 ->
@@ -145,7 +150,7 @@ sortable_decimal(Num) ->
             {1, 0, binary_to_integer(<<$1, Pad/binary, Bin/binary>>)}
     end.
 
--spec decimal(number() | #xsDecimal{} | binary()) -> #xsDecimal{}.
+-spec decimal(number() | decimal_rec() | binary()) -> decimal_rec().
 decimal(0.0) ->
     ?INT_DEC(0);
 decimal(0) ->
@@ -160,18 +165,7 @@ decimal(-1) ->
     ?INT_DEC(-1);
 decimal(Float) when is_float(Float) ->
     try
-        if
-            abs(Float) < 1 andalso Float < 0 ->
-                decimal(float_to_binary(Float, [{decimals, 25}, compact]));
-            abs(Float) < 1 ->
-                decimal(float_to_binary(Float, [{decimals, 25}, compact]));
-            abs(Float) > 100000000000000000000000000 ->
-                ?INT_DEC(trunc(Float));
-            trunc(Float) == Float ->
-                ?INT_DEC(trunc(Float));
-            true ->
-                decimal(float_to_binary(Float, [{decimals, 20}, compact]))
-        end
+        decimal_from_float(Float)
     catch
         _:_ ->
             ?err('FOCA0001')
@@ -182,34 +176,34 @@ decimal(#xsDecimal{scf = 0} = D) ->
     D;
 decimal(#xsDecimal{} = D) ->
     simplify(D);
-%% decimal(String) when is_list(String) -> %TODO remove
-%%    decimal(list_to_binary(String));
 decimal(String) ->
-    %   case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-    %      undefined ->
-    Val =
-        case split_on_dot(String, <<>>) of
-            [Int, Fract] ->
-                Scf = byte_size(Fract),
-                Num = binary_to_integer(<<Int/binary, Fract/binary>>),
-                simplify(#xsDecimal{int = Num, scf = Scf});
-            [Int] ->
-                #xsDecimal{int = binary_to_integer(Int), scf = 0}
-        end,
-    %         xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, Val),
+    case split_on_dot(String, <<>>) of
+        [Int, Fract] ->
+            Scf = byte_size(Fract),
+            Num = binary_to_integer(<<Int/binary, Fract/binary>>),
+            simplify(#xsDecimal{int = Num, scf = Scf});
+        [Int] ->
+            #xsDecimal{int = binary_to_integer(Int), scf = 0}
+    end.
 
-    %;
-    Val.
-%      V -> V
-%   end.
+decimal_from_float(Float) when abs(Float) < 1 andalso Float < 0 ->
+    decimal(float_to_binary(Float, [{decimals, 25}, compact]));
+decimal_from_float(Float) when abs(Float) < 1 ->
+    decimal(float_to_binary(Float, [{decimals, 25}, compact]));
+decimal_from_float(Float) when abs(Float) > 100000000000000000000000000 ->
+    ?INT_DEC(trunc(Float));
+decimal_from_float(Float) when trunc(Float) == Float ->
+    ?INT_DEC(trunc(Float));
+decimal_from_float(Float) ->
+    decimal(float_to_binary(Float, [{decimals, 20}, compact])).
 
--spec double(number() | #xsDecimal{} | binary()) ->
+-spec double(number() | decimal_rec() | binary()) ->
     'infinity'
     | 'nan'
     | 'neg_infinity'
     | 'neg_zero'
     | float()
-    | #xsDecimal{}.
+    | decimal_rec().
 double(Float) when is_float(Float) ->
     Float;
 double(Int) when is_integer(Int) andalso abs(Int) < 9999999999999999999999 ->
@@ -238,9 +232,6 @@ double(#xsDecimal{int = Int, scf = Scf}) ->
             )
     end;
 double(String) ->
-    %%    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
-    %%       undefined ->
-    %%          OVal = begin
     Val =
         case xqerl_lib:trim(String) of
             <<$., T/binary>> ->
@@ -250,115 +241,93 @@ double(String) ->
             V ->
                 V
         end,
-    if
-        Val == <<"-0">> ->
-            neg_zero;
-        Val == <<"NaN">> ->
-            nan;
-        Val == <<"-INF">> ->
-            neg_infinity;
-        %Val == <<"+INF">> -> infinity; % schema 1.1
-        Val == <<"INF">> ->
-            infinity;
-        true ->
-            %?dbg("Val",Val),
-            First = binary:first(Val),
-            case catch binary_to_float(Val) of
-                Flt when is_float(Flt), Flt == 0 ->
-                    if
-                        First == $- ->
-                            ok = check_double_dash(Val),
-                            neg_zero;
-                        true ->
-                            Flt
-                    end;
-                Flt when is_float(Flt) ->
-                    Flt;
-                _ ->
-                    case catch binary_to_integer(Val) of
-                        Int when is_integer(Int) ->
-                            erlang:float(Int);
-                        _ ->
-                            try
-                                Bin = Val,
-                                {Sign, Rest} =
-                                    case Bin of
-                                        <<"-", R/binary>> ->
-                                            {'-', R};
-                                        <<"+", R/binary>> ->
-                                            {'+', R};
-                                        R ->
-                                            {'+', R}
-                                    end,
-                                Rest1 =
-                                    case binary:first(Rest) == $. of
-                                        true -> <<$0, Rest/binary>>;
-                                        _ -> Rest
-                                    end,
-                                {Man, Exp} =
-                                    case split_on_e(Rest1, <<>>) of
-                                        [M, E] ->
-                                            {M, binary_to_integer(E)};
-                                        [M] ->
-                                            {M, 0}
-                                    end,
-                                Num =
-                                    case xqerl_lib:contains(Man, $.) of
-                                        false ->
-                                            erlang:float(binary_to_integer(Man));
-                                        _ ->
-                                            case binary:last(Man) of
-                                                $. ->
-                                                    Bin1 = binary:part(
-                                                        Man,
-                                                        {0, byte_size(Man) - 1}
-                                                    ),
-                                                    erlang:float(binary_to_integer(Bin1));
-                                                _ ->
-                                                    binary_to_float(Man)
-                                            end
-                                    end,
-                                NNum =
-                                    if
-                                        Sign == '-' ->
-                                            ok = check_double_dash(Val),
-                                            -Num;
-                                        true ->
-                                            Num
-                                    end,
-                                try
-                                    Str =
-                                        float_to_list(NNum, [{decimals, 18}]) ++
-                                            "e" ++ integer_to_list(Exp),
-                                    ENum = list_to_float(Str),
-                                    if
-                                        ENum == 0 andalso First == $- ->
-                                            neg_zero;
-                                        true ->
-                                            ENum
-                                    end
-                                catch
-                                    _:_ ->
-                                        case Sign of
-                                            '-' -> neg_infinity;
-                                            _ -> infinity
-                                        end
-                                end
-                            catch
-                                _:_:Stack ->
-                                    ?dbg("Stack", Stack),
-                                    ?err('FORG0001')
-                            end
-                    end
+    double_from_string(Val).
+
+double_from_string(<<"-0">>) ->
+    neg_zero;
+double_from_string(<<"NaN">>) ->
+    nan;
+%<<"+INF">> -> infinity; % schema 1.1
+double_from_string(<<"-INF">>) ->
+    neg_infinity;
+double_from_string(<<"INF">>) ->
+    infinity;
+double_from_string(<<First, _/binary>> = Val) ->
+    Flt = (catch binary_to_float(Val)),
+    double_from_string(Flt, First, Val).
+
+double_from_string(Flt, $-, Val) when Flt == 0 ->
+    ok = check_double_dash(Val),
+    neg_zero;
+double_from_string(Flt, _, _) when is_float(Flt) ->
+    Flt;
+double_from_string(_, _, Val) ->
+    case catch binary_to_integer(Val) of
+        Int when is_integer(Int) ->
+            erlang:float(Int);
+        _ ->
+            try
+                double_from_string_1(Val)
+            catch
+                _:_:Stack ->
+                    ?dbg("Stack", Stack),
+                    ?err('FORG0001')
             end
-        %%    end
-        %%                 end,
-        %%          xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, OVal),
-        %%          OVal;
-        %%       V -> V
     end.
 
--spec float(number() | #xsDecimal{}) -> float().
+double_from_string_1(Val) ->
+    {Sign, Rest} =
+        case Val of
+            <<"-", R/binary>> -> {'-', R};
+            <<"+", R/binary>> -> {'+', R};
+            R -> {'+', R}
+        end,
+    Rest1 =
+        case binary:first(Rest) == $. of
+            true -> <<$0, Rest/binary>>;
+            _ -> Rest
+        end,
+    {Man, Exp} =
+        case split_on_e(Rest1, <<>>) of
+            [M, E] -> {M, binary_to_integer(E)};
+            [M] -> {M, 0}
+        end,
+    Num =
+        case xqerl_lib:contains(Man, $.) of
+            false ->
+                erlang:float(binary_to_integer(Man));
+            _ ->
+                case binary:last(Man) of
+                    $. ->
+                        Bin1 = binary:part(Man, {0, byte_size(Man) - 1}),
+                        erlang:float(binary_to_integer(Bin1));
+                    _ ->
+                        binary_to_float(Man)
+                end
+        end,
+    NNum =
+        case Sign of
+            '-' ->
+                ok = check_double_dash(Val),
+                -Num;
+            _ ->
+                Num
+        end,
+    try
+        Str = float_to_list(NNum, [{decimals, 18}]) ++ "e" ++ integer_to_list(Exp),
+        case list_to_float(Str) of
+            ENum when ENum == 0 andalso Sign == '-' -> neg_zero;
+            ENum -> ENum
+        end
+    catch
+        _:_ ->
+            case Sign of
+                '-' -> neg_infinity;
+                _ -> infinity
+            end
+    end.
+
+-spec float(number() | decimal_rec()) -> float().
 float(Float) when is_float(Float) ->
     % take the float from 64 to 32 bit
     try
@@ -373,7 +342,7 @@ float(Int) when is_integer(Int) ->
 float(#xsDecimal{} = D) ->
     ?MODULE:float(double(D)).
 
--spec integer(number() | #xsDecimal{}) -> integer().
+-spec integer(number() | decimal_rec()) -> integer().
 integer(Int) when is_integer(Int) -> Int;
 integer(Float) when is_float(Float) -> trunc(Float);
 integer(#xsDecimal{int = Int, scf = 0}) -> Int;
@@ -383,7 +352,7 @@ integer(#xsDecimal{int = Int, scf = Scf}) -> Int div pow10(Scf).
 float_string(Float) when is_float(Float) ->
     format_float(Float).
 
--spec string(number() | #xsDecimal{}) -> binary().
+-spec string(number() | decimal_rec()) -> binary().
 string(Float) when is_float(Float) ->
     format_double(Float);
 string(Int) when is_integer(Int) ->
@@ -392,9 +361,9 @@ string(#xsDecimal{int = Int, scf = Scf}) ->
     decimal_to_string(Int, Scf).
 
 -spec add(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
-) -> number() | #xsDecimal{}.
+    number() | decimal_rec(),
+    number() | decimal_rec()
+) -> number() | decimal_rec().
 add(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
     IntA1 = IntA * pow10(ScfB - ScfA),
     #xsDecimal{int = IntA1 + IntB, scf = ScfB};
@@ -415,9 +384,9 @@ add(A, B) ->
     A + B.
 
 -spec subtract(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
-) -> number() | #xsDecimal{}.
+    number() | decimal_rec(),
+    number() | decimal_rec()
+) -> number() | decimal_rec().
 subtract(
     #xsDecimal{int = IntA, scf = ScfA},
     #xsDecimal{int = IntB, scf = ScfB}
@@ -447,9 +416,9 @@ subtract(A, B) ->
     A - B.
 
 -spec multiply(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
-) -> number() | #xsDecimal{}.
+    number() | decimal_rec(),
+    number() | decimal_rec()
+) -> number() | decimal_rec().
 multiply(
     #xsDecimal{int = IntA, scf = ScfA},
     #xsDecimal{int = IntB, scf = ScfB}
@@ -471,9 +440,9 @@ multiply(A, B) ->
     A * B.
 
 -spec divide(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
-) -> number() | #xsDecimal{}.
+    number() | decimal_rec(),
+    number() | decimal_rec()
+) -> number() | decimal_rec().
 divide(
     #xsDecimal{int = IntA, scf = ScfA},
     #xsDecimal{int = IntB, scf = ScfB}
@@ -508,8 +477,8 @@ divide(A, B) ->
     A / B.
 
 -spec equal(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
+    number() | decimal_rec(),
+    number() | decimal_rec()
 ) -> boolean().
 equal(A, B) when is_integer(A), is_integer(B) ->
     A =:= B;
@@ -537,8 +506,8 @@ equal(A, B) ->
     double(A) == double(B).
 
 -spec greater_than(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
+    number() | decimal_rec(),
+    number() | decimal_rec()
 ) -> boolean().
 greater_than(A, B) when is_number(A), is_number(B) ->
     A > B;
@@ -564,8 +533,8 @@ greater_than(A, B) ->
     double(A) > double(B).
 
 -spec greater_than_equal(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
+    number() | decimal_rec(),
+    number() | decimal_rec()
 ) -> boolean().
 greater_than_equal(A, B) when is_number(A), is_number(B) ->
     A >= B;
@@ -591,8 +560,8 @@ greater_than_equal(A, B) ->
     double(A) >= double(B).
 
 -spec less_than(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
+    number() | decimal_rec(),
+    number() | decimal_rec()
 ) -> boolean().
 less_than(A, B) when is_number(A), is_number(B) ->
     A < B;
@@ -618,8 +587,8 @@ less_than(A, B) ->
     double(A) < double(B).
 
 -spec less_than_equal(
-    number() | #xsDecimal{},
-    number() | #xsDecimal{}
+    number() | decimal_rec(),
+    number() | decimal_rec()
 ) -> boolean().
 less_than_equal(A, B) when is_number(A), is_number(B) ->
     A =< B;
@@ -644,13 +613,13 @@ less_than_equal(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
 less_than_equal(A, B) ->
     double(A) =< double(B).
 
--spec unary_minus(number() | #xsDecimal{}) -> number() | #xsDecimal{}.
+-spec unary_minus(number() | decimal_rec()) -> number() | decimal_rec().
 unary_minus(#xsDecimal{int = IntA} = D) ->
     D#xsDecimal{int = IntA * -1};
 unary_minus(Val) ->
     Val * -1.
 
--spec abs_val(number() | #xsDecimal{}) -> number() | #xsDecimal{}.
+-spec abs_val(number() | decimal_rec()) -> number() | decimal_rec().
 abs_val(#xsDecimal{int = Int} = D) when Int >= 0 ->
     D;
 abs_val(#xsDecimal{int = Int} = D) ->
@@ -658,7 +627,7 @@ abs_val(#xsDecimal{int = Int} = D) ->
 abs_val(D) ->
     abs(D).
 
--spec floor(number() | #xsDecimal{}) -> integer().
+-spec floor(number() | decimal_rec()) -> integer().
 floor(#xsDecimal{int = Int, scf = 0}) ->
     Int;
 floor(#xsDecimal{} = D) ->
@@ -666,14 +635,10 @@ floor(#xsDecimal{} = D) ->
 floor(Int) when is_integer(Int) ->
     Int;
 floor(Float) ->
-    T = trunc(Float),
-    if
-        Float == T ->
-            T;
-        Float < 0 ->
-            T - 1;
-        true ->
-            T
+    case trunc(Float) of
+        T when Float == T -> T;
+        T when Float < 0 -> T - 1;
+        T -> T
     end.
 
 floor_1(#xsDecimal{int = Int1, scf = 0}) ->
@@ -683,7 +648,7 @@ floor_1(#xsDecimal{int = Int1, scf = Scf1}) when Int1 < 0 ->
 floor_1(#xsDecimal{int = Int1, scf = Scf1}) ->
     Int1 div pow10(Scf1).
 
--spec ceiling(number() | #xsDecimal{}) -> integer().
+-spec ceiling(number() | decimal_rec()) -> integer().
 ceiling(#xsDecimal{int = Int, scf = 0}) ->
     Int;
 ceiling(#xsDecimal{} = D) ->
@@ -691,16 +656,11 @@ ceiling(#xsDecimal{} = D) ->
 ceiling(Int) when is_integer(Int) ->
     Int;
 ceiling(Float) ->
-    T = trunc(Float),
-    if
-        Float == T ->
-            T;
-        Float > -1, Float < 0 ->
-            neg_zero;
-        Float < 0 ->
-            T;
-        true ->
-            T + 1
+    case trunc(Float) of
+        T when Float == T -> T;
+        _ when Float > -1, Float < 0 -> neg_zero;
+        T when Float < 0 -> T;
+        T -> T + 1
     end.
 
 ceiling_1(#xsDecimal{int = Int1, scf = 0}) ->
@@ -710,7 +670,7 @@ ceiling_1(#xsDecimal{int = Int1, scf = Scf1}) when Int1 < 0 ->
 ceiling_1(#xsDecimal{int = Int1, scf = Scf1}) ->
     (Int1 div pow10(Scf1)) + 1.
 
--spec truncate(number() | #xsDecimal{}) -> integer().
+-spec truncate(number() | decimal_rec()) -> integer().
 truncate(#xsDecimal{int = Int, scf = 0}) ->
     Int;
 truncate(#xsDecimal{int = Int, scf = Scf}) ->
@@ -720,142 +680,80 @@ truncate(Float) when is_float(Float) ->
 truncate(D) ->
     D.
 
--spec round_half_even(#xsDecimal{}, integer()) -> #xsDecimal{}.
+-spec round_half_even(decimal_rec(), integer()) -> decimal_rec().
 round_half_even(#xsDecimal{scf = Scf} = D, Prec) when Prec >= Scf ->
     D;
 round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec < 0 ->
     Prec1 = pow10(abs(Prec)),
-    Low = Int div pow10(Scf) div Prec1,
-    if
-        Low == 0 ->
+    case Int div pow10(Scf) div Prec1 of
+        0 ->
             #xsDecimal{int = 0, scf = 0};
-        true ->
-            High =
-                if
-                    Int < 0 ->
-                        Low - 1;
-                    true ->
-                        Low + 1
-                end,
+        Low ->
+            High = high_value_round(Int, Low),
             LowVal = #xsDecimal{int = Low * Prec1, scf = 0},
             HighVal = #xsDecimal{int = High * Prec1, scf = 0},
             #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
-            if
-                abs(Diff) == Prec1 div 2 andalso Prec1 rem 2 == 0 ->
-                    if
-                        Low rem 2 == 0 ->
-                            LowVal;
-                        true ->
-                            HighVal
-                    end;
+            case abs(Diff) == Prec1 div 2 andalso Prec1 rem 2 == 0 of
+                true when Low rem 2 == 0 ->
+                    LowVal;
                 true ->
-                    Rnd = abs(round(Diff / pow10(P - Prec))),
-                    if
-                        Rnd == 1 ->
-                            HighVal;
-                        true ->
-                            LowVal
-                    end
+                    HighVal;
+                false ->
+                    high_low_round(Diff, P, Prec, HighVal, LowVal)
             end
     end;
 round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
     Low = Int div pow10(Scf - Prec),
-    High =
-        if
-            Int < 0 ->
-                Low - 1;
-            true ->
-                Low + 1
-        end,
+    High = high_value_round(Int, Low),
     LowVal = simplify(#xsDecimal{int = Low, scf = Prec}),
     HighVal = simplify(#xsDecimal{int = High, scf = Prec}),
     #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
-    if
-        (P - Prec) == 1, abs(Diff) == 5 ->
-            if
-                Low rem 2 == 0 ->
-                    LowVal;
-                true ->
-                    HighVal
-            end;
-        P == 0, Diff == 0 ->
+    case (P - Prec) == 1 andalso abs(Diff) == 5 of
+        true when Low rem 2 == 0 ->
             LowVal;
         true ->
-            Rnd = abs(round(Diff / pow10(P - Prec))),
-            if
-                Rnd == 1 ->
-                    HighVal;
-                true ->
-                    LowVal
-            end
+            HighVal;
+        false when P == 0, Diff == 0 ->
+            LowVal;
+        false ->
+            high_low_round(Diff, P, Prec, HighVal, LowVal)
     end.
 
--spec round_half(number() | #xsDecimal{}, integer()) -> integer() | #xsDecimal{}.
+-spec round_half(number() | decimal_rec(), integer()) -> integer() | decimal_rec().
 round_half(#xsDecimal{scf = Scf} = D, Prec) when Prec >= Scf ->
     D;
 round_half(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec < 0 ->
     Prec1 = pow10(abs(Prec)),
-    Low = Int div pow10(Scf) div Prec1,
-    if
-        Low == 0 ->
+    case Int div pow10(Scf) div Prec1 of
+        0 ->
             #xsDecimal{int = 0, scf = 0};
-        true ->
-            High =
-                if
-                    Int < 0 ->
-                        Low - 1;
-                    true ->
-                        Low + 1
-                end,
+        Low ->
+            High = high_value_round(Int, Low),
             LowVal = #xsDecimal{int = Low * Prec1, scf = 0},
             HighVal = #xsDecimal{int = High * Prec1, scf = 0},
             #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
-            if
-                abs(Diff) == Prec1 div 2 andalso Prec1 rem 2 == 0 ->
-                    if
-                        Int < 0 ->
-                            LowVal;
-                        true ->
-                            HighVal
-                    end;
+            case abs(Diff) == Prec1 div 2 andalso Prec1 rem 2 == 0 of
+                true when Int < 0 ->
+                    LowVal;
                 true ->
-                    Rnd = abs(round(Diff / pow10(P - Prec))),
-                    if
-                        Rnd == 1 ->
-                            HighVal;
-                        true ->
-                            LowVal
-                    end
+                    HighVal;
+                false ->
+                    high_low_round(Diff, P, Prec, HighVal, LowVal)
             end
     end;
 round_half(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
     Low = Int div pow10(Scf - Prec),
-    High =
-        if
-            Int < 0 ->
-                Low - 1;
-            true ->
-                Low + 1
-        end,
+    High = high_value_round(Int, Low),
     LowVal = #xsDecimal{int = Low, scf = Prec},
     HighVal = #xsDecimal{int = High, scf = Prec},
     #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
-    if
-        (P - Prec) == 1, abs(Diff) == 5 ->
-            if
-                Int < 0 ->
-                    LowVal;
-                true ->
-                    HighVal
-            end;
+    case (P - Prec) == 1 andalso abs(Diff) == 5 of
+        true when Int < 0 ->
+            LowVal;
         true ->
-            Rnd = abs(round(Diff / pow10(P - Prec))),
-            if
-                Rnd == 1 ->
-                    HighVal;
-                true ->
-                    LowVal
-            end
+            HighVal;
+        false ->
+            high_low_round(Diff, P, Prec, HighVal, LowVal)
     end;
 round_half(Flt, 0) ->
     round(Flt).
@@ -865,14 +763,13 @@ round_half(Flt, 0) ->
 %% ====================================================================
 
 round1(#xsDecimal{int = Int, scf = Scf}) ->
-    Rem = Int rem 10,
     Int1 =
-        if
-            Rem > -5, Rem < 5 ->
+        case Int rem 10 of
+            Rem when Rem > -5, Rem < 5 ->
                 Int div 10;
-            Int < 0 ->
+            _ when Int < 0 ->
                 (Int div 10) - 1;
-            true ->
+            _ ->
                 (Int div 10) + 1
         end,
     #xsDecimal{int = Int1, scf = Scf - 1}.
@@ -1013,130 +910,120 @@ mantissa_exponent_d(F) ->
 
 format_float_1(Float, Exp, Frac) ->
     Round = (Frac band 1) =:= 0,
-    if
-        Exp >= 0 ->
-            BExp = 1 bsl Exp,
-            if
-                Frac =:= ?BIG_POW ->
-                    scale(
-                        Frac * BExp * 4,
-                        4,
-                        BExp * 2,
-                        BExp,
-                        Round,
-                        Round,
-                        Float
-                    );
-                true ->
-                    scale(
-                        Frac * BExp * 2,
-                        2,
-                        BExp,
-                        BExp,
-                        Round,
-                        Round,
-                        Float
-                    )
-            end;
-        Exp < ?MIN_EXP ->
-            BExp = 1 bsl (?MIN_EXP - Exp),
-            scale(
-                Frac * 2,
-                1 bsl (1 - Exp),
-                BExp,
-                BExp,
-                Round,
-                Round,
-                Float
-            );
-        Exp > ?MIN_EXP, Frac =:= ?BIG_POW ->
-            scale(
-                Frac * 4,
-                1 bsl (2 - Exp),
-                2,
-                1,
-                Round,
-                Round,
-                Float
-            );
-        true ->
-            scale(
-                Frac * 2,
-                1 bsl (1 - Exp),
-                1,
-                1,
-                Round,
-                Round,
-                Float
-            )
-    end.
+    format_float_1(Float, Exp, Frac, Round).
+
+format_float_1(Float, Exp, Frac, Round) when Exp >= 0, Frac =:= ?BIG_POW ->
+    BExp = 1 bsl Exp,
+    scale(
+        Frac * BExp * 4,
+        4,
+        BExp * 2,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_float_1(Float, Exp, Frac, Round) when Exp >= 0 ->
+    BExp = 1 bsl Exp,
+    scale(
+        Frac * BExp * 2,
+        2,
+        BExp,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_float_1(Float, Exp, Frac, Round) when Exp < ?MIN_EXP ->
+    BExp = 1 bsl (?MIN_EXP - Exp),
+    scale(
+        Frac * 2,
+        1 bsl (1 - Exp),
+        BExp,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_float_1(Float, Exp, Frac, Round) when Exp > ?MIN_EXP, Frac =:= ?BIG_POW ->
+    scale(
+        Frac * 4,
+        1 bsl (2 - Exp),
+        2,
+        1,
+        Round,
+        Round,
+        Float
+    );
+format_float_1(Float, Exp, Frac, Round) ->
+    scale_norm(Float, Exp, Frac, Round).
 
 format_double_1(Float, Exp, Frac) ->
     Round = (Frac band 1) =:= 0,
-    if
-        Exp >= 0 ->
-            BExp = 1 bsl Exp,
-            if
-                Frac =:= ?BIG_POW_D ->
-                    scale(
-                        Frac * BExp * 4,
-                        4,
-                        BExp * 2,
-                        BExp,
-                        Round,
-                        Round,
-                        Float
-                    );
-                true ->
-                    scale(
-                        Frac * BExp * 2,
-                        2,
-                        BExp,
-                        BExp,
-                        Round,
-                        Round,
-                        Float
-                    )
-            end;
-        Exp < ?MIN_EXP_D ->
-            BExp = 1 bsl (?MIN_EXP_D - Exp),
-            scale(
-                Frac * 2,
-                1 bsl (1 - Exp),
-                BExp,
-                BExp,
-                Round,
-                Round,
-                Float
-            );
-        Exp > ?MIN_EXP_D, Frac =:= ?BIG_POW_D ->
-            scale(
-                Frac * 4,
-                1 bsl (2 - Exp),
-                2,
-                1,
-                Round,
-                Round,
-                Float
-            );
-        true ->
-            scale(
-                Frac * 2,
-                1 bsl (1 - Exp),
-                1,
-                1,
-                Round,
-                Round,
-                Float
-            )
-    end.
+    format_double_1(Float, Exp, Frac, Round).
+
+format_double_1(Float, Exp, Frac, Round) when Exp >= 0, Frac =:= ?BIG_POW_D ->
+    BExp = 1 bsl Exp,
+    scale(
+        Frac * BExp * 4,
+        4,
+        BExp * 2,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_double_1(Float, Exp, Frac, Round) when Exp >= 0 ->
+    BExp = 1 bsl Exp,
+    scale(
+        Frac * BExp * 2,
+        2,
+        BExp,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_double_1(Float, Exp, Frac, Round) when Exp < ?MIN_EXP_D ->
+    BExp = 1 bsl (?MIN_EXP_D - Exp),
+    scale(
+        Frac * 2,
+        1 bsl (1 - Exp),
+        BExp,
+        BExp,
+        Round,
+        Round,
+        Float
+    );
+format_double_1(Float, Exp, Frac, Round) when Exp > ?MIN_EXP_D, Frac =:= ?BIG_POW_D ->
+    scale(
+        Frac * 4,
+        1 bsl (2 - Exp),
+        2,
+        1,
+        Round,
+        Round,
+        Float
+    );
+format_double_1(Float, Exp, Frac, Round) ->
+    scale_norm(Float, Exp, Frac, Round).
+
+scale_norm(Float, Exp, Frac, Round) ->
+    scale(
+        Frac * 2,
+        1 bsl (1 - Exp),
+        1,
+        1,
+        Round,
+        Round,
+        Float
+    ).
 
 scale(R, S, MPlus, MMinus, LowOk, HighOk, Float) ->
-    Est = int_ceil(math:log10(abs(Float)) - 1.0e-10),
     %% Note that the scheme implementation uses a 326 element look-up
     %% table for int_pow(10, N) where we do not.
-    if
-        Est >= 0 ->
+    case int_ceil(math:log10(abs(Float)) - 1.0e-10) of
+        Est when Est >= 0 ->
             fixup(
                 R,
                 S * int_pow(10, Est),
@@ -1146,7 +1033,7 @@ scale(R, S, MPlus, MMinus, LowOk, HighOk, Float) ->
                 LowOk,
                 HighOk
             );
-        true ->
+        Est ->
             Scale = int_pow(10, -Est),
             fixup(
                 R * Scale,
@@ -1161,9 +1048,9 @@ scale(R, S, MPlus, MMinus, LowOk, HighOk, Float) ->
 
 fixup(R, S, MPlus, MMinus, K, LowOk, HighOk) ->
     TooLow =
-        if
-            HighOk -> R + MPlus >= S;
-            true -> R + MPlus > S
+        case HighOk of
+            true -> R + MPlus >= S;
+            false -> R + MPlus > S
         end,
     case TooLow of
         true ->
@@ -1175,15 +1062,12 @@ fixup(R, S, MPlus, MMinus, K, LowOk, HighOk) ->
 generate(R0, S, MPlus, MMinus, LowOk, HighOk) ->
     D = R0 div S,
     R = R0 rem S,
-    TC1 =
-        if
-            LowOk -> R =< MMinus;
-            true -> R < MMinus
-        end,
-    TC2 =
-        if
-            HighOk -> R + MPlus >= S;
-            true -> R + MPlus > S
+    {TC1, TC2} =
+        case {LowOk, HighOk} of
+            {true, true} -> {R =< MMinus, R + MPlus >= S};
+            {true, false} -> {R =< MMinus, R + MPlus > S};
+            {false, false} -> {R < MMinus, R + MPlus > S};
+            {false, true} -> {R < MMinus, R + MPlus >= S}
         end,
     case {TC1, TC2} of
         {false, false} ->
@@ -1234,13 +1118,10 @@ int_pow(X, N, R) ->
         end
     ).
 
-log2floor(Int) when is_integer(Int), Int > 0 ->
-    log2floor(Int, 0).
+log2floor(Int) when is_integer(Int), Int > 0 -> log2floor(Int, 0).
 
-log2floor(0, N) ->
-    N;
-log2floor(Int, N) ->
-    log2floor(Int bsr 1, 1 + N).
+log2floor(0, N) -> N;
+log2floor(Int, N) -> log2floor(Int bsr 1, 1 + N).
 
 split_on_dot(<<>>, Acc) -> [Acc];
 split_on_dot(<<".", T/binary>>, Acc) -> [Acc, T];
@@ -1253,15 +1134,15 @@ split_on_e(<<H/utf8, T/binary>>, Acc) -> split_on_e(T, <<Acc/binary, H/utf8>>).
 
 check_double_dash(Val) ->
     case binary:match(Val, <<"--">>) of
-        nomatch ->
-            ok;
-        _ ->
-            ?err('FORG0001')
+        nomatch -> ok;
+        _ -> ?err('FORG0001')
     end.
 
-%% ;
-%% check_double_dash(<<"--">>) -> ?err('FORG0001');
-%% check_double_dash(<<"--", _/binary>>) -> ?err('FORG0001');
-%% check_double_dash(<<_, R/binary>>) ->
-%%    check_double_dash(R);
-%% check_double_dash(<<>>) -> ok.
+high_value_round(Int, Low) when Int < 0 -> Low - 1;
+high_value_round(_, Low) -> Low + 1.
+
+high_low_round(Diff, P, Prec, HighVal, LowVal) ->
+    case abs(round(Diff / pow10(P - Prec))) of
+        1 -> HighVal;
+        _ -> LowVal
+    end.

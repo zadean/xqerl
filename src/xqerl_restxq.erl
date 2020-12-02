@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -59,7 +59,8 @@
 
 -define(QN(Nm), #qname{namespace = ?NS, local_name = Nm}).
 -define(SV(V), V).
--define(anno(N, V), #annotation{name = N, values = V}).
+
+-define(ANNO(N, V), #annotation{name = N, values = V}).
 
 return_value(Seq, Ctx, Req) ->
     return_value(Seq, Ctx, Req, 200).
@@ -241,41 +242,41 @@ parse_annos(Annos) ->
     parse_annos(Annos, default_rest_annos()).
 
 %% The REST and OUTPUT options can all be set in annotations here
-parse_annos([?anno(?QN(<<"path">>), [?SV(V)]) | T], Acc) ->
+parse_annos([?ANNO(?QN(<<"path">>), [?SV(V)]) | T], Acc) ->
     Fields0 = maps:get(fields, Acc, []),
     {Fields, Path} = parse_path(V),
     parse_annos(T, Acc#{fields => Fields ++ Fields0, path => Path});
-parse_annos([?anno(?QN(<<"OPTIONS">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"OPTIONS">>), []) | T], #{method := Methods} = Acc) ->
     parse_annos(T, Acc#{method := [options | Methods]});
-parse_annos([?anno(?QN(<<"GET">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"GET">>), []) | T], #{method := Methods} = Acc) ->
     % adds head too
     parse_annos(T, Acc#{method := [head, get | Methods]});
-parse_annos([?anno(?QN(<<"HEAD">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"HEAD">>), []) | T], #{method := Methods} = Acc) ->
     parse_annos(T, Acc#{method := [head | Methods]});
-parse_annos([?anno(?QN(<<"DELETE">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"DELETE">>), []) | T], #{method := Methods} = Acc) ->
     parse_annos(T, Acc#{method := [delete | Methods]});
-parse_annos([?anno(?QN(<<"POST">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"POST">>), []) | T], #{method := Methods} = Acc) ->
     parse_annos(T, Acc#{method := [post | Methods]});
-parse_annos([?anno(?QN(<<"POST">>), [?SV(V)]) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"POST">>), [?SV(V)]) | T], #{method := Methods} = Acc) ->
     Fields0 = maps:get(fields, Acc, []),
     {[{_, Varname}], _} = parse_template_fields(V),
     Fields = [{body, Varname} | Fields0],
     parse_annos(T, Acc#{method := [post | Methods], fields => Fields});
-parse_annos([?anno(?QN(<<"PUT">>), []) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"PUT">>), []) | T], #{method := Methods} = Acc) ->
     parse_annos(T, Acc#{method := [put | Methods]});
-parse_annos([?anno(?QN(<<"PUT">>), [?SV(V)]) | T], #{method := Methods} = Acc) ->
+parse_annos([?ANNO(?QN(<<"PUT">>), [?SV(V)]) | T], #{method := Methods} = Acc) ->
     Fields0 = maps:get(fields, Acc, []),
     {[{_, Varname}], _} = parse_template_fields(V),
     Fields = [{body, Varname} | Fields0],
     parse_annos(T, Acc#{method := [put | Methods], fields => Fields});
-parse_annos([?anno(?QN(<<"consumes">>), Vals) | T], Acc) ->
+parse_annos([?ANNO(?QN(<<"consumes">>), Vals) | T], Acc) ->
     Ss = [V || ?SV(V) <- Vals],
     parse_annos(T, Acc#{types_accepted => Ss});
-parse_annos([?anno(?QN(<<"produces">>), Vals) | T], Acc) ->
+parse_annos([?ANNO(?QN(<<"produces">>), Vals) | T], Acc) ->
     Ss = [V || ?SV(V) <- Vals],
     parse_annos(T, Acc#{types_provided => Ss});
 parse_annos(
-    [?anno(?QN(<<"query-param">>), Vals) | T],
+    [?ANNO(?QN(<<"query-param">>), Vals) | T],
     #{param_query := Params} = Acc
 ) ->
     {Name, RawVar, Default} =
@@ -288,7 +289,7 @@ parse_annos(
     Params1 = [{Name, Varname, Default} | Params],
     parse_annos(T, Acc#{param_query := Params1});
 parse_annos(
-    [?anno(?QN(<<"form-param">>), Vals) | T],
+    [?ANNO(?QN(<<"form-param">>), Vals) | T],
     #{param_form := Params} = Acc
 ) ->
     {Name, RawVar, Default} =
@@ -305,7 +306,7 @@ parse_annos(
         types_accepted => [<<"application/x-www-form-urlencoded">>, <<"multipart/form-data">>]
     });
 parse_annos(
-    [?anno(?QN(<<"header-param">>), Vals) | T],
+    [?ANNO(?QN(<<"header-param">>), Vals) | T],
     #{param_header := Params} = Acc
 ) ->
     {Name, RawVar, Default} =
@@ -318,7 +319,7 @@ parse_annos(
     Params1 = [{string:lowercase(Name), Varname, Default} | Params],
     parse_annos(T, Acc#{param_header := Params1});
 parse_annos(
-    [?anno(?QN(<<"cookie-param">>), Vals) | T],
+    [?ANNO(?QN(<<"cookie-param">>), Vals) | T],
     #{param_cookie := Params} = Acc
 ) ->
     {Name, RawVar, Default} =
@@ -331,13 +332,13 @@ parse_annos(
     Params1 = [{Name, Varname, Default} | Params],
     parse_annos(T, Acc#{param_cookie := Params1});
 % serialization parameters
-parse_annos([?anno(#qname{namespace = ?ONS} = Q, [?SV(V)]) | T], #{output := O} = Acc) ->
+parse_annos([?ANNO(#qname{namespace = ?ONS} = Q, [?SV(V)]) | T], #{output := O} = Acc) ->
     parse_annos(T, Acc#{output := [{Q, V} | O]});
-parse_annos([?anno(?QN(_), _) = H | _], _) ->
+parse_annos([?ANNO(?QN(_), _) = H | _], _) ->
     ?dbg("unknown_parameter", H),
     {error, unknown_parameter};
 % unknown namespaces
-parse_annos([?anno(_Q, _) | T], Acc) ->
+parse_annos([?ANNO(_Q, _) | T], Acc) ->
     %?dbg("Skipping",Q),
     parse_annos(T, Acc);
 parse_annos([], Acc) ->
@@ -349,23 +350,17 @@ parse_annos([], Acc) ->
 validate_annos(
     #{
         method := M,
-        output := O
+        output := O,
+        path := _
     } = Map
 ) ->
-    if
-        is_map_key(path, Map) ->
-            Map1 =
-                if
-                    M == [] ->
-                        Map#{method := [get, head, post, put, delete, options]};
-                    true ->
-                        Map
-                end,
-            Serial = xqerl_options:static_serialization_option_map(O, <<>>),
-            Map1#{output := Serial};
-        true ->
-            {error, missing_path}
-    end.
+    Serial = xqerl_options:static_serialization_option_map(O, <<>>),
+    case M of
+        [] -> Map#{output := Serial, method := [get, head, post, put, delete, options]};
+        _ -> Map#{output := Serial}
+    end;
+validate_annos(_) ->
+    {error, missing_path}.
 
 -spec parse_path(binary()) -> {[{atom(), binary()}], binary()}.
 parse_path(Path) ->
@@ -484,12 +479,13 @@ endpoint_sort(Paths) ->
 merge_media_types(New, Old) ->
     % New has one key, Old can have many
     [NewMethod] = maps:keys(New),
-    if
-        is_map_key(NewMethod, Old) ->
-            #{
+    case Old of
+        #{
+            NewMethod := #{
                 input_media_types := OldIn,
                 output_media_types := OldOut
-            } = maps:get(NewMethod, Old),
+            }
+        } ->
             #{
                 input_media_types := NewIn,
                 output_media_types := NewOut
@@ -500,7 +496,7 @@ merge_media_types(New, Old) ->
                     output_media_types => NewOut ++ OldOut
                 }
             };
-        true ->
+        _ ->
             maps:merge(Old, New)
     end.
 
@@ -509,40 +505,23 @@ merge_media_types(New, Old) ->
 %%    [{P,M,S} || {P,M,S} <- Paths, M =/= Module].
 
 % true if A le B else false
-endpoint_sort(#endpoint{path_length = La} = A, #endpoint{path_length = Lb} = B) ->
-    % path length in reverse order
-    if
-        La > Lb ->
-            true;
-        La < Lb ->
-            false;
-        true ->
-            endpoint_sort_2(A, B)
-    end.
+% path length in reverse order
+endpoint_sort(#endpoint{path_length = La}, #endpoint{path_length = Lb}) when La > Lb -> true;
+endpoint_sort(#endpoint{path_length = La}, #endpoint{path_length = Lb}) when La < Lb -> false;
+endpoint_sort(#endpoint{} = A, #endpoint{} = B) -> endpoint_sort_2(A, B).
 
 % path bitmap sort, explicit = 0, variable = 1, larger number == lower quality
-endpoint_sort_2(#endpoint{path_map = La} = A, #endpoint{path_map = Lb} = B) ->
-    if
-        La < Lb ->
-            true;
-        La > Lb ->
-            false;
-        true ->
-            endpoint_sort_3(A, B)
-    end.
+endpoint_sort_2(#endpoint{path_map = La}, #endpoint{path_map = Lb}) when La < Lb -> true;
+endpoint_sort_2(#endpoint{path_map = La}, #endpoint{path_map = Lb}) when La > Lb -> false;
+endpoint_sort_2(A, B) -> endpoint_sort_3(A, B).
 
 % method count sort, assumes fewer methods (regardless of type) takes prio.
-endpoint_sort_3(#endpoint{methods = La} = A, #endpoint{methods = Lb} = B) ->
-    Na = length(La),
-    Nb = length(Lb),
-    if
-        Na < Nb ->
-            true;
-        Na > Nb ->
-            false;
-        true ->
-            endpoint_sort_4(A, B)
-    end.
+endpoint_sort_3(#endpoint{methods = La}, #endpoint{methods = Lb}) when length(La) < length(Lb) ->
+    true;
+endpoint_sort_3(#endpoint{methods = La}, #endpoint{methods = Lb}) when length(La) > length(Lb) ->
+    false;
+endpoint_sort_3(A, B) ->
+    endpoint_sort_4(A, B).
 
 % wildcard media-types come last
 endpoint_sort_4(#endpoint{media_types = La}, #endpoint{media_types = Lb}) ->

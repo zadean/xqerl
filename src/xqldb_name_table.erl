@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -110,12 +110,7 @@ new(DBDirectory, TableName) ->
     HeapName = filename:absname_join(DBDirectory, TableName ++ ".heap"),
     % new heap
     {ok, HeapFile} = dets:open_file(HeapName, []),
-    Table = ets:new(list_to_atom(TableName), [
-        public,
-        set,
-        {read_concurrency, true},
-        {write_concurrency, true}
-    ]),
+    Table = ets_new(TableName),
     #{
         tab => Table,
         file => HeapFile,
@@ -133,12 +128,7 @@ open(DBDirectory, TableName) when is_binary(DBDirectory) ->
 open(DBDirectory, TableName) ->
     HeapName = filename:absname_join(DBDirectory, TableName ++ ".heap"),
     {ok, HeapFile} = dets:open_file(HeapName, []),
-    Table = ets:new(list_to_atom(TableName), [
-        public,
-        set,
-        {read_concurrency, true},
-        {write_concurrency, true}
-    ]),
+    Table = ets_new(TableName),
     _ = dets:to_ets(HeapFile, Table),
     Nxt = get_next_id(Table),
     #{
@@ -154,6 +144,14 @@ get_next_id(Tab) ->
         [] -> 1;
         _ -> lists:max(L) + 1
     end.
+
+ets_new(TableName) ->
+    ets:new(list_to_atom(TableName), [
+        public,
+        set,
+        {read_concurrency, true},
+        {write_concurrency, true}
+    ]).
 
 %% ====================================================================
 %% Callbacks

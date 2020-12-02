@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -171,11 +171,12 @@ get_next_id(Name) ->
         (_, A) ->
             A
     end,
-    Max = dets:foldl(Fun, 0, Name),
-    io:format("Count of DBs: ~p~n", [Max]),
-    if
-        Max =:= 0 -> 0;
-        true -> Max + 1
+    case dets:foldl(Fun, 0, Name) of
+        0 ->
+            0;
+        Max ->
+            io:format("Count of DBs: ~p~n", [Max]),
+            Max + 1
     end.
 
 dets_to_ets(TabName, Ets) ->
@@ -229,7 +230,7 @@ handle_call(
     } = State
 ) ->
     try
-        case ets:select(Ets, [{{{Path, '_'}, '_', '_'}, [], ['$_']}]) of
+        case select_path(Ets, Path) of
             [] ->
                 % insert Next increase Next
                 dets:insert(TabName, {Path, Next}),
@@ -282,7 +283,7 @@ handle_call({close, Path, Id}, _From, #{tab := Ets} = State) ->
     {reply, ok, State};
 % Returns true if the Uri exists.
 handle_call({exists, Path}, _From, #{tab := Ets} = State) ->
-    case ets:select(Ets, [{{{Path, '_'}, '_', '_'}, [], ['$_']}]) of
+    case select_path(Ets, Path) of
         [] ->
             {reply, false, State};
         _ ->
@@ -290,7 +291,7 @@ handle_call({exists, Path}, _From, #{tab := Ets} = State) ->
     end;
 % Returns {Status, Id, Pid} if the Uri exists, {error, not_exists} if not.
 handle_call({info, Path}, _From, #{tab := Ets} = State) ->
-    case ets:select(Ets, [{{{Path, '_'}, '_', '_'}, [], ['$_']}]) of
+    case select_path(Ets, Path) of
         [] ->
             {reply, {error, not_exists}, State};
         [{{_, _}, _, missing}] ->
@@ -325,3 +326,6 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
+
+select_path(Ets, Path) ->
+    ets:select(Ets, [{{{Path, '_'}, '_', '_'}, [], ['$_']}]).

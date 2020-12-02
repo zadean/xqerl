@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -125,7 +125,7 @@ get_(#{'base-uri' := BaseUri0} = Ctx, Uri0) ->
 delete(
     #{
         'base-uri' := BaseUri0,
-        trans := Agent
+        trans := _Agent
     } = Ctx,
     Uri0
 ) ->
@@ -133,7 +133,7 @@ delete(
     BaseUri = xqerl_types:value(BaseUri0),
     AbsUri = resolve_uri(BaseUri, Uri),
     {DbUri, Name} = xqldb_uri:split_uri(AbsUri),
-    #{db_name := DbPid} = DB = xqldb_db:database(DbUri),
+    #{db_name := _DbPid} = DB = xqldb_db:database(DbUri),
     xqerl_update:add(Ctx, {delete, item, {DB, Name}}).
 
 delete_collection(

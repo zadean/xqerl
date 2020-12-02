@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -370,18 +370,18 @@ add_axes(PathId, Path, AxesTab, IdxTab) ->
             Anc = [{PathId, ancestor, AnscN, AnscId} || {AnscId, AnscN} <- Anss],
             % no document text
             Chd =
-                if
-                    ParN == [], Last == text ->
+                case ParN of
+                    [] when Last == text ->
                         [];
-                    true ->
+                    _ ->
                         [{ParentId, child, Ax, PathId} || Ax <- Axes]
                 end,
             % no document text
             Des =
-                if
-                    ParN == [], Last == text ->
+                case ParN of
+                    [] when Last == text ->
                         [];
-                    true ->
+                    _ ->
                         [
                             {AnscId, descendant, Ax, PathId}
                             || Ax <- Axes,
@@ -458,71 +458,59 @@ refine_path_1(N, [{Axis, Name} | Rest], AxesTab) ->
     Ns = ets:select(AxesTab, Ms),
     [refine_path_1(Nn, Rest, AxesTab) || Nn <- Ns].
 
-initial_match_spec('ancestor-or-self', {'_', '_'}) ->
-    [
-        {{'$1', ancestor, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]},
-        {{'$1', self, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}
-    ];
-initial_match_spec('ancestor-or-self', Name) ->
-    [
-        {{'$1', ancestor, Name, '$2'}, [], [{{'$1', '$2'}}]},
-        {{'$1', self, Name, '$2'}, [], [{{'$1', '$2'}}]}
-    ];
-initial_match_spec('descendant-or-self', {'_', '_'}) ->
-    [
-        {{'$1', descendant, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]},
-        {{'$1', self, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}
-    ];
-initial_match_spec('descendant-or-self', Name) ->
-    [
-        {{'$1', descendant, Name, '$2'}, [], [{{'$1', '$2'}}]},
-        {{'$1', self, Name, '$2'}, [], [{{'$1', '$2'}}]}
-    ];
-initial_match_spec('following-sibling', {'_', '_'}) ->
-    [{{'$1', sibling, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}];
-initial_match_spec('following-sibling', Name) ->
-    [{{'$1', sibling, Name, '$2'}, [], [{{'$1', '$2'}}]}];
-initial_match_spec('preceding-sibling', {'_', '_'}) ->
-    [{{'$1', sibling, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}];
-initial_match_spec('preceding-sibling', Name) ->
-    [{{'$1', sibling, Name, '$2'}, [], [{{'$1', '$2'}}]}];
-initial_match_spec(Axis, {'_', '_'}) ->
-    [{{'$1', Axis, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}];
-initial_match_spec(Axis, Name) ->
-    [{{'$1', Axis, Name, '$2'}, [], [{{'$1', '$2'}}]}].
+initial_match_spec('ancestor-or-self', {'_', '_'}) -> initial_or_self(ancestor);
+initial_match_spec('ancestor-or-self', Name) -> initial_or_self(ancestor, Name);
+initial_match_spec('descendant-or-self', {'_', '_'}) -> initial_or_self(descendant);
+initial_match_spec('descendant-or-self', Name) -> initial_or_self(descendant, Name);
+initial_match_spec('following-sibling', {'_', '_'}) -> initial_sibling();
+initial_match_spec('following-sibling', Name) -> initial_sibling(Name);
+initial_match_spec('preceding-sibling', {'_', '_'}) -> initial_sibling();
+initial_match_spec('preceding-sibling', Name) -> initial_sibling(Name);
+initial_match_spec(Axis, {'_', '_'}) -> [initial_axis(Axis)];
+initial_match_spec(Axis, Name) -> [initial_axis(Axis, Name)].
 
-secondary_match_spec(N, 'ancestor-or-self', {'_', '_'}) ->
-    [
-        {{N, ancestor, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']},
-        {{N, self, {'_', '$1'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}
-    ];
-secondary_match_spec(N, 'ancestor-or-self', Name) ->
-    [
-        {{N, ancestor, Name, '$1'}, [], ['$1']},
-        {{N, self, Name, '$1'}, [], ['$1']}
-    ];
-secondary_match_spec(N, 'descendant-or-self', {'_', '_'}) ->
-    [
-        {{N, descendant, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']},
-        {{N, self, {'_', '$1'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}
-    ];
-secondary_match_spec(N, 'descendant-or-self', Name) ->
-    [
-        {{N, descendant, Name, '$1'}, [], ['$1']},
-        {{N, self, Name, '$1'}, [], ['$1']}
-    ];
-secondary_match_spec(N, 'following-sibling', {'_', '_'}) ->
-    [{{N, sibling, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}];
-secondary_match_spec(N, 'following-sibling', Name) ->
-    [{{N, sibling, Name, '$1'}, [], ['$1']}];
-secondary_match_spec(N, 'preceding-sibling', {'_', '_'}) ->
-    [{{N, sibling, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}];
-secondary_match_spec(N, 'preceding-sibling', Name) ->
-    [{{N, sibling, Name, '$1'}, [], ['$1']}];
-secondary_match_spec(N, Axis, {'_', '_'}) ->
-    [{{N, Axis, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}];
-secondary_match_spec(N, Axis, Name) ->
-    [{{N, Axis, Name, '$1'}, [], ['$1']}].
+initial_axis(Axis, Name) ->
+    {{'$1', Axis, Name, '$2'}, [], [{{'$1', '$2'}}]}.
+
+initial_axis(Axis) ->
+    {{'$1', Axis, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}.
+
+initial_or_self(Axis, Name) ->
+    [initial_axis(Axis, Name), {{'$1', self, Name, '$2'}, [], [{{'$1', '$2'}}]}].
+
+initial_or_self(Axis) ->
+    [initial_axis(Axis), {{'$1', self, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}].
+
+initial_sibling(Name) ->
+    [{{'$1', sibling, Name, '$2'}, [], [{{'$1', '$2'}}]}].
+
+initial_sibling() ->
+    [{{'$1', sibling, {'$2', '_'}, '$3'}, [{'=/=', '$2', pi}], [{{'$1', '$3'}}]}].
+
+secondary_match_spec(N, 'ancestor-or-self', {'_', '_'}) -> secondary_or_self(N, ancestor);
+secondary_match_spec(N, 'ancestor-or-self', Name) -> secondary_or_self(N, ancestor, Name);
+secondary_match_spec(N, 'descendant-or-self', {'_', '_'}) -> secondary_or_self(N, descendant);
+secondary_match_spec(N, 'descendant-or-self', Name) -> secondary_or_self(N, descendant, Name);
+secondary_match_spec(N, 'following-sibling', {'_', '_'}) -> secondary_sibling(N);
+secondary_match_spec(N, 'following-sibling', Name) -> secondary_sibling(N, Name);
+secondary_match_spec(N, 'preceding-sibling', {'_', '_'}) -> secondary_sibling(N);
+secondary_match_spec(N, 'preceding-sibling', Name) -> secondary_sibling(N, Name);
+secondary_match_spec(N, Axis, {'_', '_'}) -> [secondary_axis(N, Axis)];
+secondary_match_spec(N, Axis, Name) -> [secondary_axis(N, Axis, Name)].
+
+secondary_axis(N, Axis, Name) -> {{N, Axis, Name, '$1'}, [], ['$1']}.
+
+secondary_axis(N, Axis) -> {{N, Axis, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}.
+
+secondary_sibling(N, Name) -> [{{N, sibling, Name, '$1'}, [], ['$1']}].
+
+secondary_sibling(N) -> [{{N, sibling, {'$1', '_'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}].
+
+secondary_or_self(N, Axis, Name) ->
+    [secondary_axis(N, Axis, Name), {{N, self, Name, '$1'}, [], ['$1']}].
+
+secondary_or_self(N, Axis) ->
+    [secondary_axis(N, Axis), {{N, self, {'_', '$1'}, '$2'}, [{'=/=', '$1', pi}], ['$2']}].
 
 % takes a list of {K, V} and returns a merges map of #{K => [Vs]}
 merge_map_kvs(KVs) ->
@@ -551,13 +539,3 @@ check_path([]) -> [];
 check_path([{following, _} | _]) -> undefined;
 check_path([{preceding, _} | _]) -> undefined;
 check_path([_ | T]) -> check_path(T).
-
-%%      axis       = child :: child | descendant | attribute | self | 
-%%                  'descendant-or-self' | 'following-sibling' | following | namespace | 
-%%                  parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
-%%    node_test  = #xqKindTest{},
-%% -record(xqKindTest, {
-%%    kind = node :: node | text | comment | 'namespace-node' | namespace | 'schema-element' | element | 'schema-attribute' | attribute | 'document-node' | document | 'processing-instruction',
-%%    name = undefined :: #qname{} | undefined | term(),
-%%    type
-   

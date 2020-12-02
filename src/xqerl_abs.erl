@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -30,8 +30,6 @@
 ]).
 
 -define(LN(Line), {undefined, Line}).
-
--define(e, erl_syntax).
 
 -define(FN, <<"http://www.w3.org/2005/xpath-functions">>).
 -define(XS, <<"http://www.w3.org/2001/XMLSchema">>).
@@ -77,12 +75,12 @@ static_records() ->
 revert_all(L) when is_list(L) ->
     [revert_all(I) || I <- L];
 revert_all(I) ->
-    case ?e:is_tree(I) of
+    case erl_syntax:is_tree(I) of
         true ->
-            ?e:revert(I);
+            erl_syntax:revert(I);
         false ->
             %?dbg("Non tree", I),
-            ?e:revert(I)
+            erl_syntax:revert(I)
     end.
 
 % recursively set all line numbers
@@ -93,28 +91,28 @@ update_line_numbers(_L, Trees) ->
 %%     [update_line_numbers(L, Tree) || Tree <- Trees, Tree =/= {nil, -1}];
 %% %% patched #2348
 %% update_line_numbers(L, {map_field_assoc, _, Name, Value}) ->
-%%     anno(L, ?e:map_field_assoc(Name, Value));
+%%     anno(L, erl_syntax:map_field_assoc(Name, Value));
 %% %% patched #2348
 %% update_line_numbers(L, {map_field_exact, _, Name, Value}) ->
-%%     anno(L, ?e:map_field_exact(Name, Value));
+%%     anno(L, erl_syntax:map_field_exact(Name, Value));
 %% update_line_numbers(L, {atom, _, Atom}) ->
-%%     anno(L, ?e:atom(Atom));
+%%     anno(L, erl_syntax:atom(Atom));
 %% update_line_numbers(L, {var, _, Atom}) ->
-%%     anno(L, ?e:variable(Atom));
+%%     anno(L, erl_syntax:variable(Atom));
 %% update_line_numbers(L, Tree) ->
-%%     case ?e:get_pos(Tree) of
+%%     case erl_syntax:get_pos(Tree) of
 %%         [{file,_},{location,_}] -> % already set so do not overwrite
 %%             Tree;
 %%         _ ->
 %%             Tree1 = anno(L, Tree),
-%%             case ?e:subtrees(Tree1) of
+%%             case erl_syntax:subtrees(Tree1) of
 %%                 [] -> Tree1;
 %%                 List ->
 %%                     Sub = [[update_line_numbers(L, Subtree)
 %%                            || Subtree <- Group,
 %%                               Subtree =/= {nil, -1}]
 %%                           || Group <- List],
-%%                     ?e:update_tree(Tree1, Sub)
+%%                     erl_syntax:update_tree(Tree1, Sub)
 %%             end
 %%     end.
 
@@ -613,7 +611,7 @@ init_function(ModName, Variables, Prolog1) ->
 % if get/head content_types_provided/2 -> {List, Req, State}
 % if put/post content_types_accepted/2 -> {List, Req, State}
 % if delete   delete_resource/2 -> {true, Req, State}
-rest_functions(#{module := Mod} = Ctx, Functions) ->
+rest_functions(Ctx, Functions) ->
     % internal function name to call from REST wrapper
     FxNameFun = fun(#xqFunctionDef{name = FxName, arity = FxArity}) ->
         {FName, _} = xqerl_static:function_hash_name(FxName, FxArity),
@@ -630,110 +628,13 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                }
            } <- Annos
     ],
-    if
-        RestFuns == [] ->
-            ok;
-        true ->
-            init_ctx_function(Ctx)
-    end,
-    %?parse_dbg("RestFuns",RestFuns),
-    UsedMethods = lists:usort([M || {_, _, _, #{method := Ms}} <- RestFuns, M <- Ms]),
-    % allowed_methods callback
-    MethodBinFun = fun(Atom) -> string:uppercase(atom_to_binary(Atom, latin1)) end,
-    Ms = [MethodBinFun(M) || M <- UsedMethods],
-    E0 =
-        if
-            UsedMethods == [] ->
-                [];
-            true ->
-                G0 = ?Q([
-                    "allowed_methods(Req, State) -> {_@Ms@, Req, State}.",
-                    "options(Req, State) -> ",
-                    " case State of",
-                    "  #{options := #{input_media_types := [{_, Fun}]}} ->",
-                    "   _@Mod@:Fun(Req, State);",
-                    "  _ -> ",
-                    "   Opts = lists:usort([<<\"OPTIONS\">>|[string:uppercase(erlang:atom_to_binary(Atom, latin1)) || Atom <- maps:keys(State)]]),",
-                    "   <<\",\", Allow/binary>> = << <<\",\", M/binary>> || M <- Opts >>,",
-                    "   Req2 = cowboy_req:set_resp_header(<<\"allow\">>, Allow, Req),"
-                    "  {ok, Req2, State}",
-                    " end."
-                ]),
-                _ = add_global_funs([G0]),
-                ?Q("-export([allowed_methods/2, options/2]).")
-        end,
-    %   ?parse_dbg("UsedMethods",UsedMethods),
+    rest_functions_1(Ctx, RestFuns).
 
-    %[1 || M <- UsedMethods, M == get orelse M == head orelse M == put orelse M == post] =/= [],
-    IsProv = UsedMethods =/= [],
-    %[1 || M <- UsedMethods, M == put orelse M == post] =/= [],
-    IsAccp = UsedMethods =/= [],
-    IsDele = lists:member(delete, UsedMethods),
-
-    E1 =
-        if
-            IsProv ->
-                Cls_1 = [
-                    begin
-                        Mb = MethodBinFun(M),
-                        ?P(?LINE, [
-                            "content_types_provided(#{method := _@Mb@} = Req, ",
-                            "#{_@M@ := #{output_media_types := M}} = State) ->",
-                            " {M,Req,State}."
-                        ])
-                    end
-                    || M <- UsedMethods
-                ],
-                G1 = join_functions(Cls_1),
-                _ = add_global_funs([G1]),
-                ?Q("-export([content_types_provided/2]).");
-            true ->
-                []
-        end,
-    E2 =
-        if
-            IsAccp ->
-                Cls_2 = [
-                    begin
-                        Mb = MethodBinFun(M),
-                        ?P(?LINE, [
-                            "content_types_accepted(#{method := _@Mb@} = Req, ",
-                            "#{_@M@ := #{input_media_types := M}} = State) ->",
-                            " {M,Req,State}."
-                        ])
-                    end
-                    || M <- UsedMethods
-                ],
-                G2 = join_functions(Cls_2),
-                _ = add_global_funs([G2]),
-                ?Q("-export([content_types_accepted/2]).");
-            true ->
-                []
-        end,
-    E3 =
-        if
-            IsDele ->
-                G3 = ?Q([
-                    "delete_resource(Req, #{delete := #{input_media_types := [{_, Fun}]}} = State) ->",
-                    "_@Mod@:Fun(Req, State);",
-                    "delete_resource(Req, State) ->",
-                    " {false, Req, State}."
-                ]),
-                _ = add_global_funs([G3]),
-                ?Q("-export([delete_resource/2]).");
-            true ->
-                []
-        end,
-    E4 = lists:flatten([E0, E1, E2, E3]),
-    Exports1 =
-        if
-            E4 == [] ->
-                [];
-            true ->
-                G4 = ?P(?LINE, "init(Req, Opts) -> {cowboy_rest, Req, Opts}."),
-                _ = add_global_funs([G4]),
-                [?Q("-export([init/2]).") | E4]
-        end,
+rest_functions_1(_Ctx, []) ->
+    {[], []};
+rest_functions_1(#{module := Mod} = Ctx, RestFuns) ->
+    _ = init_ctx_function(Ctx),
+    Exports1 = rest_callback_exports(RestFuns, Mod),
     % cowboy callbacks are done, now on to the wrapper functions
     ParamMapFun = fun(
         #xqVar{
@@ -744,9 +645,9 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
         VarMap
     ) ->
         Nm =
-            if
-                Px == <<>> -> Ln;
-                true -> <<Px/binary, ":", Ln/binary>>
+            case Px of
+                <<>> -> Ln;
+                _ -> <<Px/binary, ":", Ln/binary>>
             end,
         VarMap#{Nm => {Id, Ty}}
     end,
@@ -761,13 +662,6 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
                 param_query := PQry
             } = FRestMap}
     ) ->
-        Serial =
-            if
-                is_map_key('omit-xml-declaration', Serial0) ->
-                    Serial0;
-                true ->
-                    Serial0#{'omit-xml-declaration' => false}
-            end,
         ParamMap = lists:foldl(ParamMapFun, #{}, FParams),
         FieldPart = param_fields(Fields, ParamMap),
         CookiePart = param_cookies(PCookies, ParamMap),
@@ -779,64 +673,11 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
             {var, ?LINE, list_to_atom("Var_" ++ integer_to_list(Id))}
             || #xqVar{id = Id} <- FParams
         ],
-        %?parse_dbg("Parts",Parts),
-
         HasUpd = maps:get(contains_updates, Ctx),
+        OmitXml = maps:get('omit-xml-declaration', Serial0, false),
+        Serial = Serial0#{'omit-xml-declaration' => OmitXml},
         FunName = rest_fun_name(FId),
-        G5 =
-            if
-                HasUpd == true ->
-                    ?Q([
-                        "'@FunName@'(#{method := Method} = Req, State) -> ",
-                        "_@Parts,",
-                        " PUL = xqerl_update:pending_update_list(erlang:self()),",
-                        " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
-                        "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA, restxq_ctx => Req},"
-                        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
-                        "xqerl_context:destroy(Ctx),",
-                        "case Method of",
-                        " <<\"DELETE\">> ->",
-                        "  {true, Req1, State};",
-                        " _ ->",
-                        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
-                        "  {stop, Req2, State}",
-                        "end."
-                    ]);
-                HasUpd == locks ->
-                    ?Q([
-                        "'@FunName@'(#{method := Method} = Req, State) -> ",
-                        "_@Parts,",
-                        " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
-                        "Ctx = (init(init_ctx()))#{trans => TRA, restxq_ctx => Req},"
-                        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
-                        "xqerl_context:destroy(Ctx),",
-                        "case Method of",
-                        " <<\"DELETE\">> ->",
-                        "  {true, Req1, State};",
-                        " _ ->",
-                        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
-                        "  {stop, Req2, State}",
-                        "end."
-                    ]);
-                true ->
-                    ?Q([
-                        "'@FunName@'(#{method := Method} = Req, State) -> ",
-                        "_@Parts,",
-                        "Ctx = (init(init_ctx()))#{restxq_ctx => Req},"
-                        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
-                        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
-                        "xqerl_context:destroy(Ctx), ",
-                        "case Method of",
-                        " <<\"DELETE\">> ->",
-                        "  {true, Req1, State};",
-                        " _ ->",
-                        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
-                        "  {stop, Req2, State}",
-                        "end."
-                    ])
-            end,
+        G5 = rest_functon_body(HasUpd, FunName, Parts, LocalParams, Serial, FName),
         add_global_funs([G5]),
 
         {FunName, FRestMap}
@@ -851,6 +692,125 @@ rest_functions(#{module := Mod} = Ctx, Functions) ->
     ),
     {Exports2, Wrappers}.
 
+rest_functon_body(true, FunName, Parts, LocalParams, Serial, FName) ->
+    ?Q([
+        "'@FunName@'(#{method := Method} = Req, State) -> ",
+        "_@Parts,",
+        " PUL = xqerl_update:pending_update_list(erlang:self()),",
+        " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+        "Ctx = (init(init_ctx()))#{pul => PUL, trans => TRA, restxq_ctx => Req},"
+        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+        "xqerl_context:destroy(Ctx),",
+        "case Method of",
+        " <<\"DELETE\">> ->",
+        "  {true, Req1, State};",
+        " _ ->",
+        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+        "  {stop, Req2, State}",
+        "end."
+    ]);
+rest_functon_body(locks, FunName, Parts, LocalParams, Serial, FName) ->
+    ?Q([
+        "'@FunName@'(#{method := Method} = Req, State) -> ",
+        "_@Parts,",
+        " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
+        "Ctx = (init(init_ctx()))#{trans => TRA, restxq_ctx => Req},"
+        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+        "xqerl_context:destroy(Ctx),",
+        "case Method of",
+        " <<\"DELETE\">> ->",
+        "  {true, Req1, State};",
+        " _ ->",
+        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+        "  {stop, Req2, State}",
+        "end."
+    ]);
+rest_functon_body(_, FunName, Parts, LocalParams, Serial, FName) ->
+    ?Q([
+        "'@FunName@'(#{method := Method} = Req, State) -> ",
+        "_@Parts,",
+        "Ctx = (init(init_ctx()))#{restxq_ctx => Req},"
+        "XQuery = '@FName@'(Ctx, _@@LocalParams),",
+        "{StatusCode, ReturnVal, Req1} = xqerl_restxq:return_value(XQuery,Ctx#{options => _@Serial@}, Req),",
+        "xqerl_context:destroy(Ctx), ",
+        "case Method of",
+        " <<\"DELETE\">> ->",
+        "  {true, Req1, State};",
+        " _ ->",
+        "  Req2 = xqerl_restxq:send_reply(StatusCode, ReturnVal, Req1),",
+        "  {stop, Req2, State}",
+        "end."
+    ]).
+
+rest_callback_exports(RestFuns, Mod) ->
+    UsedMethods = lists:usort([M || {_, _, _, #{method := Ms}} <- RestFuns, M <- Ms]),
+    % allowed_methods callback
+    MethodBinFun = fun(Atom) -> string:uppercase(atom_to_binary(Atom, latin1)) end,
+    Ms = [MethodBinFun(M) || M <- UsedMethods],
+    G0 = ?Q([
+        "allowed_methods(Req, State) -> {_@Ms@, Req, State}.",
+        "options(Req, State) -> ",
+        " case State of",
+        "  #{options := #{input_media_types := [{_, Fun}]}} -> _@Mod@:Fun(Req, State);",
+        "  _ -> ",
+        "   Opts = lists:usort([<<\"OPTIONS\">>|[string:uppercase(erlang:atom_to_binary(Atom, latin1))"
+        " || Atom <- maps:keys(State)]]),",
+        "   <<\",\", Allow/binary>> = << <<\",\", M/binary>> || M <- Opts >>,",
+        "   Req2 = cowboy_req:set_resp_header(<<\"allow\">>, Allow, Req),"
+        "  {ok, Req2, State}",
+        " end."
+    ]),
+    _ = add_global_funs([G0]),
+    E0 = ?Q("-export([allowed_methods/2, options/2])."),
+    Cls1 = [
+        begin
+            Mb = MethodBinFun(M),
+            ?P(?LINE, [
+                "content_types_provided(#{method := _@Mb@} = Req, ",
+                "#{_@M@ := #{output_media_types := M}} = State) ->",
+                " {M,Req,State}."
+            ])
+        end
+        || M <- UsedMethods
+    ],
+    G1 = join_functions(Cls1),
+    _ = add_global_funs([G1]),
+    E1 = ?Q("-export([content_types_provided/2])."),
+    Cls2 = [
+        begin
+            Mb = MethodBinFun(M),
+            ?P(?LINE, [
+                "content_types_accepted(#{method := _@Mb@} = Req, ",
+                "#{_@M@ := #{input_media_types := M}} = State) ->",
+                " {M,Req,State}."
+            ])
+        end
+        || M <- UsedMethods
+    ],
+    G2 = join_functions(Cls2),
+    _ = add_global_funs([G2]),
+    E2 = ?Q("-export([content_types_accepted/2])."),
+    E3 =
+        case lists:member(delete, UsedMethods) of
+            true ->
+                G3 = ?Q([
+                    "delete_resource(Req, #{delete := #{input_media_types := [{_, Fun}]}} = State) ->",
+                    "_@Mod@:Fun(Req, State);",
+                    "delete_resource(Req, State) ->",
+                    " {false, Req, State}."
+                ]),
+                _ = add_global_funs([G3]),
+                ?Q("-export([delete_resource/2]).");
+            false ->
+                []
+        end,
+    E4 = lists:flatten([E0, E1, E2, E3]),
+    G4 = ?P(?LINE, "init(Req, Opts) -> {cowboy_rest, Req, Opts}."),
+    _ = add_global_funs([G4]),
+    [?Q("-export([init/2]).") | E4].
+
 rest_fun_name(Id) ->
     list_to_atom("rest_wrap__" ++ integer_to_list(Id)).
 
@@ -859,13 +819,13 @@ rest_fun_name(Id) ->
 join_functions([]) ->
     [];
 join_functions([H | _] = Funs) ->
-    Name = ?e:function_name(H),
+    Name = erl_syntax:function_name(H),
     Clauses = lists:flatten([
-        ?e:function_clauses(F)
+        erl_syntax:function_clauses(F)
         || F <- Funs,
-           ?e:type(F) == function
+           erl_syntax:type(F) == function
     ]),
-    ?e:function(Name, Clauses).
+    erl_syntax:function(Name, Clauses).
 
 init_ctx_function(Ctx) ->
     MapItems = init_fun_abs(Ctx, lists:usort(maps:get(stat_props, Ctx) ++ [options, module])),
@@ -1003,7 +963,7 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
 
     VarSetFun = fun
         ({_N, _T, _A, {V, 1}, _Ext}, CtxVar) ->
-            AV = ?e:variable(next_var_name()),
+            AV = erl_syntax:variable(next_var_name()),
             NC = next_ctx_var_name(),
             NV = {var, ?LINE, NC},
             P = ?P(?LINE, [
@@ -1021,10 +981,10 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
             {_, _, C} = CtxVar1
         ) ->
             Occ =
-                if
-                    External =:= true -> zero_or_one;
-                    Expr =/= undefined -> one;
-                    true -> zero_or_one
+                case External of
+                    true -> zero_or_one;
+                    _ when Expr =/= undefined -> one;
+                    _ -> zero_or_one
                 end,
             C1 = expr_do(ContextMap, CType#xqSeqType{occur = Occ}),
             Unique = [expr_do(ContextMap, X) || X <- lists:usort(ContextTypes)],
@@ -1065,8 +1025,8 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
     HasUpd = maps:get(contains_updates, ContextMap),
     V1 = ?P(?LINE, "_@@VarSetAbs"),
     M =
-        if
-            HasUpd == true ->
+        case HasUpd of
+            true ->
                 ?P(?LINE, [
                     "main(Options) ->",
                     " PUL = xqerl_update:pending_update_list(erlang:self()),",
@@ -1076,7 +1036,7 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
                     " _@@V1,",
                     "_@BodyAbs."
                 ]);
-            HasUpd == locks ->
+            locks ->
                 ?P(?LINE, [
                     "main(Options) ->",
                     " {ok, TRA} = locks_agent:start([{abort_on_deadlock, true}]),",
@@ -1085,7 +1045,7 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
                     " _@@V1,",
                     "_@BodyAbs."
                 ]);
-            true ->
+            _ ->
                 ?P(?LINE, [
                     "main(Options) ->",
                     " Ctx0 = xqerl_context:merge(init(), Options),",
@@ -1099,117 +1059,69 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
 variable_functions(ContextMap, Variables) ->
     variable_functions(ContextMap, Variables, main).
 
+variable_function(#xqVar{name = QName, external = Ext} = Var, LocCtx, ModType) ->
+    Type =
+        case Var#xqVar.type of
+            undefined ->
+                translate_record(#xqSeqType{});
+            Type0 ->
+                translate_record(Type0)
+        end,
+    #xqQName{namespace = Ns1, prefix = P1, local_name = L1} = QName,
+    QNameStr =
+        case Ext of
+            true when ModType == library; P1 =/= <<>> ->
+                % Ns1 may already have Q{} wrapper
+                case Ns1 of
+                    <<"Q{", _/binary>> ->
+                        <<Ns1/binary, L1/binary>>;
+                    _ ->
+                        <<"Q{", Ns1/binary, "}", L1/binary>>
+                end;
+            _ when P1 == undefined ->
+                <<"Q{", Ns1/binary, "}", L1/binary>>;
+            _ when P1 == <<>> ->
+                L1;
+            _ ->
+                <<P1/binary, ":", L1/binary>>
+        end,
+    erlang:put(ctx, 1),
+    Name = xqerl_static:variable_hash_name(QName),
+    Expr1 = expr_do(LocCtx, Var#xqVar.expr),
+    % when external, check for set value first, then default,
+    % or then XPDY0002 when not set.
+    case Ext of
+        true ->
+            LineNum = Var#xqVar.anno,
+            ?Q([
+                "'@Name@'(__Ctx) ->",
+                "   Tmp = begin _@Expr1 end,",
+                "   case maps:get(_@QNameStr@,__Ctx,Tmp) of",
+                "      undefined -> local_error('XPDY0002', _@LineNum@);",
+                "      X -> ",
+                "  case catch xqerl_types:promote(X, _@Type@) of",
+                "   #xqError{} = Err -> local_error(Err, _@LineNum@);",
+                "   Y -> Y",
+                "  end"
+                " end."
+            ]);
+        _ when ModType == library ->
+            % close the context in lib variables
+            ?P(?LINE, [
+                "'@Name@'(__Ctx0) ->",
+                "   __Ctx = close_context(__Ctx0),",
+                "   _@Expr1."
+            ]);
+        _ ->
+            ?P(?LINE, [
+                "'@Name@'(__Ctx) ->",
+                "   _@Expr1."
+            ])
+    end.
+
 variable_functions(ContextMap, Variables, ModType) ->
     LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
-    F = fun(
-        #xqVar{
-            id = _,
-            name = QName,
-            expr = Expr,
-            external = Ext,
-            type = Type0,
-            anno = LineNum
-        }
-    ) ->
-        Type =
-            if
-                Type0 == undefined ->
-                    translate_record(#xqSeqType{});
-                true ->
-                    translate_record(Type0)
-            end,
-        #xqQName{namespace = Ns1, prefix = P1, local_name = L1} = QName,
-        QNameStr =
-            if
-                Ext == true andalso ModType == library; Ext == true andalso P1 =/= <<>> ->
-                    % Ns1 may already have Q{} wrapper
-                    case Ns1 of
-                        <<"Q{", _/binary>> ->
-                            <<Ns1/binary, L1/binary>>;
-                        _ ->
-                            <<"Q{", Ns1/binary, "}", L1/binary>>
-                    end;
-                P1 == undefined ->
-                    <<"Q{", Ns1/binary, "}", L1/binary>>;
-                P1 == <<>> ->
-                    L1;
-                true ->
-                    <<P1/binary, ":", L1/binary>>
-            end,
-        erlang:put(ctx, 1),
-        Name = xqerl_static:variable_hash_name(QName),
-        Expr1 = expr_do(LocCtx, Expr),
-        % when external, check for set value first, then default,
-        % or then XPDY0002 when not set.
-        if
-            Ext == true ->
-                ?Q([
-                    "'@Name@'(__Ctx) ->",
-                    "   Tmp = begin _@Expr1 end,",
-                    "   case maps:get(_@QNameStr@,__Ctx,Tmp) of",
-                    "      undefined -> local_error('XPDY0002', _@LineNum@);",
-                    "      X -> ",
-                    "  case catch xqerl_types:promote(X, _@Type@) of",
-                    "   #xqError{} = Err -> local_error(Err, _@LineNum@);",
-                    "   Y -> Y",
-                    "  end"
-                    " end."
-                ]);
-            true ->
-                % close the context in lib variables
-                case ModType of
-                    library ->
-                        ?P(?LINE, [
-                            "'@Name@'(__Ctx0) ->",
-                            "   __Ctx = close_context(__Ctx0),",
-                            "   _@Expr1."
-                        ]);
-                    _ ->
-                        ?P(?LINE, [
-                            "'@Name@'(__Ctx) ->",
-                            "   _@Expr1."
-                        ])
-                end
-        end
-    end,
-    [
-        begin
-            F(V)
-        end
-        || #xqVar{} = V <- Variables
-    ].
-
-%% internal_variable_function(LocCtx, #xqVar{id = _, name = QName, expr = Expr,
-%%                                           external = Ext, type = Type0,
-%%                                           anno = LineNum}) ->
-%%    %_ = set_line(LineNum),
-%%    CtxVar = {var, ?LINE, get_context_variable_name(LocCtx)},
-%%    Type = if Type0 == undefined ->
-%%                  translate_record(#xqSeqType{});
-%%               true ->
-%%                  translate_record(Type0)
-%%            end,
-%%     #qname{namespace = Ns1, prefix = P1, local_name = L1} = QName,
-%%     QNameStr = if P1 == <<>> ->
-%%                      L1;
-%%                   P1 == undefined ->
-%%                      <<"Q{", Ns1/binary, "}", L1/binary>>;
-%%                   true ->
-%%                      <<P1/binary, ":", L1/binary>>
-%%                end,
-%%     Expr1 = expr_do(LocCtx, Expr),
-%%     % when external, check for set value first, then default,
-%%     % or then XPDY0002 when not set.
-%%     if Ext == true ->
-%%          ?P(?LINE, ["fun() ->",
-%%              "   Tmp = begin _@Expr1 end,",
-%%              "   case maps:get(_@QNameStr@,_@CtxVar,Tmp) of",
-%%              "      undefined -> erlang:throw(xqerl_error:error('XPDY0002'));",
-%%              "      X -> xqerl_types:promote(X, _@Type@) end end()"]);
-%%        true ->
-%%          ?P(?LINE, ["fun() ->",
-%%              "   _@Expr1 end()"])
-%%     end.
+    [variable_function(V, LocCtx, ModType) || #xqVar{} = V <- Variables].
 
 function_functions(ContextMap, Functions) ->
     function_functions(ContextMap, Functions, main).
@@ -1817,8 +1729,12 @@ expr_do(Ctx, #xqTryCatch{
                         "additional = _@AddlVar1,"
                         "location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"
                     ]),
-                    Q = ?e:class_qualifier(?e:underscore(), C, ?e:underscore()),
-                    ?e:clause(alist(Q), [], D);
+                    Q = erl_syntax:class_qualifier(
+                        erl_syntax:underscore(),
+                        C,
+                        erl_syntax:underscore()
+                    ),
+                    erl_syntax:clause(alist(Q), [], D);
                 (
                     #xqNameTest{
                         name = #xqQName{
@@ -1836,8 +1752,12 @@ expr_do(Ctx, #xqTryCatch{
                         "additional = _@AddlVar1,"
                         "location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"
                     ]),
-                    Q = ?e:class_qualifier(?e:underscore(), C, ?e:underscore()),
-                    ?e:clause(alist(Q), [], D);
+                    Q = erl_syntax:class_qualifier(
+                        erl_syntax:underscore(),
+                        C,
+                        erl_syntax:underscore()
+                    ),
+                    erl_syntax:clause(alist(Q), [], D);
                 (
                     #xqNameTest{
                         name = #xqQName{
@@ -1855,8 +1775,12 @@ expr_do(Ctx, #xqTryCatch{
                         "additional = _@AddlVar1,"
                         "location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"
                     ]),
-                    Q = ?e:class_qualifier(?e:underscore(), C, ?e:underscore()),
-                    ?e:clause(alist(Q), [], D);
+                    Q = erl_syntax:class_qualifier(
+                        erl_syntax:underscore(),
+                        C,
+                        erl_syntax:underscore()
+                    ),
+                    erl_syntax:clause(alist(Q), [], D);
                 (
                     #xqNameTest{
                         name = #xqQName{
@@ -1875,8 +1799,12 @@ expr_do(Ctx, #xqTryCatch{
                         "additional = _@AddlVar1,"
                         "location = {_@ModuVar1, _@LineVar1, _@ColnVar1}}"
                     ]),
-                    Q = ?e:class_qualifier(?e:underscore(), C, ?e:underscore()),
-                    ?e:clause(alist(Q), [], D)
+                    Q = erl_syntax:class_qualifier(
+                        erl_syntax:underscore(),
+                        C,
+                        erl_syntax:underscore()
+                    ),
+                    erl_syntax:clause(alist(Q), [], D)
             end,
             Errors
         )
@@ -1884,7 +1812,7 @@ expr_do(Ctx, #xqTryCatch{
 
     TryAbs = alist(expr_do(Ctx, Expr)),
     Clauses = lists:flatmap(ClsFun, CatchClauses),
-    ?e:try_expr(TryAbs, [], alist(Clauses));
+    erl_syntax:try_expr(TryAbs, [], alist(Clauses));
 % bang operator
 expr_do(Ctx, #xqSimpleMap{anno = Line, lhs = SeqExpr, rhs = MapExpr}) ->
     CtxVar = var(Line, get_context_variable_name(Ctx)),
@@ -2033,7 +1961,7 @@ expr_do(Ctx, #xqStringConstructor{anno = Line, content = Expr}) ->
             [B | Abs];
         (I, Abs) ->
             V = expr_do(Ctx, I),
-            {_, _, [B]} = ?e:revert(?Q("<<(xqerl_types:string_value(_@C, _@V))/binary>>")),
+            {_, _, [B]} = erl_syntax:revert(?Q("<<(xqerl_types:string_value(_@C, _@V))/binary>>")),
             [B | Abs]
     end,
     Es = lists:foldr(F, [], alist(Expr)),
@@ -2839,7 +2767,7 @@ expr_do(Ctx, #xqQuantifiedExpr{
 }) ->
     % add the variables to the stack
     VarNames = [{[], [], [], local_variable_name(Id)} || #xqVar{id = Id} <- Vars],
-    VarTup = get_variable_tuple(Ctx, VarNames),
+    VarTup = get_variable_tuple(VarNames),
 
     Fun = fun(
         #xqVar{
@@ -2854,7 +2782,7 @@ expr_do(Ctx, #xqQuantifiedExpr{
         VarName = local_variable_name(Id),
         Ctx2 = add_variable({Name, Type, [], VarName}, Ctx1),
         E = expr_do(Ctx1, Expr),
-        {?e:generator(
+        {erl_syntax:generator(
                 var(Line, VarName),
                 ?Q("xqerl_seq3:expand(_@E)")
             ),
@@ -3141,8 +3069,8 @@ expr_do(_Ctx, Expr) ->
     ?parse_dbg("TODO", Expr),
     {nil, ?LINE}.
 
--define(noline(Line), ?noline(Line, [])).
--define(noline(Line, Expr),
+-define(NOLINE(Line), ?NOLINE(Line, [])).
+-define(NOLINE(Line, Expr),
     if
         Line == undefined ->
             ?dbg("Step1", Expr),
@@ -3179,7 +3107,7 @@ step_expr_do(_, [double], SourceVar) ->
     ]),
     alist(O);
 step_expr_do(Ctx, [{'root', Line} | Rest], SourceVar) ->
-    ?noline(Line, root),
+    ?NOLINE(Line, root),
     CurrCtxVar = var(Line, get_context_variable_name(Ctx)),
     NextVar = var(Line, next_var_name()),
     PosVar = var(Line, next_var_name()),
@@ -3199,7 +3127,7 @@ step_expr_do(Ctx, [{'root', Line} | Rest], SourceVar) ->
     [O1 | R1];
 % empty predicates so no context item needs to be set
 step_expr_do(Ctx, [#xqAxisStep{anno = Line, predicates = []} = Step1 | Rest], SourceVar) ->
-    ?noline(Line, Step1),
+    ?NOLINE(Line, Step1),
     %?parse_dbg("SourceVar",SourceVar),
     NextVar = var(Line, next_var_name()),
     TempVar = var(Line, next_var_name()),
@@ -3211,7 +3139,8 @@ step_expr_do(Ctx, [#xqAxisStep{anno = Line, predicates = []} = Step1 | Rest], So
     R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
     O1 = ?P(Line, [
         "_@NextVar = ",
-        "case catch xqldb_xpath:document_order(lists:append([_@E1 || _@NodeVar <- xqerl_seq3:sequence(_@SourceVar)])) of",
+        "case catch xqldb_xpath:document_order(lists:append([_@E1 || ",
+        "_@NodeVar <- xqerl_seq3:sequence(_@SourceVar)])) of",
         "{'EXIT',{function_clause,_}} -> local_error('XPTY0019', _@Line@); ",
         "#xqError{} = _@ErrVar -> local_error(_@ErrVar, _@Line@); ",
         "{'EXIT',_@ErrVar} -> local_error(_@ErrVar, _@Line@); ",
@@ -3219,7 +3148,7 @@ step_expr_do(Ctx, [#xqAxisStep{anno = Line, predicates = []} = Step1 | Rest], So
     ]),
     [O1 | R1];
 step_expr_do(Ctx, [#xqAxisStep{anno = Line} = Step1 | Rest], SourceVar) ->
-    ?noline(Line, Step1),
+    ?NOLINE(Line, Step1),
     CurrCtxVar = var(Line, get_context_variable_name(Ctx)),
     NextVar = var(Line, next_var_name()),
     PosVar = var(Line, next_var_name()),
@@ -3242,7 +3171,7 @@ step_expr_do(Ctx, [#xqAxisStep{anno = Line} = Step1 | Rest], SourceVar) ->
     alist(O1) ++ R1;
 % dupe xqAxisStep
 step_expr_do(Ctx, [#xqFunctionCall{anno = Line} = Step1 | Rest], SourceVar) ->
-    ?noline(Line, Step1),
+    ?NOLINE(Line, Step1),
     CurrCtxVar = var(Line, get_context_variable_name(Ctx)),
     NextVar = var(Line, next_var_name()),
     PosVar = var(Line, next_var_name()),
@@ -3264,7 +3193,7 @@ step_expr_do(Ctx, [#xqFunctionCall{anno = Line} = Step1 | Rest], SourceVar) ->
     alist(O1) ++ R1;
 % dupe xqAxisStep
 step_expr_do(Ctx, [#xqVarRef{anno = Line} = Step1 | Rest], SourceVar) ->
-    ?noline(Line, Step1),
+    ?NOLINE(Line, Step1),
     CurrCtxVar = var(Line, get_context_variable_name(Ctx)),
     NextVar = var(Line, next_var_name()),
     PosVar = var(Line, next_var_name()),
@@ -3316,7 +3245,7 @@ do_axis_step(Ctx, SourceVariable, #xqAxisStep{
     predicates = Preds
 }) ->
     AbsPreds = abs_list([handle_axis_step_pred(Ctx, P) || P <- Preds]),
-    ?noline(Line),
+    ?NOLINE(Line),
     %% XXX catch errors, line number
     case xpath_function(Axis, NodeTest) of
         {none, Fun} ->
@@ -3336,7 +3265,7 @@ handle_axis_step_pred(Ctx, #xqPredicate{
     anno = Line,
     expr = Pred
 }) ->
-    ?noline(Line),
+    ?NOLINE(Line),
     IntCtxVar = var(Line, next_var_name()),
     PosVar = var(Line, next_var_name()),
     SizeVar = var(Line, next_var_name()),
@@ -3387,7 +3316,7 @@ abs_path_expr(
         id = Id
     } = P
 ) ->
-    ?noline(Line),
+    ?NOLINE(Line),
     %?dbg("P", P),
     FunNameAtom = path_function_name(Id),
     CallingCtx = context_map_abs(Ctx),
@@ -3423,7 +3352,7 @@ abs_path_expr(
 % entire path expression goes in a global function, so no need
 % to wrap in begin/end
 path_expr_do(Ctx0, #xqPathExpr{anno = Line, expr = [Base | Steps]}) ->
-    ?noline(Line, Base),
+    ?NOLINE(Line, Base),
     Ctx = clear_context_variables(Ctx0),
     CtxVar = var(Line, 'InitCtxItem'),
     CtxItems =
@@ -3513,11 +3442,10 @@ get_variable_ref(
             [H | _] ->
                 element(4, H)
         end,
-    Typ = element(2, hd(Var)),
-    if
-        is_atom(Loc) ->
+    case element(2, hd(Var)) of
+        Typ when is_atom(Loc) ->
             {var(?LINE, Loc), Typ};
-        true ->
+        Typ ->
             {F, _} = Loc,
             CtxVar = get_context_variable_name(Ctx),
             CV = var(?LINE, CtxVar),
@@ -3825,30 +3753,24 @@ abs_namespace_node(Ctx, #xqNamespaceNode{
         " }"
     ]).
 
-abs_fun_test(Ctx, #xqFunTest{
-    kind = Kind,
-    annotations = Annos,
-    name = Name,
-    params = Params,
-    type = Type
-}) ->
+abs_fun_test(Ctx, #xqFunTest{kind = Kind, name = Name} = FunTest) ->
     _ = add_used_record_type(funTest),
     AnnoF = fun(#xqAnnotation{name = #xqQName{} = Q}, Abs) ->
         {cons, ?LINE, abs_qname(Ctx, Q), Abs}
     end,
     E1 =
-        if
-            Annos == [] -> {nil, ?LINE};
-            true -> lists:foldr(AnnoF, {nil, ?LINE}, Annos)
+        case FunTest#xqFunTest.annotations of
+            [] -> {nil, ?LINE};
+            Annos -> lists:foldr(AnnoF, {nil, ?LINE}, Annos)
         end,
     E2 = abs_qname(Ctx, Name),
     E3 =
-        if
-            Params =:= any ->
+        case FunTest#xqFunTest.params of
+            any ->
                 atom_or_string(any);
-            is_atom(Params) ->
+            Params when is_atom(Params) ->
                 {cons, ?LINE, abs_seq_type(Ctx, Params), {nil, ?LINE}};
-            true ->
+            Params ->
                 lists:foldr(
                     fun(P, Abs) ->
                         {cons, ?LINE, abs_seq_type(Ctx, P), Abs}
@@ -3858,10 +3780,10 @@ abs_fun_test(Ctx, #xqFunTest{
                 )
         end,
     E4 =
-        if
-            Type =:= any ->
+        case FunTest#xqFunTest.type of
+            any ->
                 atom_or_string(any);
-            true ->
+            Type ->
                 abs_seq_type(Ctx, Type)
         end,
     ?Q([
@@ -3871,18 +3793,18 @@ abs_fun_test(Ctx, #xqFunTest{
 
 abs_seq_type(_Ctx, Type) when is_atom(Type) ->
     _ = add_used_record_type(seqType),
-    ?e:revert(?Q("#seqType{type = '@Type@', occur = one}"));
+    erl_syntax:revert(?Q("#seqType{type = '@Type@', occur = one}"));
 abs_seq_type(Ctx, #xqSeqType{anno = Line, type = #xqFunTest{} = Ft, occur = O}) ->
     _ = add_used_record_type(seqType),
     E1 = abs_fun_test(Ctx, Ft),
-    ?e:revert(?P(Line, "#seqType{type = _@E1, occur = _@O@}"));
+    erl_syntax:revert(?P(Line, "#seqType{type = _@E1, occur = _@O@}"));
 abs_seq_type(Ctx, #xqSeqType{anno = Line, type = #xqKindTest{} = Kt, occur = O}) ->
     _ = add_used_record_type(seqType),
     E1 = abs_kind_test(Ctx, Kt),
-    ?e:revert(?P(Line, "#seqType{type = _@E1, occur = _@O@}"));
+    erl_syntax:revert(?P(Line, "#seqType{type = _@E1, occur = _@O@}"));
 abs_seq_type(_Ctx, #xqSeqType{anno = Line, type = T, occur = O}) ->
     _ = add_used_record_type(seqType),
-    ?e:revert(?P(Line, "#seqType{type = _@T@, occur = _@O@}")).
+    erl_syntax:revert(?P(Line, "#seqType{type = _@T@, occur = _@O@}")).
 
 abs_qname(Ctx, [Val]) ->
     abs_qname(Ctx, Val);
@@ -3893,25 +3815,21 @@ abs_qname(_Ctx, {variable, _}) ->
 abs_qname(_Ctx, #xqQName{anno = A, namespace = N, prefix = P, local_name = L}) ->
     _ = add_used_record_type(qname),
     try
-        N1 =
-            if
-                N == <<>> ->
-                    <<>>;
-                true ->
-                    N2 = xqerl_types:cast_as(N, 'xs:anyURI'),
-                    xqerl_types:string_value(N2)
-            end,
-        P1 =
-            if
-                P == <<>> ->
-                    <<>>;
-                true ->
-                    P2 = xqerl_types:cast_as(P, 'xs:NCName'),
-                    xqerl_types:string_value(P2)
+        {N1, P1} =
+            case {N, P} of
+                {<<>>, <<>>} ->
+                    {<<>>, <<>>};
+                {<<>>, _} ->
+                    {<<>>, xqerl_types:string_value(xqerl_types:cast_as(P, 'xs:NCName'))};
+                {_, <<>>} ->
+                    {xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI')), <<>>};
+                {_, _} ->
+                    {xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI')),
+                        xqerl_types:string_value(xqerl_types:cast_as(P, 'xs:NCName'))}
             end,
         L1 = xqerl_types:string_value(xqerl_types:cast_as(L, 'xs:NCName')),
         _ = add_used_record_type(xqAtomicValue),
-        ?e:revert(
+        erl_syntax:revert(
             ?P(A, [
                 "#xqAtomicValue{type = 'xs:QName',",
                 "               value = #qname{namespace = _@N1@,",
@@ -3920,26 +3838,26 @@ abs_qname(_Ctx, #xqQName{anno = A, namespace = N, prefix = P, local_name = L}) -
             ])
         )
     catch
+        _:_ when is_atom(N) ->
+            erl_syntax:revert(
+                ?P(A, "#qname{namespace = '@N@', prefix = _@P@, local_name = _@L@}")
+            );
         _:_ ->
-            if
-                is_atom(N) ->
-                    ?e:revert(?P(A, "#qname{namespace = '@N@', prefix = _@P@, local_name = _@L@}"));
-                true ->
-                    ?e:revert(?P(A, "#qname{namespace = _@N@, prefix = _@P@, local_name = _@L@}"))
-            end
+            erl_syntax:revert(
+                ?P(A, "#qname{namespace = _@N@, prefix = _@P@, local_name = _@L@}")
+            )
     end.
 
 % {xqKindTest,node,undefined,undefined,undefined}
+abs_kind_test(Ctx, #xqKindTest{kind = K, name = Q, type = T}) when is_atom(T) ->
+    _ = add_used_record_type(kindTest),
+    E1 = abs_qname(Ctx, Q),
+    E2 = atom_or_string(T),
+    ?Q("#kindTest{kind = _@K@, name = _@E1, type = _@E2}");
 abs_kind_test(Ctx, #xqKindTest{kind = K, name = Q, type = T}) ->
     _ = add_used_record_type(kindTest),
     E1 = abs_qname(Ctx, Q),
-    E2 =
-        if
-            is_atom(T) ->
-                atom_or_string(T);
-            true ->
-                expr_do(Ctx, T)
-        end,
+    E2 = expr_do(Ctx, T),
     ?Q("#kindTest{kind = _@K@, name = _@E1, type = _@E2}").
 
 abs_function(
@@ -4087,15 +4005,11 @@ node_function_name({comp, Id}) ->
 path_function_name(Id) ->
     list_to_atom(lists:concat(["path_expr__", Id])).
 
-get_variable_tuple(#{variables := Vars} = Ctx) ->
-    if
-        length(Vars) == 0 ->
-            {nil, ?LINE};
-        true ->
-            get_variable_tuple(Ctx, Vars)
-    end.
-
-get_variable_tuple(_Ctx, List) when is_list(List) ->
+get_variable_tuple(#{variables := []}) ->
+    {nil, ?LINE};
+get_variable_tuple(#{variables := Vars}) ->
+    get_variable_tuple(Vars);
+get_variable_tuple(List) when is_list(List) ->
     F = fun
         ({_, _, _, Name}) when is_atom(Name) ->
             {true, var(?LINE, Name)};
@@ -4113,7 +4027,7 @@ get_variable_tuple(_Ctx, List) when is_list(List) ->
 abs_list(List) ->
     lists:foldr(
         fun(E, Abs) ->
-            ?e:cons(E, Abs)
+            erl_syntax:cons(E, Abs)
         end,
         {nil, ?LINE},
         List
@@ -4146,14 +4060,14 @@ add_global_funs(Funs) ->
 
 global_fun_exists(Name, Arity) ->
     F = fun(Fun) ->
-        FName = ?e:atom_value(?e:function_name(Fun)),
-        FArity = ?e:function_arity(Fun),
+        FName = erl_syntax:atom_value(erl_syntax:function_name(Fun)),
+        FArity = erl_syntax:function_arity(Fun),
         Name == FName andalso Arity == FArity
     end,
     lists:any(F, get_global_funs()).
 
 a_term(Term) ->
-    ?e:abstract(Term).
+    erl_syntax:abstract(Term).
 
 handle_predicate({Ctx, #xqLookup{anno = Line, key = wildcard}}, Abs) ->
     CtxVar = var(Line, get_context_variable_name(Ctx)),
@@ -4291,19 +4205,18 @@ handle_predicate(
     }},
     Abs
 ) ->
-    {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
     CtxVar = var(Line, get_context_variable_name(Ctx)),
     Error = var(Line, next_var_name()),
     Result = var(Line, next_var_name()),
-    if
-        ?xs_numeric(VarType) ->
+    case get_variable_ref(Name, Ctx) of
+        {VarAbs, #xqSeqType{type = VarType}} when ?xs_numeric(VarType) ->
             ?P(Line, [
                 "case catch xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs) of",
                 " #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
                 " _@Result -> _@Result",
                 "end"
             ]);
-        true ->
+        {VarAbs, _} ->
             NextCtxVar = var(Line, next_ctx_var_name()),
             ?P(Line, [
                 "case catch xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar,_,_,_) -> _@VarAbs end,_@Abs) of",
@@ -4369,33 +4282,33 @@ handle_predicate({Ctx, #xqArgumentList{anno = Anno, args = Args}}, Abs) ->
         (Arg) -> expr_do(Ctx, Arg)
     end,
     ArgAbs = lists:map(AgF, NewArgs),
-    NextCtxVar2 = var(?LINE, next_ctx_var_name()),
     NextVar2 = var(?LINE, next_var_name()),
-    CtxAbs = context_map_abs(Ctx),
-    Fun1 = ?P(?LINE, [
-        "fun([]) ->",
-        " erlang:throw(xqerl_error:error('XPTY0004'));",
-        "(_@NextVar2) ->",
-        " xqerl_seq3:do_call(_@CtxAbs,_@NextVar2,{_@@ArgAbs})",
-        "end"
-    ]),
-    Fun2 = ?P(?LINE, [
-        "fun(_@NextCtxVar2,_@@PlaceHolders) ->",
-        " _@NextVar2 = xqerl_types:value(_@Abs),",
-        " _@NextVar2(_@NextCtxVar2,_@@ArgAbs)",
-        "end"
-    ]),
-    Error = var(Anno, next_var_name()),
-    Result = var(Anno, next_var_name()),
-    if
-        PlaceHolders == [] ->
+    case PlaceHolders of
+        [] ->
+            CtxAbs = context_map_abs(Ctx),
+            Fun1 = ?P(?LINE, [
+                "fun([]) ->",
+                " erlang:throw(xqerl_error:error('XPTY0004'));",
+                "(_@NextVar2) ->",
+                " xqerl_seq3:do_call(_@CtxAbs,_@NextVar2,{_@@ArgAbs})",
+                "end"
+            ]),
+            Error = var(Anno, next_var_name()),
+            Result = var(Anno, next_var_name()),
             ?Q([
                 "case catch xqerl_seq3:val_map(_@Fun1,_@Abs) of",
                 " #xqError{} = _@Error -> local_error(_@Error, _@Anno@);",
                 " _@Result -> _@Result",
                 "end"
             ]);
-        true ->
+        _ ->
+            NextCtxVar2 = var(?LINE, next_ctx_var_name()),
+            Fun2 = ?P(?LINE, [
+                "fun(_@NextCtxVar2,_@@PlaceHolders) ->",
+                " _@NextVar2 = xqerl_types:value(_@Abs),",
+                " _@NextVar2(_@NextCtxVar2,_@@ArgAbs)",
+                "end"
+            ]),
             Fun2
     end.
 
@@ -4738,17 +4651,19 @@ is_simple_step(#xqAxisStep{
 }) when
     Axis == child; Axis == self; Axis == descendant; Axis == 'descendant-or-self'; Axis == attribute
 ->
-    if
-        Ty == undefined;
-        Ty == 'xs:anyType';
-        Ty == 'xs:string';
-        Ty == 'xs:untyped';
-        Ty == 'xs:untypedAtomic' ->
-            true;
-        true ->
-            false
-    end;
+    is_simple_step_type(Ty);
 is_simple_step(_) ->
+    false.
+
+is_simple_step_type(Ty) when
+    Ty == undefined;
+    Ty == 'xs:anyType';
+    Ty == 'xs:string';
+    Ty == 'xs:untyped';
+    Ty == 'xs:untypedAtomic'
+->
+    true;
+is_simple_step_type(_) ->
     false.
 
 % if the head of the hard steps is easy, except for non-positional predicate,
@@ -4992,20 +4907,13 @@ glob_fun_name(#xqFor{var = #xqVar{id = Id}}) ->
 glob_fun_name(#xqLet{var = #xqVar{id = Id}}) ->
     list_to_atom("let__" ++ integer_to_list(Id)).
 
-flwor_is_list(Internal, Inline) ->
-    if
-        Internal =:= [] -> false;
-        Inline =:= false -> true;
-        true -> false
-    end.
+flwor_is_list([], _) -> false;
+flwor_is_list(_, false) -> true;
+flwor_is_list(_, _) -> false.
 
-flwor_next_tuple_variable(TupleVar, Inline) ->
-    if
-        TupleVar =:= []; Inline =:= false ->
-            var(?LINE, next_var_tuple_name());
-        true ->
-            TupleVar
-    end.
+flwor_next_tuple_variable(_, false) -> var(?LINE, next_var_tuple_name());
+flwor_next_tuple_variable([], _) -> var(?LINE, next_var_tuple_name());
+flwor_next_tuple_variable(TupleVar, _) -> TupleVar.
 
 flwor_variable_tuple(Ctx) ->
     case get_variable_tuple(Ctx) of
@@ -5039,21 +4947,21 @@ flwor(Ctx, [F], RetId, Return, Internal, Global, TupleVar, Inline, [Rem | Rems])
     ThisFun = glob_fun_name(F),
     NextFun = glob_fun_name({return, RetId}),
     {NewCtx, FunAbs} =
-        if
-            is_record(F, xqLet) ->
+        case F of
+            #xqLet{} ->
                 let_part(Ctx, F, NextFun, IsList, Rem);
-            true ->
+            #xqFor{} ->
                 for_loop(Ctx, F, NextFun, IsList, Rem)
         end,
     Call1 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
     Call2 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
     NewInternal =
-        if
-            Internal =:= [] ->
-                Internal ++ Call1;
-            Inline =:= false ->
+        case Internal of
+            [] ->
+                Call1;
+            _ when Inline =:= false ->
                 Internal ++ Call2;
-            true ->
+            _ ->
                 Internal
         end,
     NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
@@ -5082,21 +4990,21 @@ flwor(
     ThisFun = glob_fun_name(F),
     NextFun = glob_fun_name(N),
     {NewCtx, FunAbs} =
-        if
-            is_record(F, xqLet) ->
+        case F of
+            #xqLet{} ->
                 let_part(Ctx, F, NextFun, IsList, Rem);
-            true ->
+            #xqFor{} ->
                 for_loop(Ctx, F, NextFun, IsList, Rem)
         end,
     Call1 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
     Call2 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
     NewInternal =
-        if
-            Internal =:= [] ->
-                Internal ++ Call1;
-            Inline =:= false ->
+        case Internal of
+            [] ->
+                Call1;
+            _ when Inline =:= false ->
                 Internal ++ Call2;
-            true ->
+            _ ->
                 Internal
         end,
     NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
@@ -5110,21 +5018,21 @@ flwor(Ctx, [F | T], RetId, Return, Internal, Global, TupleVar, Inline, [Rem | Re
     CurrContext = var(?LINE, get_context_variable_name(Ctx)),
     ThisFun = glob_fun_name(F),
     {NewCtx, FunAbs} =
-        if
-            is_record(F, xqLet) ->
+        case F of
+            #xqLet{} ->
                 let_part(Ctx, F, [], not Inline andalso Internal =/= [], Rem);
-            true ->
+            #xqFor{} ->
                 for_loop(Ctx, F, [], not Inline andalso Internal =/= [], Rem)
         end,
     Call1 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
     Call2 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
     NewInternal =
-        if
-            Internal =:= [] ->
-                Internal ++ Call1;
-            Inline =:= false ->
+        case Internal of
+            [] ->
+                Call1;
+            _ when Inline =:= false ->
                 Internal ++ Call2;
-            true ->
+            _ ->
                 Internal
         end,
     NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
@@ -5148,12 +5056,12 @@ flwor(
     Call1 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
     Call2 = [?Q("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
     NewInternal =
-        if
-            Internal =:= [] ->
-                Internal ++ Call1;
-            Inline =:= false andalso TupleVar =/= [] ->
+        case Internal of
+            [] ->
+                Call1;
+            _ when Inline =:= false andalso TupleVar =/= [] ->
                 Internal ++ Call2;
-            true ->
+            _ ->
                 Internal ++ Call1
         end,
     NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
@@ -5228,8 +5136,8 @@ return_part(Ctx, {Id, Expr}, IsList) ->
     E1 = expr_do(LocCtx, Expr),
     %?parse_dbg("Expr",Expr),
     R =
-        if
-            IsList ->
+        case IsList of
+            true ->
                 ?Q([
                     "'@FunctionName@'(_,[]) -> [];",
                     "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -5237,7 +5145,7 @@ return_part(Ctx, {Id, Expr}, IsList) ->
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@E1."
                 ]);
-            true ->
+            false ->
                 ?Q([
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@E1."
@@ -5338,10 +5246,10 @@ count_part(
     NewVariableTupleMatch = get_variable_tuple(NewCtx),
 
     NextFun =
-        if
-            NextFunAtom == [] ->
+        case NextFunAtom of
+            [] ->
                 NewVariableTupleMatch;
-            true ->
+            _ ->
                 ?Q("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
         end,
     R1 = ?P(Line, [
@@ -5372,21 +5280,15 @@ group_part(
         Name
         || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)
     ],
-    OK = lists:all(
-        fun(N) ->
-            lists:member(N, GroupVars)
+    %TODO move this check to static phase
+    _ =
+        case lists:all(fun(N) -> lists:member(N, GroupVars) end, KeyNames) of
+            true ->
+                ok;
+            false ->
+                % out of scope grouping variable
+                ?err('XQST0094', ?LN(Line))
         end,
-        KeyNames
-    ),
-    if
-        OK ->
-            ok;
-        true ->
-            %TODO move this check to static phase
-
-            % out of scope grouping variable
-            ?err('XQST0094', ?LN(Line))
-    end,
     UColls = lists:usort([
         Coll
         || #xqGroupBy{collation = Coll} <- alist(Clauses)
@@ -5427,19 +5329,19 @@ group_part(
     ],
 
     KeyTuple =
-        if
-            KeyTuples == [] ->
+        case KeyTuples of
+            [] ->
                 {nil, ?LINE};
-            true ->
-                ?e:revert(?Q("{_@@KeyTuples}"))
+            _ ->
+                erl_syntax:revert(?Q("{_@@KeyTuples}"))
         end,
     GroupedVars = GroupVars -- KeyNames,
     GroupedTups = [var(?LINE, Name) || Name <- GroupedVars],
     OuterTups =
-        if
-            OuterVars == [] ->
+        case OuterVars of
+            [] ->
                 {nil, ?LINE};
-            true ->
+            _ ->
                 {tuple, ?LINE, [var(?LINE, Name) || Name <- OuterVars]}
         end,
     GroupedTup = {tuple, ?LINE, GroupedTups},
@@ -5457,9 +5359,9 @@ group_part(
     Hd = ?Q("erlang:hd([_@OuterTups || _@OutgoingVarTup0 <- List])"),
     Flatten = ?Q("lists:flatten(['@FunctionName@'(Ctx,T,_@CollNT) || T <- List])"),
     Rest =
-        if
-            OuterVars =:= [] -> {nil, ?LINE};
-            true -> Hd
+        case OuterVars of
+            [] -> {nil, ?LINE};
+            _ -> Hd
         end,
     %?parse_dbg("_@@CollMatch",?P(?LINE,"_@@CollMatch")),
     Error = var(Line, next_var_name()),
@@ -5516,40 +5418,34 @@ let_part(
 
     E1 = expr_do(LocCtx, Expr),
     VarName1 = var(?LINE, VarName),
-    %ensure_type(Ctx,VarName1,Type,AType),
-    Ens = {nil, ?LINE},
     LetFun =
-        if
-            NextFunAtom == [] andalso IsList ->
+        case NextFunAtom of
+            [] when IsList ->
                 ?P(Line, [
                     "'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
                     "   ['@FunctionName@'(Ctx,X) || X <- L];",
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@VarName1 = _@E1,",
-                    "   _@Ens,",
                     "   _@NewVariableTupleMatch."
                 ]);
-            NextFunAtom == [] ->
+            [] ->
                 ?P(Line, [
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@VarName1 = _@E1,",
-                    "   _@Ens,",
                     "   _@NewVariableTupleMatch."
                 ]);
-            IsList ->
+            _ when IsList ->
                 ?P(Line, [
                     "'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
                     "   ['@FunctionName@'(Ctx,X) || X <- L];",
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@VarName1 = _@E1,",
-                    "   _@Ens,",
                     "   '@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
                 ]);
-            true ->
+            _ ->
                 ?P(Line, [
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                     "   _@VarName1 = _@E1,",
-                    "   _@Ens,",
                     "   '@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
                 ])
         end,
@@ -5621,8 +5517,8 @@ window_loop(
     Ctx21 = add_grouping_variable(WVar, Ctx16),
     {WinVar, Ctx20} = {WVar, remove_variables(Rem, Ctx21)},
     % first check for bad name shadows
-    StartTup = get_variable_tuple(Ctx, [SVar, SPosVar, SPrevVar, SNextVar]),
-    EndTup = get_variable_tuple(Ctx, [
+    StartTup = get_variable_tuple([SVar, SPosVar, SPrevVar, SNextVar]),
+    EndTup = get_variable_tuple([
         SVar,
         SPosVar,
         SPrevVar,
@@ -5637,7 +5533,7 @@ window_loop(
     %TempWinVarName = next_var_name(),
     %TempWinVar = {[],[],[],TempWinVarName},
 
-    OutTup = get_variable_tuple(Ctx, [
+    OutTup = get_variable_tuple([
         SVar,
         SPosVar,
         SPrevVar,
@@ -5661,15 +5557,15 @@ window_loop(
     Error = var(Line, next_var_name()),
     Result = var(Line, next_var_name()),
     WinCall =
-        if
-            EndExpr =:= undefined ->
+        case EndExpr of
+            undefined ->
                 ?P(Line, [
                     "case catch xqerl_flwor:windowclause(List,_@StartFunAbs,_@WType1) of",
                     " #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
                     " _@Result -> _@Result",
                     "end"
                 ]);
-            true ->
+            _ ->
                 E2 = alist(expr_do(Ctx16, EndExpr)),
                 EndFunAbs = ?Q("fun(_@EndTup) -> _@E2 end"),
                 ?P(Line, [
@@ -5693,23 +5589,23 @@ window_loop(
 
     E3 = expr_do(LocCtx, Expr),
     Next =
-        if
-            NextFunAtom == [] ->
+        case NextFunAtom of
+            [] ->
                 ?Q("_@NewVariableTupleMatch");
-            true ->
+            _ ->
                 ?Q("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
         end,
 
     WinFun =
-        if
-            IsInitial ->
+        case IsInitial of
+            true ->
                 ?P(Line, [
                     "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
                     "   List = _@E3,",
                     "   _@TempStreamVar = _@WinCall,",
                     "   [_@Next || _@OutTup <- _@TempStreamVar]."
                 ]);
-            true ->
+            _ ->
                 ?P(Line, [
                     "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
                     "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
@@ -5761,111 +5657,33 @@ for_loop(
             {unordered_parallel, E} -> {pmap, E};
             E -> {formap, E}
         end,
-    Next =
-        if
-            NextFunAtom == [] ->
-                ?Q("_@NewVariableTupleMatch");
-            true ->
-                ?Q("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
-        end,
-    %ensure_type(Ctx,VarName1,Type,AType),
-    Ens = {nil, ?LINE},
     Error = var(Line, next_var_name()),
     Result = var(Line, next_var_name()),
-    ForFun1 =
-        if
-            IsList andalso Empty andalso NoEmptyType ->
+    ForFun1 = for_fun(
+        FunctionName,
+        E1,
+        FName,
+        Error,
+        Line,
+        Result,
+        OldVariableTupleMatch,
+        IsList,
+        Empty,
+        NoEmptyType
+    ),
+    ForFun2 =
+        case NextFunAtom of
+            [] ->
                 ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3,",
-                    "   if List =:= [] -> ",
-                    "         local_error('XPTY0004', _@Line@);",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    " #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    " _@Result -> _@Result",
-                    " end",
-                    "   end."
+                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1) -> ",
+                    "_@NewVariableTupleMatch."
                 ]);
-            IsList andalso Empty ->
+            _ ->
                 ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3, ",
-                    "   if List =:= [] -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end;",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            Empty andalso NoEmptyType ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3, ",
-                    "   if List =:= [] -> ",
-                    "         local_error('XPTY0004', _@Line@);",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            Empty ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3, ",
-                    "   if List =:= [] -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end;",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            IsList ->
-                ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3, ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end."
-                ]);
-            true ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/3, ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end."
+                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1) ->  ",
+                    "'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
                 ])
         end,
-    ForFun2 = ?P(Line, [
-        "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1) -> _@Ens,_@Next."
-    ]),
     {NewCtx, [ForFun1, ForFun2]};
 % for loop with position var
 for_loop(
@@ -5925,118 +5743,217 @@ for_loop(
             {unordered_parallel, E} -> {forposmap, E};
             E -> {forposmap, E}
         end,
-    Next =
-        if
-            NextFunAtom == [] ->
-                ?Q("_@NewVariableTupleMatch");
-            true ->
-                ?Q("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
-        end,
-    %ensure_type(Ctx,VarName1,Type,AType),
-    Ens = {nil, ?LINE},
     Error = var(Line, next_var_name()),
     Result = var(Line, next_var_name()),
-    ForFun1 =
-        if
-            IsList andalso Empty andalso NoEmptyType ->
+    ForFun1 = for_pos_fun(
+        FunctionName,
+        E1,
+        FName,
+        Error,
+        Line,
+        Result,
+        OldVariableTupleMatch,
+        IsList,
+        Empty,
+        NoEmptyType
+    ),
+    ForFun2 =
+        case NextFunAtom of
+            [] ->
                 ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    "   if List =:= [] -> ",
-                    "         local_error('XPTY0004', _@Line@);",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
+                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1, _@PosVarName1) -> ",
+                    "_@NewVariableTupleMatch."
                 ]);
-            IsList andalso Empty ->
+            _ ->
                 ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    "   if List =:= [] -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end;",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            Empty andalso NoEmptyType ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    "   if List =:= [] -> ",
-                    "         local_error('XPTY0004', _@Line@);",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            Empty ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    "   if List =:= [] -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end;",
-                    "      true -> ",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end",
-                    "   end."
-                ]);
-            IsList ->
-                ?P(Line, [
-                    "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                    "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of"
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end."
-                ]);
-            true ->
-                ?P(Line, [
-                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
-                    "   List = _@E1,",
-                    "   Fun = fun '@FunctionName@'/4,",
-                    " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
-                    "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
-                    "  _@Result -> _@Result",
-                    " end."
+                    "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1, _@PosVarName1) ->  ",
+                    "'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
                 ])
         end,
-    ForFun2 = ?P(Line, [
-        "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1,",
-        " _@PosVarName1) ->  _@Ens,_@Next."
-    ]),
     {NewCtx, [ForFun1, ForFun2]}.
 
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, true, true) ->
+    ?P(Line, [
+        "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3,",
+        "   if List =:= [] -> ",
+        "         local_error('XPTY0004', _@Line@);",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        " #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        " _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, true, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(__Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3, ",
+        "   if List =:= [] -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end;",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, true, true) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3, ",
+        "   if List =:= [] -> ",
+        "         local_error('XPTY0004', _@Line@);",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, true, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3, ",
+        "   if List =:= [] -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end;",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, _, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(__Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3, ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end."
+    ]);
+for_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, _, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/3, ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end."
+    ]).
+
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, true, true) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(__Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        "   if List =:= [] -> ",
+        "         local_error('XPTY0004', _@Line@);",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, true, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(__Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        "   if List =:= [] -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end;",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, true, true) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        "   if List =:= [] -> ",
+        "         local_error('XPTY0004', _@Line@);",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, true, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        "   if List =:= [] -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end;",
+        "      true -> ",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end",
+        "   end."
+    ]);
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, true, _, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx,L) when erlang:is_list(L) -> ",
+        "   lists:map(fun(X) -> '@FunctionName@'(__Ctx,X) end,L);",
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of"
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end."
+    ]);
+for_pos_fun(FunctionName, E1, FName, Error, Line, Result, OldTup, _, _, _) ->
+    ?P(Line, [
+        "'@FunctionName@'(__Ctx, _@OldTup = Tuple) -> ",
+        "   List = _@E1,",
+        "   Fun = fun '@FunctionName@'/4,",
+        " case catch xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1) of",
+        "  #xqError{} = _@Error -> local_error(_@Error, _@Line@);",
+        "  _@Result -> _@Result",
+        " end."
+    ]).
+
 atom(undefined, Atom) ->
-    ?e:atom(Atom);
+    erl_syntax:atom(Atom);
 atom(L, Atom) ->
-    anno(L, ?e:atom(Atom)).
+    anno(L, erl_syntax:atom(Atom)).
 
 var(undefined, Atom) ->
     {var, 0, Atom};
@@ -6046,7 +5963,7 @@ var(L, Atom) ->
 anno(L, Tree) ->
     A = erl_anno:new(L),
     B = erl_anno:set_file(get_filename(), A),
-    ?e:set_pos(Tree, B).
+    erl_syntax:set_pos(Tree, B).
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% resusable functions for each production record that might catch

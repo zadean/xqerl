@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -181,10 +181,14 @@ compatibilityCheck(Pul) ->
     _ = if_dupe([Target || {replaceElementContent, Target, _} <- Pul], 'XUDY0017'),
     %% Two or more upd:put primitives in $pul have the same $uri operand
     _ = if_dupe([{PDB, PName} || {put, _, _, PDB, PName} <- Pul], 'XUDY0031'),
-    %% Two or more primitives in $pul create conflicting namespace bindings for the same element node [err:XUDY0024]. The following kinds of primitives create namespace bindings:
-    %%    upd:insertAttributes creates one namespace binding on the $target element corresponding to the implied namespace binding of the name of each attribute node in $content.
-    %%    upd:replaceNode creates one namespace binding on the $target element corresponding to the implied namespace binding of the name of each attribute node in $replacement.
-    %%    upd:rename creates a namespace binding on $target, or on the parent (if any) of $target if $target is an attribute node, corresponding to the implied namespace binding of $newName.
+    %% Two or more primitives in $pul create conflicting namespace bindings for the same element node
+    % [err:XUDY0024]. The following kinds of primitives create namespace bindings:
+    %%    upd:insertAttributes creates one namespace binding on the $target element corresponding to the
+    % implied namespace binding of the name of each attribute node in $content.
+    %%    upd:replaceNode creates one namespace binding on the $target element corresponding to the implied
+    % namespace binding of the name of each attribute node in $replacement.
+    %%    upd:rename creates a namespace binding on $target, or on the parent (if any) of $target if $target
+    % is an attribute node, corresponding to the implied namespace binding of $newName.
     ok.
 
 % merges and groups all updates by DB, Type, and node
@@ -315,27 +319,29 @@ sub_transaction(Ctx, PulMap, DbPid) ->
             % DB delete
             [{DB, delete, all}];
         DocMap ->
-            DB = xqldb_db:database(DbPid),
-            DocIdsToUpds = maps:to_list(DocMap),
-            F = fun
-                ({DocName, {delete, DB0}}) ->
-                    [{DB0, delete, DocName}];
-                ({DocId, Upds}) ->
-                    Root = xqldb_nodes:get_single_node(DB, DocId, []),
-                    MemDoc = xqldb_nodes:deep_copy_node(Root),
-                    Frank = do_local_updates(MemDoc, Upds),
-                    DocUri = xqldb_nodes:document_uri(Root),
-                    {_DbUri, DocName} = xqldb_uri:split_uri(DocUri),
-                    MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
-                    case in_put_list(Frank, Puts, {DbPid, DocId}) of
-                        [] ->
-                            % not in 'put' list so add it
-                            [{put, xml, MemNode, DB, DocName}];
-                        [ModNode] ->
-                            [ModNode, {put, xml, MemNode, DB, DocName}]
-                    end
+            F = fun(I) ->
+                sub_transaction_1(I, DbPid, Ctx, Puts)
             end,
+            DocIdsToUpds = maps:to_list(DocMap),
             lists:map(F, DocIdsToUpds)
+    end.
+
+sub_transaction_1({DocName, {delete, DB0}}, _DbPid, _Ctx, _Puts) ->
+    [{DB0, delete, DocName}];
+sub_transaction_1({DocId, Upds}, DbPid, Ctx, Puts) ->
+    DB = xqldb_db:database(DbPid),
+    Root = xqldb_nodes:get_single_node(DB, DocId, []),
+    MemDoc = xqldb_nodes:deep_copy_node(Root),
+    Frank = do_local_updates(MemDoc, Upds),
+    DocUri = xqldb_nodes:document_uri(Root),
+    {_DbUri, DocName} = xqldb_uri:split_uri(DocUri),
+    MemNode = xqerl_node:contruct(Ctx#{updating => true}, Frank),
+    case in_put_list(Frank, Puts, {DbPid, DocId}) of
+        [] ->
+            % not in 'put' list so add it
+            [{put, xml, MemNode, DB, DocName}];
+        [ModNode] ->
+            [ModNode, {put, xml, MemNode, DB, DocName}]
     end.
 
 merge_puts(OldPuts, NewPuts) ->
@@ -353,23 +359,19 @@ in_put_list(
     [{put, Type, #{id := {OPid, ODoc, OPos}}, DB, Name} | _],
     {OPid, ODoc}
 ) ->
-    case do_find_node({Ref, OPos}, Frank) of
-        [] ->
-            [];
-        List ->
-            [{put, Type, N, DB, Name} || N <- List]
-    end;
+    in_put_list_1(Ref, OPos, Frank, Type, DB, Name);
 in_put_list(#{id := {Ref, _Pos}} = Frank, [{put, Type, #{id := {ORef, OPos}}, DB, Name} | _], ORef) ->
-    case do_find_node({Ref, OPos}, Frank) of
-        [] ->
-            [];
-        List ->
-            [{put, Type, N, DB, Name} || N <- List]
-    end;
+    in_put_list_1(Ref, OPos, Frank, Type, DB, Name);
 in_put_list(Frank, [_ | Puts], Id) ->
     in_put_list(Frank, Puts, Id);
 in_put_list(_, [], _) ->
     [].
+
+in_put_list_1(Ref, OPos, Frank, Type, DB, Name) ->
+    case do_find_node({Ref, OPos}, Frank) of
+        [] -> [];
+        List -> [{put, Type, N, DB, Name} || N <- List]
+    end.
 
 % applies updates to in-memory nodes from copy-modify statement
 applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
@@ -382,8 +384,8 @@ applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
         end,
         Keys
     ),
-    if
-        not AllLoc ->
+    case AllLoc of
+        false ->
             % non-local update
             ?err('XUDY0014');
         true ->
@@ -940,12 +942,9 @@ do_replace_node({Ref, Pos}, [#{id := {Ref, Pos1}} = Node1 | T], Fun, New) when P
 do_replace_node({Ref, Pos}, [#{id := {Ref, Pos1}} = Node1 | T], _Fun, _New) when Pos1 > Pos ->
     [Node1 | T];
 do_replace_node({Ref, Pos}, [#{id := {Ref, Pos1}} = Node1 | T], Fun, New) when Pos1 == Pos ->
-    R = Fun(Node1, expand_children(New)),
-    if
-        is_list(R) ->
-            R ++ T;
-        true ->
-            [R | T]
+    case Fun(Node1, expand_children(New)) of
+        R when is_list(R) -> R ++ T;
+        R -> [R | T]
     end;
 do_replace_node({Ref, Pos}, [Node | T], Fun, New) ->
     [Node | do_replace_node({Ref, Pos}, T, Fun, New)];

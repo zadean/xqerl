@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -30,9 +30,7 @@
 
 -include("xqerl.hrl").
 
--define(bool(Val), Val).
--define(str(Val), Val).
--define(untyp(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
+-define(UNTYP(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
 
 -define(STR_REST(Str, Rest), <<Str, Rest/binary>>).
 -define(CP_REST(Cp, Rest), <<Cp/utf8, Rest/binary>>).
@@ -41,10 +39,10 @@
 % block array:array(_) warnings
 -dialyzer(no_opaque).
 
--define(is_array(A), is_tuple(A), element(1, A) =:= array).
+-define(IS_ARRAY(A), is_tuple(A), element(1, A) =:= array).
 
--define(xml, <<"http://www.w3.org/XML/1998/namespace">>).
--define(xmlns, <<"http://www.w3.org/2000/xmlns/">>).
+-define(XML, <<"http://www.w3.org/XML/1998/namespace">>).
+-define(XMLNS, <<"http://www.w3.org/2000/xmlns/">>).
 
 -export([
     copy_node/1,
@@ -244,7 +242,7 @@ contruct(
 
     %,
     InScopeNs = maps:get(inscope_ns, Ctx, #{
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
         %<<>> => Default
     }),
     Ctx1 =
@@ -383,7 +381,7 @@ get_new_base_uri([]) ->
 get_new_base_uri([
     #{
         nk := attribute,
-        nn := {?xml, _, <<"base">>},
+        nn := {?XML, _, <<"base">>},
         sv := Sv
     }
     | _
@@ -449,25 +447,25 @@ add_implicit_namespaces(InScopeNs, _, _) ->
 check_computed_namespaces([]) ->
     ok;
 %% check_computed_namespaces([{<<>>, <<>>}]) -> ok;
-%% check_computed_namespaces([{<<"xml">>, ?xml}]) -> ok;
+%% check_computed_namespaces([{<<"xml">>, ?XML}]) -> ok;
 check_computed_namespaces(Namespaces) ->
     Unique = lists:usort(Namespaces),
     Prefixes = lists:usort([P || {P, _} <- Unique]),
     %?dbg("Namespaces", Namespaces),
-    if
-        length(Unique) =/= length(Prefixes) ->
+    case length(Unique) == length(Prefixes) of
+        false ->
             ?err('XQDY0102');
         true ->
             %?dbg("NameSpaceNodes",NameSpaceNodes),
             %?dbg("NameSpaces",NameSpaces),
             F = fun
-                ({<<"xml">>, Ns}) when Ns =/= ?xml ->
+                ({<<"xml">>, Ns}) when Ns =/= ?XML ->
                     ?err('XQDY0101');
-                ({Px, ?xml}) when Px =/= <<"xml">> ->
+                ({Px, ?XML}) when Px =/= <<"xml">> ->
                     ?err('XQDY0101');
                 ({<<"xmlns">>, _}) ->
                     ?err('XQDY0101');
-                ({_, ?xmlns}) ->
+                ({_, ?XMLNS}) ->
                     ?err('XQDY0101');
                 ({<<>>, <<>>}) ->
                     ok;
@@ -539,13 +537,7 @@ contruct_node(
     {Id, Ctx1} = next_id(Ctx),
     NewId = {Ref, Id},
     % expand content with the new context
-    RawContent =
-        if
-            is_function(ContentFun, 1) ->
-                ContentFun(Ctx1);
-            true ->
-                ContentFun
-        end,
+    RawContent = expand_content(Ctx1, ContentFun),
     Content = merge_content(RawContent),
     {[], [], Children} = split_doc_content(Content),
     ChFun = fun(N, Ctx2) ->
@@ -581,28 +573,7 @@ contruct_node(
     {{Nss, Atts}, Ctx2} = split_add_namespace_attributes(NsAtts, Ctx1, Ref),
 
     % add new namespaces to the inscope
-    InScopeNs1 =
-        if
-            IsCopy ->
-                #{ns := InScopeNs0} = Node,
-                case {Preserve, Inherit} of
-                    {preserve, inherit} when IsUpd ->
-                        % inscopes switched here, parent wins instead of child
-                        augment_direct_inscope_namespaces(Nss, maps:merge(InScopeNs, InScopeNs0));
-                    {preserve, inherit} ->
-                        %?dbg("InScopeNs0", InScopeNs0),
-                        %?dbg("InScopeNs ", InScopeNs ),
-                        augment_direct_inscope_namespaces(Nss, maps:merge(InScopeNs0, InScopeNs));
-                    {preserve, 'no-inherit'} ->
-                        augment_direct_inscope_namespaces(Nss, InScopeNs0);
-                    {'no-preserve', inherit} ->
-                        augment_direct_inscope_namespaces(Nss, InScopeNs);
-                    {'no-preserve', 'no-inherit'} ->
-                        augment_direct_inscope_namespaces(Nss, #{})
-                end;
-            true ->
-                augment_direct_inscope_namespaces(Nss, InScopeNs)
-        end,
+    InScopeNs1 = do_namespace_augmentation(IsCopy, Node, Preserve, Inherit, IsUpd, InScopeNs, Nss),
     %?dbg("InScopeNs1", InScopeNs1),
 
     % get any namespaces added implicitly by the node names (not inscope!)
@@ -617,13 +588,7 @@ contruct_node(
     Ctx4 = augment_context_base_uri(NewBase, Ctx3),
 
     % expand content with the new context
-    RawContent =
-        if
-            is_function(ContentFun, 1) ->
-                ContentFun(Ctx4);
-            true ->
-                ContentFun
-        end,
+    RawContent = expand_content(Ctx4, ContentFun),
     Content = merge_content(RawContent),
     % new set of namespaces, attributes and contents
     % these namespaces are inscope
@@ -703,7 +668,7 @@ contruct_node(
     %?dbg("Content2", Content2),
     Node1 =
         case NodeName of
-            {?xml, _, <<"id">>} ->
+            {?XML, _, <<"id">>} ->
                 Content3 =
                     try
                         xqerl_types:string_value(
@@ -718,16 +683,13 @@ contruct_node(
                     id := NewId,
                     tn := 'xs:ID'
                 };
-            {?xml, _, <<"space">>} ->
-                if
-                    Content2 == <<"preserve">>; Content2 == <<"default">> ->
-                        Node#{
-                            id := NewId,
-                            sv := Content2
-                        };
-                    true ->
-                        ?err('XQDY0092')
-                end;
+            {?XML, _, <<"space">>} when Content2 == <<"preserve">>; Content2 == <<"default">> ->
+                Node#{
+                    id := NewId,
+                    sv := Content2
+                };
+            {?XML, _, <<"space">>} ->
+                ?err('XQDY0092');
             {Ns, <<>>, Ln} when Ns =/= <<>> ->
                 APx = xqerl_lib:next_comp_prefix(InScopeNs),
                 %?dbg("Ns, Px, NewPx", {Ns, <<>>, APx}),
@@ -785,11 +747,10 @@ contruct_node(
 ) ->
     Content1 = merge_text_content(Content, text),
     Content2 = xqerl_types:string_value(Content1),
-    Len = byte_size(Content2),
     Last =
-        if
-            Len == 0 -> <<>>;
-            true -> binary:last(Content2)
+        case Content2 of
+            <<>> -> <<>>;
+            _ -> binary:last(Content2)
         end,
     case string:find(Content2, <<"--">>) == nomatch andalso Last =/= $- of
         true ->
@@ -1093,20 +1054,20 @@ ensure_qname(QName, _InScopeNamespaces) ->
 % return new in-scope namespaces
 
 check_element_name({_, <<"xmlns">>, _}) -> ?err('XQDY0096');
-check_element_name({?xmlns, _, _}) -> ?err('XQDY0096');
-check_element_name({TNs, <<"xml">>, _}) when TNs =/= ?xml -> ?err('XQDY0096');
-check_element_name({?xml, TPx, _}) when TPx =/= <<"xml">> -> ?err('XQDY0096');
+check_element_name({?XMLNS, _, _}) -> ?err('XQDY0096');
+check_element_name({TNs, <<"xml">>, _}) when TNs =/= ?XML -> ?err('XQDY0096');
+check_element_name({?XML, TPx, _}) when TPx =/= <<"xml">> -> ?err('XQDY0096');
 check_element_name(_) -> ok.
 
 check_attribute_name(#{nn := {_, <<"xmlns">>, _}}, _) ->
     ?err('XQDY0044');
 check_attribute_name(#{nn := {_, <<>>, <<"xmlns">>}}, _) ->
     ?err('XQDY0044');
-check_attribute_name(#{nn := {?xmlns, _, _}}, _) ->
+check_attribute_name(#{nn := {?XMLNS, _, _}}, _) ->
     ?err('XQDY0044');
-check_attribute_name(#{nn := {Ns, <<"xml">>, _}}, _) when Ns =/= ?xml ->
+check_attribute_name(#{nn := {Ns, <<"xml">>, _}}, _) when Ns =/= ?XML ->
     ?err('XQDY0044');
-check_attribute_name(#{nn := {?xml, Px, _}}, _) when Px =/= <<"xml">> ->
+check_attribute_name(#{nn := {?XML, Px, _}}, _) when Px =/= <<"xml">> ->
     ?err('XQDY0044');
 check_attribute_name(#{nn := {Ns, _, Ln}}, Map) ->
     Key = {Ns, Ln},
@@ -1153,7 +1114,7 @@ merge_content_1(List) ->
             [xqerl_types:cast_as(A, 'xs:untypedAtomic')];
         (#xqAtomicValue{} = A) ->
             [xqerl_types:cast_as(A, 'xs:untypedAtomic')];
-        (A) when ?is_array(A) ->
+        (A) when ?IS_ARRAY(A) ->
             merge_content_1(xqerl_mod_array:flatten(#{}, A));
         (#xqFunction{}) ->
             ?err('XQTY0105');
@@ -1173,7 +1134,7 @@ merge_content(
     Acc
 ) ->
     Str3 = <<St1/binary, " ", St2/binary>>,
-    merge_content([?untyp(Str3) | T], Acc);
+    merge_content([?UNTYP(Str3) | T], Acc);
 merge_content(
     [
         #{nk := text, sv := St1},
@@ -1209,20 +1170,14 @@ merge_content(
     merge_content([Node | T], Acc);
 merge_content([{} | T], Acc) ->
     merge_content(T, Acc);
+merge_content([#xqAtomicValue{value = <<>>}, {} | T], Acc) ->
+    merge_content(T, Acc);
 merge_content([#xqAtomicValue{value = Val}, {} | T], Acc) ->
-    case Val of
-        <<>> ->
-            merge_content(T, Acc);
-        _ ->
-            merge_content(T, [#{nk => text, sv => Val} | Acc])
-    end;
+    merge_content(T, [#{nk => text, sv => Val} | Acc]);
+merge_content([#xqAtomicValue{value = <<>>} | T], Acc) ->
+    merge_content(T, Acc);
 merge_content([#xqAtomicValue{value = Val} | T], Acc) ->
-    case Val of
-        <<>> ->
-            merge_content(T, Acc);
-        _ ->
-            merge_content(T, [#{nk => text, sv => Val} | Acc])
-    end;
+    merge_content(T, [#{nk => text, sv => Val} | Acc]);
 merge_content([H | T], Acc) ->
     merge_content(T, [H | Acc]).
 
@@ -1254,13 +1209,13 @@ maybe_merge_seq([H1, H2 | T], Acc) when
     St1 = xqerl_types:string_value(H1),
     St2 = xqerl_types:string_value(H2),
     Str3 = <<St1/binary, " ", St2/binary>>,
-    maybe_merge_seq([?untyp(Str3) | T], Acc);
+    maybe_merge_seq([?UNTYP(Str3) | T], Acc);
 maybe_merge_seq([H | T], Acc) when
     is_binary(H); is_number(H); is_atom(H); is_record(H, xqAtomicValue)
 ->
     St1 = xqerl_types:string_value(H),
     maybe_merge_seq([#{nk => text, sv => St1} | T], Acc);
-maybe_merge_seq([H | T], Acc) when ?is_array(H) ->
+maybe_merge_seq([H | T], Acc) when ?IS_ARRAY(H) ->
     L = xqerl_mod_array:flatten(#{}, H),
     maybe_merge_seq([L | T], Acc);
 maybe_merge_seq([H | T], Acc) when is_list(H) ->
@@ -1306,7 +1261,7 @@ merge_text_content(Content, Type) when is_list(Content) ->
 merge_text_content(Content, Type) ->
     merge_text_content_1([Content], Type).
 
-merge_text_content_1([?untyp(V)], _) ->
+merge_text_content_1([?UNTYP(V)], _) ->
     V;
 merge_text_content_1([H1, H2 | T], Type) when
     is_list(H1), is_binary(H2);
@@ -1318,7 +1273,7 @@ merge_text_content_1([H1, H2 | T], Type) when
     H3 = maybe_merge_text_seq(H1),
     St2 = xqerl_types:string_value(H3),
     S1 = xqerl_types:string_value(H2),
-    Str3 = ?untyp(<<St2/binary, S1/binary>>),
+    Str3 = ?UNTYP(<<St2/binary, S1/binary>>),
     merge_text_content_1([Str3 | T], Type);
 merge_text_content_1([H1, H2 | T], Type) when
     is_list(H2), is_binary(H1);
@@ -1330,21 +1285,21 @@ merge_text_content_1([H1, H2 | T], Type) when
     H3 = maybe_merge_text_seq(H2),
     St2 = xqerl_types:string_value(H3),
     S1 = xqerl_types:string_value(H1),
-    Str3 = ?untyp(<<S1/binary, St2/binary>>),
+    Str3 = ?UNTYP(<<S1/binary, St2/binary>>),
     merge_text_content_1([Str3 | T], Type);
 merge_text_content_1([H1 | T], Type) when is_list(H1) ->
     H3 = maybe_merge_text_seq(H1),
     St2 = xqerl_types:string_value(H3),
-    Str3 = ?untyp(St2),
+    Str3 = ?UNTYP(St2),
     merge_text_content_1([Str3 | T], Type);
-merge_text_content_1([?untyp(_) = H1, H2 | T], text) when
+merge_text_content_1([?UNTYP(_) = H1, H2 | T], text) when
     is_binary(H2); is_boolean(H2); is_atom(H2); is_number(H2); is_record(H2, xqAtomicValue)
 ->
     St1 = xqerl_types:string_value(H1),
     St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
     Str3 = <<St1/binary, " ", St2/binary>>,
     merge_text_content_1([Str3 | T], text);
-merge_text_content_1([?untyp(_) = H1, H2 | T], attribute) when
+merge_text_content_1([?UNTYP(_) = H1, H2 | T], attribute) when
     is_binary(H2); is_boolean(H2); is_atom(H2); is_number(H2); is_record(H2, xqAtomicValue)
 ->
     St1 = xqerl_types:string_value(H1),
@@ -1397,7 +1352,7 @@ atomize_nodes(List) when is_list(List) ->
 atomize_nodes(List) ->
     [atomize_node(List)].
 
-atomize_node([]) -> ?str(<<>>);
+atomize_node([]) -> <<>>;
 atomize_node([S]) -> atomize_node(S);
 atomize_node(#xqAtomicValue{} = Av) -> Av;
 atomize_node(Bin) when is_binary(Bin) -> Bin;
@@ -1438,102 +1393,121 @@ nodes_equal_1(
 nodes_equal_1(#{nk := _} = N1, #{nk := _} = N1, _) ->
     true;
 nodes_equal_1(
-    #{nk := Type1} = Node1,
-    #{nk := Type2} = Node2,
+    #{nk := document} = Node1,
+    #{nk := document} = Node2,
     Collation
 ) ->
-    %?dbg("{Type1,Type2}",{Type1,Type2}),
-    if
-        Type1 == document andalso Type2 == document ->
+    Nodes1 = get_comparable_child_nodes(Node1),
+    Nodes2 = get_comparable_child_nodes(Node2),
+    length(Nodes1) == length(Nodes2) andalso
+        lists:all(
+            fun({Ci1, Ci2}) ->
+                nodes_equal_1(Ci1, Ci2, Collation)
+            end,
+            lists:zip(Nodes1, Nodes2)
+        );
+nodes_equal_1(
+    #{nk := fragment} = Node1,
+    #{nk := fragment} = Node2,
+    Collation
+) ->
+    attributes_equal(
+        xqldb_mem_nodes:attributes(Node1),
+        xqldb_mem_nodes:attributes(Node2),
+        Collation
+    ) andalso
+        begin
             Nodes1 = get_comparable_child_nodes(Node1),
             Nodes2 = get_comparable_child_nodes(Node2),
+            %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
             length(Nodes1) == length(Nodes2) andalso
                 lists:all(
                     fun({Ci1, Ci2}) ->
                         nodes_equal_1(Ci1, Ci2, Collation)
                     end,
                     lists:zip(Nodes1, Nodes2)
-                );
-        Type1 == fragment andalso Type2 == fragment ->
-            attributes_equal(
-                xqldb_mem_nodes:attributes(Node1),
-                xqldb_mem_nodes:attributes(Node2),
+                )
+        end;
+nodes_equal_1(
+    #{nk := element} = Node1,
+    #{nk := element} = Node2,
+    Collation
+) ->
+    Name1 = xqldb_mem_nodes:node_name(Node1),
+    Name2 = xqldb_mem_nodes:node_name(Node2),
+    %?dbg("{Name1,Name2}",{Name1,Name2}),
+    names_equal(Name1, Name2) andalso
+        attributes_equal(
+            xqldb_mem_nodes:attributes(Node1),
+            xqldb_mem_nodes:attributes(Node2),
+            Collation
+        ) andalso
+        begin
+            Nodes1 = get_comparable_child_nodes(Node1),
+            Nodes2 = get_comparable_child_nodes(Node2),
+            %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
+            length(Nodes1) == length(Nodes2) andalso
+                lists:all(
+                    fun({Ci1, Ci2}) ->
+                        nodes_equal_1(Ci1, Ci2, Collation)
+                    end,
+                    lists:zip(Nodes1, Nodes2)
+                )
+        end;
+nodes_equal_1(
+    #{nk := attribute} = Node1,
+    #{nk := attribute} = Node2,
+    Collation
+) ->
+    Name1 = xqldb_mem_nodes:node_name(Node1),
+    Name2 = xqldb_mem_nodes:node_name(Node2),
+    %?dbg("{Name1,Name2}",{Name1,Name2}),
+    names_equal(Name1, Name2) andalso
+        begin
+            Val1 = xqerl_lib:decode_string(
+                xqldb_mem_nodes:string_value(Node1)
+            ),
+            Val2 = xqerl_lib:decode_string(
+                xqldb_mem_nodes:string_value(Node2)
+            ),
+            %?dbg("{Val1,Val2}",{Val1,Val2}),
+            xqerl_operators:equal(
+                Val1,
+                Val2,
                 Collation
-            ) andalso
-                begin
-                    Nodes1 = get_comparable_child_nodes(Node1),
-                    Nodes2 = get_comparable_child_nodes(Node2),
-                    %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
-                    length(Nodes1) == length(Nodes2) andalso
-                        lists:all(
-                            fun({Ci1, Ci2}) ->
-                                nodes_equal_1(Ci1, Ci2, Collation)
-                            end,
-                            lists:zip(Nodes1, Nodes2)
-                        )
-                end;
-        Type1 == element andalso Type2 == element ->
-            Name1 = xqldb_mem_nodes:node_name(Node1),
-            Name2 = xqldb_mem_nodes:node_name(Node2),
-            %?dbg("{Name1,Name2}",{Name1,Name2}),
-            names_equal(Name1, Name2) andalso
-                attributes_equal(
-                    xqldb_mem_nodes:attributes(Node1),
-                    xqldb_mem_nodes:attributes(Node2),
-                    Collation
-                ) andalso
-                begin
-                    Nodes1 = get_comparable_child_nodes(Node1),
-                    Nodes2 = get_comparable_child_nodes(Node2),
-                    %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
-                    length(Nodes1) == length(Nodes2) andalso
-                        lists:all(
-                            fun({Ci1, Ci2}) ->
-                                nodes_equal_1(Ci1, Ci2, Collation)
-                            end,
-                            lists:zip(Nodes1, Nodes2)
-                        )
-                end;
-        Type1 == attribute andalso Type2 == attribute ->
-            Name1 = xqldb_mem_nodes:node_name(Node1),
-            Name2 = xqldb_mem_nodes:node_name(Node2),
-            %?dbg("{Name1,Name2}",{Name1,Name2}),
-            names_equal(Name1, Name2) andalso
-                begin
-                    Val1 = xqerl_lib:decode_string(
-                        xqldb_mem_nodes:string_value(Node1)
-                    ),
-                    Val2 = xqerl_lib:decode_string(
-                        xqldb_mem_nodes:string_value(Node2)
-                    ),
-                    %?dbg("{Val1,Val2}",{Val1,Val2}),
-                    xqerl_operators:equal(
-                        ?str(Val1),
-                        ?str(Val2),
-                        Collation
-                    )
-                end;
-        Type1 == text andalso Type2 == text ->
-            Val1 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node1)),
-            Val2 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node2)),
-            xqerl_operators:equal(?str(Val1), ?str(Val2), Collation);
-        Type1 == comment andalso Type2 == comment ->
+            )
+        end;
+nodes_equal_1(
+    #{nk := text} = Node1,
+    #{nk := text} = Node2,
+    Collation
+) ->
+    Val1 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node1)),
+    Val2 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node2)),
+    xqerl_operators:equal(Val1, Val2, Collation);
+nodes_equal_1(
+    #{nk := comment} = Node1,
+    #{nk := comment} = Node2,
+    Collation
+) ->
+    Val1 = xqldb_mem_nodes:string_value(Node1),
+    Val2 = xqldb_mem_nodes:string_value(Node2),
+    xqerl_operators:equal(Val1, Val2, Collation);
+nodes_equal_1(
+    #{nk := 'processing-instruction'} = Node1,
+    #{nk := 'processing-instruction'} = Node2,
+    _Collation
+) ->
+    Name1 = xqldb_mem_nodes:node_name(Node1),
+    Name2 = xqldb_mem_nodes:node_name(Node2),
+    names_equal(Name1, Name2) andalso
+        begin
             Val1 = xqldb_mem_nodes:string_value(Node1),
             Val2 = xqldb_mem_nodes:string_value(Node2),
-            xqerl_operators:equal(?str(Val1), ?str(Val2), Collation);
-        Type1 == 'processing-instruction' andalso
-            Type2 == 'processing-instruction' ->
-            Name1 = xqldb_mem_nodes:node_name(Node1),
-            Name2 = xqldb_mem_nodes:node_name(Node2),
-            names_equal(Name1, Name2) andalso
-                begin
-                    Val1 = xqldb_mem_nodes:string_value(Node1),
-                    Val2 = xqldb_mem_nodes:string_value(Node2),
-                    xqerl_operators:equal(?str(Val1), ?str(Val2))
-                end;
-        true ->
-            false
-    end.
+            xqerl_operators:equal(Val1, Val2)
+        end;
+nodes_equal_1(_, _, _) ->
+    false.
 
 % takes actual nodes, not ids
 attributes_equal([], [], _) ->
@@ -1565,7 +1539,7 @@ get_comparable_child_nodes(_) ->
 
 to_xml(#xqError{} = E) ->
     E;
-to_xml(A) when ?is_array(A) ->
+to_xml(A) when ?IS_ARRAY(A) ->
     to_xml(array:to_list(A));
 to_xml(N) when is_list(N) ->
     M = combine_atomics(N, []),
@@ -1607,13 +1581,35 @@ combine_atomics([H | T], Acc) ->
 % check if element is in no namespace and it is being reset by a
 % computed namespace
 check_computed_default_override({<<>>, _, _}, ComputNamespaces) ->
-    NewDef = [ok || {<<>>, _} <- ComputNamespaces],
-    if
-        NewDef == [] ->
+    case [ok || {<<>>, _} <- ComputNamespaces] of
+        [] ->
             ok;
-        true ->
+        _ ->
             ?dbg("Namespaces", ComputNamespaces),
             ?err('XQDY0102')
     end;
 check_computed_default_override(_, _) ->
     ok.
+
+expand_content(Ctx, ContentFun) when is_function(ContentFun, 1) -> ContentFun(Ctx);
+expand_content(_, Content) -> Content.
+
+do_namespace_augmentation(true, Node, Preserve, Inherit, IsUpd, InScopeNs, Nss) ->
+    #{ns := InScopeNs0} = Node,
+    case {Preserve, Inherit} of
+        {preserve, inherit} when IsUpd ->
+            % inscopes switched here, parent wins instead of child
+            augment_direct_inscope_namespaces(Nss, maps:merge(InScopeNs, InScopeNs0));
+        {preserve, inherit} ->
+            %?dbg("InScopeNs0", InScopeNs0),
+            %?dbg("InScopeNs ", InScopeNs ),
+            augment_direct_inscope_namespaces(Nss, maps:merge(InScopeNs0, InScopeNs));
+        {preserve, 'no-inherit'} ->
+            augment_direct_inscope_namespaces(Nss, InScopeNs0);
+        {'no-preserve', inherit} ->
+            augment_direct_inscope_namespaces(Nss, InScopeNs);
+        {'no-preserve', 'no-inherit'} ->
+            augment_direct_inscope_namespaces(Nss, #{})
+    end;
+do_namespace_augmentation(false, _Node, _Preserve, _Inherit, _IsUpd, InScopeNs, Nss) ->
+    augment_direct_inscope_namespaces(Nss, InScopeNs).

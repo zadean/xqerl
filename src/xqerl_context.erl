@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -923,11 +923,9 @@ get_local_timezone(RawCdt) ->
     UtcSec = calendar:datetime_to_gregorian_seconds(UTC),
     Dif = LocSec - UtcSec,
     {{_, _, _}, {H, M, _}} = calendar:gregorian_seconds_to_datetime(abs(Dif)),
-    if
-        Dif >= 0 ->
-            #off_set{sign = '+', hour = H, min = M};
-        true ->
-            #off_set{sign = '-', hour = H, min = M}
+    case Dif >= 0 of
+        true -> #off_set{sign = '+', hour = H, min = M};
+        false -> #off_set{sign = '-', hour = H, min = M}
     end.
 
 add_default_static_values(parser) ->

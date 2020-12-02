@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -101,7 +101,8 @@
     xq_function/0,
     xq_array/0,
     xq_map/0,
-    xq_map/2
+    xq_map/2,
+    dec_format/0
 ]).
 
 % Context map
@@ -536,3 +537,5 @@
     | {time, #xsDateTime{}}
     | {binary(), binary()}
     | {atom(), any()}.
+
+-type dec_format() :: #dec_format{}.

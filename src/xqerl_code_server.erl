@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -400,13 +400,12 @@ do_compile(_, _, Hints) ->
            R <- [compile(Filename)],
            not is_atom(R)
     ],
-    if
-        Failed == [] ->
+    case Failed of
+        [] ->
             ok;
-        length(Failed) == length(Hints) ->
-            {_, H} = hd(Failed),
+        [{_, H} | _] when length(Failed) == length(Hints) ->
             H;
-        true ->
+        _ ->
             NewFailed = [H || {H, _} <- Failed],
             do_compile(a, a, NewFailed)
     end.
@@ -481,7 +480,11 @@ parse_files(Filenames) ->
                     ?err('XQST0059')
             end
         catch
-            _:?E(<<"XQST0059">>) = E:_ ->
+            _:#xqError{
+                name = #xqAtomicValue{
+                    value = #qname{prefix = <<"err">>, local_name = <<"XQST0059">>}
+                }
+            } = E:_ ->
                 {Filename, E, [], Filename};
             _:E:_ ->
                 % non-recoverable
@@ -518,13 +521,10 @@ do_compile_files([], Acc) ->
     Failed = lists:subtract([E || {_, #xqError{}, _, _, _} = E <- Acc], Early),
     %?dbg("Failed", Failed),
     Passed = [B || {_, A, _, _, _} = B <- Acc, is_atom(A)],
-    if
-        Passed == [] ->
-            Failed ++ Early;
-        Early == [] ->
-            Failed;
-        true ->
-            Failed ++ do_compile_files(Early, [])
+    case {Passed, Early} of
+        {[], _} -> Failed ++ Early;
+        {_, []} -> Failed;
+        _ -> Failed ++ do_compile_files(Early, [])
     end;
 do_compile_files([{Uri, #xqError{} = Res, [], Filename, I} | Rest], Acc) ->
     ?dbg("NOT TRYING", Uri),
@@ -618,10 +618,10 @@ save_module(
     code:purge(ModName),
     code:load_file(ModName),
     %%%
-    if
-        RestXq == [] ->
+    case RestXq of
+        [] ->
             ModName;
-        true ->
+        _ ->
             _ = merge_load_dispatch(ModName, RestXq, Dispatch),
             ModName
     end.
@@ -699,10 +699,10 @@ do_unload(Tab, Ebin, DispatchFile) ->
             code:delete(Mod),
             code:purge(Mod),
             dets:delete(Tab, Key),
-            if
-                R == [] ->
+            case R of
+                [] ->
                     ok;
-                true ->
+                _ ->
                     remove_module_dispatch(Mod, DispatchFile)
             end
         end

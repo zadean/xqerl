@@ -1,25 +1,25 @@
-Nonterminals 
+Nonterminals
    root
-   object 
-   array 
-   value 
-   values 
-   member 
+   object
+   array
+   value
+   values
+   member
    members.
 
 
-Terminals  
-   false 
-   true 
-   null 
-   number 
-   string 
-   esc_string 
-   array_begin 
-   array_end 
-   object_begin 
-   object_end 
-   name_sep 
+Terminals
+   false
+   true
+   null
+   number
+   string
+   esc_string
+   array_begin
+   array_end
+   object_begin
+   object_end
+   name_sep
    value_sep.
 
 
@@ -66,7 +66,7 @@ member -> esc_string name_sep value : {str_val('$1'), '$3'}.
 values -> value value_sep values : ['$1'|'$3'].
 
 values -> value                  : ['$1'].
- 
+
 
 value -> false  : false.
 
@@ -94,7 +94,7 @@ Erlang code.
 %%
 %% xqerl_db - XML Database for xqerl XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file

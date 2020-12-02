@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -156,26 +156,13 @@ key_fun(codepoint) ->
 key_fun(ascii) ->
     fun
         (Str) when is_list(Str) ->
-            unicode:characters_to_binary(
-                [
-                    if
-                        C >= $A andalso C =< $Z ->
-                            C + 32;
-                        true ->
-                            C
-                    end
-                    || C <- Str
-                ]
-            );
+            unicode:characters_to_binary([lower(C) || C <- Str]);
         (Str) when is_binary(Str) ->
-            <<
-                <<(if
-                        C >= $A andalso C =< $Z -> C + 32;
-                        true -> C
-                    end)/utf8>>
-                || <<C/utf8>> <= Str
-            >>
+            <<<<(lower(C))/utf8>> || <<C/utf8>> <= Str>>
     end.
+
+lower(C) when C >= $A, C =< $Z -> C + 32;
+lower(C) -> C.
 
 dissect_query(Query) ->
     dissect_query_key(Query, [], <<>>, <<>>).
