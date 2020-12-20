@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -164,20 +164,20 @@ code_change(_OldVsn, State, _Extra) ->
 expire() ->
     erlang:system_time(millisecond) + ?STALE.
 
-%% should be able to save queries similarly to RDBMS 
-% first time a query comes into a DB, it is analyzed and then cached somewhere. 
+%% should be able to save queries similarly to RDBMS
+% first time a query comes into a DB, it is analyzed and then cached somewhere.
 % Then following queries for the cached statement use the cached version.
 % think 'cursor' views in other DBs
 % what is cached is a fun/1 that takes the context node.
 % this should all make the analysis phase rather cheap for any given node.
 % also, statistics can be updated, meaning that the cache is dropped and rebuilt
-% the next time each statement is run. this adds some overhead after a 
+% the next time each statement is run. this adds some overhead after a
 % statistics run, but also makes for a smaller cache and better plans later.
 
 %%% XXX
 %% path statements in `for` loops should cache results for all items in list
 %% grouped by item id. then use a map to find the results for each id
-% document has path []  
+% document has path []
 %% predicates can function the same way. The predicate runs first, and filters
 % the actual items that could match. A predicate should be smaller or the
 % same size as the orignal list.
@@ -215,10 +215,10 @@ expire() ->
 
 %%% NODEID from AXIS
 %% ancestor          : split up of current ID
-%% ancestor-or-self  : split up of current ID, plus self 
+%% ancestor-or-self  : split up of current ID, plus self
 %% attribute         : ID longer by one position and is attribute, element has att count in Bin
 %% child             : ID longer by one position and is NOT attribute
-%% descendant        : All IDs in Range self and self + 1 @ last position non-inclusive 
+%% descendant        : All IDs in Range self and self + 1 @ last position non-inclusive
 %% descendant-or-self: descendant plus own ID
 %% following         : ID greater than self, self not prefix, not ancestor
 %% following-sibling : ID same length, same prefix(len - 1), less than ID
@@ -230,7 +230,7 @@ expire() ->
 %% need to make decision on whether to use path of node id
 %% known path from root, or descendant skips == use PATH because it is known
 %% following/preceding NEVER path, but could be in filter when name known
-%% PATH can be used in `lists:member` filter from node id  
+%% PATH can be used in `lists:member` filter from node id
 
 %% API
 % paths statement should be list of {axis, node-kind, node-name, [filters (on built items)]}
@@ -243,7 +243,7 @@ expire() ->
 % this can be used to find all path ids that will occur.
 % each sub-selection becomes a fun that uses the prefix from the original node
 % and the known path as a filter.
-%% each fun can be created when the first nodes are selected, then passed around 
+%% each fun can be created when the first nodes are selected, then passed around
 % as variables when needed.
 %% single attribute on unknown node can be select nodeid len + 1, where att
 % multiple att for same node can all be selected at once
@@ -265,7 +265,7 @@ expire() ->
 % node id == [DocId, Path, To, Node] upon build, DBId (Node/Num) prepended to Id
 
 %% collection should return list of {node(), DBs}
-%% at collection level, we need to find the documents that could answer the query, 
+%% at collection level, we need to find the documents that could answer the query,
 %% then use the document ids in following queries
 
 %% first focus on document level queries, adding DB layer on top is easy.
@@ -276,7 +276,7 @@ expire() ->
 
 %% predicates with paths... multiple selections of node ids, joined at the returned node id
 %% path is LHS, Path + Pred is RHS
-%% /a/b/c[d] == 
+%% /a/b/c[d] ==
 %% {a,b,c} + {a,b,c,d} = all c from first where c == c from second (common prefix)
 
 %% /a/b/c == [{_,a},{_,b},{_,c}]
@@ -301,23 +301,23 @@ expire() ->
 % data access iterators can be handed to functions, each doing something
 % and then calling other functions at the end, or returning....
 
-% a `for` or `let` statement that is a path with no predicate is equal to just 
+% a `for` or `let` statement that is a path with no predicate is equal to just
 % the path id for follow on expressions
 
-% an unfiltered `for` with follow-on paths, means pull all at the follow-on 
+% an unfiltered `for` with follow-on paths, means pull all at the follow-on
 % paths, group by variable path depth
 % caveate here is if there is a where filtering the `for` path statement
 % this can mean pulling in a LOT of data when only a small portion is needed.
 %  Maybe, for now, allow this to suck, and force the programmer to put this in
 %  a predicate?
 
-% truly need a FLWOR re-write of path statements to reverse lookups on 
+% truly need a FLWOR re-write of path statements to reverse lookups on
 % filtered results
 
 % TODO figure out how to put `where` statements in a predicate, if possible
 % conditional statements in a where are split into two `let` statements.
 
-% a filtered `for` with follow on paths, means pull all the ids for the loop 
+% a filtered `for` with follow on paths, means pull all the ids for the loop
 % make a function for each follow on that takes the ID as a parameter
 
 % if nodes are collection, split all by DB, then doc
@@ -328,7 +328,7 @@ expire() ->
 % 4. check cost for the statement
 % 5. do which ever is cheapest (path -> structure, structure -> path, value -> path, etc.)
 % 6. return node list as iterator, also put the returned nodes in record-format.
-% 
+%
 % ** calling process can shoot off as many calls it needs at once.
 %     then loop all those calls to build the lists.
 
@@ -340,13 +340,13 @@ expire() ->
 %% the calling process has to keep the path function for each call to the same DB, for the same path (caching)
 % input may not be sorted, should be before first path statement
 % these calls should be done in parallel accross different DBs
-% a query should know if it is handling collection calls, then it can split the 
+% a query should know if it is handling collection calls, then it can split the
 % queries in static time, or add a DB split function when nodes are selected
 % a query may also know that all nodes are coming from only one location, if
 % that is the case, simplify everything.
 
 
-% making dynamic funs is easy, use a map of all values and use the map as the 
+% making dynamic funs is easy, use a map of all values and use the map as the
 % match out.
 
 % path analysis part, get all paths that can answer a query from all locations
@@ -354,17 +354,17 @@ expire() ->
 %  this list of all paths is put in a map and used in a fun as the match
 % path 1,2,3 can answer .//x then #{1 => x, 2 => x, 3 => x}
 % fun(Path) when is_map_key(Path, Map) -> NewPath; (_) -> [] end.
-% could make this fun for all axes and names... 
+% could make this fun for all axes and names...
 
 
 
 
 %%% NODEID from AXIS
 %% ancestor          : split up of current ID
-%% ancestor-or-self  : split up of current ID, plus self 
+%% ancestor-or-self  : split up of current ID, plus self
 %% attribute         : ID longer by one position and is attribute, element has att count in Bin
 %% child             : ID longer by one position and is NOT attribute
-%% descendant        : All IDs in Range self and self + 1 @ last position non-inclusive 
+%% descendant        : All IDs in Range self and self + 1 @ last position non-inclusive
 %% descendant-or-self: descendant plus own ID
 %% following         : ID greater than self, self not prefix
 %% following-sibling : ID same length, same prefix(len - 1), less than ID

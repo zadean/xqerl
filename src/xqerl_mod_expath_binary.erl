@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -267,8 +267,8 @@
     ]}
 ]).
 
--define(bin(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
--define(flt(D), #xqAtomicValue{type = 'xs:float', value = D}).
+-define(BIN(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
+-define(FLT(D), #xqAtomicValue{type = 'xs:float', value = D}).
 
 %% 5 Defining 'constants' and conversions
 %% Users of the package may need to define binary 'constants' within their code
@@ -309,7 +309,7 @@ hex(_, String) when is_binary(String) ->
         >>
     of
         Bin ->
-            ?bin(Bin)
+            ?BIN(Bin)
     catch
         _:_ ->
             do_throw('non-numeric-character')
@@ -354,7 +354,7 @@ bin(_, String) when is_binary(String) ->
         >>
     of
         Bin ->
-            ?bin(Bin)
+            ?BIN(Bin)
     catch
         _:_ ->
             do_throw('non-numeric-character')
@@ -383,25 +383,22 @@ bin(C, S) ->
 octal(_, []) ->
     [];
 octal(_, String) when is_binary(String) ->
-    Bitstring = <<
-        if
-            C >= 48, C =< 55 ->
-                D = C - $0,
-                <<D:3>>;
-            true ->
-                do_throw('non-numeric-character')
-        end
-        || <<C>> <= String
-    >>,
+    Bitstring = <<(octal_bits(C)) || <<C>> <= String>>,
     case bit_size(Bitstring) rem 8 of
         0 ->
-            ?bin(Bitstring);
+            ?BIN(Bitstring);
         P ->
             Pad = 8 - P,
-            ?bin(<<0:Pad, Bitstring/bitstring>>)
+            ?BIN(<<0:Pad, Bitstring/bitstring>>)
     end;
 octal(C, S) ->
     octal(C, xqerl_types:cast_as(S, 'xs:string')).
+
+octal_bits(C) when C >= 48, C =< 55 ->
+    D = C - $0,
+    <<D:3>>;
+octal_bits(_) ->
+    do_throw('non-numeric-character').
 
 %% 5.4 bin:to-octets
 %% Summary
@@ -411,7 +408,7 @@ octal(C, S) ->
 %% Rules
 %%    If $in is a zero length binary data then the empty sequence is returned.
 %%    Octets are returned as integers from 0 to 255.
-to_octets(_, ?bin(Str)) ->
+to_octets(_, ?BIN(Str)) ->
     [C || <<C>> <= Str];
 to_octets(C, S) ->
     to_octets(C, xqerl_types:cast_as(S, 'xs:base64Binary')).
@@ -429,7 +426,7 @@ to_octets(C, S) ->
 %%    [bin:octet-out-of-range] is raised if one of the octets lies outside
 %%    the range 0 – 255.
 from_octets(_, []) ->
-    ?bin(<<>>);
+    ?BIN(<<>>);
 from_octets(_, List) when is_list(List) ->
     Check = fun
         (I) when is_integer(I), I >= 0, I =< 255 ->
@@ -445,7 +442,7 @@ from_octets(_, List) when is_list(List) ->
             end
     end,
     List1 = lists:map(Check, List),
-    ?bin(list_to_binary(List1));
+    ?BIN(list_to_binary(List1));
 from_octets(C, S) ->
     from_octets(C, [S]).
 
@@ -458,7 +455,7 @@ from_octets(C, S) ->
 %%    bin:length($in as xs:base64Binary) as xs:integer
 %% Rules
 %%    Returns the size of binary data in octets.
-length(_, ?bin(Str)) ->
+length(_, ?BIN(Str)) ->
     erlang:byte_size(Str);
 length(C, S) ->
     length(C, xqerl_types:cast_as(S, 'xs:base64Binary')).
@@ -498,16 +495,16 @@ length(C, S) ->
 %%    a string to its binary representation.
 part(_, [], _) ->
     [];
-part(_, ?bin(Bin), Off) when is_integer(Off), Off >= 0 ->
+part(_, ?BIN(Bin), Off) when is_integer(Off), Off >= 0 ->
     case Bin of
         <<_:Off/binary, Part/binary>> ->
-            ?bin(Part);
+            ?BIN(Part);
         <<_:Off/binary>> ->
-            ?bin(<<>>);
+            ?BIN(<<>>);
         _ ->
             do_throw('index-out-of-range')
     end;
-part(_, ?bin(_), Off) when is_integer(Off) ->
+part(_, ?BIN(_), Off) when is_integer(Off) ->
     do_throw('index-out-of-range');
 part(C, S, I) ->
     part(
@@ -516,20 +513,20 @@ part(C, S, I) ->
         xqerl_types:cast_as(I, 'xs:integer')
     ).
 
-part(_, ?bin(_), _, Size) when is_integer(Size), Size < 0 ->
+part(_, ?BIN(_), _, Size) when is_integer(Size), Size < 0 ->
     do_throw('negative-size');
-part(_, ?bin(_), Off, _) when is_integer(Off), Off < 0 ->
+part(_, ?BIN(_), Off, _) when is_integer(Off), Off < 0 ->
     do_throw('index-out-of-range');
-part(_, ?bin(_), _, 0) ->
-    ?bin(<<>>);
+part(_, ?BIN(_), _, 0) ->
+    ?BIN(<<>>);
 part(_, [], _, _) ->
     [];
-part(_, ?bin(Bin), Off, Size) when is_integer(Off), is_integer(Size) ->
+part(_, ?BIN(Bin), Off, Size) when is_integer(Off), is_integer(Size) ->
     case Bin of
         <<_:Off/binary, Part:Size/binary, _/binary>> ->
-            ?bin(Part);
+            ?BIN(Part);
         <<_:Off/binary, Part:Size/binary>> ->
-            ?bin(Part);
+            ?BIN(Part);
         _ ->
             do_throw('index-out-of-range')
     end;
@@ -553,16 +550,16 @@ part(C, B, O, S) ->
 %%    If the value of $in is the empty sequence, the function returns a binary
 %%    item containing no data bytes.
 join(_, []) ->
-    ?bin(<<>>);
+    ?BIN(<<>>);
 join(_, List) when is_list(List) ->
     F = fun
-        (?bin(I)) ->
+        (?BIN(I)) ->
             I;
         (O) ->
-            ?bin(I) = xqerl_types:cast_as(O, 'xs:base64Binary'),
+            ?BIN(I) = xqerl_types:cast_as(O, 'xs:base64Binary'),
             I
     end,
-    ?bin(iolist_to_binary(lists:map(F, List)));
+    ?BIN(iolist_to_binary(lists:map(F, List)));
 join(C, L) ->
     join(C, [L]).
 
@@ -596,17 +593,17 @@ insert_before(_, [], _, _) ->
     [];
 insert_before(_, _, Off, _) when is_integer(Off), Off < 0 ->
     do_throw('index-out-of-range');
-insert_before(_, ?bin(I), Off, _) when is_integer(Off), Off > byte_size(I) ->
+insert_before(_, ?BIN(I), Off, _) when is_integer(Off), Off > byte_size(I) ->
     do_throw('index-out-of-range');
-insert_before(_, ?bin(_) = In, _, []) ->
+insert_before(_, ?BIN(_) = In, _, []) ->
     In;
-insert_before(_, ?bin(I), Off, ?bin(E)) when Off == byte_size(I) ->
-    ?bin(<<I/binary, E/binary>>);
-insert_before(_, ?bin(I), 0, ?bin(E)) ->
-    ?bin(<<E/binary, I/binary>>);
-insert_before(_, ?bin(I), O, ?bin(E)) when is_integer(O) ->
+insert_before(_, ?BIN(I), Off, ?BIN(E)) when Off == byte_size(I) ->
+    ?BIN(<<I/binary, E/binary>>);
+insert_before(_, ?BIN(I), 0, ?BIN(E)) ->
+    ?BIN(<<E/binary, I/binary>>);
+insert_before(_, ?BIN(I), O, ?BIN(E)) when is_integer(O) ->
     <<P:O/binary, Rest/binary>> = I,
-    ?bin(<<P/binary, E/binary, Rest/binary>>);
+    ?BIN(<<P/binary, E/binary, Rest/binary>>);
 insert_before(C, I, O, E) ->
     insert_before(
         C,
@@ -649,9 +646,9 @@ pad_left(_, _, S, _) when is_integer(S), S < 0 ->
     do_throw('negative-size');
 pad_left(_, _, _, O) when is_integer(O) andalso O < 0; is_integer(O) andalso O > 255 ->
     do_throw('octet-out-of-range');
-pad_left(_, ?bin(I), S, O) when is_integer(S), is_integer(O) ->
+pad_left(_, ?BIN(I), S, O) when is_integer(S), is_integer(O) ->
     Pad = binary:copy(<<O>>, S),
-    ?bin(<<Pad/binary, I/binary>>);
+    ?BIN(<<Pad/binary, I/binary>>);
 pad_left(C, I, S, O) ->
     pad_left(
         C,
@@ -694,9 +691,9 @@ pad_right(_, _, S, _) when is_integer(S), S < 0 ->
     do_throw('negative-size');
 pad_right(_, _, _, O) when is_integer(O) andalso O < 0; is_integer(O) andalso O > 255 ->
     do_throw('octet-out-of-range');
-pad_right(_, ?bin(I), S, O) when is_integer(S), is_integer(O) ->
+pad_right(_, ?BIN(I), S, O) when is_integer(S), is_integer(O) ->
     Pad = binary:copy(<<O>>, S),
-    ?bin(<<I/binary, Pad/binary>>);
+    ?BIN(<<I/binary, Pad/binary>>);
 pad_right(C, I, S, O) ->
     pad_right(
         C,
@@ -727,9 +724,9 @@ pad_right(C, I, S, O) ->
 %%       larger than the size of the binary data of $in.
 find(_, [], _, _) ->
     [];
-find(_, ?bin(I), O, ?bin(<<>>)) when is_integer(O), O =< byte_size(I), O >= 0 ->
+find(_, ?BIN(I), O, ?BIN(<<>>)) when is_integer(O), O =< byte_size(I), O >= 0 ->
     O;
-find(_, ?bin(I), O, ?bin(S)) when is_integer(O), O =< byte_size(I), O >= 0 ->
+find(_, ?BIN(I), O, ?BIN(S)) when is_integer(O), O =< byte_size(I), O >= 0 ->
     Opts =
         if
             O == 0 -> [];
@@ -741,7 +738,7 @@ find(_, ?bin(I), O, ?bin(S)) when is_integer(O), O =< byte_size(I), O >= 0 ->
         {Pos, _} ->
             Pos
     end;
-find(_, ?bin(_), O, ?bin(_)) when is_integer(O) ->
+find(_, ?BIN(_), O, ?BIN(_)) when is_integer(O) ->
     do_throw('index-out-of-range');
 find(C, I, O, S) ->
     find(
@@ -803,7 +800,7 @@ decode_string(C, I, E) -> decode_string(C, I, E, 0).
 
 decode_string(_, [], _, _) ->
     [];
-decode_string(C, ?bin(B) = I, E, O) when is_integer(O) ->
+decode_string(C, ?BIN(B) = I, E, O) when is_integer(O) ->
     decode_string(C, I, E, O, byte_size(B) - O);
 decode_string(C, I, E, O) ->
     decode_string(
@@ -817,11 +814,11 @@ decode_string(_, [], _, _, _) ->
     [];
 decode_string(_, _, _, O, _) when is_integer(O), O < 0 ->
     do_throw('index-out-of-range');
-decode_string(_, ?bin(I), _, O, S) when is_integer(O), is_integer(S), (O + S) > byte_size(I) ->
+decode_string(_, ?BIN(I), _, O, S) when is_integer(O), is_integer(S), (O + S) > byte_size(I) ->
     do_throw('index-out-of-range');
 decode_string(_, _, _, _, S) when is_integer(S), S < 0 ->
     do_throw('negative-size');
-decode_string(_, ?bin(I), E, O, S) when is_binary(E), is_integer(O), is_integer(S) ->
+decode_string(_, ?BIN(I), E, O, S) when is_binary(E), is_integer(O), is_integer(S) ->
     Enc = check_encoding(E),
     <<_:O/binary, Part:S/binary, _/binary>> = I,
 
@@ -891,13 +888,13 @@ encode_string(_, I, E) when is_binary(I), is_binary(E) ->
             do_throw('conversion-error');
         Bin when Enc == utf16 ->
             BOM = unicode:encoding_to_bom(utf16),
-            ?bin(<<BOM/binary, Bin/binary>>);
+            ?BIN(<<BOM/binary, Bin/binary>>);
         % here it is ascii so just check
         Bin when Enc == latin1 ->
             _ = [do_throw('conversion-error') || <<C>> <= Bin, C > 127],
-            ?bin(Bin);
+            ?BIN(Bin);
         Bin ->
-            ?bin(Bin)
+            ?BIN(Bin)
     end;
 encode_string(C, I, E) ->
     encode_string(
@@ -972,28 +969,28 @@ pack_double(C, I) ->
 
 pack_double(_, nan, O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<127, 248, 0, 0, 0, 0, 0, 0>>);
-        little -> ?bin(<<0, 0, 0, 0, 0, 0, 248, 127>>)
+        big -> ?BIN(<<127, 248, 0, 0, 0, 0, 0, 0>>);
+        little -> ?BIN(<<0, 0, 0, 0, 0, 0, 248, 127>>)
     end;
 pack_double(_, neg_zero, O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<128, 0, 0, 0, 0, 0, 0, 0>>);
-        little -> ?bin(<<0, 0, 0, 0, 0, 0, 0, 128>>)
+        big -> ?BIN(<<128, 0, 0, 0, 0, 0, 0, 0>>);
+        little -> ?BIN(<<0, 0, 0, 0, 0, 0, 0, 128>>)
     end;
 pack_double(_, neg_infinity, O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<255, 240, 0, 0, 0, 0, 0, 0>>);
-        little -> ?bin(<<0, 0, 0, 0, 0, 0, 240, 255>>)
+        big -> ?BIN(<<255, 240, 0, 0, 0, 0, 0, 0>>);
+        little -> ?BIN(<<0, 0, 0, 0, 0, 0, 240, 255>>)
     end;
 pack_double(_, infinity, O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<127, 240, 0, 0, 0, 0, 0, 0>>);
-        little -> ?bin(<<0, 0, 0, 0, 0, 0, 240, 127>>)
+        big -> ?BIN(<<127, 240, 0, 0, 0, 0, 0, 0>>);
+        little -> ?BIN(<<0, 0, 0, 0, 0, 0, 240, 127>>)
     end;
 pack_double(_, I, O) when is_float(I), is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<I:64/big-float>>);
-        little -> ?bin(<<I:64/little-float>>)
+        big -> ?BIN(<<I:64/big-float>>);
+        little -> ?BIN(<<I:64/little-float>>)
     end;
 pack_double(C, I, O) ->
     pack_double(
@@ -1022,30 +1019,30 @@ pack_double(C, I, O) ->
 pack_float(C, I) ->
     pack_float(C, I, <<"BE">>).
 
-pack_float(_, ?flt(nan), O) when is_binary(O) ->
+pack_float(_, ?FLT(nan), O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<127, 192, 0, 0>>);
-        little -> ?bin(<<0, 0, 192, 127>>)
+        big -> ?BIN(<<127, 192, 0, 0>>);
+        little -> ?BIN(<<0, 0, 192, 127>>)
     end;
-pack_float(_, ?flt(neg_zero), O) when is_binary(O) ->
+pack_float(_, ?FLT(neg_zero), O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<128, 0, 0, 0>>);
-        little -> ?bin(<<0, 0, 0, 128>>)
+        big -> ?BIN(<<128, 0, 0, 0>>);
+        little -> ?BIN(<<0, 0, 0, 128>>)
     end;
-pack_float(_, ?flt(neg_infinity), O) when is_binary(O) ->
+pack_float(_, ?FLT(neg_infinity), O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<255, 128, 0, 0>>);
-        little -> ?bin(<<0, 0, 128, 255>>)
+        big -> ?BIN(<<255, 128, 0, 0>>);
+        little -> ?BIN(<<0, 0, 128, 255>>)
     end;
-pack_float(_, ?flt(infinity), O) when is_binary(O) ->
+pack_float(_, ?FLT(infinity), O) when is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<127, 128, 0, 0>>);
-        little -> ?bin(<<0, 0, 128, 127>>)
+        big -> ?BIN(<<127, 128, 0, 0>>);
+        little -> ?BIN(<<0, 0, 128, 127>>)
     end;
-pack_float(_, ?flt(I), O) when is_float(I), is_binary(O) ->
+pack_float(_, ?FLT(I), O) when is_float(I), is_binary(O) ->
     case check_endianness(O) of
-        big -> ?bin(<<I:32/big-float>>);
-        little -> ?bin(<<I:32/little-float>>)
+        big -> ?BIN(<<I:32/big-float>>);
+        little -> ?BIN(<<I:32/little-float>>)
     end;
 pack_float(C, I, O) ->
     pack_float(
@@ -1090,12 +1087,12 @@ pack_integer(C, I, S) ->
 pack_integer(_, _, S, _) when is_integer(S), S < 0 ->
     do_throw('negative-size');
 pack_integer(_, _, 0, _) ->
-    ?bin(<<>>);
+    ?BIN(<<>>);
 pack_integer(_, I, S, O) when is_integer(I), is_integer(S), is_binary(O) ->
     Bits = S * 8,
     case check_endianness(O) of
-        big -> ?bin(<<I:Bits/big-integer>>);
-        little -> ?bin(<<I:Bits/little-integer>>)
+        big -> ?BIN(<<I:Bits/big-integer>>);
+        little -> ?BIN(<<I:Bits/little-integer>>)
     end;
 pack_integer(C, I, S, O) ->
     pack_integer(
@@ -1134,13 +1131,13 @@ pack_integer(C, I, S, O) ->
 unpack_double(C, I, O) ->
     unpack_double(C, I, O, <<"BE">>).
 
-unpack_double(_, ?bin(I), O, _) when
+unpack_double(_, ?BIN(I), O, _) when
     is_integer(O) andalso O < 0;
     is_integer(O) andalso
         (O + 8) > byte_size(I)
 ->
     do_throw('index-out-of-range');
-unpack_double(_, ?bin(I), O, E) when is_integer(O), is_binary(E) ->
+unpack_double(_, ?BIN(I), O, E) when is_integer(O), is_binary(E) ->
     <<_:O/binary, Part:8/binary, _/binary>> = I,
     case check_endianness(E) of
         big -> unpack_double_big(Part);
@@ -1201,17 +1198,17 @@ unpack_double_little(<<F:64/little-float>>) -> F.
 unpack_float(C, I, O) ->
     unpack_float(C, I, O, <<"BE">>).
 
-unpack_float(_, ?bin(I), O, _) when
+unpack_float(_, ?BIN(I), O, _) when
     is_integer(O) andalso O < 0;
     is_integer(O) andalso
         (O + 4) > byte_size(I)
 ->
     do_throw('index-out-of-range');
-unpack_float(_, ?bin(I), O, E) when is_integer(O), is_binary(E) ->
+unpack_float(_, ?BIN(I), O, E) when is_integer(O), is_binary(E) ->
     <<_:O/binary, Part:4/binary, _/binary>> = I,
     case check_endianness(E) of
-        big -> ?flt(unpack_float_big(Part));
-        little -> ?flt(unpack_float_little(Part))
+        big -> ?FLT(unpack_float_big(Part));
+        little -> ?FLT(unpack_float_little(Part))
     end;
 unpack_float(C, I, O, E) ->
     unpack_float(
@@ -1266,7 +1263,7 @@ unpack_float_little(<<F:32/little-float>>) -> F.
 unpack_integer(C, I, O, S) ->
     unpack_integer(C, I, O, S, <<"BE">>).
 
-unpack_integer(_, ?bin(I), O, S, _) when
+unpack_integer(_, ?BIN(I), O, S, _) when
     is_integer(O) andalso O < 0;
     is_integer(O) andalso
         is_integer(S) andalso
@@ -1275,7 +1272,7 @@ unpack_integer(_, ?bin(I), O, S, _) when
     do_throw('index-out-of-range');
 unpack_integer(_, _, _, S, _) when is_integer(S), S < 0 ->
     do_throw('negative-size');
-unpack_integer(_, ?bin(I), O, S, E) when is_integer(O), is_integer(S), is_binary(E) ->
+unpack_integer(_, ?BIN(I), O, S, E) when is_integer(O), is_integer(S), is_binary(E) ->
     Bits = S * 8,
     case check_endianness(E) of
         big ->
@@ -1324,7 +1321,7 @@ unpack_integer(C, I, O, S, E) ->
 unpack_unsigned_integer(C, I, O, S) ->
     unpack_unsigned_integer(C, I, O, S, <<"BE">>).
 
-unpack_unsigned_integer(_, ?bin(I), O, S, _) when
+unpack_unsigned_integer(_, ?BIN(I), O, S, _) when
     is_integer(O) andalso O < 0;
     is_integer(O) andalso
         is_integer(S) andalso
@@ -1333,7 +1330,7 @@ unpack_unsigned_integer(_, ?bin(I), O, S, _) when
     do_throw('index-out-of-range');
 unpack_unsigned_integer(_, _, _, S, _) when is_integer(S), S < 0 ->
     do_throw('negative-size');
-unpack_unsigned_integer(_, ?bin(I), O, S, E) when is_integer(O), is_integer(S), is_binary(E) ->
+unpack_unsigned_integer(_, ?BIN(I), O, S, E) when is_integer(O), is_integer(S), is_binary(E) ->
     Bits = S * 8,
     case check_endianness(E) of
         big ->
@@ -1370,8 +1367,8 @@ or_(_, [], _) ->
     [];
 or_(_, _, []) ->
     [];
-or_(_, ?bin(A), ?bin(B)) ->
-    ?bin(do_bytewise(fun erlang:'bor'/2, A, B));
+or_(_, ?BIN(A), ?BIN(B)) ->
+    ?BIN(do_bytewise(fun erlang:'bor'/2, A, B));
 or_(C, A, B) ->
     or_(
         C,
@@ -1395,8 +1392,8 @@ xor_(_, [], _) ->
     [];
 xor_(_, _, []) ->
     [];
-xor_(_, ?bin(A), ?bin(B)) ->
-    ?bin(do_bytewise(fun erlang:'bxor'/2, A, B));
+xor_(_, ?BIN(A), ?BIN(B)) ->
+    ?BIN(do_bytewise(fun erlang:'bxor'/2, A, B));
 xor_(C, A, B) ->
     xor_(
         C,
@@ -1420,8 +1417,8 @@ and_(_, [], _) ->
     [];
 and_(_, _, []) ->
     [];
-and_(_, ?bin(A), ?bin(B)) ->
-    ?bin(do_bytewise(fun erlang:'band'/2, A, B));
+and_(_, ?BIN(A), ?BIN(B)) ->
+    ?BIN(do_bytewise(fun erlang:'band'/2, A, B));
 and_(C, A, B) ->
     and_(
         C,
@@ -1439,8 +1436,8 @@ and_(C, A, B) ->
 %%    If the argument is the empty sequence, an empty sequence is returned.
 not_(_, []) ->
     [];
-not_(_, ?bin(I)) ->
-    ?bin(<<<<(bnot C)>> || <<C>> <= I>>);
+not_(_, ?BIN(I)) ->
+    ?BIN(<<<<(bnot C)>> || <<C>> <= I>>);
 not_(C, I) ->
     not_(
         C,
@@ -1472,9 +1469,9 @@ not_(C, I) ->
 %%    bin:shift(bin:hex("000001"), 17) -> bin:hex("020000")
 shift(_, [], _) ->
     [];
-shift(_, ?bin(_) = I, 0) ->
+shift(_, ?BIN(_) = I, 0) ->
     I;
-shift(_, ?bin(I), B) when is_integer(B) ->
+shift(_, ?BIN(I), B) when is_integer(B) ->
     L = byte_size(I),
     P = abs(B),
     Pad = <<0:P>>,
@@ -1482,11 +1479,11 @@ shift(_, ?bin(I), B) when is_integer(B) ->
         % shift left
         true ->
             <<_:P/bitstring, C:L/binary>> = <<I/binary, Pad/bitstring>>,
-            ?bin(C);
+            ?BIN(C);
         % shift right
         false ->
             <<C:L/binary, _/bitstring>> = <<Pad/bitstring, I/binary>>,
-            ?bin(C)
+            ?BIN(C)
     end;
 shift(C, I, B) ->
     shift(

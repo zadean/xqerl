@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -28,30 +28,30 @@
 
 -include("xqerl.hrl").
 
--define(ns, <<"http://www.w3.org/2005/xpath-functions">>).
--define(qn(Local), {?ns, <<>>, Local}).
--define(mqn(Local), {?ns, _, Local}).
--define(aqn(Local), {<<>>, <<>>, Local}).
--define(maqn(Local), {<<>>, _, Local}).
--define(key(Value, Ref), #{
+-define(NS, <<"http://www.w3.org/2005/xpath-functions">>).
+-define(QN(Local), {?NS, <<>>, Local}).
+-define(MQN(Local), {?NS, _, Local}).
+-define(AQN(Local), {<<>>, <<>>, Local}).
+-define(MAQN(Local), {<<>>, _, Local}).
+-define(KEY(Value, Ref), #{
     nk => attribute,
-    nn => ?aqn(<<"key">>),
+    nn => ?AQN(<<"key">>),
     id => {Ref, -1},
     sv => Value,
     tn => 'xs:untyped'
 }).
 
--define(esckey(Ref), #{
+-define(ESCKEY(Ref), #{
     nk => attribute,
-    nn => ?aqn(<<"escaped-key">>),
+    nn => ?AQN(<<"escaped-key">>),
     id => {Ref, -1},
     sv => <<"true">>,
     tn => 'xs:untyped'
 }).
 
--define(esc(Ref), #{
+-define(ESC(Ref), #{
     nk => attribute,
-    nn => ?aqn(<<"escaped">>),
+    nn => ?AQN(<<"escaped">>),
     id => {Ref, -1},
     sv => <<"true">>,
     tn => 'xs:untyped'
@@ -183,7 +183,7 @@ xml_to_json_1(
     State = #state{indent = Indent},
     #{
         nk := element,
-        nn := ?mqn(<<"array">>),
+        nn := ?MQN(<<"array">>),
         at := Atts,
         ch := Ch0
     }
@@ -195,10 +195,10 @@ xml_to_json_1(
         end,
         Ch
     ),
-    if
-        Key =:= [] ->
+    case Key of
+        [] ->
             serialize_array(Content, Indent);
-        true ->
+        _ ->
             State1 = State#state{escape = if_empty(EscKey, false)},
             KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
             {<<$", KeyVal/binary, $">>, serialize_array(Content, Indent), EscKey}
@@ -207,7 +207,7 @@ xml_to_json_1(
     State = #state{indent = Indent},
     #{
         nk := element,
-        nn := ?mqn(<<"map">>),
+        nn := ?MQN(<<"map">>),
         at := Atts,
         ch := Ch0
     }
@@ -216,14 +216,11 @@ xml_to_json_1(
     Fold = fun(V, Check) ->
         case xml_to_json_1(State, V) of
             {K, V1, EscKey0} ->
-                EscKey1 = if_empty(EscKey0, false),
-                K1 =
-                    if
-                        EscKey1 ->
-                            to_codepoints(K, true, <<>>);
-                        true ->
-                            to_codepoints(K, false, <<>>)
-                    end,
+                K1 = to_codepoints(K, if_empty(EscKey0, false), <<>>),
+                % case if_empty(EscKey0, false) of
+                %     true -> to_codepoints(K, true, <<>>);
+                %     _ -> to_codepoints(K, false, <<>>)
+                % end,
                 case maps:is_key(K1, Check) of
                     true ->
                         ?dbg("K1", K1),
@@ -237,10 +234,10 @@ xml_to_json_1(
         end
     end,
     {Content, _} = lists:mapfoldl(Fold, #{}, Ch),
-    if
-        Key == [] ->
+    case Key of
+        [] ->
             serialize_map(Content, Indent);
-        true ->
+        _ ->
             State1 = State#state{escape = if_empty(EscKey, false)},
             KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
             {<<$", KeyVal/binary, $">>, serialize_map(Content, Indent), EscKey}
@@ -249,7 +246,7 @@ xml_to_json_1(
     State,
     #{
         nk := element,
-        nn := ?mqn(<<"boolean">>),
+        nn := ?MQN(<<"boolean">>),
         at := Atts,
         ch := Ch0
     }
@@ -258,10 +255,10 @@ xml_to_json_1(
         {Key, EscKey, _Esc, Ch} = split_contents(Atts, Ch0, true),
         Txt = xqerl_node:atomize_nodes(Ch),
         Bool = xqerl_types:string_value(xqerl_types:cast_as(Txt, 'xs:boolean')),
-        if
-            Key == [] ->
+        case Key of
+            [] ->
                 Bool;
-            true ->
+            _ ->
                 State1 = State#state{escape = if_empty(EscKey, false)},
                 KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
                 {<<$", KeyVal/binary, $">>, Bool, EscKey}
@@ -276,19 +273,18 @@ xml_to_json_1(
     State,
     #{
         nk := element,
-        nn := ?mqn(<<"null">>),
+        nn := ?MQN(<<"null">>),
         at := Atts,
         ch := Ch0
     }
 ) ->
-    {Key, EscKey, _Esc, Ch} = split_contents(Atts, Ch0, true),
-    if
-        Ch =/= [] ->
+    case split_contents(Atts, Ch0, true) of
+        {_Key, _EscKey, _Esc, Ch} when Ch =/= [] ->
             ?dbg("Err", Ch),
             ?err('FOJS0006');
-        Key == [] ->
+        {[], _EscKey, _Esc, []} ->
             <<"null">>;
-        true ->
+        {Key, EscKey, _Esc, []} ->
             State1 = State#state{escape = if_empty(EscKey, false)},
             KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
             {<<$", KeyVal/binary, $">>, <<"null">>, EscKey}
@@ -297,7 +293,7 @@ xml_to_json_1(
     State,
     #{
         nk := element,
-        nn := ?mqn(<<"number">>),
+        nn := ?MQN(<<"number">>),
         at := Atts,
         ch := Ch0
     }
@@ -307,16 +303,17 @@ xml_to_json_1(
         Txt = xqerl_node:atomize_nodes(Ch),
         Dbl = xqerl_types:cast_as(Txt, 'xs:double'),
         NumTxt = xqerl_types:string_value(Dbl),
-        if
-            NumTxt == <<"INF">>;
-            NumTxt == <<"-INF">>;
+        case NumTxt of
             % not allowed in JSON
-            NumTxt == <<"NaN">> ->
-                ?dbg("Err", NumTxt),
+            <<"INF">> ->
                 ?err('FOJS0006');
-            Key == [] ->
+            <<"-INF">> ->
+                ?err('FOJS0006');
+            <<"NaN">> ->
+                ?err('FOJS0006');
+            _ when Key == [] ->
                 NumTxt;
-            true ->
+            _ ->
                 State1 = State#state{escape = if_empty(EscKey, false)},
                 KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
                 {<<$", KeyVal/binary, $">>, NumTxt, EscKey}
@@ -331,7 +328,7 @@ xml_to_json_1(
     State,
     #{
         nk := element,
-        nn := ?mqn(<<"string">>),
+        nn := ?MQN(<<"string">>),
         at := Atts,
         ch := Ch0
     }
@@ -369,7 +366,7 @@ split_contents(Atts, Children, AllowWs) ->
             K
             || #{
                    nk := attribute,
-                   nn := ?maqn(<<"key">>),
+                   nn := ?MAQN(<<"key">>),
                    sv := K
                } <- Atts
         ],
@@ -377,7 +374,7 @@ split_contents(Atts, Children, AllowWs) ->
             xqerl_types:cast_as(K, 'xs:boolean')
             || #{
                    nk := attribute,
-                   nn := ?maqn(<<"escaped-key">>),
+                   nn := ?MAQN(<<"escaped-key">>),
                    sv := K
                } <- Atts
         ],
@@ -385,7 +382,7 @@ split_contents(Atts, Children, AllowWs) ->
             xqerl_types:cast_as(K, 'xs:boolean')
             || #{
                    nk := attribute,
-                   nn := ?maqn(<<"escaped">>),
+                   nn := ?MAQN(<<"escaped">>),
                    sv := K
                } <- Atts
         ],
@@ -393,7 +390,7 @@ split_contents(Atts, Children, AllowWs) ->
             ?err('FOJS0006')
             || #{
                    nk := attribute,
-                   nn := ?maqn(Ln)
+                   nn := ?MAQN(Ln)
                } <- Atts,
                Ln =/= <<"key">>,
                Ln =/= <<"escaped-key">>,
@@ -403,7 +400,7 @@ split_contents(Atts, Children, AllowWs) ->
             ?err('FOJS0006')
             || #{
                    nk := attribute,
-                   nn := ?mqn(_)
+                   nn := ?MQN(_)
                } <- Atts
         ],
         Filter = fun
@@ -413,7 +410,7 @@ split_contents(Atts, Children, AllowWs) ->
                 false;
             (#{nk := 'comment'}) ->
                 false;
-            (#{nn := ?mqn(_)}) ->
+            (#{nn := ?MQN(_)}) ->
                 true;
             (#{nn := _}) ->
                 ?err('FOJS0006')
@@ -447,9 +444,9 @@ json_to_xml(State, Key, {array, Values}, Ref) ->
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"array">>),
+        nn => ?QN(<<"array">>),
         at => att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => Content
     };
@@ -489,9 +486,9 @@ json_to_xml(
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"map">>),
+        nn => ?QN(<<"map">>),
         at => att_key(Key, Escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => Content
     };
@@ -499,9 +496,9 @@ json_to_xml(State, Key, true, Ref) ->
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"boolean">>),
+        nn => ?QN(<<"boolean">>),
         at => att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => [
             #{
@@ -515,9 +512,9 @@ json_to_xml(State, Key, false, Ref) ->
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"boolean">>),
+        nn => ?QN(<<"boolean">>),
         at => att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => [
             #{
@@ -531,9 +528,9 @@ json_to_xml(State, Key, null, Ref) ->
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"null">>),
+        nn => ?QN(<<"null">>),
         at => att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => []
     };
@@ -543,9 +540,9 @@ json_to_xml(State, Key, {Val, Lex}, Ref) when
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"number">>),
+        nn => ?QN(<<"number">>),
         at => att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => [
             #{
@@ -561,9 +558,9 @@ json_to_xml(State, Key, Val, Ref) ->
     #{
         nk => element,
         id => {Ref, -1},
-        nn => ?qn(<<"string">>),
+        nn => ?QN(<<"string">>),
         at => Esc ++ att_key(Key, State#state.escape, Ref),
-        ns => #{<<>> => ?ns},
+        ns => #{<<>> => ?NS},
         tn => 'xs:untyped',
         ch => [
             #{
@@ -869,7 +866,7 @@ att_esc(_, false, _) ->
 att_esc(Key, true, Ref) ->
     case contains(Key, $\\) of
         true ->
-            [?esc(Ref)];
+            [?ESC(Ref)];
         _ ->
             []
     end.
@@ -877,15 +874,15 @@ att_esc(Key, true, Ref) ->
 att_key(<<>>, _, _) ->
     [];
 att_key(empty, _, Ref) ->
-    [?key(<<>>, Ref)];
+    [?KEY(<<>>, Ref)];
 att_key(Key, false, Ref) ->
-    [?key(Key, Ref)];
+    [?KEY(Key, Ref)];
 att_key(Key, true, Ref) ->
     case contains(Key, $\\) of
         true ->
-            [?key(Key, Ref), ?esckey(Ref)];
+            [?KEY(Key, Ref), ?ESCKEY(Ref)];
         _ ->
-            [?key(Key, Ref)]
+            [?KEY(Key, Ref)]
     end.
 
 contains(<<>>, _) -> false;

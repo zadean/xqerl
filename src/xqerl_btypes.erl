@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -174,21 +174,18 @@
 -export([get_type/1]).
 -export([sequence_type/1]).
 
--define(item, 9223372036854775808).
--define(node, 11529215046068469760).
--define(anyAtomicType, 10376293541461622784).
--define(string, 10376293541595840512).
--define(untypedAtomic, 10380797141088993280).
+-define(ITEM, 9223372036854775808).
+-define(NODE, 11529215046068469760).
+-define(ANY_ATOMIC_TYPE, 10376293541461622784).
+-define(STRING, 10376293541595840512).
+-define(UNTYPED_ATOMIC, 10380797141088993280).
 
--define(float, 10376311133647667200).
--define(double, 10376302337554644992).
--define(decimal, 10376297939508133888).
--define(anyURI, 10376293541461639168).
+-define(FLOAT, 10376311133647667200).
+-define(DOUBLE, 10376302337554644992).
+-define(DECIMAL, 10376297939508133888).
+-define(ANY_URI, 10376293541461639168).
 
-sequence_type(List) when is_list(List) ->
-    Hd = hd(List),
-    Type = get_type(Hd),
-    sequence_type(tl(List), Type).
+sequence_type([H | T]) -> sequence_type(T, get_type(H)).
 
 sequence_type([], ListType) -> ListType;
 sequence_type([H | T], ListType) -> sequence_type(T, ListType band get_type(H)).
@@ -199,36 +196,36 @@ can_substitute(Type, TargetType) when Type band TargetType =:= TargetType ->
 % is in union type
 can_substitute(Type, TargetType) when
     TargetType band 1024 =:= 1024 andalso
-        Type band TargetType =/= ?anyAtomicType andalso
-        Type band TargetType =/= ?item
+        Type band TargetType =/= ?ANY_ATOMIC_TYPE andalso
+        Type band TargetType =/= ?ITEM
 ->
     true;
 can_substitute(_Type, _TargetType) ->
     false.
 
 % numeric promotion
-can_promote(?float, ?double) -> true;
-can_promote(Decimal, ?double) when Decimal band ?decimal =:= ?decimal -> true;
-can_promote(Decimal, ?float) when Decimal band ?decimal =:= ?decimal -> true;
+can_promote(?FLOAT, ?DOUBLE) -> true;
+can_promote(Decimal, ?DOUBLE) when Decimal band ?DECIMAL =:= ?DECIMAL -> true;
+can_promote(Decimal, ?FLOAT) when Decimal band ?DECIMAL =:= ?DECIMAL -> true;
 % URI promotion
-can_promote(?anyURI, ?string) -> true;
-can_promote(?untypedAtomic, ?string) -> true;
+can_promote(?ANY_URI, ?STRING) -> true;
+can_promote(?UNTYPED_ATOMIC, ?STRING) -> true;
 can_promote(_Type, _TargetType) -> false.
 
 is_list_type(Type) ->
     Type band 2048 =:= 2048.
 
 is_node(Type) ->
-    Type band ?node =:= ?node.
+    Type band ?NODE =:= ?NODE.
 
 is_atomic(Type) ->
-    Type band ?anyAtomicType =:= ?anyAtomicType.
+    Type band ?ANY_ATOMIC_TYPE =:= ?ANY_ATOMIC_TYPE.
 
 is_numeric(Type) when Type >= 10376297939508133888, Type =< 10376311133647667200 ->
     true;
-%% is_numeric(Type) when Type band ?decimal =:= ?decimal;
-%%                       Type band ?float =:= ?float;
-%%                       Type band ?double =:= ?double ->
+%% is_numeric(Type) when Type band ?DECIMAL =:= ?DECIMAL;
+%%                       Type band ?FLOAT =:= ?FLOAT;
+%%                       Type band ?DOUBLE =:= ?DOUBLE ->
 %%    true;
 is_numeric(_) ->
     false.

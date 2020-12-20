@@ -100,7 +100,7 @@
     {{qname, ?NS, ?PX, <<"uri">>}, {seqType, 'xs:anyURI', one}, [], {'uri', 1}, 0, []}
 ]).
 
--define(uri(D), #xqAtomicValue{type = 'xs:anyURI', value = D}).
+-define(URI(D), #xqAtomicValue{type = 'xs:anyURI', value = D}).
 
 %% 3.2 General Functions
 
@@ -177,7 +177,7 @@ query(_) ->
 %% Summary:
 %%  This function returns the URI of the HTTP Request.
 uri(#{restxq_ctx := Req}) ->
-    ?uri(iolist_to_binary(cowboy_req:uri(Req)));
+    ?URI(iolist_to_binary(cowboy_req:uri(Req)));
 uri(_) ->
     no_context_error().
 

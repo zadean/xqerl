@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -68,7 +68,7 @@
         writer => _
     }.
 
--define(u2b(S), unicode:characters_to_binary(S)).
+-define(U2B(S), unicode:characters_to_binary(S)).
 %-define(MAX_PROCS, 45).
 -define(MAX_PROCS, 32).
 
@@ -395,8 +395,8 @@ event(
     } = State
 ) ->
     ElemId = add_pos(Par, Pos),
-    Prefix = ?u2b(PrefixS),
-    Uri = ?u2b(UriS),
+    Prefix = ?U2B(PrefixS),
+    Uri = ?U2B(UriS),
     {UriId, Scp1} = get_name_id(DB, Uri, Scp),
     {_PrefixId, Scp2} = get_name_id(DB, Prefix, Scp1),
     ok = post_namespace_node(Writer, DocId, ElemId, UriId, Prefix),
@@ -421,9 +421,9 @@ event(
     } = State
 ) ->
     AttLen = length(Attributes),
-    UK = ?u2b(UriS),
-    Prefix = ?u2b(PrefixS),
-    LocalName = ?u2b(LocalNameS),
+    UK = ?U2B(UriS),
+    Prefix = ?U2B(PrefixS),
+    LocalName = ?U2B(LocalNameS),
     NodeId = add_pos(Ps, Pos),
     #{UK := UriId} = Scp,
     {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
@@ -484,7 +484,7 @@ event(
     } = State
 ) ->
     NodeId = add_pos(Ps, Pos),
-    Bin = ?u2b(String),
+    Bin = ?U2B(String),
     TextRef = get_text_id(DB, Bin),
     NodeBin = xqldb_nodes:text(TextRef),
     CPath1 = [text | CPath],
@@ -516,9 +516,9 @@ event(
     } = State
 ) ->
     NodeId = add_pos(Ps, Pos),
-    Bin = ?u2b(Data),
+    Bin = ?U2B(Data),
     TextRef = get_text_id(DB, Bin),
-    {NameRef, NameMap1} = get_name_id(DB, ?u2b(Target), NameMap),
+    {NameRef, NameMap1} = get_name_id(DB, ?U2B(Target), NameMap),
     NodeBin = xqldb_nodes:proc_inst(NameRef, TextRef),
     CPath1 = [{pi, NameRef} | CPath],
     {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
@@ -544,7 +544,7 @@ event(
     } = State
 ) ->
     NodeId = add_pos(Ps, Pos),
-    Bin = ?u2b(String),
+    Bin = ?U2B(String),
     TextRef = get_text_id(DB, Bin),
     NodeBin = xqldb_nodes:comment(TextRef),
     CPath1 = [comment | CPath],
@@ -611,10 +611,10 @@ att_events(
     ElementName
 ) ->
     NodeId = add_pos(Ps, Pos),
-    Uri = ?u2b(UriS),
-    Prefix = ?u2b(PrefixS),
-    Bin = ?u2b(ValueS),
-    AttributeName = ?u2b(AttributeNameS),
+    Uri = ?U2B(UriS),
+    Prefix = ?U2B(PrefixS),
+    Bin = ?U2B(ValueS),
+    AttributeName = ?U2B(AttributeNameS),
     #{Uri := UriId} = Scp,
     Type = get_att_type({ElementName, {PrefixS, AttributeNameS}}, AttDec),
     TextRef = get_text_id(DB, Bin),
@@ -731,10 +731,10 @@ split_doc(
             % do Fun to the Acc
             Events = lists:reverse([endDocument, Event | Acc]),
             Pids1 =
-                if
-                    length(Pids) >= ?MAX_PROCS ->
-                        wait_yield(Pids);
+                case length(Pids) >= ?MAX_PROCS of
                     true ->
+                        wait_yield(Pids);
+                    false ->
                         Pids
                 end,
             NewPid = Fun(Events),
@@ -847,7 +847,7 @@ post_namespace_node(Writer, {DocId, _}, NodeId, UriId, Prefix) ->
     end.
 
 index_writer(Postings, {DB, _} = State, Count) when Count > ?MAX_POST ->
-    ok = ?INDEX:index(DB, lists:append(Postings)),
+    ok = xqldb_idx_mi:index(DB, lists:append(Postings)),
     index_writer([[]], State, 0);
 index_writer(Postings, {DB, DocId} = State, Count) ->
     receive
@@ -859,12 +859,12 @@ index_writer(Postings, {DB, DocId} = State, Count) ->
                 {path_doc, P, DocId}
                 || P <- Paths
             ],
-            ok = ?INDEX:index(DB, PathDocs),
+            ok = xqldb_idx_mi:index(DB, PathDocs),
             index_writer(Postings, State, Count);
         {Par, done} when Count == 0 ->
             Par ! {self(), done};
         {Par, done} ->
-            ok = ?INDEX:index(DB, lists:append(Postings)),
+            ok = xqldb_idx_mi:index(DB, lists:append(Postings)),
             Par ! {self(), done}
     after 60000 -> timeout
     end.

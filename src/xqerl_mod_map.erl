@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -29,14 +29,14 @@
 
 -compile(inline_list_funcs).
 
--define(val(V), xqerl_seq3:singleton_value(V)).
+-define(VAL(V), xqerl_seq3:singleton_value(V)).
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/map">>).
 -define(PX, <<"map">>).
 
 % block array:array(_) warnings
 -dialyzer(no_opaque).
 
--define(is_array(A), is_tuple(A), element(1, A) =:= array).
+-define(IS_ARRAY(A), is_tuple(A), element(1, A) =:= array).
 
 -export(['contains'/3]).
 -export(['entry'/3]).
@@ -110,12 +110,11 @@
 'contains'(_Ctx, Map, Key) when is_map(Map) ->
     MKey = xqerl_operators:key_val(Key),
     is_map_key(MKey, Map);
-'contains'(_Ctx, Map, Key) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'contains'(_Ctx, IMap, Key);
-        true ->
+'contains'(Ctx, Map, Key) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'contains'(Ctx, IMap, Key);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -138,8 +137,8 @@
     [] | xq_types:sequence(xq_types:xq_item()),
     xq_types:xs_anyAtomicType()
 ) -> xq_types:xq_array().
-'find'(_Ctx, Input, Key) when not is_list(Input) ->
-    'find'(_Ctx, [Input], Key);
+'find'(Ctx, Input, Key) when not is_list(Input) ->
+    'find'(Ctx, [Input], Key);
 'find'(_Ctx, Input, Key) ->
     MKey = xqerl_operators:key_val(Key),
     L = find1(Input, MKey),
@@ -155,7 +154,7 @@ find1([H | T], Key) when is_map(H) ->
         {ok, {_, V}} ->
             [V | find1(Vals ++ T, Key)]
     end;
-find1([H | T], Key) when ?is_array(H) ->
+find1([H | T], Key) when ?IS_ARRAY(H) ->
     find1(array:to_list(H) ++ T, Key);
 find1([_ | T], Key) ->
     find1(T, Key).
@@ -177,8 +176,8 @@ find1([_ | T], Key) ->
 'for-each'(Ctx, Map, Action) when is_map(Map), is_function(Action) ->
     Deep = lists:map(fun({K, V}) -> Action(Ctx, K, V) end, maps:values(Map)),
     lists:flatten(Deep);
-'for-each'(_Ctx, Map, #xqFunction{body = Function}) when is_map(Map), is_function(Function) ->
-    'for-each'(_Ctx, Map, Function).
+'for-each'(Ctx, Map, #xqFunction{body = Function}) when is_map(Map), is_function(Function) ->
+    'for-each'(Ctx, Map, Function).
 
 %% Returns the value associated with a supplied key in a given map.
 %% map:get($map as map(*), $key as xs:anyAtomicType) as item()*
@@ -191,19 +190,15 @@ find1([_ | T], Key) ->
     'get'(Ctx, Map, Key);
 'get'(_Ctx, Map, Key) when is_map(Map) ->
     MKey = xqerl_operators:key_val(Key),
-    if
-        is_map_key(MKey, Map) ->
-            #{MKey := {_, V}} = Map,
-            V;
-        true ->
-            []
+    case Map of
+        #{MKey := {_, V}} -> V;
+        _ -> []
     end;
-'get'(_Ctx, Map, Key) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'get'(_Ctx, IMap, Key);
-        true ->
+'get'(Ctx, Map, Key) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'get'(Ctx, IMap, Key);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -216,12 +211,11 @@ find1([_ | T], Key) ->
 'keys'(_Ctx, Map) when is_map(Map) ->
     % true keys are in position 1 in value
     [K || {K, _} <- maps:values(Map)];
-'keys'(_Ctx, Map) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'keys'(_Ctx, IMap);
-        true ->
+'keys'(Ctx, Map) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'keys'(Ctx, IMap);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -296,12 +290,11 @@ maps_to_list(Maps) ->
 'put'(_Ctx, Map, Key, Value) when is_map(Map) ->
     Key1 = xqerl_operators:key_val(Key),
     Map#{Key1 => {Key, Value}};
-'put'(_Ctx, Map, Key, Value) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'put'(_Ctx, IMap, Key, Value);
-        true ->
+'put'(Ctx, Map, Key, Value) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'put'(Ctx, IMap, Key, Value);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -322,12 +315,11 @@ maps_to_list(Maps) ->
         Map,
         UKeyList
     );
-'remove'(_Ctx, Map, Keys) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'remove'(_Ctx, IMap, Keys);
-        true ->
+'remove'(Ctx, Map, Keys) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'remove'(Ctx, IMap, Keys);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -339,12 +331,11 @@ maps_to_list(Maps) ->
 ) -> xq_types:xs_integer().
 'size'(_Ctx, Map) when is_map(Map) ->
     maps:size(Map);
-'size'(_Ctx, Map) ->
-    IMap = ?val(Map),
-    if
-        is_map(IMap) ->
-            'size'(_Ctx, Map);
-        true ->
+'size'(Ctx, Map) ->
+    case ?VAL(Map) of
+        IMap when is_map(IMap) ->
+            'size'(Ctx, Map);
+        _ ->
             ?err('XPTY0004')
     end.
 
@@ -400,8 +391,8 @@ vconcat(V1, V2) ->
 equal(Map1, Map2) ->
     Sz1 = ?MODULE:size([], Map1),
     Sz2 = ?MODULE:size([], Map2),
-    if
-        Sz1 =:= Sz2 ->
+    case Sz1 =:= Sz2 of
+        true ->
             K1 = keys([], Map1),
             F = fun(K) ->
                 V1 = ?MODULE:get([], Map1, K),
@@ -409,7 +400,7 @@ equal(Map1, Map2) ->
                 xqerl_operators:equal(V1, V2)
             end,
             lists:all(F, K1);
-        true ->
+        false ->
             false
     end.
 

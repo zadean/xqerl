@@ -79,14 +79,10 @@
 -export([next_comp_prefix/1]).
 -export([pmap/3]).
 
--define(space, 32).
--define(cr, 13).
--define(lf, 10).
--define(tab, 9).
 %% whitespace consists of 'space', 'carriage return', 'line feed' or 'tab'
--define(WS(H), H == ?space; H == ?cr; H == ?lf; H == ?tab).
+-define(WS(H), H == 32; H == 13; H == 10; H == 9).
 %% non-space whitespace
--define(NSWS(H), H == ?cr; H == ?lf; H == ?tab).
+-define(NSWS(H), H == 13; H == 10; H == 9).
 
 % characters allowed in XML 1.0
 % #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
@@ -184,24 +180,21 @@ escape_uri([C | Cs]) when C >= 16#80, C =< 16#7ff ->
     % 16#c0 = 192
     % 16#80 = 128
     % 16#3f =  63
-    escape_byte(((C bsr 6) band 16#3f) + 16#c0) ++
-        escape_byte(C band 16#3f + 16#80) ++
-        escape_uri(Cs);
+    escape_byte(((C bsr 6) band 16#3f) + 16#c0) ++ escape_uri_2(C, Cs);
 % 3 byte
 escape_uri([C | Cs]) when C >= 16#800, C =< 16#ffff ->
-    escape_byte(((C bsr 12) band 16#3f) + 16#e0) ++
-        escape_byte(((C bsr 6) band 16#3f) + 16#80) ++
-        escape_byte(C band 16#3f + 16#80) ++
-        escape_uri(Cs);
+    escape_byte(((C bsr 12) band 16#3f) + 16#e0) ++ escape_uri_3(C, Cs);
 % 4 byte
 escape_uri([C | Cs]) when C >= 16#10000, C =< 16#10ffff ->
-    escape_byte(((C bsr 18) band 16#3f) + 16#f0) ++
-        escape_byte(((C bsr 12) band 16#3f) + 16#80) ++
-        escape_byte(((C bsr 6) band 16#3f) + 16#80) ++
-        escape_byte(C band 16#3f + 16#80) ++
-        escape_uri(Cs);
+    escape_byte(((C bsr 18) band 16#3f) + 16#f0) ++ escape_uri_4(C, Cs);
 escape_uri([]) ->
     [].
+
+escape_uri_2(C, Cs) -> escape_byte(C band 16#3f + 16#80) ++ escape_uri(Cs).
+
+escape_uri_3(C, Cs) -> escape_byte(((C bsr 6) band 16#3f) + 16#80) ++ escape_uri_2(C, Cs).
+
+escape_uri_4(C, Cs) -> escape_byte(((C bsr 12) band 16#3f) + 16#80) ++ escape_uri_3(C, Cs).
 
 escape_byte(C) when C >= 0, C =< 255 ->
     [$%, hex_digit(C bsr 4), hex_digit(C band 15)].
@@ -344,20 +337,7 @@ bin_to_utf8(Binary) ->
     case unicode:bom_to_encoding(Binary) of
         % no BOM UTF-8 assumed
         {latin1, 0} ->
-            case unicode:characters_to_binary(Binary, unicode) of
-                {error, _, _} ->
-                    % maybe latin1
-                    case unicode:characters_to_binary(Binary, latin1) of
-                        Bin1 when is_binary(Bin1) ->
-                            Bin1;
-                        _ ->
-                            ?err('FOUT1200')
-                    end;
-                {incomplete, _, _} ->
-                    ?err('FOUT1200');
-                Bin ->
-                    Bin
-            end;
+            bin_to_utf8_latin(Binary);
         {Enc, L} ->
             <<_:L/binary, Bin/binary>> = Binary,
             case unicode:characters_to_binary(Bin, Enc, unicode) of
@@ -370,6 +350,22 @@ bin_to_utf8(Binary) ->
                 BinOut ->
                     BinOut
             end
+    end.
+
+bin_to_utf8_latin(Binary) ->
+    case unicode:characters_to_binary(Binary, unicode) of
+        {error, _, _} ->
+            % maybe latin1
+            case unicode:characters_to_binary(Binary, latin1) of
+                Bin1 when is_binary(Bin1) ->
+                    Bin1;
+                _ ->
+                    ?err('FOUT1200')
+            end;
+        {incomplete, _, _} ->
+            ?err('FOUT1200');
+        Bin ->
+            Bin
     end.
 
 bin_to_utf8(Bin, []) ->
@@ -492,6 +488,9 @@ resolve_against_base_uri(BaseUri, RefUri) ->
 
 -define(ISHEX(H), H >= $0, H =< $9; H >= $A, H =< $F; H >= $a, H =< $f).
 
+is_hex(H) when ?ISHEX(H) -> true;
+is_hex(_) -> false.
+
 -spec check_uri_string(binary()) -> binary() | {error, _}.
 check_uri_string(Uri) ->
     Trim = trim(Uri),
@@ -503,10 +502,10 @@ check_uri_string(Uri) ->
     end.
 
 check_uri_string(<<$%, H1, H2, T/binary>>, Acc) when ?ISHEX(H1) ->
-    if
-        ?ISHEX(H2) ->
-            check_uri_string(T, <<Acc/binary, $%, H1, H2>>);
+    case is_hex(H2) of
         true ->
+            check_uri_string(T, <<Acc/binary, $%, H1, H2>>);
+        false ->
             {error, [H1, H2]}
     end;
 check_uri_string(<<C, _/binary>>, _Acc) when C == $% ->

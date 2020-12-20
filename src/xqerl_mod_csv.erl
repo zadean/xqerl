@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -64,7 +64,7 @@
 % block array:array(_) warnings
 -dialyzer(no_opaque).
 
--define(is_array(A), is_tuple(A), element(1, A) =:= array).
+-define(IS_ARRAY(A), is_tuple(A), element(1, A) =:= array).
 
 %% Parse string as CSV input. Returns array of arrays.
 %% csv:parse(
@@ -144,7 +144,7 @@ serialize(_Ctx, []) ->
     [];
 serialize(Ctx, [Input]) ->
     serialize(Ctx, Input);
-serialize(_Ctx, Arrays) when ?is_array(Arrays) ->
+serialize(_Ctx, Arrays) when ?IS_ARRAY(Arrays) ->
     try
         CP = binary:compile_pattern(<<$">>),
         Sep = <<$,>>,
@@ -176,7 +176,7 @@ serialize(Ctx, [Input], Opt) ->
     serialize(Ctx, Input, Opt);
 serialize(Ctx, Input, [Opt]) ->
     serialize(Ctx, Input, Opt);
-serialize(_Ctx, Arrays, Options) when is_map(Options), ?is_array(Arrays) ->
+serialize(_Ctx, Arrays, Options) when is_map(Options), ?IS_ARRAY(Arrays) ->
     try
         #{
             sep := Sep0,
@@ -270,7 +270,7 @@ do_throw(Name, Desc) ->
     },
     exit(E).
 
-noquote_row(A, Sep) when ?is_array(A) ->
+noquote_row(A, Sep) when ?IS_ARRAY(A) ->
     case array:to_list(A) of
         [H | T] ->
             [s(H), [[Sep, s(V)] || V <- T]];
@@ -280,7 +280,7 @@ noquote_row(A, Sep) when ?is_array(A) ->
 noquote_row(_, _) ->
     ?err('XPST0004').
 
-quote_row(A, Sep, CP) when ?is_array(A) ->
+quote_row(A, Sep, CP) when ?IS_ARRAY(A) ->
     case array:to_list(A) of
         [H | T] ->
             Q = <<$">>,

@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -168,16 +168,15 @@ split_with(List, Atom) ->
         (_) ->
             true
     end,
-    {L1, L2} = lists:splitwith(F, List),
-    if
-        L2 =:= [] ->
-            {L1, L2};
-        true ->
-            case lists:member(Atom, tl(L2)) of
+    case lists:splitwith(F, List) of
+        {_, []} = L ->
+            L;
+        {L1, [_ | L2]} ->
+            case lists:member(Atom, L2) of
                 true ->
-                    {L1, tl(L2), []};
+                    {L1, L2, []};
                 _ ->
-                    {L1, tl(L2)}
+                    {L1, L2}
             end
     end.
 
@@ -239,10 +238,10 @@ get_grouping_positions(Tokens) ->
                 tl(Locs)
             ),
             NotOdd = (length(Tokens) - length(Locs)) =< (lists:last(Locs) + Hd),
-            if
-                Even andalso NotOdd ->
-                    {regular, Hd};
+            case Even andalso NotOdd of
                 true ->
+                    {regular, Hd};
+                false ->
                     {irreg, Locs}
             end
     end.
@@ -256,10 +255,10 @@ optional_length(Tokens) ->
 picture_string_variable_map(SubPicture, PosNeg) ->
     {Exponent, Integer, Fraction} = exponent_integer_fractional(SubPicture),
     Prefix =
-        if
-            PosNeg =:= positive ->
+        case PosNeg of
+            positive ->
                 passive_head(SubPicture);
-            true ->
+            _ ->
                 [minus | passive_head(SubPicture)]
         end,
     MandLInt = mandatory_length(Integer),
@@ -361,29 +360,20 @@ build_format(
         (neg_infinity, _) ->
             PrefStr ++ MinuStr ++ Infinity ++ SuffStr;
         (Num, _Type) ->
-            IsPerc = [ok || {percent, _} <- SubPicture] =/= [],
-            IsPerMille = [ok || {per_mille, _} <- SubPicture] =/= [],
             AdjNum =
                 try
-                    if
-                        IsPerc ->
-                            xqerl_numeric:multiply(Num, 100);
-                        IsPerMille ->
-                            xqerl_numeric:multiply(Num, 1000);
-                        true ->
-                            Num
-                    end
+                    adjust_number(SubPicture, Num)
                 catch
                     _:_ ->
                         infinity
                 end,
-            if
-                AdjNum =:= infinity ->
+            case AdjNum of
+                infinity ->
                     PrefStr ++ Infinity ++ SuffStr;
-                AdjNum =:= neg_infinity ->
+                neg_infinity ->
                     PrefStr ++ Minus ++ Infinity ++ SuffStr;
                 % not overflowed
-                true ->
+                _ ->
                     build_format_1(
                         AdjNum,
                         MinExpSize,
@@ -405,6 +395,11 @@ build_format(
             end
     end,
     fun(A, B) -> unicode:characters_to_binary(Fun(A, B)) end.
+
+adjust_number([], Num) -> Num;
+adjust_number([{percent, _} | _], Num) -> xqerl_numeric:multiply(Num, 100);
+adjust_number([{per_mille, _} | _], Num) -> xqerl_numeric:multiply(Num, 1000);
+adjust_number([_ | T], Num) -> adjust_number(T, Num).
 
 build_format_1(
     AdjNum,
@@ -432,10 +427,10 @@ build_format_1(
     PadL = pad_char_from_dec(lists:reverse(ConvString), Zero, Decimal, MinIntSize),
     PadR = pad_char_from_dec(lists:reverse(PadL), Zero, Decimal, MinFractSize),
     Grouped = insert_groupings(PadR, Decimal, IntGrpPos, FractGrpPos, Grouping),
-    if
-        Exp =:= [] ->
+    case Exp of
+        [] ->
             MinuStr ++ PrefStr ++ Grouped ++ SuffStr;
-        true ->
+        _ ->
             Rev = lists:reverse(integer_to_list(abs(Exp))),
             ExpStr = lists:reverse(
                 pad_char_from_dec(Rev, hd(Zero), Decimal, MinExpSize, 1)
@@ -445,10 +440,10 @@ build_format_1(
                 PrefStr ++
                 Grouped ++
                 Exponent ++
-                if
-                    Exp < 0 ->
-                        Minus;
+                case Exp < 0 of
                     true ->
+                        Minus;
+                    false ->
                         []
                 end ++
                 ExpStr1 ++ SuffStr
@@ -462,26 +457,23 @@ insert_groupings(String, Dec, Left, Right, Char) ->
             [L1] ->
                 [L1, []]
         end,
+    insert_groupings_1(L, R, Dec, Left, Right, Char).
+
+insert_groupings_1(L, R, Dec, {irreg, LList}, Right, Char) ->
+    insert_groupings_2(L, R, LList, Right, Dec, Char);
+insert_groupings_1(L, R, Dec, {_, Int}, Right, Char) ->
     LPos =
-        case Left of
-            {irreg, LList} ->
-                LList;
-            {_, Int} ->
-                Amt = length(L) div Int,
-                if
-                    Amt == 0 ->
-                        [];
-                    true ->
-                        lists:map(fun(N) -> N * Int end, lists:seq(1, Amt))
-                end
+        case length(L) div Int of
+            0 -> [];
+            Amt -> lists:map(fun(N) -> N * Int end, lists:seq(1, Amt))
         end,
+    insert_groupings_2(L, R, LPos, Right, Dec, Char).
+
+insert_groupings_2(L, R, LPos, Right, Dec, Char) ->
     NewL = lists:reverse(insert_char(lists:reverse(L), LPos, Char, 1)),
-    NewR = insert_char(R, Right, Char, 1),
-    if
-        NewR == [] ->
-            NewL;
-        true ->
-            NewL ++ Dec ++ NewR
+    case insert_char(R, Right, Char, 1) of
+        [] -> NewL;
+        NewR -> NewL ++ Dec ++ NewR
     end.
 
 convert_dec_string(AbsString0, [Decimal], [Zero]) ->
@@ -562,16 +554,12 @@ scale_number(Num, 0, _ScalingFactor) when is_float(Num) ->
     {xqerl_numeric:float_to_decimal(Num), []};
 scale_number(Num, 0, _ScalingFactor) ->
     {xqerl_numeric:decimal(Num), []};
+scale_number(Num, MinExpSize, ScalingFactor) when is_float(Num) ->
+    scale_number(xqerl_numeric:float_to_decimal(Num), MinExpSize, ScalingFactor);
 scale_number(AdjNum, _MinExpSize, ScalingFactor) ->
     Max = trunc(math:pow(10, ScalingFactor)),
     Min = trunc(math:pow(10, ScalingFactor - 1)),
-    Num =
-        if
-            is_float(AdjNum) ->
-                xqerl_numeric:float_to_decimal(AdjNum);
-            true ->
-                xqerl_numeric:decimal(AdjNum)
-        end,
+    Num = xqerl_numeric:decimal(AdjNum),
     shift(xqerl_numeric:abs_val(Num), Min, Max, 0).
 
 shift(Dec, Min, Max, A) ->
@@ -579,28 +567,28 @@ shift(Dec, Min, Max, A) ->
         true ->
             shift(xqerl_numeric:divide(Dec, 10), Min, Max, A + 1);
         _ ->
-            case xqerl_numeric:less_than(Dec, Min) of
+            shift_1(Dec, Min, Max, A)
+    end.
+
+shift_1(Dec, Min, Max, A) ->
+    case xqerl_numeric:less_than(Dec, Min) of
+        true ->
+            case xqerl_numeric:equal(Dec, 0) of
                 true ->
-                    case xqerl_numeric:equal(Dec, 0) of
-                        true ->
-                            {Dec, A};
-                        _ ->
-                            shift(xqerl_numeric:multiply(Dec, 10), Min, Max, A - 1)
-                    end;
+                    {Dec, A};
                 _ ->
-                    case
-                        xqerl_numeric:less_than(
-                            xqerl_numeric:multiply(Dec, 10),
-                            Max
-                        )
-                    of
-                        true ->
-                            shift(xqerl_numeric:multiply(Dec, 10), Min, Max, A - 1);
-                        _ ->
-                            {Dec, A}
-                    end
+                    shift_2(Dec, Min, Max, A)
+            end;
+        _ ->
+            case xqerl_numeric:less_than(xqerl_numeric:multiply(Dec, 10), Max) of
+                true ->
+                    shift_2(Dec, Min, Max, A);
+                _ ->
+                    {Dec, A}
             end
     end.
+
+shift_2(Dec, Min, Max, A) -> shift(xqerl_numeric:multiply(Dec, 10), Min, Max, A - 1).
 
 char_locs(List, Atom) ->
     char_locs(List, Atom, 0, []).
@@ -667,10 +655,10 @@ parse_picture(Int, Picture) when is_binary(Picture) ->
     );
 parse_picture(Int, Picture) when is_integer(Int) ->
     Sign =
-        if
-            Int < 0 ->
-                "-";
+        case Int < 0 of
             true ->
+                "-";
+            false ->
                 []
         end,
     Int1 = abs(Int),
@@ -683,40 +671,37 @@ parse_picture(Int, Picture) when is_integer(Int) ->
         end,
     PatternType = pattern_type(PrimaryToken),
     ModifierType = modifier_type(Modifier),
-    if
-        PatternType =:= decimal_digit_pattern, ModifierType =:= cardinal ->
+    case PatternType of
+        decimal_digit_pattern when ModifierType =:= cardinal ->
             Str = integer_to_list(Int1),
             Format = parse_decimal_digit_pattern(PrimaryToken),
             Sign ++ format_decimal(Str, Format);
-        PatternType =:= decimal_digit_pattern ->
+        decimal_digit_pattern ->
             Format = parse_decimal_digit_pattern(PrimaryToken),
             Sign ++ format_integer(Int1, Format, ModifierType);
-        PatternType =:= roman_upper ->
+        roman_upper ->
             Sign ++ int_to_upper_roman(Int1);
-        PatternType =:= roman_lower ->
+        roman_lower ->
             Sign ++ int_to_lower_roman(Int1);
-        PatternType =:= alpha_lower ->
+        alpha_lower ->
             Sign ++ int_to_alpha(Int1, lower);
-        PatternType =:= alpha_upper ->
+        alpha_upper ->
             Sign ++ int_to_alpha(Int1, upper);
-        PatternType =:= words_lower, ModifierType =:= cardinal;
-        PatternType =:= words_lower, ModifierType =:= alpha ->
+        words_lower when ModifierType =:= cardinal; ModifierType =:= alpha ->
             Sign ++ string:lowercase(num_to_text(Int1, en));
-        PatternType =:= words_lower ->
+        words_lower ->
             Sign ++ string:lowercase(num_to_text(Int1, en, ModifierType));
-        PatternType =:= words_upper, ModifierType =:= cardinal;
-        PatternType =:= words_upper, ModifierType =:= alpha ->
+        words_upper when ModifierType =:= cardinal; ModifierType =:= alpha ->
             Sign ++ string:uppercase(num_to_text(Int1, en));
-        PatternType =:= words_upper ->
+        words_upper ->
             Sign ++ string:uppercase(num_to_text(Int1, en, ModifierType));
-        PatternType =:= words_title, ModifierType =:= cardinal;
-        PatternType =:= words_title, ModifierType =:= alpha ->
+        words_title when ModifierType =:= cardinal; ModifierType =:= alpha ->
             % as-is is titlecase
             Sign ++ num_to_text(Int1, en);
         % as-is is titlecase
-        PatternType == words_title ->
+        words_title ->
             Sign ++ num_to_text(Int1, en, ModifierType);
-        PatternType =:= one, ModifierType =:= cardinal ->
+        one when ModifierType =:= cardinal ->
             Str = integer_to_list(Int1),
             Format =
                 case is_nondecimal_digit(PrimaryToken) of
@@ -726,7 +711,7 @@ parse_picture(Int, Picture) when is_integer(Int) ->
                         parse_decimal_digit_pattern("1")
                 end,
             Sign ++ format_decimal(Str, Format);
-        PatternType == one ->
+        one ->
             Format =
                 case is_nondecimal_digit(PrimaryToken) of
                     true ->
@@ -735,7 +720,7 @@ parse_picture(Int, Picture) when is_integer(Int) ->
                         parse_decimal_digit_pattern("1")
                 end,
             Sign ++ format_integer(Int1, Format, ModifierType);
-        true ->
+        _ ->
             []
     end;
 parse_picture(
@@ -845,17 +830,9 @@ check_mod_tail([$a | T]) ->
 check_mod_tail([$t | T]) ->
     check_mod_tail(T);
 check_mod_tail([$( | T]) ->
-    Ending = lists:dropwhile(
-        fun(C) ->
-            C =/= $)
-        end,
-        T
-    ),
-    if
-        Ending == [] ->
-            ?err('FODF1310');
-        true ->
-            check_mod_tail(tl(Ending))
+    case lists:dropwhile(fun(C) -> C =/= $) end, T) of
+        [] -> ?err('FODF1310');
+        [_ | Tl] -> check_mod_tail(Tl)
     end;
 check_mod_tail([]) ->
     ok;
@@ -928,14 +905,11 @@ parse_datetime_pattern1([], {Type, TmpAcc}, Acc) ->
     [{Type, G} | Acc];
 parse_datetime_pattern1("[[" ++ Pattern, {literal, TmpAcc}, Acc) ->
     parse_datetime_pattern1(Pattern, {literal, [$[ | TmpAcc]}, Acc);
+parse_datetime_pattern1("[" ++ Pattern, {literal, []}, Acc) ->
+    parse_datetime_pattern1(Pattern, {marker, []}, Acc);
 parse_datetime_pattern1("[" ++ Pattern, {literal, TmpAcc}, Acc) ->
-    if
-        TmpAcc == [] ->
-            parse_datetime_pattern1(Pattern, {marker, []}, Acc);
-        true ->
-            G = lists:reverse(TmpAcc),
-            parse_datetime_pattern1(Pattern, {marker, []}, [{literal, G} | Acc])
-    end;
+    G = lists:reverse(TmpAcc),
+    parse_datetime_pattern1(Pattern, {marker, []}, [{literal, G} | Acc]);
 parse_datetime_pattern1("]]" ++ Pattern, {literal, TmpAcc}, Acc) ->
     parse_datetime_pattern1(Pattern, {literal, [$] | TmpAcc]}, Acc);
 parse_datetime_pattern1([H | Pattern], {literal, TmpAcc}, Acc) ->
@@ -1009,17 +983,15 @@ parse_datetime_modifiers(Mods, Default) ->
     end.
 
 parse_datetime_presentation_modifiers(PresMods) ->
-    Len = length(PresMods),
-    if
-        Len == 1 ->
+    case length(PresMods) of
+        1 ->
             {PresMods, []};
-        true ->
-            Last = lists:last(PresMods),
-            if
-                Last =:= $a; Last =:= $t; Last =:= $c; Last =:= $o ->
+        Len ->
+            case lists:last(PresMods) of
+                C when C =:= $a; C =:= $t; C =:= $c; C =:= $o ->
                     First = lists:sublist(PresMods, Len - 1),
-                    {First, [Last]};
-                true ->
+                    {First, [C]};
+                _ ->
                     {PresMods, []}
             end
     end.
@@ -1035,31 +1007,28 @@ width_modifier([_, []]) ->
 width_modifier(["*", "*"]) ->
     {none, none};
 width_modifier(["*", Max]) ->
-    Max1 = list_to_integer(Max),
-    if
-        Max1 =:= 0 -> ?err('FOFD1340');
-        true -> {none, Max1}
+    case list_to_integer(Max) of
+        0 -> ?err('FOFD1340');
+        Max1 -> {none, Max1}
     end;
 width_modifier([Min, "*"]) ->
-    Min1 = list_to_integer(Min),
-    if
-        Min1 =:= 0 -> ?err('FOFD1340');
-        true -> {Min1, none}
+    case list_to_integer(Min) of
+        0 -> ?err('FOFD1340');
+        Min1 -> {Min1, none}
     end;
 width_modifier([Min, Max]) ->
     Min1 = list_to_integer(Min),
     Max1 = list_to_integer(Max),
-    if
-        Max1 < Min1; Min1 =:= 0; Max1 =:= 0 -> ?err('FOFD1340');
-        true -> {Min1, Max1}
+    case Max1 < Min1 orelse Min1 =:= 0 orelse Max1 =:= 0 of
+        true -> ?err('FOFD1340');
+        false -> {Min1, Max1}
     end;
 width_modifier(["*"]) ->
     {none, none};
 width_modifier([Min]) ->
-    Min1 = list_to_integer(Min),
-    if
-        Min1 =:= 0 -> ?err('FOFD1340');
-        true -> {Min1, none}
+    case list_to_integer(Min) of
+        0 -> ?err('FOFD1340');
+        Min1 -> {Min1, none}
     end.
 
 format_datetime_part(#xsDateTime{}, 'xs:time', {month, _}) ->
@@ -1106,13 +1075,9 @@ format_datetime_part(
     _,
     {doy, _} = Part
 ) ->
-    F = fun(Mo, Acc) ->
-        if
-            M =:= Mo ->
-                Acc;
-            true ->
-                Acc + calendar:last_day_of_the_month(Y, Mo)
-        end
+    F = fun
+        (Mo, Acc) when M =:= Mo -> Acc;
+        (Mo, Acc) -> Acc + calendar:last_day_of_the_month(Y, Mo)
     end,
     MonDays = lists:foldl(F, 0, lists:seq(1, M)),
     X = MonDays + D,
@@ -1148,44 +1113,34 @@ format_datetime_part(
     _,
     {wom, _} = Part
 ) ->
+    FindThurs = fun(Y0, M0) ->
+        case calendar:day_of_the_week(Y0, M0, 1) of
+            Dow when Dow =< 4 -> {Y0, M0, 1 + 4 - Dow};
+            Dow -> {Y0, M0, 1 + 11 - Dow}
+        end
+    end,
     % count of Thursdays in a month
     Date = {Y, M, D},
-    FDom = calendar:day_of_the_week(Y, M, 1),
-    FThurs =
-        if
-            FDom =< 4 ->
-                {Y, M, 1 + 4 - FDom};
-            true ->
-                {Y, M, 1 + 11 - FDom}
-        end,
+    FThurs = FindThurs(Y, M),
     GDate = calendar:date_to_gregorian_days(Date),
     GFThurs = calendar:date_to_gregorian_days(FThurs),
     GFMon = GFThurs - 3,
     % in this month
-    if
-        GDate >= GFMon ->
+    case GDate >= GFMon of
+        true ->
             W = ((GDate - GFMon) div 7) + 1,
             format_datetime_part_as_int(W, Part);
-        true ->
+        false ->
             GLMon = GFMon - 7,
             {PY, PM, _} = calendar:gregorian_days_to_date(GLMon),
-            PFDom = calendar:day_of_the_week(PY, PM, 1),
-            PFThurs =
-                if
-                    PFDom =< 4 ->
-                        {PY, PM, 1 + 4 - PFDom};
-                    true ->
-                        {PY, PM, 1 + 11 - PFDom}
-                end,
+            PFThurs = FindThurs(PY, PM),
             PGFThurs = calendar:date_to_gregorian_days(PFThurs),
             PGFMon = PGFThurs - 3,
             GDiff = GDate - PGFMon - 1,
             W =
-                if
-                    GDiff >= 28 ->
-                        5;
-                    true ->
-                        4
+                case GDiff >= 28 of
+                    true -> 5;
+                    false -> 4
                 end,
             format_datetime_part_as_int(W, Part)
     end;
@@ -1203,76 +1158,49 @@ format_datetime_part(#xsDateTime{minute = X}, _, {minute, _} = Part) ->
 format_datetime_part(#xsDateTime{second = S}, _, {secint, _} = Part) ->
     X = xqerl_numeric:truncate(S),
     format_datetime_part_as_int(X, Part);
-format_datetime_part(
-    #xsDateTime{year = Y},
-    _,
-    {year, {First, _, {_, MaxLen}}} = Part
-) ->
+format_datetime_part(#xsDateTime{year = Y}, _, {year, {[], _, {_, none}}} = Part) ->
+    N = length(integer_to_list(Y)),
+    X = Y rem trunc(math:pow(10, N)),
+    format_datetime_part_as_int(X, Part);
+format_datetime_part(#xsDateTime{year = Y}, _, {year, {First, _, {_, none}}} = Part) ->
     N =
-        if
-            MaxLen =/= none ->
-                MaxLen;
-            First =:= [] ->
-                length(integer_to_list(Y));
-            true ->
-                case pattern_type(First) of
-                    decimal_digit_pattern ->
-                        Format = parse_decimal_digit_pattern(First),
-                        %?dbg("Format",Format),
-                        W =
-                            length(Format) -
-                                length([
-                                    S
-                                    || {separator, _} = S <-
-                                           Format
-                                ]),
-                        if
-                            W >= 2 ->
-                                W;
-                            true ->
-                                length(integer_to_list(Y))
-                        end;
-                    _ ->
-                        length(integer_to_list(Y))
-                end
+        case pattern_type(First) of
+            decimal_digit_pattern ->
+                Format = parse_decimal_digit_pattern(First),
+                FormatLength = length(Format),
+                SepLength = length([S || {separator, _} = S <- Format]),
+                case FormatLength - SepLength of
+                    W when W >= 2 -> W;
+                    _ -> length(integer_to_list(Y))
+                end;
+            _ ->
+                length(integer_to_list(Y))
         end,
     X = Y rem trunc(math:pow(10, N)),
+    format_datetime_part_as_int(X, Part);
+format_datetime_part(#xsDateTime{year = Y}, _, {year, {_, _, {_, MaxLen}}} = Part) ->
+    X = Y rem trunc(math:pow(10, MaxLen)),
     format_datetime_part_as_int(X, Part);
 format_datetime_part(#xsDateTime{second = S}, _, {secfract, Part}) ->
     X = xqerl_numeric:subtract(S, xqerl_numeric:truncate(S)),
     format_datetime_part_as_fract(X, Part);
 format_datetime_part(#xsDateTime{hour = H}, _, {ampm, {Primary, _, _}}) ->
-    P = pattern_type(Primary),
-    T =
-        if
-            H < 12 -> "am";
-            true -> "pm"
-        end,
-    case P of
-        name_lower ->
-            T;
-        name_upper ->
-            string:uppercase(T);
-        name_title ->
-            string:titlecase(T);
-        _ ->
-            T
+    case pattern_type(Primary) of
+        name_lower when H < 12 -> "am";
+        name_lower -> "pm";
+        name_upper when H < 12 -> "AM";
+        name_upper -> "PM";
+        name_title when H < 12 -> "Am";
+        name_title -> "Pm";
+        _ when H < 12 -> "am";
+        _ -> "pm"
     end;
 format_datetime_part(#xsDateTime{}, _, {calendar, _}) ->
     "";
-format_datetime_part(
-    #xsDateTime{sign = Sign, year = Year},
-    _,
-    {era, _} = Part
-) ->
-    X =
-        if
-            Sign == '-' ->
-                -Year;
-            true ->
-                Year
-        end,
-    format_datetime_part_as_int(X, Part);
+format_datetime_part(#xsDateTime{sign = '-', year = Year}, _, {era, _} = Part) ->
+    format_datetime_part_as_int(-Year, Part);
+format_datetime_part(#xsDateTime{year = Year}, _, {era, _} = Part) ->
+    format_datetime_part_as_int(Year, Part);
 format_datetime_part(Dt, Type, {tzpre, Part}) ->
     "GMT" ++ format_datetime_part(Dt, Type, {tz, Part});
 format_datetime_part(
@@ -1287,9 +1215,9 @@ format_datetime_part(
     {tz, {First, Second, {_, _}}}
 ) ->
     Sign =
-        if
-            S =:= '-' -> "-";
-            true -> "+"
+        case S of
+            '-' -> "-";
+            _ -> "+"
         end,
     Pat = "^\\p{Nd}(\\p{Nd})?$",
     {ok, RE} = re:compile(Pat, [unicode, ucp]),
@@ -1297,40 +1225,30 @@ format_datetime_part(
         %"traditional"
         _ when H =:= 0 andalso M =:= 0 andalso Second =:= "t" ->
             "Z";
+        true when M > 0 ->
+            O = parse_picture(H, First),
+            Sign ++ O ++ ":" ++ parse_picture(M, "11");
         true ->
             O = parse_picture(H, First),
-            if
-                M > 0 ->
-                    Sign ++ O ++ ":" ++ parse_picture(M, "11");
-                true ->
-                    Sign ++ O
+            Sign ++ O;
+        false when First =:= "Z", H =< 12, M == 0 ->
+            % military time (Zulu) -12(Y) <0(Z)> +12(M) A = 1 Z = 0
+            % J (Juliet) time is missing from the time zones == local time
+            case S of
+                '-' -> zulu_zone(-H);
+                _ -> zulu_zone(H)
             end;
-        _ ->
-            if
-                First =:= "Z", H =< 12, M == 0 ->
-                    % military time (Zulu) -12(Y) <0(Z)> +12(M) A = 1 Z = 0
-                    % J (Juliet) time is missing from the time zones == local time
-                    Hour =
-                        if
-                            S == '-' -> -H;
-                            true -> H
-                        end,
-                    zulu_zone(Hour);
-                First =:= "Z" ->
-                    Format = parse_decimal_digit_pattern("01:01"),
-                    Str =
-                        string:pad(integer_to_list(H), 1, leading, [$0]) ++
-                            string:pad(integer_to_list(M), 2, leading, [$0]),
-                    Out = format_decimal(Str, Format),
-                    Sign ++ Out;
-                true ->
-                    Format = parse_decimal_digit_pattern(First),
-                    Str =
-                        string:pad(integer_to_list(H), 1, leading, [$0]) ++
-                            string:pad(integer_to_list(M), 2, leading, [$0]),
-                    Out = format_decimal(Str, Format),
-                    Sign ++ Out
-            end
+        false ->
+            Format =
+                case First of
+                    "Z" -> parse_decimal_digit_pattern("01:01");
+                    _ -> parse_decimal_digit_pattern(First)
+                end,
+            Str =
+                string:pad(integer_to_list(H), 1, leading, [$0]) ++
+                    string:pad(integer_to_list(M), 2, leading, [$0]),
+            Out = format_decimal(Str, Format),
+            Sign ++ Out
     end;
 format_datetime_part(#xsDateTime{offset = []}, _, {tz, {"Z", _, _}}) ->
     "J";
@@ -1339,68 +1257,65 @@ format_datetime_part(#xsDateTime{offset = []}, _, {tz, _}) ->
 format_datetime_part(_Date, _Type, {_Other, _Part}) ->
     not_ok.
 
+format_datetime_part_as_fract_1(none, none, 1, Format) ->
+    case 8 - length(Format) of
+        Dif when Dif < 1 -> Format;
+        Dif -> Format ++ lists:duplicate(Dif, {optional_digit})
+    end;
+format_datetime_part_as_fract_1(MinLen, none, 1, Format) ->
+    case 8 - MinLen of
+        Dif when Dif < 1 -> Format;
+        Dif -> Format ++ lists:duplicate(Dif, {optional_digit})
+    end;
+format_datetime_part_as_fract_1(MinLen, MaxLen, _, Format) ->
+    ManLen = length([S || {digit, _} = S <- Format]),
+    F2 =
+        case MinLen > ManLen of
+            true when MinLen =/= none ->
+                ToChange = MinLen - ManLen,
+                OptLen = length([S || {optional_digit} = S <- Format]),
+                OptToChange = min(OptLen, ToChange),
+                ManToAdd = ToChange - OptToChange,
+                % character to use
+                {_, C} = lists:keyfind(digit, 1, Format),
+                F1 = optional_to_mandatory(Format, OptToChange, C),
+                F1 ++ lists:duplicate(ManToAdd, {digit, C});
+            _ ->
+                Format
+        end,
+    case MaxLen > length(F2) of
+        true when MaxLen =/= none ->
+            % add the missing optionals
+            OptToAdd = MaxLen - length(F2),
+            F2 ++ lists:duplicate(OptToAdd, {optional_digit});
+        _ ->
+            F2
+    end.
+
+format_datetime_part_as_fract_2(_, MaxLen, StrLen, Width, _, String) when
+    is_integer(MaxLen), StrLen > MaxLen, Width =< MaxLen
+->
+    lists:sublist(String, MaxLen);
+format_datetime_part_as_fract_2(MinLen, _, StrLen, _, _, String) when
+    is_integer(MinLen), StrLen < MinLen
+->
+    lists:flatten(string:pad(String, MinLen, trailing, $0));
+format_datetime_part_as_fract_2(_, _, StrLen, Width, _, String) when StrLen < Width ->
+    lists:flatten(string:pad(String, Width, trailing, $0));
+format_datetime_part_as_fract_2(_, _, StrLen, Width, OptWidth, String) when StrLen > Width ->
+    lists:sublist(String, OptWidth);
+format_datetime_part_as_fract_2(_, _, _, _, _, String) ->
+    String.
+
 format_datetime_part_as_fract(Fract, {First, _Second, {MinLen, MaxLen}}) ->
     Format = lists:reverse(parse_decimal_fract_pattern(lists:reverse(First))),
     FormLen = length(Format),
-    OptLen = length([S || {optional_digit} = S <- Format]),
-    ManLen = length([S || {digit, _} = S <- Format]),
-    Format1 =
-        if
-            MaxLen == none, MinLen == none, FormLen == 1 ->
-                Dif = 8 - length(Format),
-                if
-                    Dif < 1 ->
-                        Format;
-                    true ->
-                        Format ++ lists:duplicate(Dif, {optional_digit})
-                end;
-            MaxLen == none, FormLen == 1 ->
-                Dif = 8 - MinLen,
-                if
-                    Dif < 1 ->
-                        Format;
-                    true ->
-                        Format ++ lists:duplicate(Dif, {optional_digit})
-                end;
-            true ->
-                F2 =
-                    if
-                        MinLen =/= none, MinLen > ManLen ->
-                            ToChange = MinLen - ManLen,
-                            OptToChange = min(OptLen, ToChange),
-                            ManToAdd = ToChange - OptToChange,
-                            % character to use
-                            {_, C} = lists:keyfind(digit, 1, Format),
-                            F1 = optional_to_mandatory(Format, OptToChange, C),
-                            F1 ++ lists:duplicate(ManToAdd, {digit, C});
-                        true ->
-                            Format
-                    end,
-                if
-                    MaxLen =/= none, MaxLen > length(F2) ->
-                        % add the missing optionals
-                        OptToAdd = MaxLen - length(F2),
-                        F2 ++ lists:duplicate(OptToAdd, {optional_digit});
-                    true ->
-                        F2
-                end
-        end,
+    Format1 = format_datetime_part_as_fract_1(MinLen, MaxLen, FormLen, Format),
     W1 = length([S || {digit, _} = S <- Format1]),
     W2 = W1 + length([S || {optional_digit} = S <- Format1]),
     Str1 = numeric_string(Fract) -- "0.",
-    SList =
-        if
-            is_integer(MaxLen), length(Str1) > MaxLen, W1 =< MaxLen ->
-                lists:sublist(Str1, MaxLen);
-            is_integer(MinLen), length(Str1) < MinLen ->
-                lists:flatten(string:pad(Str1, MinLen, trailing, $0));
-            length(Str1) < W1 ->
-                lists:flatten(string:pad(Str1, W1, trailing, $0));
-            length(Str1) > W1 ->
-                lists:sublist(Str1, W2);
-            true ->
-                Str1
-        end,
+    Str1Len = length(Str1),
+    SList = format_datetime_part_as_fract_2(MinLen, MaxLen, Str1Len, W1, W2, Str1),
     lists:reverse(format_decimal(lists:reverse(SList), lists:reverse(Format1))).
 
 numeric_string(Val) ->
@@ -1491,50 +1406,54 @@ format_datetime_part_as_int_1(
 ) ->
     Str = integer_to_list(Int),
     Format = parse_decimal_digit_pattern(PrimaryToken),
+    FormatLen = length(Format),
     % character to use
     {_, C} = lists:keyfind(digit, 1, Format),
-    F1 =
-        if
-            is_integer(MinLen) andalso MinLen > length(Format) ->
-                ManToAdd = MinLen - length(Format),
+    Format1 =
+        case is_integer(MinLen) of
+            true when MinLen > FormatLen ->
+                ManToAdd = MinLen - FormatLen,
                 lists:duplicate(ManToAdd, {digit, C}) ++ Format;
-            true ->
+            _ ->
                 Format
         end,
-    F2 =
-        if
-            is_integer(MaxLen) andalso MaxLen > length(F1) ->
-                OptToAdd = MaxLen - length(F1),
-                lists:duplicate(OptToAdd, {optional_digit}) ++ F1;
-            true ->
-                F1
+    Format1Len = length(Format1),
+    Format2 =
+        case is_integer(MaxLen) of
+            true when MaxLen > Format1Len ->
+                OptToAdd = MaxLen - Format1Len,
+                lists:duplicate(OptToAdd, {optional_digit}) ++ Format1;
+            _ ->
+                Format1
         end,
-    format_decimal(Str, F2);
+    format_decimal(Str, Format2);
 format_datetime_part_as_int_1(
     {decimal_digit_pattern, ModifierType},
     Int,
     {_, {PrimaryToken, _, {MinLen, MaxLen}}}
 ) ->
     Format = parse_decimal_digit_pattern(PrimaryToken),
+    FormatLen = length(Format),
     % character to use
     {_, C} = lists:keyfind(digit, 1, Format),
-    F1 =
-        if
-            is_integer(MinLen) andalso MinLen > length(Format) ->
-                ManToAdd = MinLen - length(Format),
+    Format1 =
+        case is_integer(MinLen) of
+            true when MinLen > FormatLen ->
+                ManToAdd = MinLen - FormatLen,
                 lists:duplicate(ManToAdd, {digit, C}) ++ Format;
-            true ->
+            _ ->
                 Format
         end,
-    F2 =
-        if
-            is_integer(MaxLen) andalso MaxLen > length(F1) ->
-                OptToAdd = MaxLen - length(F1),
-                lists:duplicate(OptToAdd, {optional_digit}) ++ F1;
-            true ->
-                F1
+    Format1Len = length(Format1),
+    Format2 =
+        case is_integer(MaxLen) of
+            true when MaxLen > Format1Len ->
+                OptToAdd = MaxLen - Format1Len,
+                lists:duplicate(OptToAdd, {optional_digit}) ++ Format1;
+            _ ->
+                Format1
         end,
-    format_integer(Int, F2, ModifierType);
+    format_integer(Int, Format2, ModifierType);
 format_datetime_part_as_int_1({roman_upper, _}, Int, {_, {_, _, {MinLen, _}}}) ->
     V1 = int_to_upper_roman(Int),
     maybe_truncate(V1, MinLen, none);
@@ -1654,25 +1573,23 @@ parse_decimal_digit_pattern(Pattern) ->
 parse_decimal_digit_pattern_1([], {_DP, _SP}, Acc) ->
     valid_decimal_digit_pattern(lists:reverse(Acc));
 parse_decimal_digit_pattern_1(Str, {DP, SP}, Acc) ->
-    [H | T] = string:next_codepoint(Str),
-    Curr =
-        if
-            H == $# ->
-                {optional_digit};
-            true ->
-                case is_match([H], DP) of
-                    true ->
-                        {digit, H};
-                    _ ->
-                        case is_match([H], SP) of
-                            true ->
-                                {separator, H};
-                            _ ->
-                                ?err('FODF1310')
-                        end
-                end
-        end,
-    parse_decimal_digit_pattern_1(T, {DP, SP}, [Curr | Acc]).
+    case string:next_codepoint(Str) of
+        [$# | T] ->
+            parse_decimal_digit_pattern_1(T, {DP, SP}, [{optional_digit} | Acc]);
+        [H | T] ->
+            Curr = parse_decimal_digit_pattern_2(H, [digit, separator], [DP, SP]),
+            parse_decimal_digit_pattern_1(T, {DP, SP}, [Curr | Acc])
+    end.
+
+parse_decimal_digit_pattern_2(_, [], _) ->
+    ?err('FODF1310');
+parse_decimal_digit_pattern_2(_, _, []) ->
+    ?err('FODF1310');
+parse_decimal_digit_pattern_2(Char, [Type | Types], [Match | Matches]) ->
+    case is_match([Char], Match) of
+        true -> {Type, Char};
+        false -> parse_decimal_digit_pattern_2(Char, Types, Matches)
+    end.
 
 is_match(Str, Pat) ->
     case re:run(Str, Pat) of
@@ -1720,14 +1637,16 @@ valid_decimal_digit_pattern(List) ->
             )
         ) == 1,
 
-    if
+    case
         HasMand andalso
             NoBadOpt andalso
             NoBadHead andalso
             NoBadLast andalso
-            NoConsSep andalso SameFamily ->
-            List;
+            NoConsSep andalso SameFamily
+    of
         true ->
+            List;
+        false ->
             ?err('FODF1310')
     end.
 
@@ -1807,18 +1726,18 @@ int_to_alpha(0, _Shift) ->
 int_to_alpha(Num, Shift) ->
     Mod = Num rem 26,
     Num1 = Num div 26,
-    if
-        Mod == 0, Num1 - 1 == 0 ->
-            [(26 + Shift)];
-        Mod == 0 ->
-            [(26 + Shift) | int_to_alpha(Num1 - 1, Shift)];
-        Mod < 26 andalso Mod > 0 andalso Num1 == 0 ->
-            [(Mod + Shift)];
-        Mod < 26 andalso Mod > 0 ->
-            [(Mod + Shift) | int_to_alpha(Num1, Shift)];
-        true ->
-            int_to_alpha(Num1, Shift)
-    end.
+    int_to_alpha_1(Mod, Num1, Shift).
+
+int_to_alpha_1(0, Num, Shift) when Num - 1 == 0 ->
+    [(26 + Shift)];
+int_to_alpha_1(0, Num, Shift) ->
+    [(26 + Shift) | int_to_alpha(Num - 1, Shift)];
+int_to_alpha_1(Mod, 0, Shift) when Mod < 26 andalso Mod > 0 ->
+    [(Mod + Shift)];
+int_to_alpha_1(Mod, Num, Shift) when Mod < 26 andalso Mod > 0 ->
+    [(Mod + Shift) | int_to_alpha(Num, Shift)];
+int_to_alpha_1(_, Num, Shift) ->
+    int_to_alpha(Num, Shift).
 
 int_to_lower_roman(Num) ->
     string:lowercase(int_to_upper_roman(Num)).
@@ -2075,6 +1994,11 @@ ordinal_ending(N, en) when N < 100 ->
 ordinal_ending(_, en) ->
     "th".
 
+num_to_text_ord(Num, Min, Ord, _, _) when Num == Min ->
+    Ord;
+num_to_text_ord(Num, Min, _, OrdCont, Lang) ->
+    OrdCont ++ "-" ++ num_to_text(Num - Min, Lang, ordinal).
+
 num_to_text(Num, en, ordinal) when Num >= 1000000000000000000000, Num < 1000000000000000000000000 ->
     num_to_text1(Num, 1000000000000000000000, "Sextillion", ordinal);
 num_to_text(Num, en, ordinal) when Num >= 1000000000000000000, Num < 1000000000000000000000 ->
@@ -2092,77 +2016,21 @@ num_to_text(Num, en, ordinal) when Num >= 1000, Num < 1000000 ->
 num_to_text(Num, en, ordinal) when Num >= 100, Num < 1000 ->
     num_to_text1(Num, 100, "Hundred", ordinal);
 num_to_text(Num, en, ordinal) when Num >= 90, Num < 100 ->
-    Pre = "Ninety",
-    Next = Num - 90,
-    if
-        Next == 0 ->
-            "Ninetieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 90, "Ninetieth", "Ninety", en);
 num_to_text(Num, en, ordinal) when Num >= 80, Num < 90 ->
-    Pre = "Eighty",
-    Next = Num - 80,
-    if
-        Next == 0 ->
-            "Eightieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 80, "Eightieth", "Eighty", en);
 num_to_text(Num, en, ordinal) when Num >= 70, Num < 80 ->
-    Pre = "Seventy",
-    Next = Num - 70,
-    if
-        Next == 0 ->
-            "Seventieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 70, "Seventieth", "Seventy", en);
 num_to_text(Num, en, ordinal) when Num >= 60, Num < 70 ->
-    Pre = "Sixty",
-    Next = Num - 60,
-    if
-        Next == 0 ->
-            "Sixtieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 60, "Sixtieth", "Sixty", en);
 num_to_text(Num, en, ordinal) when Num >= 50, Num < 60 ->
-    Pre = "Fifty",
-    Next = Num - 50,
-    if
-        Next == 0 ->
-            "Fiftieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 50, "Fiftieth", "Fifty", en);
 num_to_text(Num, en, ordinal) when Num >= 40, Num < 50 ->
-    Pre = "Forty",
-    Next = Num - 40,
-    if
-        Next == 0 ->
-            "Fortieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 40, "Fortieth", "Forty", en);
 num_to_text(Num, en, ordinal) when Num >= 30, Num < 40 ->
-    Pre = "Thirty",
-    Next = Num - 30,
-    if
-        Next == 0 ->
-            "Thirtieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 30, "Thirtieth", "Thirty", en);
 num_to_text(Num, en, ordinal) when Num >= 20, Num < 30 ->
-    Pre = "Twenty",
-    Next = Num - 20,
-    if
-        Next == 0 ->
-            "Twentieth";
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en, ordinal)
-    end;
+    num_to_text_ord(Num, 20, "Twentieth", "Twenty", en);
 num_to_text(19, en, ordinal) ->
     "Nineteenth";
 num_to_text(18, en, ordinal) ->
@@ -2204,6 +2072,11 @@ num_to_text(1, en, ordinal) ->
 num_to_text(0, en, ordinal) ->
     "Zeroth".
 
+num_to_text_pre(Num, Min, Pre, _) when Num == Min ->
+    Pre;
+num_to_text_pre(Num, Min, Pre, Lang) ->
+    Pre ++ "-" ++ num_to_text(Num - Min, Lang).
+
 num_to_text(Num, en) when Num >= 1000000000000000000000, Num < 1000000000000000000000000 ->
     num_to_text1(Num, 1000000000000000000000, "Sextillion");
 num_to_text(Num, en) when Num >= 1000000000000000000, Num < 1000000000000000000000 ->
@@ -2221,77 +2094,21 @@ num_to_text(Num, en) when Num >= 1000, Num < 1000000 ->
 num_to_text(Num, en) when Num >= 100, Num < 1000 ->
     num_to_text1(Num, 100, "Hundred");
 num_to_text(Num, en) when Num >= 90, Num < 100 ->
-    Pre = "Ninety",
-    Next = Num - 90,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 90, "Ninety", en);
 num_to_text(Num, en) when Num >= 80, Num < 90 ->
-    Pre = "Eighty",
-    Next = Num - 80,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 80, "Eighty", en);
 num_to_text(Num, en) when Num >= 70, Num < 80 ->
-    Pre = "Seventy",
-    Next = Num - 70,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 70, "Seventy", en);
 num_to_text(Num, en) when Num >= 60, Num < 70 ->
-    Pre = "Sixty",
-    Next = Num - 60,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 60, "Sixty", en);
 num_to_text(Num, en) when Num >= 50, Num < 60 ->
-    Pre = "Fifty",
-    Next = Num - 50,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 50, "Fifty", en);
 num_to_text(Num, en) when Num >= 40, Num < 50 ->
-    Pre = "Forty",
-    Next = Num - 40,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 40, "Forty", en);
 num_to_text(Num, en) when Num >= 30, Num < 40 ->
-    Pre = "Thirty",
-    Next = Num - 30,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 30, "Thirty", en);
 num_to_text(Num, en) when Num >= 20, Num < 30 ->
-    Pre = "Twenty",
-    Next = Num - 20,
-    if
-        Next == 0 ->
-            Pre;
-        true ->
-            Pre ++ "-" ++ num_to_text(Next, en)
-    end;
+    num_to_text_pre(Num, 20, "Twenty", en);
 num_to_text(19, en) ->
     "Nineteen";
 num_to_text(18, en) ->
@@ -2338,10 +2155,10 @@ num_to_text1(Num, Min, Name, ordinal) ->
     Hun = Num div Min,
     Rest = Num rem Min,
     HunStr = num_to_text(Hun, en) ++ " " ++ Name,
-    if
-        Rest == 0 ->
+    case Rest of
+        0 ->
             HunStr ++ "th";
-        true ->
+        _ ->
             HunStr ++ " " ++ num_to_text(Rest, en, ordinal)
     end.
 
@@ -2349,10 +2166,10 @@ num_to_text1(Num, Min, Name) ->
     Hun = Num div Min,
     Rest = Num rem Min,
     HunStr = num_to_text(Hun, en) ++ " " ++ Name,
-    if
-        Rest == 0 ->
+    case Rest of
+        0 ->
             HunStr;
-        true ->
+        _ ->
             HunStr ++ " " ++ num_to_text(Rest, en)
     end.
 

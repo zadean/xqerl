@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -145,16 +145,16 @@ merge_library_trees([
     {PrologB1, PrologB2} = xqerl_static:prolog_order(PrologB),
     Prolog1 = unique_prolog_1(PrologA1, PrologB1),
     Prolog2 = unique_prolog_2(PrologA2, PrologB2),
-    Prolog1_1 = patch_imports(Prolog1, ModNs),
-    Prolog1_2 =
-        if
-            ModPxA == ModPxB ->
-                Prolog1_1;
+    Prolog11 = patch_imports(Prolog1, ModNs),
+    Prolog12 =
+        case ModPxA == ModPxB of
             true ->
+                Prolog11;
+            false ->
                 N = #xqNamespaceDecl{uri = ModNs, prefix = ModPxB},
-                [N | without(N, Prolog1_1)]
+                [N | without(N, Prolog11)]
         end,
-    NewA = ModA#xqModule{prolog = Prolog1_2 ++ Prolog2},
+    NewA = ModA#xqModule{prolog = Prolog12 ++ Prolog2},
     merge_library_trees([NewA | Mods]).
 
 % if self is imported change it to namespace declaration unless already there.

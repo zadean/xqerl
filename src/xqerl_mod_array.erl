@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -25,8 +25,6 @@
 -module(xqerl_mod_array).
 
 -include("xqerl.hrl").
-
--define(atint(I), I).
 
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(PX, <<"array">>).
@@ -210,8 +208,8 @@
 %% members of the array, recursively.
 'flatten'(_Ctx, Seq) when is_list(Seq) ->
     flatten1(Seq);
-'flatten'(_Ctx, Seq) ->
-    'flatten'(_Ctx, [Seq]).
+'flatten'(Ctx, Seq) ->
+    'flatten'(Ctx, [Seq]).
 
 flatten1([]) ->
     [];
@@ -353,24 +351,24 @@ for_each_pair2(Ctx, [H1 | T1], [H2 | T2], Fun) ->
 
 %% Returns an array containing all the members of the supplied array,
 %% with one additional member at a specified position.
-'insert-before'(_Ctx, Array, Position, [Member]) ->
-    'insert-before'(_Ctx, Array, Position, Member);
-'insert-before'(_Ctx, Array, [Position], Member) ->
-    'insert-before'(_Ctx, Array, Position, Member);
-'insert-before'(_Ctx, [Array], Position, Member) ->
-    'insert-before'(_Ctx, Array, Position, Member);
+'insert-before'(Ctx, Array, Position, [Member]) ->
+    'insert-before'(Ctx, Array, Position, Member);
+'insert-before'(Ctx, Array, [Position], Member) ->
+    'insert-before'(Ctx, Array, Position, Member);
+'insert-before'(Ctx, [Array], Position, Member) ->
+    'insert-before'(Ctx, Array, Position, Member);
 'insert-before'(_Ctx, Array, Position, Member) ->
     I = xqerl_types:value(Position),
     S = array:size(Array),
-    if
-        I > S + 1 orelse I < 1 ->
-            ?err('FOAY0001');
-        true ->
-            List = array:to_list(Array),
-            Hd = lists:sublist(List, I - 1),
-            Tl = lists:nthtail(I - 1, List),
-            array:from_list(Hd ++ [Member | Tl])
-    end.
+    ok = check_insertion_point(I, S + 1),
+    List = array:to_list(Array),
+    Hd = lists:sublist(List, I - 1),
+    Tl = lists:nthtail(I - 1, List),
+    array:from_list(Hd ++ [Member | Tl]).
+
+check_insertion_point(Index, Size) when Index > Size -> ?err('FOAY0001');
+check_insertion_point(Index, _) when Index < 1 -> ?err('FOAY0001');
+check_insertion_point(_, _) -> ok.
 
 %% Concatenates the contents of several arrays into a single array.
 'join'(_Ctx, Arrays) when is_list(Arrays) ->
@@ -389,34 +387,27 @@ for_each_pair2(Ctx, [H1 | T1], [H2 | T2], Fun) ->
 
 %% Returns an array containing all the members of a supplied array,
 %% except for one member which is replaced with a new value.
-'put'(_Ctx, Array, Position, [Member]) ->
-    'put'(_Ctx, Array, Position, Member);
-'put'(_Ctx, Array, [Position], Member) ->
-    'put'(_Ctx, Array, Position, Member);
-'put'(_Ctx, [Array], Position, Member) ->
-    'put'(_Ctx, Array, Position, Member);
+'put'(Ctx, Array, Position, [Member]) ->
+    'put'(Ctx, Array, Position, Member);
+'put'(Ctx, Array, [Position], Member) ->
+    'put'(Ctx, Array, Position, Member);
+'put'(Ctx, [Array], Position, Member) ->
+    'put'(Ctx, Array, Position, Member);
 'put'(_Ctx, Array, Position, Member) ->
-    I = xqerl_types:value(Position),
-    if
-        I < 1 ->
-            ?err('FOAY0001');
+    case array:is_array(Array) of
+        false ->
+            ?err('FORG0006');
         true ->
-            case array:is_array(Array) of
-                false ->
-                    ?err('FORG0006');
-                true ->
-                    S = array:size(Array),
-                    if
-                        I > S -> ?err('FOAY0001');
-                        true -> array:set(I - 1, Member, Array)
-                    end
-            end
+            I = xqerl_types:value(Position),
+            S = array:size(Array),
+            ok = check_insertion_point(I, S),
+            array:set(I - 1, Member, Array)
     end.
 
 %% Returns an array containing all the members of the supplied array,
 %% except for the members at specified positions.
-'remove'(_Ctx, [Array], Positions) ->
-    'remove'(_Ctx, Array, Positions);
+'remove'(Ctx, [Array], Positions) ->
+    'remove'(Ctx, Array, Positions);
 'remove'(_Ctx, Array, Positions) ->
     case array:is_array(Array) of
         false ->
@@ -429,10 +420,8 @@ for_each_pair2(Ctx, [H1 | T1], [H2 | T2], Fun) ->
             SortPos = ordsets:from_list(IntList),
             RevPos = lists:reverse(ordsets:to_list(SortPos)),
             Fx = fun(P, A) ->
-                case P > array:size(A) orelse P < 1 of
-                    true -> ?err('FOAY0001');
-                    _ -> array:reset(P - 1, A)
-                end
+                ok = check_insertion_point(P, array:size(A)),
+                array:reset(P - 1, A)
             end,
             Array1 = lists:foldl(Fx, Array, RevPos),
             Dat = array:sparse_to_list(Array1),
@@ -441,8 +430,8 @@ for_each_pair2(Ctx, [H1 | T1], [H2 | T2], Fun) ->
 
 %% Returns an array containing all the members of a supplied array,
 %% but in reverse order.
-'reverse'(_Ctx, [Array]) ->
-    'reverse'(_Ctx, Array);
+'reverse'(Ctx, [Array]) ->
+    'reverse'(Ctx, Array);
 'reverse'(_Ctx, Array) ->
     case array:is_array(Array) of
         false ->
@@ -453,8 +442,8 @@ for_each_pair2(Ctx, [H1 | T1], [H2 | T2], Fun) ->
     end.
 
 %% Returns the number of members in the supplied array.
-'size'(_Ctx, [Array]) ->
-    'size'(_Ctx, Array);
+'size'(Ctx, [Array]) ->
+    'size'(Ctx, Array);
 'size'(_Ctx, Array) ->
     case array:is_array(Array) of
         false ->
@@ -501,31 +490,16 @@ sort1(_, [], _B, _Coll) ->
     true;
 sort1(_, _A, [], _Coll) ->
     false;
-sort1(Ctx, A, B, Coll) when is_list(A), is_list(B) ->
-    Equal = xqerl_mod_fn:'deep-equal'(Ctx, hd(A), hd(B), Coll),
-    if
-        Equal ->
-            sort1(Ctx, tl(A), tl(B), Coll);
+sort1(Ctx, [A | As], [B | Bs], Coll) ->
+    case xqerl_mod_fn:'deep-equal'(Ctx, A, B, Coll) of
         true ->
-            NotEqual = xqerl_operators:not_equal(hd(A), hd(A)),
-            if
-                NotEqual ->
-                    true;
+            sort1(Ctx, As, Bs, Coll);
+        false ->
+            case xqerl_operators:not_equal(A, A) of
                 true ->
-                    TypeA = xqerl_types:type(hd(A)),
-                    TypeB = xqerl_types:type(hd(B)),
-                    if
-                        (?xs_string(TypeA) orelse
-                            TypeA =:= 'xs:anyURI' orelse
-                            TypeA =:= 'xs:untypedAtomic') andalso
-                            (?xs_string(TypeB) orelse
-                                TypeB =:= 'xs:anyURI' orelse
-                                TypeB =:= 'xs:untypedAtomic') ->
-                            Comp = xqerl_mod_fn:compare(Ctx, hd(A), hd(B), Coll),
-                            Comp =< 0;
-                        true ->
-                            xqerl_operators:less_than_eq(hd(A), hd(B))
-                    end
+                    true;
+                false ->
+                    sort2(Ctx, A, B, Coll)
             end
     end;
 sort1(Ctx, A, B, Coll) when is_list(A) ->
@@ -534,6 +508,23 @@ sort1(Ctx, A, B, Coll) when is_list(B) ->
     sort1(Ctx, [A], B, Coll);
 sort1(Ctx, A, B, Coll) ->
     sort1(Ctx, [A], [B], Coll).
+
+sort2(Ctx, A, B, Coll) ->
+    TypeA = xqerl_types:type(A),
+    TypeB = xqerl_types:type(B),
+    case
+        (?xs_string(TypeA) orelse
+            TypeA =:= 'xs:anyURI' orelse
+            TypeA =:= 'xs:untypedAtomic') andalso
+            (?xs_string(TypeB) orelse
+                TypeB =:= 'xs:anyURI' orelse
+                TypeB =:= 'xs:untypedAtomic')
+    of
+        true ->
+            xqerl_mod_fn:compare(Ctx, A, B, Coll) =< 0;
+        false ->
+            xqerl_operators:less_than_eq(A, B)
+    end.
 
 %% Returns an array containing all members from a supplied array
 %% starting at a supplied position, up to a specified length.
@@ -564,30 +555,24 @@ sort1(Ctx, A, B, Coll) ->
 
 subarray1(_, Start) when Start < 1 ->
     ?err('FOAY0001');
+subarray1(List, Start) when Start > length(List) + 1 ->
+    ?err('FOAY0001');
 subarray1(List, Start) ->
-    if
-        Start > length(List) + 1 ->
-            ?err('FOAY0001');
-        true ->
-            Sl = lists:nthtail(Start - 1, List),
-            array:from_list(Sl)
-    end.
+    Sl = lists:nthtail(Start - 1, List),
+    array:from_list(Sl).
 
 subarray1(_, _, Length) when Length < 0 ->
     ?err('FOAY0002');
+subarray1(List, Start, Length) when (Start + Length) > length(List) + 1 ->
+    ?err('FOAY0001');
 subarray1(List, Start, Length) ->
-    if
-        (Start + Length) > length(List) + 1 ->
-            ?err('FOAY0001');
-        true ->
-            Sl = lists:sublist(List, Start, Length),
-            array:from_list(Sl)
-    end.
+    Sl = lists:sublist(List, Start, Length),
+    array:from_list(Sl).
 
 %% Returns an array containing all members except the first from a
 %% supplied array.
-'tail'(_Ctx, [Array]) ->
-    'tail'(_Ctx, Array);
+'tail'(Ctx, [Array]) ->
+    'tail'(Ctx, Array);
 'tail'(_Ctx, Array) ->
     case array:is_array(Array) of
         false ->

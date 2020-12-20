@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -31,16 +31,15 @@
 
 -include("xqerl.hrl").
 
--define(output, <<"http://www.w3.org/2010/xslt-xquery-serialization">>).
--define(xml, <<"http://www.w3.org/XML/1998/namespace">>).
--define(xhtml, <<"http://www.w3.org/1999/xhtml">>).
--define(svg, <<"http://www.w3.org/2000/svg">>).
--define(mathml, <<"http://www.w3.org/1998/Math/MathML">>).
+-define(XML, <<"http://www.w3.org/XML/1998/namespace">>).
+-define(XHTML, <<"http://www.w3.org/1999/xhtml">>).
+-define(SVG, <<"http://www.w3.org/2000/svg">>).
+-define(MATHML, <<"http://www.w3.org/1998/Math/MathML">>).
 
 % block array:array(_) warnings
 -dialyzer(no_opaque).
 
--define(is_array(A), is_tuple(A), element(1, A) =:= array).
+-define(IS_ARRAY(A), is_tuple(A), element(1, A) =:= array).
 
 serialize(Seq, Opts) ->
     Opts1 = maps:merge(default_opts(), Opts),
@@ -106,7 +105,7 @@ norm_s1(Seq) when is_list(Seq) ->
 norm_s1(Seq) ->
     norm_s1([Seq]).
 
-norm_s1_([A | T]) when ?is_array(A) ->
+norm_s1_([A | T]) when ?IS_ARRAY(A) ->
     xqerl_mod_array:flatten(#{}, A) ++ norm_s1_(T);
 norm_s1_([H | T]) ->
     [H | norm_s1_(T)];
@@ -150,11 +149,11 @@ norm_s3_1([]) ->
     [].
 
 norm_s3_2([Seq], _) -> [Seq];
-norm_s3_2([H | T], Sep) -> [H | norm_s3_2_(T, Sep)].
+norm_s3_2([H | T], Sep) -> [H | norm_s3_3(T, Sep)].
 
-norm_s3_2_([H | T], Sep) ->
-    [Sep, H | norm_s3_2_(T, Sep)];
-norm_s3_2_([], _) ->
+norm_s3_3([H | T], Sep) ->
+    [Sep, H | norm_s3_3(T, Sep)];
+norm_s3_3([], _) ->
     [].
 
 %% 4. For each item in S3, if the item is a string, create a text node in the
@@ -262,13 +261,10 @@ html_head_meta(
         none
     ),
     ContText =
-        if
-            Enc == utf8 ->
-                <<"text/html; charset=UTF-8">>;
-            Enc == utf16 ->
-                <<"text/html; charset=UTF-16">>;
-            true ->
-                <<"text/html">>
+        case Enc of
+            utf8 -> <<"text/html; charset=UTF-8">>;
+            utf16 -> <<"text/html; charset=UTF-16">>;
+            _ -> <<"text/html">>
         end,
     Content = xqldb_mem_nodes:attribute(
         {Ref, 0},
@@ -402,19 +398,27 @@ delete_old_meta_1([]) ->
 -define(STR_REST(Str, Rest), <<Str, Rest/binary>>).
 -define(CP_REST(Cp, Rest), <<Cp/utf8, Rest/binary>>).
 
+encoder_fun(CMap) ->
+    TextPattern = binary:compile_pattern([<<"<">>, <<">">>, <<"&">>, <<"\r">>]),
+    fun(Bin) ->
+        case binary:match(Bin, TextPattern) of
+            nomatch ->
+                encode_m_text_(Bin, CMap);
+            _ ->
+                encode_text_(Bin, CMap)
+        end
+    end.
+
 do_serialize(
     Seq,
     #{
         method := adaptive,
-        'item-separator' := Sep
+        'item-separator' := <<>>
     } = Opts
 ) ->
-    if
-        Sep == <<>> ->
-            do_serialize_adaptive(Seq, Opts#{'item-separator' := <<$\n>>});
-        true ->
-            do_serialize_adaptive(Seq, Opts)
-    end;
+    do_serialize_adaptive(Seq, Opts#{'item-separator' := <<$\n>>});
+do_serialize(Seq, #{method := adaptive} = Opts) ->
+    do_serialize_adaptive(Seq, Opts);
 do_serialize(Seq, #{method := json} = Opts) ->
     do_serialize_json(Seq, Opts);
 do_serialize(Seq, #{method := text} = Opts) ->
@@ -427,15 +431,7 @@ do_serialize(
     } = Opts
 ) ->
     Norm = normalize_seq(Seq, Opts),
-    TextPattern = binary:compile_pattern([<<"<">>, <<">">>, <<"&">>, <<"\r">>]),
-    TextEncoder = fun(Bin) ->
-        case binary:match(Bin, TextPattern) of
-            nomatch ->
-                encode_m_text_(Bin, CMap);
-            _ ->
-                encode_text_(Bin, CMap)
-        end
-    end,
+    TextEncoder = encoder_fun(CMap),
     do_serialize_xml(Norm, Opts#{text_encoder => TextEncoder});
 do_serialize(Seq, #{method := xhtml} = Opts) ->
     Norm = normalize_seq(Seq, Opts),
@@ -456,7 +452,7 @@ do_serialize_json(
     },
     Val = do_serialize(Node, NewOpts),
     to_json_string(Val, Opts);
-do_serialize_json(A, Opts) when ?is_array(A) ->
+do_serialize_json(A, Opts) when ?IS_ARRAY(A) ->
     Vals1 = [do_serialize_json(V, Opts) || V <- array:to_list(A)],
     Vals2 = string_join(Vals1, <<$,>>),
     <<$[, Vals2/binary, $]>>;
@@ -519,15 +515,7 @@ do_serialize_adaptive(Seq, #{'item-separator' := Sep} = Opts) when is_list(Seq) 
     Seq1 = [do_serialize_adaptive(S, Opts) || S <- Seq],
     string_join(Seq1, Sep);
 do_serialize_adaptive(#{nk := _} = Node, #{'use-character-maps' := CMap} = Opts) ->
-    TextPattern = binary:compile_pattern([<<"<">>, <<">">>, <<"&">>, <<"\r">>]),
-    TextEncoder = fun(Bin) ->
-        case binary:match(Bin, TextPattern) of
-            nomatch ->
-                encode_m_text_(Bin, CMap);
-            _ ->
-                encode_text_(Bin, CMap)
-        end
-    end,
+    TextEncoder = encoder_fun(CMap),
     do_serialize_xml(Node, Opts#{text_encoder => TextEncoder});
 do_serialize_adaptive(true, _Opts) ->
     <<"true()">>;
@@ -569,14 +557,9 @@ do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts) ->
     TypeBin = atom_to_binary(Type, utf8),
     Str = xqerl_types:string_value(Val),
     <<TypeBin/binary, $(, $", Str/binary, $", $)>>;
-do_serialize_adaptive(A, Opts) when ?is_array(A) ->
+do_serialize_adaptive(A, Opts) when ?IS_ARRAY(A) ->
     Vals1 = [
-        if
-            is_list(V) ->
-                do_serialize_adaptive_seq(V, Opts);
-            true ->
-                do_serialize_adaptive(V, Opts)
-        end
+        do_serialize_adaptive_1(V, Opts)
         || V <- array:to_list(A)
     ],
     Vals2 = string_join(Vals1, <<$,>>),
@@ -586,13 +569,7 @@ do_serialize_adaptive(Map, Opts) when is_map(Map) ->
     Entries = [
         begin
             Key = do_serialize_adaptive(K, Opts),
-            Val =
-                if
-                    is_list(V) ->
-                        do_serialize_adaptive_seq(V, Opts);
-                    true ->
-                        do_serialize_adaptive(V, Opts)
-                end,
+            Val = do_serialize_adaptive_1(V, Opts),
             <<Key/binary, $:, Val/binary>>
         end
         || {K, V} <- KVs
@@ -613,18 +590,18 @@ do_serialize_adaptive(
     _Opts
 ) ->
     Head =
-        if
-            Ns == <<"http://www.w3.org/2005/xpath-functions">> ->
+        case Ns of
+            <<"http://www.w3.org/2005/xpath-functions">> ->
                 <<"fn:">>;
-            Ns == <<"http://www.w3.org/2005/xpath-functions/math">> ->
+            <<"http://www.w3.org/2005/xpath-functions/math">> ->
                 <<"math:">>;
-            Ns == <<"http://www.w3.org/2005/xpath-functions/map">> ->
+            <<"http://www.w3.org/2005/xpath-functions/map">> ->
                 <<"map:">>;
-            Ns == <<"http://www.w3.org/2005/xpath-functions/array">> ->
+            <<"http://www.w3.org/2005/xpath-functions/array">> ->
                 <<"array:">>;
-            Ns == <<"http://www.w3.org/2001/XMLSchema">> ->
+            <<"http://www.w3.org/2001/XMLSchema">> ->
                 <<"xs:">>;
-            true ->
+            _ ->
                 <<$Q, ${, Ns/binary, $}>>
         end,
     A = integer_to_binary(Arity),
@@ -639,6 +616,9 @@ do_serialize_adaptive_seq(Vals, Opts) ->
     Vals2 = string_join(Vals1, <<$,>>),
     <<$(, Vals2/binary, $)>>.
 
+do_serialize_adaptive_1(V, Opts) when is_list(V) -> do_serialize_adaptive_seq(V, Opts);
+do_serialize_adaptive_1(V, Opts) -> do_serialize_adaptive(V, Opts).
+
 do_serialize_text(Seq, Opts) ->
     Norm = normalize_seq(Seq, Opts),
     xqldb_mem_nodes:string_value(Norm).
@@ -646,16 +626,16 @@ do_serialize_text(Seq, Opts) ->
 do_serialize_html(Seq, #{'html-version' := 5.0} = Opts) ->
     Seq1 = normalize_prefixes(Seq, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     }),
     do_serialize_html(Seq1, Opts, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     });
 do_serialize_html(Seq, Opts) ->
     do_serialize_html(Seq, Opts, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     }).
 
 do_serialize_html(#{nk := document} = Doc, Opts, NsInScope) ->
@@ -676,13 +656,10 @@ do_serialize_html(
     _Opts,
     _
 ) ->
-    Tgt = xqldb_mem_nodes:string_value(Node),
     % no trailing '?' in html
-    if
-        Tgt == <<>> ->
-            <<"<?", Ln/binary, " >">>;
-        true ->
-            <<"<?", Ln/binary, " ", Tgt/binary, ">">>
+    case xqldb_mem_nodes:string_value(Node) of
+        <<>> -> <<"<?", Ln/binary, " >">>;
+        Tgt -> <<"<?", Ln/binary, " ", Tgt/binary, ">">>
     end;
 do_serialize_html(#{nk := comment} = Node, _Opts, _) ->
     Txt = xqldb_mem_nodes:string_value(Node),
@@ -709,13 +686,7 @@ do_serialize_html(
 ) ->
     Txt = xqldb_mem_nodes:string_value(Node),
     QNm = encode_qname(NodeName),
-    AttTxt =
-        case is_uri_attribute(ParentNodeName, NodeName) of
-            true ->
-                encode_uri_att_text(Txt);
-            false ->
-                encode_att_text(Txt, CMap)
-        end,
+    AttTxt = att_text(ParentNodeName, NodeName, Txt, CMap),
     <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 do_serialize_html(
     #{
@@ -755,59 +726,39 @@ do_serialize_html(
     >>,
     IsCdataNode = is_cdata_node(NodeName, Opts),
     Node1 =
-        if
-            Ln == <<"head">> ->
+        case Ln of
+            <<"head">> ->
                 html_head_meta(Node, Opts);
-            true ->
+            _ ->
                 Node
         end,
     ChNds = xqldb_mem_nodes:children(Node1),
-    IsHtml = ENs == <<>> orelse (ENs == ?xhtml andalso HtmlV == 5.0),
-    Ch =
-        if
-            Ln == <<"script">>; Ln == <<"style">> ->
-                lists:map(
-                    fun
-                        (#{nk := text} = Txt) ->
-                            Txt#{nk := script};
-                        (O) ->
-                            O
-                    end,
-                    ChNds
-                );
-            IsCdataNode andalso not IsHtml ->
-                lists:map(
-                    fun
-                        (#{nk := text} = Txt) ->
-                            Txt#{nk := cdata};
-                        (O) ->
-                            O
-                    end,
-                    ChNds
-                );
-            true ->
-                ChNds
-        end,
-    {Indent, Opts2} =
-        case can_indent(NodeName, ChNds, Opts) of
-            true -> {<<"\n">>, Opts};
-            false -> {<<>>, Opts#{indent := false}}
-        end,
+    IsHtml = ENs == <<>> orelse (ENs == ?XHTML andalso HtmlV == 5.0),
+    ChFun = fun
+        (#{nk := text} = Txt) when Ln == <<"script">>; Ln == <<"style">> ->
+            Txt#{nk := script};
+        (#{nk := text} = Txt) when IsCdataNode andalso not IsHtml ->
+            Txt#{nk := cdata};
+        (O) ->
+            O
+    end,
+    Ch = lists:map(ChFun, ChNds),
+    {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = <<
         <<Indent/binary, (do_serialize_html(C, Opts2, InScopeNamespaces1))/binary>>
         || C <- Ch
     >>,
     Empty =
-        if
-            HtmlV == 5.0 ->
-                is_void_element(NodeName);
+        case HtmlV == 5.0 of
             true ->
+                is_void_element(NodeName);
+            false ->
                 is_empty_element(NodeName)
         end,
-    if
-        Ch == [], Empty, IsHtml ->
+    case Ch of
+        [] when Empty, IsHtml ->
             <<"<", QNm/binary, NsStr/binary, Atts/binary, ">">>;
-        true ->
+        _ ->
             <<"<", QNm/binary, NsStr/binary, Atts/binary, ">", Chld/binary, Indent/binary, "</",
                 QNm/binary, ">">>
     end;
@@ -817,16 +768,16 @@ do_serialize_html(_, _, _) ->
 do_serialize_xhtml(Seq, #{'html-version' := 5.0} = Opts) ->
     Seq1 = normalize_prefixes(Seq, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     }),
     do_serialize_xhtml(Seq1, Opts, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     });
 do_serialize_xhtml(Seq, Opts) ->
     do_serialize_xhtml(Seq, Opts, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     }).
 
 do_serialize_xhtml(#{nk := document} = Doc, Opts, NsInScope) ->
@@ -853,12 +804,11 @@ do_serialize_xhtml(
     _Opts,
     _
 ) ->
-    Tgt = xqldb_mem_nodes:string_value(Node),
-    if
-        Tgt == <<>> ->
+    case xqldb_mem_nodes:string_value(Node) of
+        <<>> ->
             % no trailing whitespace allowed
             <<"<?", Ln/binary, "?>">>;
-        true ->
+        Tgt ->
             <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
     end;
 do_serialize_xhtml(#{nk := comment} = Node, _Opts, _) ->
@@ -886,13 +836,7 @@ do_serialize_xhtml(
 ) ->
     Txt = xqldb_mem_nodes:string_value(Node),
     QNm = encode_qname(NodeName),
-    AttTxt =
-        case is_uri_attribute(ParentNodeName, NodeName) of
-            true ->
-                encode_uri_att_text(Txt);
-            false ->
-                encode_att_text(Txt, CMap)
-        end,
+    AttTxt = att_text(ParentNodeName, NodeName, Txt, CMap),
     <<QNm/binary, "=\"", AttTxt/binary, "\"">>;
 do_serialize_xhtml(
     #{
@@ -930,59 +874,39 @@ do_serialize_xhtml(
     >>,
     IsCdataNode = is_cdata_node(NodeName, Opts),
     Node1 =
-        if
-            Ln == <<"head">> ->
+        case Ln of
+            <<"head">> ->
                 html_head_meta(Node, Opts);
-            true ->
+            _ ->
                 Node
         end,
     ChNds = xqldb_mem_nodes:children(Node1),
-    Ch =
-        if
-            Ln == <<"script">>; Ln == <<"style">> ->
-                lists:map(
-                    fun
-                        (#{nk := text} = Txt) ->
-                            Txt#{nk := script};
-                        (O) ->
-                            O
-                    end,
-                    ChNds
-                );
-            IsCdataNode ->
-                lists:map(
-                    fun
-                        (#{nk := text} = Txt) ->
-                            Txt#{nk := cdata};
-                        (O) ->
-                            O
-                    end,
-                    ChNds
-                );
-            true ->
-                ChNds
-        end,
-    {Indent, Opts2} =
-        case can_indent(NodeName, ChNds, Opts) of
-            true -> {<<"\n">>, Opts};
-            false -> {<<>>, Opts#{indent := false}}
-        end,
+    ChFn = fun
+        (#{nk := text} = Txt) when Ln == <<"script">>; Ln == <<"style">> ->
+            Txt#{nk := script};
+        (#{nk := text} = Txt) when IsCdataNode ->
+            Txt#{nk := cdata};
+        (O) ->
+            O
+    end,
+    Ch = lists:map(ChFn, ChNds),
+    {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = <<
         <<Indent/binary, (do_serialize_xhtml(C, Opts2, InScopeNamespaces1))/binary>>
         || C <- Ch
     >>,
     Empty =
-        if
-            HtmlV == 5.0 ->
-                is_void_element(NodeName);
+        case HtmlV == 5.0 of
             true ->
+                is_void_element(NodeName);
+            false ->
                 is_empty_element(NodeName)
         end,
     IsHtml = is_html_tag(NodeName, HtmlV),
-    if
-        Ch == [], Empty, IsHtml ->
+    case Ch of
+        [] when Empty, IsHtml ->
             <<"<", QNm/binary, NsStr/binary, Atts/binary, " />", Indent/binary>>;
-        true ->
+        _ ->
             <<"<", QNm/binary, NsStr/binary, Atts/binary, ">", Chld/binary, Indent/binary, "</",
                 QNm/binary, ">">>
     end;
@@ -992,20 +916,19 @@ do_serialize_xhtml(_, _, _) ->
 do_serialize_xml(Seq, Opts) ->
     IoList = do_serialize_xml(Seq, Opts, #{
         <<>> => <<>>,
-        <<"xml">> => ?xml
+        <<"xml">> => ?XML
     }),
     iolist_to_binary(IoList).
 
 do_serialize_xml(#{nk := document} = Doc, Opts, NsInScope) ->
     Ch = xqldb_mem_nodes:children_no_p(Doc),
-    IsWellFormed = is_well_formed(Ch),
     Decl =
-        if
-            IsWellFormed ->
-                [L | _] = [L || #{nn := {_, _, L}, nk := element} <- Ch],
-                do_xml_declaration(IsWellFormed, L, Opts);
+        case is_well_formed(Ch) of
             true ->
-                do_xml_declaration(IsWellFormed, <<>>, Opts)
+                [L | _] = [L || #{nn := {_, _, L}, nk := element} <- Ch],
+                do_xml_declaration(true, L, Opts);
+            false ->
+                do_xml_declaration(false, <<>>, Opts)
         end,
     Body = [
         do_serialize_xml(C, Opts, NsInScope)
@@ -1020,12 +943,9 @@ do_serialize_xml(
     _Opts,
     _
 ) ->
-    Tgt = xqldb_mem_nodes:string_value(Node),
-    if
-        Tgt == <<>> ->
-            <<"<?", Ln/binary, " ?>">>;
-        true ->
-            <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
+    case xqldb_mem_nodes:string_value(Node) of
+        <<>> -> <<"<?", Ln/binary, " ?>">>;
+        Tgt -> <<"<?", Ln/binary, " ", Tgt/binary, "?>">>
     end;
 do_serialize_xml(#{nk := comment} = Node, _Opts, _) ->
     Txt = xqldb_mem_nodes:string_value(Node),
@@ -1072,38 +992,32 @@ do_serialize_xml(
     ],
     IsCdataNode = is_cdata_node(NodeName, Opts),
     ChNds = xqldb_mem_nodes:children_no_p(Node),
-    Ch =
-        if
-            IsCdataNode ->
-                lists:map(
-                    fun
-                        (#{nk := text} = Txt) ->
-                            Txt#{nk := cdata};
-                        (O) ->
-                            O
-                    end,
-                    ChNds
-                );
-            true ->
-                ChNds
-        end,
-    {Indent, Opts2} =
-        case can_indent(NodeName, ChNds, Opts) of
-            true -> {<<"\n">>, Opts};
-            false -> {<<>>, Opts#{indent := false}}
-        end,
+    ChFun = fun
+        (#{nk := text} = Txt) when IsCdataNode ->
+            Txt#{nk := cdata};
+        (O) ->
+            O
+    end,
+    Ch = lists:map(ChFun, ChNds),
+    {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = [
         [Indent, do_serialize_xml(C, Opts2, InScopeNamespaces1)]
         || C <- Ch
     ],
-    if
-        Ch == [] ->
+    case Ch of
+        [] ->
             [<<"<">>, QNm, NsStr, Atts, <<"/>">>, Indent];
-        true ->
+        _ ->
             [<<"<">>, QNm, NsStr, Atts, <<">">>, Chld, Indent, <<"</">>, QNm, <<">">>]
     end;
 do_serialize_xml(_, _, _) ->
     ?err('SENR0001').
+
+indent_opts(NodeName, ChNds, Opts) ->
+    case can_indent(NodeName, ChNds, Opts) of
+        true -> {<<"\n">>, Opts};
+        false -> {<<>>, Opts#{indent := false}}
+    end.
 
 encode_namespace(<<"xml">>, _) ->
     <<>>;
@@ -1132,7 +1046,7 @@ normalize_prefixes(
         nn := {Ns, _, Ln}
     } = Node,
     Nss
-) when Ns == ?xhtml; Ns == ?svg; Ns == ?mathml ->
+) when Ns == ?XHTML; Ns == ?SVG; Ns == ?MATHML ->
     Atts = xqldb_mem_nodes:attributes(Node),
     Child = xqldb_mem_nodes:children(Node),
     UsedPxs = [P || #{nn := {_, P, _}} <- Atts, P =/= <<>>],
@@ -1281,16 +1195,11 @@ encode_att_text(?CP_REST(H, Tail), Acc, CMap) ->
 
 encode_uri_att_text(Bin) ->
     Nfc = unicode:characters_to_nfc_binary(Bin),
-    Enc = <<
-        if
-            C >= 32, C =< 126 ->
-                <<C>>;
-            true ->
-                <<"%", (integer_to_binary(C, 16))/binary>>
-        end
-        || <<C>> <= Nfc
-    >>,
+    Enc = <<(encode_uri_att_text_c(C)) || <<C>> <= Nfc>>,
     encode_att_text(Enc, <<>>).
+
+encode_uri_att_text_c(C) when C >= 32, C =< 126 -> <<C>>;
+encode_uri_att_text_c(C) -> <<"%", (integer_to_binary(C, 16))/binary>>.
 
 encode_ns_text(Bin) -> encode_ns_text(Bin, <<>>).
 
@@ -1317,7 +1226,7 @@ encode_qname({_, Px, Ln}) ->
 encode_binary(Val, utf8) -> Val;
 encode_binary(Val, Enc) -> unicode:characters_to_binary(Val, unicode, Enc).
 
-is_uri_attribute({PNs, _, PLn}, {Ns, _, Ln}) when PNs == <<>> orelse PNs == ?xhtml, Ns == <<>> ->
+is_uri_attribute({PNs, _, PLn}, {Ns, _, Ln}) when PNs == <<>> orelse PNs == ?XHTML, Ns == <<>> ->
     Pn = string:lowercase(PLn),
     case string:lowercase(Ln) of
         <<"action">> ->
@@ -1385,6 +1294,14 @@ is_uri_attribute({PNs, _, PLn}, {Ns, _, Ln}) when PNs == <<>> orelse PNs == ?xht
     end;
 is_uri_attribute(_, _) ->
     false.
+
+att_text(ParentNodeName, NodeName, Txt, CMap) ->
+    case is_uri_attribute(ParentNodeName, NodeName) of
+        true ->
+            encode_uri_att_text(Txt);
+        false ->
+            encode_att_text(Txt, CMap)
+    end.
 
 string_join([], _With) -> <<>>;
 string_join([H], _With) -> H;
@@ -1502,50 +1419,40 @@ do_xml_declaration(
     }
 ) ->
     Enc =
-        if
-            Encoding == utf8 -> <<"UTF-8">>;
-            Encoding == utf16 -> <<"UTF-16">>;
-            Encoding == utf32 -> <<"UTF-32">>
+        case Encoding of
+            utf8 -> <<"UTF-8">>;
+            utf16 -> <<"UTF-16">>;
+            utf32 -> <<"UTF-32">>
         end,
     ElementNameL = string:lowercase(ElementName),
-    DocType =
-        if
-            Method == html, D == <<>>, P == <<>>, HtmlVers == 5.0, ElementNameL == <<"html">> ->
-                <<"<!DOCTYPE ", ElementNameL/binary, ">\n">>;
-            Method == html, D == <<>>, P == <<>> ->
-                <<>>;
-            Method == html, D == <<>> ->
-                <<"<!DOCTYPE ", ElementNameL/binary, " PUBLIC \"", P/binary, "\">\n">>;
-            D == <<>> ->
-                <<>>;
-            true ->
-                if
-                    P == <<>> ->
-                        %io:format("~p~n", [D]),
-                        <<"<!DOCTYPE ", ElementName/binary, " SYSTEM \"", D/binary, "\">\n">>;
-                    true ->
-                        %io:format("~p~n", [D]),
-                        <<"<!DOCTYPE ", ElementName/binary, " PUBLIC \"", P/binary, "\" \"",
-                            D/binary, "\">\n">>
-                end
-        end,
+    DocType = do_xml_declaration_1(Method, D, P, HtmlVers, ElementName, ElementNameL),
+    do_xml_declaration_2(Wellformed, Standalone, D, O, Enc, DocType).
 
-    if
-        Wellformed == false, D =/= <<>> ->
-            ?err('SEPM0004');
-        Standalone == true, Wellformed == false ->
-            ?err('SEPM0004');
-        O == false, Standalone == omit ->
-            <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\"?>", DocType/binary>>;
-        O == false, Standalone == true ->
-            <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\" standalone=\"yes\"?>",
-                DocType/binary>>;
-        O == false ->
-            <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\" standalone=\"no\"?>",
-                DocType/binary>>;
-        true ->
-            DocType
-    end.
+do_xml_declaration_1(html, <<>>, <<>>, HtmlVers, _ElementName, <<"html">>) when HtmlVers == 5.0 ->
+    <<"<!DOCTYPE html>\n">>;
+do_xml_declaration_1(html, <<>>, <<>>, _HtmlVers, _ElementName, _ElementNameL) ->
+    <<>>;
+do_xml_declaration_1(html, <<>>, P, _HtmlVers, _ElementName, ElementNameL) ->
+    <<"<!DOCTYPE ", ElementNameL/binary, " PUBLIC \"", P/binary, "\">\n">>;
+do_xml_declaration_1(_Method, <<>>, _P, _HtmlVers, _ElementName, _ElementNameL) ->
+    <<>>;
+do_xml_declaration_1(_Method, D, <<>>, _HtmlVers, ElementName, _ElementNameL) ->
+    <<"<!DOCTYPE ", ElementName/binary, " SYSTEM \"", D/binary, "\">\n">>;
+do_xml_declaration_1(_Method, D, P, _HtmlVers, ElementName, _ElementNameL) ->
+    <<"<!DOCTYPE ", ElementName/binary, " PUBLIC \"", P/binary, "\" \"", D/binary, "\">\n">>.
+
+do_xml_declaration_2(false, _Standalone, D, _O, _Enc, _DocType) when D =/= <<>> ->
+    ?err('SEPM0004');
+do_xml_declaration_2(false, true, _D, _O, _Enc, _DocType) ->
+    ?err('SEPM0004');
+do_xml_declaration_2(_Wellformed, omit, _D, false, Enc, DocType) ->
+    <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\"?>", DocType/binary>>;
+do_xml_declaration_2(_Wellformed, true, _D, false, Enc, DocType) ->
+    <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\" standalone=\"yes\"?>", DocType/binary>>;
+do_xml_declaration_2(_Wellformed, _Standalone, _D, false, Enc, DocType) ->
+    <<"<?xml version=\"1.0\" encoding=\"", Enc/binary, "\" standalone=\"no\"?>", DocType/binary>>;
+do_xml_declaration_2(_Wellformed, _Standalone, _D, _O, _Enc, DocType) ->
+    DocType.
 
 % takes children of document node
 html_doctype([#{nk := text, sv := Sv} | T], Opts) ->
@@ -1601,7 +1508,7 @@ is_void_element({_, _, <<"track">>}) -> true;
 is_void_element({_, _, <<"wbr">>}) -> true;
 is_void_element({_, _, _}) -> false.
 
-is_html_tag({?xhtml, _, _}, _) -> true;
+is_html_tag({?XHTML, _, _}, _) -> true;
 is_html_tag({<<>>, _, Tag}, 5.0) -> is_html_tag(string:lowercase(Tag));
 is_html_tag(_, _) -> false.
 

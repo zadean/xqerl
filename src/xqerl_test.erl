@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -59,21 +59,20 @@
 
 %% assert functions return either true or {false, Result}
 
+result_type_string(Result) when is_list(Result) ->
+    " as item()*";
+result_type_string(Result) when is_map(Result) andalso is_map_key(nk, Result) ->
+    " as node()";
+result_type_string(Result) when is_map(Result) ->
+    " as map(*)";
+result_type_string(Result) when element(1, Result) == array ->
+    " as array(*)";
+result_type_string(_) ->
+    " as item()*".
+
 %% assert                 (: run test query with result as variable == true :)
 assert(Result, QueryString) ->
-    Type =
-        if
-            is_list(Result) ->
-                " as item()*";
-            is_map(Result) andalso is_map_key(nk, Result) ->
-                " as node()";
-            is_map(Result) ->
-                " as map(*)";
-            element(1, Result) == array ->
-                " as array(*)";
-            true ->
-                " as item()*"
-        end,
+    Type = result_type_string(Result),
     NewQueryString =
         "declare variable $result" ++
             Type ++
@@ -86,11 +85,10 @@ assert(Result, QueryString) ->
             ?dbg("false", {false, {Res, Result, QueryString}}),
             {false, {Res, Result, QueryString}};
         Res1 ->
-            EBV = xqerl_operators:eff_bool_val(Res1),
-            if
-                EBV ->
-                    true;
+            case xqerl_operators:eff_bool_val(Res1) of
                 true ->
+                    true;
+                false ->
                     ?dbg("false", {false, {assert, Res1, Result, QueryString}}),
                     {false, {assert, Res1, QueryString}}
             end
@@ -98,12 +96,10 @@ assert(Result, QueryString) ->
 
 %% assert_empty           (: string value of result == [] :)
 assert_empty(Result) ->
-    StrVal = string_value(Result),
-    if
-        StrVal == []; StrVal == <<>> ->
-            true;
-        true ->
-            {false, {assert_empty, StrVal}}
+    case string_value(Result) of
+        [] -> true;
+        <<>> -> true;
+        StrVal -> {false, {assert_empty, StrVal}}
     end.
 
 %% assert_type            (: result instance of type :)
@@ -115,12 +111,9 @@ assert_type(Result, TypeString) ->
         {'EXIT', Res} ->
             {false, {assert_type, Res}};
         Res1 ->
-            StrVal = string_value(Res1),
-            if
-                StrVal == <<"true">> ->
-                    true;
-                true ->
-                    {false, {assert_type, Res1, TypeString}}
+            case string_value(Res1) of
+                <<"true">> -> true;
+                _ -> {false, {assert_type, Res1, TypeString}}
             end
     end.
 
@@ -138,59 +131,46 @@ assert_xml(Result, QueryString) when is_list(QueryString) ->
     assert_xml(Result, ?LB(QueryString));
 assert_xml(#xqError{} = Err, QueryString) ->
     {false, {assert_xml, Err, QueryString}};
-assert_xml(Result, QueryString0) ->
+assert_xml(Result, QueryString0) when is_binary(Result) ->
     QueryString = xqerl_lib:trim(QueryString0),
-    ResXml =
-        if
-            is_binary(Result) ->
-                Result;
-            true ->
-                xqerl_node:to_xml(Result)
-        end,
     % fragments sometimes only work this way
-    if
-        ResXml == QueryString ->
-            true;
-        true ->
-            try
-                ResXml2 = xqerl_mod_fn:'parse-xml-fragment'(
-                    #{'base-uri' => <<>>},
-                    ResXml
-                ),
-                %value = <<"<x>",ResXml/binary,"</x>">>}),
-                %?dbg("ResXml2",ResXml2),
-                QueryString2 =
-                    case
-                        catch xqerl_mod_fn:'parse-xml-fragment'(
-                            #{'base-uri' => <<>>},
-                            QueryString
-                        )
-                    of
-                        %value = <<"<x>",QueryString/binary,"</x>">>})
+    case Result == QueryString of
+        true -> true;
+        false -> assert_xml_1(Result, QueryString)
+    end;
+assert_xml(Result, QueryString0) ->
+    assert_xml(xqerl_node:to_xml(Result), QueryString0).
 
-                        {'EXIT', #xqError{}} ->
-                            xqerl:run(
-                                unicode:characters_to_list(
-                                    <<"document{ ", QueryString/binary, " }">>
-                                )
-                            );
-                        Other ->
-                            Other
-                    end,
-                Res1 = xqerl_node:nodes_equal(ResXml2, QueryString2, codepoint),
-                %?dbg("Res1",Res1),
-                %?dbg("StrVal",StrVal),
-                if
-                    Res1 ->
-                        true;
-                    true ->
-                        {false, {assert_xml, ResXml, QueryString}}
-                end
-            catch
-                _:_:Stack ->
-                    ?dbg("Stack", Stack),
-                    {false, {assert_xml, ResXml, QueryString}}
-            end
+assert_xml_1(Result, QueryString) ->
+    try
+        ResXml2 = xqerl_mod_fn:'parse-xml-fragment'(
+            #{'base-uri' => <<>>},
+            Result
+        ),
+        QueryString2 =
+            case
+                catch xqerl_mod_fn:'parse-xml-fragment'(
+                    #{'base-uri' => <<>>},
+                    QueryString
+                )
+            of
+                {'EXIT', #xqError{}} ->
+                    xqerl:run(
+                        unicode:characters_to_list(
+                            <<"document{ ", QueryString/binary, " }">>
+                        )
+                    );
+                Other ->
+                    Other
+            end,
+        case xqerl_node:nodes_equal(ResXml2, QueryString2, codepoint) of
+            true -> true;
+            false -> {false, {assert_xml, Result, QueryString}}
+        end
+    catch
+        _:_:Stack ->
+            ?dbg("Stack", Stack),
+            {false, {assert_xml, Result, QueryString}}
     end.
 
 assert_eq(Result, TypeString) ->
@@ -202,14 +182,9 @@ assert_eq(Result, TypeString) ->
             ?dbg("Res", Res),
             {false, Res};
         Res1 ->
-            %?dbg("Res1",Res1),
-            StrVal = string_value(Res1),
-            if
-                StrVal == <<"true">> ->
-                    true;
-                true ->
-                    %?dbg("Result",Result),
-                    {false, {assert_eq, Result, TypeString}}
+            case string_value(Res1) of
+                <<"true">> -> true;
+                _ -> {false, {assert_eq, Result, TypeString}}
             end
     end.
 
@@ -222,32 +197,19 @@ assert_deep_eq(Result, QueryString) ->
         {'EXIT', Res} ->
             {false, Res};
         Res1 ->
-            StrVal = string_value(Res1),
-            if
-                StrVal == <<"true">> ->
-                    true;
-                true ->
-                    {false, {assert_deep_eq, Result, QueryString}}
+            case string_value(Res1) of
+                <<"true">> -> true;
+                _ -> {false, {assert_deep_eq, Result, QueryString}}
             end
     end.
 
 %% assert_false           (: string value of result == 'true' :)
-assert_false(Result) ->
-    if
-        Result =/= false ->
-            {false, {assert_false, Result}};
-        true ->
-            true
-    end.
+assert_false(false) -> true;
+assert_false(Result) -> {false, {assert_false, Result}}.
 
 %% assert_true            (: string value of result == 'false' :)
-assert_true(Result) ->
-    if
-        Result ->
-            true;
-        true ->
-            {false, {assert_true, Result}}
-    end.
+assert_true(true) -> true;
+assert_true(Result) -> {false, {assert_true, Result}}.
 
 %% assert_permutation     (: take_while member(result, run test query) == [] :)
 %% the result should be a list of atomic values, the permute list also
@@ -257,59 +219,43 @@ assert_permutation(Result, PermuteString) ->
         {'EXIT', Res} ->
             {false, Res};
         Res1 ->
-            Rest = lists:foldl(
-                fun(R, Acc) ->
-                    Fnd = [
-                        A
-                        || A <- Acc,
-                           case catch xqerl_operators:equal(R, A) of
-                               true ->
-                                   true;
-                               _ ->
-                                   xqerl_types:value(A) == nan andalso
-                                       xqerl_types:value(R) == nan
-                           end
-                    ],
-                    case Fnd of
-                        [] ->
-                            Acc;
-                        [H | _] ->
-                            Acc -- [H]
-                    end
-                end,
-                Res1,
-                ensure_list(Result)
-            ),
-            if
-                Rest == [] ->
-                    true;
-                true ->
-                    {false, {assert_permutation, Rest, PermuteString, Result}}
+            case assert_permutation_1(ensure_list(Result), Res1, []) of
+                true -> true;
+                false -> {false, {assert_permutation, Res1, PermuteString, Result}}
             end
+    end.
+
+assert_permutation_1([], [], []) ->
+    true;
+assert_permutation_1(_, [], _) ->
+    false;
+assert_permutation_1([R1 | T1] = List1, [R2 | T2], Acc2) ->
+    case permute_equal(R1, R2) of
+        true -> assert_permutation_1(T1, T2 ++ Acc2, []);
+        false -> assert_permutation_1(List1, T2, [R2 | Acc2])
+    end.
+
+permute_equal(R1, R2) ->
+    case catch xqerl_operators:equal(R1, R2) of
+        true -> true;
+        _ -> xqerl_types:value(R1) == nan andalso xqerl_types:value(R2) == nan
     end.
 
 %% assert_count           (: fn:count(result) == cnt :)
 assert_count(Result, TypeString) ->
-    Cnt = list_to_integer(TypeString),
-    if
-        is_list(Result), length(Result) == Cnt ->
-            true;
-        Cnt == 1 ->
-            true;
-        true ->
-            {false, {assert_count, Result, TypeString}}
+    case list_to_integer(TypeString) of
+        Cnt when is_list(Result), length(Result) == Cnt -> true;
+        1 -> true;
+        true -> {false, {assert_count, Result, TypeString}}
     end.
 
 %% assert_string_value    (: string value of result == Str :)
 assert_string_value(Result, String) when is_list(String) ->
     assert_string_value(Result, ?LB(String));
 assert_string_value(Result, String) ->
-    StrVal = string_value(Result),
-    if
-        StrVal == String ->
-            true;
-        true ->
-            {false, {assert_string_value, StrVal, String}}
+    case string_value(Result) of
+        String -> true;
+        StrVal -> {false, {assert_string_value, StrVal, String}}
     end.
 
 assert_norm_string_value(Result, String) when is_list(String) ->
@@ -320,11 +266,9 @@ assert_norm_string_value(Result, String) ->
             string_value(Result)
         )
     ),
-    if
-        StrVal == String ->
-            true;
-        true ->
-            {false, {assert_norm_string_value, StrVal, String}}
+    case StrVal of
+        String -> true;
+        _ -> {false, {assert_norm_string_value, StrVal, String}}
     end.
 
 assert_serialization_match(#xqError{} = Err, _, _) ->
@@ -347,63 +291,40 @@ assert_serialization_match(Item, SchemaRegex, Flags) ->
 %% assert_error
 assert_error(Result, ErrorCode) when is_list(ErrorCode) ->
     assert_error(Result, list_to_binary(ErrorCode));
-assert_error(Result, ErrorCode) ->
-    case Result of
-        #xqError{
-            name = #xqAtomicValue{
-                value = #qname{
-                    namespace = ErrNs,
-                    local_name = Err
-                }
-            }
-        } ->
-            %_ = ets:insert(error_collector, Result),
-            if
-                Err == ErrorCode; ErrorCode == <<"*">> ->
-                    true;
-                true ->
-                    case
-                        <<"Q{}", Err/binary>> == ErrorCode andalso ErrNs == <<>> orelse
-                            <<"Q{", ErrNs/binary, "}", Err/binary>> == ErrorCode
-                    of
-                        true ->
-                            true;
-                        _ ->
-                            {true, Err}
-                    end
-            end;
+assert_error(
+    #xqError{name = #xqAtomicValue{value = #qname{local_name = Err}}},
+    ErrorCode
+) when Err == ErrorCode; ErrorCode == <<"*">> ->
+    true;
+assert_error(
+    #xqError{name = #xqAtomicValue{value = #qname{namespace = ErrNs, local_name = Err}}},
+    ErrorCode
+) ->
+    case error_name_match(ErrorCode, ErrNs, Err) of
+        true ->
+            true;
         _ ->
-            %StrVal = string_value(Result),
-            {false, {assert_error, Result, ErrorCode}}
-    end.
+            {true, Err}
+    end;
+assert_error(Result, ErrorCode) ->
+    {false, {assert_error, Result, ErrorCode}}.
 
 assert_serialization_error(Result, ErrorCode) when is_list(ErrorCode) ->
     assert_serialization_error(Result, list_to_binary(ErrorCode));
 assert_serialization_error(
-    #xqError{
-        name = #xqAtomicValue{
-            value = #qname{
-                namespace = ErrNs,
-                local_name = Err
-            }
-        }
-    } = _Result,
+    #xqError{name = #xqAtomicValue{value = #qname{local_name = Err}}},
+    ErrorCode
+) when Err == ErrorCode; ErrorCode == <<"*">> ->
+    true;
+assert_serialization_error(
+    #xqError{name = #xqAtomicValue{value = #qname{namespace = ErrNs, local_name = Err}}},
     ErrorCode
 ) ->
-    %_ = ets:insert(error_collector, _Result),
-    if
-        Err == ErrorCode; ErrorCode == <<"*">> ->
-            true;
+    case error_name_match(ErrorCode, ErrNs, Err) of
         true ->
-            case
-                <<"Q{}", Err/binary>> == ErrorCode andalso ErrNs == <<>> orelse
-                    <<"Q{", ErrNs/binary, "}", Err/binary>> == ErrorCode
-            of
-                true ->
-                    true;
-                _ ->
-                    {false, {Err, ErrorCode}}
-            end
+            true;
+        _ ->
+            {false, {Err, ErrorCode}}
     end;
 assert_serialization_error(Result, ErrorCode) ->
     case catch xqerl_serialize:serialize(Result, #{}) of
@@ -412,6 +333,11 @@ assert_serialization_error(Result, ErrorCode) ->
         Result1 ->
             {false, {assert_serialization_error, Result1, ErrorCode}}
     end.
+
+error_name_match(ErrorCode, <<>>, Err) ->
+    <<"Q{}", Err/binary>> == ErrorCode;
+error_name_match(ErrorCode, ErrNs, Err) ->
+    <<"Q{", ErrNs/binary, "}", Err/binary>> == ErrorCode.
 
 % normalize end-of-line characters
 normalize_lines(<<13, 10, T/binary>>, Acc) ->
@@ -445,17 +371,7 @@ run_suite(Suite, SubDir) ->
     ]).
 
 run_suites(SubDir, Suites) ->
-    LibDir = code:lib_dir(xqerl),
-    TestDir = filename:absname_join(LibDir, "test"),
-    TestSubDir = filename:join(TestDir, SubDir),
-    LogDir = filename:join(TestDir, "logs"),
-    %_ = delete_all_docs(),
-    ct:run_test([
-        {suite, Suites},
-        {dir, TestSubDir},
-        {logdir, LogDir},
-        {logopts, [no_src]}
-    ]).
+    run_suite(Suites, SubDir).
 
 ensure_list(L) when is_list(L) -> L;
 ensure_list(L) -> [L].
@@ -990,7 +906,7 @@ handle_environment(List) ->
     ),
     _ = file:set_cwd([TestDir]),
     Sources = get_value(sources, List),
-    _Schemas = get_value(schemas, List),
+    Schemas = get_value(schemas, List, []),
     Collections = get_value(collections, List),
     BaseUri = get_value('static-base-uri', List),
     Params = get_value(params, List),
@@ -1007,124 +923,19 @@ handle_environment(List) ->
 
     Map00 = #{default_collection => DefaultCollection},
     Map1 =
-        if
-            DeCollation == undefined ->
-                Map00;
-            true ->
-                Map00#{'default-collation' => ?LB(DeCollation)}
+        case DeCollation of
+            undefined -> Map00;
+            _ -> Map00#{'default-collation' => ?LB(DeCollation)}
         end,
-    _ = lists:foreach(
-        fun
-            ({_MediaType, File, Uri0}) ->
-                Uri = ?LB(Uri0),
-                case xqldb_dml:exists_resource(Uri) of
-                    true ->
-                        ok;
-                    false ->
-                        {ok, Bin} = file:read_file(File),
-                        xqldb_dml:insert_resource(Uri, Bin)
-                end;
-            ({File, Uri0}) ->
-                Uri = ?LB(Uri0),
-                case xqldb_dml:exists_resource(Uri) of
-                    true ->
-                        ok;
-                    false ->
-                        {ok, Bin} = file:read_file(File),
-                        xqldb_dml:insert_resource(Uri, Bin)
-                end
+    _ = lists:foreach(fun environment_resource/1, Resources),
+    _ = lists:foreach(fun(I) -> environment_collections(I, DefaultCollection) end, Collections),
+    {Sources1, EMap} = lists:mapfoldl(fun environment_docs/2, Map1, Sources),
+    Schemas1 = lists:flatmap(fun environment_schema/1, Schemas),
+    _ =
+        case Modules of
+            [] -> ok;
+            _ -> xqerl_code_server:unload(all)
         end,
-        Resources
-    ),
-    _ = lists:foreach(
-        fun({Uri0, CList}) ->
-            CollectionUri =
-                case ?LB(Uri0) of
-                    <<>> ->
-                        DefaultCollection;
-                    Other ->
-                        Other
-                end,
-
-            % collection test cannot be done in parallel
-            _ = xqldb_dml:delete_collection(CollectionUri),
-
-            case CList of
-                [{query, Base, Q}] ->
-                    Opts = #{
-                        'base-uri' => #xqAtomicValue{
-                            type = 'xs:anyURI',
-                            value = ?LB(xqldb_lib:filename_to_uri(Base ++ "/dummy.xq"))
-                        }
-                    },
-                    Items =
-                        case xqerl:run(Q, Opts) of
-                            L when is_list(L) -> L;
-                            L -> [L]
-                        end,
-                    ItemUri = xqldb_uri:join(CollectionUri, "stuff"),
-                    xqldb_dml:insert_item(ItemUri, Items),
-                    ok;
-                _ ->
-                    _ = [
-                        begin
-                            F = xqldb_lib:filename_to_uri(?LB(FileName0)),
-                            {_, BaseName} = xqldb_uri:split_uri(F),
-                            DocUri = xqldb_uri:join(CollectionUri, BaseName),
-                            catch xqldb_dml:insert_doc(DocUri, FileName0)
-                        end
-                        || {src, FileName0} <- CList
-                    ],
-                    ok
-            end
-        end,
-        Collections
-    ),
-    {Sources1, EMap} =
-        lists:mapfoldl(
-            fun({File0, Role, Uri0}, Map) ->
-                FileUri = ?LB(xqldb_uri:filename_to_uri(File0)),
-                Uri2 =
-                    if
-                        Uri0 == [] ->
-                            FileUri;
-                        Uri0 == File0 ->
-                            FileUri;
-                        true ->
-                            ?LB(Uri0)
-                    end,
-                catch xqldb_dml:insert_doc(Uri2, File0),
-                %?dbg("File0",File0),
-                %?dbg("Uri2 ",Uri2),
-                %?dbg("Role",Role),
-                if
-                    Role == "." ->
-                        Doc = xqldb_dml:select_doc(Uri2),
-                        {"", Map#{'context-item' => {Doc, 1}}};
-                    Role == "" ->
-                        {"", Map};
-                    true ->
-                        {"declare variable " ++
-                                Role ++
-                                " := Q{http://www.w3.org/2005/xpath-functions}doc('" ++
-                                unicode:characters_to_list(Uri2) ++ "');\n",
-                            Map}
-                end
-            end,
-            Map1,
-            Sources
-        ),
-    Schemas1 = "",
-    %%    Schemas1 = lists:map(fun({File,Uri}) ->
-    %%                               "import schema default element namespace '" ++
-    %%                                 Uri ++ "' at '" ++ File ++ "';\n"
-    %%              end, Schemas),
-    if
-        Modules =/= [] ->
-            xqerl_code_server:unload(all);
-        true ->
-            ok
-    end,
     ModulesP = [
         {File, ?LB(Uri)}
         || {File, Uri} <- Modules
@@ -1136,116 +947,161 @@ handle_environment(List) ->
         Modules
     ),
 
-    DecFormats1 = lists:map(
-        fun
-            ({"", Values}) ->
-                "declare default decimal-format \n" ++
-                    lists:flatmap(
-                        fun({K, V}) ->
-                            " " ++
-                                atom_to_list(K) ++
-                                "='" ++
-                                V ++ "' \n"
-                        end,
-                        Values
-                    ) ++
-                    ";";
-            ({Name, Values}) ->
-                "declare decimal-format " ++
-                    Name ++
-                    " \n" ++
-                    lists:flatmap(
-                        fun({K, V}) ->
-                            " " ++
-                                atom_to_list(K) ++
-                                "='" ++
-                                V ++ "' \n"
-                        end,
-                        Values
-                    ) ++
-                    ";"
-        end,
-        DecFormats
-    ),
+    DecFormats1 = lists:map(fun environment_dec_format/1, DecFormats),
 
     % these can be complex queries, so compile/run instead of just exec
-    Params1 = lists:foldl(
-        fun
-            ({Name, "", Value}, Map) ->
-                Val = xqerl:run(Value),
-                Map#{?LB(Name) => Val};
-            ({Name, As, Value}, Map) ->
-                Val = xqerl:run(Value ++ " cast as " ++ As),
-                Map#{?LB(Name) => Val}
-        end,
-        EMap,
-        Params
-    ),
-    Namespaces1 = lists:foldl(
-        fun({Uri, Prefix}, Map) ->
-            Ns = maps:get(namespaces, Map, []),
-            NewNs = lists:keystore(
-                ?LB(Prefix),
-                1,
-                Ns,
-                {?LB(Prefix), ?LB(Uri)}
-            ),
-            Map#{namespaces => NewNs}
-        end,
-        Params1,
-        Namespaces
-    ),
-    ContextItem1 = lists:foldl(
-        fun
-            ("", Map) ->
-                Map;
-            (C, Map) ->
-                R = xqerl:run(C),
-                Map#{'context-item' => {R, 1}}
-        end,
-        Namespaces1,
-        ContextItem
-    ),
-    BaseUri1 =
-        case BaseUri of
-            % undefined
-            [{[]}] ->
-                ContextItem1#{
-                    'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = <<"#UNDEFINED">>}
-                };
-            [{Buv}] ->
-                ContextItem1#{'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = ?LB(Buv)}};
-            [] ->
-                ContextItem1
-        end,
-    %?dbg("BaseUri1",BaseUri1),
-    Namespaces2 = lists:map(
-        fun
-            ({Uri, ""}) ->
-                "declare default element namespace '" ++
-                    Uri ++ "';\n";
-            % block statically known
-            ({"http://www.w3.org/2005/xpath-functions/math", "math"}) ->
-                "";
-            ({"http://www.w3.org/2005/xpath-functions/array", "array"}) ->
-                "";
-            ({"http://www.w3.org/2005/xpath-functions/map", "map"}) ->
-                "";
-            ({Uri, Prefix}) ->
-                "declare namespace " ++ Prefix ++ " = '" ++ Uri ++ "';\n"
-        end,
-        Namespaces
-    ),
-    Vars1 = lists:map(
-        fun
-            ({Name, "", Value}) ->
-                "declare variable $" ++ Name ++ " := " ++ Value ++ ";\n";
-            ({Name, As, Value}) ->
-                "declare variable $" ++ Name ++ " as " ++ As ++ " := " ++ Value ++ ";\n"
-        end,
-        Vars
-    ),
+    Params1 = lists:foldl(fun environment_params/2, EMap, Params),
+    Namespaces1 = lists:foldl(fun environment_namespace/2, Params1, Namespaces),
+    ContextItem1 = lists:foldl(fun environment_context_item/2, Namespaces1, ContextItem),
+    BaseUri1 = environment_base_uri(BaseUri, ContextItem1),
+    Namespaces2 = lists:map(fun environment_namespace_1/1, Namespaces),
+    Vars1 = lists:map(fun environment_variable/1, Vars),
     {Sources1 ++ Schemas1 ++ DecFormats1 ++ Namespaces2 ++ Vars1, BaseUri1}.
+
+environment_resource({_MediaType, File, Uri0}) -> environment_resource_1(File, Uri0);
+environment_resource({File, Uri0}) -> environment_resource_1(File, Uri0).
+
+environment_resource_1(File, Uri0) ->
+    Uri = ?LB(Uri0),
+    case xqldb_dml:exists_resource(Uri) of
+        true ->
+            ok;
+        false ->
+            {ok, Bin} = file:read_file(File),
+            xqldb_dml:insert_resource(Uri, Bin)
+    end.
+
+environment_collections({Uri0, CList}, DefaultCollection) ->
+    CollectionUri =
+        case ?LB(Uri0) of
+            <<>> ->
+                DefaultCollection;
+            Other ->
+                Other
+        end,
+
+    % collection test cannot be done in parallel
+    _ = xqldb_dml:delete_collection(CollectionUri),
+
+    case CList of
+        [{query, Base, Q}] ->
+            Opts = #{
+                'base-uri' => #xqAtomicValue{
+                    type = 'xs:anyURI',
+                    value = ?LB(xqldb_lib:filename_to_uri(Base ++ "/dummy.xq"))
+                }
+            },
+            Items =
+                case xqerl:run(Q, Opts) of
+                    L when is_list(L) -> L;
+                    L -> [L]
+                end,
+            ItemUri = xqldb_uri:join(CollectionUri, "stuff"),
+            xqldb_dml:insert_item(ItemUri, Items),
+            ok;
+        _ ->
+            _ = [
+                begin
+                    F = xqldb_lib:filename_to_uri(?LB(FileName0)),
+                    {_, BaseName} = xqldb_uri:split_uri(F),
+                    DocUri = xqldb_uri:join(CollectionUri, BaseName),
+                    catch xqldb_dml:insert_doc(DocUri, FileName0)
+                end
+                || {src, FileName0} <- CList
+            ],
+            ok
+    end.
+
+environment_schema(_) -> "".
+
+% environment_schema({File,Uri}) -> "import schema default element namespace '" ++ Uri ++ "' at '" ++ File ++ "';\n".
+
+environment_docs({File0, Role, Uri0}, Map) ->
+    FileUri = ?LB(xqldb_uri:filename_to_uri(File0)),
+    Uri2 =
+        case Uri0 of
+            [] -> FileUri;
+            File0 -> FileUri;
+            _ -> ?LB(Uri0)
+        end,
+    _ = (catch xqldb_dml:insert_doc(Uri2, File0)),
+    case Role of
+        "." ->
+            Doc = xqldb_dml:select_doc(Uri2),
+            {"", Map#{'context-item' => {Doc, 1}}};
+        "" ->
+            {"", Map};
+        _ ->
+            {"declare variable " ++
+                    Role ++
+                    " := Q{http://www.w3.org/2005/xpath-functions}doc('" ++
+                    unicode:characters_to_list(Uri2) ++ "');\n",
+                Map}
+    end.
+
+environment_dec_format({"", Values}) ->
+    "declare default decimal-format \n" ++
+        lists:flatmap(fun environment_dec_format_vals/1, Values) ++
+        ";";
+environment_dec_format({Name, Values}) ->
+    "declare decimal-format " ++
+        Name ++
+        " \n" ++
+        lists:flatmap(fun environment_dec_format_vals/1, Values) ++
+        ";".
+
+environment_dec_format_vals({K, V}) ->
+    " " ++ atom_to_list(K) ++ "='" ++ V ++ "' \n".
+
+environment_params({Name, "", Value}, Map) ->
+    Val = xqerl:run(Value),
+    Map#{?LB(Name) => Val};
+environment_params({Name, As, Value}, Map) ->
+    Val = xqerl:run(Value ++ " cast as " ++ As),
+    Map#{?LB(Name) => Val}.
+
+environment_namespace({Uri, Prefix}, Map) ->
+    Ns = maps:get(namespaces, Map, []),
+    NewNs = lists:keystore(
+        ?LB(Prefix),
+        1,
+        Ns,
+        {?LB(Prefix), ?LB(Uri)}
+    ),
+    Map#{namespaces => NewNs}.
+
+environment_context_item("", Map) ->
+    Map;
+environment_context_item(C, Map) ->
+    R = xqerl:run(C),
+    Map#{'context-item' => {R, 1}}.
+
+environment_base_uri([{[]}], ContextItem) ->
+    % undefined
+    ContextItem#{
+        'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = <<"#UNDEFINED">>}
+    };
+environment_base_uri([{Buv}], ContextItem) ->
+    ContextItem#{'base-uri' => #xqAtomicValue{type = 'xs:anyURI', value = ?LB(Buv)}};
+environment_base_uri([], ContextItem) ->
+    ContextItem.
+
+environment_namespace_1({Uri, ""}) ->
+    "declare default element namespace '" ++ Uri ++ "';\n";
+% block statically known
+environment_namespace_1({"http://www.w3.org/2005/xpath-functions/math", "math"}) ->
+    "";
+environment_namespace_1({"http://www.w3.org/2005/xpath-functions/array", "array"}) ->
+    "";
+environment_namespace_1({"http://www.w3.org/2005/xpath-functions/map", "map"}) ->
+    "";
+environment_namespace_1({Uri, Prefix}) ->
+    "declare namespace " ++ Prefix ++ " = '" ++ Uri ++ "';\n".
+
+environment_variable({Name, "", Value}) ->
+    "declare variable $" ++ Name ++ " := " ++ Value ++ ";\n";
+environment_variable({Name, As, Value}) ->
+    "declare variable $" ++ Name ++ " as " ++ As ++ " := " ++ Value ++ ";\n".
 
 load_qt3_xml() ->
     TestDir = filename:join(

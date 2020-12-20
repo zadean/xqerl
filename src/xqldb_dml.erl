@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -81,7 +81,7 @@
 
 -export([insert_item/2, insert_item/3]).
 
--define(bin(Bin), #xqAtomicValue{type = 'xs:base64Binary', value = Bin}).
+-define(BIN(Bin), #xqAtomicValue{type = 'xs:base64Binary', value = Bin}).
 
 % used by fn:uri-collection
 select_paths(#{trans := Agent}, Uri) ->
@@ -391,17 +391,19 @@ select_item(#{trans := Agent}, DocUri) when is_binary(DocUri) ->
             end
     end.
 
+create_or_open_db(DbUri) ->
+    case xqldb_db:exists(DbUri) of
+        false ->
+            _ = xqldb_db:open(DbUri),
+            xqldb_db:database(DbUri);
+        true ->
+            xqldb_db:database(DbUri)
+    end.
+
 % called from test suite out of transaction
 insert_item(DocUri, Item) when is_binary(DocUri) ->
     {DbUri, Name} = xqldb_uri:split_uri(DocUri),
-    DB =
-        case xqldb_db:exists(DbUri) of
-            false ->
-                _ = xqldb_db:open(DbUri),
-                xqldb_db:database(DbUri);
-            true ->
-                xqldb_db:database(DbUri)
-        end,
+    DB = create_or_open_db(DbUri),
     Stamp = erlang:system_time(),
     Bin = term_to_binary(Item),
     PosSize = xqldb_resource_table:insert(DB, Bin),
@@ -417,14 +419,7 @@ insert_item(DB, Name, Item) ->
 insert_doc_as_collection(DocUri, Filename, BasePath) when is_binary(DocUri) ->
     ReplyTo = self(),
     {DbUri, Name} = xqldb_uri:split_uri(DocUri),
-    DB =
-        case xqldb_db:exists(DbUri) of
-            false ->
-                _ = xqldb_db:open(DbUri),
-                xqldb_db:database(DbUri);
-            true ->
-                xqldb_db:database(DbUri)
-        end,
+    DB = create_or_open_db(DbUri),
     InsFun = fun(Events) ->
         F = fun() ->
             Self = self(),
@@ -548,7 +543,8 @@ new_agent() ->
     ]),
     Agent.
 
-%% Takes a list of {DB, insert | delete, Rec} where Rec is what is to inserted to the path table or the name of the Rec by delete.
+%% Takes a list of {DB, insert | delete, Rec} where Rec is what is to inserted to the path table or
+% the name of the Rec by delete.
 -spec commit([{map(), insert | delete, tuple() | binary()}]) -> ok.
 commit(Transaction) ->
     _ = [
@@ -589,17 +585,17 @@ normalize_item(#{tab := Tab}, {_, link, _, Filename}, _) ->
     Key = {remote, link, Filename},
     case ets:lookup(Tab, Key) of
         [Obj] ->
-            ?bin(Obj);
+            ?BIN(Obj);
         [] ->
             {ok, Bin} = file:read_file(Filename),
             ets:insert(Tab, {Key, Bin}),
-            ?bin(Bin)
+            ?BIN(Bin)
     end;
 normalize_item(_, {_, text, _, {Pos, Len}}, DB) ->
     xqldb_resource_table:get(DB, {Pos, Len});
 normalize_item(_, {_, raw, _, {Pos, Len}}, DB) ->
     Bin = xqldb_resource_table:get(DB, {Pos, Len}),
-    ?bin(Bin);
+    ?BIN(Bin);
 normalize_item(_, {_, item, _, {Pos, Len}}, DB) ->
     Res = xqldb_resource_table:get(DB, {Pos, Len}),
     binary_to_term(Res, [safe]).

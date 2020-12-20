@@ -1,4 +1,26 @@
-%% http://xqerl.org/modules/random
+%% -------------------------------------------------------------------
+%%
+%% xqerl - XQuery processor
+%%
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
+%%
+%% This file is provided to you under the Apache License,
+%% Version 2.0 (the "License"); you may not use this file
+%% except in compliance with the License.  You may obtain
+%% a copy of the License at
+%%
+%%   http://www.apache.org/licenses/LICENSE-2.0
+%%
+%% Unless required by applicable law or agreed to in writing,
+%% software distributed under the License is distributed on an
+%% "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+%% KIND, either express or implied.  See the License for the
+%% specific language governing permissions and limitations
+%% under the License.
+%%
+%% -------------------------------------------------------------------
+
+%% @doc Implementation of the "http://xqerl.org/modules/random" namespace.
 
 -module(xqerl_mod_rand).
 
@@ -63,11 +85,9 @@ uuid(_) ->
     quickrand:seed(),
     uuid:uuid_to_string(uuid:get_v4_urandom(), binary_standard).
 
-double(_) ->
-    rand:uniform().
+double(_) -> rand:uniform().
 
-integer(_) ->
-    rand:uniform(?MAXINT) - 1.
+integer(_) -> rand:uniform(?MAXINT) - 1.
 
 integer(_, 1) ->
     0;
@@ -76,12 +96,8 @@ integer(_, Max) when is_integer(Max), Max >= 2 ->
 integer(_, Max) when is_integer(Max), Max < 2 ->
     throw({error, negative});
 integer(Ctx, Max) ->
-    case xqerl_types:cast_as(Max, 'xs:integer') of
-        Nm when is_integer(Nm), Max > 0 ->
-            integer(Ctx, Nm);
-        _ ->
-            ?err('XPTY0004')
-    end.
+    Nm = cast_to_integer(Max),
+    integer(Ctx, Nm).
 
 seeded_double(_, _, 0) ->
     [];
@@ -91,17 +107,9 @@ seeded_double(_, SeedInt, CntInt) when is_integer(SeedInt), is_integer(CntInt), 
 seeded_double(_, _, CntInt) when is_integer(CntInt), CntInt < 0 ->
     throw({error, negative});
 seeded_double(Ctx, SeedInt, CntInt) ->
-    case xqerl_types:cast_as(SeedInt, 'xs:integer') of
-        Ns when is_integer(Ns) ->
-            case xqerl_types:cast_as(CntInt, 'xs:integer') of
-                Nc when is_integer(Nc) ->
-                    seeded_double(Ctx, Ns, Nc);
-                _ ->
-                    ?err('XPTY0004')
-            end;
-        _ ->
-            ?err('XPTY0004')
-    end.
+    Ns = cast_to_integer(SeedInt),
+    Nc = cast_to_integer(CntInt),
+    seeded_double(Ctx, Ns, Nc).
 
 seeded_double_1(_, 0) ->
     [];
@@ -109,8 +117,7 @@ seeded_double_1(State, Cnt) ->
     {Dbl, NewState} = rand:uniform_s(State),
     [Dbl | seeded_double_1(NewState, Cnt - 1)].
 
-seeded_integer(Ctx, SeedInt, CntInt) ->
-    seeded_integer(Ctx, SeedInt, CntInt, ?MAXINT).
+seeded_integer(Ctx, SeedInt, CntInt) -> seeded_integer(Ctx, SeedInt, CntInt, ?MAXINT).
 
 seeded_integer(_, _, 0, _) ->
     [];
@@ -124,22 +131,10 @@ seeded_integer(_, _, CntInt, _) when is_integer(CntInt), CntInt < 0 ->
 seeded_integer(_, _, _, MaxInt) when is_integer(MaxInt), MaxInt < 1 ->
     throw({error, negative});
 seeded_integer(Ctx, SeedInt, CntInt, MaxInt) ->
-    case xqerl_types:cast_as(SeedInt, 'xs:integer') of
-        Ns when is_integer(Ns) ->
-            case xqerl_types:cast_as(CntInt, 'xs:integer') of
-                Nc when is_integer(Nc) ->
-                    case xqerl_types:cast_as(MaxInt, 'xs:integer') of
-                        Nm when is_integer(Nm) ->
-                            seeded_integer(Ctx, Ns, Nc, Nm);
-                        _ ->
-                            ?err('XPTY0004')
-                    end;
-                _ ->
-                    ?err('XPTY0004')
-            end;
-        _ ->
-            ?err('XPTY0004')
-    end.
+    Ns = cast_to_integer(SeedInt),
+    Nc = cast_to_integer(CntInt),
+    Nm = cast_to_integer(MaxInt),
+    seeded_integer(Ctx, Ns, Nc, Nm).
 
 seeded_integer_1(_, _, 0) ->
     [];
@@ -162,8 +157,15 @@ seeded_permutation(_, SeedInt, List) when is_integer(SeedInt) ->
     [V || {_, V} <- lists:sort(Zipped)].
 
 %% ?err('XPTY0004')
-%% 
+%%
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+cast_to_integer(Val) ->
+    case xqerl_types:cast_as(Val, 'xs:integer') of
+        Int when is_integer(Int) ->
+            Int;
+        _ ->
+            ?err('XPTY0004')
+    end.

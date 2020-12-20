@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -116,7 +116,7 @@
 %%                  nsp_on   => list({_,_}),
 %%                  nsp_off  => list({_,_,_})}.
 
--define(u2b(S),
+-define(U2B(S),
     if
         is_binary(S) -> S;
         is_list(S) -> unicode:characters_to_binary(S)
@@ -684,12 +684,12 @@ event(
         nsps := Nsps
     } = State
 ) ->
-    Prefix = ?u2b(PrefixS),
-    Uri = ?u2b(UriS),
+    Prefix = ?U2B(PrefixS),
+    Uri = ?U2B(UriS),
     N = {Uri, Prefix},
     State#{nsp_on := [N | On], has_ns := true, nsps := [N | Nsps]};
 event({endPrefixMapping, PrefixS}, _, #{nsp_on := On} = State) ->
-    Prefix = ?u2b(PrefixS),
+    Prefix = ?U2B(PrefixS),
     On1 = pop_uri(On, Prefix),
     State#{nsp_on := On1};
 event(
@@ -705,8 +705,8 @@ event(
         nsps := Nsps
     } = State
 ) ->
-    Uri = ?u2b(UriS),
-    Prefix = ?u2b(PrefixS),
+    Uri = ?U2B(UriS),
+    Prefix = ?U2B(PrefixS),
     ok =
         case
             [
@@ -721,30 +721,23 @@ event(
             _ ->
                 ok
         end,
-    NodeName = {Uri, Prefix, ?u2b(LocalNameS)},
+    NodeName = {Uri, Prefix, ?U2B(LocalNameS)},
     %%
     {Atts, State1} = att_events(Attributes, [], State#{pos := Pos + 1}),
-    Elem =
-        if
-            is_map_key(base_uri, State1) ->
-                element({Ref, Pos}, NodeName, maps:get(base_uri, State1), 'xs:untyped');
-            true ->
-                element({Ref, Pos}, NodeName, 'xs:untyped')
+    {Elem, State2} =
+        case State1 of
+            #{base_uri := B} ->
+                {element({Ref, Pos}, NodeName, B, 'xs:untyped'), maps:remove(base_uri, State1)};
+            _ ->
+                {element({Ref, Pos}, NodeName, 'xs:untyped'), State1}
         end,
     Elem1 = lists:foldl(fun(A, Acc) -> add_attribute(Acc, A) end, Elem, Atts),
     Elem2 =
-        if
-            HasNs ->
+        case HasNs of
+            true ->
                 lists:foldl(fun(A, Acc) -> add_namespace(Acc, A) end, Elem1, Nsps);
-            true ->
+            false ->
                 Elem1
-        end,
-    State2 =
-        if
-            is_map_key(base_uri, State1) ->
-                maps:remove(base_uri, State1);
-            true ->
-                State1
         end,
     State2#{
         parent := [{Pos, Elem2} | Ps],
@@ -774,7 +767,7 @@ event(
         chld_stk := [Pc, NodeStk]
     } = State
 ) ->
-    Value = ?u2b(String),
+    Value = ?U2B(String),
     Node = text({Ref, Pos}, Value),
     State#{
         pos := Pos + 1,
@@ -782,8 +775,8 @@ event(
     };
 % could ignore with a setting
 %% event({ignorableWhitespace, _}, _, State) -> State;
-event({ignorableWhitespace, String}, _L, State) ->
-    event({characters, String}, _L, State);
+event({ignorableWhitespace, String}, L, State) ->
+    event({characters, String}, L, State);
 event(
     {processingInstruction, Target, Data},
     _,
@@ -793,8 +786,8 @@ event(
         chld_stk := [Pc, NodeStk]
     } = State
 ) ->
-    Value = ?u2b(Data),
-    NodeName = {<<>>, <<>>, ?u2b(Target)},
+    Value = ?U2B(Data),
+    NodeName = {<<>>, <<>>, ?U2B(Target)},
     Node = processing_instruction({Ref, Pos}, NodeName, Value),
     State#{
         pos := Pos + 1,
@@ -809,14 +802,14 @@ event(
         chld_stk := [Pc, NodeStk]
     } = State
 ) ->
-    Value = ?u2b(String),
+    Value = ?U2B(String),
     Node = comment({Ref, Pos}, Value),
     State#{
         pos := Pos + 1,
         chld_stk := [[Node | Pc], NodeStk]
     };
 event({baseUri, String}, _, State) ->
-    Value = ?u2b(String),
+    Value = ?U2B(String),
     State#{base_uri => Value};
 event(
     {attribute, {UriS, PrefixS, AttributeNameS, ValueS}},
@@ -827,8 +820,8 @@ event(
         doc_ref := Ref
     } = State
 ) ->
-    Value = ?u2b(ValueS),
-    NodeName = {?u2b(UriS), ?u2b(PrefixS), ?u2b(AttributeNameS)},
+    Value = ?U2B(ValueS),
+    NodeName = {?U2B(UriS), ?U2B(PrefixS), ?U2B(AttributeNameS)},
     Node = attribute({Ref, Pos}, NodeName, Value, false, false, 'xs:untypedAtomic'),
     State#{
         pos := Pos + 1,
@@ -853,19 +846,19 @@ att_events(
         doc_ref := Ref
     } = State
 ) when Xml == <<"xml">> andalso Base == <<"base">>; Xml == "xml" andalso Base == "base" ->
-    Value = ?u2b(ValueS),
-    NodeName = {?u2b(UriS), <<"xml">>, <<"base">>},
+    Value = ?U2B(ValueS),
+    NodeName = {?U2B(UriS), <<"xml">>, <<"base">>},
     NewBaseUri =
-        if
-            is_map_key(base_uri, State) ->
-                case catch xqldb_lib:join_uris(maps:get(base_uri, State), Value) of
+        case State of
+            #{base_uri := Bu} ->
+                case catch xqldb_lib:join_uris(Bu, Value) of
                     {error, _} ->
                         % invalid URI joins are empty
                         <<>>;
                     B ->
                         B
                 end;
-            true ->
+            _ ->
                 Value
         end,
     Att = attribute({Ref, Pos}, NodeName, Value, false, false, 'xs:untypedAtomic'),
@@ -878,8 +871,8 @@ att_events(
         doc_ref := Ref
     } = State
 ) ->
-    Value = ?u2b(ValueS),
-    NodeName = {?u2b(UriS), ?u2b(PrefixS), ?u2b(AttributeNameS)},
+    Value = ?U2B(ValueS),
+    NodeName = {?U2B(UriS), ?U2B(PrefixS), ?U2B(AttributeNameS)},
     Att = attribute({Ref, Pos}, NodeName, Value, false, false, 'xs:untypedAtomic'),
     att_events(T, [Att | Acc], State#{pos := Pos + 1});
 att_events([], Acc, State) ->

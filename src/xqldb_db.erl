@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -73,7 +73,7 @@ close(Uri) ->
             xqldb_db_server:close({Uri, Id}),
             % close index nicely then sup
             #{index := Ind} = db_ref(Pid),
-            ?INDEX:stop(Ind),
+            xqldb_idx_mi:stop(Ind),
             _ = supervisor:terminate_child(xqldb_db_sup, Pid),
             ok;
         _ ->

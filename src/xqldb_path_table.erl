@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -294,6 +294,6 @@ code_change(_, State, _) -> {ok, State}.
 %% Can/Should be moved out into own area that makes sense.
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 maybe_delete_doc_ref(DB, DocId) ->
-    ok = ?INDEX:delete(DB, DocId),
+    ok = xqldb_idx_mi:delete(DB, DocId),
     _ = xqldb_query_server:delete(DB, DocId),
     ok.

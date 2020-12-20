@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2018-2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2018-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -88,13 +88,10 @@ document(UriRef) ->
     <<?document, UriRef/binary>>.
 
 %% e - Kind:8 |         | Name:21 | Ns:11 | NsF:1 | Atts:7 = 48
-element(NameRef, NsRef, PxRef, HasNs, AttCnt) ->
-    H =
-        if
-            HasNs -> 1;
-            true -> 0
-        end,
-    <<?element, NameRef:24/integer, NsRef:12/integer, PxRef:12/integer, H:1, AttCnt:7/integer>>.
+element(NameRef, NsRef, PxRef, true, AttCnt) ->
+    <<?element, NameRef:24/integer, NsRef:12/integer, PxRef:12/integer, 1:1, AttCnt:7/integer>>;
+element(NameRef, NsRef, PxRef, _, AttCnt) ->
+    <<?element, NameRef:24/integer, NsRef:12/integer, PxRef:12/integer, 0:1, AttCnt:7/integer>>.
 
 %% t - Kind:8 | Text:32 |                 = 40
 text(TextRef) ->
@@ -314,7 +311,7 @@ iterator_to_node_list([], _) ->
 
 local_doc(DbPid, DocId) ->
     DB = xqerl_context:get_db(DbPid),
-    [Node] = ?INDEX:lookup_node(DB, DocId, []),
+    [Node] = xqldb_idx_mi:lookup_node(DB, DocId, []),
     db_node_to_node(DB, Node).
 
 namespace_nodes(#{id := {DbPid, DocId, NodeId}}) ->
@@ -342,7 +339,7 @@ document_uri(_) ->
 
 base_uri(#{id := {DbPid, DocId, _}} = Node) ->
     #{uri := DbUri} = DB = xqerl_context:get_db(DbPid),
-    [Doc] = ?INDEX:lookup_node(DB, DocId, []),
+    [Doc] = xqldb_idx_mi:lookup_node(DB, DocId, []),
     #{du := U} = db_node_to_node(DB, Doc),
     Base = xqldb_uri:join(DbUri, U),
     Ancestors = ancestors(Node),
@@ -394,7 +391,7 @@ preceding(
     case xqerl_lib:lget(Key) of
         undefined ->
             DB = xqerl_context:get_db(DbPid),
-            Res = ?INDEX:lookup_preceding(DB, DocId, NodeId),
+            Res = xqldb_idx_mi:lookup_preceding(DB, DocId, NodeId),
             % reversed results for predicates
             Out = lists:reverse(iterator_to_node_list(Res, DB)),
             xqerl_lib:lput(Key, Out);
@@ -414,7 +411,7 @@ following(
     case xqerl_lib:lget(Key) of
         undefined ->
             DB = xqerl_context:get_db(DbPid),
-            Res = ?INDEX:lookup_following(DB, DocId, NodeId),
+            Res = xqldb_idx_mi:lookup_following(DB, DocId, NodeId),
             Out = iterator_to_node_list(Res, DB),
             xqerl_lib:lput(Key, Out);
         Out ->
@@ -468,7 +465,7 @@ parent(
     case xqerl_lib:lget(Key) of
         undefined ->
             DB = xqerl_context:get_db(DbPid),
-            Res = ?INDEX:lookup_node(DB, DocId, ParentId),
+            Res = xqldb_idx_mi:lookup_node(DB, DocId, ParentId),
             [Out] = iterator_to_node_list(Res, DB),
             xqerl_lib:lput(Key, Out);
         Out ->
@@ -488,7 +485,7 @@ children(
     case xqerl_lib:lget(Key) of
         undefined ->
             DB = xqerl_context:get_db(DbPid),
-            Res = ?INDEX:lookup_children(DB, DocId, NodeId),
+            Res = xqldb_idx_mi:lookup_children(DB, DocId, NodeId),
             Out =
                 case iterator_to_node_list(Res, DB) of
                     O when Nk == document ->
@@ -516,7 +513,7 @@ attributes(_) ->
     [].
 
 get_single_node(DB, DocId, NodeId) ->
-    Res = ?INDEX:lookup_node(DB, DocId, NodeId),
+    Res = xqldb_idx_mi:lookup_node(DB, DocId, NodeId),
     [Out] = iterator_to_node_list(Res, DB),
     Out.
 
@@ -586,16 +583,16 @@ deep_copy_node(#{
         #{<<>> => <<>>},
         NsMaps
     ),
-    Iter = ?INDEX:lookup_tree(DB, DocId, NodeId),
+    Iter = xqldb_idx_mi:lookup_tree(DB, DocId, NodeId),
     List =
-        if
-            Nk == document ->
+        case Nk of
+            document ->
                 Filter = fun
                     (#{nk := text, id := {_, _, [_]}}) -> false;
                     (_) -> true
                 end,
                 lists:filter(Filter, iterator_to_node_list(Iter, DB));
-            true ->
+            _ ->
                 iterator_to_node_list(Iter, DB)
         end,
     {[B], []} = build_node_from_list(
@@ -641,11 +638,10 @@ build_node_from_list(
     Siblings,
     Ref
 ) when Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
-    Nd = node_depth(N),
-    if
-        Nd == Depth ->
+    case node_depth(N) of
+        Depth ->
             build_node_from_list(T, DB, Depth, [N#{id := {Ref, Id}} | Siblings], Ref);
-        Nd < Depth ->
+        Nd when Nd < Depth ->
             {lists:reverse(Siblings), [N | T]}
     end;
 % everything should return {Siblings, Rest}
@@ -671,10 +667,10 @@ build_node_from_list(
             {lists:reverse(Siblings), [N | T]};
         false ->
             Ins1 =
-                if
-                    HasNs ->
-                        maps:merge(Ins, get_namespaces(DB, DocId, Id));
+                case HasNs of
                     true ->
+                        maps:merge(Ins, get_namespaces(DB, DocId, Id));
+                    false ->
                         Ins
                 end,
             {Atts, Rest} =
@@ -744,7 +740,7 @@ take_attributes(List, Atts, _DB, _Ref) ->
     {Atts, List}.
 
 get_namespaces(DB, DocId, NodeId) ->
-    ?INDEX:lookup_namespaces(DB, DocId, NodeId).
+    xqldb_idx_mi:lookup_namespaces(DB, DocId, NodeId).
 
 get_string_value(Ref, _) when byte_size(Ref) < 64 ->
     Ref;
@@ -820,4 +816,3 @@ iterator_to_dbl_set_1([], _) ->
 %% split_id(<<A:32/integer, Rest/binary>>) ->
 %%    [A|split_id(Rest)];
 %% split_id(<<>>) -> [].
-  

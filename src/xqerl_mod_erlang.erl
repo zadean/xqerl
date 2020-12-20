@@ -2,7 +2,7 @@
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2019 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2019-2020 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -33,12 +33,12 @@
 -define(NS, <<"http://xqerl.org/modules/erlang">>).
 -define(PX, <<"erlang">>).
 
--define(av(T, V), #xqAtomicValue{type = T, value = V}).
+-define(AV(T, V), #xqAtomicValue{type = T, value = V}).
 
 % block array:array(_) warnings
 -dialyzer(no_opaque).
 
--define(is_array(A), is_tuple(A), element(1, A) =:= array).
+-define(IS_ARRAY(A), is_tuple(A), element(1, A) =:= array).
 
 %% ====================================================================
 %% API functions
@@ -93,13 +93,13 @@ term_to_item(Bool) when is_boolean(Bool) ->
 term_to_item(Atom) when Atom =:= nan; Atom =:= infinity; Atom =:= neg_infinity; Atom =:= neg_zero ->
     Atom;
 term_to_item(Atom) when is_atom(Atom) ->
-    ?av('xs:token', erlang:atom_to_binary(Atom, utf8));
+    ?AV('xs:token', erlang:atom_to_binary(Atom, utf8));
 term_to_item(Binary) when is_binary(Binary) ->
     case unicode:characters_to_binary(Binary, unicode, unicode) of
         B when is_binary(B) ->
             B;
         _ ->
-            ?av('xs:base64Binary', Binary)
+            ?AV('xs:base64Binary', Binary)
     end;
 term_to_item(List) when is_list(List) ->
     lists:flatten([term_to_item(I) || I <- List]);
@@ -112,13 +112,13 @@ term_to_item(Tuple) when is_tuple(Tuple) ->
     array:from_list([term_to_item(I) || I <- List]);
 term_to_item(Pid) when is_pid(Pid) ->
     Bin = term_to_binary({pid, Pid}),
-    ?av('xs:base64Binary', Bin);
+    ?AV('xs:base64Binary', Bin);
 term_to_item(Port) when is_port(Port) ->
     Bin = term_to_binary({port, Port}),
-    ?av('xs:base64Binary', Bin);
+    ?AV('xs:base64Binary', Bin);
 term_to_item(Ref) when is_reference(Ref) ->
     Bin = term_to_binary({ref, Ref}),
-    ?av('xs:base64Binary', Bin);
+    ?AV('xs:base64Binary', Bin);
 term_to_item(Fun) when is_function(Fun) ->
     throw({error, function}).
 
@@ -142,7 +142,7 @@ item_to_term(Num) when is_number(Num) ->
     Num;
 item_to_term(Atom) when is_atom(Atom) ->
     Atom;
-item_to_term(?av('xs:token', Bin)) ->
+item_to_term(?AV('xs:token', Bin)) ->
     erlang:binary_to_atom(Bin, utf8);
 item_to_term(Binary) when is_binary(Binary) ->
     Binary;
@@ -156,20 +156,20 @@ item_to_term(Map) when is_map(Map) ->
         || {_, {K, V}} <- maps:to_list(Map)
     ],
     maps:from_list(List);
-item_to_term(?av('xs:base64Binary', <<131, _/binary>> = Binary)) ->
+item_to_term(?AV('xs:base64Binary', <<131, _/binary>> = Binary)) ->
     case catch erlang:binary_to_term(Binary, [safe]) of
         {ref, Ref} -> Ref;
         {pid, Pid} -> Pid;
         {port, Port} -> Port;
         _ -> Binary
     end;
-item_to_term(?av('xs:base64Binary', Binary)) ->
+item_to_term(?AV('xs:base64Binary', Binary)) ->
     Binary;
-item_to_term(?av(_, Num)) when is_number(Num) ->
+item_to_term(?AV(_, Num)) when is_number(Num) ->
     Num;
-item_to_term(?av(_, _) = Av) ->
+item_to_term(?AV(_, _) = Av) ->
     xqerl_types:cast_as(Av, 'xs:string');
-item_to_term(Array) when ?is_array(Array) ->
+item_to_term(Array) when ?IS_ARRAY(Array) ->
     case array:is_array(Array) of
         false ->
             throw({error, array});
@@ -191,7 +191,7 @@ item_to_term(Item) ->
 is_ref(Ctx, [Item]) -> is_ref(Ctx, Item);
 is_ref(_, Item) -> is_ref(Item).
 
-is_ref(?av('xs:base64Binary', <<131, _/binary>> = Binary)) ->
+is_ref(?AV('xs:base64Binary', <<131, _/binary>> = Binary)) ->
     case catch erlang:binary_to_term(Binary, [safe]) of
         {ref, _} -> true;
         _ -> false
@@ -209,7 +209,7 @@ is_ref(_) ->
 is_pid_(Ctx, [Item]) -> is_pid_(Ctx, Item);
 is_pid_(_, Item) -> is_pid_(Item).
 
-is_pid_(?av('xs:base64Binary', <<131, _/binary>> = Binary)) ->
+is_pid_(?AV('xs:base64Binary', <<131, _/binary>> = Binary)) ->
     case catch erlang:binary_to_term(Binary, [safe]) of
         {pid, _} -> true;
         _ -> false
@@ -227,7 +227,7 @@ is_pid_(_) ->
 is_port_(Ctx, [Item]) -> is_port_(Ctx, Item);
 is_port_(_, Item) -> is_port_(Item).
 
-is_port_(?av('xs:base64Binary', <<131, _/binary>> = Binary)) ->
+is_port_(?AV('xs:base64Binary', <<131, _/binary>> = Binary)) ->
     case catch erlang:binary_to_term(Binary, [safe]) of
         {port, _} -> true;
         _ -> false

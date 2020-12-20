@@ -16,7 +16,7 @@
 %% {<<"values">>, <<"text">>, String, DocId, [{double,DblVal}], erlang:system_time()}
 %% {<<"values">>, <<"numeric">>, Number, DocId, [{double,DblVal}], erlang:system_time()}
 
-%% Makes all of the value index entries for a document 
+%% Makes all of the value index entries for a document
 
 
 %% timestamp() ->
