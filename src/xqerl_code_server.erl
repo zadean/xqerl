@@ -191,6 +191,8 @@ init([]) ->
     true = code:add_patha(EbinDir),
     DispatchFileName = filename:join(CodeDir, "dispatch.dat"),
     ok = init_rest(DispatchFileName),
+    AllRecs = dets:match(Tab, '$1'),
+    _ = [code:load_file(ModName) || A <- AllRecs, #xq_module{module_name = ModName} <- A],
     {ok,
         #{
             dir => CodeDir,
