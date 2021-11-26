@@ -115,6 +115,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 1
+    - name: Fetch tags
+      run: |
+        git fetch --force --tags
+        git describe --abbrev=0 || true
+        printf %60s | tr ' ' '-' && echo
     - name: Download built artifact
       uses: actions/download-artifact@v2
       with:
