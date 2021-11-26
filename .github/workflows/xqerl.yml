@@ -142,4 +142,45 @@ jobs:
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
         MESSAGE: ${{ github.event.head_commit.message }}
+  package:
+    # TODO: change to tag after testing workflow
+    if: ${{ github.ref_type == 'build' }}    
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Fetch tags
+      run: |
+        git fetch --force --tags
+        git describe --abbrev=0 || true
+        printf %60s | tr ' ' '-' && echo
+    - name: Download built artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: xqerl-prod-tar
+    - name: buildah build
+      run: |
+        VERSION=$(git describe --abbrev=0 | sed s/v// )
+        echo $VERSION
+        ERL_VER=24.1.7
+        CONTAINER=$$(buildah from docker.io/erlang:${ERL_VER}-alpine)
+        buildah copy ${CONTAINER} ./xqerl.tar.gz /home/xqerl.tar.gz
+        buildah run ${CONTAINER} mkdir -p /user/local/xqerl /usr/local/bin
+        buildah run tar -zxf xqerl.tar.gz /user/local/xqerl
+        buildah run ln -s /user/local/xqerl /usr/local/bin
+        buildah run ls -al /usr/local/bin
+        buildah run echo $PATH
+        buildah run which xqerl
+        buildah commit --rm $${CONTAINER} localhost/xqerl
+        buildah tag localhost/xqerl ghcr.io/$(OWNER)/xqerl:$(VERSION)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OWNER: ${{ github.repository_owner }}
+        REPO: ${{ github.event.repository.name }}
+        SHA: ${{github.sha}}
+        RELEASE: ${{github.ref_name}}
+  # #   # rebar3 hex publish --repo hexpm --yes
   # #   # rebar3 hex publish --repo hexpm --yes
