@@ -1,44 +1,78 @@
-name: xqerl
-on: [push]
+name: build check release
+on:
+  push:
+    branches: '*'
+    tags:
+      - 'v*'
 jobs:
-  # spec_tests:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #       image: erlang:22.0.7
-  #   steps:
-  #   - name: Checkout Repo
-  #     uses: actions/checkout@v1
-  #     with:
-  #       fetch-depth: 1
-      # - name: Compile Xqerl
-      # run: rebar3 compile
-  #   - name: spec tests
-  #     run: rebar3 ct --spec "test/test.specs"
   build:
     runs-on: ubuntu-latest
-    # container:
-    #     image: erlang:22.0.7
     steps:
     - name: checkout repo
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
-        fetch-depth: 1
-    - name: Compile xqerl
-      run: rebar3 compile
-    - name: Build release
+        fetch-depth: 0
+    - name: Fetch tags
       run: |
-          sudo chown -R $USER /usr/local
-          rebar3 release -o /usr/local
-          printf %60s | tr ' ' '-' && echo
-          ln -s /usr/local/xqerl/bin/xqerl /usr/local/bin/xqerl
-          printf %60s | tr ' ' '-' && echo
-          which xqerl
-          printf %60s | tr ' ' '-' && echo
-    - name: Start up xqerl
-      run: xqerl daemon
-    - name: Beam inspection 
+        git fetch --force --tags
+        git describe --abbrev=0
+        printf %60s | tr ' ' '-' && echo
+    - name: Cache dependiencies
+      id: cache-deps
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: rebar-${{ hashFiles('./rebar.lock') }}
+        # restore-keys: rebar-
+    - name: Cache dependiencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: |
-          sleep 5
+        rebar3 deps
+        rebar3 compile
+    - name: build production tar
+      run: |
+        rebar3 as prod tar
+        mkdir _release
+        mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
+    - name: Upload built artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: xqerl-prod-tar
+        path: _release/
+  checks:
+    if: ${{ github.ref_type == 'branch' }}    
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Fetch tags
+      run: |
+        git fetch --force --tags
+        git describe --abbrev=0
+        printf %60s | tr ' ' '-' && echo
+    - name: Download built artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: xqerl-prod-tar
+    - name: Unpack release tar and install xqerl application
+      run: |
+        mkdir -p  $HOME/.local/xqerl
+        mkdir -p  $HOME/.local/bin
+        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
+        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
+        ls -al $HOME/.local/bin
+        echo $PATH
+        which xqerl
+    - name: Start the xqerl application
+      run: |
+        xqerl daemon
+        sleep 2
+        xqerl eval 'application:ensure_all_started(xqerl).'
+    - name: Checks - OTP Beam inspection 
+      run: |
           printf %60s | tr ' ' '-' && echo
           echo -n '-  ping: ' 
           xqerl ping | grep -oP 'pong'
@@ -46,10 +80,10 @@ jobs:
           xqerl pid | grep -oP '\d+'
           printf %60s | tr ' ' '-' && echo
           echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd(\"$(pwd)\")."
+          xqerl eval "file:set_cwd('$(pwd)')."
           xqerl eval 'file:get_cwd().'
           printf %60s | tr ' ' '=' && echo
-    - name: Can do
+    - name: Checks - xqerl eval on running instance
       run: |
           printf %60s | tr ' ' '-' && echo
           echo ' - run a xQuery expression'
@@ -69,10 +103,10 @@ jobs:
           'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
           grep -oP 'ok'
           printf %60s | tr ' ' '-' && echo
-          echo ' - view using the fn:doc#1 function and the xqerl:run/1 function'
-          xqerl eval 'io:format(xqerl_node:to_xml(xqerl:run("doc(\"http://xqerl.org/my_doc.xml\")"))).'
+          echo ' - view using the the xqerl:run/1 function with xQuery fn:doc#1 function'
+          xqerl eval "binary_to_list(xqerl:run(\" 'http://xqerl.org/my_doc.xml' => doc() => serialize() \"))."
           printf %60s | tr ' ' '-' && echo
-          echo -n ' - delete db doc'
+          echo -n ' - delete db doc '
           xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
           grep -oP 'ok'
           printf %60s | tr ' ' '-' && echo
@@ -80,5 +114,42 @@ jobs:
           xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
           grep -oP 'ok'
           printf %60s | tr ' ' '=' && echo
-    - name: stop xqerl
+    - name: Stop xqerl
       run: xqerl stop
+  release:
+    if: ${{ github.ref_type == 'tag' }}    
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Fetch tags
+      run: |
+        git fetch --force --tags
+        git describe --abbrev=0
+        printf %60s | tr ' ' '-' && echo
+    - name: Download built artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: xqerl-prod-tar
+    - name: Release artifact
+      run: |
+        VERSION=$(echo ${RELEASE} | sed s/v// )
+        NOTE="$(git tag -l --format='%(contents:subject)' ${RELEASE})"
+        echo $MESSAGE
+        # note is annotated tag message
+        mv ./xqerl.tar.gz  ./xqerl-${VERSION}.tar.gz
+        gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
+        --notes "${NOTE}"  \
+        --title "xqerl release ${RELEASE}" \
+        --target  ${SHA} --prerelease
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OWNER: ${{ github.repository_owner }}
+        REPO: ${{ github.event.repository.name }}
+        SHA: ${{github.sha}}
+        RELEASE: ${{github.ref_name}}
+        MESSAGE: ${{ github.event.head_commit.message }}
+  # #   # rebar3 hex publish --repo hexpm --yes
