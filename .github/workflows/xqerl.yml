@@ -1,7 +1,7 @@
 name: build check release
 on:
   push:
-    branches: '*'
+    branches: 'main'
     tags:
       - 'v*'
 jobs:
