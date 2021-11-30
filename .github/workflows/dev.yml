@@ -107,6 +107,7 @@ jobs:
     - name: Issue Resolution Checks  
       run: |
         printf %60s | tr ' ' '=' && echo
+        echo '- use curl to check if image in priv/static/assets dir is reachable'
         printf %60s | tr ' ' '=' && echo
     - name: cowboy static assets handler #46 
       run: |
@@ -116,6 +117,3 @@ jobs:
     - name: Stop xqerl
       run: xqerl stop
     - name: Checks - xqerl eval on running instance
-      run: |
-          printf %60s | tr ' ' '-' && echo
-  
