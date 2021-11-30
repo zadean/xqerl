@@ -649,7 +649,6 @@ init_rest(DispatchFileName) ->
                 {"/",  handler_greeter, #{}}
                 ]),
     Dispatch = cowboy_router:compile( [{'_',Routes}]),
-    _ = persistent_term:put(xqerl_dispatch, Dispatch),
     _ = cowboy:start_clear( xqerl_listener,
           [{port, Port}],
           #{ env => #{dispatch => Dispatch}}

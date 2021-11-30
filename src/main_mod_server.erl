@@ -46,6 +46,4 @@ load() ->
   % main modules
   MainDir = filename:join([PrivDir, "modules"]),
   Greeter  = xqerl:compile(filename:join([MainDir, "greeter.xq"])),
-  Dispatch = cowboy_router:compile( [{'_', [{"/",  handler_greeter, #{}}]}] ),
-  _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
   #{ greeter => Greeter}.

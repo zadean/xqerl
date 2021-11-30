@@ -1,7 +1,11 @@
  element html {
-  attribute lang {'en'},
     element head {
-    element title { 'Hey Hey My My'}
+    element title { 'Now Flying Xqerl'},
+    element link { 
+      attribute rel {"stylesheet"},
+      attribute href { "/assets/sakura.css"},
+      attribute type {"text/css"}
+    }
   },
   element body{ 
     element img { 
