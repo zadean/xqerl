@@ -643,11 +643,17 @@ init_rest(DispatchFileName) ->
                 ok = write_dispatch(DispatchFileName, Dis),
                 Dis
         end,
-    RestXQ = xqerl_restxq:endpoint_sort(Paths),
-    StaticAssets =[{"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}}],
-    Routes = lists:flatten(RestXQ ++ StaticAssets),
+    Routes = lists:flatten([
+                xqerl_restxq:endpoint_sort(Paths),
+                {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
+                {"/",  handler_greeter, #{}}
+                ]),
     Dispatch = cowboy_router:compile( [{'_',Routes}]),
-    _ = cowboy:start_clear( xqerl_listener,[{port, Port}],#{ env => #{dispatch => Dispatch}}),
+    _ = persistent_term:put(xqerl_dispatch, Dispatch),
+    _ = cowboy:start_clear( xqerl_listener,
+          [{port, Port}],
+          #{ env => #{dispatch => Dispatch}}
+          ),
     ok.
 
 merge_load_dispatch(Module, Rest, DispatchFile) ->
