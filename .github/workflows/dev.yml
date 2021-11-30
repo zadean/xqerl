@@ -105,12 +105,21 @@ jobs:
     - name: Issue Resolution Checks  
       run: |
         printf %60s | tr ' ' '=' && echo
-        echo '- use curl to check if image in priv/static/assets dir is reachable'
         printf %60s | tr ' ' '=' && echo
     - name: cowboy static assets handler #46 
       run: |
+        echo '- use curl to check if image in priv/static/assets dir is reachable'
         printf %60s | tr ' ' '=' && echo
         curl -sSL -D - http://localhost:8081/assets/logo_m.png -o /dev/null
+        printf %60s | tr ' ' '=' && echo
+    - name:  after install have a xqerl greeter #48 
+      run: |
+        echo '- use curl to check if http://localhost:8081 reachable'
+        printf %60s | tr ' ' '=' && echo
+        curl -sSL -D - http://localhost:8081/ -o /dev/null
+        printf %60s | tr ' ' '=' && echo
+        printf %60s | tr ' ' '=' && echo
+        curl -sS http://localhost:8081 | grep -oP '<title>.+</title>
         printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
       run: xqerl stop
