@@ -116,4 +116,3 @@ jobs:
         printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
       run: xqerl stop
-    - name: Checks - xqerl eval on running instance
