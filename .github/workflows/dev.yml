@@ -18,8 +18,7 @@ jobs:
       with:
         path: _build
         key: rebar-${{ hashFiles('./rebar.lock') }}
-        # restore-keys: rebar-
-    - name: If no cache hit get then deps and compile
+    - name: If no cache then create one
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: |
         rebar3 deps
@@ -35,7 +34,6 @@ jobs:
         name: xqerl-prod-tar
         path: _release/
   checks:
-    if: ${{ github.ref_type == 'branch' }}    
     needs: build
     runs-on: ubuntu-latest
     steps:
