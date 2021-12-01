@@ -119,7 +119,7 @@ jobs:
         curl -sSL -D - http://localhost:8081/ -o /dev/null
         printf %60s | tr ' ' '=' && echo
         printf %60s | tr ' ' '=' && echo
-        curl -sS http://localhost:8081 | grep -oP '<title>.+</title>
+        curl -sS http://localhost:8081 | grep -oP '<title>.+</title>'
         printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
       run: xqerl stop
