@@ -646,7 +646,7 @@ init_rest(DispatchFileName) ->
     Routes = lists:flatten([
                 xqerl_restxq:endpoint_sort(Paths),
                 {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
-                {"/",  handler_greeter, #{}}
+                {"/",  xqerl_handler_greeter, #{}}
                 ]),
     Dispatch = cowboy_router:compile( [{'_',Routes}]),
     _ = cowboy:start_clear( xqerl_listener,
