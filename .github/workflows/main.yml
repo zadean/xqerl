@@ -19,7 +19,6 @@ jobs:
       with:
         path: _build
         key: rebar-${{ hashFiles('./rebar.lock') }}
-        # restore-keys: rebar-
     - name: If no cache hit get then deps and compile
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: |
@@ -135,7 +134,7 @@ jobs:
         gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
         --notes "${NOTE}"  \
         --title "xqerl release ${RELEASE}" \
-        --target  ${SHA} --prerelease
+        --target  ${SHA}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OWNER: ${{ github.repository_owner }}
@@ -144,7 +143,6 @@ jobs:
         RELEASE: ${{github.ref_name}}
         MESSAGE: ${{ github.event.head_commit.message }}
   package:
-    # TODO: if change to tag after testing workflow
     if: ${{ github.ref_type == 'tag' }}    
     needs: build
     runs-on: ubuntu-latest
@@ -187,10 +185,7 @@ jobs:
         printf %60s | tr ' ' '-' && echo
         echo " -  check"
         buildah run ${CONTAINER} sh -c 'ls -al /usr/local/bin | grep -q xqerl'
-        buildah run ${CONTAINER} sh -c 'which xqerl' # should error if failsto find   
-        #printf %60s | tr ' ' '-' && echo
-        #buildah run ${CONTAINER}  sh -c 'echo $PATH' || true
-        #printf %60s | tr ' ' '-' && echo
+        buildah run ${CONTAINER} sh -c 'which xqerl' # should error if fails to find   
         echo " - set working dir and entry point"
         buildah config --cmd '' ${CONTAINER}
         buildah config --workingdir /usr/local/xqerl ${CONTAINER}
@@ -214,8 +209,6 @@ jobs:
         echo " - list docker images"
         podman images
         printf %60s | tr ' ' '-' && echo
-        #echo " - inspect image"
-        #podman inspect localhost/xqerl | jq '.'
         echo " - run container with sh as entrypoint"
         podman run --rm --entrypoint '["/bin/sh", "-c"]' localhost/xqerl 'ls -al .'
         echo " - run container with published ports"
