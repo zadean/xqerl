@@ -131,20 +131,16 @@ jobs:
       run: |
         VERSION=$(echo ${RELEASE} | sed s/v// )
         NOTE="$(git tag -l --format='%(contents:subject)' ${RELEASE})"
-        echo $MESSAGE
         # note is annotated tag message
         mv ./xqerl.tar.gz  ./xqerl-${VERSION}.tar.gz
         gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
         --notes "${NOTE}"  \
         --title "xqerl release ${RELEASE}" \
-        --target  ${SHA} --prerelease
+        --target  ${SHA}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
-        MESSAGE: ${{ github.event.head_commit.message }}
+        #MESSAGE: ${{ github.event.head_commit.message }}
   package:
     if: ${{ github.ref_type == 'tag' }}    
     needs: build
@@ -203,9 +199,11 @@ jobs:
         echo " - set stop signal"
         buildah config --stop-signal SIGQUIT ${CONTAINER}
         echo " - set labels"
+        buildah config --label org.opencontainers.image.base.name=alpine:${ALPINE_VERSION} $${CONTAINER} 
         buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
         buildah config --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' ${CONTAINER}
-        buildah config --label org.opencontainers.image.source=https://github.com/${OWNER}/${REPO} ${CONTAINER} # where the image is built
+        buildah config --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} ${CONTAINER} # where the image is built
+        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} $${CONTAINER} # image documentation
         buildah config --label org.opencontainers.image.version='${VERSION}' ${CONTAINER} # version
         buildah commit --rm ${CONTAINER} localhost/xqerl
         printf %60s | tr ' ' '-' && echo
@@ -235,10 +233,7 @@ jobs:
     - name: Push to GitHub Container Registry
       run: |
         VERSION=$(git describe --abbrev=0 | sed s/v// )
-        echo " - tag image - ghcr.io/${OWNER}/xqerl:${VERSION}"
-        buildah tag localhost/xqerl ghcr.io/${OWNER}/xqerl:${VERSION}
-        buildah push ghcr.io/${OWNER}/xqerl:${VERSION}
-      env:
-        OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
+        echo " - tag image - ghcr.io/${GITHUB_REPOSITORY}:${VERSION}"
+        buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
+        buildah push ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
   # #   # rebar3 hex publish --repo hexpm --yes
