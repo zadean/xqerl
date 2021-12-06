@@ -138,6 +138,8 @@ jobs:
         --title "xqerl release ${RELEASE}" \
         --target  ${SHA}
       env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OWNER: ${{ github.repository_owner }}
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
         #MESSAGE: ${{ github.event.head_commit.message }}
@@ -199,11 +201,11 @@ jobs:
         echo " - set stop signal"
         buildah config --stop-signal SIGQUIT ${CONTAINER}
         echo " - set labels"
-        buildah config --label org.opencontainers.image.base.name=alpine:${ALPINE_VERSION} $${CONTAINER} 
+        buildah config --label org.opencontainers.image.base.name=alpine:${ALPINE_VERSION} ${CONTAINER} 
         buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
         buildah config --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' ${CONTAINER}
         buildah config --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} ${CONTAINER} # where the image is built
-        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} $${CONTAINER} # image documentation
+        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} ${CONTAINER} # image documentation
         buildah config --label org.opencontainers.image.version='${VERSION}' ${CONTAINER} # version
         buildah commit --rm ${CONTAINER} localhost/xqerl
         printf %60s | tr ' ' '-' && echo
