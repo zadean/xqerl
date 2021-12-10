@@ -114,6 +114,7 @@ jobs:
         echo '- use curl to check if image in priv/static/assets dir is reachable'
         printf %60s | tr ' ' '=' && echo
         curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null
+        curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null | grep -q '200' 
         printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
       run: xqerl stop
