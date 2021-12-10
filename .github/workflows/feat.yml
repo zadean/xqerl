@@ -1,0 +1,119 @@
+name: build check release
+on:
+  push:
+    branches: 'feature*'
+  pull_request:
+    branches:
+      - '**:feature*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: rebar-${{ hashFiles('./rebar.lock') }}
+        # restore-keys: rebar-
+    - name: Cache dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        rebar3 deps
+        rebar3 compile
+    - name: build production tar
+      run: |
+        rebar3 as prod tar
+        mkdir _release
+        mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
+    - name: Upload built artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: xqerl-prod-tar
+        path: _release/
+  checks:
+    if: ${{ github.ref_type == 'branch' }}    
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Download built artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: xqerl-prod-tar
+    - name: Unpack release tar and install xqerl application
+      run: |
+        mkdir -p  $HOME/.local/xqerl
+        mkdir -p  $HOME/.local/bin
+        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
+        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
+        ls -al $HOME/.local/bin
+        echo $PATH
+        which xqerl
+    - name: Start the xqerl application
+      run: |
+        xqerl daemon
+        sleep 2
+        xqerl eval 'application:ensure_all_started(xqerl).'
+    - name: Checks - OTP Beam inspection 
+      run: |
+          printf %60s | tr ' ' '-' && echo
+          echo -n '-  ping: ' 
+          xqerl ping | grep -oP 'pong'
+          echo -n '-  pid: ' 
+          xqerl pid | grep -oP '\d+'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - set xqerl working directory: '
+          xqerl eval "file:set_cwd('$(pwd)')."
+          xqerl eval 'file:get_cwd().'
+          printf %60s | tr ' ' '=' && echo
+    - name: Checks - xqerl eval on running instance
+      run: |
+          printf %60s | tr ' ' '-' && echo
+          echo ' - run a xQuery expression'
+          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
+          grep -oP '^\[\{xq.+$'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile an xQuery file'
+          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
+          grep -oP 'file(.+)\.xq'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - compile, run then grep the title'
+          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).' | \
+          grep -oP '<title>(.+)</title>'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - load an XML file into the DB: '
+          xqerl eval \
+          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - view using the the xqerl:run/1 function with xQuery fn:doc#1 function'
+          xqerl eval "binary_to_list(xqerl:run(\" 'http://xqerl.org/my_doc.xml' => doc() => serialize() \"))."
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - delete db doc '
+          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '-' && echo
+          echo -n ' - import into DB docs from directory: '
+          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
+          grep -oP 'ok'
+          printf %60s | tr ' ' '=' && echo
+    - name: Checks - Features and Issue Resolution
+      run: |
+        printf %60s | tr ' ' '=' && echo
+        printf %60s | tr ' ' '=' && echo
+    - name: cowboy static assets handler - issue 46 
+      run: |
+        echo '- use curl to check if image in priv/static/assets dir is reachable'
+        printf %60s | tr ' ' '=' && echo
+        curl -sSL -D - http://localhost:8081/assets/logo.png -o /dev/null
+        printf %60s | tr ' ' '=' && echo
+    - name: Stop xqerl
+      run: xqerl stop
