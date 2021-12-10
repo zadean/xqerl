@@ -1,9 +1,12 @@
 name: build check release
 on:
   push:
-    branches: '*'
+    branches: 'main'
     tags:
       - 'v*'
+  pull_request:
+    branches:
+      - '**:**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,14 +15,14 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 1
-    - name: Cache dependiencies
+    - name: Cache dependencies
       id: cache-deps
       uses: actions/cache@v2
       with:
         path: _build
         key: rebar-${{ hashFiles('./rebar.lock') }}
         # restore-keys: rebar-
-    - name: Cache dependiencies
+    - name: Cache dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: |
         rebar3 deps
@@ -128,18 +131,111 @@ jobs:
       run: |
         VERSION=$(echo ${RELEASE} | sed s/v// )
         NOTE="$(git tag -l --format='%(contents:subject)' ${RELEASE})"
-        echo $MESSAGE
         # note is annotated tag message
         mv ./xqerl.tar.gz  ./xqerl-${VERSION}.tar.gz
         gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
         --notes "${NOTE}"  \
         --title "xqerl release ${RELEASE}" \
-        --target  ${SHA} --prerelease
+        --target  ${SHA}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OWNER: ${{ github.repository_owner }}
-        REPO: ${{ github.event.repository.name }}
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
-        MESSAGE: ${{ github.event.head_commit.message }}
-  # #   # rebar3 hex publish --repo hexpm --yes
+        #MESSAGE: ${{ github.event.head_commit.message }}
+  package:
+    if: ${{ github.ref_type == 'tag' }}    
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Fetch tags
+      run: |
+        git fetch --force --tags
+        git describe --abbrev=0 || true
+        printf %60s | tr ' ' '-' && echo
+    - name: Fetch the cached _build
+      id: cache-deps
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: rebar-${{ hashFiles('./rebar.lock') }}
+    - name: Buildah build
+      run: |
+        VERSION=$(git describe --abbrev=0 | sed s/v// )
+        ALPINE_VERSION=3.15
+        ERLANG_VERSION=24-alpine
+        echo "version: $VERSION"
+        echo " - build from alpine version: $ALPINE_VERSION "
+        BASE_CONTAINER=$(buildah from docker.io/erlang:${ERLANG_VERSION})
+        buildah copy ${BASE_CONTAINER} ./ /home/
+        buildah run ${BASE_CONTAINER} sh -c 'apk add --update git tar \
+        && cd /home \
+        && rebar3 as prod tar \
+        && mkdir /usr/local/xqerl \
+        && tar -zxf _build/prod/rel/*/*.tar.gz -C /usr/local/xqerl'
+        CONTAINER=$(buildah from docker.io/alpine:${ALPINE_VERSION})
+        buildah run ${CONTAINER} sh -c 'apk add --no-cache openssl ncurses-libs tzdata libstdc++ \
+        && mkdir /usr/local/xqerl \
+        && cd /usr/local/bin \
+        && ln -s /usr/local/xqerl/bin/xqerl'
+        buildah copy --from ${BASE_CONTAINER} $CONTAINER /usr/local/xqerl /usr/local/xqerl  
+        printf %60s | tr ' ' '-' && echo
+        echo " -  check"
+        buildah run ${CONTAINER} sh -c 'ls -al /usr/local/bin | grep -q xqerl'
+        buildah run ${CONTAINER} sh -c 'which xqerl' # should error if fails to find   
+        echo " - set working dir and entry point"
+        buildah config --cmd '' ${CONTAINER}
+        buildah config --workingdir /usr/local/xqerl ${CONTAINER}
+        buildah config --entrypoint '[ "xqerl", "foreground"]' ${CONTAINER}
+        echo " - set environment vars"
+        buildah config --env LANG=C.UTF-8 ${CONTAINER}
+        buildah config --env HOME=/home ${CONTAINER}
+        buildah config --env XQERL_HOME=/usr/local/xqerl ${CONTAINER}
+        printf %60s | tr ' ' '-' && echo
+        buildah run ${CONTAINER}  sh -c 'printenv' || true
+        printf %60s | tr ' ' '-' && echo
+        echo " - set stop signal"
+        buildah config --stop-signal SIGQUIT ${CONTAINER}
+        echo " - set labels"
+        buildah config --label org.opencontainers.image.base.name=alpine:${ALPINE_VERSION} ${CONTAINER} 
+        buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
+        buildah config --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' ${CONTAINER}
+        buildah config --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} ${CONTAINER} # where the image is built
+        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} ${CONTAINER} # image documentation
+        buildah config --label org.opencontainers.image.version='${VERSION}' ${CONTAINER} # version
+        buildah commit --rm ${CONTAINER} localhost/xqerl
+        printf %60s | tr ' ' '-' && echo
+        echo " - list docker images"
+        podman images
+        printf %60s | tr ' ' '-' && echo
+        echo " - run container with sh as entrypoint"
+        podman run --rm --entrypoint '["/bin/sh", "-c"]' localhost/xqerl 'ls -al .'
+        echo " - run container with published ports"
+        podman run --name xq --publish 8081:8081 --detach localhost/xqerl
+        sleep 2
+        echo " - check log"
+        printf %60s | tr ' ' '-' && echo
+        podman logs -n -t --since 0 -l
+        printf %60s | tr ' ' '-' && echo
+        echo -n ' - check running: ' 
+        podman container inspect -f '{{.State.Running}}' xq
+        podman exec xq xqerl eval "application:ensure_all_started(xqerl)."
+        podman ps -a
+        podman stop xq || true
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push to GitHub Container Registry
+      run: |
+        VERSION=$(git describe --abbrev=0 | sed s/v// )
+        echo " - tag image - ghcr.io/${GITHUB_REPOSITORY}:${VERSION}"
+        buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
+        buildah push ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
+
