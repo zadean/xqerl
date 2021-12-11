@@ -124,4 +124,5 @@ jobs:
         printf %60s | tr ' ' '=' && echo
         curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
         printf %60s | tr ' ' '=' && echo    - name: Stop xqerl
+    - name:  stop xqerl
       run: xqerl stop
