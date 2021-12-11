@@ -1,10 +1,10 @@
 name: build check release
 on:
   push:
-    branches: 'feature*'
+    branches: 'feat*'
   pull_request:
     branches:
-      - '**:feature*'
+      - '**:feat**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -116,5 +116,12 @@ jobs:
         curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null
         curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null | grep -q '200' 
         printf %60s | tr ' ' '=' && echo
-    - name: Stop xqerl
+    - name:  after install have a xqerl greeter #48 
+      run: |
+        echo '- use curl to check if http://localhost:8081/xqerl is reachable'
+        printf %60s | tr ' ' '=' && echo
+        curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
+        printf %60s | tr ' ' '=' && echo
+        curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
+        printf %60s | tr ' ' '=' && echo    - name: Stop xqerl
       run: xqerl stop
