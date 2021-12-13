@@ -238,4 +238,3 @@ jobs:
         echo " - tag image - ghcr.io/${GITHUB_REPOSITORY}:${VERSION}"
         buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
         buildah push ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
-
