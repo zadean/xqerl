@@ -98,7 +98,7 @@ parse_file(DB, File, Uri, Stamp) ->
     },
     try
         {ok, State1, _} =
-            xxmerl_sax_parser:file(File, [
+            xmerl_sax_parser:file(File, [
                 {continuation_fun, fun default_continuation_cb/1},
                 {event_fun, fun event/3},
                 {event_state, State}
@@ -173,7 +173,7 @@ parse_list(DB, List, Name, Stamp) ->
 split_parse_file(File, Fun, Path) ->
     State = default_split_state(Fun, Path),
     {ok, ok, _} =
-        xxmerl_sax_parser:file(File, [
+        xmerl_sax_parser:file(File, [
             {continuation_fun, fun default_continuation_cb/1},
             {event_fun, fun split_doc/3},
             {event_state, State}

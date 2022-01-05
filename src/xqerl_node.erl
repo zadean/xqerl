@@ -1337,7 +1337,7 @@ merge_text_content_1([H1, #{nk := Nk} = H2 | T], Type) when
 
 % a unique hash value for this node
 get_node_hash(#{nk := _} = Node) ->
-    erlang:phash(Node, 4294967296);
+    erlang:phash2(Node, 4294967296);
 get_node_hash(_NonNode) ->
     ?err('XPTY0004').
 

@@ -129,7 +129,7 @@ parse_file(<<"file://", File/binary>>) ->
 parse_file(File) ->
     State = default_state(unicode:characters_to_binary(File)),
     {ok, Tree, _} =
-        xxmerl_sax_parser:file(File, [
+        xmerl_sax_parser:file(File, [
             {continuation_fun, fun default_continuation_cb/1},
             {event_fun, fun event/3},
             {event_state, State}
@@ -140,7 +140,7 @@ parse_binary(Bin, {Cwd, BaseUri}) ->
     State = default_state(unicode:characters_to_binary(BaseUri)),
     CwdL = unicode:characters_to_list(Cwd),
     {ok, Tree, _} =
-        xxmerl_sax_parser:stream(Bin, [
+        xmerl_sax_parser:stream(Bin, [
             {continuation_fun, undefined},
             {current_location, CwdL},
             {event_fun, fun event/3},
