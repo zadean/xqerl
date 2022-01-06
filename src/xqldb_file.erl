@@ -22,8 +22,6 @@
 
 -module(xqldb_file).
 
--include_lib("kernel/include/file.hrl").
-
 -define(TIMEOUT, 90000).
 
 %% ====================================================================

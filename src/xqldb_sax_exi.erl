@@ -22,7 +22,7 @@
 %%
 -module(xqldb_sax_exi).
 
--include("xqerl_db.hrl").
+% -include("xqerl_db.hrl").
 
 %% ====================================================================
 %% API functions

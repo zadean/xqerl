@@ -61,7 +61,7 @@ serialization_option_map(Options, Namespaces) when is_map(Options), not is_map_k
     serialization_option_map(
         [
             {?OUTPUTB(KeyBin), type_check_mapped_vals(KeyBin, Value)}
-            || {KeyBin, {_, Value}} <- List1
+         || {KeyBin, {_, Value}} <- List1
         ],
         Namespaces
     );
@@ -103,15 +103,16 @@ type_check_mapped_vals(<<"use-character-maps">>, Val) -> Val;
 type_check_mapped_vals(_, V) -> V.
 
 keys_as_string([
-    {_,
-        {#xqAtomicValue{
-                type = 'xs:QName',
-                value = #qname{
-                    namespace = <<>>,
-                    local_name = Str
-                }
-            } = N,
-            V}}
+    {_, {
+        #xqAtomicValue{
+            type = 'xs:QName',
+            value = #qname{
+                namespace = <<>>,
+                local_name = Str
+            }
+        } = N,
+        V
+    }}
     | T
 ]) ->
     [{Str, {N, V}} | keys_as_string(T)];
@@ -240,7 +241,7 @@ validate1([{?OUTPUT("parameter-document"), Value} | T], #{base_uri := BaseUri} =
         FileUri = xqerl_lib:resolve_against_base_uri(BaseUri, Value),
         [Raw] = [
             N
-            || #{nk := element} = N <- xqldb_mem_nodes:children(xqldb_mem_nodes:parse_file(FileUri))
+         || #{nk := element} = N <- xqldb_mem_nodes:children(xqldb_mem_nodes:parse_file(FileUri))
         ],
         Map = serialization_option_map(Raw, get_parser_namespaces()),
         % do the rest first
@@ -348,8 +349,8 @@ split_names_list(Values, Namespaces) ->
             _:_ ->
                 ?err('SEPM0016')
         end
-        || S <- Split,
-           S =/= <<>>
+     || S <- Split,
+        S =/= <<>>
     ].
 
 get_parser_namespaces() ->
@@ -360,8 +361,8 @@ get_parser_namespaces() ->
     },
     Nss1 = [
         #xqNamespace{namespace = Ns, prefix = Px}
-        || {Px, Ns} <- dict:to_list(Nss),
-           Px =/= <<>>
+     || {Px, Ns} <- dict:to_list(Nss),
+        Px =/= <<>>
     ],
     [Def | Nss1].
 
@@ -440,7 +441,7 @@ normalize_character_map(Value) ->
             _ ->
                 ?err('XPTY0004')
         end
-        || {Key, {_, V}} <- maps:to_list(Value)
+     || {Key, {_, V}} <- maps:to_list(Value)
     ],
     maps:from_list(List).
 

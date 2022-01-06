@@ -41,7 +41,7 @@ start_link() ->
 %%                 intensity => non_neg_integer(), % optional
 %%                 period => pos_integer()}        % optional
 %% child_spec() = #{id => child_id(),       % mandatory
-%%                  start => mfargs(),      % mandatory 
+%%                  start => mfargs(),      % mandatory
 %%                  restart => restart(),   % optional
 %%                  shutdown => shutdown(), % optional
 %%                  type => worker(),       % optional
@@ -51,14 +51,18 @@ start_link() ->
 %% Supervisor callbacks
 %%====================================================================
 init([]) ->
-    SupFlags = #{strategy => one_for_all,
-                 intensity => 0,
-                 period => 1},
+    SupFlags = #{
+        strategy => one_for_all,
+        intensity => 0,
+        period => 1
+    },
     ChildSpecs = [
-                  #{id => xqerl_main_mod_server,
-                    start => {xqerl_main_mod_server,start_link,[]},
-                    shutdown => brutal_kill }
-                 ],
+        #{
+            id => xqerl_main_mod_server,
+            start => {xqerl_main_mod_server, start_link, []},
+            shutdown => brutal_kill
+        }
+    ],
     {ok, {SupFlags, ChildSpecs}}.
 
 %%====================================================================

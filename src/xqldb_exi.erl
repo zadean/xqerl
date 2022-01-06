@@ -774,11 +774,14 @@ read_value(Bin, {_, QName}, Grammars) ->
     {GId, Global1} = add_string_to_gpartition(Global),
     %{GId, Global1} = add_string_to_partition(Global, Str),
     {_LId, Local1} = add_string_to_partition(Local, GId),
-    {Grammars#{
+    {
+        Grammars#{
             global := Global1,
             PartKey := Local1
         },
-        {GId, Str}, R1}.
+        {GId, Str},
+        R1
+    }.
 
 bit_width(0) -> 0;
 bit_width(1) -> 0;
@@ -882,12 +885,15 @@ qname(#{uri := #compact_partition{bits = N} = UriP} = G, Bin) ->
             <<0:N, R9/bitstring>> ->
                 {A, B} = string(R9),
                 {Id, UriP1} = add_string_to_compact_partition(UriP, A),
-                {G#{
+                {
+                    G#{
                         uri := UriP1,
                         {name, Id} => empty_partition(),
                         {prefix, Id} => empty_compact_partition()
                     },
-                    {Id, A}, B};
+                    {Id, A},
+                    B
+                };
             <<I1:N, R9/bitstring>> ->
                 {G, I1 - 1, R9}
         end,
@@ -929,12 +935,15 @@ uri(#{uri := #compact_partition{bits = N} = UriP} = G, Bin) ->
             <<0:N, R9/bitstring>> ->
                 {A, B} = string(R9),
                 {Id, UriP1} = add_string_to_compact_partition(UriP, A),
-                {G#{
+                {
+                    G#{
                         uri := UriP1,
                         {name, Id} => empty_partition(),
                         {prefix, Id} => empty_compact_partition()
                     },
-                    {Id, A}, B};
+                    {Id, A},
+                    B
+                };
             <<I1:N, R9/bitstring>> ->
                 {G, I1 - 1, R9}
         end,

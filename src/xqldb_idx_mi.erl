@@ -92,33 +92,20 @@ stop(#{index := Server}) ->
 
 %% @doc Returns a map of #{Prefix => Uri} for a given node.
 -spec lookup_namespaces(db(), term(), term()) -> map().
-lookup_namespaces(
-    #{
-        index := Index,
-        names := NmspMap
-    },
-    DocId,
-    NodeId
-) ->
+lookup_namespaces(#{index := Index, names := NmspMap}, DocId, NodeId) ->
     List = merge_index:lookup_sync(Index, namespace, DocId, NodeId, true),
     List1 = [
         begin
             #{UriId := Ns} = NmspMap,
             {Prefix, Ns}
         end
-        || {{_, UriId, Prefix}, _} <- List
+     || {{_, UriId, Prefix}, _} <- List
     ],
     maps:from_list(List1).
 
 %% @doc Index `Postings'.
 -spec index(db(), [posting()]) -> ok.
-index(
-    #{
-        index := Server,
-        pindex := PServer
-    },
-    Postings
-) ->
+index(#{index := Server, pindex := PServer}, Postings) ->
     Timestamp = erlang:system_time(microsecond),
 
     {SetPostings, BagPostings} = split_transform_postings(Postings, Timestamp, [], []),
@@ -128,8 +115,7 @@ index(
 
 %% @doc Delete Doc from Index.
 -spec delete(db(), DocId :: term()) -> ok.
-delete(DB, DocId) ->
-    maybe_delete_doc_ref(DB, DocId).
+delete(DB, DocId) -> maybe_delete_doc_ref(DB, DocId).
 
 -spec lookup_node(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_node(#{pindex := Server}, DocId, NodeId) ->
@@ -142,7 +128,7 @@ lookup_node(#{pindex := Server}, DocId, NodeId) ->
             [{NodeId, [{b, NodeBin}, {d, DocId}, {p, PathId}]}]
     end.
 
-%% @doc Lookup a node`s children
+%% @doc Lookup a node's children
 -spec lookup_children(db(), DocId :: term(), NodeId :: [integer()]) -> [db_node()].
 lookup_children(#{pindex := Server}, DocId, NodeId) ->
     Bp = length(NodeId) + 1,
@@ -255,14 +241,7 @@ lookup_preceding(#{pindex := Server}, DocId, NodeId) ->
     emojipoo:range(Server, Range, Filter).
 
 -spec lookup_path(db(), DocId :: term(), PathId :: integer()) -> [db_node()].
-lookup_path(
-    #{
-        index := Server,
-        pindex := NodeServer
-    },
-    DocId,
-    PathId
-) ->
+lookup_path(#{index := Server, pindex := NodeServer}, DocId, PathId) ->
     Iter = merge_index:lookup(Server, path, DocId, PathId, true),
     %?dbg("Iter",Iter),
     lookup_node_from_iter(NodeServer, DocId, Iter).
@@ -278,13 +257,7 @@ get_node_id_range(NodeId) ->
 %% Internal functions
 %% ====================================================================
 
-maybe_delete_doc_ref(
-    #{
-        index := IndexPid,
-        pindex := PIndexPid
-    } = DB,
-    DocId
-) ->
+maybe_delete_doc_ref(#{index := IndexPid, pindex := PIndexPid} = DB, DocId) ->
     Stamp = erlang:system_time(),
     %io:format("~p~n", [{?LINE, erlang:system_time()}]),
     F1 = fun() ->

@@ -102,13 +102,13 @@ get_imported(Prolog) -> lists:usort([Ns || #xqImport{uri = Ns} <- Prolog]).
 get_module_prolog(Ns, All) ->
     P = [
         Prolog
-        || {ModNs, #xqModule{
-               type = library,
-               declaration = #xqModuleDecl{namespace = ModNs},
-               prolog = Prolog
-           }} <-
-               All,
-           ModNs == Ns
+     || {ModNs, #xqModule{
+            type = library,
+            declaration = #xqModuleDecl{namespace = ModNs},
+            prolog = Prolog
+        }} <-
+            All,
+        ModNs == Ns
     ],
     lists:flatten(P).
 
@@ -125,18 +125,12 @@ merge_library_trees([Mod]) ->
 merge_library_trees([
     #xqModule{
         type = library,
-        declaration = #xqModuleDecl{
-            namespace = ModNs,
-            prefix = ModPxA
-        },
+        declaration = #xqModuleDecl{namespace = ModNs, prefix = ModPxA},
         prolog = PrologA
     } = ModA,
     #xqModule{
         type = library,
-        declaration = #xqModuleDecl{
-            namespace = ModNs,
-            prefix = ModPxB
-        },
+        declaration = #xqModuleDecl{namespace = ModNs, prefix = ModPxB},
         prolog = PrologB
     }
     | Mods
@@ -161,29 +155,18 @@ merge_library_trees([
 patch_imports(Prolog, ModNs) ->
     Self = [
         #xqNamespaceDecl{uri = Ns, prefix = Px}
-        || #xqImport{
-               kind = module,
-               uri = Ns,
-               prefix = Px
-           } <- Prolog,
-           Ns == ModNs
+     || #xqImport{kind = module, uri = Ns, prefix = Px} <- Prolog,
+        Ns == ModNs
     ],
     Flt = fun
-        (
-            #xqImport{
-                kind = module,
-                uri = Ns
-            }
-        ) when Ns == ModNs ->
+        (#xqImport{kind = module, uri = Ns}) when Ns == ModNs ->
             false;
         (_) ->
             true
     end,
     case Self of
-        [] ->
-            Prolog;
-        _ ->
-            Self ++ lists:filter(Flt, Prolog)
+        [] -> Prolog;
+        _ -> Self ++ lists:filter(Flt, Prolog)
     end.
 
 filter([E | T], Atom) when is_tuple(E), element(1, E) == Atom ->
@@ -207,51 +190,59 @@ filter([], _, _) ->
 function_sigs(Functions) ->
     %ModName = xqerl_static:string_atom(ModNs),
     Specs = [
-        {Name#xqQName{prefix = <<>>}, Type, Annos,
+        {
+            Name#xqQName{prefix = <<>>},
+            Type,
+            Annos,
             begin
                 {F, A} = xqerl_static:function_hash_name(Name, Arity),
                 {xqerl_static:string_atom(Name#xqQName.namespace), F, A}
             end,
             Arity,
-            param_types(Params)}
-        || %id = Id,
-           #xqFunctionDef{
-               annotations = Annos,
-               arity = Arity,
-               params = Params,
-               name = Name,
-               type = Type
-           } <-
-               Functions,
-           not_private(Annos)
+            param_types(Params)
+        }
+     || %id = Id,
+        #xqFunctionDef{
+            annotations = Annos,
+            arity = Arity,
+            params = Params,
+            name = Name,
+            type = Type
+        } <- Functions,
+        not_private(Annos)
     ],
     Specs.
 
 %% {Name, Type, Annos, function_name, External }
 variable_sigs(Variables) ->
     [
-        {Name#xqQName{prefix = <<>>}, Type, Annos,
-            {xqerl_static:string_atom(Name#xqQName.namespace),
-                xqerl_static:variable_hash_name(Name)},
-            External}
-        || #xqVar{
-               annotations = Annos,
-               name = Name,
-               external = External,
-               type = Type
-           } <-
-               Variables
+        {
+            Name#xqQName{prefix = <<>>},
+            Type,
+            Annos,
+            {
+                xqerl_static:string_atom(Name#xqQName.namespace),
+                xqerl_static:variable_hash_name(Name)
+            },
+            External
+        }
+     || #xqVar{
+            annotations = Annos,
+            name = Name,
+            external = External,
+            type = Type
+        } <- Variables
     ].
 
 not_private(Annos) ->
     [
         ok
-        || #xqAnnotation{
-               name = #xqQName{
-                   namespace = <<"http://www.w3.org/2012/xquery">>,
-                   local_name = <<"private">>
-               }
-           } <- Annos
+     || #xqAnnotation{
+            name = #xqQName{
+                namespace = <<"http://www.w3.org/2012/xquery">>,
+                local_name = <<"private">>
+            }
+        } <- Annos
     ] == [].
 
 param_types(Params) ->

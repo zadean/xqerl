@@ -40,29 +40,59 @@
     {{qname, ?NS, ?PX, <<"integer">>}, {seqType, 'xs:integer', one}, [?NDA], {'integer', 2}, 1, [
         {seqType, 'xs:integer', one}
     ]},
-    {{qname, ?NS, ?PX, <<"seeded-double">>}, {seqType, 'xs:double', zero_or_many}, [],
-        {'seeded_double', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"seeded-double">>},
+        {seqType, 'xs:double', zero_or_many},
+        [],
+        {'seeded_double', 3},
+        2,
+        [
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"seeded-integer">>}, {seqType, 'xs:integer', zero_or_many}, [],
-        {'seeded_integer', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"seeded-integer">>},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {'seeded_integer', 3},
+        2,
+        [
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"seeded-integer">>}, {seqType, 'xs:integer', zero_or_many}, [],
-        {'seeded_integer', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"seeded-integer">>},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {'seeded_integer', 4},
+        3,
+        [
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"gaussian">>}, {seqType, 'xs:double', zero_or_many}, [?NDA],
-        {'gaussian', 2}, 1, [{seqType, 'xs:integer', one}]},
-    {{qname, ?NS, ?PX, <<"seeded-permutation">>}, {seqType, item, zero_or_many}, [?NDA],
-        {'seeded_permutation', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"gaussian">>},
+        {seqType, 'xs:double', zero_or_many},
+        [?NDA],
+        {'gaussian', 2},
+        1,
+        [{seqType, 'xs:integer', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"seeded-permutation">>},
+        {seqType, item, zero_or_many},
+        [?NDA],
+        {'seeded_permutation', 3},
+        2,
+        [
             {seqType, 'xs:integer', one},
             {seqType, item, zero_or_many}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"uuid">>}, {seqType, 'xs:string', one}, [?NDA], {'uuid', 1}, 0, []}
 ]).
 
@@ -164,8 +194,6 @@ seeded_permutation(_, SeedInt, List) when is_integer(SeedInt) ->
 %% ====================================================================
 cast_to_integer(Val) ->
     case xqerl_types:cast_as(Val, 'xs:integer') of
-        Int when is_integer(Int) ->
-            Int;
-        _ ->
-            ?err('XPTY0004')
+        Int when is_integer(Int) -> Int;
+        _ -> ?err('XPTY0004')
     end.

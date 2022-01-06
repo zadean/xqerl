@@ -40,8 +40,6 @@
 
 -include("xqerl_db.hrl").
 
--include_lib("kernel/include/file.hrl").
-
 -export([
     init/1,
     handle_call/3,

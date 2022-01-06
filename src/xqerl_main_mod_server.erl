@@ -23,12 +23,14 @@
 
 -behaviour(gen_server).
 
--export([code_change/3, 
-         handle_call/3, 
-         handle_cast/2,
-         handle_info/2, 
-         init/1, 
-         terminate/2]).
+-export([
+    code_change/3,
+    handle_call/3,
+    handle_cast/2,
+    handle_info/2,
+    init/1,
+    terminate/2
+]).
 
 %% ====================================================================
 %% API functions
@@ -42,7 +44,7 @@ start_link() ->
 %% Behavioural functions
 %% ====================================================================
 
-init([]) -> 
+init([]) ->
     State = load(),
     {ok, State}.
 
@@ -63,8 +65,8 @@ code_change(_OldVsn, State, _Extra) -> {ok, State}.
 %% ====================================================================
 
 load() ->
-  PrivDir = code:priv_dir(xqerl),
-  % main modules
-  MainDir = filename:join([PrivDir, "modules"]),
-  Greeter  = xqerl:compile(filename:join([MainDir, "greeter.xq"])),
-  #{ greeter => Greeter}.
+    PrivDir = code:priv_dir(xqerl),
+    % main modules
+    MainDir = filename:join([PrivDir, "modules"]),
+    Greeter = xqerl:compile(filename:join([MainDir, "greeter.xq"])),
+    #{greeter => Greeter}.

@@ -458,15 +458,15 @@ descendants(
     % block text children of document
     [
         D
-        || #{nk := Nk} = C <- xqldb_mem_nodes:children(S),
-           Nk =/= text,
-           D <- descendants_1(C)
+     || #{nk := Nk} = C <- xqldb_mem_nodes:children(S),
+        Nk =/= text,
+        D <- descendants_1(C)
     ];
 descendants(#{nk := element} = S) ->
     [
         D
-        || C <- xqldb_mem_nodes:children(S),
-           D <- descendants_1(C)
+     || C <- xqldb_mem_nodes:children(S),
+        D <- descendants_1(C)
     ];
 descendants(_) ->
     [].
@@ -474,8 +474,8 @@ descendants(_) ->
 descendants_1(#{nk := element} = Self) ->
     Ds = [
         D
-        || C <- xqldb_mem_nodes:children(Self),
-           D <- descendants_1(C)
+     || C <- xqldb_mem_nodes:children(Self),
+        D <- descendants_1(C)
     ],
     [Self | Ds];
 descendants_1(Self) ->
@@ -486,8 +486,8 @@ string_value(#{sv := Sv}) ->
 string_value(#{ch := _} = N) ->
     Tx = [
         T
-        || #{nk := Nk} = T <- children(N),
-           Nk == text orelse Nk == element
+     || #{nk := Nk} = T <- children(N),
+        Nk == text orelse Nk == element
     ],
     build_string_value(Tx);
 string_value(#{
@@ -548,8 +548,8 @@ outermost(Nodes) ->
     Pred = fun(N) ->
         [
             1
-            || #{id := Aid} <- xqldb_xpath:ancestor_node(N, {[]}),
-               is_map_key(Aid, NodesMap)
+         || #{id := Aid} <- xqldb_xpath:ancestor_node(N, {[]}),
+            is_map_key(Aid, NodesMap)
         ] == []
     end,
     Outer = lists:filter(Pred, Nodes),
@@ -711,9 +711,9 @@ event(
         case
             [
                 ok
-                || {UriX, PrefixX} <- NspOn,
-                   Uri == UriX,
-                   Prefix == PrefixX
+             || {UriX, PrefixX} <- NspOn,
+                Uri == UriX,
+                Prefix == PrefixX
             ]
         of
             [] when Prefix /= <<>> ->
@@ -1205,7 +1205,7 @@ add_self_to_children(
     Obj#{
         ch := [
             augment_base_uri(C#{pt => Obj}, BU)
-            || C <- Children
+         || C <- Children
         ]
     };
 add_self_to_children(
@@ -1238,7 +1238,7 @@ add_self_to_attributes(
                 pt => Obj,
                 bu => BU
             }
-            || C <- Children
+         || C <- Children
         ]
     };
 add_self_to_attributes(Obj) ->

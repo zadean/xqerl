@@ -89,13 +89,32 @@
     {{qname, ?NS, ?PX, <<"bin">>}, {seqType, 'xs:base64Binary', zero_or_one}, [], {bin, 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"octal">>}, {seqType, 'xs:base64Binary', zero_or_one}, [], {octal, 2}, 1, [
+    {
+        {qname, ?NS, ?PX, <<"octal">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {octal, 2},
+        1,
+        [
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"to-octets">>}, {seqType, 'xs:integer', zero_or_many}, [], {to_octets, 2},
-        1, [{seqType, 'xs:base64Binary', one}]},
-    {{qname, ?NS, ?PX, <<"from-octets">>}, {seqType, 'xs:base64Binary', one}, [], {from_octets, 2},
-        1, [{seqType, 'xs:integer', zero_or_many}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"to-octets">>},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {to_octets, 2},
+        1,
+        [{seqType, 'xs:base64Binary', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"from-octets">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {from_octets, 2},
+        1,
+        [{seqType, 'xs:integer', zero_or_many}]
+    },
     %% 6 Basic operations
     {{qname, ?NS, ?PX, <<"length">>}, {seqType, 'xs:integer', one}, [], {length, 2}, 1, [
         {seqType, 'xs:base64Binary', one}
@@ -112,104 +131,218 @@
     {{qname, ?NS, ?PX, <<"join">>}, {seqType, 'xs:base64Binary', one}, [], {join, 2}, 1, [
         {seqType, 'xs:base64Binary', zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, <<"insert-before">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {insert_before, 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"insert-before">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {insert_before, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:base64Binary', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pad-left">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {pad_left, 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pad-left">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {pad_left, 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pad-left">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {pad_left, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pad-left">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {pad_left, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pad-right">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {pad_right, 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pad-right">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {pad_right, 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pad-right">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {pad_right, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pad-right">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {pad_right, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"find">>}, {seqType, 'xs:integer', zero_or_one}, [], {find, 4}, 3, [
         {seqType, 'xs:base64Binary', zero_or_one},
         {seqType, 'xs:integer', one},
         {seqType, 'xs:base64Binary', one}
     ]},
     %% 7 Text decoding and encoding
-    {{qname, ?NS, ?PX, <<"decode-string">>}, {seqType, 'xs:string', zero_or_one}, [],
-        {decode_string, 2}, 1, [{seqType, 'xs:base64Binary', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"decode-string">>}, {seqType, 'xs:string', zero_or_one}, [],
-        {decode_string, 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"decode-string">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {decode_string, 2},
+        1,
+        [{seqType, 'xs:base64Binary', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"decode-string">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {decode_string, 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"decode-string">>}, {seqType, 'xs:string', zero_or_one}, [],
-        {decode_string, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"decode-string">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {decode_string, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"decode-string">>}, {seqType, 'xs:string', zero_or_one}, [],
-        {decode_string, 5}, 4, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"decode-string">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {decode_string, 5},
+        4,
+        [
             {seqType, 'xs:base64Binary', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"encode-string">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {encode_string, 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"encode-string">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {encode_string, 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"encode-string">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {encode_string, 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"encode-string">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {encode_string, 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     %% 8 Packing and unpacking of encoded numeric values
-    {{qname, ?NS, ?PX, <<"pack-double">>}, {seqType, 'xs:base64Binary', one}, [], {pack_double, 2},
-        1, [{seqType, 'xs:double', one}]},
-    {{qname, ?NS, ?PX, <<"pack-double">>}, {seqType, 'xs:base64Binary', one}, [], {pack_double, 3},
-        2, [
+    {
+        {qname, ?NS, ?PX, <<"pack-double">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_double, 2},
+        1,
+        [{seqType, 'xs:double', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pack-double">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_double, 3},
+        2,
+        [
             {seqType, 'xs:double', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pack-float">>}, {seqType, 'xs:base64Binary', one}, [], {pack_float, 2}, 1,
-        [{seqType, 'xs:float', one}]},
-    {{qname, ?NS, ?PX, <<"pack-float">>}, {seqType, 'xs:base64Binary', one}, [], {pack_float, 3}, 2,
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pack-float">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_float, 2},
+        1,
+        [{seqType, 'xs:float', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pack-float">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_float, 3},
+        2,
         [
             {seqType, 'xs:float', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pack-integer">>}, {seqType, 'xs:base64Binary', one}, [],
-        {pack_integer, 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pack-integer">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_integer, 3},
+        2,
+        [
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"pack-integer">>}, {seqType, 'xs:base64Binary', one}, [],
-        {pack_integer, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"pack-integer">>},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {pack_integer, 4},
+        3,
+        [
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"unpack-double">>}, {seqType, 'xs:double', zero_or_one}, [],
-        {unpack_double, 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unpack-double">>},
+        {seqType, 'xs:double', zero_or_one},
+        [],
+        {unpack_double, 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"unpack-double">>}, {seqType, 'xs:double', zero_or_one}, [],
-        {unpack_double, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unpack-double">>},
+        {seqType, 'xs:double', zero_or_one},
+        [],
+        {unpack_double, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"unpack-float">>}, {seqType, 'xs:float', one}, [], {unpack_float, 3}, 2, [
         {seqType, 'xs:base64Binary', one},
         {seqType, 'xs:integer', one}
@@ -219,32 +352,56 @@
         {seqType, 'xs:integer', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"unpack-integer">>}, {seqType, 'xs:integer', one}, [], {unpack_integer, 4},
-        3, [
+    {
+        {qname, ?NS, ?PX, <<"unpack-integer">>},
+        {seqType, 'xs:integer', one},
+        [],
+        {unpack_integer, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"unpack-integer">>}, {seqType, 'xs:integer', one}, [], {unpack_integer, 5},
-        4, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unpack-integer">>},
+        {seqType, 'xs:integer', one},
+        [],
+        {unpack_integer, 5},
+        4,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"unpack-unsigned-integer">>}, {seqType, 'xs:integer', one}, [],
-        {unpack_unsigned_integer, 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unpack-unsigned-integer">>},
+        {seqType, 'xs:integer', one},
+        [],
+        {unpack_unsigned_integer, 4},
+        3,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"unpack-unsigned-integer">>}, {seqType, 'xs:integer', one}, [],
-        {unpack_unsigned_integer, 5}, 4, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unpack-unsigned-integer">>},
+        {seqType, 'xs:integer', one},
+        [],
+        {unpack_unsigned_integer, 5},
+        4,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     %% 9 Bitwise operations
     {{qname, ?NS, ?PX, <<"or">>}, {seqType, 'xs:base64Binary', zero_or_one}, [], {or_, 3}, 2, [
         {seqType, 'xs:base64Binary', zero_or_one},
@@ -305,7 +462,7 @@ hex(_, String) when is_binary(String) ->
     try
         <<
             <<(list_to_integer([B1], 16)):4>>
-            || <<B1>> <= String1
+         || <<B1>> <= String1
         >>
     of
         Bin ->
@@ -349,8 +506,8 @@ bin(_, String) when is_binary(String) ->
     try
         <<
             <<(list_to_integer([B1, B2, B3, B4, B5, B6, B7, B8], 2)):8>>
-            || %<< <<(list_to_integer([B1,B2,B3,B4,B5,B6,B7,B8], 2))>>
-               <<B1, B2, B3, B4, B5, B6, B7, B8>> <= String1
+         || %<< <<(list_to_integer([B1,B2,B3,B4,B5,B6,B7,B8], 2))>>
+            <<B1, B2, B3, B4, B5, B6, B7, B8>> <= String1
         >>
     of
         Bin ->

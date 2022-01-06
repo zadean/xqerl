@@ -911,8 +911,10 @@ static_collations() ->
         <<"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">>,
         <<"http://www.w3.org/2005/xpath-functions/collation/codepoint">>,
         <<"http://www.w3.org/2013/collation/UCA">>,
-        <<"http://www.w3.org/2005/xpath-functions/collation/"
-            "html-ascii-case-insensitive">>
+        <<
+            "http://www.w3.org/2005/xpath-functions/collation/"
+            "html-ascii-case-insensitive"
+        >>
     ].
 
 get_local_timezone(RawCdt) ->

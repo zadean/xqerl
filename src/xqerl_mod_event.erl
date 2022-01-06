@@ -25,8 +25,6 @@
 
 -module(xqerl_mod_event).
 
--include("xqerl.hrl").
-
 -define(NS, <<"http://xqerl.org/modules/event">>).
 -define(PX, <<"event">>).
 -define(XL, <<"http://xqerl.org/xquery">>).
@@ -42,28 +40,52 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"notify">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'notify', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, <<"notify">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'notify', 2},
+        1,
+        [
             {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"notify">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'notify', 3}, 2, [
-            {seqType, 'item', zero_or_many},
-            {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"notify">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'notify', 4}, 3, [
-            {seqType, 'item', zero_or_many},
-            {seqType, 'item', zero_or_many},
-            {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"notify">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'notify', 5}, 4, [
-            {seqType, 'item', zero_or_many},
-            {seqType, 'item', zero_or_many},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"notify">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'notify', 3},
+        2,
+        [
             {seqType, 'item', zero_or_many},
             {seqType, 'item', zero_or_many}
-        ]}
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"notify">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'notify', 4},
+        3,
+        [
+            {seqType, 'item', zero_or_many},
+            {seqType, 'item', zero_or_many},
+            {seqType, 'item', zero_or_many}
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"notify">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'notify', 5},
+        4,
+        [
+            {seqType, 'item', zero_or_many},
+            {seqType, 'item', zero_or_many},
+            {seqType, 'item', zero_or_many},
+            {seqType, 'item', zero_or_many}
+        ]
+    }
 ]).
 
 %% Notify the event manager.

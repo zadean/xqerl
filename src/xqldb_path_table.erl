@@ -96,10 +96,17 @@ uri(#{paths := Pid}) when is_pid(Pid) ->
 %% Insert new value
 -spec insert(
     db(),
-    {Name :: binary(), Type :: res_type(),
-        {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}
-    | {Name :: binary(), Type :: res_type(), {Pos :: non_neg_integer(), Size :: non_neg_integer()},
-        Stamp :: integer()}
+    {
+        Name :: binary(),
+        Type :: res_type(),
+        {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+    }
+    | {
+        Name :: binary(),
+        Type :: res_type(),
+        {Pos :: non_neg_integer(), Size :: non_neg_integer()},
+        Stamp :: integer()
+    }
     | {Name :: binary(), xml, Stamp :: integer()}
 ) -> ok.
 insert(#{paths := Pid}, {_, xml, _} = Value) when is_pid(Pid) ->
@@ -138,8 +145,12 @@ lookup(#{paths := Pid}, Req) when is_pid(Pid) ->
 -spec all(db()) ->
     [
         {Name :: binary(), Type :: res_type(), VersionStamp :: integer()}
-        | {Name :: binary(), Type :: res_type(), VersionStamp :: integer(),
-            {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}
+        | {
+            Name :: binary(),
+            Type :: res_type(),
+            VersionStamp :: integer(),
+            {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+        }
     ].
 all(#{paths := Pid}) when is_pid(Pid) ->
     gen_server:call(Pid, all).
@@ -148,8 +159,12 @@ all(#{paths := Pid}) when is_pid(Pid) ->
 -spec all(db(), Type :: res_type()) ->
     [
         {Name :: binary(), Type :: res_type(), VersionStamp :: integer()}
-        | {Name :: binary(), Type :: res_type(), VersionStamp :: integer(),
-            {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()}
+        | {
+            Name :: binary(),
+            Type :: res_type(),
+            VersionStamp :: integer(),
+            {Pos :: non_neg_integer(), Size :: non_neg_integer()} | binary()
+        }
     ].
 all(#{paths := Pid}, Type) when is_pid(Pid) ->
     gen_server:call(Pid, {all, Type}).

@@ -186,7 +186,7 @@ analyze_cardinality(Tab) ->
     Roots = get_roots(Tab),
     Tree = [
         {Parent, Id, recurse_children(Tab, Parent)}
-        || {Parent, Id} <- Roots
+     || {Parent, Id} <- Roots
     ],
     CostTab = set_costs(Tree, Tab),
     divide_costs(CostTab, Tab).
@@ -231,7 +231,7 @@ set_costs(Tree, Tab) ->
 set_costs({_, Id, Children}, Stack, Tab, Costs) ->
     ChildNameCosts = [
         {lists:last(L), get_count(Tab, I)}
-        || {L, I, _} <- Children
+     || {L, I, _} <- Children
     ],
     % set child cost
     _ = [
@@ -239,7 +239,7 @@ set_costs({_, Id, Children}, Stack, Tab, Costs) ->
             add_cost(Id, child, Nm, Ct, Costs),
             add_cost(Id, child, any, Ct, Costs)
         end
-        || {Nm, Ct} <- ChildNameCosts
+     || {Nm, Ct} <- ChildNameCosts
     ],
     % set desc cost
     _ = [
@@ -247,8 +247,8 @@ set_costs({_, Id, Children}, Stack, Tab, Costs) ->
             add_cost(I, desc, Nm, Ct, Costs),
             add_cost(I, desc, any, Ct, Costs)
         end
-        || {Nm, Ct} <- ChildNameCosts,
-           I <- Stack
+     || {Nm, Ct} <- ChildNameCosts,
+        I <- Stack
     ],
     % now do the children
     _ = [set_costs(Child, [Id | Stack], Tab, Costs) || Child <- Children],
@@ -384,8 +384,8 @@ add_axes(PathId, Path, AxesTab, IdxTab) ->
                     _ ->
                         [
                             {AnscId, descendant, Ax, PathId}
-                            || Ax <- Axes,
-                               {AnscId, _} <- Anss
+                         || Ax <- Axes,
+                            {AnscId, _} <- Anss
                         ]
                 end,
             ToAdd = [Slf, Par | Anc ++ Chd ++ Des],
@@ -413,8 +413,8 @@ expand_siblings(ParentId, AxesTab) ->
     Children = ets:select(AxesTab, MS),
     Sibs = [
         {LI, sibling, RN, RI}
-        || {_, LI} <- Children,
-           {RN, RI} <- Children
+     || {_, LI} <- Children,
+        {RN, RI} <- Children
     ],
     ets:insert(AxesTab, Sibs).
 
@@ -445,8 +445,8 @@ refine_path(Rest, Init, AxesTab) ->
     lists:usort(
         [
             {I, L}
-            || {I, N} <- Init,
-               L <- lists:flatten(refine_path_1(N, Rest, AxesTab))
+         || {I, N} <- Init,
+            L <- lists:flatten(refine_path_1(N, Rest, AxesTab))
         ]
     ).
 

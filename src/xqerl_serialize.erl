@@ -293,11 +293,11 @@ delete_old_meta_1([#{nk := element, nn := {_, _, <<"meta">>}} = H | T]) ->
     case
         [
             1
-            || #{
-                   nn := {_, _, <<"http-equiv">>},
-                   sv := Sv
-               } <- Atts,
-               string:lowercase(xqerl_lib:trim(Sv)) == <<"content-type">>
+         || #{
+                nn := {_, _, <<"http-equiv">>},
+                sv := Sv
+            } <- Atts,
+            string:lowercase(xqerl_lib:trim(Sv)) == <<"content-type">>
         ]
     of
         [] ->
@@ -464,7 +464,7 @@ do_serialize_json(Map, Opts) when is_map(Map) ->
             Val = do_serialize_json(V, Opts),
             {Key, Val}
         end
-        || {K, V} <- KVs
+     || {K, V} <- KVs
     ],
     ok =
         case maps:get('allow-duplicate-names', Opts) of
@@ -560,7 +560,7 @@ do_serialize_adaptive(#xqAtomicValue{type = Type} = Val, _Opts) ->
 do_serialize_adaptive(A, Opts) when ?IS_ARRAY(A) ->
     Vals1 = [
         do_serialize_adaptive_1(V, Opts)
-        || V <- array:to_list(A)
+     || V <- array:to_list(A)
     ],
     Vals2 = string_join(Vals1, <<$,>>),
     <<$[, Vals2/binary, $]>>;
@@ -572,7 +572,7 @@ do_serialize_adaptive(Map, Opts) when is_map(Map) ->
             Val = do_serialize_adaptive_1(V, Opts),
             <<Key/binary, $:, Val/binary>>
         end
-        || {K, V} <- KVs
+     || {K, V} <- KVs
     ],
     Body = string_join(Entries, <<$,>>),
     <<"map{", Body/binary, "}">>;
@@ -645,7 +645,7 @@ do_serialize_html(#{nk := document} = Doc, Opts, NsInScope) ->
     Decl = do_xml_declaration(IsWellFormed, L, Opts#{'omit-xml-declaration' := true}),
     Body = <<
         <<(do_serialize_html(C, Opts, NsInScope))/binary>>
-        || C <- Ch
+     || C <- Ch
     >>,
     <<Decl/binary, Body/binary>>;
 do_serialize_html(
@@ -718,11 +718,11 @@ do_serialize_html(
     %NsStr = <<>>,
     NsStr = <<
         <<" ", (encode_namespace(P, N))/binary>>
-        || {P, N} <- NewNs
+     || {P, N} <- NewNs
     >>,
     Atts = <<
         <<" ", (do_serialize_html(A, Opts#{parent_name => NodeName}, InScopeNamespaces1))/binary>>
-        || A <- At
+     || A <- At
     >>,
     IsCdataNode = is_cdata_node(NodeName, Opts),
     Node1 =
@@ -746,7 +746,7 @@ do_serialize_html(
     {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = <<
         <<Indent/binary, (do_serialize_html(C, Opts2, InScopeNamespaces1))/binary>>
-        || C <- Ch
+     || C <- Ch
     >>,
     Empty =
         case HtmlV == 5.0 of
@@ -793,7 +793,7 @@ do_serialize_xhtml(#{nk := document} = Doc, Opts, NsInScope) ->
         end,
     Body = <<
         <<(do_serialize_xhtml(C, Opts, NsInScope))/binary>>
-        || C <- Ch
+     || C <- Ch
     >>,
     <<Decl/binary, Body/binary>>;
 do_serialize_xhtml(
@@ -866,11 +866,11 @@ do_serialize_xhtml(
     InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
     NsStr = <<
         <<" ", (encode_namespace(P, N))/binary>>
-        || {P, N} <- NewNs
+     || {P, N} <- NewNs
     >>,
     Atts = <<
         <<" ", (do_serialize_xhtml(A, Opts#{parent_name => NodeName}, InScopeNamespaces1))/binary>>
-        || A <- At
+     || A <- At
     >>,
     IsCdataNode = is_cdata_node(NodeName, Opts),
     Node1 =
@@ -893,7 +893,7 @@ do_serialize_xhtml(
     {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = <<
         <<Indent/binary, (do_serialize_xhtml(C, Opts2, InScopeNamespaces1))/binary>>
-        || C <- Ch
+     || C <- Ch
     >>,
     Empty =
         case HtmlV == 5.0 of
@@ -932,7 +932,7 @@ do_serialize_xml(#{nk := document} = Doc, Opts, NsInScope) ->
         end,
     Body = [
         do_serialize_xml(C, Opts, NsInScope)
-        || C <- Ch
+     || C <- Ch
     ],
     [Decl | Body];
 do_serialize_xml(
@@ -984,11 +984,11 @@ do_serialize_xml(
     InScopeNamespaces1 = maps:merge(InScopeNamespaces, Ns),
     NsStr = [
         [<<" ">>, encode_namespace(P, N)]
-        || {P, N} <- NewNs, P =/= <<"xml">>
+     || {P, N} <- NewNs, P =/= <<"xml">>
     ],
     Atts = [
         [<<" ">>, do_serialize_xml(A, Opts, InScopeNamespaces1)]
-        || A <- At
+     || A <- At
     ],
     IsCdataNode = is_cdata_node(NodeName, Opts),
     ChNds = xqldb_mem_nodes:children_no_p(Node),
@@ -1002,7 +1002,7 @@ do_serialize_xml(
     {Indent, Opts2} = indent_opts(NodeName, ChNds, Opts),
     Chld = [
         [Indent, do_serialize_xml(C, Opts2, InScopeNamespaces1)]
-        || C <- Ch
+     || C <- Ch
     ],
     case Ch of
         [] ->
@@ -1031,8 +1031,8 @@ encode_namespace(Px, Ns) ->
 get_new_namespaces(New, Old) ->
     [
         {K, V}
-        || {K, V} <- maps:to_list(New),
-           maps:find(K, Old) =/= {ok, V}
+     || {K, V} <- maps:to_list(New),
+        maps:find(K, Old) =/= {ok, V}
     ].
 
 normalize_prefixes(#{nk := document} = Node, Nss) ->
@@ -1081,19 +1081,22 @@ encode_m_text_(Bin, CMap) ->
             Bin;
         _ ->
             <<
-                <<(case B of
+                <<
+                    (case B of
                         _ when is_map_key(B, CMap) ->
                             maps:get(B, CMap);
                         _ ->
                             <<B>>
-                    end)/binary>>
-                || <<B>> <= Bin
+                    end)/binary
+                >>
+             || <<B>> <= Bin
             >>
     end.
 
 encode_text_(Bin, CMap) ->
     <<
-        <<(case B of
+        <<
+            (case B of
                 _ when is_map_key(B, CMap) ->
                     maps:get(B, CMap);
                 $& ->
@@ -1110,8 +1113,9 @@ encode_text_(Bin, CMap) ->
                     <<"&#xD;">>;
                 _ ->
                     <<B>>
-            end)/binary>>
-        || <<B>> <= Bin
+            end)/binary
+        >>
+     || <<B>> <= Bin
     >>.
 
 %% encode_text(<<>>,Acc) -> Acc;
@@ -1385,9 +1389,9 @@ can_indent({Ns, _, Ln}, Children, #{'suppress-indentation' := Els}) ->
     case
         [
             1
-            || #qname{namespace = Ns1, local_name = Ln1} <- Els,
-               Ln0 == string:lowercase(Ln1),
-               Ns == Ns1
+         || #qname{namespace = Ns1, local_name = Ln1} <- Els,
+            Ln0 == string:lowercase(Ln1),
+            Ns == Ns1
         ] =/= []
     of
         true ->
@@ -1399,9 +1403,9 @@ can_indent({Ns, _, Ln}, Children, #{'suppress-indentation' := Els}) ->
 is_cdata_node({Ns, _, Ln}, #{'cdata-section-elements' := Els}) ->
     [
         1
-        || #qname{namespace = Ns1, local_name = Ln1} <- Els,
-           Ln == Ln1,
-           Ns == Ns1
+     || #qname{namespace = Ns1, local_name = Ln1} <- Els,
+        Ln == Ln1,
+        Ns == Ns1
     ] =/= [].
 
 do_xml_declaration(

@@ -32,9 +32,9 @@
 
 -define(UNTYP(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
 
--define(STR_REST(Str, Rest), <<Str, Rest/binary>>).
--define(CP_REST(Cp, Rest), <<Cp/utf8, Rest/binary>>).
--define(SSTR(S), <<S>>).
+% -define(STR_REST(Str, Rest), <<Str, Rest/binary>>).
+% -define(CP_REST(Cp, Rest), <<Cp/utf8, Rest/binary>>).
+% -define(SSTR(S), <<S>>).
 
 % block array:array(_) warnings
 -dialyzer(no_opaque).
@@ -433,13 +433,15 @@ add_implicit_namespaces(InScopeNs, {Ns, <<>>, _}, _) ->
         #{<<>> := Ns} ->
             {[], InScopeNs};
         _ ->
-            {[
+            {
+                [
                     #{
                         nk => namespace,
                         nn => {Ns, <<>>}
                     }
                 ],
-                InScopeNs#{<<>> => Ns}}
+                InScopeNs#{<<>> => Ns}
+            }
     end;
 add_implicit_namespaces(InScopeNs, _, _) ->
     {[], InScopeNs}.
@@ -727,11 +729,13 @@ contruct_node(
                 nomatch ->
                     {Id, Ctx1} = next_id(Ctx),
                     NewId = {Ref, Id},
-                    {Node#{
+                    {
+                        Node#{
                             id => NewId,
                             sv := Content3
                         },
-                        Ctx1};
+                        Ctx1
+                    };
                 _ ->
                     ?err('XQDY0026')
             end
@@ -756,11 +760,13 @@ contruct_node(
         true ->
             {Id, Ctx1} = next_id(Ctx),
             NewId = {Ref, Id},
-            {Node#{
+            {
+                Node#{
                     id => NewId,
                     sv := Content2
                 },
-                Ctx1};
+                Ctx1
+            };
         _ ->
             ?err('XQDY0072')
     end;
@@ -795,11 +801,13 @@ contruct_node(
             Content2 = xqerl_types:string_value(Content1),
             {Id, Ctx1} = next_id(Ctx),
             NewId = {Ref, Id},
-            {Node#{
+            {
+                Node#{
                     id => NewId,
                     sv := Content2
                 },
-                Ctx1}
+                Ctx1
+            }
     end;
 contruct_node(Ctx, #{id := {_, _, _}} = Content, Ref, InScopeNs) ->
     Node = copy_node(Content),
@@ -1231,7 +1239,7 @@ maybe_merge_text_seq(Seq) when is_list(Seq) ->
             _ ->
                 I
         end
-        || I <- Seq
+     || I <- Seq
     ],
     maybe_merge_text_seq_1(Seq1);
 maybe_merge_text_seq(Seq) ->
@@ -1530,9 +1538,9 @@ attributes_equal(Atts1, Atts2, Collation) ->
 get_comparable_child_nodes(#{ch := Children}) ->
     [
         C
-        || #{nk := Nk} = C <- Children,
-           Nk =/= comment,
-           Nk =/= 'processing-instruction'
+     || #{nk := Nk} = C <- Children,
+        Nk =/= comment,
+        Nk =/= 'processing-instruction'
     ];
 get_comparable_child_nodes(_) ->
     [].
@@ -1545,7 +1553,7 @@ to_xml(N) when is_list(N) ->
     M = combine_atomics(N, []),
     <<
         <<(to_xml(M1))/binary>>
-        || M1 <- M
+     || M1 <- M
     >>;
 to_xml(
     #{

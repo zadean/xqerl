@@ -874,7 +874,7 @@ get_value(Key, List, Default) ->
     name = #xqAtomicValue{value = #qname{namespace = A, local_name = B}}
 }).
 
--define(ERR_LOC(E), ((E#xqError.name)#xqAtomicValue.value)#qname.local_name).
+% -define(ERR_LOC(E), ((E#xqError.name)#xqAtomicValue.value)#qname.local_name).
 
 %% ensure that errors from imported libraries are reported in the tests.
 combined_error(Err, LibReturns) ->
@@ -883,9 +883,9 @@ combined_error(Err, LibReturns) ->
     end,
     LibErrors = lists:usort(Sort, [
         E
-        || %,
-           #xqError{} = E <- LibReturns
-           %?ERR_LOC(E) =/= <<"XQST0059">> % mod not found
+     || %,
+        #xqError{} = E <- LibReturns
+        %?ERR_LOC(E) =/= <<"XQST0059">> % mod not found
     ]),
     ?dbg("LibErrors", LibErrors),
     case LibErrors of
@@ -938,7 +938,7 @@ handle_environment(List) ->
         end,
     ModulesP = [
         {File, ?LB(Uri)}
-        || {File, Uri} <- Modules
+     || {File, Uri} <- Modules
     ],
     _ = lists:foreach(
         fun({File, _Uri}) ->
@@ -1007,7 +1007,7 @@ environment_collections({Uri0, CList}, DefaultCollection) ->
                     DocUri = xqldb_uri:join(CollectionUri, BaseName),
                     catch xqldb_dml:insert_doc(DocUri, FileName0)
                 end
-                || {src, FileName0} <- CList
+             || {src, FileName0} <- CList
             ],
             ok
     end.
@@ -1032,11 +1032,13 @@ environment_docs({File0, Role, Uri0}, Map) ->
         "" ->
             {"", Map};
         _ ->
-            {"declare variable " ++
+            {
+                "declare variable " ++
                     Role ++
                     " := Q{http://www.w3.org/2005/xpath-functions}doc('" ++
                     unicode:characters_to_list(Uri2) ++ "');\n",
-                Map}
+                Map
+            }
     end.
 
 environment_dec_format({"", Values}) ->
