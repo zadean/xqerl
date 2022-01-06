@@ -137,10 +137,8 @@ asin(X) when abs(X) > 1 ->
     nan;
 asin(X) ->
     case catch math:asin(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the arc tangent of the argument.
@@ -164,10 +162,8 @@ atan(neg_infinity) ->
     -math:pi() / 2;
 atan(X) ->
     case catch math:atan(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the angle in radians subtended at the origin by the point on a
@@ -197,10 +193,8 @@ atan2(neg_zero, neg_zero) ->
     -math:pi();
 atan2(X, Y) ->
     case catch math:atan2(X, Y) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the cosine of the argument. The argument is an angle in radians.
@@ -216,10 +210,8 @@ cos(neg_zero) ->
     1.0;
 cos(X) ->
     case catch math:cos(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the value of ex.
@@ -239,10 +231,8 @@ exp(neg_infinity) ->
     0.0;
 exp(X) ->
     case catch math:exp(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the value of 10x.
@@ -262,10 +252,8 @@ exp10(neg_infinity) ->
     0.0;
 exp10(X) ->
     case catch math:pow(10, X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the natural logarithm of the argument.
@@ -289,10 +277,8 @@ log(X) when X < 0 ->
     nan;
 log(X) ->
     case catch math:log(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the base-ten logarithm of the argument.
@@ -316,10 +302,8 @@ log10(X) when X < 0 ->
     nan;
 log10(X) ->
     case catch math:log10(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns an approximation to the mathematical constant π.
@@ -362,10 +346,8 @@ pow(X, _Y) when abs(X) == 1 ->
     1.0;
 pow(X, Y) ->
     case catch math:pow(X, Y) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the sine of the argument. The argument is an angle in radians.
@@ -387,10 +369,8 @@ sin(neg_infinity) ->
     nan;
 sin(X) ->
     case catch math:sin(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the non-negative square root of the argument.
@@ -412,10 +392,8 @@ sqrt(neg_infinity) ->
     nan;
 sqrt(X) ->
     case catch math:sqrt(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.
 
 %% Returns the tangent of the argument. The argument is an angle in radians.
@@ -431,8 +409,6 @@ tan(neg_zero) ->
     neg_zero;
 tan(X) ->
     case catch math:tan(X) of
-        {'EXIT', _} ->
-            nan;
-        Z ->
-            Z
+        {'EXIT', _} -> nan;
+        Z -> Z
     end.

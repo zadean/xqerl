@@ -68,13 +68,7 @@ add(Pid, Command) when is_pid(Pid) ->
             Pid ! Command1,
             []
     end;
-add(
-    #{
-        pul := Pid,
-        trans := Agent
-    },
-    Command
-) ->
+add(#{pul := Pid, trans := Agent}, Command) ->
     lock_command_target(Command, Agent),
     add(Pid, Command);
 add(#{pul := Pid}, Command) ->
@@ -89,17 +83,13 @@ lock_command_target({delete, all, Db}, Agent) ->
     write_lock(Agent, [Db, write]);
 lock_command_target({_, Target, _}, Agent) ->
     case lock_id(Target) of
-        none ->
-            ok;
-        Id ->
-            write_lock(Agent, Id)
+        none -> ok;
+        Id -> write_lock(Agent, Id)
     end;
 lock_command_target({_, Target}, Agent) ->
     case lock_id(Target) of
-        none ->
-            ok;
-        Id ->
-            write_lock(Agent, Id)
+        none -> ok;
+        Id -> write_lock(Agent, Id)
     end;
 lock_command_target(_, _) ->
     ok.
@@ -223,10 +213,8 @@ do_merge(Acc, #{db_name := DbPid} = DB, delete, Name, _) ->
     % Doc delete, so block/delete any other changes
     case maps:get(DbPid, Acc, #{}) of
         % collection already gone
-        delete ->
-            Acc;
-        DbMap ->
-            Acc#{DbPid => DbMap#{Name => {delete, DB}}}
+        delete -> Acc;
+        DbMap -> Acc#{DbPid => DbMap#{Name => {delete, DB}}}
     end;
 % mem nodes
 do_merge(Acc, Db, Type, Pos, Val) when is_reference(Db) ->
@@ -267,9 +255,9 @@ do_put(link, Filename, DB, Name) ->
 applyUpdates(#{trans := Agent} = Ctx, PulMap) ->
     DBs = [
         Key
-        || Key <- maps:keys(PulMap),
-           not is_reference(Key),
-           Key =/= put
+     || Key <- maps:keys(PulMap),
+        not is_reference(Key),
+        Key =/= put
     ],
     Puts = maps:get(put, PulMap, []),
     % wait for all locks
@@ -378,12 +366,7 @@ applyUpdates(Ctx, #{put := Puts} = PulMap, Vars) ->
     _ = [?err('XUDY0037') || _ <- Puts],
     Refs = [put | [element(1, id(V)) || V <- Vars]],
     Keys = maps:keys(PulMap),
-    AllLoc = lists:all(
-        fun(Key) ->
-            lists:member(Key, Refs)
-        end,
-        Keys
-    ),
+    AllLoc = lists:all(fun(Key) -> lists:member(Key, Refs) end, Keys),
     case AllLoc of
         false ->
             % non-local update
@@ -703,12 +686,9 @@ all_not_att([#{nk := attribute} | _]) -> false;
 all_not_att([#{nk := _} | T]) -> all_not_att(T);
 all_not_att([]) -> true.
 
-all_att([#{nk := attribute} | T]) ->
-    all_att(T);
-all_att([#{nk := _} | _]) ->
-    false;
-all_att([]) ->
-    true.
+all_att([#{nk := attribute} | T]) -> all_att(T);
+all_att([#{nk := _} | _]) -> false;
+all_att([]) -> true.
 
 check_split_insert(_Command, [], _Content) ->
     ?err('XUDY0027');
@@ -832,26 +812,19 @@ check_sibling_target_type(_, _) ->
 
 check_sibling_parent(Node, AList) ->
     case xqldb_xpath:parent_node(Node, {[]}) of
-        [] ->
-            ?err('XUDY0029');
-        P when AList == [] ->
-            P;
-        [#{nk := element} = P] ->
-            P;
-        _ ->
-            ?err('XUDY0030')
+        [] -> ?err('XUDY0029');
+        P when AList == [] -> P;
+        [#{nk := element} = P] -> P;
+        _ -> ?err('XUDY0030')
     end.
 
 if_dupe(List, Err) ->
     case has_duplicates(List) of
-        true ->
-            ?err(Err);
-        false ->
-            ok
+        true -> ?err(Err);
+        false -> ok
     end.
 
-has_duplicates(L) ->
-    lists:usort(L) =/= lists:sort(L).
+has_duplicates(L) -> lists:usort(L) =/= lists:sort(L).
 
 id(#{id := Id}) -> Id;
 id([#{id := Id}]) -> Id.

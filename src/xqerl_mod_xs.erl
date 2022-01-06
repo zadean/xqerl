@@ -32,78 +32,204 @@
 -namespaces([{?NS, ?PX}]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"unsignedInt">>}, {seqType, 'xs:unsignedInt', zero_or_one}, [],
-        {'xs_unsignedInt', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"string">>}, {seqType, 'xs:string', zero_or_one}, [], {'xs_string', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"boolean">>}, {seqType, 'xs:boolean', zero_or_one}, [], {'xs_boolean', 2},
-        1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"decimal">>}, {seqType, 'xs:decimal', zero_or_one}, [], {'xs_decimal', 2},
-        1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"unsignedInt">>},
+        {seqType, 'xs:unsignedInt', zero_or_one},
+        [],
+        {'xs_unsignedInt', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"string">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'xs_string', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"boolean">>},
+        {seqType, 'xs:boolean', zero_or_one},
+        [],
+        {'xs_boolean', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"decimal">>},
+        {seqType, 'xs:decimal', zero_or_one},
+        [],
+        {'xs_decimal', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"float">>}, {seqType, 'xs:float', zero_or_one}, [], {'xs_float', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"double">>}, {seqType, 'xs:double', zero_or_one}, [], {'xs_double', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"duration">>}, {seqType, 'xs:duration', zero_or_one}, [],
-        {'xs_duration', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"dateTime">>}, {seqType, 'xs:dateTime', zero_or_one}, [],
-        {'xs_dateTime', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"double">>},
+        {seqType, 'xs:double', zero_or_one},
+        [],
+        {'xs_double', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"duration">>},
+        {seqType, 'xs:duration', zero_or_one},
+        [],
+        {'xs_duration', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"dateTime">>},
+        {seqType, 'xs:dateTime', zero_or_one},
+        [],
+        {'xs_dateTime', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"time">>}, {seqType, 'xs:time', zero_or_one}, [], {'xs_time', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
     {{qname, ?NS, ?PX, <<"date">>}, {seqType, 'xs:date', zero_or_one}, [], {'xs_date', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"gYearMonth">>}, {seqType, 'xs:gYearMonth', zero_or_one}, [],
-        {'xs_gYearMonth', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"gYearMonth">>},
+        {seqType, 'xs:gYearMonth', zero_or_one},
+        [],
+        {'xs_gYearMonth', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"gYear">>}, {seqType, 'xs:gYear', zero_or_one}, [], {'xs_gYear', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"gMonthDay">>}, {seqType, 'xs:gMonthDay', zero_or_one}, [],
-        {'xs_gMonthDay', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"gMonthDay">>},
+        {seqType, 'xs:gMonthDay', zero_or_one},
+        [],
+        {'xs_gMonthDay', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"gDay">>}, {seqType, 'xs:gDay', zero_or_one}, [], {'xs_gDay', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"gMonth">>}, {seqType, 'xs:gMonth', zero_or_one}, [], {'xs_gMonth', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"hexBinary">>}, {seqType, 'xs:hexBinary', zero_or_one}, [],
-        {'xs_hexBinary', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"base64Binary">>}, {seqType, 'xs:base64Binary', zero_or_one}, [],
-        {'xs_base64Binary', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"anyURI">>}, {seqType, 'xs:anyURI', zero_or_one}, [], {'xs_anyURI', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"gMonth">>},
+        {seqType, 'xs:gMonth', zero_or_one},
+        [],
+        {'xs_gMonth', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"hexBinary">>},
+        {seqType, 'xs:hexBinary', zero_or_one},
+        [],
+        {'xs_hexBinary', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"base64Binary">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [],
+        {'xs_base64Binary', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"anyURI">>},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'xs_anyURI', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"QName">>}, {seqType, 'xs:QName', zero_or_one}, [], {'xs_QName', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"normalizedString">>}, {seqType, 'xs:normalizedString', zero_or_one}, [],
-        {'xs_normalizedString', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"normalizedString">>},
+        {seqType, 'xs:normalizedString', zero_or_one},
+        [],
+        {'xs_normalizedString', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"token">>}, {seqType, 'xs:token', zero_or_one}, [], {'xs_token', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"language">>}, {seqType, 'xs:language', zero_or_one}, [],
-        {'xs_language', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"NMTOKEN">>}, {seqType, 'xs:NMTOKEN', zero_or_one}, [], {'xs_NMTOKEN', 2},
-        1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"language">>},
+        {seqType, 'xs:language', zero_or_one},
+        [],
+        {'xs_language', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"NMTOKEN">>},
+        {seqType, 'xs:NMTOKEN', zero_or_one},
+        [],
+        {'xs_NMTOKEN', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"Name">>}, {seqType, 'xs:Name', zero_or_one}, [], {'xs_Name', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"NCName">>}, {seqType, 'xs:NCName', zero_or_one}, [], {'xs_NCName', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"NCName">>},
+        {seqType, 'xs:NCName', zero_or_one},
+        [],
+        {'xs_NCName', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"ID">>}, {seqType, 'xs:ID', zero_or_one}, [], {'xs_ID', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
     {{qname, ?NS, ?PX, <<"IDREF">>}, {seqType, 'xs:IDREF', zero_or_one}, [], {'xs_IDREF', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"ENTITY">>}, {seqType, 'xs:ENTITY', zero_or_one}, [], {'xs_ENTITY', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"integer">>}, {seqType, 'xs:integer', zero_or_one}, [], {'xs_integer', 2},
-        1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"nonPositiveInteger">>}, {seqType, 'xs:nonPositiveInteger', zero_or_one},
-        [], {'xs_nonPositiveInteger', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"negativeInteger">>}, {seqType, 'xs:negativeInteger', zero_or_one}, [],
-        {'xs_negativeInteger', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"ENTITY">>},
+        {seqType, 'xs:ENTITY', zero_or_one},
+        [],
+        {'xs_ENTITY', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"integer">>},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'xs_integer', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"nonPositiveInteger">>},
+        {seqType, 'xs:nonPositiveInteger', zero_or_one},
+        [],
+        {'xs_nonPositiveInteger', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"negativeInteger">>},
+        {seqType, 'xs:negativeInteger', zero_or_one},
+        [],
+        {'xs_negativeInteger', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"long">>}, {seqType, 'xs:long', zero_or_one}, [], {'xs_long', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
@@ -116,30 +242,96 @@
     {{qname, ?NS, ?PX, <<"byte">>}, {seqType, 'xs:byte', zero_or_one}, [], {'xs_byte', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, <<"nonNegativeInteger">>}, {seqType, 'xs:nonNegativeInteger', zero_or_one},
-        [], {'xs_nonNegativeInteger', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"unsignedLong">>}, {seqType, 'xs:unsignedLong', zero_or_one}, [],
-        {'xs_unsignedLong', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"unsignedShort">>}, {seqType, 'xs:unsignedShort', zero_or_one}, [],
-        {'xs_unsignedShort', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"unsignedByte">>}, {seqType, 'xs:unsignedByte', zero_or_one}, [],
-        {'xs_unsignedByte', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"positiveInteger">>}, {seqType, 'xs:positiveInteger', zero_or_one}, [],
-        {'xs_positiveInteger', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"yearMonthDuration">>}, {seqType, 'xs:yearMonthDuration', zero_or_one}, [],
-        {'xs_yearMonthDuration', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"dayTimeDuration">>}, {seqType, 'xs:dayTimeDuration', zero_or_one}, [],
-        {'xs_dayTimeDuration', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"untypedAtomic">>}, {seqType, 'xs:untypedAtomic', zero_or_one}, [],
-        {'xs_untypedAtomic', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"nonNegativeInteger">>},
+        {seqType, 'xs:nonNegativeInteger', zero_or_one},
+        [],
+        {'xs_nonNegativeInteger', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unsignedLong">>},
+        {seqType, 'xs:unsignedLong', zero_or_one},
+        [],
+        {'xs_unsignedLong', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unsignedShort">>},
+        {seqType, 'xs:unsignedShort', zero_or_one},
+        [],
+        {'xs_unsignedShort', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"unsignedByte">>},
+        {seqType, 'xs:unsignedByte', zero_or_one},
+        [],
+        {'xs_unsignedByte', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"positiveInteger">>},
+        {seqType, 'xs:positiveInteger', zero_or_one},
+        [],
+        {'xs_positiveInteger', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"yearMonthDuration">>},
+        {seqType, 'xs:yearMonthDuration', zero_or_one},
+        [],
+        {'xs_yearMonthDuration', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"dayTimeDuration">>},
+        {seqType, 'xs:dayTimeDuration', zero_or_one},
+        [],
+        {'xs_dayTimeDuration', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"untypedAtomic">>},
+        {seqType, 'xs:untypedAtomic', zero_or_one},
+        [],
+        {'xs_untypedAtomic', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     %% {{qname, ?NS, ?PX, <<"dateTimeStamp">>}, {seqType, 'xs:dateTimeStamp', zero_or_one}, [],
     %%  {'xs_dateTimeStamp', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"NMTOKENS">>}, {seqType, 'xs:NMTOKENS', zero_or_one}, [],
-        {'xs_NMTOKENS', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"ENTITIES">>}, {seqType, 'xs:ENTITIES', zero_or_one}, [],
-        {'xs_ENTITIES', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"IDREFS">>}, {seqType, 'xs:IDREFS', zero_or_one}, [], {'xs_IDREFS', 2}, 1,
-        [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, <<"NMTOKENS">>},
+        {seqType, 'xs:NMTOKENS', zero_or_one},
+        [],
+        {'xs_NMTOKENS', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"ENTITIES">>},
+        {seqType, 'xs:ENTITIES', zero_or_one},
+        [],
+        {'xs_ENTITIES', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"IDREFS">>},
+        {seqType, 'xs:IDREFS', zero_or_one},
+        [],
+        {'xs_IDREFS', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, <<"error">>}, {seqType, 'xs:error', zero_or_one}, [], {'xs_error', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]}

@@ -68,8 +68,14 @@
         {seqType, 'xs:string', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"cookie-names">>}, {seqType, 'xs:string', zero_or_many}, [],
-        {'cookie_names', 1}, 0, []},
+    {
+        {qname, ?NS, ?PX, <<"cookie-names">>},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'cookie_names', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, <<"header">>}, {seqType, 'xs:string', zero_or_one}, [], {'header', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
@@ -77,25 +83,67 @@
         {seqType, 'xs:string', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"header-names">>}, {seqType, 'xs:string', zero_or_many}, [],
-        {'header_names', 1}, 0, []},
+    {
+        {qname, ?NS, ?PX, <<"header-names">>},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'header_names', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, <<"hostname">>}, {seqType, 'xs:string', one}, [], {'hostname', 1}, 0, []},
     {{qname, ?NS, ?PX, <<"method">>}, {seqType, 'xs:string', one}, [], {'method', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"parameter">>}, {seqType, 'xs:string', zero_or_many}, [], {'parameter', 2},
-        1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"parameter">>}, {seqType, 'xs:string', zero_or_many}, [], {'parameter', 3},
-        2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"parameter-names">>}, {seqType, 'xs:string', zero_or_many}, [],
-        {'parameter_names', 1}, 0, []},
+    {
+        {qname, ?NS, ?PX, <<"parameter">>},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'parameter', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"parameter">>},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'parameter', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"parameter-names">>},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'parameter_names', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, <<"path">>}, {seqType, 'xs:string', one}, [], {'path', 1}, 0, []},
     {{qname, ?NS, ?PX, <<"port">>}, {seqType, 'xs:integer', one}, [], {'port', 1}, 0, []},
     {{qname, ?NS, ?PX, <<"query">>}, {seqType, 'xs:string', zero_or_one}, [], {'query', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"remote-address">>}, {seqType, 'xs:string', one}, [],
-        {'remote_address', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"remote-hostname">>}, {seqType, 'xs:string', one}, [],
-        {'remote_hostname', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"remote-port">>}, {seqType, 'xs:integer', one}, [], {'remote_port', 1}, 0,
-        []},
+    {
+        {qname, ?NS, ?PX, <<"remote-address">>},
+        {seqType, 'xs:string', one},
+        [],
+        {'remote_address', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"remote-hostname">>},
+        {seqType, 'xs:string', one},
+        [],
+        {'remote_hostname', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"remote-port">>},
+        {seqType, 'xs:integer', one},
+        [],
+        {'remote_port', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, <<"scheme">>}, {seqType, 'xs:string', one}, [], {'scheme', 1}, 0, []},
     {{qname, ?NS, ?PX, <<"uri">>}, {seqType, 'xs:anyURI', one}, [], {'uri', 1}, 0, []}
 ]).

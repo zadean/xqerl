@@ -69,7 +69,7 @@
     duplicates = use_first,
     escape = false,
     %escape     = true, %% different from the spec
-    validate = false,
+    %validate = false, %% always false
     indent = false,
     fallback = fun(_) -> <<16#FFFD/utf8>> end
 }).
@@ -364,44 +364,44 @@ split_contents(Atts, Children, AllowWs) ->
     try
         Key = [
             K
-            || #{
-                   nk := attribute,
-                   nn := ?MAQN(<<"key">>),
-                   sv := K
-               } <- Atts
+         || #{
+                nk := attribute,
+                nn := ?MAQN(<<"key">>),
+                sv := K
+            } <- Atts
         ],
         EscKey = [
             xqerl_types:cast_as(K, 'xs:boolean')
-            || #{
-                   nk := attribute,
-                   nn := ?MAQN(<<"escaped-key">>),
-                   sv := K
-               } <- Atts
+         || #{
+                nk := attribute,
+                nn := ?MAQN(<<"escaped-key">>),
+                sv := K
+            } <- Atts
         ],
         Esc = [
             xqerl_types:cast_as(K, 'xs:boolean')
-            || #{
-                   nk := attribute,
-                   nn := ?MAQN(<<"escaped">>),
-                   sv := K
-               } <- Atts
+         || #{
+                nk := attribute,
+                nn := ?MAQN(<<"escaped">>),
+                sv := K
+            } <- Atts
         ],
         _ = [
             ?err('FOJS0006')
-            || #{
-                   nk := attribute,
-                   nn := ?MAQN(Ln)
-               } <- Atts,
-               Ln =/= <<"key">>,
-               Ln =/= <<"escaped-key">>,
-               Ln =/= <<"escaped">>
+         || #{
+                nk := attribute,
+                nn := ?MAQN(Ln)
+            } <- Atts,
+            Ln =/= <<"key">>,
+            Ln =/= <<"escaped-key">>,
+            Ln =/= <<"escaped">>
         ],
         _ = [
             ?err('FOJS0006')
-            || #{
-                   nk := attribute,
-                   nn := ?MQN(_)
-               } <- Atts
+         || #{
+                nk := attribute,
+                nn := ?MQN(_)
+            } <- Atts
         ],
         Filter = fun
             (#{nk := text, sv := V}) when is_binary(V) ->

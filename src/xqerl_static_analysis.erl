@@ -569,9 +569,9 @@ add_edge(G, A, B) ->
 add_edge(G, A, B, L) ->
     Ex = [
         V
-        || E <- digraph:out_edges(G, A),
-           {_, _, V, _} <- [digraph:edge(G, E)],
-           V == B
+     || E <- digraph:out_edges(G, A),
+        {_, _, V, _} <- [digraph:edge(G, E)],
+        V == B
     ],
     case Ex of
         [] ->

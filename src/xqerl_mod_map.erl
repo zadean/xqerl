@@ -59,10 +59,22 @@
         {seqType, {funTest, map, [], undefined, any, any}, one},
         {seqType, 'xs:anyAtomicType', one}
     ]},
-    {{qname, ?NS, ?PX, <<"entry">>}, {seqType, {funTest, map, [], undefined, any, any}, one}, [],
-        {'entry', 3}, 2, [{seqType, 'xs:anyAtomicType', one}, {seqType, item, zero_or_many}]},
-    {{qname, ?NS, ?PX, <<"find">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'find', 3}, 2, [{seqType, item, zero_or_many}, {seqType, 'xs:anyAtomicType', one}]},
+    {
+        {qname, ?NS, ?PX, <<"entry">>},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'entry', 3},
+        2,
+        [{seqType, 'xs:anyAtomicType', one}, {seqType, item, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"find">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'find', 3},
+        2,
+        [{seqType, item, zero_or_many}, {seqType, 'xs:anyAtomicType', one}]
+    },
     {{qname, ?NS, ?PX, <<"for-each">>}, {seqType, item, zero_or_many}, [], {'for-each', 3}, 2, [
         {seqType, {funTest, map, [], undefined, any, any}, one},
         {seqType,
@@ -75,26 +87,56 @@
         {seqType, {funTest, map, [], undefined, any, any}, one},
         {seqType, 'xs:anyAtomicType', one}
     ]},
-    {{qname, ?NS, ?PX, <<"keys">>}, {seqType, 'xs:anyAtomicType', zero_or_many}, [], {'keys', 2}, 1,
-        [{seqType, {funTest, map, [], undefined, any, any}, one}]},
-    {{qname, ?NS, ?PX, <<"merge">>}, {seqType, {funTest, map, [], undefined, any, any}, one}, [],
-        {'merge', 2}, 1, [{seqType, {funTest, map, [], undefined, any, any}, zero_or_many}]},
-    {{qname, ?NS, ?PX, <<"merge">>}, {seqType, {funTest, map, [], undefined, any, any}, one}, [],
-        {'merge', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"keys">>},
+        {seqType, 'xs:anyAtomicType', zero_or_many},
+        [],
+        {'keys', 2},
+        1,
+        [{seqType, {funTest, map, [], undefined, any, any}, one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"merge">>},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'merge', 2},
+        1,
+        [{seqType, {funTest, map, [], undefined, any, any}, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"merge">>},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'merge', 3},
+        2,
+        [
             {seqType, {funTest, map, [], undefined, any, any}, zero_or_many},
             {seqType, {funTest, map, [], undefined, any, any}, one}
-        ]},
-    {{qname, ?NS, ?PX, <<"put">>}, {seqType, {funTest, map, [], undefined, any, any}, one}, [],
-        {'put', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"put">>},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'put', 4},
+        3,
+        [
             {seqType, {funTest, map, [], undefined, any, any}, one},
             {seqType, 'xs:anyAtomicType', one},
             {seqType, item, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"remove">>}, {seqType, {funTest, map, [], undefined, any, any}, one}, [],
-        {'remove', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"remove">>},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'remove', 3},
+        2,
+        [
             {seqType, {funTest, map, [], undefined, any, any}, one},
             {seqType, 'xs:anyAtomicType', zero_or_many}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"size">>}, {seqType, 'xs:integer', one}, [], {'size', 2}, 1, [
         {seqType, {funTest, map, [], undefined, any, any}, one}
     ]}
@@ -238,8 +280,8 @@ find1([_ | T], Key) ->
 maps_to_list(Maps) ->
     [
         V
-        || M <- Maps,
-           V <- maps:to_list(M)
+     || M <- Maps,
+        V <- maps:to_list(M)
     ].
 
 %% map:merge($maps as map(*)*, $options as map(*)) as map(*)

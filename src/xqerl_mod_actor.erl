@@ -37,33 +37,75 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"send">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'send', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"send">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'send', 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"receive">>}, {seqType, 'item', zero_or_many},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'receive_', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"receive">>}, {seqType, 'item', zero_or_many},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'receive_', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"receive">>},
+        {seqType, 'item', zero_or_many},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'receive_', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"receive">>},
+        {seqType, 'item', zero_or_many},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'receive_', 2},
+        1,
+        [
             {seqType, 'xs:base64Binary', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"receive">>}, {seqType, 'item', zero_or_many},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'receive_', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"receive">>},
+        {seqType, 'item', zero_or_many},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'receive_', 3},
+        2,
+        [
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"spawn">>}, {seqType, 'xs:base64Binary', one},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'spawn_', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"spawn">>},
+        {seqType, 'xs:base64Binary', one},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'spawn_', 2},
+        1,
+        [
             {seqType,
                 {funTest, function, [], {qname, ?NS, ?PX, <<"spawn">>}, [],
                     {seqType, item, zero_or_many}},
                 one}
-        ]},
-    {{qname, ?NS, ?PX, <<"parent">>}, {seqType, 'xs:base64Binary', zero_or_one},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'parent', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"self">>}, {seqType, 'xs:base64Binary', one},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'self_', 1}, 0, []}
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"parent">>},
+        {seqType, 'xs:base64Binary', zero_or_one},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'parent', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"self">>},
+        {seqType, 'xs:base64Binary', one},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'self_', 1},
+        0,
+        []
+    }
 ]).
 
 -define(BIN(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).

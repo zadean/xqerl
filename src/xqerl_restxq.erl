@@ -49,13 +49,13 @@
 %% ====================================================================
 
 -define(NS, <<"http://exquery.org/ns/restxq">>).
--define(PX, <<"rest">>).
+% -define(PX, <<"rest">>).
 -define(ONS, <<"http://www.w3.org/2010/xslt-xquery-serialization">>).
--define(OPX, <<"output">>).
+% -define(OPX, <<"output">>).
 -define(HNS, <<"http://expath.org/ns/http-client">>).
--define(HPX, <<"http">>).
--define(ENS, <<"http://exquery.org/ns/restxq/error">>).
--define(EPX, <<"rerr">>).
+% -define(HPX, <<"http">>).
+% -define(ENS, <<"http://exquery.org/ns/restxq/error">>).
+% -define(EPX, <<"rerr">>).
 
 -define(QN(Nm), #qname{namespace = ?NS, local_name = Nm}).
 -define(SV(V), V).
@@ -416,7 +416,7 @@ endpoint_rec(Path, Methods, MediaTypes, OutputTypes, Fields, Module, Function) -
                         M
                 end
             end
-            || L <- Lis
+         || L <- Lis
         ]
     end,
     Par2 = fun(Lis) ->
@@ -425,7 +425,7 @@ endpoint_rec(Path, Methods, MediaTypes, OutputTypes, Fields, Module, Function) -
                 [{M, _, _}] = cow_http_hd:parse_accept(L),
                 M
             end
-            || L <- Lis
+         || L <- Lis
         ]
     end,
     Med = Par(MediaTypes),
@@ -452,16 +452,16 @@ endpoint_sort(Paths) ->
                 output_media_types => [{Med, F} || Med <- OMeds]
             }
         }}
-        || #endpoint{
-               path = P,
-               module = M,
-               function = F,
-               methods = Mthds,
-               media_types = Meds,
-               output_media_types = OMeds
-           } <-
-               Sorted,
-           Mthd <- Mthds
+     || #endpoint{
+            path = P,
+            module = M,
+            function = F,
+            methods = Mthds,
+            media_types = Meds,
+            output_media_types = OMeds
+        } <-
+            Sorted,
+        Mthd <- Mthds
     ],
     % now merge/override any identical paths
     FoldR = fun({P, M, S} = Rec, Acc) ->

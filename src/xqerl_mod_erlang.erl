@@ -21,7 +21,7 @@
 %% -------------------------------------------------------------------
 
 %% @doc Namespace http://xqerl.org/modules/erlang
-%% Module for transforming Erlang <==> XQuery types.
+%% Module for transforming Erlang to XQuery types.
 
 %% XXX Could be expanded to add much more functionality and features for
 %%     interfacing between Erlang and XQuery.
@@ -56,10 +56,22 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"term-to-item">>}, {seqType, 'item', zero_or_many}, [],
-        {'term_to_item', 2}, 1, [{seqType, 'item', zero_or_many}]},
-    {{qname, ?NS, ?PX, <<"item-to-term">>}, {seqType, 'item', zero_or_many}, [],
-        {'item_to_term', 2}, 1, [{seqType, 'item', zero_or_many}]},
+    {
+        {qname, ?NS, ?PX, <<"term-to-item">>},
+        {seqType, 'item', zero_or_many},
+        [],
+        {'term_to_item', 2},
+        1,
+        [{seqType, 'item', zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"item-to-term">>},
+        {seqType, 'item', zero_or_many},
+        [],
+        {'item_to_term', 2},
+        1,
+        [{seqType, 'item', zero_or_many}]
+    },
     {{qname, ?NS, ?PX, <<"is-reference">>}, {seqType, 'xs:boolean', one}, [], {'is_ref', 2}, 1, [
         {seqType, 'xs:base64Binary', one}
     ]},
@@ -153,7 +165,7 @@ item_to_term(#{nk := _} = Node) ->
 item_to_term(Map) when is_map(Map) ->
     List = [
         {item_to_term(K), item_to_term(V)}
-        || {_, {K, V}} <- maps:to_list(Map)
+     || {_, {K, V}} <- maps:to_list(Map)
     ],
     maps:from_list(List);
 item_to_term(?AV('xs:base64Binary', <<131, _/binary>> = Binary)) ->

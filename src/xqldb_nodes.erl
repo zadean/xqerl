@@ -433,7 +433,7 @@ ancestors(
             DB = xqerl_context:get_db(DbPid),
             Res = [
                 get_single_node(DB, DocId, Id)
-                || Id <- AncIds
+             || Id <- AncIds
             ],
             xqerl_lib:lput(Key, Res);
         Out ->
@@ -706,14 +706,16 @@ build_node_from_list(
 ) ->
     Sv = get_string_value(Sr, DB),
     {Ch, Rest} = build_node_from_list(T, DB, 1, [], Ref),
-    {[
+    {
+        [
             N#{
                 du := Sv,
                 id := {Ref, []},
                 ch => Ch
             }
         ],
-        Rest}.
+        Rest
+    }.
 
 node_depth(#{id := {_, _, NdId}}) ->
     length(NdId);

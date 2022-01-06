@@ -32,7 +32,6 @@
 -define(LN(Line), {undefined, Line}).
 
 -define(FN, <<"http://www.w3.org/2005/xpath-functions">>).
--define(XS, <<"http://www.w3.org/2001/XMLSchema">>).
 -define(REST, <<"http://exquery.org/ns/restxq">>).
 
 -define(CALL(Fun, Line), #xqFunctionCall{call = Fun, anno = Line}).
@@ -149,23 +148,27 @@ init_mod_scan() ->
 
 scan_functions(#{tab := Tab}, Functions, ModName, public) ->
     Specs = [
-        {#qname{namespace = QN, local_name = QL, prefix = <<>>}, Type, Annos,
+        {
+            #qname{namespace = QN, local_name = QL, prefix = <<>>},
+            Type,
+            Annos,
             begin
                 {F, A} = xqerl_static:function_hash_name(Name, Arity),
                 {ModName, F, A}
             end,
             %function_function_name(Id, Arity),
             Arity,
-            param_types(Params)}
-        || #xqFunctionDef{
-               annotations = Annos,
-               arity = Arity,
-               params = Params,
-               name = #xqQName{namespace = QN, local_name = QL} = Name,
-               type = Type
-           } <-
-               Functions,
-           not_private(Annos)
+            param_types(Params)
+        }
+     || #xqFunctionDef{
+            annotations = Annos,
+            arity = Arity,
+            params = Params,
+            name = #xqQName{namespace = QN, local_name = QL} = Name,
+            type = Type
+        } <-
+            Functions,
+        not_private(Annos)
     ],
     xqerl_context:import_functions(Specs, Tab),
     Specs.
@@ -176,18 +179,22 @@ scan_variables(Ctx, Variables) ->
 
 scan_variables(#{tab := Tab}, Variables, _Scope) ->
     Specs = [
-        {#qname{namespace = Ns, prefix = <<>>, local_name = Ln}, Type, Annos,
+        {
+            #qname{namespace = Ns, prefix = <<>>, local_name = Ln},
+            Type,
+            Annos,
             xqerl_static:variable_hash_name(Name),
-            External}
-        || #xqVar{
-               annotations = Annos,
-               name = #xqQName{namespace = Ns, local_name = Ln} = Name,
-               external = External,
-               type = Type
-           } <-
-               %,
-               Variables
-           %Scope == all orelse not_private(Annos)
+            External
+        }
+     || #xqVar{
+            annotations = Annos,
+            name = #xqQName{namespace = Ns, local_name = Ln} = Name,
+            external = External,
+            type = Type
+        } <-
+            %,
+            Variables
+        %Scope == all orelse not_private(Annos)
     ],
     xqerl_context:import_variables(Specs, Tab),
     Specs.
@@ -260,9 +267,15 @@ add_context_key(Map, module, #{module := M}) ->
 add_context_key(Map, dynamic_known_functions, #{known_fx_sigs := K}) ->
     Map#{
         named_functions => [
-            {translate_record(QName), translate_record(Type), translate_record(Annos), MFA, Arity,
-                translate_record(ParamTypes)}
-            || {QName, Type, Annos, MFA, Arity, ParamTypes} <- K
+            {
+                translate_record(QName),
+                translate_record(Type),
+                translate_record(Annos),
+                MFA,
+                Arity,
+                translate_record(ParamTypes)
+            }
+         || {QName, Type, Annos, MFA, Arity, ParamTypes} <- K
         ]
     };
 add_context_key(Map, known_decimal_formats, #{known_dec_formats := K}) ->
@@ -517,8 +530,8 @@ scan_mod(
     ]),
     ContextTypes = [
         Ty
-        || {context_item_type, Ty} <- StaticProps,
-           Ty =/= #seqType{type = item, occur = zero_or_many}
+     || {context_item_type, Ty} <- StaticProps,
+        Ty =/= #seqType{type = item, occur = zero_or_many}
     ],
     %?parse_dbg("StaticProps", StaticProps),
     %?parse_dbg("ImportNss", ImportNss),
@@ -548,13 +561,13 @@ init_function(ModName, Variables, Prolog1) ->
     Stats = [N || {_, N} <- xqerl_context:static_namespaces()],
     ImportedUris = [
         N
-        || #xqImport{
-               kind = module,
-               uri = N,
-               prefix = P
-           } <- Prolog1,
-           not lists:member(N, Stats),
-           P =/= <<>>
+     || #xqImport{
+            kind = module,
+            uri = N,
+            prefix = P
+        } <- Prolog1,
+        not lists:member(N, Stats),
+        P =/= <<>>
     ],
     Ctx0 = ?Q("Ctx0 = Ctx#{'@ModName@' => imported}"),
     ImpSetFun = fun(I, CtxVar) ->
@@ -618,15 +631,19 @@ rest_functions(Ctx, Functions) ->
         FName
     end,
     RestFuns = [
-        {F#xqFunctionDef.id, FxNameFun(F), F#xqFunctionDef.params,
-            xqerl_restxq:parse_annos(translate_record(F#xqFunctionDef.annotations))}
-        || #xqFunctionDef{annotations = Annos} = F <- Functions,
-           #xqAnnotation{
-               name = #xqQName{
-                   namespace = ?REST,
-                   local_name = <<"path">>
-               }
-           } <- Annos
+        {
+            F#xqFunctionDef.id,
+            FxNameFun(F),
+            F#xqFunctionDef.params,
+            xqerl_restxq:parse_annos(translate_record(F#xqFunctionDef.annotations))
+        }
+     || #xqFunctionDef{annotations = Annos} = F <- Functions,
+        #xqAnnotation{
+            name = #xqQName{
+                namespace = ?REST,
+                local_name = <<"path">>
+            }
+        } <- Annos
     ],
     rest_functions_1(Ctx, RestFuns).
 
@@ -671,7 +688,7 @@ rest_functions_1(#{module := Mod} = Ctx, RestFuns) ->
         Parts = lists:flatten([FieldPart, CookiePart, HeaderPart, FormPart, QryPart]),
         LocalParams = [
             {var, ?LINE, list_to_atom("Var_" ++ integer_to_list(Id))}
-            || #xqVar{id = Id} <- FParams
+         || #xqVar{id = Id} <- FParams
         ],
         HasUpd = maps:get(contains_updates, Ctx),
         OmitXml = maps:get('omit-xml-declaration', Serial0, false),
@@ -773,7 +790,7 @@ rest_callback_exports(RestFuns, Mod) ->
                 " {M,Req,State}."
             ])
         end
-        || M <- UsedMethods
+     || M <- UsedMethods
     ],
     G1 = join_functions(Cls1),
     _ = add_global_funs([G1]),
@@ -787,7 +804,7 @@ rest_callback_exports(RestFuns, Mod) ->
                 " {M,Req,State}."
             ])
         end
-        || M <- UsedMethods
+     || M <- UsedMethods
     ],
     G2 = join_functions(Cls2),
     _ = add_global_funs([G2]),
@@ -822,8 +839,8 @@ join_functions([H | _] = Funs) ->
     Name = erl_syntax:function_name(H),
     Clauses = lists:flatten([
         erl_syntax:function_clauses(F)
-        || F <- Funs,
-           erl_syntax:type(F) == function
+     || F <- Funs,
+        erl_syntax:type(F) == function
     ]),
     erl_syntax:function(Name, Clauses).
 
@@ -880,7 +897,7 @@ param_headers(Params, Map) ->
                 "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
             ])
         end
-        || {ParamName, VarName, Default0} <- Params
+     || {ParamName, VarName, Default0} <- Params
     ].
 
 param_cookies([], _) ->
@@ -899,7 +916,7 @@ param_cookies(Params, Map) ->
                     "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
                 ])
             end
-            || {CookieName, VarName, Default0} <- Params
+         || {CookieName, VarName, Default0} <- Params
         ]
     ].
 
@@ -919,7 +936,7 @@ param_forms(Params, Map) ->
                     "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
                 ])
             end
-            || {ParamName, VarName, Default0} <- Params
+         || {ParamName, VarName, Default0} <- Params
         ]
     ].
 
@@ -939,7 +956,7 @@ param_queries(Params, Map) ->
                     "_@VarAtom = xqerl_types:cast_as(_@TmpAtom, _@VarType1@)"
                 ])
             end
-            || {ParamName, VarName, Default0} <- Params
+         || {ParamName, VarName, Default0} <- Params
         ]
     ].
 
@@ -992,7 +1009,7 @@ body_function(ContextMap, Body, ImportNss, ContextTypes) ->
             Checks = catch_wrap(
                 [
                     ?Q("_ = xqerl_types:check(_@Dmy, _@U)")
-                    || U <- Unique
+                 || U <- Unique
                 ],
                 Line
             ),
@@ -1180,43 +1197,43 @@ function_functions(ContextMap, Functions, ModType) ->
     end,
     [
         F(V)
-        || #xqFunctionDef{} = V <- Functions
+     || #xqFunctionDef{} = V <- Functions
     ].
 
 not_private(Annos) ->
     [
         ok
-        || #xqAnnotation{
-               name = #xqQName{
-                   namespace = <<"http://www.w3.org/2012/xquery">>,
-                   local_name = <<"private">>
-               }
-           } <-
-               Annos
+     || #xqAnnotation{
+            name = #xqQName{
+                namespace = <<"http://www.w3.org/2012/xquery">>,
+                local_name = <<"private">>
+            }
+        } <-
+            Annos
     ] == [].
 
 export_functions(Functions) ->
     Specs = [
         xqerl_static:function_hash_name(Name, Arity)
-        || #xqFunctionDef{
-               name = Name,
-               arity = Arity,
-               %,
-               annotations = _Annos
-           } <- Functions
-           %not_private(Annos)
+     || #xqFunctionDef{
+            name = Name,
+            arity = Arity,
+            %,
+            annotations = _Annos
+        } <- Functions
+        %not_private(Annos)
     ],
     export_atts(Specs).
 
 export_variables(Variables, _Ctx) ->
     Specs = [
         {xqerl_static:variable_hash_name(Name), 1}
-        || #xqVar{
-               name = Name,
-               %,
-               annotations = _Annos
-           } <- Variables
-           %not_private(Annos)
+     || #xqVar{
+            name = Name,
+            %,
+            annotations = _Annos
+        } <- Variables
+        %not_private(Annos)
     ],
     export_atts(Specs).
 
@@ -1367,11 +1384,11 @@ expr_do(Ctx, #xqModifyExpr{
 
     ModifyMatch = [
         var(VLine, local_variable_name(ID))
-        || #xqVar{anno = VLine, id = ID} <- VarsStmt
+     || #xqVar{anno = VLine, id = ID} <- VarsStmt
     ],
     CopyMatch = [
         var(VLine, copy_variable_name(ID))
-        || #xqVar{anno = VLine, id = ID} <- VarsStmt
+     || #xqVar{anno = VLine, id = ID} <- VarsStmt
     ],
     ExprStmtAbs = expr_do(Ctx2, ExprStmt),
     Pul = var(Line, list_to_atom("Pul__" ++ integer_to_list(Id))),
@@ -1616,7 +1633,8 @@ expr_do(Ctx, #xqTryCatch{
     ErrNs = <<"http://www.w3.org/2005/xqt-errors">>,
 
     NewCodeVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"code">>
@@ -1625,9 +1643,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'xs:QName',
                 occur = one
             },
-            [], CodeVar},
+            [],
+            CodeVar
+        },
     NewDescVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"description">>
@@ -1636,9 +1657,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'xs:string',
                 occur = zero_or_one
             },
-            [], DescVar},
+            [],
+            DescVar
+        },
     NewValuVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"value">>
@@ -1647,9 +1671,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'item',
                 occur = zero_or_many
             },
-            [], ValuVar},
+            [],
+            ValuVar
+        },
     NewModuVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"module">>
@@ -1658,9 +1685,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'xs:string',
                 occur = zero_or_one
             },
-            [], ModuVar},
+            [],
+            ModuVar
+        },
     NewLineVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"line-number">>
@@ -1669,9 +1699,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'xs:integer',
                 occur = zero_or_one
             },
-            [], LineVar},
+            [],
+            LineVar
+        },
     NewColnVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"column-number">>
@@ -1680,9 +1713,12 @@ expr_do(Ctx, #xqTryCatch{
                 type = 'xs:integer',
                 occur = zero_or_one
             },
-            [], ColnVar},
+            [],
+            ColnVar
+        },
     NewAddlVar =
-        {#qname{
+        {
+            #qname{
                 namespace = ErrNs,
                 prefix = <<"err">>,
                 local_name = <<"additional">>
@@ -1691,7 +1727,9 @@ expr_do(Ctx, #xqTryCatch{
                 type = item,
                 occur = zero_or_many
             },
-            [], AddlVar},
+            [],
+            AddlVar
+        },
 
     Ctx0 = add_variable(NewCodeVar, Ctx),
     Ctx1 = add_variable(NewDescVar, Ctx0),
@@ -2076,8 +2114,8 @@ expr_do(Ctx, #xqPostfixExpr{
 }) ->
     PlaceHolders = [
         var(Line, next_var_name())
-        || #xqArgumentPlaceholder{anno = Line} <-
-               Args
+     || #xqArgumentPlaceholder{anno = Line} <-
+            Args
     ],
     % put new placeholders in args
     NwF = fun
@@ -2221,7 +2259,7 @@ expr_do(
             T = var(VLine, list_to_atom(lists:concat(["T", param_prefix(), ID]))),
             ensure_param_type(Ctx, V, T, Type)
         end
-        || #xqVar{anno = VLine, id = ID, type = Type} <- Params
+     || #xqVar{anno = VLine, id = ID, type = Type} <- Params
     ],
     % do not allow functions to access the current context item
     Ctx3 = set_context_variable_name(Ctx2, NextNextNextCtxVar),
@@ -2528,7 +2566,7 @@ expr_do(Ctx, #xqFunctionDef{
             Ay > 0 ->
                 DArgs = [
                     var(?LINE, list_to_atom("P__" ++ integer_to_list(I)))
-                    || I <- lists:seq(1, Ay)
+                 || I <- lists:seq(1, Ay)
                 ],
                 ?P(Line, [
                     "fun(_,_@@DArgs) -> ",
@@ -2578,7 +2616,7 @@ expr_do(Ctx, #xqFunctionDef{
             Ay > 0 ->
                 DArgs = [
                     var(?LINE, list_to_atom("P__" ++ integer_to_list(I)))
-                    || I <- lists:seq(1, Ay)
+                 || I <- lists:seq(1, Ay)
                 ],
                 ?P(Line, [
                     "fun(_,_@@DArgs) -> ",
@@ -2628,7 +2666,7 @@ expr_do(Ctx, #xqFunctionDef{
             Ay > 0 ->
                 DArgs = [
                     var(?LINE, list_to_atom("P__" ++ integer_to_list(I)))
-                    || I <- lists:seq(1, Ay)
+                 || I <- lists:seq(1, Ay)
                 ],
                 ?P(Line, [
                     "fun(_,_@@DArgs) -> ",
@@ -2782,11 +2820,13 @@ expr_do(Ctx, #xqQuantifiedExpr{
         VarName = local_variable_name(Id),
         Ctx2 = add_variable({Name, Type, [], VarName}, Ctx1),
         E = expr_do(Ctx1, Expr),
-        {erl_syntax:generator(
+        {
+            erl_syntax:generator(
                 var(Line, VarName),
                 ?Q("xqerl_seq3:expand(_@E)")
             ),
-            Ctx2}
+            Ctx2
+        }
     end,
     {Gens, Ctx3} = lists:mapfoldl(Fun, Ctx, l(Vars)),
     F =
@@ -3824,8 +3864,10 @@ abs_qname(_Ctx, #xqQName{anno = A, namespace = N, prefix = P, local_name = L}) -
                 {_, <<>>} ->
                     {xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI')), <<>>};
                 {_, _} ->
-                    {xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI')),
-                        xqerl_types:string_value(xqerl_types:cast_as(P, 'xs:NCName'))}
+                    {
+                        xqerl_types:string_value(xqerl_types:cast_as(N, 'xs:anyURI')),
+                        xqerl_types:string_value(xqerl_types:cast_as(P, 'xs:NCName'))
+                    }
             end,
         L1 = xqerl_types:string_value(xqerl_types:cast_as(L, 'xs:NCName')),
         _ = add_used_record_type(xqAtomicValue),
@@ -4268,7 +4310,7 @@ handle_predicate(
 handle_predicate({Ctx, #xqArgumentList{anno = Anno, args = Args}}, Abs) ->
     PlaceHolders = [
         var(Line, next_var_name())
-        || #xqArgumentPlaceholder{anno = Line} <- Args
+     || #xqArgumentPlaceholder{anno = Line} <- Args
     ],
     NwF = fun
         (#xqArgumentPlaceholder{}, PHs) ->
@@ -4730,15 +4772,9 @@ simple_name(Kind, _) ->
 any_name(<<"*">>) -> '_';
 any_name(N) -> N.
 
-contains_position_call(#xqQName{
-    namespace = <<"http://www.w3.org/2005/xpath-functions">>,
-    local_name = <<"position">>
-}) ->
+contains_position_call(#xqQName{namespace = ?FN, local_name = <<"position">>}) ->
     true;
-contains_position_call(#xqQName{
-    namespace = <<"http://www.w3.org/2005/xpath-functions">>,
-    local_name = <<"last">>
-}) ->
+contains_position_call(#xqQName{namespace = ?FN, local_name = <<"last">>}) ->
     true;
 contains_position_call(L) when is_list(L) ->
     lists:any(fun contains_position_call/1, L);
@@ -4753,8 +4789,8 @@ get_prolog_functions(Prolog2) ->
 get_prolog_module_import_atoms(Prolog1) ->
     [
         xqerl_static:string_atom(N)
-        || #xqImport{kind = module, uri = N, prefix = P} <- Prolog1,
-           P =/= <<>>
+     || #xqImport{kind = module, uri = N, prefix = P} <- Prolog1,
+        P =/= <<>>
     ].
 
 get_prolog_variables_and_context(Prolog2) ->
@@ -5175,15 +5211,15 @@ where_part(Ctx, #xqWhere{anno = Line, id = Id, expr = Expr}, _NextFunAtom, Rem) 
 order_part(Ctx, #xqOrderByClause{anno = Line, id = Id, spec = Exprs}) ->
     Collations = [
         C
-        || #xqOrderSpec{modifier = #xqOrderModifier{collation = C}} <-
-               alist(Exprs)
+     || #xqOrderSpec{modifier = #xqOrderModifier{collation = C}} <-
+            alist(Exprs)
     ],
     CollVars = [
         begin
             V = var(Line, next_var_name()),
             ?Q("_@V = xqerl_coll:parse(_@C@)")
         end
-        || C <- Collations
+     || C <- Collations
     ],
     FunctionName = glob_fun_name({order_by, Id}),
     LocCtx = set_context_variable_name(Ctx, '__Ctx'),
@@ -5191,14 +5227,16 @@ order_part(Ctx, #xqOrderByClause{anno = Line, id = Id, spec = Exprs}) ->
     Error = var(Line, next_var_name()),
     Result = var(Line, next_var_name()),
     OFun = fun(
-        {#xqOrderSpec{
+        {
+            #xqOrderSpec{
                 expr = Expr,
                 modifier = #xqOrderModifier{
                     direction = Dir,
                     empty = Empty
                 }
             },
-            CF},
+            CF
+        },
         Acc
     ) ->
         Error1 = var(Line, next_var_name()),
@@ -5278,7 +5316,7 @@ group_part(
     % 2. split key/vals
     KeyNames = [
         Name
-        || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)
+     || #xqGroupBy{grp_variable = {variable, Name}} <- alist(Clauses)
     ],
     %TODO move this check to static phase
     _ =
@@ -5291,7 +5329,7 @@ group_part(
         end,
     UColls = lists:usort([
         Coll
-        || #xqGroupBy{collation = Coll} <- alist(Clauses)
+     || #xqGroupBy{collation = Coll} <- alist(Clauses)
     ]),
 
     CollsFun = fun(Str, {Acc, I}) ->
@@ -5316,16 +5354,16 @@ group_part(
             Name1 = var(?LINE, Name),
             ?Q("{_@Name1,_@VName}")
         end
-        || #xqGroupBy{
-               grp_variable = {variable, Name},
-               collation = Coll
-           } <-
-               alist(Clauses)
+     || #xqGroupBy{
+            grp_variable = {variable, Name},
+            collation = Coll
+        } <-
+            alist(Clauses)
     ],
     KeyNamesTup = [
         var(?LINE, Name)
-        || #xqGroupBy{grp_variable = {variable, Name}} <-
-               alist(Clauses)
+     || #xqGroupBy{grp_variable = {variable, Name}} <-
+            alist(Clauses)
     ],
 
     KeyTuple =

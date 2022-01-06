@@ -91,7 +91,7 @@ select_paths(#{trans := Agent}, Uri) ->
         DbUri = xqldb_path_table:uri(DB),
         [
             xqldb_uri:join(DbUri, element(1, Rec))
-            || Rec <- xqldb_path_table:all(DB)
+         || Rec <- xqldb_path_table:all(DB)
         ]
     end,
     lists:flatmap(Fun, DBs).
@@ -103,7 +103,7 @@ select_collection(#{trans := Agent} = Ctx, Uri) ->
     Fun = fun(DB) ->
         [
             normalize_item(Ctx, P, DB)
-            || P <- xqldb_path_table:all(DB)
+         || P <- xqldb_path_table:all(DB)
         ]
     end,
     lists:flatten(lists:flatmap(Fun, DBs)).
@@ -114,7 +114,7 @@ select_collection(#{trans := Agent} = Ctx, Uri, Type) ->
     Fun = fun(DB) ->
         [
             normalize_item(Ctx, P, DB)
-            || P <- xqldb_path_table:all(DB, Type)
+         || P <- xqldb_path_table:all(DB, Type)
         ]
     end,
     lists:flatten(lists:flatmap(Fun, DBs)).
@@ -136,7 +136,7 @@ read_lock_all(Agent, DBs) ->
     % read-lock all [DbPid]
     Locks = [
         {[DbPid], read}
-        || #{db_name := DbPid} <- DBs
+     || #{db_name := DbPid} <- DBs
     ],
     ok = locks:lock_objects(Agent, Locks),
     % now wait for the read locks
@@ -145,7 +145,7 @@ read_lock_all(Agent, DBs) ->
 write_lock_all(Agent, DBs) ->
     Locks = [
         {[DbPid, write], write}
-        || #{db_name := DbPid} <- DBs
+     || #{db_name := DbPid} <- DBs
     ],
     ok = locks:lock_objects(Agent, Locks),
     % now wait for the write locks
@@ -465,7 +465,7 @@ import_from_directory(BaseUri, Directory) when is_list(Directory) ->
                 catch
                     _:_ -> ok
                 end
-                || {FN, Name} <- Vals
+             || {FN, Name} <- Vals
             ],
             locks:end_transaction(Agent),
             Parent ! {done, self(), DbUri}
@@ -558,7 +558,7 @@ commit(Transaction) ->
                 % Rec is the Name
                 xqldb_path_table:delete(DB, Rec)
         end
-        || {DB, InsDel, Rec} <- Transaction
+     || {DB, InsDel, Rec} <- Transaction
     ],
     ok.
 

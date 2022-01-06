@@ -21,9 +21,9 @@
 %% -------------------------------------------------------------------
 
 %% @doc Handles parts of a FLWOR statement that see the entire tuple stream as one unit.
-%% @NOTE much of this could be done in-line in the tuple stream. Ordering/grouping as each tuple comes in.
+%% @TODO much of this could be done in-line in the tuple stream. Ordering/grouping as each tuple comes in.
 %%       Windows clauses would be difficult since they look forward.
-%% @NOTE The FLWOR could possibly be turned into process-to-process messaging, one tuple at a time.
+%% @TODO The FLWOR could possibly be turned into process-to-process messaging, one tuple at a time.
 %%       The return portion being a process that returns to the original process...
 %%       ... something to think about with huge data set aggregation.
 
@@ -172,7 +172,7 @@ flatten_window_return(ignore, Bw) ->
             S = xqerl_seq3:flatten(L2),
             setelement(9, B, S)
         end
-        || B <- Bw, B =/= []
+     || B <- Bw, B =/= []
     ];
 flatten_window_return(WType, Bw) ->
     [
@@ -186,7 +186,7 @@ flatten_window_return(WType, Bw) ->
                     ?err('XPTY0004')
             end
         end
-        || B <- Bw, B =/= []
+     || B <- Bw, B =/= []
     ].
 
 win_start_tup(S, SPos) -> {S, SPos, [], [], S, SPos, [], [], [S]}.
@@ -769,10 +769,10 @@ maybe_lift_let(#xqFlwor{loop = Clauses} = FL, G, Det) ->
     PosList = to_pos_list(Clauses),
     Lets = [
         {P, V}
-        || {P, V} <- PosList,
-           element(1, V) == 'let',
-           shiftable_expression(V, Det),
-           P > 1
+     || {P, V} <- PosList,
+        element(1, V) == 'let',
+        shiftable_expression(V, Det),
+        P > 1
     ],
     %?dbg("Lets",Lets),
     F = fun({P, Let}, {Ch, All}) ->
@@ -817,7 +817,7 @@ do_lift_where({P, Where}, All, G) ->
     end,
     Skip = lists:reverse([
         lists:keyfind(A, 1, All)
-        || A <- lists:takewhile(Pred, Seq)
+     || A <- lists:takewhile(Pred, Seq)
     ]),
     case get_first_non_where(Skip) of
         [] ->
@@ -917,9 +917,9 @@ remove_unused_variables(#xqFlwor{loop = Clauses} = FL, G) ->
     PosList = to_pos_list(Clauses),
     Lets = [
         {P, V}
-        || {P, V} <- PosList,
-           element(1, V) == 'let' orelse element(1, V) == 'count',
-           [] == relies_on([], V, G)
+     || {P, V} <- PosList,
+        element(1, V) == 'let' orelse element(1, V) == 'count',
+        [] == relies_on([], V, G)
     ],
     case Lets of
         [] ->
@@ -1044,10 +1044,10 @@ maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G, Det) ->
     PosList = to_pos_list(Clauses),
     Lets = [
         {P, V}
-        || {P, V} <- PosList,
-           element(1, V) == 'where',
-           shiftable_expression(V, Det),
-           P > 1
+     || {P, V} <- PosList,
+        element(1, V) == 'where',
+        shiftable_expression(V, Det),
+        P > 1
     ],
     F = fun({P, Let}, {Ch, All}) ->
         {Ch1, All1} = do_lift_where({P, Let}, All, G),
@@ -1635,8 +1635,8 @@ relies_on(This, [], G) ->
     Cn = vertex_name(This),
     Rg = [
         R
-        || R <- digraph_utils:reaching([Cn], G),
-           R =/= Cn
+     || R <- digraph_utils:reaching([Cn], G),
+        R =/= Cn
     ],
     Rg == [];
 % replied upon by something
@@ -1654,10 +1654,10 @@ relies_on([], That, G) ->
     %?dbg("Upd",Upd),
     Rg = [
         R
-        || R <- digraph_utils:reachable(Vn, G),
-           %ok == ?dbg("R",{R,Vn,digraph_utils:reaching(Vn, G)}),
-           is_tuple(R),
-           not lists:member(R, Vn) orelse Upd
+     || R <- digraph_utils:reachable(Vn, G),
+        %ok == ?dbg("R",{R,Vn,digraph_utils:reaching(Vn, G)}),
+        is_tuple(R),
+        not lists:member(R, Vn) orelse Upd
     ],
     %?dbg("Rg", Rg),
     Rg;
@@ -1675,8 +1675,8 @@ relies_on(This, That, G) ->
         end,
     Rg = [
         R
-        || R <- digraph_utils:reaching([Cn], G),
-           lists:member(R, Vn)
+     || R <- digraph_utils:reaching([Cn], G),
+        lists:member(R, Vn)
     ],
     Rg =/= [].
 
@@ -1686,8 +1686,8 @@ relies_on_for_no_pos(This, {'for', #xqVar{}, _} = That, G) ->
     Vn = [vertex_name(That)],
     Rg = [
         R
-        || R <- digraph_utils:reaching([Cn], G),
-           lists:member(R, Vn)
+     || R <- digraph_utils:reaching([Cn], G),
+        lists:member(R, Vn)
     ],
     Rg =/= [].
 
@@ -1753,9 +1753,9 @@ remove_dependancies(G, Vertex) ->
     Out = digraph:out_neighbours(G, Vertex),
     [
         digraph:add_edge(G, I, O)
-        || I <- Ins,
-           O <- Out,
-           I =/= O
+     || I <- Ins,
+        O <- Out,
+        I =/= O
     ],
     digraph:del_vertex(G, Vertex),
     %?dbg("Vertex",Vertex),
@@ -1771,14 +1771,14 @@ replace_variable_dependancies(G, OldVertex, NewVertex) ->
             digraph:add_edge(G, I, NewVertex),
             delete_edges(G, I, OldVertex)
         end
-        || I <- Ins
+     || I <- Ins
     ],
     _ = [
         begin
             digraph:add_edge(G, NewVertex, O),
             delete_edges(G, OldVertex, O)
         end
-        || O <- Out
+     || O <- Out
     ],
     %   ?dbg("Vertex",OldVertex),
     %   ?dbg("Ins   ",Ins),
@@ -1792,9 +1792,9 @@ replace_variable_dependancies(G, OldVertex, NewVertex) ->
 delete_edges(G, V1, V2) ->
     [
         digraph:del_edge(G, E)
-        || Ed <- digraph:edges(G, V1),
-           {_, _, V3, _} = E <- [digraph:edge(G, Ed)],
-           V3 == V2
+     || Ed <- digraph:edges(G, V1),
+        {_, _, V3, _} = E <- [digraph:edge(G, Ed)],
+        V3 == V2
     ].
 
 %% expressions_equal(E1, E2) ->
