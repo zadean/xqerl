@@ -28,14 +28,14 @@
 -export([greeter_response/2]).
 
 init(Req, Opts) ->
-	{cowboy_rest, Req, Opts}.
+    {cowboy_rest, Req, Opts}.
 
 allowed_methods(Req, State) ->
-  {[<<"GET">>], Req, State}.
+    {[<<"GET">>], Req, State}.
 
 content_types_provided(Req, State) ->
-  {[{<<"text/html">>, greeter_response }], Req, State}.
+    {[{<<"text/html">>, greeter_response}], Req, State}.
 
 greeter_response(Req, State) ->
-  Reply = gen_server:call(xqerl_main_mod_server, greeter),
-	{Reply, Req, State}.
+    Reply = gen_server:call(xqerl_main_mod_server, greeter),
+    {Reply, Req, State}.
