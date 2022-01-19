@@ -87,7 +87,6 @@
 %% full_text            - original text or file location of XQuery module
 %% error                - last compile error
 %% last_compile_time    - last attempted compile timestamp
-%% first_compile_time   - first attempted compile timestamp
 %% imported_modules     - module namespaces that this module imports
 -record(xq_module, {
     target_namespace :: binary(),
@@ -104,7 +103,7 @@
     full_text :: {file, string()} | {text, string()},
     error :: term(),
     last_compile_time :: term(),
-    first_compile_time :: term(),
+    % first_compile_time :: term(),
     imported_modules = [] :: [binary()],
     rest_xq = [] :: [term()]
 }).
@@ -245,9 +244,9 @@ handle_call(
             true ->
                 [
                     Sig
-                    || Sig <- Sigs,
-                       (element(1, Sig))#qname.local_name == LocalName,
-                       (element(1, Sig))#qname.namespace == Namespace
+                 || Sig <- Sigs,
+                    (element(1, Sig))#qname.local_name == LocalName,
+                    (element(1, Sig))#qname.namespace == Namespace
                 ];
             false ->
                 case dets:lookup(Tab, Namespace) of
@@ -256,8 +255,8 @@ handle_call(
                     [#xq_module{function_sigs = Funs}] ->
                         [
                             F
-                            || F <- Funs,
-                               (element(1, F))#qname.local_name == LocalName
+                         || F <- Funs,
+                            (element(1, F))#qname.local_name == LocalName
                         ]
                 end
         end,
@@ -333,11 +332,11 @@ code_change(_OldVsn, State, _Extra) ->
 static_module_namespaces() ->
     [
         Ns
-        || {Px, Ns} <- xqerl_context:static_namespaces(),
-           Px =/= <<>>,
-           Px =/= <<"local">>,
-           Px =/= <<"xsi">>,
-           Px =/= <<"xml">>
+     || {Px, Ns} <- xqerl_context:static_namespaces(),
+        Px =/= <<>>,
+        Px =/= <<"local">>,
+        Px =/= <<"xsi">>,
+        Px =/= <<"xml">>
     ].
 
 static_signatures() ->
@@ -364,16 +363,6 @@ prepend_mod(Mod, Tup) ->
             setelement(4, Tup, {Mod, F})
     end.
 
--define(NOT_FOUND(V), #xqError{
-    name = #xqAtomicValue{
-        value = #qname{
-            prefix = <<"err">>,
-            local_name = <<"XQST0059">>
-        }
-    },
-    value = V
-}).
-
 do_compile(Filename, Str, false) ->
     catch do_compile(Filename, Str, []);
 do_compile(Filename, Str, []) ->
@@ -398,9 +387,9 @@ do_compile(Filename, Str, []) ->
 do_compile(_, _, Hints) ->
     Failed = [
         {Hint, R}
-        || {Filename, _} = Hint <- Hints,
-           R <- [compile(Filename)],
-           not is_atom(R)
+     || {Filename, _} = Hint <- Hints,
+        R <- [compile(Filename)],
+        not is_atom(R)
     ],
     case Failed of
         [] ->
@@ -453,7 +442,7 @@ append_imports(Parsed) ->
     %?dbg("Imports",Imports),
     [
         {Uri, Tree, Str, Filename, proplists:get_value(Uri, Imports, [])}
-        || {Uri, Tree, Str, Filename} <- Parsed
+     || {Uri, Tree, Str, Filename} <- Parsed
     ].
 
 -define(E(E), #xqError{
@@ -644,6 +633,7 @@ init_rest(DispatchFileName) ->
                 Dis
         end,
     Routes = lists:flatten(
+
       [ xqerl_restxq:endpoint_sort(Paths),
         {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
         {"/xqerl",  xqerl_handler_greeter, #{}},
@@ -709,12 +699,12 @@ do_unload(Tab, Ebin, DispatchFile) ->
                     remove_module_dispatch(Mod, DispatchFile)
             end
         end
-        || A <- All,
-           #xq_module{
-               target_namespace = Key,
-               module_name = Mod,
-               rest_xq = R
-           } <- A
+     || A <- All,
+        #xq_module{
+            target_namespace = Key,
+            module_name = Mod,
+            rest_xq = R
+        } <- A
     ],
     ok.
 
@@ -729,7 +719,7 @@ merge_mods([], Acc) ->
     List = maps:to_list(Acc),
     [
         {Uri, xqerl_module:merge_library_trees(Mods), Str, Name}
-        || {Uri, {Mods, Str, Name}} <- List
+     || {Uri, {Mods, Str, Name}} <- List
     ].
 
 -define(PRINT, false).

@@ -21,7 +21,6 @@
         merge_index,
         sext,
         uuid,
-        xmerl_sax,
         xs_regex
         %observer,
         %runtime_tools

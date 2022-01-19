@@ -21,7 +21,8 @@
 %% -------------------------------------------------------------------
 
 %% @doc Implementation of the "http://www.w3.org/2005/xpath-functions" namespace.
-%% @NOTE Might need to be broken apart. Need a concept for mapping functions in
+%%
+%% @TODO Might need to be broken apart. Need a concept for mapping functions in
 %%       one namespace across different erlang modules.
 %%       The functions attribute compiled in sucks!!
 
@@ -41,8 +42,7 @@
 -define(NS, ?A("http://www.w3.org/2005/xpath-functions")).
 -define(PX, <<"fn">>).
 
--define(ERROR_MATCH(Err),
-        _:#xqError{name = #xqAtomicValue{value= #qname{local_name = Err}}}).
+-define(ERROR_MATCH(Err), #xqError{name = #xqAtomicValue{value = #qname{local_name = Err}}}).
 
 -include("xqerl.hrl").
 
@@ -54,80 +54,201 @@
     {{qname, ?NS, ?PX, ?A("abs")}, {seqType, 'xs:numeric', zero_or_one}, [], {'abs', 2}, 1, [
         {seqType, 'xs:numeric', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("adjust-dateTime-to-timezone")}, {seqType, 'xs:dateTime', zero_or_one},
-        [], {'adjust-dateTime-to-timezone', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("adjust-dateTime-to-timezone")}, {seqType, 'xs:dateTime', zero_or_one},
-        [], {'adjust-dateTime-to-timezone', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("adjust-dateTime-to-timezone")},
+        {seqType, 'xs:dateTime', zero_or_one},
+        [],
+        {'adjust-dateTime-to-timezone', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("adjust-dateTime-to-timezone")},
+        {seqType, 'xs:dateTime', zero_or_one},
+        [],
+        {'adjust-dateTime-to-timezone', 3},
+        2,
+        [
             {seqType, 'xs:dateTime', zero_or_one},
             {seqType, 'xs:dayTimeDuration', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("adjust-date-to-timezone")}, {seqType, 'xs:date', zero_or_one}, [],
-        {'adjust-date-to-timezone', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("adjust-date-to-timezone")}, {seqType, 'xs:date', zero_or_one}, [],
-        {'adjust-date-to-timezone', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("adjust-date-to-timezone")},
+        {seqType, 'xs:date', zero_or_one},
+        [],
+        {'adjust-date-to-timezone', 2},
+        1,
+        [{seqType, 'xs:date', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("adjust-date-to-timezone")},
+        {seqType, 'xs:date', zero_or_one},
+        [],
+        {'adjust-date-to-timezone', 3},
+        2,
+        [
             {seqType, 'xs:date', zero_or_one},
             {seqType, 'xs:dayTimeDuration', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("adjust-time-to-timezone")}, {seqType, 'xs:time', zero_or_one}, [],
-        {'adjust-time-to-timezone', 2}, 1, [{seqType, 'xs:time', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("adjust-time-to-timezone")}, {seqType, 'xs:time', zero_or_one}, [],
-        {'adjust-time-to-timezone', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("adjust-time-to-timezone")},
+        {seqType, 'xs:time', zero_or_one},
+        [],
+        {'adjust-time-to-timezone', 2},
+        1,
+        [{seqType, 'xs:time', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("adjust-time-to-timezone")},
+        {seqType, 'xs:time', zero_or_one},
+        [],
+        {'adjust-time-to-timezone', 3},
+        2,
+        [
             {seqType, 'xs:time', zero_or_one},
             {seqType, 'xs:dayTimeDuration', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("analyze-string")},
-        {seqType, {kindTest, element, undefined, undefined}, one}, [], {'analyze-string', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("analyze-string")},
+        {seqType, {kindTest, element, undefined, undefined}, one},
+        [],
+        {'analyze-string', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("analyze-string")},
-        {seqType, {kindTest, element, undefined, undefined}, one}, [], {'analyze-string', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("analyze-string")},
+        {seqType, {kindTest, element, undefined, undefined}, one},
+        [],
+        {'analyze-string', 4},
+        3,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("apply")}, {seqType, item, zero_or_many}, [], {'apply_', 3}, 2, [
         {seqType, {funTest, function, [], undefined, any, any}, one},
         {seqType, {funTest, array, [], undefined, any, any}, one}
     ]},
-    {{qname, ?NS, ?PX, ?A("available-environment-variables")}, {seqType, 'xs:string', zero_or_many},
-        [], {'available-environment-variables', 1}, 0, []},
+    {
+        {qname, ?NS, ?PX, ?A("available-environment-variables")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'available-environment-variables', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, ?A("avg")}, {seqType, 'xs:anyAtomicType', zero_or_one}, [], {'avg', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("base-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [], {'base-uri', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("base-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [], {'base-uri', 2}, 1,
-        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("base-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'base-uri', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("base-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'base-uri', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("boolean")}, {seqType, 'xs:boolean', one}, [], {'boolean', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("ceiling")}, {seqType, 'xs:numeric', zero_or_one}, [], {'ceiling', 2}, 1,
-        [{seqType, 'xs:numeric', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("codepoint-equal")}, {seqType, 'xs:boolean', zero_or_one}, [],
-        {'codepoint-equal', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("ceiling")},
+        {seqType, 'xs:numeric', zero_or_one},
+        [],
+        {'ceiling', 2},
+        1,
+        [{seqType, 'xs:numeric', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("codepoint-equal")},
+        {seqType, 'xs:boolean', zero_or_one},
+        [],
+        {'codepoint-equal', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("codepoints-to-string")}, {seqType, 'xs:string', one}, [],
-        {'codepoints-to-string', 2}, 1, [{seqType, 'xs:integer', zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("collation-key")}, {seqType, 'xs:base64Binary', one}, [],
-        {'collation-key', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("collation-key")}, {seqType, 'xs:base64Binary', one}, [],
-        {'collation-key', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("collection")}, {seqType, item, zero_or_many}, [], {'collection', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("collection")}, {seqType, item, zero_or_many}, [], {'collection', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("codepoints-to-string")},
+        {seqType, 'xs:string', one},
+        [],
+        {'codepoints-to-string', 2},
+        1,
+        [{seqType, 'xs:integer', zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("collation-key")},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {'collation-key', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("collation-key")},
+        {seqType, 'xs:base64Binary', one},
+        [],
+        {'collation-key', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("collection")},
+        {seqType, item, zero_or_many},
+        [],
+        {'collection', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("collection")},
+        {seqType, item, zero_or_many},
+        [],
+        {'collection', 2},
+        1,
+        [
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("compare")}, {seqType, 'xs:integer', zero_or_one}, [], {'compare', 3}, 2,
-        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("compare")}, {seqType, 'xs:integer', zero_or_one}, [], {'compare', 4}, 3,
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("compare")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'compare', 3},
+        2,
+        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("compare")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'compare', 4},
+        3,
         [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("concat")}, {seqType, 'xs:string', one}, [], {'concat', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_many}
     ]},
@@ -140,38 +261,104 @@
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("contains-token")}, {seqType, 'xs:boolean', one}, [],
-        {'contains-token', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("contains-token")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'contains-token', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_many},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("contains-token")}, {seqType, 'xs:boolean', one}, [],
-        {'contains-token', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("contains-token")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'contains-token', 4},
+        3,
+        [
             {seqType, 'xs:string', zero_or_many},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("count")}, {seqType, 'xs:integer', one}, [], {'count', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("current-date")}, {seqType, 'xs:date', one}, [], {'current-date', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("current-dateTime")}, {seqType, 'xs:dateTime', one}, [],
-        {'current-dateTime', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("current-time")}, {seqType, 'xs:time', one}, [], {'current-time', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("data")}, {seqType, 'xs:anyAtomicType', zero_or_many}, [], {'data', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("data")}, {seqType, 'xs:anyAtomicType', zero_or_many}, [], {'data', 2}, 1,
-        [{seqType, item, zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("dateTime")}, {seqType, 'xs:dateTime', zero_or_one}, [], {'dateTime', 3},
-        2, [{seqType, 'xs:date', zero_or_one}, {seqType, 'xs:time', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("day-from-date")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'day-from-date', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("day-from-dateTime")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'day-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("days-from-duration")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'days-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("current-date")},
+        {seqType, 'xs:date', one},
+        [],
+        {'current-date', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("current-dateTime")},
+        {seqType, 'xs:dateTime', one},
+        [],
+        {'current-dateTime', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("current-time")},
+        {seqType, 'xs:time', one},
+        [],
+        {'current-time', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("data")},
+        {seqType, 'xs:anyAtomicType', zero_or_many},
+        [],
+        {'data', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("data")},
+        {seqType, 'xs:anyAtomicType', zero_or_many},
+        [],
+        {'data', 2},
+        1,
+        [{seqType, item, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("dateTime")},
+        {seqType, 'xs:dateTime', zero_or_one},
+        [],
+        {'dateTime', 3},
+        2,
+        [{seqType, 'xs:date', zero_or_one}, {seqType, 'xs:time', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("day-from-date")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'day-from-date', 2},
+        1,
+        [{seqType, 'xs:date', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("day-from-dateTime")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'day-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("days-from-duration")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'days-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("deep-equal")}, {seqType, 'xs:boolean', one}, [], {'deep-equal', 3}, 2, [
         {seqType, item, zero_or_many},
         {seqType, item, zero_or_many}
@@ -181,40 +368,103 @@
         {seqType, item, zero_or_many},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("default-collation")}, {seqType, 'xs:string', one}, [],
-        {'default-collation', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("default-language")}, {seqType, 'xs:language', one}, [],
-        {'default-language', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("distinct-values")}, {seqType, 'xs:anyAtomicType', zero_or_many}, [],
-        {'distinct-values', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("distinct-values")}, {seqType, 'xs:anyAtomicType', zero_or_many}, [],
-        {'distinct-values', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("default-collation")},
+        {seqType, 'xs:string', one},
+        [],
+        {'default-collation', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("default-language")},
+        {seqType, 'xs:language', one},
+        [],
+        {'default-language', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("distinct-values")},
+        {seqType, 'xs:anyAtomicType', zero_or_many},
+        [],
+        {'distinct-values', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("distinct-values")},
+        {seqType, 'xs:anyAtomicType', zero_or_many},
+        [],
+        {'distinct-values', 3},
+        2,
+        [
             {seqType, 'xs:anyAtomicType', zero_or_many},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("doc")},
-        {seqType, {kindTest, 'document-node', undefined, undefined}, zero_or_one}, [], {'doc', 2},
-        1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("doc-available")}, {seqType, 'xs:boolean', one}, [], {'doc-available', 2},
-        1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("document-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'document-uri', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("document-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'document-uri', 2}, 1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("element-with-id")},
-        {seqType, {kindTest, element, undefined, undefined}, zero_or_many}, [],
-        {'element-with-id', 2}, 1, [{seqType, 'xs:string', zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("element-with-id")},
-        {seqType, {kindTest, element, undefined, undefined}, zero_or_many}, [],
-        {'element-with-id', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("doc")},
+        {seqType, {kindTest, 'document-node', undefined, undefined}, zero_or_one},
+        [],
+        {'doc', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("doc-available")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'doc-available', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("document-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'document-uri', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("document-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'document-uri', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("element-with-id")},
+        {seqType, {kindTest, element, undefined, undefined}, zero_or_many},
+        [],
+        {'element-with-id', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("element-with-id")},
+        {seqType, {kindTest, element, undefined, undefined}, zero_or_many},
+        [],
+        {'element-with-id', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_many},
             {seqType, {kindTest, node, undefined, undefined}, one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("empty")}, {seqType, 'xs:boolean', one}, [], {'empty', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("encode-for-uri")}, {seqType, 'xs:string', one}, [],
-        {'encode-for-uri', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("encode-for-uri")},
+        {seqType, 'xs:string', one},
+        [],
+        {'encode-for-uri', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("ends-with")}, {seqType, 'xs:boolean', one}, [], {'ends-with', 3}, 2, [
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:string', zero_or_one}
@@ -224,8 +474,14 @@
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("environment-variable")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'environment-variable', 2}, 1, [{seqType, 'xs:string', one}]},
+    {
+        {qname, ?NS, ?PX, ?A("environment-variable")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'environment-variable', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
     {{qname, ?NS, ?PX, ?A("error")}, {seqType, 'empty-sequence', none}, [], {'error', 1}, 0, []},
     {{qname, ?NS, ?PX, ?A("error")}, {seqType, 'empty-sequence', none}, [], {'error', 2}, 1, [
         {seqType, 'xs:QName', zero_or_one}
@@ -239,8 +495,14 @@
         {seqType, 'xs:string', one},
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("escape-html-uri")}, {seqType, 'xs:string', one}, [],
-        {'escape-html-uri', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("escape-html-uri")},
+        {seqType, 'xs:string', one},
+        [],
+        {'escape-html-uri', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("exactly-one")}, {seqType, item, one}, [], {'exactly-one', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
@@ -267,7 +529,13 @@
                 {seqType, item, zero_or_many}},
             one}
     ]},
-    {{qname, ?NS, ?PX, ?A("fold-right")}, {seqType, item, zero_or_many}, [], {'fold-right', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, ?A("fold-right")},
+        {seqType, item, zero_or_many},
+        [],
+        {'fold-right', 4},
+        3,
+        [
             {seqType, item, zero_or_many},
             {seqType, item, zero_or_many},
             {seqType,
@@ -275,7 +543,8 @@
                     [{seqType, item, zero_or_many}, {seqType, item, one}],
                     {seqType, item, zero_or_many}},
                 one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("for-each")}, {seqType, item, zero_or_many}, [], {'for-each', 3}, 2, [
         {seqType, item, zero_or_many},
         {seqType,
@@ -283,132 +552,318 @@
                 {seqType, item, zero_or_many}},
             zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("for-each-pair")}, {seqType, item, zero_or_many}, [],
-        {'for-each-pair', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, ?A("for-each-pair")},
+        {seqType, item, zero_or_many},
+        [],
+        {'for-each-pair', 4},
+        3,
+        [
             {seqType, item, zero_or_many},
             {seqType, item, zero_or_many},
             {seqType,
                 {funTest, function, [], {qname, ?NS, ?PX, ?A("for-each-pair")},
                     [{seqType, item, one}, {seqType, item, one}], {seqType, item, zero_or_many}},
                 one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-date")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-date', 3}, 2, [{seqType, 'xs:date', zero_or_one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("format-date")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-date', 6}, 5, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-date")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-date', 3},
+        2,
+        [{seqType, 'xs:date', zero_or_one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-date")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-date', 6},
+        5,
+        [
             {seqType, 'xs:date', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-dateTime")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-dateTime', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-dateTime")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-dateTime', 3},
+        2,
+        [
             {seqType, 'xs:dateTime', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-dateTime")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-dateTime', 6}, 5, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-dateTime")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-dateTime', 6},
+        5,
+        [
             {seqType, 'xs:dateTime', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-integer")}, {seqType, 'xs:string', one}, [],
-        {'format-integer', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-integer")},
+        {seqType, 'xs:string', one},
+        [],
+        {'format-integer', 3},
+        2,
+        [
             {seqType, 'xs:integer', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-integer")}, {seqType, 'xs:string', one}, [],
-        {'format-integer', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-integer")},
+        {seqType, 'xs:string', one},
+        [],
+        {'format-integer', 4},
+        3,
+        [
             {seqType, 'xs:integer', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-number")}, {seqType, 'xs:string', one}, [], {'format-number', 3},
-        2, [{seqType, 'xs:numeric', zero_or_one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("format-number")}, {seqType, 'xs:string', one}, [], {'format-number', 4},
-        3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-number")},
+        {seqType, 'xs:string', one},
+        [],
+        {'format-number', 3},
+        2,
+        [{seqType, 'xs:numeric', zero_or_one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-number")},
+        {seqType, 'xs:string', one},
+        [],
+        {'format-number', 4},
+        3,
+        [
             {seqType, 'xs:numeric', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("format-time")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-time', 3}, 2, [{seqType, 'xs:time', zero_or_one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("format-time")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'format-time', 6}, 5, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-time")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-time', 3},
+        2,
+        [{seqType, 'xs:time', zero_or_one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("format-time")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'format-time', 6},
+        5,
+        [
             {seqType, 'xs:time', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("function-arity")}, {seqType, 'xs:integer', one}, [],
-        {'function-arity', 2}, 1, [{seqType, {funTest, function, [], undefined, any, any}, one}]},
-    {{qname, ?NS, ?PX, ?A("function-lookup")},
-        {seqType, {funTest, function, [], undefined, any, any}, zero_or_one}, [],
-        {'function-lookup', 3}, 2, [{seqType, 'xs:QName', one}, {seqType, 'xs:integer', one}]},
-    {{qname, ?NS, ?PX, ?A("function-name")}, {seqType, 'xs:QName', zero_or_one}, [],
-        {'function-name', 2}, 1, [{seqType, {funTest, function, [], undefined, any, any}, one}]},
-    {{qname, ?NS, ?PX, ?A("generate-id")}, {seqType, 'xs:string', one}, [], {'generate-id', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, ?A("generate-id")}, {seqType, 'xs:string', one}, [], {'generate-id', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("function-arity")},
+        {seqType, 'xs:integer', one},
+        [],
+        {'function-arity', 2},
+        1,
+        [{seqType, {funTest, function, [], undefined, any, any}, one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("function-lookup")},
+        {seqType, {funTest, function, [], undefined, any, any}, zero_or_one},
+        [],
+        {'function-lookup', 3},
+        2,
+        [{seqType, 'xs:QName', one}, {seqType, 'xs:integer', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("function-name")},
+        {seqType, 'xs:QName', zero_or_one},
+        [],
+        {'function-name', 2},
+        1,
+        [{seqType, {funTest, function, [], undefined, any, any}, one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("generate-id")},
+        {seqType, 'xs:string', one},
+        [],
+        {'generate-id', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("generate-id")},
+        {seqType, 'xs:string', one},
+        [],
+        {'generate-id', 2},
+        1,
+        [
             {seqType, {kindTest, node, undefined, undefined}, zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("has-children")}, {seqType, 'xs:boolean', one}, [], {'has-children', 1},
-        0, []},
-    {{qname, ?NS, ?PX, ?A("has-children")}, {seqType, 'xs:boolean', one}, [], {'has-children', 2},
-        1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("has-children")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'has-children', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("has-children")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'has-children', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("head")}, {seqType, item, zero_or_one}, [], {'head', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("hours-from-dateTime")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'hours-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("hours-from-duration")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'hours-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("hours-from-time")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'hours-from-time', 2}, 1, [{seqType, 'xs:time', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("id")},
-        {seqType, {kindTest, element, undefined, undefined}, zero_or_many}, [], {'id', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, ?A("hours-from-dateTime")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'hours-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("hours-from-duration")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'hours-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("hours-from-time")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'hours-from-time', 2},
+        1,
+        [{seqType, 'xs:time', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("id")},
+        {seqType, {kindTest, element, undefined, undefined}, zero_or_many},
+        [],
+        {'id', 2},
+        1,
+        [
             {seqType, 'xs:string', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, ?A("id")},
-        {seqType, {kindTest, element, undefined, undefined}, zero_or_many}, [], {'id', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("id")},
+        {seqType, {kindTest, element, undefined, undefined}, zero_or_many},
+        [],
+        {'id', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_many},
             {seqType, {kindTest, node, undefined, undefined}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("idref")},
-        {seqType, {kindTest, node, undefined, undefined}, zero_or_many}, [], {'idref', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("idref")},
+        {seqType, {kindTest, node, undefined, undefined}, zero_or_many},
+        [],
+        {'idref', 2},
+        1,
+        [
             {seqType, 'xs:string', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, ?A("idref")},
-        {seqType, {kindTest, node, undefined, undefined}, zero_or_many}, [], {'idref', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("idref")},
+        {seqType, {kindTest, node, undefined, undefined}, zero_or_many},
+        [],
+        {'idref', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_many},
             {seqType, {kindTest, node, undefined, undefined}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("implicit-timezone")}, {seqType, 'xs:dayTimeDuration', one}, [],
-        {'implicit-timezone', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("index-of")}, {seqType, 'xs:integer', zero_or_many}, [], {'index-of', 3},
-        2, [{seqType, 'xs:anyAtomicType', zero_or_many}, {seqType, 'xs:anyAtomicType', one}]},
-    {{qname, ?NS, ?PX, ?A("index-of")}, {seqType, 'xs:integer', zero_or_many}, [], {'index-of', 4},
-        3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("implicit-timezone")},
+        {seqType, 'xs:dayTimeDuration', one},
+        [],
+        {'implicit-timezone', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("index-of")},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {'index-of', 3},
+        2,
+        [{seqType, 'xs:anyAtomicType', zero_or_many}, {seqType, 'xs:anyAtomicType', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("index-of")},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {'index-of', 4},
+        3,
+        [
             {seqType, 'xs:anyAtomicType', zero_or_many},
             {seqType, 'xs:anyAtomicType', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("innermost")},
-        {seqType, {kindTest, node, undefined, undefined}, zero_or_many}, [], {'innermost', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("innermost")},
+        {seqType, {kindTest, node, undefined, undefined}, zero_or_many},
+        [],
+        {'innermost', 2},
+        1,
+        [
             {seqType, {kindTest, node, undefined, undefined}, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, ?A("in-scope-prefixes")}, {seqType, 'xs:string', zero_or_many}, [],
-        {'in-scope-prefixes', 2}, 1, [{seqType, {kindTest, element, undefined, undefined}, one}]},
-    {{qname, ?NS, ?PX, ?A("insert-before")}, {seqType, item, zero_or_many}, [],
-        {'insert-before', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("in-scope-prefixes")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'in-scope-prefixes', 2},
+        1,
+        [{seqType, {kindTest, element, undefined, undefined}, one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("insert-before")},
+        {seqType, item, zero_or_many},
+        [],
+        {'insert-before', 4},
+        3,
+        [
             {seqType, item, zero_or_many},
             {seqType, 'xs:integer', one},
             {seqType, item, zero_or_many}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("iri-to-uri")}, {seqType, 'xs:string', one}, [], {'iri-to-uri', 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
@@ -419,15 +874,25 @@
         {seqType, 'xs:string', zero_or_one},
         {seqType, {funTest, map, [], undefined, any, any}, one}
     ]},
-    {{qname, ?NS, ?PX, ?A("json-to-xml")},
-        {seqType, {kindTest, 'document-node', undefined, undefined}, one}, [], {'json-to-xml', 2},
-        1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("json-to-xml")},
-        {seqType, {kindTest, 'document-node', undefined, undefined}, one}, [], {'json-to-xml', 3},
-        2, [
+    {
+        {qname, ?NS, ?PX, ?A("json-to-xml")},
+        {seqType, {kindTest, 'document-node', undefined, undefined}, one},
+        [],
+        {'json-to-xml', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("json-to-xml")},
+        {seqType, {kindTest, 'document-node', undefined, undefined}, one},
+        [],
+        {'json-to-xml', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, {funTest, map, [], undefined, any, any}, one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("lang")}, {seqType, 'xs:boolean', one}, [], {'lang', 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
@@ -436,22 +901,46 @@
         {seqType, {kindTest, node, undefined, undefined}, one}
     ]},
     {{qname, ?NS, ?PX, ?A("last")}, {seqType, 'xs:integer', one}, [], {'last', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("load-xquery-module")},
-        {seqType, {funTest, map, [], undefined, any, any}, one}, [], {'load-xquery-module', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, ?A("load-xquery-module")},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'load-xquery-module', 2},
+        1,
+        [
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("load-xquery-module")},
-        {seqType, {funTest, map, [], undefined, any, any}, one}, [], {'load-xquery-module', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("load-xquery-module")},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'load-xquery-module', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, {funTest, map, [], undefined, any, any}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("local-name")}, {seqType, 'xs:string', one}, [], {'local-name', 1}, 0,
-        []},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("local-name")},
+        {seqType, 'xs:string', one},
+        [],
+        {'local-name', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, ?A("local-name")}, {seqType, 'xs:string', one}, [], {'local-name', 2}, 1, [
         {seqType, {kindTest, node, undefined, undefined}, zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("local-name-from-QName")}, {seqType, 'xs:NCName', zero_or_one}, [],
-        {'local-name-from-QName', 2}, 1, [{seqType, 'xs:QName', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("local-name-from-QName")},
+        {seqType, 'xs:NCName', zero_or_one},
+        [],
+        {'local-name-from-QName', 2},
+        1,
+        [{seqType, 'xs:QName', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("lower-case")}, {seqType, 'xs:string', one}, [], {'lower-case', 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
@@ -478,53 +967,155 @@
         {seqType, 'xs:anyAtomicType', zero_or_many},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("minutes-from-dateTime")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'minutes-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("minutes-from-duration")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'minutes-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("minutes-from-time")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'minutes-from-time', 2}, 1, [{seqType, 'xs:time', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("month-from-date")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'month-from-date', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("month-from-dateTime")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'month-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("months-from-duration")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'months-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("minutes-from-dateTime")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'minutes-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("minutes-from-duration")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'minutes-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("minutes-from-time")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'minutes-from-time', 2},
+        1,
+        [{seqType, 'xs:time', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("month-from-date")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'month-from-date', 2},
+        1,
+        [{seqType, 'xs:date', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("month-from-dateTime")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'month-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("months-from-duration")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'months-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("name")}, {seqType, 'xs:string', one}, [], {'name', 1}, 0, []},
     {{qname, ?NS, ?PX, ?A("name")}, {seqType, 'xs:string', one}, [], {'name', 2}, 1, [
         {seqType, {kindTest, node, undefined, undefined}, zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("namespace-uri")}, {seqType, 'xs:anyURI', one}, [], {'namespace-uri', 1},
-        0, []},
-    {{qname, ?NS, ?PX, ?A("namespace-uri")}, {seqType, 'xs:anyURI', one}, [], {'namespace-uri', 2},
-        1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("namespace-uri-for-prefix")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'namespace-uri-for-prefix', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("namespace-uri")},
+        {seqType, 'xs:anyURI', one},
+        [],
+        {'namespace-uri', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("namespace-uri")},
+        {seqType, 'xs:anyURI', one},
+        [],
+        {'namespace-uri', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("namespace-uri-for-prefix")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'namespace-uri-for-prefix', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, {kindTest, element, undefined, undefined}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("namespace-uri-from-QName")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'namespace-uri-from-QName', 2}, 1, [{seqType, 'xs:QName', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("nilled")}, {seqType, 'xs:boolean', zero_or_one}, [], {'nilled', 1}, 0,
-        []},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("namespace-uri-from-QName")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'namespace-uri-from-QName', 2},
+        1,
+        [{seqType, 'xs:QName', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("nilled")},
+        {seqType, 'xs:boolean', zero_or_one},
+        [],
+        {'nilled', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, ?A("nilled")}, {seqType, 'xs:boolean', zero_or_one}, [], {'nilled', 2}, 1, [
         {seqType, {kindTest, node, undefined, undefined}, zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("node-name")}, {seqType, 'xs:QName', zero_or_one}, [], {'node-name', 1},
-        0, []},
-    {{qname, ?NS, ?PX, ?A("node-name")}, {seqType, 'xs:QName', zero_or_one}, [], {'node-name', 2},
-        1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("normalize-space")}, {seqType, 'xs:string', one}, [],
-        {'normalize-space', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("normalize-space")}, {seqType, 'xs:string', one}, [],
-        {'normalize-space', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("normalize-unicode")}, {seqType, 'xs:string', one}, [],
-        {'normalize-unicode', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("normalize-unicode")}, {seqType, 'xs:string', one}, [],
-        {'normalize-unicode', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("node-name")},
+        {seqType, 'xs:QName', zero_or_one},
+        [],
+        {'node-name', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("node-name")},
+        {seqType, 'xs:QName', zero_or_one},
+        [],
+        {'node-name', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("normalize-space")},
+        {seqType, 'xs:string', one},
+        [],
+        {'normalize-space', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("normalize-space")},
+        {seqType, 'xs:string', one},
+        [],
+        {'normalize-space', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("normalize-unicode")},
+        {seqType, 'xs:string', one},
+        [],
+        {'normalize-unicode', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("normalize-unicode")},
+        {seqType, 'xs:string', one},
+        [],
+        {'normalize-unicode', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("not")}, {seqType, 'xs:boolean', one}, [], {'not', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
@@ -532,14 +1123,32 @@
     {{qname, ?NS, ?PX, ?A("number")}, {seqType, 'xs:double', one}, [], {'number', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("one-or-more")}, {seqType, item, one_or_many}, [], {'one-or-more', 2}, 1,
-        [{seqType, item, zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("outermost")},
-        {seqType, {kindTest, node, undefined, undefined}, zero_or_many}, [], {'outermost', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, ?A("one-or-more")},
+        {seqType, item, one_or_many},
+        [],
+        {'one-or-more', 2},
+        1,
+        [{seqType, item, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("outermost")},
+        {seqType, {kindTest, node, undefined, undefined}, zero_or_many},
+        [],
+        {'outermost', 2},
+        1,
+        [
             {seqType, {kindTest, node, undefined, undefined}, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, ?A("parse-ietf-date")}, {seqType, 'xs:dateTime', zero_or_one}, [],
-        {'parse-ietf-date', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("parse-ietf-date")},
+        {seqType, 'xs:dateTime', zero_or_one},
+        [],
+        {'parse-ietf-date', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("parse-json")}, {seqType, item, zero_or_one}, [], {'parse-json', 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
@@ -547,33 +1156,59 @@
         {seqType, 'xs:string', zero_or_one},
         {seqType, {funTest, map, [], undefined, any, any}, one}
     ]},
-    {{qname, ?NS, ?PX, ?A("parse-xml")},
-        {seqType, {kindTest, 'document-node', undefined, undefined}, one}, [], {'parse-xml', 2}, 1,
-        [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("parse-xml-fragment")},
-        {seqType, {kindTest, 'document-node', undefined, undefined}, zero_or_one}, [],
-        {'parse-xml-fragment', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("parse-xml")},
+        {seqType, {kindTest, 'document-node', undefined, undefined}, one},
+        [],
+        {'parse-xml', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("parse-xml-fragment")},
+        {seqType, {kindTest, 'document-node', undefined, undefined}, zero_or_one},
+        [],
+        {'parse-xml-fragment', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("path")}, {seqType, 'xs:string', zero_or_one}, [], {'path', 1}, 0, []},
     {{qname, ?NS, ?PX, ?A("path")}, {seqType, 'xs:string', zero_or_one}, [], {'path', 2}, 1, [
         {seqType, {kindTest, node, undefined, undefined}, zero_or_one}
     ]},
     {{qname, ?NS, ?PX, ?A("position")}, {seqType, 'xs:integer', one}, [], {'position', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("prefix-from-QName")}, {seqType, 'xs:NCName', zero_or_one}, [],
-        {'prefix-from-QName', 2}, 1, [{seqType, 'xs:QName', zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("prefix-from-QName")},
+        {seqType, 'xs:NCName', zero_or_one},
+        [],
+        {'prefix-from-QName', 2},
+        1,
+        [{seqType, 'xs:QName', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("QName")}, {seqType, 'xs:QName', one}, [], {'QName', 3}, 2, [
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("random-number-generator")},
+    {
+        {qname, ?NS, ?PX, ?A("random-number-generator")},
         {seqType,
             {funTest, map, [], undefined, [{seqType, 'xs:string', one}], {seqType, item, one}},
             one},
-        [], {'random-number-generator', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("random-number-generator")},
+        [],
+        {'random-number-generator', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("random-number-generator")},
         {seqType,
             {funTest, map, [], undefined, [{seqType, 'xs:string', one}], {seqType, item, one}},
             one},
-        [], {'random-number-generator', 2}, 1, [{seqType, 'xs:anyAtomicType', zero_or_one}]},
+        [],
+        {'random-number-generator', 2},
+        1,
+        [{seqType, 'xs:anyAtomicType', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("remove")}, {seqType, item, zero_or_many}, [], {'remove', 3}, 2, [
         {seqType, item, zero_or_many},
         {seqType, 'xs:integer', one}
@@ -589,22 +1224,52 @@
         {seqType, 'xs:string', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("resolve-QName")}, {seqType, 'xs:QName', zero_or_one}, [],
-        {'resolve-QName', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("resolve-QName")},
+        {seqType, 'xs:QName', zero_or_one},
+        [],
+        {'resolve-QName', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, {kindTest, element, undefined, undefined}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("resolve-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'resolve-uri', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("resolve-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'resolve-uri', 3}, 2, [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("resolve-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'resolve-uri', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("resolve-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'resolve-uri', 3},
+        2,
+        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]
+    },
     {{qname, ?NS, ?PX, ?A("reverse")}, {seqType, item, zero_or_many}, [], {'reverse', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("root")}, {seqType, {kindTest, node, undefined, undefined}, one}, [],
-        {'root', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("root")}, {seqType, {kindTest, node, undefined, undefined}, zero_or_one},
-        [], {'root', 2}, 1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
+    {
+        {qname, ?NS, ?PX, ?A("root")},
+        {seqType, {kindTest, node, undefined, undefined}, one},
+        [],
+        {'root', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("root")},
+        {seqType, {kindTest, node, undefined, undefined}, zero_or_one},
+        [],
+        {'root', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("round")}, {seqType, 'xs:numeric', zero_or_one}, [], {'round', 2}, 1, [
         {seqType, 'xs:numeric', zero_or_one}
     ]},
@@ -612,19 +1277,49 @@
         {seqType, 'xs:numeric', zero_or_one},
         {seqType, 'xs:integer', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("round-half-to-even")}, {seqType, 'xs:numeric', zero_or_one}, [],
-        {'round-half-to-even', 2}, 1, [{seqType, 'xs:numeric', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("round-half-to-even")}, {seqType, 'xs:numeric', zero_or_one}, [],
-        {'round-half-to-even', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("round-half-to-even")},
+        {seqType, 'xs:numeric', zero_or_one},
+        [],
+        {'round-half-to-even', 2},
+        1,
+        [{seqType, 'xs:numeric', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("round-half-to-even")},
+        {seqType, 'xs:numeric', zero_or_one},
+        [],
+        {'round-half-to-even', 3},
+        2,
+        [
             {seqType, 'xs:numeric', zero_or_one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("seconds-from-dateTime")}, {seqType, 'xs:decimal', zero_or_one}, [],
-        {'seconds-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("seconds-from-duration")}, {seqType, 'xs:decimal', zero_or_one}, [],
-        {'seconds-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("seconds-from-time")}, {seqType, 'xs:decimal', zero_or_one}, [],
-        {'seconds-from-time', 2}, 1, [{seqType, 'xs:time', zero_or_one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("seconds-from-dateTime")},
+        {seqType, 'xs:decimal', zero_or_one},
+        [],
+        {'seconds-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("seconds-from-duration")},
+        {seqType, 'xs:decimal', zero_or_one},
+        [],
+        {'seconds-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("seconds-from-time")},
+        {seqType, 'xs:decimal', zero_or_one},
+        [],
+        {'seconds-from-time', 2},
+        1,
+        [{seqType, 'xs:time', zero_or_one}]
+    },
     {{qname, ?NS, ?PX, ?A("serialize")}, {seqType, 'xs:string', one}, [], {'serialize', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
@@ -647,37 +1342,99 @@
                 {seqType, 'xs:anyAtomicType', zero_or_many}},
             one}
     ]},
-    {{qname, ?NS, ?PX, ?A("starts-with")}, {seqType, 'xs:boolean', one}, [], {'starts-with', 3}, 2,
-        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("starts-with")}, {seqType, 'xs:boolean', one}, [], {'starts-with', 4}, 3,
+    {
+        {qname, ?NS, ?PX, ?A("starts-with")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'starts-with', 3},
+        2,
+        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("starts-with")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'starts-with', 4},
+        3,
         [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("static-base-uri")}, {seqType, 'xs:anyURI', zero_or_one}, [],
-        {'static-base-uri', 1}, 0, []},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("static-base-uri")},
+        {seqType, 'xs:anyURI', zero_or_one},
+        [],
+        {'static-base-uri', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, ?A("string")}, {seqType, 'xs:string', one}, [], {'string', 1}, 0, []},
     {{qname, ?NS, ?PX, ?A("string")}, {seqType, 'xs:string', one}, [], {'string', 2}, 1, [
         {seqType, item, zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("string-join")}, {seqType, 'xs:string', one}, [], {'string-join', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, ?A("string-join")},
+        {seqType, 'xs:string', one},
+        [],
+        {'string-join', 2},
+        1,
+        [
             {seqType, 'xs:anyAtomicType', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, ?A("string-join")}, {seqType, 'xs:string', one}, [], {'string-join', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("string-join")},
+        {seqType, 'xs:string', one},
+        [],
+        {'string-join', 3},
+        2,
+        [
             {seqType, 'xs:anyAtomicType', zero_or_many},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("string-length")}, {seqType, 'xs:integer', one}, [], {'string-length', 1},
-        0, []},
-    {{qname, ?NS, ?PX, ?A("string-length")}, {seqType, 'xs:integer', one}, [], {'string-length', 2},
-        1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("string-to-codepoints")}, {seqType, 'xs:integer', zero_or_many}, [],
-        {'string-to-codepoints', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("subsequence")}, {seqType, item, zero_or_many}, [], {'subsequence', 3}, 2,
-        [{seqType, item, zero_or_many}, {seqType, 'xs:double', one}]},
-    {{qname, ?NS, ?PX, ?A("subsequence")}, {seqType, item, zero_or_many}, [], {'subsequence', 4}, 3,
-        [{seqType, item, zero_or_many}, {seqType, 'xs:double', one}, {seqType, 'xs:double', one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("string-length")},
+        {seqType, 'xs:integer', one},
+        [],
+        {'string-length', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("string-length")},
+        {seqType, 'xs:integer', one},
+        [],
+        {'string-length', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("string-to-codepoints")},
+        {seqType, 'xs:integer', zero_or_many},
+        [],
+        {'string-to-codepoints', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("subsequence")},
+        {seqType, item, zero_or_many},
+        [],
+        {'subsequence', 3},
+        2,
+        [{seqType, item, zero_or_many}, {seqType, 'xs:double', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("subsequence")},
+        {seqType, item, zero_or_many},
+        [],
+        {'subsequence', 4},
+        3,
+        [{seqType, item, zero_or_many}, {seqType, 'xs:double', one}, {seqType, 'xs:double', one}]
+    },
     {{qname, ?NS, ?PX, ?A("substring")}, {seqType, 'xs:string', one}, [], {'substring', 3}, 2, [
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:double', one}
@@ -687,28 +1444,52 @@
         {seqType, 'xs:double', one},
         {seqType, 'xs:double', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("substring-after")}, {seqType, 'xs:string', one}, [],
-        {'substring-after', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("substring-after")},
+        {seqType, 'xs:string', one},
+        [],
+        {'substring-after', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("substring-after")}, {seqType, 'xs:string', one}, [],
-        {'substring-after', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("substring-after")},
+        {seqType, 'xs:string', one},
+        [],
+        {'substring-after', 4},
+        3,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("substring-before")}, {seqType, 'xs:string', one}, [],
-        {'substring-before', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("substring-before")},
+        {seqType, 'xs:string', one},
+        [],
+        {'substring-before', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("substring-before")}, {seqType, 'xs:string', one}, [],
-        {'substring-before', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("substring-before")},
+        {seqType, 'xs:string', one},
+        [],
+        {'substring-before', 4},
+        3,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("sum")}, {seqType, 'xs:anyAtomicType', one}, [], {'sum', 2}, 1, [
         {seqType, 'xs:anyAtomicType', zero_or_many}
     ]},
@@ -719,22 +1500,58 @@
     {{qname, ?NS, ?PX, ?A("tail")}, {seqType, item, zero_or_many}, [], {'tail', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("timezone-from-date")}, {seqType, 'xs:dayTimeDuration', zero_or_one}, [],
-        {'timezone-from-date', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("timezone-from-dateTime")}, {seqType, 'xs:dayTimeDuration', zero_or_one},
-        [], {'timezone-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("timezone-from-time")}, {seqType, 'xs:dayTimeDuration', zero_or_one}, [],
-        {'timezone-from-time', 2}, 1, [{seqType, 'xs:time', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("tokenize")}, {seqType, 'xs:string', zero_or_many}, [], {'tokenize', 2},
-        1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("tokenize")}, {seqType, 'xs:string', zero_or_many}, [], {'tokenize', 3},
-        2, [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("tokenize")}, {seqType, 'xs:string', zero_or_many}, [], {'tokenize', 4},
-        3, [
+    {
+        {qname, ?NS, ?PX, ?A("timezone-from-date")},
+        {seqType, 'xs:dayTimeDuration', zero_or_one},
+        [],
+        {'timezone-from-date', 2},
+        1,
+        [{seqType, 'xs:date', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("timezone-from-dateTime")},
+        {seqType, 'xs:dayTimeDuration', zero_or_one},
+        [],
+        {'timezone-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("timezone-from-time")},
+        {seqType, 'xs:dayTimeDuration', zero_or_one},
+        [],
+        {'timezone-from-time', 2},
+        1,
+        [{seqType, 'xs:time', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("tokenize")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'tokenize', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("tokenize")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'tokenize', 3},
+        2,
+        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("tokenize")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'tokenize', 4},
+        3,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("trace")}, {seqType, item, zero_or_many}, [], {'trace', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
@@ -742,8 +1559,14 @@
         {seqType, item, zero_or_many},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, ?A("transform")}, {seqType, {funTest, map, [], undefined, any, any}, one},
-        [], {'transform', 2}, 1, [{seqType, {funTest, map, [], undefined, any, any}, one}]},
+    {
+        {qname, ?NS, ?PX, ?A("transform")},
+        {seqType, {funTest, map, [], undefined, any, any}, one},
+        [],
+        {'transform', 2},
+        1,
+        [{seqType, {funTest, map, [], undefined, any, any}, one}]
+    },
     {{qname, ?NS, ?PX, ?A("translate")}, {seqType, 'xs:string', one}, [], {'translate', 4}, 3, [
         {seqType, 'xs:string', zero_or_one},
         {seqType, 'xs:string', one},
@@ -753,56 +1576,150 @@
     {{qname, ?NS, ?PX, ?A("unordered")}, {seqType, item, zero_or_many}, [], {'unordered', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'unparsed-text', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'unparsed-text', 3}, 2, [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text-available")}, {seqType, 'xs:boolean', one}, [],
-        {'unparsed-text-available', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text-available")}, {seqType, 'xs:boolean', one}, [],
-        {'unparsed-text-available', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'unparsed-text', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'unparsed-text', 3},
+        2,
+        [{seqType, 'xs:string', zero_or_one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text-available")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'unparsed-text-available', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text-available")},
+        {seqType, 'xs:boolean', one},
+        [],
+        {'unparsed-text-available', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text-lines")}, {seqType, 'xs:string', zero_or_many}, [],
-        {'unparsed-text-lines', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("unparsed-text-lines")}, {seqType, 'xs:string', zero_or_many}, [],
-        {'unparsed-text-lines', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text-lines")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'unparsed-text-lines', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("unparsed-text-lines")},
+        {seqType, 'xs:string', zero_or_many},
+        [],
+        {'unparsed-text-lines', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, ?A("upper-case")}, {seqType, 'xs:string', one}, [], {'upper-case', 2}, 1, [
         {seqType, 'xs:string', zero_or_one}
     ]},
-    {{qname, ?NS, ?PX, ?A("uri-collection")}, {seqType, 'xs:anyURI', zero_or_many}, [],
-        {'uri-collection', 1}, 0, []},
-    {{qname, ?NS, ?PX, ?A("uri-collection")}, {seqType, 'xs:anyURI', zero_or_many}, [],
-        {'uri-collection', 2}, 1, [{seqType, 'xs:string', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("xml-to-json")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'xml-to-json', 2}, 1, [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("xml-to-json")}, {seqType, 'xs:string', zero_or_one}, [],
-        {'xml-to-json', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, ?A("uri-collection")},
+        {seqType, 'xs:anyURI', zero_or_many},
+        [],
+        {'uri-collection', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, ?A("uri-collection")},
+        {seqType, 'xs:anyURI', zero_or_many},
+        [],
+        {'uri-collection', 2},
+        1,
+        [{seqType, 'xs:string', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("xml-to-json")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'xml-to-json', 2},
+        1,
+        [{seqType, {kindTest, node, undefined, undefined}, zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("xml-to-json")},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'xml-to-json', 3},
+        2,
+        [
             {seqType, {kindTest, node, undefined, undefined}, zero_or_one},
             {seqType, {funTest, map, [], undefined, any, any}, one}
-        ]},
-    {{qname, ?NS, ?PX, ?A("year-from-date")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'year-from-date', 2}, 1, [{seqType, 'xs:date', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("year-from-dateTime")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'year-from-dateTime', 2}, 1, [{seqType, 'xs:dateTime', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("years-from-duration")}, {seqType, 'xs:integer', zero_or_one}, [],
-        {'years-from-duration', 2}, 1, [{seqType, 'xs:duration', zero_or_one}]},
-    {{qname, ?NS, ?PX, ?A("zero-or-one")}, {seqType, item, zero_or_one}, [], {'zero-or-one', 2}, 1,
-        [{seqType, item, zero_or_many}]},
-    {{qname, ?NS, ?PX, ?A("put")}, {seqType, 'empty-sequence', one},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("year-from-date")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'year-from-date', 2},
+        1,
+        [{seqType, 'xs:date', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("year-from-dateTime")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'year-from-dateTime', 2},
+        1,
+        [{seqType, 'xs:dateTime', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("years-from-duration")},
+        {seqType, 'xs:integer', zero_or_one},
+        [],
+        {'years-from-duration', 2},
+        1,
+        [{seqType, 'xs:duration', zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("zero-or-one")},
+        {seqType, item, zero_or_one},
+        [],
+        {'zero-or-one', 2},
+        1,
+        [{seqType, item, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("put")},
+        {seqType, 'empty-sequence', one},
         [{annotation, {qname, ?A("http://www.w3.org/2012/xquery"), <<>>, ?A("updating")}, []}],
-        {'put', 3}, 2, [{seqType, item, one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, ?A("put")}, {seqType, 'empty-sequence', one},
+        {'put', 3},
+        2,
+        [{seqType, item, one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, ?A("put")},
+        {seqType, 'empty-sequence', one},
         [{annotation, {qname, ?A("http://www.w3.org/2012/xquery"), <<>>, ?A("updating")}, []}],
-        {'put', 4}, 3, [
+        {'put', 4},
+        3,
+        [
             {seqType, item, one},
             {seqType, 'xs:string', one},
             {seqType, item, zero_or_one}
-        ]}
+        ]
+    }
 ]).
 
 %% ====================================================================
@@ -1322,7 +2239,7 @@ group_elem(Ref, Pos, Content) ->
             end,
         xqerl_types:cast_as(Avg, OutType)
     catch
-        ?ERROR_MATCH(?A("XPTY0004")) ->
+        _:?ERROR_MATCH(?A("XPTY0004")) ->
             ?err('FORG0006');
         E ->
             throw(E)
@@ -1880,7 +2797,7 @@ date_time_comb_offset(_, _) -> ?err('FORG0008').
     try
         deep_equal_all(Arg1, Arg2, EqFun)
     catch
-        ?ERROR_MATCH(?A("FOTY0015")) = E ->
+        _:(?ERROR_MATCH(?A("FOTY0015"))) = E ->
             throw(E);
         _:_ ->
             %?dbg("deep-equal",StackTrace),
@@ -2706,7 +3623,7 @@ zip_with1(Ctx, Fun, {[H1 | List1], [H2 | List2]}, Pos, Acc) ->
             try
                 xqerl_format:parse_picture(IntVal, StrVal)
             catch
-                ?ERROR_MATCH(?A("FODF1310")) ->
+                _:?ERROR_MATCH(?A("FODF1310")) ->
                     ?err('FOFD1340');
                 _:#xqError{} = E:StackTrace ->
                     ?dbg("E", StackTrace),
@@ -2765,7 +3682,7 @@ zip_with1(Ctx, Fun, {[H1 | List1], [H2 | List2]}, Pos, Acc) ->
         NewVal = xqerl_types:string_value(Fmt),
         <<Val3/binary, NewVal/binary>>
     catch
-        ?ERROR_MATCH(?A("FORG0001")) ->
+        _:?ERROR_MATCH(?A("FORG0001")) ->
             ?err('FOFD1340');
         _:#xqError{} = E ->
             throw(E);
@@ -2900,9 +3817,9 @@ is_valid_calendar({_, _}) ->
             case
                 [
                     D
-                    || {#qname{namespace = N1, local_name = L1}, _, D} <- Dfs,
-                       L == L1,
-                       N == N1
+                 || {#qname{namespace = N1, local_name = L1}, _, D} <- Dfs,
+                    L == L1,
+                    N == N1
                 ]
             of
                 [DF] ->
@@ -2986,11 +3903,13 @@ get_static_function(_, {_, []}) ->
     ?err('XPTY0004');
 get_static_function(
     Ctx,
-    {#qname{
+    {
+        #qname{
             namespace = ?NS,
             local_name = ?A("concat")
         } = Name,
-        Arity}
+        Arity
+    }
 ) when Arity > 1 ->
     (get_static_function(Ctx, {Name, 1}))#xqFunction{arity = Arity};
 get_static_function(
@@ -3009,13 +3928,18 @@ get_static_function(
             body = close_context(Ctx, M, F, A),
             external = false
         }
-        || {#qname{namespace = Ns1, local_name = Ln1} = Name1, ReturnType, Annotations, {M, F, A},
-               Arity1,
-               ParamTypes} <-
-               Sigs,
-           Ns == Ns1,
-           Ln == Ln1,
-           Arity == Arity1
+     || {
+            #qname{namespace = Ns1, local_name = Ln1} = Name1,
+            ReturnType,
+            Annotations,
+            {M, F, A},
+            Arity1,
+            ParamTypes
+        } <-
+            Sigs,
+        Ns == Ns1,
+        Ln == Ln1,
+        Arity == Arity1
     ],
     case Lookup of
         [F] -> F;
@@ -3243,9 +4167,9 @@ head_1(H) -> H.
             try
                 xqldb_xpath:id(D, RefToks)
             catch
-                ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
-                ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
-                ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
+                _:?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
+                _:?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
+                _:?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
                 _:E -> throw(E)
             end
     end.
@@ -3286,9 +4210,9 @@ head_1(H) -> H.
             try
                 xqldb_xpath:idref(D, RefToks)
             catch
-                ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
-                ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
-                ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
+                _:?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
+                _:?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
+                _:?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
                 _:E -> throw(E)
             end
     end.
@@ -3365,7 +4289,7 @@ head_1(H) -> H.
         xqldb_mem_nodes:innermost(Arg1)
     catch
         {error, non_node} -> ?err('XPTY0004');
-        ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
+        _:?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
         _:E -> throw(E)
     end.
 
@@ -3486,11 +4410,11 @@ subsequence_1(List, Start, Length) ->
         'parse-json'(Ctx, Txt, Opts)
     catch
         % invalid XML char
-        ?ERROR_MATCH(?A("FOUT1190")) ->
+        _:?ERROR_MATCH(?A("FOUT1190")) ->
             ?err('FOJS0001');
-        ?ERROR_MATCH(?A("FORG0002")) ->
+        _:?ERROR_MATCH(?A("FORG0002")) ->
             ?err('FOUT1170');
-        ?ERROR_MATCH(?A("XQST0046")) ->
+        _:?ERROR_MATCH(?A("XQST0046")) ->
             ?err('FOUT1170');
         _:#xqError{} = E ->
             throw(E);
@@ -3612,8 +4536,8 @@ check_json_to_xml_opts(_) ->
                     string:prefix(Str, <<Testlang/binary, "-">>) =/= nomatch
         end
     catch
-        ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
-        ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004')
+        _:?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
+        _:?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004')
     end.
 
 %% Returns the context size from the dynamic context.
@@ -3677,14 +4601,14 @@ check_json_to_xml_opts(_) ->
                     end,
                 VarsM = xqerl_mod_map:construct(ok, [
                     {?ATM('xs:QName', QName#qname{namespace = ModUri}), maps:get(AtomName, Ctx2)}
-                    || {QName, _, _, {_, AtomName}, _} <- Vars
+                 || {QName, _, _, {_, AtomName}, _} <- Vars
                 ]),
                 Funs1 = merge_function_map(ModUri, Ctx2, Funs, #{}),
                 FunsM = xqerl_mod_map:construct(
                     ok,
                     [
                         {K, xqerl_mod_map:construct(ok, V)}
-                        || {K, V} <- maps:to_list(Funs1)
+                     || {K, V} <- maps:to_list(Funs1)
                     ]
                 ),
                 xqerl_mod_map:construct(
@@ -3695,7 +4619,7 @@ check_json_to_xml_opts(_) ->
                     ]
                 )
             catch
-                ?ERROR_MATCH(?A("XPTY0004")) ->
+                _:?ERROR_MATCH(?A("XPTY0004")) ->
                     ?err('FOQM0005')
             end
     catch
@@ -4538,7 +5462,7 @@ shrink_spaces(<<H, T/binary>>) ->
         xqldb_mem_nodes:outermost(Arg1)
     catch
         {error, non_node} -> ?err('XPTY0004');
-        ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
+        _:?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
         _:E -> throw(E)
     end.
 
@@ -4792,8 +5716,8 @@ path_2(element, [#{id := NId} = Node | Rest], Acc, Parent) ->
     {Ns, _, Ln} = xqldb_mem_nodes:node_name(Node),
     Pre = [
         N
-        || #{id := Id} = N <- xqldb_xpath:child_element(Parent, {{Ns, Ln, '_'}, []}),
-           Id < NId
+     || #{id := Id} = N <- xqldb_xpath:child_element(Parent, {{Ns, Ln, '_'}, []}),
+        Id < NId
     ],
     Pos = length(Pre) + 1,
     Str = <<"Q{", Ns/binary, "}", Ln/binary, "[", (integer_to_binary(Pos))/binary, "]">>,
@@ -4810,8 +5734,8 @@ path_2(attribute, [Node | Rest], Acc, _) ->
 path_2(text, [#{id := NId} | Rest], Acc, Parent) ->
     Pre = [
         N
-        || #{id := Id} = N <- xqldb_xpath:child_text(Parent, {[]}),
-           Id < NId
+     || #{id := Id} = N <- xqldb_xpath:child_text(Parent, {[]}),
+        Id < NId
     ],
     Pos = length(Pre) + 1,
     Str = <<"text()[", (integer_to_binary(Pos))/binary, "]">>,
@@ -4820,8 +5744,8 @@ path_2(text, [#{id := NId} | Rest], Acc, Parent) ->
 path_2(comment, [#{id := NId} | Rest], Acc, Parent) ->
     Pre = [
         N
-        || #{id := Id} = N <- xqldb_xpath:child_comment(Parent, {[]}),
-           Id < NId
+     || #{id := Id} = N <- xqldb_xpath:child_comment(Parent, {[]}),
+        Id < NId
     ],
     Pos = length(Pre) + 1,
     Str = <<"comment()[", (integer_to_binary(Pos))/binary, "]">>,
@@ -4831,8 +5755,8 @@ path_2('processing-instruction', [#{id := NId} = Node | Rest], Acc, Parent) ->
     {_, _, Ln} = xqldb_mem_nodes:node_name(Node),
     Pre = [
         N
-        || #{id := Id} = N <- xqldb_xpath:child_processing_instruction(Parent, {{Ln}, []}),
-           Id < NId
+     || #{id := Id} = N <- xqldb_xpath:child_processing_instruction(Parent, {{Ln}, []}),
+        Id < NId
     ],
     Pos = length(Pre) + 1,
     Str = <<"processing-instruction(", Ln/binary, ")[", (integer_to_binary(Pos))/binary, "]">>,
@@ -5099,7 +6023,7 @@ string_value(At) -> xqerl_types:string_value(At).
     try
         xqerl_types:cast_as(String, 'xs:QName', IsNs)
     catch
-        ?ERROR_MATCH(?A("FONS0004")) -> ?err('FONS0004');
+        _:?ERROR_MATCH(?A("FONS0004")) -> ?err('FONS0004');
         _:_ -> ?err('FOCA0002')
     end.
 
@@ -5143,9 +6067,9 @@ string_value(At) -> xqerl_types:string_value(At).
                         ?ATM('xs:anyURI', ResVal)
                 end
             catch
-                ?ERROR_MATCH(?A("FORG0001")) ->
+                _:?ERROR_MATCH(?A("FORG0001")) ->
                     ?err('FORG0002');
-                ?ERROR_MATCH(?A("FORG0002")) ->
+                _:?ERROR_MATCH(?A("FORG0002")) ->
                     ?err('FORG0002');
                 _:{badmatch, _} ->
                     ?err('FORG0002');
@@ -6029,7 +6953,7 @@ translate_1(ArgV, TransString, MapStringV) ->
             {_, P} -> <<P/utf8>>;
             false -> <<C/utf8>>
         end)
-        || <<C/utf8>> <= ArgV
+     || <<C/utf8>> <= ArgV
     >>.
 
 zip_map_trans(<<>>, _) ->
@@ -6091,9 +7015,9 @@ zip_map_trans(<<H/utf8, T/binary>>, <<TH/utf8, TT/binary>>) ->
                 end
         end
     catch
-        ?ERROR_MATCH(?A("FORG0002")) ->
+        _:?ERROR_MATCH(?A("FORG0002")) ->
             ?err('FOUT1170');
-        ?ERROR_MATCH(?A("XQST0046")) ->
+        _:?ERROR_MATCH(?A("XQST0046")) ->
             ?err('FOUT1170');
         _:#xqError{} = E ->
             throw(E);
@@ -6106,8 +7030,8 @@ zip_map_trans(<<H/utf8, T/binary>>, <<TH/utf8, TT/binary>>) ->
 valid_cps(Bin, <<"utf8+">>) ->
     _ = [
         ?err('FOUT1190')
-        || <<C/utf8>> <= Bin,
-           (C =:= 0 orelse C =:= 16#FFFE)
+     || <<C/utf8>> <= Bin,
+        (C =:= 0 orelse C =:= 16#FFFE)
     ],
     Bin;
 valid_cps(Bin, _) ->
@@ -6116,8 +7040,8 @@ valid_cps(Bin, _) ->
 valid_cps(Bin) ->
     _ = [
         ?err('FOUT1190')
-        || <<C/utf8>> <= Bin,
-           (C =:= 0 orelse C =:= 16#FFFE orelse C =:= 16#FFFF)
+     || <<C/utf8>> <= Bin,
+        (C =:= 0 orelse C =:= 16#FFFE orelse C =:= 16#FFFF)
     ],
     Bin.
 
@@ -6145,7 +7069,7 @@ valid_cps(Bin) ->
         _ = 'unparsed-text'(Ctx, Arg1, Arg2),
         true
     catch
-        ?ERROR_MATCH(?A("XPTY0004")) -> ?err('XPTY0004');
+        _:?ERROR_MATCH(?A("XPTY0004")) -> ?err('XPTY0004');
         _:_ -> false
     end.
 

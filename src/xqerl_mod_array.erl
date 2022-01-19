@@ -28,24 +28,35 @@
 
 -define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(PX, <<"array">>).
--define(MAX_SIZE, (1 bsl 24) - 1).
 
 -'module-namespace'({?NS, ?PX}).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"append">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'append', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"append">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'append', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, item, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"filter">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'filter', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"filter">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'filter', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType,
                 {funTest, function, [], undefined, [{seqType, item, zero_or_many}],
                     {seqType, 'xs:boolean', one}},
                 one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"flatten">>}, {seqType, item, zero_or_many}, [], {'flatten', 2}, 1, [
         {seqType, item, zero_or_many}
     ]},
@@ -58,7 +69,13 @@
                 {seqType, item, zero_or_many}},
             one}
     ]},
-    {{qname, ?NS, ?PX, <<"fold-right">>}, {seqType, item, zero_or_many}, [], {'fold-right', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"fold-right">>},
+        {seqType, item, zero_or_many},
+        [],
+        {'fold-right', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, item, zero_or_many},
             {seqType,
@@ -66,17 +83,29 @@
                     [{seqType, item, zero_or_many}, {seqType, item, zero_or_many}],
                     {seqType, item, zero_or_many}},
                 one}
-        ]},
-    {{qname, ?NS, ?PX, <<"for-each">>}, {seqType, {funTest, array, [], undefined, any, any}, one},
-        [], {'for-each', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"for-each">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'for-each', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType,
                 {funTest, function, [], undefined, [{seqType, item, zero_or_many}],
                     {seqType, item, zero_or_many}},
                 one}
-        ]},
-    {{qname, ?NS, ?PX, <<"for-each-pair">>},
-        {seqType, {funTest, array, [], undefined, any, any}, one}, [], {'for-each-pair', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"for-each-pair">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'for-each-pair', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType,
@@ -84,7 +113,8 @@
                     [{seqType, item, zero_or_many}, {seqType, item, zero_or_many}],
                     {seqType, item, zero_or_many}},
                 one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"get">>}, {seqType, item, zero_or_many}, [], {'get', 3}, 2, [
         {seqType, {funTest, array, [], undefined, any, any}, one},
         {seqType, 'xs:integer', one}
@@ -92,59 +122,125 @@
     {{qname, ?NS, ?PX, <<"head">>}, {seqType, item, zero_or_many}, [], {'head', 2}, 1, [
         {seqType, {funTest, array, [], undefined, any, any}, one}
     ]},
-    {{qname, ?NS, ?PX, <<"insert-before">>},
-        {seqType, {funTest, array, [], undefined, any, any}, one}, [], {'insert-before', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"insert-before">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'insert-before', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:integer', one},
             {seqType, item, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"join">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'join', 2}, 1, [{seqType, {funTest, array, [], undefined, any, any}, zero_or_many}]},
-    {{qname, ?NS, ?PX, <<"put">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'put', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"join">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'join', 2},
+        1,
+        [{seqType, {funTest, array, [], undefined, any, any}, zero_or_many}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"put">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'put', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:integer', one},
             {seqType, item, zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"remove">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'remove', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"remove">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'remove', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:integer', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"reverse">>}, {seqType, {funTest, array, [], undefined, any, any}, one},
-        [], {'reverse', 2}, 1, [{seqType, {funTest, array, [], undefined, any, any}, one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"reverse">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'reverse', 2},
+        1,
+        [{seqType, {funTest, array, [], undefined, any, any}, one}]
+    },
     {{qname, ?NS, ?PX, <<"size">>}, {seqType, 'xs:integer', one}, [], {'size', 2}, 1, [
         {seqType, {funTest, array, [], undefined, any, any}, one}
     ]},
-    {{qname, ?NS, ?PX, <<"sort">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'sort', 2}, 1, [{seqType, {funTest, array, [], undefined, any, any}, one}]},
-    {{qname, ?NS, ?PX, <<"sort">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'sort', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"sort">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'sort', 2},
+        1,
+        [{seqType, {funTest, array, [], undefined, any, any}, one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"sort">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'sort', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"sort">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'sort', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"sort">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'sort', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:string', zero_or_one},
             {seqType,
                 {funTest, function, [], undefined, [{seqType, item, zero_or_many}],
                     {seqType, 'xs:anyAtomicType', zero_or_many}},
                 one}
-        ]},
-    {{qname, ?NS, ?PX, <<"subarray">>}, {seqType, {funTest, array, [], undefined, any, any}, one},
-        [], {'subarray', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"subarray">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'subarray', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"subarray">>}, {seqType, {funTest, array, [], undefined, any, any}, one},
-        [], {'subarray', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"subarray">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'subarray', 4},
+        3,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"tail">>}, {seqType, {funTest, array, [], undefined, any, any}, one}, [],
-        {'tail', 2}, 1, [{seqType, {funTest, array, [], undefined, any, any}, one}]}
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"tail">>},
+        {seqType, {funTest, array, [], undefined, any, any}, one},
+        [],
+        {'tail', 2},
+        1,
+        [{seqType, {funTest, array, [], undefined, any, any}, one}]
+    }
 ]).
 
 -export(['append'/3]).
@@ -415,7 +511,7 @@ check_insertion_point(_, _) -> ok.
         true ->
             IntList = [
                 xqerl_types:value(V)
-                || V <- xqerl_seq3:to_list(Positions)
+             || V <- xqerl_seq3:to_list(Positions)
             ],
             SortPos = ordsets:from_list(IntList),
             RevPos = lists:reverse(ordsets:to_list(SortPos)),
@@ -598,7 +694,7 @@ from_list(List) when is_list(List) ->
             [X] -> X;
             X -> X
         end
-        || L <- List
+     || L <- List
     ],
     array:from_list(List1);
 from_list(List) ->

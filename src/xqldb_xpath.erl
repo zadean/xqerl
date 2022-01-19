@@ -27,8 +27,6 @@
 
 -module(xqldb_xpath).
 
--include("xqerl_db.hrl").
-
 -compile(
     {inline, [
         name_type_match/3,
@@ -192,8 +190,8 @@ idref(DocumentNode, Vals) ->
     Elems = descendant_element(DocumentNode, {{'_', '_', '_'}, []}),
     Atts = [
         A
-        || E <- Elems,
-           A <- attribute_node(E, {[Pred]})
+     || E <- Elems,
+        A <- attribute_node(E, {[Pred]})
     ],
     document_order(Atts).
 
@@ -215,11 +213,11 @@ base_uri(Node) ->
 lang(Node) ->
     Langs = [
         L
-        || A <- ancestor_or_self_node(Node, {[]}),
-           L <- attribute_attribute(
-               A,
-               {{<<"http://www.w3.org/XML/1998/namespace">>, <<"lang">>, '_'}, []}
-           )
+     || A <- ancestor_or_self_node(Node, {[]}),
+        L <- attribute_attribute(
+            A,
+            {{<<"http://www.w3.org/XML/1998/namespace">>, <<"lang">>, '_'}, []}
+        )
     ],
     case lists:reverse(Langs) of
         [H | _] ->
@@ -264,7 +262,7 @@ select_fun_p(MergedNodes, Steps) ->
             end,
             spawn(node(DbPid), G)
         end
-        || {{DbPid, _, _} = Db, Nodes} <- MergedNodes
+     || {{DbPid, _, _} = Db, Nodes} <- MergedNodes
     ],
     %?dbg("count Pids", length(Pids)),
     collect_select_funs(Pids, []).
@@ -325,7 +323,7 @@ select_fun({DbPid, DocId, InPathId}, Nodes, Steps) ->
                 PathLookup = xqldb_structure_index:compile_path(DB, Steps1),
                 Iters = [
                     xqldb_idx_mi:lookup_path(DB, DocId, OutPathId)
-                    || OutPathId <- PathLookup(InPathId)
+                 || OutPathId <- PathLookup(InPathId)
                 ],
                 IterUnion = xqldb_join:union(Iters),
                 Results =
@@ -406,14 +404,14 @@ ancestor_document_node(
     DocNode = xqldb_nodes:get_doc({DbPid, DocId, <<>>}),
     [
         S
-        || #{nk := document} = D <- [DocNode],
-           S <- self_document_node(D, Step)
+     || #{nk := document} = D <- [DocNode],
+        S <- self_document_node(D, Step)
     ];
 ancestor_document_node(#{nk := Nk} = Node, Step) when Nk =/= document ->
     [
         S
-        || #{nk := document} = D <- xqldb_mem_nodes:ancestors(Node),
-           S <- self_document_node(D, Step)
+     || #{nk := document} = D <- xqldb_mem_nodes:ancestors(Node),
+        S <- self_document_node(D, Step)
     ];
 ancestor_document_node(#{nk := _}, _) ->
     [].
@@ -429,23 +427,23 @@ ancestor_element(
 ) when Nk =/= document ->
     As = [
         D
-        || #{
-               nk := element,
-               nn := NodeName
-           } = D <- xqldb_nodes:ancestors(Node),
-           name_type_match(NameAndType, NodeName, '_')
+     || #{
+            nk := element,
+            nn := NodeName
+        } = D <- xqldb_nodes:ancestors(Node),
+        name_type_match(NameAndType, NodeName, '_')
     ],
     Fil = do_predicates(As, Preds),
     lists:reverse(Fil);
 ancestor_element(#{nk := Nk} = Node, {NameAndType, Preds}) when Nk =/= document ->
     As = [
         D
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = D <- xqldb_mem_nodes:ancestors(Node),
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = D <- xqldb_mem_nodes:ancestors(Node),
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     Fil = do_predicates(As, Preds),
     lists:reverse(Fil);
@@ -491,14 +489,14 @@ ancestor_or_self_comment(#{nk := _}, _) ->
 ancestor_or_self_document_node(#{id := ?DB_ND} = Node, Step) ->
     [
         S
-        || #{nk := document} = D <- [Node | xqldb_nodes:ancestors(Node)],
-           S <- self_document_node(D, Step)
+     || #{nk := document} = D <- [Node | xqldb_nodes:ancestors(Node)],
+        S <- self_document_node(D, Step)
     ];
 ancestor_or_self_document_node(Node, Step) ->
     [
         S
-        || #{nk := document} = D <- [Node | xqldb_mem_nodes:ancestors(Node)],
-           S <- self_document_node(D, Step)
+     || #{nk := document} = D <- [Node | xqldb_mem_nodes:ancestors(Node)],
+        S <- self_document_node(D, Step)
     ].
 
 -spec ancestor_or_self_element(
@@ -514,23 +512,23 @@ ancestor_or_self_element(
 ) when Nk =/= document ->
     As = [
         D
-        || #{
-               nk := element,
-               nn := NodeName
-           } = D <- [Node | xqldb_nodes:ancestors(Node)],
-           name_type_match(NameAndType, NodeName, '_')
+     || #{
+            nk := element,
+            nn := NodeName
+        } = D <- [Node | xqldb_nodes:ancestors(Node)],
+        name_type_match(NameAndType, NodeName, '_')
     ],
     Fil = do_predicates(As, Preds),
     lists:reverse(Fil);
 ancestor_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds}) when Nk =/= document ->
     As = [
         D
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = D <- [Node | xqldb_mem_nodes:ancestors(Node)],
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = D <- [Node | xqldb_mem_nodes:ancestors(Node)],
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     Fil = do_predicates(As, Preds),
     lists:reverse(Fil);
@@ -578,11 +576,11 @@ attribute_attribute(
 ) ->
     Cn = [
         N#{pt => P}
-        || #{
-               nk := attribute,
-               tn := TypeName
-           } = N <- simple_path(P, [{attribute, {att, A, B}}]),
-           type_match(T, TypeName)
+     || #{
+            nk := attribute,
+            tn := TypeName
+        } = N <- simple_path(P, [{attribute, {att, A, B}}]),
+        type_match(T, TypeName)
     ],
     do_predicates(Cn, Preds);
 attribute_attribute(
@@ -594,12 +592,12 @@ attribute_attribute(
 ) ->
     Cn = [
         N#{pt => P}
-        || #{
-               nk := attribute,
-               nn := NodeName,
-               tn := TypeName
-           } = N <- At,
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := attribute,
+            nn := NodeName,
+            tn := TypeName
+        } = N <- At,
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Cn, Preds);
 attribute_attribute(#{nk := _}, _) ->
@@ -619,7 +617,7 @@ attribute_node(
     do_predicates(
         [
             N#{pt => P}
-            || N <- simple_path(P, [{attribute, {att, '_', '_'}}])
+         || N <- simple_path(P, [{attribute, {att, '_', '_'}}])
         ],
         Preds
     );
@@ -678,12 +676,12 @@ child_element(
 ) when Nk =:= element; Nk =:= document ->
     Cn = [
         N
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = N <- xqldb_mem_nodes:children(P),
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = N <- xqldb_mem_nodes:children(P),
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Cn, Preds);
 child_element(#{nk := _}, _) ->
@@ -722,11 +720,11 @@ child_processing_instruction(
 ) when Nk =:= element; Nk =:= document ->
     Cn = [
         N
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = N <- xqldb_mem_nodes:children(P),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = N <- xqldb_mem_nodes:children(P),
+        name_match(Name, NodeName)
     ],
     do_predicates(Cn, Preds);
 child_processing_instruction(#{nk := _}, _) ->
@@ -786,12 +784,12 @@ descendant_element(
 descendant_element(#{nk := Nk} = Node, {NameAndType, Preds}) when Nk =:= element; Nk =:= document ->
     Ds = [
         N
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = N <- xqldb_mem_nodes:descendants(Node),
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = N <- xqldb_mem_nodes:descendants(Node),
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Ds, Preds);
 descendant_element(#{nk := _}, _) ->
@@ -826,11 +824,11 @@ descendant_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) when
 ->
     Ds = [
         N
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = N <- xqldb_mem_nodes:descendants(Node),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = N <- xqldb_mem_nodes:descendants(Node),
+        name_match(Name, NodeName)
     ],
     do_predicates(Ds, Preds);
 descendant_processing_instruction(#{nk := _}, _) ->
@@ -904,12 +902,12 @@ descendant_or_self_element(#{nk := Nk} = Node, {NameAndType, Preds}) when
 ->
     Ds = [
         D
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = D <- [Node | xqldb_mem_nodes:descendants(Node)],
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = D <- [Node | xqldb_mem_nodes:descendants(Node)],
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Ds, Preds);
 descendant_or_self_element(#{nk := _}, _) ->
@@ -988,11 +986,11 @@ following_element(
 ->
     Fol = [
         P
-        || #{
-               nk := element,
-               nn := NodeName
-           } = P <- xqldb_nodes:following(Node),
-           name_type_match(NameAndType, NodeName, '_')
+     || #{
+            nk := element,
+            nn := NodeName
+        } = P <- xqldb_nodes:following(Node),
+        name_type_match(NameAndType, NodeName, '_')
     ],
     do_predicates(Fol, Preds);
 following_element(#{nk := Nk} = Node, {NameAndType, Preds}) when
@@ -1000,12 +998,12 @@ following_element(#{nk := Nk} = Node, {NameAndType, Preds}) when
 ->
     Fol = [
         P
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = P <- following(Node),
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = P <- following(Node),
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Fol, Preds);
 following_element(#{nk := _}, _) ->
@@ -1047,11 +1045,11 @@ following_processing_instruction(
 ->
     Fol = [
         P
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = P <- xqldb_nodes:following(Node),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = P <- xqldb_nodes:following(Node),
+        name_match(Name, NodeName)
     ],
     do_predicates(Fol, Preds);
 following_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) when
@@ -1059,11 +1057,11 @@ following_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) when
 ->
     Fol = [
         P
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = P <- following(Node),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = P <- following(Node),
+        name_match(Name, NodeName)
     ],
     do_predicates(Fol, Preds);
 following_processing_instruction(#{nk := _}, _) ->
@@ -1104,11 +1102,11 @@ following_sibling_comment(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := comment
-           } = S <- xqldb_nodes:siblings(Node),
-           SId > Id
+     || #{
+            id := SId,
+            nk := comment
+        } = S <- xqldb_nodes:siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_comment(
@@ -1120,11 +1118,11 @@ following_sibling_comment(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := comment
-           } = S <- siblings(Node),
-           SId > Id
+     || #{
+            id := SId,
+            nk := comment
+        } = S <- siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_comment(#{nk := _}, _) ->
@@ -1150,14 +1148,14 @@ following_sibling_element(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = S <- siblings(Node),
-           SId > Id,
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            id := SId,
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = S <- siblings(Node),
+        SId > Id,
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     do_predicates(Sibs, Preds);
 following_sibling_element(#{nk := _}, _) ->
@@ -1173,8 +1171,8 @@ following_sibling_node(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{id := SId} = S <- xqldb_nodes:siblings(Node),
-           SId > Id
+     || #{id := SId} = S <- xqldb_nodes:siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_node(
@@ -1186,8 +1184,8 @@ following_sibling_node(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{id := SId} = S <- siblings(Node),
-           SId > Id
+     || #{id := SId} = S <- siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_node(#{nk := _}, _) ->
@@ -1206,13 +1204,13 @@ following_sibling_processing_instruction(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = S <- xqldb_nodes:siblings(Node),
-           SId > Id,
-           name_match(Name, NodeName)
+     || #{
+            id := SId,
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = S <- xqldb_nodes:siblings(Node),
+        SId > Id,
+        name_match(Name, NodeName)
     ],
     do_predicates(Sibs, Preds);
 following_sibling_processing_instruction(
@@ -1224,13 +1222,13 @@ following_sibling_processing_instruction(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = S <- siblings(Node),
-           SId > Id,
-           name_match(Name, NodeName)
+     || #{
+            id := SId,
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = S <- siblings(Node),
+        SId > Id,
+        name_match(Name, NodeName)
     ],
     do_predicates(Sibs, Preds);
 following_sibling_processing_instruction(#{nk := _}, _) ->
@@ -1246,11 +1244,11 @@ following_sibling_text(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := text
-           } = S <- xqldb_nodes:siblings(Node),
-           SId > Id
+     || #{
+            id := SId,
+            nk := text
+        } = S <- xqldb_nodes:siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_text(
@@ -1262,11 +1260,11 @@ following_sibling_text(
 ) when Nk =:= element; Nk =:= text; Nk =:= comment; Nk =:= 'processing-instruction' ->
     Sibs = [
         S
-        || #{
-               id := SId,
-               nk := text
-           } = S <- siblings(Node),
-           SId > Id
+     || #{
+            id := SId,
+            nk := text
+        } = S <- siblings(Node),
+        SId > Id
     ],
     do_predicates(Sibs, Preds);
 following_sibling_text(#{nk := _}, _) ->
@@ -1404,11 +1402,11 @@ preceding_element(
 ->
     Pre = [
         P
-        || #{
-               nk := element,
-               nn := NodeName
-           } = P <- xqldb_nodes:preceding(Node),
-           name_type_match(NameAndType, NodeName, '_')
+     || #{
+            nk := element,
+            nn := NodeName
+        } = P <- xqldb_nodes:preceding(Node),
+        name_type_match(NameAndType, NodeName, '_')
     ],
     Fil = do_predicates(Pre, Preds),
     lists:reverse(Fil);
@@ -1417,12 +1415,12 @@ preceding_element(#{nk := Nk} = Node, {NameAndType, Preds}) when
 ->
     Pre = [
         P
-        || #{
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = P <- preceding(Node),
-           name_type_match(NameAndType, NodeName, TypeName)
+     || #{
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = P <- preceding(Node),
+        name_type_match(NameAndType, NodeName, TypeName)
     ],
     Fil = do_predicates(Pre, Preds),
     lists:reverse(Fil);
@@ -1467,11 +1465,11 @@ preceding_processing_instruction(
 ->
     Pre = [
         P
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = P <- xqldb_nodes:preceding(Node),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = P <- xqldb_nodes:preceding(Node),
+        name_match(Name, NodeName)
     ],
     Fil = do_predicates(Pre, Preds),
     lists:reverse(Fil);
@@ -1480,11 +1478,11 @@ preceding_processing_instruction(#{nk := Nk} = Node, {Name, Preds}) when
 ->
     Pre = [
         P
-        || #{
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = P <- preceding(Node),
-           name_match(Name, NodeName)
+     || #{
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = P <- preceding(Node),
+        name_match(Name, NodeName)
     ],
     Fil = do_predicates(Pre, Preds),
     lists:reverse(Fil);
@@ -1529,11 +1527,11 @@ preceding_sibling_comment(
     Sibs = siblings(Node),
     Sibs1 = [
         S
-        || #{
-               id := SId,
-               nk := comment
-           } = S <- Sibs,
-           SId < Id
+     || #{
+            id := SId,
+            nk := comment
+        } = S <- Sibs,
+        SId < Id
     ],
     Sibs2 = lists:reverse(Sibs1),
     Sibs3 = do_predicates(Sibs2, Preds),
@@ -1553,13 +1551,13 @@ preceding_sibling_element(
     Sibs = xqldb_nodes:siblings(Node),
     Sibs1 = [
         S
-        || #{
-               id := SId,
-               nk := element,
-               nn := NodeName
-           } = S <- Sibs,
-           name_type_match(NameAndType, NodeName, '_'),
-           SId < Id
+     || #{
+            id := SId,
+            nk := element,
+            nn := NodeName
+        } = S <- Sibs,
+        name_type_match(NameAndType, NodeName, '_'),
+        SId < Id
     ],
     Sibs2 = lists:reverse(Sibs1),
     Sibs3 = do_predicates(Sibs2, Preds),
@@ -1574,14 +1572,14 @@ preceding_sibling_element(
     Sibs = siblings(Node),
     Sibs1 = [
         S
-        || #{
-               id := SId,
-               nk := element,
-               nn := NodeName,
-               tn := TypeName
-           } = S <- Sibs,
-           name_type_match(NameAndType, NodeName, TypeName),
-           SId < Id
+     || #{
+            id := SId,
+            nk := element,
+            nn := NodeName,
+            tn := TypeName
+        } = S <- Sibs,
+        name_type_match(NameAndType, NodeName, TypeName),
+        SId < Id
     ],
     Sibs2 = lists:reverse(Sibs1),
     Sibs3 = do_predicates(Sibs2, Preds),
@@ -1619,13 +1617,13 @@ preceding_sibling_processing_instruction(
     Sibs = siblings(Node),
     Sibs1 = [
         S
-        || #{
-               id := SId,
-               nk := 'processing-instruction',
-               nn := NodeName
-           } = S <- Sibs,
-           name_match(Name, NodeName),
-           SId < Id
+     || #{
+            id := SId,
+            nk := 'processing-instruction',
+            nn := NodeName
+        } = S <- Sibs,
+        name_match(Name, NodeName),
+        SId < Id
     ],
     Sibs2 = lists:reverse(Sibs1),
     Sibs3 = do_predicates(Sibs2, Preds),
@@ -1644,11 +1642,11 @@ preceding_sibling_text(
     Sibs = siblings(Node),
     Sibs1 = [
         S
-        || #{
-               id := SId,
-               nk := text
-           } = S <- Sibs,
-           SId < Id
+     || #{
+            id := SId,
+            nk := text
+        } = S <- Sibs,
+        SId < Id
     ],
     Sibs2 = lists:reverse(Sibs1),
     Sibs3 = do_predicates(Sibs2, Preds),
@@ -1822,8 +1820,8 @@ preceding(Node) ->
         _ ->
             Acc = [
                 N
-                || S <- preceding_sibling_node(Node, {[]}),
-                   N <- descendant_or_self_node(S, {[]})
+             || S <- preceding_sibling_node(Node, {[]}),
+                N <- descendant_or_self_node(S, {[]})
             ],
             All = preceding(Par, Acc),
             doc_rev_ord(All)
@@ -1836,8 +1834,8 @@ preceding(Node, Acc) ->
         Par ->
             Nds = [
                 N
-                || S <- preceding_sibling_node(Node, {[]}),
-                   N <- descendant_or_self_node(S, {[]})
+             || S <- preceding_sibling_node(Node, {[]}),
+                N <- descendant_or_self_node(S, {[]})
             ],
             preceding(Par, Nds ++ Acc)
     end.
@@ -1850,8 +1848,8 @@ following(Node) ->
         _ ->
             Acc = [
                 N
-                || S <- following_sibling_node(Node, {[]}),
-                   N <- descendant_or_self_node(S, {[]})
+             || S <- following_sibling_node(Node, {[]}),
+                N <- descendant_or_self_node(S, {[]})
             ],
             following(Par, Acc)
     end.
@@ -1863,8 +1861,8 @@ following(Node, Acc) ->
         Par ->
             Nds = [
                 N
-                || S <- following_sibling_node(Node, {[]}),
-                   N <- descendant_or_self_node(S, {[]})
+             || S <- following_sibling_node(Node, {[]}),
+                N <- descendant_or_self_node(S, {[]})
             ],
             following(Par, Acc ++ Nds)
     end.
@@ -1943,8 +1941,8 @@ build_mem_node_fun(Node, []) ->
 build_mem_node_fun(Node, [{H, P} | Steps]) ->
     [
         N
-        || X <- H(Node, P),
-           N <- build_mem_node_fun(X, Steps)
+     || X <- H(Node, P),
+        N <- build_mem_node_fun(X, Steps)
     ].
 
 get_funs_from_steps([]) ->

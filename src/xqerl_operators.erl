@@ -151,28 +151,17 @@ lookup(Ctx, List, Value) when is_list(List) ->
 lookup(_Ctx, _List, _Value) ->
     ?err('XPTY0004').
 
-is_comparable('xs:base64Binary') ->
-    true;
-is_comparable('xs:boolean') ->
-    true;
-is_comparable('xs:date') ->
-    true;
-is_comparable('xs:dateTime') ->
-    true;
-is_comparable('xs:dayTimeDuration') ->
-    true;
-is_comparable('xs:hexBinary') ->
-    true;
-is_comparable('xs:string') ->
-    true;
-is_comparable('xs:time') ->
-    true;
-is_comparable('xs:yearMonthDuration') ->
-    true;
-is_comparable(Type) when ?xs_numeric(Type); ?xs_string(Type) ->
-    true;
-is_comparable(_) ->
-    false.
+is_comparable('xs:base64Binary') -> true;
+is_comparable('xs:boolean') -> true;
+is_comparable('xs:date') -> true;
+is_comparable('xs:dateTime') -> true;
+is_comparable('xs:dayTimeDuration') -> true;
+is_comparable('xs:hexBinary') -> true;
+is_comparable('xs:string') -> true;
+is_comparable('xs:time') -> true;
+is_comparable('xs:yearMonthDuration') -> true;
+is_comparable(Type) when ?xs_numeric(Type); ?xs_string(Type) -> true;
+is_comparable(_) -> false.
 
 add(_, []) ->
     [];
@@ -2700,7 +2689,9 @@ multiply_dayTimeDuration(
             _ -> <<>>
         end,
     Str =
-        <<?BIN(Sgn), "PT",
+        <<
+            ?BIN(Sgn),
+            "PT",
             ?BIN(
                 (if
                     is_integer(SecC) ->
@@ -2709,7 +2700,8 @@ multiply_dayTimeDuration(
                         xqerl_numeric:string(xqerl_numeric:abs_val(SecC))
                 end)
             ),
-            "S">>,
+            "S"
+        >>,
     xqerl_types:cast_as(Str, 'xs:dayTimeDuration');
 multiply_dayTimeDuration(_, _) ->
     ?err('XPTY0004').
@@ -3250,10 +3242,18 @@ subtract_dateTimes(
             false -> <<>>
         end,
     Str =
-        <<?BIN(Sgn), "P", ?BIN((integer_to_binary(Days))), "T", ?BIN((integer_to_binary(Hour))),
-            "H", ?BIN((integer_to_binary(Min))), "M",
+        <<
+            ?BIN(Sgn),
+            "P",
+            ?BIN((integer_to_binary(Days))),
+            "T",
+            ?BIN((integer_to_binary(Hour))),
+            "H",
+            ?BIN((integer_to_binary(Min))),
+            "M",
             ?BIN((xqerl_numeric:string(xqerl_numeric:decimal(xqerl_numeric:add(Secs, FraSec))))),
-            "S">>,
+            "S"
+        >>,
     xqerl_types:cast_as(Str, 'xs:dayTimeDuration').
 
 % returns: xs:dayTimeDuration

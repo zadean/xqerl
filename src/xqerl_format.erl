@@ -51,12 +51,16 @@ parse_picture_string(String, #dec_format{} = DF) ->
         Tokens = tokenize_picture_string(String, Format),
         case split_with(Tokens, pattern_separator) of
             {V, []} ->
-                {build_format(V, picture_string_variable_map(V, positive), Format),
-                    build_format(V, picture_string_variable_map(V, negative), Format)};
+                {
+                    build_format(V, picture_string_variable_map(V, positive), Format),
+                    build_format(V, picture_string_variable_map(V, negative), Format)
+                };
             {P, N} ->
                 % N has seperator in hd
-                {build_format(P, picture_string_variable_map(P, positive), Format),
-                    build_format(N, picture_string_variable_map(N, positive), Format)}
+                {
+                    build_format(P, picture_string_variable_map(P, positive), Format),
+                    build_format(N, picture_string_variable_map(N, positive), Format)
+                }
         end
     catch
         _:_:Stack ->
@@ -126,10 +130,10 @@ validate_tokens(List, subpicture) ->
     true =
         length([
             ok
-            || {N, _} <- List,
-               N =:= per_mille orelse
-                   N =:= percent orelse
-                   N =:= exponent
+         || {N, _} <- List,
+            N =:= per_mille orelse
+                N =:= percent orelse
+                N =:= exponent
         ]) =< 1,
     %?dbg("List",List),
     ok = nest_passive(List),
@@ -510,11 +514,13 @@ adj_to_zero(Str, [Zero], [Decimal]) ->
     NewZero = zero_base_by_family(Zero),
     Adj = NewZero - $0,
     <<
-        <<(if
+        <<
+            (if
                 C == $. -> Decimal;
                 true -> C + Adj
-            end)/utf8>>
-        || <<C/utf8>> <= Str
+            end)/utf8
+        >>
+     || <<C/utf8>> <= Str
     >>.
 
 %% trim_char(<<C/utf8,T/binary>>,C) ->
@@ -1678,7 +1684,7 @@ format_decimal(Str1, Format) ->
     FamilyZero = zero_base_by_family(C),
     Str3 = [
         (Ch - $0 + FamilyZero)
-        || Ch <- Str2
+     || Ch <- Str2
     ],
     case is_separator_template(Format) of
         false ->

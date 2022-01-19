@@ -42,8 +42,10 @@ parse(<<"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">>) ->
 parse(<<"http://www.w3.org/2005/xpath-functions/collation/codepoint">>) ->
     key_fun(codepoint);
 parse(
-    <<"http://www.w3.org/2005/xpath-functions/collation/"
-        "html-ascii-case-insensitive">>
+    <<
+        "http://www.w3.org/2005/xpath-functions/collation/"
+        "html-ascii-case-insensitive"
+    >>
 ) ->
     key_fun(ascii);
 parse(<<"http://www.w3.org/2013/collation/UCA", Query/binary>>) ->

@@ -24,7 +24,7 @@
 
 % Imports BaseX DB files to xqerl.
 
--include("xqerl_db.hrl").
+% -include("xqerl_db.hrl").
 
 -compile(inline).
 -compile({inline_size, 100}).
@@ -124,12 +124,14 @@ read_names(Bin) ->
     {NewKeys, Rest2}.
 
 -spec read_namespaces(Bin :: binary()) ->
-    {#{
+    {
+        #{
             prefixes => [{non_neg_integer(), binary()}],
             uris => [{non_neg_integer(), binary()}],
             index => [term()]
         },
-        Rest :: binary()}.
+        Rest :: binary()
+    }.
 % TODO similar iterator as gb_trees
 read_namespaces(Bin) ->
     {Prefixes, Rest1} = read_token_set(Bin),
@@ -278,21 +280,25 @@ read_table_index(BinF) ->
                         true ->
                             Size
                     end,
-                {#{
+                {
+                    #{
                         size => Size,
                         used => Used2
                     },
-                    Rest1};
+                    Rest1
+                };
             true ->
                 {Fpres, Rest3} = read_numbers(Rest1),
                 {Pages, Rest4} = read_numbers(Rest3),
-                {#{
+                {
+                    #{
                         size => Size,
                         used => Used,
                         fpres => Fpres,
                         pages => Pages
                     },
-                    Rest4}
+                    Rest4
+                }
         end,
     {Map2, _Rest7} =
         if
@@ -377,7 +383,7 @@ read_doc_uris(PathF, Tbl, Txt, DocOffs, Pid) ->
             ToGetPos = [P || {not_inline, _, <<P:38/integer>>} <- RawTxtLoc],
             Toks = [
                 read_file_token(Txt, P)
-                || P <- ToGetPos
+             || P <- ToGetPos
             ],
             Filled = fill_uri_values(RawTxtLoc, Toks),
             Zipped = lists:zip(Filled, DocOffs),
@@ -419,7 +425,7 @@ get_text(<<0:1, 1:1, Rest/bitstring>>) ->
 reverse_bits(Bin) ->
     <<
         <<B8:1, B7:1, B6:1, B5:1, B4:1, B3:1, B2:1, B1:1>>
-        || <<B1:1, B2:1, B3:1, B4:1, B5:1, B6:1, B7:1, B8:1>> <= Bin
+     || <<B1:1, B2:1, B3:1, B4:1, B5:1, B6:1, B7:1, B8:1>> <= Bin
     >>.
 
 pforeach(Fun, List, Split) ->
@@ -511,13 +517,15 @@ read_token_set(Bin) ->
     {_Next, Rest2} = read_numbers(Rest1),
     {_Buckets, Rest3} = read_numbers(Rest2),
     {Size, Rest4} = read_number(Rest3),
-    {#{
+    {
+        #{
             keys => Keys,
             %next => Next,
             %buckets => Buckets,
             size => Size - 1
         },
-        Rest4}.
+        Rest4
+    }.
 
 read_stats(Bin) ->
     {Num, Rest} = read_number(Bin),
@@ -532,17 +540,21 @@ read_stats(Bin) ->
                 {Max, Rest3} = read_double(Rest2),
                 if
                     IsInt ->
-                        {#{
+                        {
+                            #{
                                 min => erlang:trunc(Min),
                                 max => erlang:trunc(Max)
                             },
-                            Rest3};
+                            Rest3
+                        };
                     true ->
-                        {#{
+                        {
+                            #{
                                 min => Min,
                                 max => Max
                             },
-                            Rest3}
+                            Rest3
+                        }
                 end;
             true ->
                 {#{}, Rest}
@@ -558,12 +570,14 @@ read_stats(Bin) ->
     {Count, Rest6} = read_number(Rest4),
     {Leaf, Rest7} = read_boolean(Rest6),
     {_, Rest8} = read_double(Rest7),
-    {Map2#{
+    {
+        Map2#{
             count => Count,
             leaf => Leaf,
             type => get_type_name(Type)
         },
-        Rest8}.
+        Rest8
+    }.
 
 read_token_int_map(Bin) ->
     {Map, Rest} = read_token_set(Bin),

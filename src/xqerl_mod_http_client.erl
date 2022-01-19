@@ -41,23 +41,41 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"send-request">>}, {seqType, 'item', one_or_many}, [], {'send-request', 4},
-        3, [
+    {
+        {qname, ?NS, ?PX, <<"send-request">>},
+        {seqType, 'item', one_or_many},
+        [],
+        {'send-request', 4},
+        3,
+        [
             {seqType, {kindTest, element, {qname, ?NS, ?PX, <<"request">>}, undefined},
                 zero_or_one},
             {seqType, 'xs:string', zero_or_one},
             {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"send-request">>}, {seqType, 'item', one_or_many}, [], {'send-request', 3},
-        2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"send-request">>},
+        {seqType, 'item', one_or_many},
+        [],
+        {'send-request', 3},
+        2,
+        [
             {seqType, {kindTest, element, {qname, ?NS, ?PX, <<"request">>}, undefined},
                 zero_or_one},
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"send-request">>}, {seqType, 'item', one_or_many}, [], {'send-request', 2},
-        1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"send-request">>},
+        {seqType, 'item', one_or_many},
+        [],
+        {'send-request', 2},
+        1,
+        [
             {seqType, {kindTest, element, {qname, ?NS, ?PX, <<"request">>}, undefined}, zero_or_one}
-        ]}
+        ]
+    }
 ]).
 
 %% ====================================================================
@@ -116,17 +134,17 @@ parse_request(
     #{method := Method} = AttMap,
     Headers0 = [
         parse_header_attributes(A)
-        || #{
-               nn := {?NS, _, <<"header">>},
-               at := A
-           } <- Ch
+     || #{
+            nn := {?NS, _, <<"header">>},
+            at := A
+        } <- Ch
     ],
     {HasCT, Headers} =
         case
             [
                 N
-                || {N, _} <- Headers0,
-                   string:lowercase(N) == <<"content-type">>
+             || {N, _} <- Headers0,
+                string:lowercase(N) == <<"content-type">>
             ]
         of
             [] ->
@@ -261,13 +279,15 @@ parse_header_attributes(_) ->
 % 1:1 serialization
 parse_body_attributes(Atts) ->
     List = [
-        {#qname{
+        {
+            #qname{
                 namespace = ?SNS,
                 prefix = <<>>,
                 local_name = Nm
             },
-            Sv}
-        || #{nn := {_, _, Nm}, sv := Sv} <- Atts, Nm =/= <<"src">>
+            Sv
+        }
+     || #{nn := {_, _, Nm}, sv := Sv} <- Atts, Nm =/= <<"src">>
     ],
     xqerl_options:serialization_option_map(List, []).
 
@@ -337,8 +357,8 @@ err_parse() ->
     },
     throw(E).
 
-%% TODO: implement multipart
-%% err_bad_multipart() ->
+%% @TODO: implement multipart
+%% ```err_bad_multipart() ->
 %%    E = #xqError{description =
 %%                   "With a multipart response, the override-media-type must be"
 %%                   " either a multipart media type or application/octet-stream.",
@@ -346,17 +366,17 @@ err_parse() ->
 %%                               local_name = <<"HC003">>}
 %%                 },
 %%    throw(E).
-%%
+%%'''
 
-%% TODO: implement src attribute in body
-%% err_bad_source() ->
+%% @TODO: implement src attribute in body
+%% ```err_bad_source() ->
 %%    E = #xqError{description =
 %%                   "The src attribute on the body element is mutually exclusive"
 %%                   " with all other attribute (except the media-type).",
 %%                 name = #qname{namespace = ?ENS,prefix = ?EPX,
 %%                               local_name = <<"HC004">>}
 %%                 },
-%%    throw(E).
+%%    throw(E).'''
 
 err_bad_request() ->
     E = #xqError{
@@ -483,7 +503,7 @@ resp_headers_to_elements(Headers) ->
                 Ref
             )
         end
-        || {Name, Value} <- Headers
+     || {Name, Value} <- Headers
     ].
 
 normalize_headers(Headers) ->
@@ -523,10 +543,10 @@ parse_custom_response(#{
         case
             [
                 binary_to_integer(StatusStr)
-                || #{
-                       nn := {<<>>, _, <<"status">>},
-                       sv := StatusStr
-                   } <- Atts
+             || #{
+                    nn := {<<>>, _, <<"status">>},
+                    sv := StatusStr
+                } <- Atts
             ]
         of
             [] ->
@@ -536,10 +556,10 @@ parse_custom_response(#{
         end,
     NameVals = [
         parse_header_attributes(A)
-        || #{
-               nn := {?NS, _, <<"header">>},
-               at := A
-           } <- Headers
+     || #{
+            nn := {?NS, _, <<"header">>},
+            at := A
+        } <- Headers
     ],
     LowNameVals = [{string:lowercase(Name), Val} || {Name, Val} <- NameVals],
     {Status, maps:from_list(LowNameVals)}.

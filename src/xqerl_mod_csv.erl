@@ -43,22 +43,46 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"parse">>},
-        {seqType, {funTest, array, [], undefined, any, any}, zero_or_one}, [], {'parse', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, <<"parse">>},
+        {seqType, {funTest, array, [], undefined, any, any}, zero_or_one},
+        [],
+        {'parse', 2},
+        1,
+        [
             {seqType, 'xs:string', zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"parse">>},
-        {seqType, {funTest, array, [], undefined, any, any}, zero_or_one}, [], {'parse', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"parse">>},
+        {seqType, {funTest, array, [], undefined, any, any}, zero_or_one},
+        [],
+        {'parse', 3},
+        2,
+        [
             {seqType, 'xs:string', zero_or_one},
             {seqType, {funTest, map, [], undefined, any, any}, zero_or_one}
-        ]},
-    {{qname, ?NS, ?PX, <<"serialize">>}, {seqType, 'xs:string', zero_or_one}, [], {'serialize', 2},
-        1, [{seqType, {funTest, array, [], undefined, any, any}, zero_or_one}]},
-    {{qname, ?NS, ?PX, <<"serialize">>}, {seqType, 'xs:string', zero_or_one}, [], {'serialize', 3},
-        2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"serialize">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'serialize', 2},
+        1,
+        [{seqType, {funTest, array, [], undefined, any, any}, zero_or_one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"serialize">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'serialize', 3},
+        2,
+        [
             {seqType, {funTest, array, [], undefined, any, any}, zero_or_one},
             {seqType, {funTest, map, [], undefined, any, any}, zero_or_one}
-        ]}
+        ]
+    }
 ]).
 
 % block array:array(_) warnings

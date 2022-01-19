@@ -50,7 +50,6 @@ init([]) ->
     Main = child_map(supervisor, xqerl_main_mod_sup, []),
     Trace = event_child_map(xqerl_trace_man),
     Event = event_child_map(xqerl_event_man),
-
     {ok, {SupFlags, [Server, DB, Main, Trace, Event]}}.
 
 %% ====================================================================

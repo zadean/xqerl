@@ -42,6 +42,7 @@ start_link() ->
 %% Behavioural functions
 %% ====================================================================
 
+
 init([]) -> 
     State = load(),
     {ok, State}.
@@ -64,6 +65,7 @@ handle_call({delete, Args }, _From, #{delete := Delete} = State) ->
 handle_call({update, Args }, _From, #{update := Update} = State) ->
     Reply = xqerl:run(Update,Args),
     {reply, Reply, State};
+
 handle_call(greeter, _From, #{greeter := Greeter} = State) ->
     Reply = xqerl:run(Greeter),
     {reply, Reply, State}.
@@ -99,5 +101,4 @@ load() ->
   update => Update, 
   greeter => Greeter
  }.
- 
 

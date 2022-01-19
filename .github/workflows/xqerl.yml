@@ -1,7 +1,7 @@
 name: build check release
 on:
   push:
-    branches: '*'
+    branches: 'main'
     tags:
       - 'v*'
   pull_request:
@@ -238,4 +238,3 @@ jobs:
         echo " - tag image - ghcr.io/${GITHUB_REPOSITORY}:${VERSION}"
         buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
         buildah push ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
-  # #   # rebar3 hex publish --repo hexpm --yes

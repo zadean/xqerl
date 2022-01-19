@@ -98,7 +98,7 @@ parse_file(DB, File, Uri, Stamp) ->
     },
     try
         {ok, State1, _} =
-            xxmerl_sax_parser:file(File, [
+            xmerl_sax_parser:file(File, [
                 {continuation_fun, fun default_continuation_cb/1},
                 {event_fun, fun event/3},
                 {event_state, State}
@@ -173,7 +173,7 @@ parse_list(DB, List, Name, Stamp) ->
 split_parse_file(File, Fun, Path) ->
     State = default_split_state(Fun, Path),
     {ok, ok, _} =
-        xxmerl_sax_parser:file(File, [
+        xmerl_sax_parser:file(File, [
             {continuation_fun, fun default_continuation_cb/1},
             {event_fun, fun split_doc/3},
             {event_state, State}
@@ -857,7 +857,7 @@ index_writer(Postings, {DB, DocId} = State, Count) ->
         {path_doc, Paths} ->
             PathDocs = [
                 {path_doc, P, DocId}
-                || P <- Paths
+             || P <- Paths
             ],
             ok = xqldb_idx_mi:index(DB, PathDocs),
             index_writer(Postings, State, Count);
@@ -884,9 +884,7 @@ update_counter(Map, Key, Increment) ->
 encode(NodeId, DocIdEnc) ->
     <<DocIdEnc/binary, (sext:encode(NodeId))/binary>>.
 
-% path the doc id to have a count of 2 instead of 1.
+% patch the doc id to have a count of 2 instead of 1.
 patch_encode(Term) ->
-    case sext:encode(Term) of
-        <<16, 0, 0, 0, 1, Rest/binary>> ->
-            <<16, 0, 0, 0, 2, Rest/binary>>
-    end.
+    <<16, 0, 0, 0, 1, Rest/binary>> = sext:encode(Term),
+    <<16, 0, 0, 0, 2, Rest/binary>>.

@@ -587,9 +587,9 @@ is_valid_tokens(<<>>) ->
 is_valid_tokens(Token) ->
     [
         C
-        || <<C/utf8>> <= Token,
-           C =/= 32,
-           is_xsname_char(C) == false
+     || <<C/utf8>> <= Token,
+        C =/= 32,
+        is_xsname_char(C) == false
     ] == [].
 
 format_stacktrace(#xqError{additional = L} = E) ->
@@ -701,7 +701,7 @@ next_comp_prefix(Namespaces) when is_map(Namespaces) ->
     next_comp_prefix(
         [
             #xqNamespace{namespace = N, prefix = P}
-            || {P, N} <- maps:to_list(Namespaces)
+         || {P, N} <- maps:to_list(Namespaces)
         ]
     );
 next_comp_prefix(Namespaces) ->

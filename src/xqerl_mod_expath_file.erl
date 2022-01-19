@@ -119,71 +119,165 @@
     {{qname, ?NS, ?PX, <<"is-file">>}, {seqType, 'xs:boolean', one}, [?NDA], {'is_file', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"last-modified">>}, {seqType, 'xs:dateTime', one}, [?NDA],
-        {'last_modified', 2}, 1, [{seqType, 'xs:string', one}]},
+    {
+        {qname, ?NS, ?PX, <<"last-modified">>},
+        {seqType, 'xs:dateTime', one},
+        [?NDA],
+        {'last_modified', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
     {{qname, ?NS, ?PX, <<"size">>}, {seqType, 'xs:integer', one}, [?NDA], {'size', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
     %% 4 Input/Output
-    {{qname, ?NS, ?PX, <<"append">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'append', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"append">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'item', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"append">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'append', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'item', zero_or_many},
             {seqType, 'item', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"append-binary">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'append_binary', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:base64Binary', one}]},
-    {{qname, ?NS, ?PX, <<"append-text">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'append_text', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"append-text">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'append_text', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append-binary">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append_binary', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:base64Binary', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append-text">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append_text', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append-text">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append_text', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"append-text-lines">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'append_text_lines', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append-text-lines">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append_text_lines', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"append-text-lines">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'append_text_lines', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"append-text-lines">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'append_text_lines', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_many},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"copy">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'copy', 3}, 2, [
         {seqType, 'xs:string', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"create-dir">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'create_dir', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"create-temp-dir">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'create_temp_dir', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"create-temp-dir">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'create_temp_dir', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"create-dir">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'create_dir', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"create-temp-dir">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'create_temp_dir', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"create-temp-dir">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'create_temp_dir', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"create-temp-file">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'create_temp_file', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"create-temp-file">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'create_temp_file', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"create-temp-file">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'create_temp_file', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"create-temp-file">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'create_temp_file', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"delete">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'delete', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"delete">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'delete', 2},
+        1,
+        [
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"delete">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'delete', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"delete">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'delete', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:boolean', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"list">>}, {seqType, 'xs:string', zero_or_many}, [?NDA], {'list', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
@@ -200,27 +294,71 @@
         {seqType, 'xs:string', one},
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"read-binary">>}, {seqType, 'xs:base64Binary', one}, [?NDA],
-        {'read_binary', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"read-binary">>}, {seqType, 'xs:base64Binary', one}, [?NDA],
-        {'read_binary', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:integer', one}]},
-    {{qname, ?NS, ?PX, <<"read-binary">>}, {seqType, 'xs:base64Binary', one}, [?NDA],
-        {'read_binary', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"read-binary">>},
+        {seqType, 'xs:base64Binary', one},
+        [?NDA],
+        {'read_binary', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-binary">>},
+        {seqType, 'xs:base64Binary', one},
+        [?NDA],
+        {'read_binary', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:integer', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-binary">>},
+        {seqType, 'xs:base64Binary', one},
+        [?NDA],
+        {'read_binary', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"read-text">>}, {seqType, 'xs:string', one}, [?NDA], {'read_text', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-text">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'read_text', 2},
+        1,
+        [
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"read-text">>}, {seqType, 'xs:string', one}, [?NDA], {'read_text', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-text">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'read_text', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"read-text-lines">>}, {seqType, 'xs:string', zero_or_many}, [?NDA],
-        {'read_text_lines', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"read-text-lines">>}, {seqType, 'xs:string', zero_or_many}, [?NDA],
-        {'read_text_lines', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-text-lines">>},
+        {seqType, 'xs:string', zero_or_many},
+        [?NDA],
+        {'read_text_lines', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"read-text-lines">>},
+        {seqType, 'xs:string', zero_or_many},
+        [?NDA],
+        {'read_text_lines', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
     {{qname, ?NS, ?PX, <<"write">>}, {seqType, 'empty-sequence', zero}, [?NDA], {'write', 3}, 2, [
         {seqType, 'xs:string', one},
         {seqType, 'item', zero_or_many}
@@ -230,59 +368,155 @@
         {seqType, 'item', zero_or_many},
         {seqType, 'item', one}
     ]},
-    {{qname, ?NS, ?PX, <<"write-binary">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_binary', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:base64Binary', one}]},
-    {{qname, ?NS, ?PX, <<"write-binary">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_binary', 4}, 3, [
+    {
+        {qname, ?NS, ?PX, <<"write-binary">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_binary', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:base64Binary', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"write-binary">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_binary', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:base64Binary', one},
             {seqType, 'xs:integer', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"write-text">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_text', 3}, 2, [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"write-text">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_text', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"write-text">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_text', 3},
+        2,
+        [{seqType, 'xs:string', one}, {seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"write-text">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_text', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"write-text-lines">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_text_lines', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"write-text-lines">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_text_lines', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_many}
-        ]},
-    {{qname, ?NS, ?PX, <<"write-text-lines">>}, {seqType, 'empty-sequence', zero}, [?NDA],
-        {'write_text_lines', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"write-text-lines">>},
+        {seqType, 'empty-sequence', zero},
+        [?NDA],
+        {'write_text_lines', 4},
+        3,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', zero_or_many},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     %% 5 Paths
     {{qname, ?NS, ?PX, <<"name">>}, {seqType, 'xs:string', one}, [?NDA], {'name', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"parent">>}, {seqType, 'xs:string', zero_or_one}, [?NDA], {'parent', 2}, 1,
-        [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"children">>}, {seqType, 'xs:string', zero_or_many}, [?NDA],
-        {'children', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"path-to-native">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'path_to_native', 2}, 1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"path-to-uri">>}, {seqType, 'xs:anyURI', one}, [?NDA], {'path_to_uri', 2},
-        1, [{seqType, 'xs:string', one}]},
-    {{qname, ?NS, ?PX, <<"resolve-path">>}, {seqType, 'xs:string', one}, [?NDA],
-        {'resolve_path', 2}, 1, [{seqType, 'xs:string', one}]},
+    {
+        {qname, ?NS, ?PX, <<"parent">>},
+        {seqType, 'xs:string', zero_or_one},
+        [?NDA],
+        {'parent', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"children">>},
+        {seqType, 'xs:string', zero_or_many},
+        [?NDA],
+        {'children', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"path-to-native">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'path_to_native', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"path-to-uri">>},
+        {seqType, 'xs:anyURI', one},
+        [?NDA],
+        {'path_to_uri', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
+    {
+        {qname, ?NS, ?PX, <<"resolve-path">>},
+        {seqType, 'xs:string', one},
+        [?NDA],
+        {'resolve_path', 2},
+        1,
+        [{seqType, 'xs:string', one}]
+    },
     %% 6 System Properties
-    {{qname, ?NS, ?PX, <<"dir-separator">>}, {seqType, 'xs:string', one}, [], {'dir_separator', 1},
-        0, []},
-    {{qname, ?NS, ?PX, <<"line-separator">>}, {seqType, 'xs:string', one}, [],
-        {'line_separator', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"path-separator">>}, {seqType, 'xs:string', one}, [],
-        {'path_separator', 1}, 0, []},
+    {
+        {qname, ?NS, ?PX, <<"dir-separator">>},
+        {seqType, 'xs:string', one},
+        [],
+        {'dir_separator', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"line-separator">>},
+        {seqType, 'xs:string', one},
+        [],
+        {'line_separator', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"path-separator">>},
+        {seqType, 'xs:string', one},
+        [],
+        {'path_separator', 1},
+        0,
+        []
+    },
     {{qname, ?NS, ?PX, <<"temp-dir">>}, {seqType, 'xs:string', one}, [], {'temp_dir', 1}, 0, []},
-    {{qname, ?NS, ?PX, <<"base-dir">>}, {seqType, 'xs:string', zero_or_one}, [], {'base_dir', 1}, 0,
-        []},
-    {{qname, ?NS, ?PX, <<"current-dir">>}, {seqType, 'xs:string', zero_or_one}, [],
-        {'current_dir', 1}, 0, []}
+    {
+        {qname, ?NS, ?PX, <<"base-dir">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'base_dir', 1},
+        0,
+        []
+    },
+    {
+        {qname, ?NS, ?PX, <<"current-dir">>},
+        {seqType, 'xs:string', zero_or_one},
+        [],
+        {'current_dir', 1},
+        0,
+        []
+    }
 ]).
 
 -define(BIN(D), #xqAtomicValue{type = 'xs:base64Binary', value = D}).
@@ -1953,7 +2187,7 @@ file_wildcard(Pat, Dir) ->
     ),
     [
         filename:join(Dir, Name)
-        || Name <- Names
+     || Name <- Names
     ].
 
 -spec not_implemented() -> xq_types:xs_error().
@@ -2036,7 +2270,7 @@ read_file_infos(SourcePath, Names) ->
             {ok, I} = file:read_file_info(filename:join(SourcePath, Name)),
             {Name, I}
         end
-        || Name <- Names
+     || Name <- Names
     ].
 
 % norm_filename(<<$%, Hex:2/binary, Rest/bits>>) ->

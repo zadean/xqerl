@@ -34,13 +34,15 @@
 -define(FN, <<"http://www.w3.org/2005/xpath-functions">>).
 -define(AR, <<"http://www.w3.org/2005/xpath-functions/array">>).
 -define(MP, <<"http://www.w3.org/2005/xpath-functions/map">>).
--define(MT, <<"http://www.w3.org/2005/xpath-functions/math">>).
 -define(FL, <<"http://expath.org/ns/file">>).
--define(HT, <<"http://expath.org/ns/http-client">>).
 -define(RD, <<"http://xqerl.org/modules/random">>).
 -define(BX, <<"http://xqerl.org/modules/client/BaseX">>).
--define(CV, <<"http://xqerl.org/modules/csv">>).
 -define(DB, <<"http://xqerl.org/modules/database">>).
+
+% These all have default properties.
+% -define(MT, <<"http://www.w3.org/2005/xpath-functions/math">>).
+% -define(HT, <<"http://expath.org/ns/http-client">>).
+% -define(CV, <<"http://xqerl.org/modules/csv">>).
 
 % non-deterministic
 get_props(#xqQName{namespace = ?BX, local_name = <<"connect">>}, 4) ->

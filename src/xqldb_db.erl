@@ -106,7 +106,7 @@ databases(Uri) ->
             {ok, Pid, Id} = open(DBPath),
             db_ref(Pid, DBPath, Id)
         end
-        || RelU <- UPids
+     || RelU <- UPids
     ].
 
 %% Returns if there is an existing DB at URI.
@@ -127,14 +127,10 @@ create_or_open(DBDirectory, Uri) ->
 
 get_pid(Uri) ->
     case xqldb_db_server:info(Uri) of
-        {error, _} ->
-            error;
-        {opening, _, _} ->
-            opening;
-        {closed, _, _} ->
-            closed;
-        {open, I, Pid} ->
-            {I, Pid}
+        {error, _} -> error;
+        {opening, _, _} -> opening;
+        {closed, _, _} -> closed;
+        {open, I, Pid} -> {I, Pid}
     end.
 
 init([DBDirectory, Uri]) ->

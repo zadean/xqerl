@@ -37,27 +37,51 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"put">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'put', 3}, 2, [
+    {
+        {qname, ?NS, ?PX, <<"put">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'put', 3},
+        2,
+        [
             {seqType, item, one_or_many},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"link">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'link_', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"link">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'link_', 3},
+        2,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
+        ]
+    },
     {{qname, ?NS, ?PX, <<"get">>}, {seqType, item, one}, [], {'get_', 2}, 1, [
         {seqType, 'xs:string', one}
     ]},
-    {{qname, ?NS, ?PX, <<"delete">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'delete', 2}, 1, [
+    {
+        {qname, ?NS, ?PX, <<"delete">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'delete', 2},
+        1,
+        [
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"delete-collection">>}, {seqType, 'empty-sequence', zero},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'delete', 2}, 1, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"delete-collection">>},
+        {seqType, 'empty-sequence', zero},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'delete', 2},
+        1,
+        [
             {seqType, 'xs:string', one}
-        ]}
+        ]
+    }
 ]).
 
 %% ====================================================================
@@ -149,7 +173,7 @@ delete_collection(
     DBs = xqldb_db:databases(AbsUri),
     Locks = [
         {[DbPid, write], write}
-        || #{db_name := DbPid} <- DBs
+     || #{db_name := DbPid} <- DBs
     ],
     locks:lock_objects(Agent, Locks),
     F = fun(DB) ->

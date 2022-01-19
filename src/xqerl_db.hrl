@@ -20,8 +20,6 @@
 %%
 %% -------------------------------------------------------------------
 
--include_lib("kernel/include/logger.hrl").
-
 -include("xqerl.hrl").
 
 %% node index module
@@ -46,8 +44,6 @@
 -define(att_id, 1).
 -define(att_idref, 2).
 
-%% -define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
-%% -define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(trace(A, B), io:format("~p: ~p~n", [A, B])).
 
 -define(IS_LOCAL(Ref), erlang:node(Ref) == erlang:node()).

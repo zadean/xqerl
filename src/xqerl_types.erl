@@ -68,8 +68,7 @@
 -define(FALSE, false).
 -define(XAV(T, V), #xqAtomicValue{type = T, value = V}).
 
--define(ERROR_MATCH(E),
-        _:#xqError{name = #xqAtomicValue{value=#qname{local_name = E}}}).
+-define(ERROR_MATCH(E), #xqError{name = #xqAtomicValue{value = #qname{local_name = E}}}).
 
 % block array:array(_) warnings
 -dialyzer(no_opaque).
@@ -1321,12 +1320,12 @@ try_cast(Av, Type) ->
         _ = cast_as(Av, Type),
         ?TRUE
     catch
-        ?ERROR_MATCH(<<"FORG0001">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"XPTY0004">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FODT0001">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FODT0002">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FOCA0002">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"XPST0081">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FORG0001">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"XPTY0004">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FODT0001">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FODT0002">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FOCA0002">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"XPST0081">>) -> ?FALSE;
         _:E -> throw(E)
     end.
 
@@ -1335,12 +1334,12 @@ try_cast(Av, Type, Namespaces) ->
         _ = cast_as(Av, Type, Namespaces),
         ?TRUE
     catch
-        ?ERROR_MATCH(<<"FORG0001">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"XPTY0004">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FODT0001">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FODT0002">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"FOCA0002">>) -> ?FALSE;
-        ?ERROR_MATCH(<<"XPST0081">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FORG0001">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"XPTY0004">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FODT0001">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FODT0002">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"FOCA0002">>) -> ?FALSE;
+        _:?ERROR_MATCH(<<"XPST0081">>) -> ?FALSE;
         _:E -> throw(E)
     end.
 
@@ -2070,10 +2069,10 @@ cast_from_string('xs:hexBinary', Val) ->
         erlang:size(Val1) rem 2 =/= 0 orelse
             [
                 C
-                || <<C/utf8>> <= Val1,
-                   not (C >= 48 andalso C =< 57),
-                   not (C >= 65 andalso C =< 90),
-                   not (C >= 97 andalso C =< 102)
+             || <<C/utf8>> <= Val1,
+                not (C >= 48 andalso C =< 57),
+                not (C >= 65 andalso C =< 90),
+                not (C >= 97 andalso C =< 102)
             ] /= []
     of
         true ->

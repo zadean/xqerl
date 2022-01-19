@@ -49,29 +49,53 @@
 -variables([]).
 
 -functions([
-    {{qname, ?NS, ?PX, <<"connect">>}, {seqType, 'xs:anyURI', one},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'connect', 5}, 4, [
+    {
+        {qname, ?NS, ?PX, <<"connect">>},
+        {seqType, 'xs:anyURI', one},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'connect', 5},
+        4,
+        [
             {seqType, 'xs:string', one},
             {seqType, 'xs:integer', one},
             {seqType, 'xs:string', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"execute">>}, {seqType, 'xs:string', one},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'execute', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"execute">>},
+        {seqType, 'xs:string', one},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'execute', 3},
+        2,
+        [
             {seqType, 'xs:anyURI', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"query">>}, {seqType, 'item', zero_or_many},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'query', 3}, 2, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"query">>},
+        {seqType, 'item', zero_or_many},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'query', 3},
+        2,
+        [
             {seqType, 'xs:anyURI', one},
             {seqType, 'xs:string', one}
-        ]},
-    {{qname, ?NS, ?PX, <<"query">>}, {seqType, 'item', zero_or_many},
-        [{annotation, {qname, ?XL, <<>>, ?ND}, []}], {'query', 4}, 3, [
+        ]
+    },
+    {
+        {qname, ?NS, ?PX, <<"query">>},
+        {seqType, 'item', zero_or_many},
+        [{annotation, {qname, ?XL, <<>>, ?ND}, []}],
+        {'query', 4},
+        3,
+        [
             {seqType, 'xs:anyURI', one},
             {seqType, 'xs:string', one},
             {seqType, {funTest, map, [], undefined, any, any}, zero_or_one}
-        ]}
+        ]
+    }
 ]).
 
 %% Connect to a BaseX server.
