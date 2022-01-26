@@ -162,7 +162,7 @@ jobs:
       with:
         path: _build
         key: rebar-${{ hashFiles('./rebar.lock') }}
-    - name: Fetch tags
+    - name: hex publish
       run: |
         rebar3 hex build
         #rebar3 hex publish -r hexpm --yes
