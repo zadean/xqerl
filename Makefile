@@ -9,26 +9,32 @@ DASH = printf %60s | tr ' ' '-' && echo
 BUMP := 0.0.2
 
 .PHONY: help
-help: ## show this help	
+help: ## show this help
+	echo 'After project maintainer (zadean) merges an pull request into the main branch '
+	echo 'a xqerl github release can be created via a github action workflow'
+	echo 'The action is triggered when an annotated tag is pushed to github'
+	echo 'The tagged release version number is derived from "vsn" in src/xqerl.app.src'
+	echo 'so this vsn must be updated (bumped), commited and pushed to the main branch'
+	echo 'prior to creating and pushing an annotated tag to github'
+	echo 'Using `make release` just automates the proccess of vsn number bumping, commiting and pushing,'
+	echo 'followed by creating an annotated tag and pushing'
 	@cat $(MAKEFILE_LIST) | 
 	grep -oP '^[a-zA-Z_-]+:.*?## .*$$' |
 	sort |
 	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-build: src/xqerl.app.src
+build: src/xqerl.app.src ## prior to a push, check if everthing can still build
 	echo '##[ $@ ]##'
-	rebar3 do deps
-	rebar3 compile
-	rebar3 edoc
+	rebar3 do deps, compile, edoc
 	rebar3 hex build
 	# firefox doc/index.html
 	$(DASH)
 
-release: bump commit watch tag view
+release: bump commit watch tag view ## create a release by bumping vsn in xqerl.app.src
 
 bump: src/xqerl.app.src
 	echo '##[ $@ ]##'
-	echo ' - update $<'
+	echo ' this updates vsn in $<'
 	echo    "        Previous version: $(shell grep -oP '\d+\.\d+\.\d+' $<)"
 	read -p "Enter New Release Version:" BUMP
 	if ! echo "$${BUMP}" | grep -oP '\d+\.\d+\.\d+' >/dev/null
@@ -45,7 +51,6 @@ commit: src/xqerl.app.src
 	VERSION="v$(shell grep -oP '\d+\.\d+\.\d+' $<)"
 	echo "- release version: $$VERSION"
 	git commit -m "Bumped xqerl app to version $${VERSION}" $<
-	echo " -  "
 	git push
 	sleep 5
 	$(DASH)
@@ -79,7 +84,7 @@ view:
 	echo ' 2. a installable release artifact download.'
 	echo '    This tar artifact is a build that includes the erlang OTP runtime'
 	echo ' 3. a alpine-xqerl docker image'
-	echo '     The image is available in [github packages](https://github.com/grantmacken/xqerl/pkgs/container/xqerl)'
+	echo '     The image is available in [github packages](https://github.com/zadean/xqerl/pkgs/container/xqerl)'
 	echo ' 4  a published hex package and online docs '
 	echo '    the xqerl package avaiable on [hex pm](https://hex.pm/packages/xqerl)'
 	sleep 5
