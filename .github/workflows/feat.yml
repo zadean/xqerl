@@ -1,7 +1,7 @@
 name: build feature and run check checks
 on:
   push:
-    branches: 'xfeat*'
+    branches: 'feat*'
 jobs:
   build:
     runs-on: ubuntu-latest
