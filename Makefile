@@ -8,11 +8,13 @@ DASH = printf %60s | tr ' ' '-' && echo
 
 BUMP := 0.0.2
 
-build: 
+build: src/xqerl.app.src
 	echo '##[ $@ ]##'
 	rebar3 do deps
 	rebar3 compile
 	rebar3 edoc
+	rebar3 hex build
+	# firefox doc/index.html
 	# firefox doc/index.html
 	$(DASH)
 

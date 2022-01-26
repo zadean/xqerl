@@ -27,12 +27,12 @@ jobs:
       run: |
         rebar3 deps
         rebar3 compile
-    - name: build production tar
+    - name: Build production tar
       run: |
         rebar3 as prod tar
         mkdir _release
         mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
-    - name: build docs via edoc
+    - name: Build docs via edoc
       run: |
         rebar3 edoc
         tar -czvf xqerl-edoc.tar.gz doc
@@ -140,6 +140,7 @@ jobs:
         mv ./xqerl.tar.gz  ./xqerl-${VERSION}.tar.gz
         gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
         --notes "${NOTE}"  \
+        --generate-notes \
         --title "xqerl release ${RELEASE}" \
         --target  ${SHA}
       env:
@@ -147,7 +148,28 @@ jobs:
         OWNER: ${{ github.repository_owner }}
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
-        #MESSAGE: ${{ github.event.head_commit.message }}
+  publish:
+    if: ${{ github.ref_type == 'tag' }}    
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Cache restore compile build
+      id: cache-deps
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: rebar-${{ hashFiles('./rebar.lock') }}
+    - name: Fetch tags
+      run: |
+        rebar3 hex build
+        #rebar3 hex publish -r hexpm --yes
+        printf %60s | tr ' ' '-' && echo
+      env:
+        HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
   package:
     if: ${{ github.ref_type == 'tag' }}    
     needs: build
