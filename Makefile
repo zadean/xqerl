@@ -8,6 +8,13 @@ DASH = printf %60s | tr ' ' '-' && echo
 
 BUMP := 0.0.2
 
+.PHONY: help
+help: ## show this help	
+	@cat $(MAKEFILE_LIST) | 
+	grep -oP '^[a-zA-Z_-]+:.*?## .*$$' |
+	sort |
+	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
 build: src/xqerl.app.src
 	echo '##[ $@ ]##'
 	rebar3 do deps
@@ -15,17 +22,21 @@ build: src/xqerl.app.src
 	rebar3 edoc
 	rebar3 hex build
 	# firefox doc/index.html
-	# firefox doc/index.html
 	$(DASH)
 
 release: bump commit watch tag view
 
 bump: src/xqerl.app.src
 	echo '##[ $@ ]##'
-	echo ' - updates $<'
-	echo "Previous version: $(shell grep -oP '\d+\.\d+\.\d+' $<)"
-	echo "    Next version: $(BUMP)"
-	sed -i 's/$(shell grep -oP '\d+\.\d+\.\d+' $<)/$(BUMP)/' $<
+	echo ' - update $<'
+	echo    "        Previous version: $(shell grep -oP '\d+\.\d+\.\d+' $<)"
+	read -p "Enter New Release Version:" BUMP
+	if ! echo "$${BUMP}" | grep -oP '\d+\.\d+\.\d+' >/dev/null
+	then echo 'Wrong semver format!' && false
+	fi
+	echo    "   Check Release Version: $${BUMP}"
+	read -p "Continue? (Y/N): " confirm && [[ $$confirm == [yY] || $$confirm == [yY][eE][sS] ]] || exit 1
+	sed -i s/$(shell grep -oP '\d+\.\d+\.\d+' $<)/$${BUMP}/ $<
 	$(DASH)
 
 commit: src/xqerl.app.src
