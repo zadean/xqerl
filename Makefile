@@ -8,13 +8,13 @@ DASH = printf %60s | tr ' ' '-' && echo
 
 BUMP := 0.0.2
 
-
-edoc: 
+build: 
 	echo '##[ $@ ]##'
-	echo ' -creates edocs in doc folder'
+	rebar3 do deps
+	rebar3 compile
 	rebar3 edoc
-	firefox doc/index.html
-
+	# firefox doc/index.html
+	$(DASH)
 
 release: bump commit watch tag view
 
@@ -41,7 +41,7 @@ watch:
 	echo '##[ $@ ]##'
 	echo ' - commit push on *main* branch triggers "xqerl" workflow'
 	echo ' - workflow compiles and installs xqerl then runs'
-	echo '   smoke test checks. If checks fail Make will exit with error'
+	echo '   smoke test checks. If checks fail run will exit with error'
 	sleep 5
 	DATABASE_ID=$(shell gh run list --limit 1 --jq '.[0].databaseId' --json databaseId)
 	gh run watch --exit-status $$DATABASE_ID

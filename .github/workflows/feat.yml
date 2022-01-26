@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 1
-    - name: Cache dependencies
+    - name: Cache restore compile build
       id: cache-deps
       uses: actions/cache@v2
       with:
@@ -25,11 +25,16 @@ jobs:
       run: |
         rebar3 deps
         rebar3 compile
-    - name: build production tar
+    - name: Build production tar
       run: |
         rebar3 as prod tar
         mkdir _release
         mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
+    - name: Build docs via edoc
+      run: |
+        rebar3 edoc
+        tar -czvf xqerl-edoc.tar.gz doc
+        mv xqerl-edoc.tar.gz _release/xqerl-edoc.tar.gz
     - name: Upload built artifact
       uses: actions/upload-artifact@v2
       with:
