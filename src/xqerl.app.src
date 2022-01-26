@@ -1,6 +1,8 @@
 {application, xqerl, [
-    {description, "XQuery 3.1 Processor"},
-    {vsn, "0.0.8"},
+    {description, "Erlang XQuery 3.1 Processor and XDM database"},
+    {vsn, "0.1.2"},
+    {licenses, ["Apache-2.0"]},
+    {links, [{"GitHub", "https://github.com/zadean/xqerl"}]},
     {applications, [
         kernel,
         stdlib,
