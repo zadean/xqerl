@@ -1,10 +1,7 @@
-name: build check release
+name: build feature and run check checks
 on:
   push:
-    branches: 'feat*'
-  pull_request:
-    branches:
-      - '**:feat**'
+    branches: 'xfeat*'
 jobs:
   build:
     runs-on: ubuntu-latest
