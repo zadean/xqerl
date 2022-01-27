@@ -240,10 +240,17 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- response should return ok status'
-        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]'
+        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]' 
         echo ' NOTE; head request can be used to get content size'
         echo ' - header should return content length'
         cat ${CHECK_PATH}/headers.txt | grep -oP 'content-length(.+)'
+        if cat ${CHECK_PATH}/headers.txt | grep -oP 'content-length: 0' >/dev/null
+        then
+        echo ' - header content length should be greater than zero: false'
+        false
+        else
+        echo ' - header content length should be greater than zero: true'
+        fi
         printf %60s | tr ' ' '=' && echo
     - name: OPTIONS - allowable methods for collection
       run: |
