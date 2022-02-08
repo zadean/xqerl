@@ -1,13 +1,18 @@
 declare variable $uri external;
-declare variable $type external;
+try {
+let $isItem := function( $uri ) {
+    try {
+      let $col := remove($uri => tokenize('/'), $uri => tokenize('/') => count()) => string-join('/')
+      let $uriCollection := $col => uri-collection()
+      return $uri = ($uriCollection)
+    } catch * {false()}
+  }
+return 
+  if ( $uri => $isItem() ) then (true(), db:delete($uri)) 
+  else false()
+} catch * { false() }
 
-switch ( $type )
-  case "item" return ( 
-    true(), 
-    db:delete($uri) 
-    )
-  case "collection" return( 
-    true(), 
-    for $item in ( $uri => uri-collection() )
-    return (db:delete( $item )))
-  default return false()
+(:
+  for $item in ( $uri => uri-collection() )
+    return ( $item => db:delete(), ' - deleted:' ||  $item ) 
+:) 
