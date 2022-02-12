@@ -66,6 +66,13 @@ resource_exists(Req, State) ->
                 Atom when is_atom(Atom) andalso Atom =:= true -> {Atom, Req, State};
                 _ -> {false, Req, State}
             end;
+        <<"HEAD">> ->
+            % We want to use HEAD on either collections or items
+            URI = get_uri(Req),
+            case is_any(URI) of
+                Atom when is_atom(Atom) andalso Atom =:= true -> {Atom, Req, State};
+                _ -> {false, Req, State}
+            end;
         <<"DELETE">> ->
             % We want to use DELETE only on items
             % Might change this to alloe deletions on collections
@@ -160,7 +167,6 @@ from_create(Req, State) ->
             URI = list_to_binary([DbBase, RelPath, "/", Slug]),
             Location = list_to_binary([RestBase, RelPath, "/", Slug])
     end,
-
     Type = cowboy_req:header(<<"content-type">>, Req),
     {ok, Data, _} = cowboy_req:read_body(Req, #{}),
     Args = #{
