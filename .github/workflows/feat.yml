@@ -352,7 +352,7 @@ jobs:
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
         --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-        --head  -H "Accept: text/plain" \
+        --head  -H 'Accept: text/plain' \
         http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo ' - show headers'
@@ -375,7 +375,7 @@ jobs:
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
         --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-        --head  -H "Accept: "application/xml" \
+        --head  -H 'Accept: application/xml' \
         http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo ' - show headers'
@@ -398,7 +398,7 @@ jobs:
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
         --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-        --head  -H "Accept: application/xml" \
+        --head  -H 'Accept: application/xml' \
         http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo ' - show headers'
