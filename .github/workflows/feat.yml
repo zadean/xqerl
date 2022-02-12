@@ -342,6 +342,62 @@ jobs:
         echo '- headers should have allow options'
         grep -oP 'allow:(.+)' ${CHECK_PATH}/headers.txt
         printf %60s | tr ' ' '=' && echo
+    # - name: HEAD - database collection available
+    #   run: |
+    #     CHECK=HEAD_COLLECTION_AVAILABLE
+    #     COLLECTION=example.com/docs
+    #     CHECK_PATH=checks/${CHECK}/${COLLECTION}
+    #     mkdir -p $CHECK_PATH
+    #     curl --silent --show-error --connect-timeout 1 --max-time 2 \
+    #     -X HEAD \
+    #     --dump-header ${CHECK_PATH}/headers.txt \
+    #     --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
+    #     http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show headers'
+    #     echo ' ---------------'
+    #     cat  ${CHECK_PATH}/headers.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show write out'
+    #     echo ' ----------------'
+    #     cat ${CHECK_PATH}/write-out.txt && echo
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo '- response should return ok status'
+    #     cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]'
+    - name: HEAD - database resource available
+      run: |
+        CHECK=HEAD_RESOURCE_AVAILABLE
+        COLLECTION=example.com/docs
+        RESOURCE=testing-data.xml
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+        --head  -H "Accept: application/xml" \
+        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show headers'
+        echo ' ---------------'
+        cat  ${CHECK_PATH}/headers.txt
+        echo && printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- response should return ok status'
+        grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
+        echo ' NOTE; head request can be used to get content size'
+        echo ' - header should return content length'
+        grep -oP 'content-length(.+)' ${CHECK_PATH}/headers.txt 
+        if grep -oP 'content-length: 0' ${CHECK_PATH}/headers.txt >/dev/null
+        then
+        echo ' - header content length should be greater than zero: false'
+        false
+        else
+        echo ' - header content length should be greater than zero: true'
+        fi
+        printf %60s | tr ' ' '=' && echo
 # NOTE: resource retrieval via Accept Header
     - name: GET - accept XML - retrieve XDM document-node resource
       run: |
