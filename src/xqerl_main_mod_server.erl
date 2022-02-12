@@ -54,9 +54,6 @@ handle_call({available, Args}, _From, #{available := Available} = State) ->
 handle_call({create, Args}, _From, #{create := Create} = State) ->
     Reply = xqerl:run(Create, Args),
     {reply, Reply, State};
-handle_call({list, Args}, _From, #{list := List} = State) ->
-    Reply = xqerl:run(List, Args),
-    {reply, Reply, State};
 handle_call({retrieve, Args}, _From, #{retrieve := Retrieve} = State) ->
     Reply = xqerl:run(Retrieve, Args),
     {reply, Reply, State};
@@ -88,14 +85,12 @@ load() ->
     Greeter = xqerl:compile(filename:join([MainDir, "greeter.xq"])),
     Available = xqerl:compile(filename:join([MainDir, "db_available.xq"])),
     Create = xqerl:compile(filename:join([MainDir, "db_create.xq"])),
-    List = xqerl:compile(filename:join([MainDir, "db_list.xq"])),
     Retrieve = xqerl:compile(filename:join([MainDir, "db_retrieve.xq"])),
     Delete = xqerl:compile(filename:join([MainDir, "db_delete.xq"])),
     Update = xqerl:compile(filename:join([MainDir, "db_update.xq"])),
     #{
         available => Available,
         create => Create,
-        list => List,
         retrieve => Retrieve,
         delete => Delete,
         update => Update,
