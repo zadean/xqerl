@@ -1,10 +1,8 @@
-name: build check release
+name: build check rest db api
+# this workflow 
 on:
   push:
-    branches: 'feat*'
-  pull_request:
-    branches:
-      - '**:feat**'
+    branches: 'xfeature-53-*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -62,107 +60,38 @@ jobs:
         xqerl daemon
         sleep 2
         xqerl eval 'application:ensure_all_started(xqerl).'
-    - name: Checks - OTP Beam inspection 
-      run: |
-          printf %60s | tr ' ' '-' && echo
-          echo -n '-  ping: ' 
-          xqerl ping | grep -oP 'pong'
-          echo -n '-  pid: ' 
-          xqerl pid | grep -oP '\d+'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd('$(pwd)')."
-          xqerl eval 'file:get_cwd().'
-          printf %60s | tr ' ' '=' && echo
-    - name: Checks - xqerl eval on running instance
-      run: |
-          printf %60s | tr ' ' '-' && echo
-          echo ' - run a xQuery expression'
-          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
-          grep -oP '^\[\{xq.+$'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile an xQuery file'
-          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
-          grep -oP 'file(.+)\.xq'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile, run then grep the title'
-          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).' | \
-          grep -oP '<title>(.+)</title>'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - load an XML file into the DB: '
-          xqerl eval \
-          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - view using the the xqerl:run/1 function with xQuery fn:doc#1 function'
-          xqerl eval "binary_to_list(xqerl:run(\" 'http://xqerl.org/my_doc.xml' => doc() => serialize() \"))."
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - delete db doc '
-          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - import into DB docs from directory: '
-          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '=' && echo
-    - name: Checks - Features and Issue Resolution
-      run: |
-        printf %60s | tr ' ' '=' && echo
-        printf %60s | tr ' ' '=' && echo
-    - name: cowboy static assets handler - issue 46 
-      run: |
-        echo '- use curl to check if image in priv/static/assets dir is reachable'
-        printf %60s | tr ' ' '=' && echo
-        curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null
-        curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null | grep -q '200' 
-        printf %60s | tr ' ' '=' && echo
-    - name:  after install have a xqerl greeter #48 
-      run: |
-        echo '- use curl to check if http://localhost:8081/xqerl is reachable'
-        printf %60s | tr ' ' '=' && echo
-        curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
-        printf %60s | tr ' ' '=' && echo
-        curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
-        printf %60s | tr ' ' '=' && echo    - name: Stop xqerl
-    - name:  stop xqerl
-      run: xqerl stop
-  rest_db_checks:
-    if: ${{ github.ref_type == 'branch' }}    
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Download built artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: xqerl-prod-tar
-    - name: Unpack release tar and install xqerl application
-      run: |
-        mkdir -p  $HOME/.local/xqerl
-        mkdir -p  $HOME/.local/bin
-        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
-        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
-    - name: Start the xqerl application
-      run: |
-        xqerl daemon
-        sleep 2
-        xqerl eval 'application:ensure_all_started(xqerl).'
-    - name: POST XML, create XDM document-node resource
+    - name: POST XML data to create document-node resource
       run: |
         CHECK=POST_XML_DATA
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION}
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\n' \
+        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
         --header 'Content-Type: application/xml' \
         --header "Slug: ${RESOURCE}" \
         --data '<test>data</test>' \
+        http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+        echo '- should return created status'
+        cat ${CHECK_PATH}/headers.txt | grep -oP '^HTTP(.+)201(.+)$'
+        echo '- headers should have location header'
+        cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
+        printf %60s | tr ' ' '='
+    - name: POST JSON array create XDM array resource
+      run: |
+        CHECK=POST_JSON_ARRAY
+        COLLECTION=example.com/docs
+        RESOURCE=json-data.array
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
+        --header 'Content-Type: application/json' \
+        --header "Slug: ${RESOURCE}" \
+        --data '[1,2,3]' \
         http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo ' - show headers'
@@ -178,34 +107,6 @@ jobs:
         echo '- response headers should include a location header'
         cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
         printf %60s | tr ' ' '='
-    - name: POST JSON array create XDM array resource
-      run: |
-        CHECK=POST_JSON_ARRAY
-        COLLECTION=example.com/docs
-        RESOURCE=json-data.array
-        CHECK_PATH=checks/${CHECK}/${COLLECTION}
-        mkdir -p $CHECK_PATH
-        curl --silent --show-error --connect-timeout 1 --max-time 2 \
-        --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\n' \
-        --header 'Content-Type: application/json' \
-        --header "Slug: ${RESOURCE}" \
-        --data '[1,2,3]' \
-        http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show headers'
-        echo ' ---------------'
-        cat  ${CHECK_PATH}/headers.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show write out'
-        echo ' ----------------'
-        cat ${CHECK_PATH}/write-out.txt && echo
-        printf %60s | tr ' ' '=' && echo
-        echo '- response should return ok created status'
-        grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
-        echo '- response headers should include a location header'
-        grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
-        printf %60s | tr ' ' '='
     - name: POST JSON object create XDM map resource
       run: |
         CHECK=POST_JSON_MAP
@@ -215,7 +116,7 @@ jobs:
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\n' \
+        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
         --header 'Content-Type: application/json' \
         --header "Slug: ${RESOURCE}" \
         --data '{"check": "mate"}' \
@@ -230,9 +131,9 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- response should return ok created status'
-        grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
+        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
         echo '- response headers should include a location header'
-        grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
+        cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
         printf %60s | tr ' ' '='
     - name: POST - unsupported media type
       run: |
@@ -243,7 +144,7 @@ jobs:
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
         --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\n' \
+        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
         --header 'Content-Type: application/msword' \
         --header "Slug: ${RESOURCE}" \
         --data 'foo' \
@@ -258,8 +159,18 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return "Unsupported Media Type" status'
-        grep -qoP 'HTTP(.+)415(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)415(.+)'
         printf %60s | tr ' ' '=' && echo
+    # # - name: TODO! POST csv file to create XDM array resource
+    # #   run: |
+    # #     RESOURCE=testing-map-data.json
+    # #     CHECK_PATH=checks/POST/example.com/docs
+    # #     mkdir -p $CHECK_PATH
+    # # - name: TODO! POST cmark converted markdown to create document-node resource
+    # #   run: |
+    # #     RESOURCE=testing-map-data.json
+    # #     CHECK_PATH=checks/POST/example.com/docs
+    # #     mkdir -p $CHECK_PATH
     - name: GET - list resources in database collection as text
       run: |
         CHECK=GET_LIST_COLLECTION_RESOURCES_AS_TEXT
@@ -314,8 +225,64 @@ jobs:
         jq '.' ${CHECK_PATH}/output.txt && echo
         printf %60s | tr ' ' '=' && echo
         echo '- response should return ok created status'
-        grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
+        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]'
         printf %60s | tr ' ' '=' && echo
+    # - name: HEAD - database collection available
+    #   run: |
+    #     CHECK=HEAD_COLLECTION_AVAILABLE
+    #     COLLECTION=example.com/docs
+    #     CHECK_PATH=checks/${CHECK}/${COLLECTION}
+    #     mkdir -p $CHECK_PATH
+    #     curl --silent --show-error --connect-timeout 1 --max-time 2 \
+    #     -X HEAD \
+    #     --dump-header ${CHECK_PATH}/headers.txt \
+    #     --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
+    #     http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show headers'
+    #     echo ' ---------------'
+    #     cat  ${CHECK_PATH}/headers.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show write out'
+    #     echo ' ----------------'
+    #     cat ${CHECK_PATH}/write-out.txt && echo
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo '- response should return ok status'
+    #     cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]'
+    # - name: HEAD - database resource available
+    #   run: |
+    #     CHECK=HEAD_RESOURCE_AVAILABLE
+    #     COLLECTION=example.com/docs
+    #     RESOURCE=testing-data.xml
+    #     CHECK_PATH=checks/${CHECK}/${COLLECTION} 
+    #     mkdir -p $CHECK_PATH
+    #     curl --silent --show-error --connect-timeout 1 --max-time 2 \
+    #     -X HEAD \
+    #     --dump-header ${CHECK_PATH}/headers.txt \
+    #     --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+    #     http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show headers'
+    #     echo ' ---------------'
+    #     cat  ${CHECK_PATH}/headers.txt
+    #     echo && printf %60s | tr ' ' '=' && echo
+    #     echo ' - show write out'
+    #     echo ' ----------------'
+    #     cat ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo '- response should return ok status'
+    #     cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 200 \]' 
+    #     echo ' NOTE; head request can be used to get content size'
+    #     echo ' - header should return content length'
+    #     cat ${CHECK_PATH}/headers.txt | grep -oP 'content-length(.+)'
+    #     if cat ${CHECK_PATH}/headers.txt | grep -oP 'content-length: 0' >/dev/null
+    #     then
+    #     echo ' - header content length should be greater than zero: false'
+    #     false
+    #     else
+    #     echo ' - header content length should be greater than zero: true'
+    #     fi
+    #     printf %60s | tr ' ' '=' && echo
     - name: OPTIONS - allowable methods for collection
       run: |
         CHECK=OPTIONS_COLLECTION
@@ -337,101 +304,21 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt && echo
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return ok status'
-        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)200(.+)'
         printf %60s | tr ' ' '=' && echo
         echo '- headers should have allow options'
-        grep -oP 'allow:(.+)' ${CHECK_PATH}/headers.txt
-        printf %60s | tr ' ' '=' && echo
-    - name: HEAD - database collection available accept text
-      run: |
-        # NOTE: the use of the accept HEADER
-        CHECK=HEAD_COLLECTION_AVAILABLE
-        COLLECTION=example.com/docs
-        CHECK_PATH=checks/${CHECK}/${COLLECTION}
-        mkdir -p $CHECK_PATH
-        curl --silent --show-error --connect-timeout 1 --max-time 2 \
-        --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-        --head  -H 'Accept: text/plain' \
-        http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show headers'
-        echo ' ---------------'
-        cat  ${CHECK_PATH}/headers.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show write out'
-        echo ' ----------------'
-        cat ${CHECK_PATH}/write-out.txt && echo
-        printf %60s | tr ' ' '=' && echo
-        echo '- response should return ok status'
-        grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
-    - name: HEAD - database collection available accept xml
-      run: |
-        # NOTE: the use of the accept HEADER
-        CHECK=HEAD_COLLECTION_AVAILABLE
-        COLLECTION=example.com/docs
-        CHECK_PATH=checks/${CHECK}/${COLLECTION}
-        mkdir -p $CHECK_PATH
-        curl --silent --show-error --connect-timeout 1 --max-time 2 \
-        --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-        --head  -H 'Accept: application/xml' \
-        http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show headers'
-        echo ' ---------------'
-        cat  ${CHECK_PATH}/headers.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show write out'
-        echo ' ----------------'
-        cat ${CHECK_PATH}/write-out.txt && echo
-        printf %60s | tr ' ' '=' && echo
-        echo '- response should return ok status'
-        grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
-    - name: HEAD - database resource available
-      run: |
-        CHECK=HEAD_RESOURCE_AVAILABLE
-        COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
-        CHECK_PATH=checks/${CHECK}/${COLLECTION}
-        mkdir -p $CHECK_PATH
-        curl --silent --show-error --connect-timeout 1 --max-time 2 \
-        --dump-header ${CHECK_PATH}/headers.txt \
-        --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-        --head  -H 'Accept: application/xml' \
-        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
-        printf %60s | tr ' ' '=' && echo
-        echo ' - show headers'
-        echo ' ---------------'
-        cat  ${CHECK_PATH}/headers.txt
-        echo && printf %60s | tr ' ' '=' && echo
-        echo ' - show write out'
-        echo ' ----------------'
-        cat ${CHECK_PATH}/write-out.txt
-        printf %60s | tr ' ' '=' && echo
-        echo '- response should return ok status'
-        grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
-        echo ' NOTE; head request can be used to get content size'
-        echo ' - header should return content length'
-        grep -oP 'content-length(.+)' ${CHECK_PATH}/headers.txt 
-        if grep -oP 'content-length: 0' ${CHECK_PATH}/headers.txt >/dev/null
-        then
-        echo ' - header content length should be greater than zero: false'
-        false
-        else
-        echo ' - header content length should be greater than zero: true'
-        fi
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'allow:(.+)'
         printf %60s | tr ' ' '=' && echo
 # NOTE: resource retrieval via Accept Header
     - name: GET - accept XML - retrieve XDM document-node resource
       run: |
         CHECK=GET_ACCEPT_XML
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION}
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
-        --header 'Accept: application/xml' \
+        --header 'Accept: application/json' \
         --dump-header ${CHECK_PATH}/headers.txt \
         --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
         --output ${CHECK_PATH}/${RESOURCE} \
@@ -450,7 +337,7 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return ok status'
-        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)200(.+)'
         printf %60s | tr ' ' '=' && echo
     - name: GET - accept JSON - retrieve XDM array resource 
       run: |
@@ -479,7 +366,7 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return ok status'
-        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)200(.+)'
         printf %60s | tr ' ' '=' && echo
     - name: GET - accept JSON - retrieve XDM map resource 
       run: |
@@ -508,7 +395,7 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return ok status'
-        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)200(.+)'
         printf %60s | tr ' ' '=' && echo
     - name: GET - unknown resource in collection
       run: |
@@ -531,13 +418,13 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- headers should return not found status'
-        grep -oP 'HTTP(.+)404(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)404(.+)'
         printf %60s | tr ' ' '=' && echo
     - name: PUT - update database XML resource
       run: |
         CHECK=PUT_UPDATE_XML_RESOURCE
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION}
         mkdir -p $CHECK_PATH
         printf %60s | tr ' ' '=' && echo
@@ -559,13 +446,13 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt && echo
         printf %60s | tr ' ' '=' && echo
         echo '- should return "204" status'
-        grep -oP 'HTTP(.+)204(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)204(.+)'
         printf %60s | tr ' ' '=' && echo
     - name: DELETE - remove datebase resource
       run: |
         CHECK=DELETE_RESOURCE
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION}
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
@@ -582,13 +469,13 @@ jobs:
         echo ' ----------------'
         cat ${CHECK_PATH}/write-out.txt
         echo '- should return "202 Accepted" status'
-        grep -oP 'HTTP(.+)202(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)202 Accepted'
         printf %60s | tr ' ' '=' && echo
     - name: HEAD - resource no longer available ( resource has been deleted )
       run: |
         CHECK=HEAD_RESOURCE_NOW_UNAVAILABLE
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION} 
         mkdir -p $CHECK_PATH
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
@@ -605,14 +492,14 @@ jobs:
         echo ' ----------------'
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
-        echo '- response should return not found status'
-        grep -oP 'HTTP(.+)404(.+)' ${CHECK_PATH}/headers.txt
+        echo '- response should return ok status'
+        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 404 \]'
         printf %60s | tr ' ' '=' && echo
     - name: GET - unavailable resource ( previous resource has been deleted )
       run: |
         CHECK=GET_UNAVAILABLE_RESOURCE
         COLLECTION=example.com/docs
-        RESOURCE=doc-data.xml
+        RESOURCE=testing-data.xml
         CHECK_PATH=checks/${CHECK}/${COLLECTION}
         mkdir -p ${CHECK_PATH}
         curl --silent --show-error --connect-timeout 1 --max-time 2 \
@@ -629,7 +516,48 @@ jobs:
         cat ${CHECK_PATH}/write-out.txt
         printf %60s | tr ' ' '=' && echo
         echo '- response should return not found status'
-        grep -oP 'HTTP(.+)404(.+)' ${CHECK_PATH}/headers.txt
+        cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 404 \]'
         printf %60s | tr ' ' '=' && echo
+    # - name: DELETE - remove all database resources in available collecion
+    #   run: |
+    #     CHECK=DELETE_COLLECTION
+    #     COLLECTION=example.com/docs
+    #     CHECK_PATH=checks/${CHECK}/${COLLECTION}
+    #     mkdir -p $CHECK_PATH
+    #     curl --silent --show-error --connect-timeout 1 --max-time 2 \
+    #     -X DELETE \
+    #     --dump-header ${CHECK_PATH}/headers.txt \
+    #     --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+    #     http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show headers'
+    #     echo ' ---------------'
+    #     cat ${CHECK_PATH}/headers.txt && echo
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show write out'
+    #     echo ' ----------------'
+    #     cat  ${CHECK_PATH}/write-out.txt
+    # - name: GET - unavailable collection ( previous collection has been deleted )
+    #   run: |
+    #     CHECK=GET_UNAVAILABLE_COLLECTION
+    #     COLLECTION=example.com/docs
+    #     CHECK_PATH=checks/${CHECK}/${COLLECTION}
+    #     mkdir -p $CHECK_PATH
+    #     curl --silent --show-error --connect-timeout 1 --max-time 2 \
+    #     --dump-header ${CHECK_PATH}/headers.txt \
+    #     --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
+    #     http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show headers'
+    #     echo ' ---------------'
+    #     cat ${CHECK_PATH}/headers.txt && echo
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo ' - show write out'
+    #     echo ' ----------------'
+    #     cat ${CHECK_PATH}/write-out.txt && echo
+    #     printf %60s | tr ' ' '=' && echo
+    #     echo '- should return "204" status'
+    #     cat ${CHECK_PATH}/headers.txt | grep -oP 'HTTP(.+)404(.+)'
+    #     printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
       run: xqerl stop
