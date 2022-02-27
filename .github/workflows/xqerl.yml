@@ -6,7 +6,7 @@ on:
       - 'v*'
   pull_request:
     branches:
-      - '**:**'
+      - '*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,24 +15,28 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 1
-    - name: Cache dependencies
+    - name: Cache restore compile build
       id: cache-deps
       uses: actions/cache@v2
       with:
         path: _build
         key: rebar-${{ hashFiles('./rebar.lock') }}
-        # restore-keys: rebar-
     - name: Cache dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: |
         rebar3 deps
         rebar3 compile
-    - name: build production tar
+    - name: Build production tar
       run: |
         rebar3 as prod tar
         mkdir _release
         mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
-    - name: Upload built artifact
+    - name: Build docs via edoc
+      run: |
+        rebar3 edoc
+        tar -czvf xqerl-edoc.tar.gz doc
+        mv xqerl-edoc.tar.gz _release/xqerl-edoc.tar.gz
+    - name: Upload built artifacts
       uses: actions/upload-artifact@v2
       with:
         name: xqerl-prod-tar
@@ -135,6 +139,7 @@ jobs:
         mv ./xqerl.tar.gz  ./xqerl-${VERSION}.tar.gz
         gh release create ${RELEASE} "./xqerl-${VERSION}.tar.gz#xqerl-${VERSION}" \
         --notes "${NOTE}"  \
+        --generate-notes \
         --title "xqerl release ${RELEASE}" \
         --target  ${SHA}
       env:
@@ -142,7 +147,28 @@ jobs:
         OWNER: ${{ github.repository_owner }}
         SHA: ${{github.sha}}
         RELEASE: ${{github.ref_name}}
-        #MESSAGE: ${{ github.event.head_commit.message }}
+  publish:
+    if: ${{ github.ref_type == 'tag' }}    
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Cache restore compile build
+      id: cache-deps
+      uses: actions/cache@v2
+      with:
+        path: _build
+        key: rebar-${{ hashFiles('./rebar.lock') }}
+    - name: hex publish
+      run: |
+        rebar3 hex build
+        #rebar3 hex publish -r hexpm --yes
+        printf %60s | tr ' ' '-' && echo
+      env:
+        HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
   package:
     if: ${{ github.ref_type == 'tag' }}    
     needs: build
