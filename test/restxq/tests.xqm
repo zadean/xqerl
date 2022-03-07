@@ -198,8 +198,7 @@ function _:options_xml_103(){
     <http:response status="200">
       <http:header name="Allow" value="GET,HEAD"/>
     </http:response>
-  </rest:response>,
-  'empty?'
+  </rest:response>
 };
 
 declare 

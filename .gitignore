@@ -6,6 +6,7 @@ deps
 .rebar
 rebar.lock
 /_build/
+/_checkouts/
 /ebin/
 doc
 

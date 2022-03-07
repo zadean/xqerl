@@ -97,13 +97,16 @@ parse_file(DB, File, Uri, Stamp) ->
         counter => Counter
     },
     try
-        {ok, State1, _} =
-            xmerl_sax_parser:file(File, [
-                {continuation_fun, fun default_continuation_cb/1},
-                {event_fun, fun event/3},
-                {event_state, State}
-            ]),
-
+        {Cont, Init} = ys_utils:trancoding_file_continuation(File),
+        Opts = [
+            {whitespace, true},
+            {continuation, {Cont, <<>>}},
+            {base, filename:dirname(File)},
+            {external, fun ys_utils:external_file_reader/2}
+        ],
+        ParserState = yaccety_sax:stream(Init, Opts),
+        FirstEvent = yaccety_sax:next_event(ParserState),
+        State1 = stax_event(FirstEvent, State),
         % make and insert all index values at all levels
         Self = self(),
         ok = post_document_paths(State1),
@@ -638,6 +641,226 @@ att_events(
         ElementName
     );
 att_events([], State, _) ->
+    State.
+
+stax_event({#{type := startDocument}, ParserState}, State) ->
+    #{
+        doc_id := DocId,
+        db := DB,
+        paths := Paths,
+        writer := Writer,
+        counter := Counter,
+        uri := Uri
+    } = State,
+    NodeId = [],
+    UriRef = xqldb_string_table2:insert(DB, Uri),
+    NodeBin = xqldb_nodes:document(UriRef),
+    {PathId, Paths1} = get_path_id(DB, [], Paths),
+    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter),
+    State1 = State#{
+        pos := 1,
+        paths := Paths1,
+        counter := Counter1,
+        parent := NodeId
+    },
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+stax_event({#{type := endDocument}, _ParserState}, #{parent := []} = State) ->
+    State;
+stax_event({#{type := startElement} = Event, ParserState}, State) ->
+    #{
+        qname := {Uri, Prefix, LocalName},
+        attributes := Attributes,
+        namespaces := Namespaces
+    } = Event,
+    #{
+        doc_id := DocId,
+        db := DB,
+        pos := Pos,
+        parent := Par,
+        paths := Paths,
+        curr_path := CPath,
+        names := NameMap,
+        nsps := Scp0,
+        writer := Writer
+    } = State,
+    HasNs = Namespaces /= [],
+    NodeId = add_pos(Par, Pos),
+    AddNs = fun({NsUri, NsPrefix}, Acc) ->
+        {UriId, Acc1} = get_name_id(DB, NsUri, Acc),
+        {_PrefixId, Acc2} = get_name_id(DB, NsPrefix, Acc1),
+        ?dbg("UriId",UriId),
+        ?dbg("NsUri",NsUri),
+        ok = post_namespace_node(Writer, DocId, NodeId, UriId, NsPrefix),
+        Acc2
+    end,
+    Scp = lists:foldl(AddNs, Scp0, Namespaces),
+    AttLen = length(Attributes),
+    #{Uri := UriId} = Scp,
+    {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
+    {NameId, NameMap1} = get_name_id(DB, LocalName, NameMap),
+    PathKey = {UriId, NameId},
+    CPath1 = [PathKey | CPath],
+    {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
+    NodeBin = xqldb_nodes:element(NameId, UriId, PrefixId, HasNs, AttLen),
+    #{counter := Counter1} =
+        State1 = stax_att_events(
+            Attributes,
+            State#{
+                parent := NodeId,
+                paths := Paths1,
+                curr_path := CPath1,
+                names := NameMap1,
+                nsps := Scp1,
+                pos := Pos + 1
+            },
+            {Prefix, LocalName}
+        ),
+    Counter2 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter1),
+    State2 = State1#{
+        parent := NodeId,
+        curr_path := CPath1,
+        counter := Counter2,
+        has_ns := false
+    },
+    stax_event(yaccety_sax:next_event(ParserState), State2);
+stax_event({#{type := endElement}, ParserState}, State) ->
+    #{parent := Ps, curr_path := [_ | CPath]} = State,
+    State1 = State#{parent := rem_pos(Ps), curr_path := CPath},
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+stax_event({#{type := characters, data := String}, ParserState}, State) ->
+    #{
+        doc_id := DocId,
+        db := DB,
+        pos := Pos,
+        parent := Ps,
+        paths := Paths,
+        curr_path := CPath,
+        writer := Writer,
+        counter := Counter
+    } = State,
+    NodeId = add_pos(Ps, Pos),
+    TextRef = get_text_id(DB, String),
+    NodeBin = xqldb_nodes:text(TextRef),
+    CPath1 = [text | CPath],
+    {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
+    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter),
+    State1 = State#{
+        pos := Pos + 1,
+        paths := Paths1,
+        counter := Counter1
+    },
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+stax_event({#{type := processingInstruction, target := Target, data := Data}, ParserState}, State) ->
+    #{
+        doc_id := DocId,
+        db := DB,
+        pos := Pos,
+        parent := Ps,
+        paths := Paths,
+        names := NameMap,
+        curr_path := CPath,
+        writer := Writer,
+        counter := Counter
+    } = State,
+    NodeId = add_pos(Ps, Pos),
+    TextRef = get_text_id(DB, Data),
+    {NameRef, NameMap1} = get_name_id(DB, Target, NameMap),
+    NodeBin = xqldb_nodes:proc_inst(NameRef, TextRef),
+    CPath1 = [{pi, NameRef} | CPath],
+    {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
+    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter),
+    State1 = State#{
+        pos := Pos + 1,
+        names := NameMap1,
+        paths := Paths1,
+        counter := Counter1
+    },
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+stax_event({#{type := comment, text := Text}, ParserState}, State) ->
+    #{
+        doc_id := DocId,
+        db := DB,
+        pos := Pos,
+        parent := Ps,
+        paths := Paths,
+        curr_path := CPath,
+        writer := Writer,
+        counter := Counter
+    } = State,
+    NodeId = add_pos(Ps, Pos),
+    TextRef = get_text_id(DB, Text),
+    NodeBin = xqldb_nodes:comment(TextRef),
+    CPath1 = [comment | CPath],
+    {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
+    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter),
+    State1 = State#{
+        pos := Pos + 1,
+        paths := Paths1,
+        counter := Counter1
+    },
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+stax_event({#{type := dtd, proc := DTD}, ParserState}, State) ->
+    #{atts := AttDecs} = DTD,
+    AttTypes = [
+        {
+            {ElemName, AttName},
+            case AttType of
+                id -> ?att_id;
+                idref -> ?att_idref;
+                idrefs -> ?att_idref;
+                _ -> ?att_str
+            end
+        }
+     || {ElemName, Atts} <- maps:to_list(AttDecs),
+        {AttName, {AttType, _Default}} <- maps:to_list(Atts)
+    ],
+    State1 = State#{att_dec := maps:from_list(AttTypes)},
+    stax_event(yaccety_sax:next_event(ParserState), State1);
+% base uri sent from constructors and updates
+stax_event({baseUri, _}, State) ->
+    State;
+stax_event(Event, State) ->
+    ?dbg("UNKNOWN EVENT", Event),
+    State.
+
+stax_att_events([{{Uri, Prefix, AttributeName}, Value} | T], State, ElementName) ->
+    #{
+        doc_id := DocId,
+        db := DB,
+        pos := Pos,
+        parent := Ps,
+        paths := Paths,
+        curr_path := CPath,
+        names := NameMap,
+        att_dec := AttDec,
+        writer := Writer,
+        counter := Counter,
+        nsps := Scp
+    } = State,
+    NodeId = add_pos(Ps, Pos),
+    #{Uri := UriId} = Scp,
+    Type = get_att_type({ElementName, {Prefix, AttributeName}}, AttDec),
+    TextRef = get_text_id(DB, Value),
+    {PrefixId, Scp1} = get_name_id(DB, Prefix, Scp),
+    {NameId, NameMap1} = get_name_id(DB, AttributeName, NameMap),
+
+    NodeBin = xqldb_nodes:attribute(NameId, UriId, PrefixId, TextRef, Type),
+    PathKey = {att, UriId, NameId},
+    CPath1 = [PathKey | CPath],
+    {PathId, Paths1} = get_path_id(DB, CPath1, Paths),
+    Counter1 = post_node_indexes(Writer, DocId, NodeId, NodeBin, PathId, Counter),
+    stax_att_events(
+        T,
+        State#{
+            names := NameMap1,
+            pos := Pos + 1,
+            paths := Paths1,
+            nsps := Scp1,
+            counter := Counter1
+        },
+        ElementName
+    );
+stax_att_events([], State, _) ->
     State.
 
 get_att_type(Key, AttDec) ->
