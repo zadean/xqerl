@@ -1,6 +1,6 @@
 {application, xqerl, [
     {description, "XQuery 3.1 Processor"},
-    {vsn, "0.1.2"},
+    {vsn, "0.2.0"},
     {applications, [
         kernel,
         stdlib,
@@ -21,7 +21,8 @@
         merge_index,
         sext,
         uuid,
-        xs_regex
+        xs_regex,
+        yaccety_sax
         %observer,
         %runtime_tools
     ]},
