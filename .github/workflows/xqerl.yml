@@ -243,20 +243,20 @@ jobs:
         buildah push ghcr.io/${GITHUB_REPOSITORY}:${VERSION}
       env:
         RELEASE: ${{github.ref_name}}
-    # - name: Login to Docker Container Registry
-    #   if: "${{ env.DOCKER_TOKEN != '' }}"
-    #   uses: docker/login-action@v1
-    #   with:
-    #     registry: docker.io
-    #     username: ${{ github.actor }}
-    #     password: ${{ secrets.DOCKER_TOKEN }}
-    #   env:
-    #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-    # - name: Push to Docker Container Registry
-    #   run: |
-    #     VERSION=$(echo "${RELEASE}" | sed s/v// )
-    #     buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:${VERSION}
-    #     buildah push docker.io/${GITHUB_REPOSITORY}:${VERSION}
-    #   env:
-    #     RELEASE: ${{github.ref_name}}
-    #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    - name: Login to Docker Container Registry
+      if: "${{ env.DOCKER_TOKEN != '' }}"
+      uses: docker/login-action@v1
+      with:
+        registry: docker.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+      env:
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    - name: Push to Docker Container Registry
+      run: |
+        VERSION=$(echo "${RELEASE}" | sed s/v// )
+        buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:${VERSION}
+        buildah push docker.io/${GITHUB_REPOSITORY}:${VERSION}
+      env:
+        RELEASE: ${{github.ref_name}}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
