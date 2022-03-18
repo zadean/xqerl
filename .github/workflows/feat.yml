@@ -1,18 +1,17 @@
-name: build check release
+name: checks on running instance
 on:
   push:
-    branches: 'feat*'
+    branches-ignore:
+      - master
   pull_request:
     branches:
-      - '**:feat**'
+      - '**:**'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v3
     - name: Cache dependencies
       id: cache-deps
       uses: actions/cache@v2
@@ -41,9 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v3
     - name: Download built artifact
       uses: actions/download-artifact@v2
       with:
@@ -132,11 +129,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v3
     - name: Download built artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: xqerl-prod-tar
     - name: Unpack release tar and install xqerl application
