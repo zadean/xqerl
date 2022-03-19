@@ -1,11 +1,8 @@
-name: checks on running instance
+name: checks on running xqerl instance
 on:
   push:
     branches-ignore:
-      - master
-  pull_request:
-    branches:
-      - '**:**'
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +27,7 @@ jobs:
         mkdir _release
         mv _build/prod/rel/xqerl/*.tar.gz _release/xqerl.tar.gz
     - name: Upload built artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: xqerl-prod-tar
         path: _release/
@@ -42,7 +39,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v3
     - name: Download built artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: xqerl-prod-tar
     - name: Unpack release tar and install xqerl application
