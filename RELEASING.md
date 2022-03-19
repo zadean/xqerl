@@ -22,7 +22,7 @@ The github action workflow will fail if the **versioning** for the following are
 The github action workflow job will fail when the folowing regex patterns fail
  - pushed *annotated tag*: `v\d\.\d\.\d` Note: represents semver v{major}.{minor}.{patch} patten
  - file `rebar.config` release version: `v\d\.\d\.\d` Note: represents semver v{major}.{minor}.{patch} patten
- - file `src/xqerl.app.src` vsn number: `v\d\.\d\.\d` Note: no prefixed `v`
+ - file `src/xqerl.app.src` vsn number: `\d\.\d\.\d` Note: no prefixed `v`
 
 If any of these conditions a not met, the github actions for the main branch will fail.
 
