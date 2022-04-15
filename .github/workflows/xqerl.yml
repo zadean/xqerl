@@ -210,7 +210,7 @@ jobs:
         buildah run ${CONTAINER}  sh -c 'printenv' || true
         printf %60s | tr ' ' '-' && echo
         echo " - set stop signal"
-        buildah config --stop-signal SIGQUIT ${CONTAINER}
+        buildah config --stop-signal SIGTERM ${CONTAINER}
         echo " - set labels"
         buildah config --label org.opencontainers.image.base.name=alpine:${ALPINE_VERSION} ${CONTAINER}
         buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
