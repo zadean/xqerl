@@ -670,10 +670,9 @@ remove_module_dispatch(Module, DispatchFile) ->
     _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
     ok.
 
-
 % add builtin endpoints to restXQ endpoints
 set_cowboy_routes(EndPoints) ->
-  lists:flatten(
+    lists:flatten(
         [
             xqerl_restxq:endpoint_sort(EndPoints),
             {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
@@ -681,7 +680,6 @@ set_cowboy_routes(EndPoints) ->
             {"/db/:domain/[...]", xqerl_handler_rest_db, #{}}
         ]
     ).
-
 
 write_dispatch(Filename, Term) ->
     Ser = io_lib:format("~tp.~n", [Term]),
