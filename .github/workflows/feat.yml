@@ -110,7 +110,7 @@ jobs:
         curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null
         curl -sSL -D - http://localhost:8081/assets/images/logo.png -o /dev/null | grep -q '200' 
         printf %60s | tr ' ' '=' && echo
-    - name:  after install have a xqerl greeter #48 
+    - name:  after install have a xqerl greeter - issue 48
       run: |
         echo '- use curl to check if http://localhost:8081/xqerl is reachable'
         printf %60s | tr ' ' '=' && echo
@@ -121,7 +121,7 @@ jobs:
     - name: maintain builtin routes - issue 66
       run: |
         echo ' - add restXQ route, then check if greeter service still available'
-        xqerl eval 'xqerl:compile("test/restxq/tests.xqm")'
+        xqerl eval 'xqerl:compile("test/restxq/tests.xqm").'
         sleep 1
         curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
         curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
