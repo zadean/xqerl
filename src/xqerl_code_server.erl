@@ -619,7 +619,8 @@ save_module(
 
 init_rest(DispatchFileName) ->
     Port = application:get_env(xqerl, port, 8081),
-    Paths =
+    % get restXQ endpoints from from dispatch file
+    EndPoints =
         case filelib:is_regular(DispatchFileName) of
             true ->
                 {ok, Dis} = file:consult(DispatchFileName),
@@ -632,14 +633,7 @@ init_rest(DispatchFileName) ->
                 ok = write_dispatch(DispatchFileName, Dis),
                 Dis
         end,
-    Routes = lists:flatten(
-        [
-            xqerl_restxq:endpoint_sort(Paths),
-            {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
-            {"/xqerl", xqerl_handler_greeter, #{}},
-            {"/db/:domain/[...]", xqerl_handler_rest_db, #{}}
-        ]
-    ),
+    Routes = set_cowboy_routes(EndPoints),
     Dispatch = cowboy_router:compile([{'_', Routes}]),
     _ = cowboy:start_clear(
         xqerl_listener,
@@ -652,10 +646,12 @@ merge_load_dispatch(Module, Rest, DispatchFile) ->
     {ok, OldEndPoints} = file:consult(DispatchFile),
     NewEndPoints = xqerl_restxq:build_endpoints(Module, Rest),
     OldEndPoints1 = remove_module_from_endpoints(Module, OldEndPoints),
+    % revised restXQ endpoints written to dispatch file
     EndPoints = lists:flatten(NewEndPoints ++ OldEndPoints1),
-    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
-    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
     _ = write_dispatch(DispatchFile, EndPoints),
+    Routes = set_cowboy_routes(EndPoints),
+    Dispatch = cowboy_router:compile([{'_', Routes}]),
+    % live update Routes
     _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
     ok.
 
@@ -668,10 +664,22 @@ remove_module_dispatch(Module, DispatchFile) ->
     {ok, OldEndPoints} = file:consult(DispatchFile),
     EndPoints = remove_module_from_endpoints(Module, OldEndPoints),
     _ = write_dispatch(DispatchFile, EndPoints),
-    DisTerm = xqerl_restxq:endpoint_sort(EndPoints),
-    Dispatch = cowboy_router:compile([{'_', DisTerm}]),
+    Routes = set_cowboy_routes(EndPoints),
+    Dispatch = cowboy_router:compile([{'_', Routes}]),
+    % live update Routes
     _ = cowboy:set_env(xqerl_listener, dispatch, Dispatch),
     ok.
+
+% add builtin endpoints to restXQ endpoints
+set_cowboy_routes(EndPoints) ->
+    lists:flatten(
+        [
+            xqerl_restxq:endpoint_sort(EndPoints),
+            {"/assets/[...]", cowboy_static, {priv_dir, xqerl, "static/assets"}},
+            {"/xqerl", xqerl_handler_greeter, #{}},
+            {"/db/:domain/[...]", xqerl_handler_rest_db, #{}}
+        ]
+    ).
 
 write_dispatch(Filename, Term) ->
     Ser = io_lib:format("~tp.~n", [Term]),
