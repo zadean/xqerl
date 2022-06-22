@@ -1,0 +1,115 @@
+name: container-images
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Pull Images
+      run: |
+        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+        # pull in the latest versions of alpine and erlang alpine
+        podman pull docker.io/alpine:latest
+        ALPINE_VERSION=$(podman run --rm docker.io/alpine:latest /bin/ash -c 'cat /etc/os-release' | grep -oP 'VERSION_ID=\K.+')
+        podman pull docker.io/erlang:alpine
+        OTP_VERSION=$(podman run --rm docker.io/erlang:alpine sh -c 'cat /usr/local/lib/erlang/releases/*/OTP_VERSION')
+        echo " - release version: ${XQERL_VERSION}"
+        echo " - uses alpine version: ${ALPINE_VERSION}"
+        echo " - uses erlang OTP version: ${OTP_VERSION}"
+    - name: Buildah
+      run: |
+        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+        BASE_CONTAINER=$(buildah from docker.io/erlang:alpine)
+        buildah copy ${BASE_CONTAINER} ./ /home/
+        buildah run ${BASE_CONTAINER} sh -c 'apk add --update git tar \
+        && cd /home \
+        && rebar3 as prod tar \
+        && mkdir /usr/local/xqerl \
+        && tar -zxf _build/prod/rel/xqerl/*.tar.gz -C /usr/local/xqerl'
+        CONTAINER=$(buildah from docker.io/alpine:latest)
+        buildah run ${CONTAINER} sh -c 'apk add --no-cache openssl ncurses-libs tzdata libstdc++ \
+        && mkdir /usr/local/xqerl \
+        && cd /usr/local/bin \
+        && ln -s /usr/local/xqerl/bin/xqerl'
+        buildah copy --from ${BASE_CONTAINER} $CONTAINER /usr/local/xqerl /usr/local/xqerl
+        printf %60s | tr ' ' '-' && echo
+        echo " -  check"
+        buildah run ${CONTAINER} sh -c 'which xqerl' # should error if fails to find 
+        echo " - set working dir and entry point"
+        buildah config --cmd '' ${CONTAINER}
+        buildah config --workingdir /usr/local/xqerl ${CONTAINER}
+        buildah config --entrypoint '[ "xqerl", "foreground"]' ${CONTAINER}
+        echo " - set environment vars"
+        buildah config --env LANG=C.UTF-8 ${CONTAINER}
+        buildah config --env HOME=/home ${CONTAINER}
+        buildah config --env XQERL_HOME=/usr/local/xqerl ${CONTAINER}
+        printf %60s | tr ' ' '-' && echo
+        buildah run ${CONTAINER}  sh -c 'printenv' || true
+        printf %60s | tr ' ' '-' && echo
+        echo " - set stop signal"
+        buildah config --stop-signal SIGTERM ${CONTAINER}
+        echo " - set labels"
+        buildah config --label org.opencontainers.image.base.name=alpine ${CONTAINER}
+        buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
+        buildah config --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' ${CONTAINER}
+        buildah config --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} ${CONTAINER} # where the image is built
+        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} ${CONTAINER} # image documentation
+        buildah config --label org.opencontainers.image.version=${XQERL_VERSION} ${CONTAINER} # version
+        buildah run ${CONTAINER} sh -c \
+        'xqerl daemon && sleep 2 && xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." && xqerl stop'
+        buildah commit --squash --rm ${CONTAINER} localhost/xqerl
+        printf %60s | tr ' ' '-' && echo
+    - name: Container Checks
+      run: |
+        echo " - list docker images"
+        podman images
+        printf %60s | tr ' ' '-' && echo
+        echo " - run container with sh as entrypoint and list working directories"
+        podman run --rm --entrypoint '["/bin/sh", "-c"]' localhost/xqerl 'ls -al .'
+        echo " - run container with published ports"
+        podman run --name xq --publish 8081:8081 --detach localhost/xqerl
+        sleep 4
+        echo -n ' - check running: '
+        podman container inspect -f '{{.State.Running}}' xq
+        echo -n ' - check application all started: '
+        podman exec xq xqerl eval "application:ensure_all_started(xqerl)." | grep -oP '^.\Kok'
+        echo " - check log - only show supervisor"
+        printf %60s | tr ' ' '-' && echo
+        podman logs -n -t --since 0 -l | grep -oP '^.+\Ksupervisor:.+$'
+        printf %60s | tr ' ' '-' && echo
+        echo -n ' - check status and running size: '
+        podman ps --size --format "{{.Names}} {{.Status}} {{.Size}}"
+        echo ' - display the running processes of the container: '
+        podman top xq user pid %C
+        podman stop xq || true
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push to GitHub Container Registry
+      run: |
+        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+        buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+        buildah push ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+    - name: Login to Docker Container Registry
+      env:
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      if: "${{ env.DOCKER_TOKEN != '' }}"
+      uses: docker/login-action@v1
+      with:
+        registry: docker.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+    - name: Push to Docker Container Registry
+      env:
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      if: "${{ env.DOCKER_TOKEN != '' }}"
+      run: |
+        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+        buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+        buildah push docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+        buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:latest
+        buildah push docker.io/${GITHUB_REPOSITORY}:latest
+
