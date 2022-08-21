@@ -1,3 +1,7 @@
+% SPDX-FileCopyrightText: 2022 Zachary Dean contact@zadean.com
+%
+% SPDX-License-Identifier: Apache-2.0
+
 %% @author Zack
 %% @doc @todo Add description to xqldb_value_index.
 

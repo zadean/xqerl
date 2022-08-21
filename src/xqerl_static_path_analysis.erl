@@ -1,3 +1,7 @@
+% SPDX-FileCopyrightText: 2022 Zachary Dean contact@zadean.com
+%
+% SPDX-License-Identifier: Apache-2.0
+
 -module(xqerl_static_path_analysis).
 
 %% -include("xqerl.hrl").

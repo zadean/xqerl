@@ -1,3 +1,7 @@
+% SPDX-FileCopyrightText: 2022 Zachary Dean contact@zadean.com
+%
+% SPDX-License-Identifier: Apache-2.0
+
 %% @doc rest api db item handler.
 -module(xqerl_handler_rest_db).
 % REST Callbacks
