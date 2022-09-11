@@ -7120,7 +7120,10 @@ to_lines(<<C/utf8, Rest/binary>>, Sub, Acc) ->
 'uri-collection'(#{default_collection := DC} = Ctx) ->
     'uri-collection'(Ctx, DC);
 'uri-collection'(_Ctx) ->
-    ?err('FODC0002').
+    case xqldb_db_server:list() of
+        [] -> ?err('FODC0002');
+        Vals -> [?ATM('xs:anyURI', V) || V <- Vals]
+    end.
 
 %% fn:uri-collection($arg as xs:string?) as xs:anyURI*
 -spec 'uri-collection'(

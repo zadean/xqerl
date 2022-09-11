@@ -671,8 +671,8 @@ stax_event({#{type := startElement} = Event, ParserState}, State) ->
     AddNs = fun({NsUri, NsPrefix}, Acc) ->
         {UriId, Acc1} = get_name_id(DB, NsUri, Acc),
         {_PrefixId, Acc2} = get_name_id(DB, NsPrefix, Acc1),
-        ?dbg("UriId",UriId),
-        ?dbg("NsUri",NsUri),
+        % ?dbg("UriId", UriId),
+        % ?dbg("NsUri", NsUri),
         ok = post_namespace_node(Writer, DocId, NodeId, UriId, NsPrefix),
         Acc2
     end,
