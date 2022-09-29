@@ -38,6 +38,7 @@ jobs:
     if: ${{ github.ref_type == 'branch' }}    
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
@@ -134,6 +135,7 @@ jobs:
     if: ${{ github.ref_type == 'branch' }}
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
@@ -641,6 +643,7 @@ jobs:
     if: ${{ github.ref_type == 'branch' }}
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
