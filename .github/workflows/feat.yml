@@ -1,11 +1,14 @@
 name: checks on running xqerl instance
 on:
+  pull_request:
+    types: [ assigned, opened, synchronize, reopened ]
   push:
     branches-ignore:
       - main
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
@@ -31,10 +34,11 @@ jobs:
       with:
         name: xqerl-prod-tar
         path: _release/
-  checks:
+  xqerl_eval_checks:
     if: ${{ github.ref_type == 'branch' }}    
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
@@ -44,10 +48,11 @@ jobs:
         name: xqerl-prod-tar
     - name: Unpack release tar and install xqerl application
       run: |
-        mkdir -p  $HOME/.local/xqerl
+        XQERL_HOME=$HOME/.local/xqerl
+        mkdir -p $XQERL_HOME
         mkdir -p  $HOME/.local/bin
-        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
-        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
+        tar -zxf xqerl.tar.gz -C $XQERL_HOME
+        ln -s $XQERL_HOME/bin/xqerl $HOME/.local/bin
         ls -al $HOME/.local/bin
         echo $PATH
         which xqerl
@@ -117,7 +122,7 @@ jobs:
         curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
         printf %60s | tr ' ' '=' && echo
         curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
-        printf %60s | tr ' ' '=' && echo    - name: Stop xqerl
+        printf %60s | tr ' ' '=' && echo
     - name: maintain builtin routes - issue 66
       run: |
         echo ' - add restXQ route, then check if greeter service still available'
@@ -125,12 +130,12 @@ jobs:
         sleep 1
         curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
         curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
-    - name:  stop xqerl
-      run: xqerl stop
+
   rest_db_checks:
     if: ${{ github.ref_type == 'branch' }}
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
     - name: checkout repo
       uses: actions/checkout@v3
@@ -140,10 +145,11 @@ jobs:
         name: xqerl-prod-tar
     - name: Unpack release tar and install xqerl application
       run: |
-        mkdir -p  $HOME/.local/xqerl
+        XQERL_HOME=$HOME/.local/xqerl
+        mkdir -p $XQERL_HOME
         mkdir -p  $HOME/.local/bin
-        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
-        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
+        tar -zxf xqerl.tar.gz -C $XQERL_HOME
+        ln -s $XQERL_HOME/bin/xqerl $HOME/.local/bin
     - name: Start the xqerl application
       run: |
         xqerl daemon
@@ -631,4 +637,67 @@ jobs:
         grep -oP 'HTTP(.+)404(.+)' ${CHECK_PATH}/headers.txt
         printf %60s | tr ' ' '=' && echo
     - name: Stop xqerl
+      run: xqerl stop
+
+  xqerl_escript_checks:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v3
+    - name: Download built artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: xqerl-prod-tar
+    - name: Unpack release tar and install xqerl application
+      run: |
+        XQERL_HOME=$HOME/.local/xqerl
+        mkdir -p $XQERL_HOME
+        mkdir -p  $HOME/.local/bin
+        tar -zxf xqerl.tar.gz -C $XQERL_HOME
+        ln -s $XQERL_HOME/bin/xqerl $HOME/.local/bin
+    - name: Start the xqerl application
+      run: |
+        xqerl daemon
+        sleep 2
+        xqerl eval 'application:ensure_all_started(xqerl).'
+    - name: Set Up - add libs and docs
+      run: |
+        printf %60s | tr ' ' '-' && echo
+        xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." | grep -q 'ok'
+        xqerl eval "file:set_cwd('$(pwd)')." | grep -q 'ok'
+        echo ' -  compile library module: '
+        xqerl eval 'xqerl:compile("test/restxq/tests.xqm").' &>/dev/null
+        echo ' - db import some XML docs: '
+        xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite/docs").' | grep -q 'ok'
+        xqerl eval 'xqldb_dml:import_from_directory("http://example.com/examples/", "./test/QT3-test-suite/misc").' | grep -q 'ok'
+    - name: Checks - xqerl escript on running instance
+      run: |
+        printf %60s | tr ' ' '-' && echo
+        echo ' - list compiled library modules'
+        echo '> xqerl escript priv/bin/list-libs'
+        xqerl escript priv/bin/list-libs
+        printf %60s | tr ' ' '-' && echo
+        echo ' - list xqerl db contents'
+        echo '> xqerl escript priv/bin/list-db-uri'
+        xqerl escript priv/bin/list-db-uri
+    - name: Checks - as shebang executable escript
+      run: |
+        echo ' - make escript executable'
+        pushd ~/.local/xqerl/priv/bin/
+        chmod +x ./list-db-uri
+        echo ' - now exectable is callable'
+        echo '> ./list-db-uri'
+        ./list-db-uri
+        popd
+    - name: Checks - as callable executable on PATH
+      run: |
+        echo ' - create link to ~/.local/bin'
+        ln -sf ~/.local/xqerl/priv/bin/list-db-uri ~/.local/bin/xqerl-list-db-uri
+        echo ' - now exectable is callable from anywhere'
+        echo '> xqerl-list-db-uri'
+        xqerl-list-db-uri
+    - name:  stop xqerl
       run: xqerl stop
