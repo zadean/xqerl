@@ -8,7 +8,7 @@ let $tabularDataToHtmlTable := function( $records ){
 element table {
   element tr { 
     for $field in array:head($records)?*
-    return element td { map:keys($field)[1] }}, 
+    return element th { map:keys($field)[1] }}, 
   for $record in $records?*
   return element tr { 
     for $field in $record?*
