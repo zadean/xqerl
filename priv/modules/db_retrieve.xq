@@ -3,6 +3,29 @@ declare variable $accept external;
 declare variable $base external;
 declare variable $dbIO := QName("ERR", 'dbIO');
 try {
+
+let $tabularDataToHtmlTable := function( $records ){
+element table {
+  element tr { 
+    for $field in array:head($records)?*
+    return element th { map:keys($field)[1] }}, 
+  for $record in $records?*
+  return element tr { 
+    for $field in $record?*
+    return element td { $field?*[1] }} 
+ } => serialize(map{'method': 'xml','omit-xml-declaration': true() }) 
+}
+
+let $tabularDataToCsvText := function( $records ){
+ ((for $field in array:head($records)?*
+  return  map:keys($field)[1]) => string-join(','),
+ (for $record in $records?*
+  return 
+    (for $field in $record?*
+    return  $field?*[1]) => string-join(','))) => string-join('&#10;')
+}
+
+
 let $nodeKind := function( $node as node() ) as xs:string {
  if ($node instance of element()) then 'element'
  else if ($node instance of attribute()) then 'attribute'
@@ -44,18 +67,30 @@ return (
         switch ( $dbItemType ) 
         case 'document-node' return  
           switch ( $accept )
+          case "application/json" return $dbItem => serialize(map{'method': 'json'})
           case "application/xml" return $dbItem  => serialize(map{'method': 'xml','omit-xml-declaration': true() })
           case "application/json" return $dbItem => serialize(map{'method': 'json'})
           default return  error( $dbIO, ``[ [ `{ $accept }` ] can not serialize  ]``)  
         case 'array' return  
           switch ( $accept )
           case "application/json" return $dbItem => serialize(map{'method': 'json'})
-          default return  error( $dbIO, ``[ [ `{ $accept }` ] can not serialize  ]``) 
+          case "application/xml" return $dbItem  => serialize(map{'method': 'json'}) => json-to-xml() => serialize()
+          case "text/html" 
+            return 
+            if ( $uri || '-metadata.json' => $isItem())
+            then $dbItem  => $tabularDataToHtmlTable()
+            else error( $dbIO, ``[ `{ $accept }` - can not serialize  ]``) 
+          case "text/csv"
+            return 
+            if ( $uri || '-metadata.json' => $isItem())
+            then $dbItem  => $tabularDataToCsvText()
+            else error( $dbIO, ``[ `{ $accept }` - can not serialize  ]``) 
+          default return  error( $dbIO, ``[ `{ $accept }` - can not serialize  ]``) 
         case 'map' return  
           switch ( $accept )
           case "application/json" return $dbItem => serialize(map{'method': 'json'})
-          default return  error( $dbIO, ``[ [ `{ $accept }` ] can not serialize  ]``) 
-        default return error( $dbIO, ``[ [ `{ $dbItemType }` ] can not handle this db item type  ]``) 
+          default return  error( $dbIO, ``[ `{ $accept }` - can not serialize  ]``) 
+        default return error( $dbIO, ``[ `{ $dbItemType }` - can not handle this db item type  ]``) 
     else (
        let $resources := ($uri => uri-collection()) ! replace( . , 'http://', $base )
        return

@@ -19,7 +19,6 @@
 -export([from_update/2]).
 %-export([get_relPath/1])
 
--define(SERVER, xqerl_main_mod_server).
 % all requests start here
 init(Req, Opts) ->
     {cowboy_rest, Req, Opts}.
@@ -52,6 +51,8 @@ content_types_provided(Req, State) ->
         [
             {{<<"application">>, <<"xml">>, '*'}, to_retrieve},
             {{<<"application">>, <<"json">>, '*'}, to_retrieve},
+            {{<<"text">>, <<"csv">>, '*'}, to_retrieve},
+            {{<<"text">>, <<"html">>, '*'}, to_retrieve},
             {{<<"text">>, <<"plain">>, '*'}, to_retrieve}
         ],
         Req,
@@ -123,7 +124,8 @@ content_types_accepted(Req, State) ->
             {
                 [
                     {{<<"application">>, <<"xml">>, '*'}, from_create},
-                    {{<<"application">>, <<"json">>, '*'}, from_create}
+                    {{<<"application">>, <<"json">>, '*'}, from_create},
+                    {{<<"text">>, <<"csv">>, '*'}, from_create}
                 ],
                 Req,
                 State
@@ -132,7 +134,8 @@ content_types_accepted(Req, State) ->
             {
                 [
                     {{<<"application">>, <<"xml">>, '*'}, from_update},
-                    {{<<"application">>, <<"json">>, '*'}, from_update}
+                    {{<<"application">>, <<"json">>, '*'}, from_update},
+                    {{<<"text">>, <<"csv">>, '*'}, from_update}
                 ],
                 Req,
                 State

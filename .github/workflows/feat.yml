@@ -239,6 +239,42 @@ jobs:
         echo '- response headers should include a location header'
         grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
         printf %60s | tr ' ' '='
+
+    - name: POST CSV create XDM array resource
+      run: |
+        CHECK=POST_CSV
+        COLLECTION=example.com/docs
+        RESOURCE=csv-data.array
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        cat << EOF > $CHECK_PATH/data.csv
+        GID,On Street,Species,Trim Cycle,Inventory Date
+        1,ADDISON AV,Celtis australis,Large Tree Routine Prune,10/18/2010
+        2,EMERSON ST,Liquidambar styraciflua,Large Tree Routine Prune,6/2/2010
+        EOF
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out '\nresponse code [ %{http_code} ]\n' \
+        --header 'Content-Type: text/csv' \
+        --header "Slug: ${RESOURCE}" \
+        --data-binary "@${CHECK_PATH}/data.csv" \
+        http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show headers'
+        echo ' ---------------'
+        cat  ${CHECK_PATH}/headers.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- response should return ok created status'
+        grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
+        echo '- response headers should include a location header'
+        grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
+        sleep 1
+        printf %60s | tr ' ' '='
+
     - name: POST - unsupported media type
       run: |
         CHECK=POST_MSWORD
@@ -515,6 +551,130 @@ jobs:
         echo '- headers should return ok status'
         grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
         printf %60s | tr ' ' '=' && echo
+
+    - name: GET - tabular data - ask for JSON, origin posted CSV data
+      run: |
+        CHECK=CHECK=GET_ACCEPT_JSON_TABULAR_DATA
+        COLLECTION=example.com/docs
+        RESOURCE=csv-data.array
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --header 'Accept: application/json' \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+        --output ${CHECK_PATH}/${RESOURCE} \
+        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show data'
+        echo ' ---------------'
+        jq '.' ${CHECK_PATH}/${RESOURCE}
+        printf %60s | tr ' ' '=' &&
+        echo ' - show headers'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/headers.txt
+        echo && printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- headers should return ok status'
+        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        printf %60s | tr ' ' '=' && echo
+
+    - name: GET - tabular data metadata - ask for JSON, origin posted CSV data
+      run: |
+        CHECK=GET_ACCEPT_JSON_TABULAR_METADATA
+        COLLECTION=example.com/docs
+        RESOURCE=csv-data.array-metadata.json
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --header 'Accept: application/json' \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+        --output ${CHECK_PATH}/${RESOURCE} \
+        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show data'
+        echo ' ---------------'
+        jq '.' ${CHECK_PATH}/${RESOURCE}
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show headers'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/headers.txt
+        echo && printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- headers should return ok status'
+        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        printf %60s | tr ' ' '=' && echo
+
+    - name: GET - tabular data - ask for HTML, origin posted CSV data
+      run: |
+        CHECK=CHECK=GET_ACCEPT_HTML_TABULAR_DATA
+        COLLECTION=example.com/docs
+        RESOURCE=csv-data.array
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --header 'Accept: text/html' \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+        --output ${CHECK_PATH}/${RESOURCE} \
+        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show data'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/${RESOURCE}
+        echo && printf %60s | tr ' ' '=' &&
+        echo ' - show headers'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/headers.txt
+        echo && printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- headers should return ok status'
+        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        printf %60s | tr ' ' '=' && echo
+
+    - name: GET - tabular data - ask for CSV text, origin posted CSV data
+      run: |
+        CHECK=CHECK=GET_ACCEPT_CSV_TABULAR_DATA
+        COLLECTION=example.com/docs
+        RESOURCE=csv-data.array
+        CHECK_PATH=checks/${CHECK}/${COLLECTION}
+        mkdir -p $CHECK_PATH
+        curl --silent --show-error --connect-timeout 1 --max-time 2 \
+        --header 'Accept: text/csv' \
+        --dump-header ${CHECK_PATH}/headers.txt \
+        --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+        --output ${CHECK_PATH}/${RESOURCE} \
+        http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo ' - show data'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/${RESOURCE}
+        echo && printf %60s | tr ' ' '=' &&
+        echo ' - show headers'
+        echo ' ---------------'
+        cat ${CHECK_PATH}/headers.txt
+        echo && printf %60s | tr ' ' '=' && echo
+        echo ' - show write out'
+        echo ' ----------------'
+        cat ${CHECK_PATH}/write-out.txt
+        printf %60s | tr ' ' '=' && echo
+        echo '- headers should return ok status'
+        grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+        printf %60s | tr ' ' '=' && echo
+
+
+
+
     - name: GET - unknown resource in collection
       run: |
         CHECK=GET_UKNOWN_RESOURCE
