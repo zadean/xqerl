@@ -140,6 +140,7 @@ do_get_open(Path, Ets) ->
     MPattern = Path ++ '$1',
     MatchSpec = [
         {{{MPattern, '_', '_'}, '_', open}, [], ['$1']},
+        {{{MPattern, '_', '_'}, '_', opening}, [], ['$1']},
         {{{MPattern, '_', '_'}, '_', closed}, [], ['$1']}
     ],
     Res = ets:select(Ets, MatchSpec),
@@ -283,13 +284,14 @@ handle_call({info, Path, _Uri}, _From, #{tab := Ets} = State) ->
             {reply, {error, not_exists}, State};
         [{{_, _, _}, _, missing}] ->
             {reply, {error, not_exists}, State};
-        [{{_, _, Id}, Pid, Status}] when is_pid(Pid) ->
+        [{{_, Uri, Id}, Pid, Status}] when is_pid(Pid) ->
             % check if it is still alive
             case erlang:is_process_alive(Pid) of
                 true ->
                     {reply, {Status, Id, Pid}, State};
                 false ->
-                    {reply, {error, not_exists}, State}
+                    ets:insert(Ets, {{Path, Uri, Id}, undefined, closed}),
+                    {reply, {closed, Id, undefined}, State}
             end;
         [{{_, _, Id}, undefined, opening}] ->
             {reply, {opening, Id, undefined}, State};
