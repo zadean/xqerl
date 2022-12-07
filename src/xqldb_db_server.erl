@@ -139,9 +139,9 @@ check_fs_exists(TabName, DataDir) ->
 do_get_open(Path, Ets) ->
     MPattern = Path ++ '$1',
     MatchSpec = [
-        {{{MPattern, '_', '_'}, '_', open}, [], ['$1']},
-        {{{MPattern, '_', '_'}, '_', opening}, [], ['$1']},
-        {{{MPattern, '_', '_'}, '_', closed}, [], ['$1']}
+        {{{MPattern, '_'}, '_', '_', open}, [], ['$1']},
+        {{{MPattern, '_'}, '_', '_', opening}, [], ['$1']},
+        {{{MPattern, '_'}, '_', '_', closed}, [], ['$1']}
     ],
     Res = ets:select(Ets, MatchSpec),
     lists:sort([filename:join([<<".">> | R]) || R <- Res]).
@@ -168,10 +168,10 @@ get_next_id(Name) ->
 dets_to_ets(TabName, Ets) ->
     Fun = fun
         ({P, O, {I, missing}}, E) ->
-            ets:insert(E, {{P, O, I}, undefined, missing}),
+            ets:insert(E, {{P, I}, O, undefined, missing}),
             E;
         ({P, O, I}, E) ->
-            ets:insert(E, {{P, O, I}, undefined, closed}),
+            ets:insert(E, {{P, I}, O, undefined, closed}),
             E
     end,
     _ = dets:foldl(Fun, Ets, TabName),
@@ -220,15 +220,15 @@ handle_call(
             [] ->
                 % insert Next increase Next
                 dets:insert(TabName, {Path, Uri, Next}),
-                ets:insert(Ets, {{Path, Uri, Next}, undefined, opening}),
+                ets:insert(Ets, {{Path, Next}, Uri, undefined, opening}),
                 DbDir = filename:join([DataDir, int_to_path(Next)]),
                 {reply, {DbDir, Next}, State#{nxt := Next + 1}};
-            [{{_, _, Id}, _, missing}] ->
+            [{{_, Id}, _, _, missing}] ->
                 dets:insert(TabName, {Path, Uri, Id}),
-                ets:insert(Ets, {{Path, Uri, Id}, undefined, opening}),
+                ets:insert(Ets, {{Path, Id}, Uri, undefined, opening}),
                 DbDir = filename:join([DataDir, int_to_path(Id)]),
                 {reply, {DbDir, Id}, State};
-            [{{_, _, Id}, Pid, open}] when is_pid(Pid) ->
+            [{{_, Id}, _, Pid, open}] when is_pid(Pid) ->
                 DbDir = filename:join([DataDir, int_to_path(Id)]),
                 % check if it is still alive
                 case erlang:is_process_alive(Pid) of
@@ -237,14 +237,14 @@ handle_call(
                         {reply, {open, Pid, Id}, State};
                     false ->
                         % if not alive, mark closed and return error
-                        ets:insert(Ets, {{Path, Uri, Id}, undefined, closed}),
+                        ets:insert(Ets, {{Path, Id}, Uri, undefined, closed}),
                         {reply, {closed, DbDir, Id}, State}
                 end;
-            [{{_, _, Id}, undefined, closed}] ->
-                ets:insert(Ets, {{Path, Uri, Id}, undefined, opening}),
+            [{{_, Id}, _, undefined, closed}] ->
+                ets:insert(Ets, {{Path, Id}, Uri, undefined, opening}),
                 DbDir = filename:join([DataDir, int_to_path(Id)]),
                 {reply, {DbDir, Id}, State};
-            [{{_, _, Id}, undefined, opening}] ->
+            [{{_, Id}, _, undefined, opening}] ->
                 %DbDir = filename:join([DataDir, int_to_path(Id)]),
                 {reply, {opening, Id}, State}
         end
@@ -256,8 +256,8 @@ handle_call(
 % Sets Uri to status open or {error, not_exists} if the DB does not exist.
 handle_call({open, Path, Uri, SupPid}, _From, #{tab := Ets} = State) ->
     try
-        [Id] = ets:select(Ets, [{{{Path, '_', '$1'}, '_', '_'}, [], ['$1']}]),
-        ets:insert(Ets, {{Path, Uri, Id}, SupPid, open}),
+        [Id] = ets:select(Ets, [{{{Path, '$1'}, '_', '_', '_'}, [], ['$1']}]),
+        ets:insert(Ets, {{Path, Id}, Uri, SupPid, open}),
         {reply, ok, State}
     catch
         _:_ ->
@@ -265,7 +265,7 @@ handle_call({open, Path, Uri, SupPid}, _From, #{tab := Ets} = State) ->
     end;
 % Sets Uri to status closed if it exists or does nothing if not.
 handle_call({close, Path, Uri, Id}, _From, #{tab := Ets} = State) ->
-    ets:insert(Ets, {{Path, Uri, Id}, undefined, closed}),
+    ets:insert(Ets, {{Path, Id}, Uri, undefined, closed}),
     {reply, ok, State};
 handle_call(list, _From, #{tab := Ets} = State) ->
     {reply, select_uris(Ets), State};
@@ -282,20 +282,20 @@ handle_call({info, Path, _Uri}, _From, #{tab := Ets} = State) ->
     case select_path(Ets, Path) of
         [] ->
             {reply, {error, not_exists}, State};
-        [{{_, _, _}, _, missing}] ->
+        [{{_, _}, _, _, missing}] ->
             {reply, {error, not_exists}, State};
-        [{{_, Uri, Id}, Pid, Status}] when is_pid(Pid) ->
+        [{{_, Id}, Uri, Pid, Status}] when is_pid(Pid) ->
             % check if it is still alive
             case erlang:is_process_alive(Pid) of
                 true ->
                     {reply, {Status, Id, Pid}, State};
                 false ->
-                    ets:insert(Ets, {{Path, Uri, Id}, undefined, closed}),
+                    ets:insert(Ets, {{Path, Id}, Uri, undefined, closed}),
                     {reply, {closed, Id, undefined}, State}
             end;
-        [{{_, _, Id}, undefined, opening}] ->
+        [{{_, Id}, _, undefined, opening}] ->
             {reply, {opening, Id, undefined}, State};
-        [{{_, _, Id}, undefined, closed}] ->
+        [{{_, Id}, _, undefined, closed}] ->
             {reply, {closed, Id, undefined}, State}
     end;
 % Returns [{Uri, Pid}] of all existing DBs under given path.
@@ -317,7 +317,7 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 select_path(Ets, Path) ->
-    ets:select(Ets, [{{{Path, '_', '_'}, '_', '_'}, [], ['$_']}]).
+    ets:select(Ets, [{{{Path, '_'}, '_', '_', '_'}, [], ['$_']}]).
 
 select_uris(Ets) ->
-    ets:select(Ets, [{{{'_', '$1', '_'}, '_', '_'}, [], ['$1']}]).
+    ets:select(Ets, [{{{'_', '_'}, '$1', '_', '_'}, [], ['$1']}]).
