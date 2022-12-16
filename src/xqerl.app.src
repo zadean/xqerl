@@ -1,6 +1,6 @@
 {application, xqerl, [
     {description, "XQuery 3.1 Processor"},
-    {vsn, "0.2.0"},
+    {vsn, "0.1.19"},
     {applications, [
         kernel,
         stdlib,
