@@ -32,7 +32,7 @@ main([]) ->
  try rpc:call( 'xqerl@127.0.0.1',
                 xqerl,
                 run,
-                ["for-each(uri-collection(),function($item){uri-collection($item)})"],
+                ["uri-collection() ! uri-collection(.)"],
                 Timeout) of
    E when is_record(E, xqError) -> formatError(E); 
    A when is_record(A, xqAtomicValue) -> print([A]);
