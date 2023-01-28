@@ -1,4 +1,7 @@
-# https://docs.github.com/en/actions/learn-github-actions/expressions
+# this workflow runs 
+# 1. when we merge a pull request into the main branch
+# 2. push an annotated tag on the main branch
+# The main checks are done on pushes to feature branches 
 name: build check release
 on:
   push:
@@ -7,7 +10,7 @@ on:
     tags:
       - 'v*.*.*'
 jobs:
-  build:
+  vsn_checks:
     runs-on: ubuntu-latest
     steps:
     - name: checkout repo
@@ -43,234 +46,14 @@ jobs:
         # A pushed tag may be lightwieght tag therefor no subject
         [ ! -z "${NOTE}" ] || echo 'ERR: lightweight tag pushed. use annotated tag to create release'
         [ ! -z "${NOTE}" ]
-        #echo " - rebar_release: ${{ env.rebar_release}} "
-        #echo " - xqerl app vsn: ${{ env.app_vsn }} "
-    - name: Cache dependencies
-      id: cache-deps
-      uses: actions/cache@v2
-      with:
-        path: _build
-        key: rebar-${{ hashFiles('./rebar.lock') }}
-    - name: Cache dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
-      run: |
-        rebar3 deps
-        rebar3 compile
-    - name: build production tar
-      run: |
-        rebar3 as prod tar
-        mv _build/prod/rel/xqerl/xqerl-*.tar.gz ./xqerl.tar.gz
-    - name: Upload built artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: xqerl-prod-tar
-        path: ./xqerl.tar.gz
-  checks:
-    if: ${{ github.ref_type == 'branch' }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v3
-    - name: Download built artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: xqerl-prod-tar
-    - name: Unpack release tar and install xqerl application
-      run: |
-        mkdir -p  $HOME/.local/xqerl
-        mkdir -p  $HOME/.local/bin
-        # echo "$HOME/.local/bin" >> $GITHUB_PATH
-        tar -zxf xqerl.tar.gz -C $HOME/.local/xqerl
-        ln -s $HOME/.local/xqerl/bin/xqerl $HOME/.local/bin
-        which xqerl
-    - name: Start the xqerl application
-      run: |
-        xqerl daemon
-        sleep 2
-        xqerl eval 'application:ensure_all_started(xqerl).'
-    - name: Checks - OTP Beam inspection
-      run: |
-          printf %60s | tr ' ' '-' && echo
-          echo -n '-  ping: '
-          xqerl ping | grep -oP 'pong'
-          echo -n '-  pid: '
-          xqerl pid | grep -oP '\d+'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd('$(pwd)')."
-          xqerl eval 'file:get_cwd().'
-          printf %60s | tr ' ' '=' && echo
-    - name: Checks - xqerl eval on running instance
-      run: |
-          printf %60s | tr ' ' '-' && echo
-          echo ' - run a xQuery expression'
-          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
-          grep -oP '^\[\{xq.+$'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile an xQuery file'
-          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
-          grep -oP 'file(.+)\.xq'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile, run then grep the title'
-          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).' | \
-          grep -oP '<title>(.+)</title>'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - load an XML file into the DB: '
-          xqerl eval \
-          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - view using the the xqerl:run/1 function with xQuery fn:doc#1 function'
-          xqerl eval "binary_to_list(xqerl:run(\" 'http://xqerl.org/my_doc.xml' => doc() => serialize() \"))."
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - delete db doc '
-          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - import into DB docs from directory: '
-          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '=' && echo
-    - name: Stop xqerl
-      run: xqerl stop
-  release:
+  build_check:
+    needs: vsn_checks
+    uses: ./.github/workflows/build-check.yml
+  tar_release:
     if: ${{ github.ref_type == 'tag' }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v3
-    - name: Download built artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: xqerl-prod-tar
-    - name: Release artifact
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo " - release version: ${{github.ref_name}}"
-        # - derive NOTE from the annotated tag message
-        NOTE="$(git tag -l --format='%(contents:subject)' ${{github.ref_name}} )"
-        echo " - release note: ${NOTE}"
-        # in build we detirmined that rebar.config version is the same as pushed annotated tag
-        # so we can just use ${{github.ref_name}} for the release name
-        # mv ./xqerl.tar.gz  ./xqerl-${{github.ref_name}}.tar.gz
-        # use the gh client to create release
-        gh release create ${{github.ref_name}} "./xqerl.tar.gz#xqerl ${{github.ref_name}}" \
-        --notes "${NOTE}"  \
-        --title "xqerl release ${{github.ref_name}}" \
-        --target ${{github.sha}}
-  package:
+    needs: build_check
+    uses: ./.github/workflows/xqerl-slim-tar.yml
+  container_release:
+    needs: vsn_checks
     if: ${{ github.ref_type == 'tag' }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Pull Images
-      run: |
-        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
-        # pull in the latest versions of alpine and erlang alpine
-        podman pull docker.io/alpine:latest
-        ALPINE_VERSION=$(podman run --rm docker.io/alpine:latest /bin/ash -c 'cat /etc/os-release' | grep -oP 'VERSION_ID=\K.+')
-        podman pull docker.io/erlang:alpine
-        OTP_VERSION=$(podman run --rm docker.io/erlang:alpine sh -c 'cat /usr/local/lib/erlang/releases/*/OTP_VERSION')
-        echo " - release version: ${XQERL_VERSION}"
-        echo " - uses alpine version: ${ALPINE_VERSION}"
-        echo " - uses erlang OTP version: ${OTP_VERSION}"
-    - name: Buildah
-      run: |
-        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
-        BASE_CONTAINER=$(buildah from docker.io/erlang:alpine)
-        buildah copy ${BASE_CONTAINER} ./ /home/
-        buildah run ${BASE_CONTAINER} sh -c 'apk add --update git tar \
-        && cd /home \
-        && rebar3 as prod tar \
-        && mkdir /usr/local/xqerl \
-        && tar -zxf _build/prod/rel/xqerl/*.tar.gz -C /usr/local/xqerl'
-        CONTAINER=$(buildah from docker.io/alpine:latest)
-        buildah run ${CONTAINER} sh -c 'apk add --no-cache openssl ncurses-libs tzdata libstdc++ \
-        && mkdir /usr/local/xqerl \
-        && cd /usr/local/bin \
-        && ln -s /usr/local/xqerl/bin/xqerl'
-        buildah copy --from ${BASE_CONTAINER} $CONTAINER /usr/local/xqerl /usr/local/xqerl
-        printf %60s | tr ' ' '-' && echo
-        echo " -  check"
-        buildah run ${CONTAINER} sh -c 'which xqerl' # should error if fails to find 
-        echo " - set working dir and entry point"
-        buildah config --cmd '' ${CONTAINER}
-        buildah config --workingdir /usr/local/xqerl ${CONTAINER}
-        buildah config --entrypoint '[ "xqerl", "foreground"]' ${CONTAINER}
-        echo " - set environment vars"
-        buildah config --env LANG=C.UTF-8 ${CONTAINER}
-        buildah config --env HOME=/home ${CONTAINER}
-        buildah config --env XQERL_HOME=/usr/local/xqerl ${CONTAINER}
-        printf %60s | tr ' ' '-' && echo
-        buildah run ${CONTAINER}  sh -c 'printenv' || true
-        printf %60s | tr ' ' '-' && echo
-        echo " - set stop signal"
-        buildah config --stop-signal SIGTERM ${CONTAINER}
-        echo " - set labels"
-        buildah config --label org.opencontainers.image.base.name=alpine ${CONTAINER}
-        buildah config --label org.opencontainers.image.title='xqerl' ${CONTAINER}
-        buildah config --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' ${CONTAINER}
-        buildah config --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} ${CONTAINER} # where the image is built
-        buildah config --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} ${CONTAINER} # image documentation
-        buildah config --label org.opencontainers.image.version=${XQERL_VERSION} ${CONTAINER} # version
-        buildah run ${CONTAINER} sh -c \
-        'xqerl daemon && sleep 2 && xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." && xqerl stop'
-        buildah commit --squash --rm ${CONTAINER} localhost/xqerl
-        printf %60s | tr ' ' '-' && echo
-    - name: Container Checks
-      run: |
-        echo " - list docker images"
-        podman images
-        printf %60s | tr ' ' '-' && echo
-        echo " - run container with sh as entrypoint and list working directories"
-        podman run --rm --entrypoint '["/bin/sh", "-c"]' localhost/xqerl 'ls -al .'
-        echo " - run container with published ports"
-        podman run --name xq --publish 8081:8081 --detach localhost/xqerl
-        sleep 4
-        echo -n ' - check running: '
-        podman container inspect -f '{{.State.Running}}' xq
-        echo -n ' - check application all started: '
-        podman exec xq xqerl eval "application:ensure_all_started(xqerl)." | grep -oP '^.\Kok'
-        echo " - check log - only show supervisor"
-        printf %60s | tr ' ' '-' && echo
-        podman logs -n -t --since 0 -l | grep -oP '^.+\Ksupervisor:.+$'
-        printf %60s | tr ' ' '-' && echo
-        echo -n ' - check status and running size: '
-        podman ps --size --format "{{.Names}} {{.Status}} {{.Size}}"
-        echo ' - display the running processes of the container: '
-        podman top xq user pid %C
-        podman stop xq || true
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push to GitHub Container Registry
-      run: |
-        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
-        buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
-        buildah push ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
-    - name: Login to Docker Container Registry
-      env:
-        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-      if: "${{ env.DOCKER_TOKEN != '' }}"
-      uses: docker/login-action@v1
-      with:
-        registry: docker.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_TOKEN }}
-    - name: Push to Docker Container Registry
-      env:
-        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-      if: "${{ env.DOCKER_TOKEN != '' }}"
-      run: |
-        XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
-        buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
-        buildah push docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
-        buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:latest
-        buildah push docker.io/${GITHUB_REPOSITORY}:latest
+    uses: ./.github/workflows/xqerl-alpine-image.yml

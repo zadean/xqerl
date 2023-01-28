@@ -1,0 +1,908 @@
+# job: container_image_build
+# - builds minimal alpine based image to run xqerl app server and database instances
+# - produces the image saved as a upload-artifact
+#
+#   In subsequent 'jobs' a download-artifact 'xqerl.tar' 
+#   is loaded into the local container registry and
+#   a running xqerl instance is created and checks 
+#   are performed 
+#  - db_ops_crud_with_curl:
+#     - Check working with xqerl rest db api to Create Retrieve Update and Delete db resources
+#     - Check stoping and starting container instance can retain db application state via a xqerl database volume
+#     - Check saving xqerl-database volume as a tar
+#  - bulk_db ops_xml
+
+name: xqerl alpine container image
+on:
+  workflow_call:
+jobs:
+  container_image_build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Pull Images
+        run: |
+          XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+          podman pull docker.io/erlang:alpine &>/dev/null
+          OTP_VERSION=$(podman run --rm docker.io/erlang:alpine sh -c 'cat /usr/local/lib/erlang/releases/*/OTP_VERSION')
+          ALPINE_VERSION=$(podman run --rm docker.io/erlang:alpine sh -c 'cat /etc/os-release' | grep -oP 'VERSION_ID=\K.+')
+          podman pull docker.io/alpine:$ALPINE_VERSION
+          echo '# xqerl container image ' >> $GITHUB_STEP_SUMMARY
+          echo " - xqerl release version: ${XQERL_VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo " - uses erlang OTP version: ${OTP_VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo " - uses alpine version: ${ALPINE_VERSION}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Buildah
+        run: |
+          echo " ## container image build" >> $GITHUB_STEP_SUMMARY
+          XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+          BASE_CONTAINER=$(buildah from docker.io/erlang:alpine)
+          buildah copy ${BASE_CONTAINER} ./ /home/
+          buildah run ${BASE_CONTAINER} sh -c 'apk add --update git tar \
+          && cd /home \
+          && rebar3 as prod tar  &>/dev/null \
+          && mkdir /usr/local/xqerl \
+          && tar -zxf _build/prod/rel/xqerl/*.tar.gz -C /usr/local/xqerl \
+          && cd /usr/local/xqerl \
+          && bin/xqerl daemon \
+          && sleep 4 \
+          && bin/xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." \
+          && bin/xqerl stop \
+          && ls -al .'
+          ALPINE_VERSION=$(podman run --rm docker.io/erlang:alpine sh -c 'cat /etc/os-release' | grep -oP 'VERSION_ID=\K.+')
+          CONTAINER=$(buildah from docker.io/alpine:$ALPINE_VERSION)
+          buildah run ${CONTAINER} sh -c 'apk add --no-cache openssl ncurses-libs tzdata libstdc++ \
+          && mkdir /usr/local/xqerl \
+          && cd /usr/local/bin \
+          && ln -s /usr/local/xqerl/bin/xqerl'
+          buildah copy --from ${BASE_CONTAINER} $CONTAINER /usr/local/xqerl /usr/local/xqerl
+          echo -n " - check xqerl on PATH: "
+          buildah run ${CONTAINER} sh -c 'which xqerl' # should error if fails to find
+          echo " - set working dir and entry point and stop signal" >> $GITHUB_STEP_SUMMARY
+          buildah config \
+          --cmd '' \
+          --workingdir /usr/local/xqerl \
+          --entrypoint '[ "xqerl", "foreground"]' \
+          --stop-signal SIGTERM ${CONTAINER}
+          echo " - set environment vars" >> $GITHUB_STEP_SUMMARY
+          buildah config \
+          --env LANG=C.UTF-8 \
+          --env HOME=/home \
+          --env XQERL_HOME=/usr/local/xqerl ${CONTAINER}
+          printf %60s | tr ' ' '-' && echo
+          buildah run ${CONTAINER}  sh -c 'printenv' || true
+          printf %60s | tr ' ' '-' && echo
+          echo " - set labels" >> $GITHUB_STEP_SUMMARY
+          buildah config \
+          --label org.opencontainers.image.base.name=alpine \
+          --label org.opencontainers.image.title='xqerl' \
+          --label org.opencontainers.image.description='Erlang XQuery 3.1 Processor and XML Database' \
+          --label org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY} \
+          --label org.opencontainers.image.documentation=https://github.com//${GITHUB_REPOSITORY} \
+          --label org.opencontainers.image.version=${XQERL_VERSION} ${CONTAINER}
+          echo " - commited squashed container image " >> $GITHUB_STEP_SUMMARY
+          buildah commit --squash --rm ${CONTAINER} localhost/xqerl
+          printf %60s | tr ' ' '-' && echo
+          podman save --quiet -o xqerl.tar localhost/xqerl
+          podman rmi localhost/xqerl
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: xqerl-image
+          path: xqerl.tar
+
+  db_ops_crud_with_curl:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: container_image_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: xqerl-image
+      - name: Load image
+        run: |
+          echo " ## Running Container Instance  " >> $GITHUB_STEP_SUMMARY
+          podman load --input xqerl.tar
+          podman images
+          printf %60s | tr ' ' '-' && echo
+          echo " - [x] load an image archive into container storage" >> $GITHUB_STEP_SUMMARY
+      - name:  Run Container Instance
+        run: |
+          echo " - [x] run container with sh as entrypoint and list working directories" >> $GITHUB_STEP_SUMMARY
+          podman run --rm --entrypoint '["/bin/sh", "-c"]' localhost/xqerl 'ls -al .'
+          # echo " - timezone: $(timedatectl | grep -oP 'Time zone: \K[\w/]+')"
+          podman volume exists xqerl-code || podman volume create xqerl-code
+          podman volume exists xqerl-database || podman volume create xqerl-database
+          podman volume exists xqerl-priv || podman volume create xqerl-priv
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          sleep 2
+          # crash check
+          ! podman logs xq | grep -oP 'CRASH REPORT' &>/dev/null
+          echo -n ' - check status and running size: '
+          podman ps --size --format "{{.Names}} {{.Status}} {{.Size}}"
+          echo ' - display the running processes of the container: '
+          podman top xq user pid %C
+          echo " - [x] run xqerl application as a detached container" >> $GITHUB_STEP_SUMMARY
+          echo " - container named: xq" >> $GITHUB_STEP_SUMMARY
+          echo " - container port: 8081" >> $GITHUB_STEP_SUMMARY
+          echo " - container timezone set at runtime" >> $GITHUB_STEP_SUMMARY
+
+      - name: POST XML, create XDM document-node resource with SLUG
+        run: |
+          echo "### Checking: Create Retrieve Update, Delete db ops with Curl" >> $GITHUB_STEP_SUMMARY
+          CHECK=POST_XML_DATA
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          echo '<test>data</test>' |
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out '\nresponse code [ %{http_code} ]\n' \
+          --header 'Content-Type: application/xml' \
+          --header "Slug: ${RESOURCE}" \
+          --data-binary @- \
+          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          # show results in actions
+          echo ' - show headers'
+          echo ' ---------------'
+          cat  ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt && echo
+          printf %60s | tr ' ' '=' && echo
+          # success failure checks - failure aborts run
+          echo '- response should return ok created status'
+          cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
+          echo '- response headers should include a location header'
+          cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
+          printf %60s | tr ' ' '=' && echo
+      - name: POST XML, create another XDM document-node resource with SLUG
+        run: |
+          CHECK=POST_XML_DATA
+          COLLECTION=example.com/docs
+          RESOURCE=doc-more-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          echo '<test>more data</test>' |
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out '\nresponse code [ %{http_code} ]\n' \
+          --header 'Content-Type: application/xml' \
+          --header "Slug: ${RESOURCE}" \
+          --data-binary @- \
+          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          # show results in actions
+          echo ' - show headers'
+          echo ' ---------------'
+          cat  ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt && echo
+          printf %60s | tr ' ' '=' && echo
+          # success failure checks - failure aborts run
+          echo '- response should return ok created status'
+          cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
+          echo '- response headers should include a location header'
+          cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
+          printf %60s | tr ' ' '=' && echo
+          echo " - [x] POST request with SLUG header creates stored db XDM item \
+          and return Created status and a Loction header" >> $GITHUB_STEP_SUMMARY
+      - name: POST XML, create XDM document-node resource without slug
+        run: |
+          CHECK=POST_XML_DATA
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          echo '<check>data</check>' |
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out '\nresponse code [ %{http_code} ]\n' \
+          --header 'Content-Type: application/xml' \
+          --data-binary @- \
+          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          # show results in actions
+          echo ' - show headers'
+          echo ' ---------------'
+          cat  ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt && echo
+          printf %60s | tr ' ' '=' && echo
+          # success failure checks - failure aborts run
+          echo '- response should return ok created status'
+          cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
+          echo '- response headers should include a location header'
+          cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
+          printf %60s | tr ' ' '=' && echo
+          echo " - [x] POST request without SLUG header creates stored db XDM item" >> $GITHUB_STEP_SUMMARY
+
+      - name: HEAD - database resource available
+        run: |
+          CHECK=HEAD_RESOURCE_AVAILABLE
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          --head  -H 'Accept: application/xml' \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show headers'
+          echo ' ---------------'
+          cat  ${CHECK_PATH}/headers.txt
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo '- response should return ok status'
+          grep -oP 'response code \[ 200 \]' ${CHECK_PATH}/write-out.txt
+          echo ' NOTE; head request can be used to get content size'
+          echo ' - header should return content length'
+          grep -oP 'content-length(.+)' ${CHECK_PATH}/headers.txt 
+          if grep -oP 'content-length: 0' ${CHECK_PATH}/headers.txt >/dev/null
+          then
+          echo ' - header content length should be greater than zero: false'
+          false
+          else
+          echo ' - header content length should be greater than zero: true'
+          fi
+          printf %60s | tr ' ' '=' && echo
+          echo " - [x] HEAD request can detirmine document availablity" >> $GITHUB_STEP_SUMMARY
+          echo " - [x] HEAD request can be used to get the resource content size" >> $GITHUB_STEP_SUMMARY
+
+      - name: GET - accept XML - retrieve XDM document-node resource
+        run: |
+          CHECK=GET_ACCEPT_XML
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          --header 'Accept: application/xml' \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          --output ${CHECK_PATH}/${RESOURCE} \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show data'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/${RESOURCE} && echo
+          printf %60s | tr ' ' '=' &&
+          echo ' - show headers'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/headers.txt
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo '- headers should return ok status'
+          grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - [x] GET request with accept "application/xml" header retrieves serialized XML document' >> $GITHUB_STEP_SUMMARY  
+      - name: PUT - update database XML resource
+        run: |
+          CHECK=PUT_UPDATE_XML_RESOURCE
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          printf %60s | tr ' ' '=' && echo
+          echo '- Update "document-node" resource'
+          echo '<test>datum</test>' |
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          -X PUT \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          --header 'Content-Type: application/xml' \
+          --data-binary @- \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show headers'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/headers.txt
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt && echo
+          printf %60s | tr ' ' '=' && echo
+          echo '- should return "204" status'
+          grep -oP 'HTTP(.+)204(.+)' ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - [x] PUT request with Content-Type "application/xml" header stores XDM item into db' >> $GITHUB_STEP_SUMMARY 
+
+      - name: GET after PUT - accept XML - retrieve XDM document-node resource
+        run: |
+          CHECK=GET_ACCEPT_XML
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          --header 'Accept: application/xml' \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          --output ${CHECK_PATH}/${RESOURCE} \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show data'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/${RESOURCE} && echo
+          printf %60s | tr ' ' '=' &&
+          echo ' - show headers'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/headers.txt
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo '- headers should return ok status'
+          grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - [x] GET request after PUT to retrieve stored resource' >> $GITHUB_STEP_SUMMARY
+
+      - name: DELETE - remove database resource
+        run: |
+          CHECK=DELETE_RESOURCE
+          COLLECTION=example.com/docs
+          RESOURCE=doc-more-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          -X DELETE \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show headers'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt
+          echo '- should return "202 Accepted" status'
+          grep -oP 'HTTP(.+)202(.+)' ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo  
+          echo ' - [x] DELETE request deletes a stored db item' >> $GITHUB_STEP_SUMMARY
+          podman exec xq xqerl escript priv/bin/list-db-uri
+
+      - name: Container pause unpause check
+        run: |
+          echo '###  Maintaining application state after restarts' >> $GITHUB_STEP_SUMMARY
+          podman pause xq
+          sleep 2
+          podman ps -a
+          sleep 2
+          podman unpause xq
+          sleep 2
+          podman ps -a
+          sleep 2
+          podman top xq
+          sleep 2
+          podman logs  xq | grep -A 2 'application: xqerl'
+          podman logs  xq | grep -A 3 'xqldb_path_table,start_link'
+          # podman logs  xq | sed -n -e '/application: xqerl/,$p' 
+          #podman logs --tail 300 xq | grep -oP 'http://example.com/docs/'
+          printf %60s | tr ' ' '-' && echo
+          CHECK=GET_ACCEPT_XML
+          COLLECTION=example.com/docs
+          RESOURCE=doc-data.xml
+          CHECK_PATH=checks/${CHECK}/${COLLECTION}
+          mkdir -p $CHECK_PATH
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          --header 'Accept: application/xml' \
+          --dump-header ${CHECK_PATH}/headers.txt \
+          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+          --output ${CHECK_PATH}/${RESOURCE} \
+          http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - show data'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/${RESOURCE} && echo
+          printf %60s | tr ' ' '=' &&
+          echo ' - show headers'
+          echo ' ---------------'
+          cat ${CHECK_PATH}/headers.txt
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - show write out'
+          echo ' ----------------'
+          cat ${CHECK_PATH}/write-out.txt
+          printf %60s | tr ' ' '=' && echo
+          echo '- headers should return ok status'
+          grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - [x] after container paused and then unpaused previous \
+          stored db items are still available and retrievable' >> $GITHUB_STEP_SUMMARY
+      - name: Stop and remove container, run new instance
+        run: |
+          podman stop xq && podman rm xq && podman ps -a
+          podman run --name xq --publish 8081:8081  \
+                --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+                --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+                --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+                --mount type=bind,target=/home,source=./test \
+                --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+                --detach localhost/xqerl
+          sleep 1 && echo -n ' - check running: '
+          podman container inspect -f '{{.State.Running}}' xq
+          sleep 1 && podman ps -a 
+          sleep 1 && podman top xq
+          sleep 1 && podman logs xq | grep -A 2 'application: xqerl'
+          printf %60s | tr ' ' '-' && echo
+          echo ' - [x] Container can be stopped and removed' >> $GITHUB_STEP_SUMMARY
+          echo ' - [x] When a new container instance is run with the mounted volumes, \
+          the stored db items are still available and retrievable' >> $GITHUB_STEP_SUMMARY
+      - name: check - after new instance run list data items in the xqerl-database volume
+        run: |
+          ITEM_COUNT=$(podman exec xq xqerl escript priv/bin/list-db-uri | wc -l)
+          echo " database items: $ITEM_COUNT"
+          [ $ITEM_COUNT -gt 0 ]
+          echo " database item list"
+          podman exec xq xqerl escript priv/bin/list-db-uri
+          echo && printf %60s | tr ' ' '=' && echo
+
+      - name: Backup xqerl database application state
+        run: |
+          echo ' - stop the xqerl application running processes' 
+          podman pause xq
+          echo " - export 'xqerl-database' volume which contains the xqerl database application state"
+          podman volume export xqerl-database  --output xqerl-database-volume.tar
+          echo ' - start the xqerl application running processes' 
+          podman unpause xq
+          echo && printf %60s | tr ' ' '=' && echo
+          # the tarball is uploaded
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: xqerl-database-volume
+          path: xqerl-database-volume.tar
+
+  restoring_data_from_tarball:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: db_ops_crud_with_curl
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - id: load_image_run_container
+        run: |
+          # create volumes if they don't exist
+          podman volume exists xqerl-code || podman volume create xqerl-code
+          podman volume exists xqerl-database || podman volume create xqerl-database
+          podman volume exists xqerl-priv || podman volume create xqerl-priv
+          # Import tarball contents into an existing podman volume 
+          cat xqerl-database-volume/xqerl-database-volume.tar | podman volume import xqerl-database -
+          # Load localhost/xqerl image into container registry
+          cat xqerl-image/xqerl.tar | podman load
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          echo -n ' - check running: '
+          sleep 2 && podman container inspect -f '{{.State.Running}}' xq
+          podman ps -a && sleep 2 && podman top xq
+          sleep 2
+          # the database should be restored
+          ITEM_COUNT=$(podman exec xq xqerl escript priv/bin/list-db-uri | wc -l)
+          echo " database items: $ITEM_COUNT"
+          [ $ITEM_COUNT -gt 0 ]
+          echo " database item list"
+          podman exec xq xqerl escript priv/bin/list-db-uri
+          echo && printf %60s | tr ' ' '=' && echo
+          echo ' - [x] xqerl-database volume can archived as backup tarball snapshot' >> $GITHUB_STEP_SUMMARY
+          echo ' - [x] the archive can be merged into a volume to restore data' >> $GITHUB_STEP_SUMMARY
+
+#
+#
+  bulk_db_ops_xml:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: container_image_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: xqerl-image
+      - id: load_image_run_container
+        run: |
+          podman load --input xqerl.tar
+          podman volume exists xqerl-code || podman volume create xqerl-code
+          podman volume exists xqerl-database || podman volume create xqerl-database
+          podman volume exists xqerl-priv || podman volume create xqerl-priv
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --mount type=bind,target=/home,source=./test \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          echo -n ' - check running: '
+          sleep 2 && podman container inspect -f '{{.State.Running}}' xq
+          podman ps -a && sleep 2 && podman top xq
+          sleep 2
+          podman exec xq sh -c 'ls -al /home'
+          podman exec xq xqerl eval $'{ok, CurrentDirectory} = file:get_cwd().'
+#####################################
+# xqerl function - xqldb_dml:import from directory
+# XML files in test dir
+####################################
+      - name: xqldb_dml import from directory
+        run: |
+          echo -n ' - import from directory: '
+          podman exec xq xqerl eval 'xqldb_dml:import_from_directory("http://example.com/QT3-test-suit/docs/", "/home/QT3-test-suite/docs").'
+          # echo ' - [x] bulk load with built in function xqldb_dml:import_from_directory#2' >> $GITHUB_STEP_SUMMARY
+          # echo ' - checks: retrieve docs starting with letter b using built in function doc#1' 
+          # mkdir -p checks
+          # find test/QT3-test-suite/docs -name "b*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          # xargs -l bash -c $'podman exec xq xqerl eval \'xqerl:run("doc(\'http://example.com/QT3-test-suit/docs/$(basename $0)\')").\''
+          # use built in function db:get#1
+          # echo ' - checks: retrieve docs starting with letter b using xqerl function db:get#1' 
+          # find test/QT3-test-suite/docs -name "b*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          # xargs -l bash -c "DIRNAME=$(dirname $0);BASENAME=$(basename $0); echo && \
+          # podman exec xq xqerl eval \"xerl:run(\"db:get('http://example.com/QT3-test-suit/docs/$BASENAME') => serialize()\").\""
+          # podman exec xq xqerl escript priv/bin/list-db-uri
+          # # podman exec xq xqerl escript priv/bin/list-db-uri "http://example.com/QT3-test-suit/docs"
+          # echo ' - check for duplicate db items: '
+          # podman exec xq xqerl escript priv/bin/list-db-uri | uniq --repeated
+          # podman exec xq xqerl escript priv/bin/list-db-uri | uniq --count --repeated
+          # ITEM_COUNT_1=$(podman exec xq xqerl escript priv/bin/list-db-uri | wc -l)
+          # podman pause xq && podman unpause xq && sleep 1 # stop and start running processes in container
+          # ITEM_COUNT_2=$(podman exec xq xqerl escript priv/bin/list-db-uri | wc -l)
+          # [ $ITEM_COUNT_1 -eq  $ITEM_COUNT_2 ]
+      - name: DB check - duplicate items
+        run: |
+          if [ $( podman exec xq xqerl escript priv/bin/list-db-uri | uniq --count --repeated | wc -l ) -gt 0 ]
+          then 
+          echo -e "\e[31mWarning:\e[0m duplicate db uri"
+          podman exec xq xqerl escript priv/bin/list-db-uri | uniq -cd 
+          echo -e ' - [ ]  list-db-uri displays no duplicate resource uri identifiers' >> $GITHUB_STEP_SUMMARY
+          else 
+          echo ' - [x] list-db-uri displays no duplicate resource uri identifiers'
+          fi
+
+      - name: DB ops - delete 
+        run: |
+          mkdir -p checks
+          touch checks/deleted-xml.txt
+          # delete docs starting with letter b 
+          find test/QT3-test-suite/docs -name "b*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          -X DELETE \
+          --dump-header /dev/null \
+          --write-out \
+          "response code [ %{response_code} ]\nDELETE URL [ %{url_effective} ]" \
+          http://localhost:8081/db/example.com/QT3-test-suit/docs/$BASENAME && echo' >> checks/deleted-xml.txt
+          cat checks/deleted-xml.txt
+          podman exec xq xqerl escript priv/bin/list-db-uri
+          # try to delete duplicate
+          echo "" > checks/deleted-xml.txt
+          find test/QT3-test-suite/docs/higher-order -name "*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          -X DELETE \
+          --dump-header /dev/null \
+          --write-out \
+          "response code [ %{response_code} ]\nDELETE URL [ %{url_effective} ]" \
+          http://localhost:8081/db/example.com/QT3-test-suit/docs/$BASENAME && echo' >> checks/deleted-xml.txt
+          cat checks/deleted-xml.txt
+          podman exec xq xqerl escript priv/bin/list-db-uri
+
+      - name: DB ops - update
+        run: |
+          mkdir -p checks
+          touch checks/update-xml.txt
+          # put docs starting with letter a
+          find test/QT3-test-suite/docs -name "a*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && cat $0 | \
+          curl --silent --show-error --connect-timeout 1 --max-time 2 \
+          -X PUT \
+          --dump-header /dev/null \
+          --write-out \
+          "\nPUT URL [ %{url_effective} ]\nresponse code [ %{response_code} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+          --header "Content-Type: application/xml" \
+          --data-binary @- http://localhost:8081/db/example.com/QT3-test-suit/docs/$BASENAME && echo' >> checks/update-xml.txt
+          cat checks/update-xml.txt
+          podman exec xq xqerl escript priv/bin/list-db-uri
+
+      - name: Container database reset one
+        run: |
+          podman stop xq && podman rm xq && podman ps -a
+          # destroy then recreate database
+          podman volume rm xqerl-database
+          podman volume create xqerl-database
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          sleep 2
+          echo -n ' - check running: '
+          podman container inspect -f '{{.State.Running}}' xq
+          podman logs  xq | grep -A 2 'application: xqerl' || true
+          podman logs  xq | sed -n -e '/application: xqerl/,$p' || true
+          podman top xq
+          echo ' - [x] reset database application state via volume removal and creation' >> $GITHUB_STEP_SUMMARY
+# #####################################
+# # rest db API  
+# # bulk load XML files in test dir files into db with Curl
+# ####################################
+      - name: DB ops - rest db API - bulk load XML files into db with Curl
+        run: |
+          mkdir -p checks
+          touch checks/posted-xml.txt
+          echo '- load XML files from ./test/QT3-test-suite/docs into db'
+          find test/QT3-test-suite/docs -name "*.xml" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && echo "Filename as Slug: $BASENAME" && \
+          cat $0 | \
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --write-out \
+          "\nSlug: $BASENAME\nPOST URL [ %{url_effective} ]\nresponse code [ %{response_code} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+          --header "Content-Type: application/xml" \
+          --header "Slug: $BASENAME" \
+          --data-binary @- http://localhost:8081/db/example.com/$DIRNAME && echo' | tee -a checks/posted-xml.txt
+      - name: checks - rest db API - after bulk loading XML files into db
+        run: |
+          if [ $( podman exec xq xqerl escript priv/bin/list-db-uri | uniq --count --repeated | wc -l ) -gt 0 ]
+          then 
+          echo ' - [ ] list-db-uri displays no duplicate resource uri identifiers' >> $GITHUB_STEP_SUMMARY
+          podman exec xq xqerl escript priv/bin/list-db-uri | uniq -cd 
+          fi
+          podman stop xq && podman rm xq && podman ps -a
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          sleep 2
+          echo -n ' - check running: '
+          podman container inspect -f '{{.State.Running}}' xq
+          podman ps -a && sleep 2 && podman top xq
+          echo ' - [x]  bulk load XML files into db with Curl' >> $GITHUB_STEP_SUMMARY
+#
+  bulk_db_ops_json:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: container_image_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: xqerl-image
+      - id: load_image_run_container
+        run: |
+          podman load --input xqerl.tar
+          podman volume exists xqerl-code || podman volume create xqerl-code
+          podman volume exists xqerl-database || podman volume create xqerl-database
+          podman volume exists xqerl-priv || podman volume create xqerl-priv
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          echo -n ' - check running: '
+          sleep 2 && podman container inspect -f '{{.State.Running}}' xq
+          podman ps -a && sleep 2 && podman top xq
+          sleep 2
+          podman exec xq sh -c 'ls -al /home'
+          podman exec xq xqerl eval $'{ok, CurrentDirectory} = file:get_cwd().'
+#####################################
+# JSON files in test dir
+#  Note some of these files are not single well formed JSON files
+# so should produce a 400 Bad Request
+#  However {}{} is considered valid json
+#  test if valid json
+#  `jq empty` file.json
+#####################################
+      # - name: DB ops - rest db API  - bulk POSTing of json files with Curl
+      #   run: |
+      #     echo '## DB ops - bulk POSTing of json files with Curl' >> $GITHUB_STEP_SUMMARY
+      #     mkdir -p checks
+      #     touch checks/posted-json.txt
+      #     echo ' - load JSON files from ./test/QT3-test-suite/app into db' | tee -a checks/posted-json.txt
+      #     echo ' - Note some of these files are not well formed and ' | tee -a checks/posted-json.txt
+      #     echo '   will produce a 400 Bad Request' | tee -a checks/posted-json.txt
+      #     find test/QT3-test-suite/app -name "*.json" -type f | awk '{ system("sleep 1"); print $1 }' | 
+      #     xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+      #     echo && cat $0 | \
+      #     curl --silent --show-error --connect-timeout 2 --max-time 4 \
+      #     --write-out \
+      #     "\nSlug: $BASENAME\nPOST URL [ %{url_effective} ]\nresponse code [ %{response_code} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+      #     --header "Content-Type: application/json" \
+      #     --header "Slug: $BASENAME" \
+      #     --data-binary @- http://localhost:8081/db/example.com/$DIRNAME  && echo' >> checks/posted-json.txt
+      #     printf %60s | tr ' ' '=' && echo
+
+  JSONTestSuite:
+    if: ${{ github.ref_type == 'branch' }}
+    needs: container_image_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: xqerl-image
+      - id: load_image_run_container
+        run: |
+          echo '## JSON test suite compliance' >> $GITHUB_STEP_SUMMARY
+          podman load --input xqerl.tar
+          podman volume exists xqerl-code || podman volume create xqerl-code
+          podman volume exists xqerl-database || podman volume create xqerl-database
+          podman volume exists xqerl-priv || podman volume create xqerl-priv
+          podman run --name xq --publish 8081:8081  \
+              --mount type=volume,target=/usr/local/xqerl/code,source=xqerl-code \
+              --mount type=volume,target=/usr/local/xqerl/data,source=xqerl-database \
+              --mount type=volume,target=/usr/local/xqerl/priv,source=xqerl-priv \
+              --tz=$(timedatectl | grep -oP 'Time zone: \K[\w/]+') \
+              --detach localhost/xqerl
+          echo -n ' - check running: '
+          sleep 2 && podman container inspect -f '{{.State.Running}}' xq
+          podman ps -a && sleep 2 && podman top xq
+          podman exec xq xqerl eval $'{ok, CurrentDirectory} = file:get_cwd().'
+      - name: DB ops - POST files from JSONTestSuite -y prefix
+        run: |
+          echo '### DB ops - POST files from JSONTestSuite with letter y prefix' >> $GITHUB_STEP_SUMMARY
+          mkdir -p checks
+          echo ' - load y prefix JSON files from ./test/QT3-test-suite/misc/JSONTestSuite into db' > checks/yPrefixJSONTestSuite.txt
+          echo ' - files prefixed with y_ MUST be accepted by parsers' >> checks/yPrefixJSONTestSuite.txt
+          echo ' - so all should load into db with a 201 Created response' >> checks/yPrefixJSONTestSuite.txt
+          find test/QT3-test-suite/misc/JSONTestSuite -name "y_*" -type f | awk '{ system("sleep 1"); print $1 }' | 
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && cat $0 | \
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --write-out \
+          "response code [ %{response_code} ]\nSlug: $BASENAME\nPOST URL [ %{url_effective} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+          --header "Content-Type: application/json" \
+          --header "Slug: $BASENAME" \
+          --data-binary @- http://localhost:8081/db/example.com/$DIRNAME && echo' >> checks/yPrefixJSONTestSuite.txt
+          printf %60s | tr ' ' '=' && echo
+          echo ' - check for duplicate db items: '
+          podman exec xq xqerl escript priv/bin/list-db-uri | uniq -cd || true
+          echo " - items that SHOULD be loaded into db: \
+          $(find test/QT3-test-suite/misc/JSONTestSuite -name 'y_*' -type f | wc -l)"  >> $GITHUB_STEP_SUMMARY
+          if [ $(grep -oP '^response code...400' checks/yPrefixJSONTestSuite.txt  | wc -l) -gt 0 ] 
+          then
+          echo " - [ ] posted items NOT loaded into db $(grep -oP '^response code...400' checks/yPrefixJSONTestSuite.txt | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo ' - show items that SHOULD be parsed'
+          grep -P -A 4 '^response code...400' checks/yPrefixJSONTestSuite.txt
+          fi
+          echo " - [x] db items created: $(grep -oP '^response code...201' checks/yPrefixJSONTestSuite.txt  | wc -l)" >> $GITHUB_STEP_SUMMARY
+
+      - name: DB ops - POST files from JSONTestSuite with letter i prefix
+        run: |
+          echo '### DB ops - POST files from JSONTestSuite with letter i prefix' >> $GITHUB_STEP_SUMMARY
+          mkdir -p checks
+          echo ' - load JSON files from ./test/QT3-test-suite/misc/JSONTestSuite into db' | tee  checks/iPrefixJSONTestSuite.txt
+          echo ' - these are the files prefixed with i_.'  | tee -a  checks/iPrefixJSONTestSuite.txt
+          echo ' - i_ parsers are free to accept or reject content,   so only some should load into db ' | tee -a  checks/iPrefixJSONTestSuite.txt
+          find test/QT3-test-suite/misc/JSONTestSuite -name "i_*" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && cat $0 | \
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --write-out \
+          "response code [ %{response_code} ]\nSlug: $BASENAME\nPOST URL [ %{url_effective} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+          --header "Content-Type: application/json" \
+          --header "Slug: $BASENAME" \
+          --data-binary @- http://localhost:8081/db/example.com/$DIRNAME  && echo' >> checks/iPrefixJSONTestSuite.txt
+          printf %60s | tr ' ' '=' && echo
+          # echo ' - check for duplicate db items: '
+          # podman exec xq xqerl escript priv/bin/list-db-uri | uniq -cd
+          echo " - items that MAY be loaded into db: $(find test/QT3-test-suite/misc/JSONTestSuite -name 'i_*' -type f | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo " - [x] db items created: $(grep -oP '^response code...201' checks/iPrefixJSONTestSuite.txt  | wc -l)" >> $GITHUB_STEP_SUMMARY 
+          echo " - [x] posted items NOT loaded into db: $(grep -oP '^response code...400' checks/iPrefixJSONTestSuite.txt | wc -l) " >> $GITHUB_STEP_SUMMARY
+
+      - name: DB ops - POST files from JSONTestSuite with letter n prefix
+        run: |
+          echo '### DB ops - POST files from JSONTestSuite with letter n prefix' >> $GITHUB_STEP_SUMMARY
+          mkdir -p checks
+          echo ' - load JSON files from ./test/QT3-test-suite/misc/JSONTestSuite into db' | tee checks/nPrefixJSONTestSuite.txt
+          find test/QT3-test-suite/misc/JSONTestSuite -name "n_*" -type f | awk '{ system("sleep 1"); print $1 }' |
+          xargs -l bash -c 'DIRNAME=$(dirname $0);BASENAME=$(basename $0); \
+          echo && cat $0 | \
+          curl --silent --show-error --connect-timeout 2 --max-time 4 \
+          --write-out \
+          "response code [ %{response_code} ]\nSlug: $BASENAME\nPOST URL [ %{url_effective} ]\nsize upload [ %{size_upload} ]\ntime total[ %{time_total} ]" \
+          --header "Content-Type: application/json" \
+          --header "Slug: $BASENAME" \
+          --data-binary @- http://localhost:8081/db/example.com/$DIRNAME  && echo' >> checks/nPrefixJSONTestSuite.txt
+          echo " - items that SHOULD NOT loaded into db: $(find test/QT3-test-suite/misc/JSONTestSuite -name 'i_*' -type f | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo -n ' - items that SHOULD NOT be loaded: ' 
+          find test/QT3-test-suite/misc/JSONTestSuite -name "n_*" -type f | wc -l
+          echo -n ' - db items created:  '
+          grep -oP '^response code...201' checks/nPrefixJSONTestSuite.txt  | wc -l || true
+          echo -n ' - posted items NOT loaded into db: ' 
+          grep -oP '^response code...400' checks/nPrefixJSONTestSuite.txt | wc -l || true
+          if [ $(grep -oP '^response code...201' checks/nPrefixJSONTestSuite.txt  | wc -l) -gt 0 ]
+          then
+          echo " - [ ] db items created: $(grep -oP '^response code...201' checks/iPrefixJSONTestSuite.txt  | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo ' - show items that SHOULD NOT be parsed'
+          grep -P -A 4 '^response code...201' checks/nPrefixJSONTestSuite.txt
+          fi
+          echo " - [x] posted items NOT loaded into db: $(grep -oP '^response code...400' checks/iPrefixJSONTestSuite.txt | wc -l) " >> $GITHUB_STEP_SUMMARY
+#
+#       - name: DB check - duplicate items
+#         run: |
+#           echo -n ' - check for duplicate db items: '
+#           podman exec xq xqerl escript priv/bin/list-db-uri | uniq -cd  | wc -l
+          # podman exec xq xqerl escript priv/bin/list-db-uri | uniq --repeated
+          # podman exec xq xqerl escript priv/bin/list-db-uri | uniq --count --repeated
+
+
+  container_image_release:
+    if: ${{ github.ref_type == 'tag' }}
+    needs: container_image_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}  
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: xqerl-image
+      - name: Load image
+        run: |
+          podman load --input xqerl.tar
+          podman images
+          printf %60s | tr ' ' '-' && echo
+          # localhost/xqerl
+      - name: GitHub Container Registry Login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push to GitHub Container Registry
+        run: |
+          XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+          buildah tag localhost/xqerl ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+          buildah push ghcr.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+  #     - name: Login to Docker Container Registry
+  #       if: ${{ env.DOCKER_TOKEN != '' }} && ${{ github.ref_type == 'tag' }}
+  #       uses: docker/login-action@v2
+  #       with:
+  #         registry: docker.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ env.DOCKER_TOKEN }}
+  #     - name: Push to Docker Container Registry
+  #       if: ${{ env.DOCKER_TOKEN != '' }} && ${{ github.ref_type == 'tag' }}
+  #       run: |
+  #         XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
+  #         buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+  #         buildah push docker.io/${GITHUB_REPOSITORY}:${XQERL_VERSION}
+  #         buildah tag localhost/xqerl docker.io/${GITHUB_REPOSITORY}:latest
+  #         buildah push docker.io/${GITHUB_REPOSITORY}:latest
