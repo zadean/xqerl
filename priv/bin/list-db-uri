@@ -32,7 +32,7 @@ main([]) ->
  try rpc:call( 'xqerl@127.0.0.1',
                 xqerl,
                 run,
-                ["try {uri-collection() ! uri-collection(.)} catch * {()}"],
+                ["try {(uri-collection() ! uri-collection(.)) =>  distinct-values()} catch * {()}"],
                 Timeout) of
    E when is_record(E, xqError) -> formatError(E); 
    A when is_record(A, xqAtomicValue) -> print([A]);
