@@ -1,9 +1,9 @@
 name: build and checks on running xqerl instance
 on:
   workflow_call:
-jobs:
-  build_with_erlang_alpine:
-    runs-on: ubuntu-latest
+    jobs:
+      build_with_erlang_alpine:
+        runs-on: ubuntu-latest
     timeout-minutes: 10
     container: erlang:alpine
     steps:
@@ -30,40 +30,31 @@ jobs:
           OTP_VERSION=$(cat /usr/local/lib/erlang/releases/*/OTP_VERSION)
           OS_VERSION=$(cat /etc/os-release | grep -oP 'VERSION_ID=\K.+')
           XQERL_VERSION=$(grep -oP 'v\d+\.\d+\.\d+' rebar.config)
-          echo " - xqerl release version: ${XQERL_VERSION}"
-          echo " - uses erlang OTP version: ${OTP_VERSION}"
-          echo " - uses alpine version: ${OS_VERSION}"
+        echo " - xqerl release version: ${XQERL_VERSION}"
+        echo " - uses erlang OTP version: ${OTP_VERSION}"
+        echo " - uses alpine version: ${OS_VERSION}"
           rebar3 as prod tar
           mkdir -p _release
           mv _build/prod/rel/xqerl/xqerl-${XQERL_VERSION}.tar.gz _release/xqerl.tar.gz
       - name: Untar Then Run XQerl
-        run: |
-          mkdir /usr/local/xqerl
-          tar -zxf _release/xqerl.tar.gz -C /usr/local/xqerl
-          cd /usr/local/bin
-          ln -s /usr/local/xqerl/bin/xqerl
-          cd ~/
-          xqerl daemon
-          sleep 5
-          echo -n ' - xqerl application started: '
-          xqerl eval 'application:ensure_all_started(xqerl).' | grep -oP 'ok'
-          xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." 
-          echo -n ' - network ping: '
-          xqerl ping | grep -oP 'pong'
+        run: "mkdir /usr/local/xqerl\ntar -zxf _release/xqerl.tar.gz -C /usr/local/xqerl\ncd
+          /usr/local/bin\nln -s /usr/local/xqerl/bin/xqerl\ncd ~/\nxqerl daemon\nsleep
+        5\necho -n ' - xqerl application started: '\nxqerl eval 'application:ensure_all_started(xqerl).'
+          | grep -oP 'ok'\nxqerl eval \"file:make_symlink(code:priv_dir(xqerl),\\\"./priv\\\").\"
+        \necho -n ' - network ping: '\nxqerl ping | grep -oP 'pong'\n"
       - name: Upload built artifact
         uses: actions/upload-artifact@v3
         with:
           name: xqerl-prod-tar
           path: _release/
-
-  xqerl_eval_checks:
-    if: ${{ github.ref_type == 'branch' }}
-    needs: build_with_erlang_alpine
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    container: erlang:alpine
-    steps:
-      - name: Alpine Deps
+        xqerl_eval_checks:
+          if: ${{ github.ref_type == 'branch' }}
+        needs: build_with_erlang_alpine
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        container: erlang:alpine
+        steps:
+          - name: Alpine Deps
         run: apk add --update grep curl
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
@@ -79,43 +70,26 @@ jobs:
           which xqerl
           xqerl daemon
           sleep 2
-
       - name: Checks - xqerl eval on running instance
-        run: |
-          xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." 
-          echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd('$(pwd)')."
-          xqerl eval 'file:get_cwd().'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - run a xQuery expression'
-          xqerl eval 'xqerl:run("xs:token(\"cats\"), xs:string(\"dogs\"), true() ").' | \
-          grep -oP '^\[\{xq.+$'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile an xQuery file'
-          xqerl eval 'xqerl:compile("docs/src/sudoku2.xq").' | \
-          grep -oP 'file(.+)\.xq'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - compile, run then grep the title'
-          xqerl eval 'S = xqerl:compile("docs/src/sudoku2.xq"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).' | \
-          grep -oP '<title>(.+)</title>'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - load an XML file into the DB: '
-          xqerl eval \
-          'xqldb_dml:insert_doc("http://xqerl.org/my_doc.xml","./test/QT3-test-suite/app/FunctxFn/functx_order.xml").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo ' - view using the the xqerl:run/1 function with xQuery fn:doc#1 function'
-          xqerl eval "binary_to_list(xqerl:run(\" 'http://xqerl.org/my_doc.xml' => doc() => serialize() \"))."
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - delete db doc '
-          xqerl eval 'xqldb_dml:delete_doc("http://xqerl.org/my_doc.xml").' |  \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '-' && echo
-          echo -n ' - import into DB docs from directory: '
-          xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite").' | \
-          grep -oP 'ok'
-          printf %60s | tr ' ' '=' && echo
-
+        run: "xqerl eval \"file:make_symlink(code:priv_dir(xqerl),\\\"./priv\\\").\"
+        \necho -n ' - set xqerl working directory: '\nxqerl eval \"file:set_cwd('$(pwd)').\"\nxqerl
+          eval 'file:get_cwd().'\nprintf %60s | tr ' ' '-' && echo\necho ' - run a
+          xQuery expression'\nxqerl eval 'xqerl:run(\"xs:token(\\\"cats\\\"), xs:string(\\\"dogs\\\"),
+          true() \").' | \\\ngrep -oP '^\\[\\{xq.+$'\nprintf %60s | tr ' ' '-' &&
+          echo\necho ' - compile an xQuery file'\nxqerl eval 'xqerl:compile(\"docs/src/sudoku2.xq\").'
+          | \\\ngrep -oP 'file(.+)\\.xq'\nprintf %60s | tr ' ' '-' && echo\necho '
+      - compile, run then grep the title'\nxqerl eval 'S = xqerl:compile(\"docs/src/sudoku2.xq\"),binary_to_list(xqerl_node:to_xml(S:main(#{}))).'
+        | \\\ngrep -oP '<title>(.+)</title>'\nprintf %60s | tr ' ' '-' && echo\necho
+        -n ' - load an XML file into the DB: '\nxqerl eval \\\n'xqldb_dml:insert_doc(\"http://xqerl.org/my_doc.xml\",\"./test/QT3-test-suite/app/FunctxFn/functx_order.xml\").'
+          | \\\ngrep -oP 'ok'\nprintf %60s | tr ' ' '-' && echo\necho ' - view using
+          the the xqerl:run/1 function with xQuery fn:doc#1 function'\nxqerl eval
+          \"binary_to_list(xqerl:run(\\\" 'http://xqerl.org/my_doc.xml' => doc() =>
+          serialize() \\\")).\"\nprintf %60s | tr ' ' '-' && echo\necho -n ' - delete
+          db doc '\nxqerl eval 'xqldb_dml:delete_doc(\"http://xqerl.org/my_doc.xml\").'
+          |  \\\ngrep -oP 'ok'\nprintf %60s | tr ' ' '-' && echo\necho -n ' - import
+        into DB docs from directory: '\nxqerl eval 'xqldb_dml:import_from_directory(\"http://xqerl.org/tests/\",
+          \"./test/QT3-test-suite\").' | \\\ngrep -oP 'ok'\nprintf %60s | tr ' ' '='
+          && echo\n"
       - name: Checks - Features and Issue Resolution
         run: |
           printf %60s | tr ' ' '=' && echo
@@ -142,32 +116,24 @@ jobs:
           sleep 1
           curl -sSL -D - http://localhost:8081/xqerl -o /dev/null
           curl -sS http://localhost:8081/xqerl | grep -oP '<title>.+</title>'
-
-  rest_db_checks:
-    if: ${{ github.ref_type == 'branch' }}
-    needs: build_with_erlang_alpine
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    container: erlang:alpine
-    steps:
-      - name: Alpine Deps
+        rest_db_checks:
+          if: ${{ github.ref_type == 'branch' }}
+        needs: build_with_erlang_alpine
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        container: erlang:alpine
+        steps:
+          - name: Alpine Deps
         run: apk add --update grep curl jq
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
           name: xqerl-prod-tar
       - name: Unpack release tar and install xqerl application
-        run: |
-          mkdir /usr/local/xqerl
-          tar -zxf xqerl.tar.gz -C /usr/local/xqerl
-          cd /usr/local/bin
-          ln -s /usr/local/xqerl/bin/xqerl
-          cd ~/
-          xqerl daemon
-          sleep 5
-          xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." 
-          echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd('$(pwd)')."
+        run: "mkdir /usr/local/xqerl\ntar -zxf xqerl.tar.gz -C /usr/local/xqerl\ncd
+          /usr/local/bin\nln -s /usr/local/xqerl/bin/xqerl\ncd ~/\nxqerl daemon\nsleep
+          5\nxqerl eval \"file:make_symlink(code:priv_dir(xqerl),\\\"./priv\\\").\"
+        \necho -n ' - set xqerl working directory: '\nxqerl eval \"file:set_cwd('$(pwd)').\"\n"
       - name: POST XML, create XDM document-node resource
         run: |
           CHECK=POST_XML_DATA
@@ -178,24 +144,24 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\n' \
-          --header 'Content-Type: application/xml' \
-          --header "Slug: ${RESOURCE}" \
-          --data '<test>data</test>' \
-          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show write out'
-          echo ' ----------------'
-          cat ${CHECK_PATH}/write-out.txt && echo
-          printf %60s | tr ' ' '=' && echo
-          echo '- response should return ok created status'
-          cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
-          echo '- response headers should include a location header'
-          cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
-          printf %60s | tr ' ' '='
+        --header 'Content-Type: application/xml' \
+        --header "Slug: ${RESOURCE}" \
+                                    --data '<test>data</test>' \
+                                    http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show headers'
+                                    echo ' ---------------'
+                                    cat  ${CHECK_PATH}/headers.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show write out'
+                                    echo ' ----------------'
+                                    cat ${CHECK_PATH}/write-out.txt && echo
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo '- response should return ok created status'
+                                    cat ${CHECK_PATH}/write-out.txt | grep -oP 'response code \[ 201 \]'
+                                    echo '- response headers should include a location header'
+                                    cat  ${CHECK_PATH}/headers.txt | grep -oP '^location.+$'
+                                    printf %60s | tr ' ' '='
       - name: POST JSON array create XDM array resource
         run: |
           CHECK=POST_JSON_ARRAY
@@ -206,24 +172,24 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\n' \
-          --header 'Content-Type: application/json' \
-          --header "Slug: ${RESOURCE}" \
-          --data '[1,2,3]' \
-          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show write out'
-          echo ' ----------------'
-          cat ${CHECK_PATH}/write-out.txt && echo
-          printf %60s | tr ' ' '=' && echo
-          echo '- response should return ok created status'
-          grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
-          echo '- response headers should include a location header'
-          grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '='
+        --header 'Content-Type: application/json' \
+        --header "Slug: ${RESOURCE}" \
+                                    --data '[1,2,3]' \
+                                    http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show headers'
+                                    echo ' ---------------'
+                                    cat  ${CHECK_PATH}/headers.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show write out'
+                                    echo ' ----------------'
+                                    cat ${CHECK_PATH}/write-out.txt && echo
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo '- response should return ok created status'
+                                    grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
+                                    echo '- response headers should include a location header'
+                                    grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
+                                    printf %60s | tr ' ' '='
       - name: POST JSON object create XDM map resource
         run: |
           CHECK=POST_JSON_MAP
@@ -234,25 +200,24 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\n' \
-          --header 'Content-Type: application/json' \
-          --header "Slug: ${RESOURCE}" \
-          --data '{"check": "mate"}' \
-          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show write out'
-          echo ' ----------------'
-          cat ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo '- response should return ok created status'
-          grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
-          echo '- response headers should include a location header'
-          grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '='
-
+        --header 'Content-Type: application/json' \
+        --header "Slug: ${RESOURCE}" \
+                                    --data '{"check": "mate"}' \
+                                                            http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+                                                            printf %60s | tr ' ' '=' && echo
+                                                            echo ' - show headers'
+                                                            echo ' ---------------'
+                                                            cat  ${CHECK_PATH}/headers.txt
+                                                            printf %60s | tr ' ' '=' && echo
+                                                            echo ' - show write out'
+                                                            echo ' ----------------'
+                                                            cat ${CHECK_PATH}/write-out.txt
+                                                            printf %60s | tr ' ' '=' && echo
+                                                            echo '- response should return ok created status'
+                                                            grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
+                                                            echo '- response headers should include a location header'
+                                                            grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
+                                                            printf %60s | tr ' ' '='
       - name: POST CSV create XDM array resource
         run: |
           CHECK=POST_CSV
@@ -268,26 +233,25 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\n' \
-          --header 'Content-Type: text/csv' \
-          --header "Slug: ${RESOURCE}" \
-          --data-binary "@${CHECK_PATH}/data.csv" \
-          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show write out'
-          echo ' ----------------'
-          cat ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo '- response should return ok created status'
-          grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
-          echo '- response headers should include a location header'
-          grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
-          sleep 1
-          printf %60s | tr ' ' '='
-
+        --header 'Content-Type: text/csv' \
+        --header "Slug: ${RESOURCE}" \
+                                    --data-binary "@${CHECK_PATH}/data.csv" \
+                                                                           http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+                                                                           printf %60s | tr ' ' '=' && echo
+                                                                           echo ' - show headers'
+                                                                           echo ' ---------------'
+                                                                           cat  ${CHECK_PATH}/headers.txt
+                                                                           printf %60s | tr ' ' '=' && echo
+                                                                           echo ' - show write out'
+                                                                           echo ' ----------------'
+                                                                           cat ${CHECK_PATH}/write-out.txt
+                                                                           printf %60s | tr ' ' '=' && echo
+                                                                           echo '- response should return ok created status'
+                                                                           grep -q 'response code \[ 201 \]' ${CHECK_PATH}/write-out.txt
+                                                                           echo '- response headers should include a location header'
+                                                                           grep -qP '^location.+$' ${CHECK_PATH}/headers.txt
+                                                                           sleep 1
+                                                                           printf %60s | tr ' ' '='
       - name: POST - unsupported media type
         run: |
           CHECK=POST_MSWORD
@@ -298,38 +262,38 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\n' \
-          --header 'Content-Type: application/msword' \
-          --header "Slug: ${RESOURCE}" \
-          --data 'foo' \
-          http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
-          echo ' - show write out'
-          echo ' ----------------'
-          cat ${CHECK_PATH}/write-out.txt
-          printf %60s | tr ' ' '=' && echo
-          echo '- headers should return "Unsupported Media Type" status'
-          grep -qoP 'HTTP(.+)415(.+)' ${CHECK_PATH}/headers.txt
-          printf %60s | tr ' ' '=' && echo
+        --header 'Content-Type: application/msword' \
+        --header "Slug: ${RESOURCE}" \
+                                    --data 'foo' \
+                                    http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show headers'
+                                    echo ' ---------------'
+                                    cat  ${CHECK_PATH}/headers.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo ' - show write out'
+                                    echo ' ----------------'
+                                    cat ${CHECK_PATH}/write-out.txt
+                                    printf %60s | tr ' ' '=' && echo
+                                    echo '- headers should return "Unsupported Media Type" status'
+                                    grep -qoP 'HTTP(.+)415(.+)' ${CHECK_PATH}/headers.txt
+                                    printf %60s | tr ' ' '=' && echo
       - name: GET - list resources in database collection as text
         run: |
           CHECK=GET_LIST_COLLECTION_RESOURCES_AS_TEXT
           CHECK_PATH=checks/${CHECK}/example.com/docs
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header "Accept: text/plain" \
-          --dump-header ${CHECK_PATH}/headers.txt \
-          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-          --output ${CHECK_PATH}/output.txt \
-          http://localhost:8081/db/example.com/docs > ${CHECK_PATH}/write-out.txt
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          echo '- content-type should be text/plain'
-          grep -oP 'content-type: text/plain' ${CHECK_PATH}/headers.txt
+        --header "Accept: text/plain" \
+                                     --dump-header ${CHECK_PATH}/headers.txt \
+                                     --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+                                     --output ${CHECK_PATH}/output.txt \
+                                     http://localhost:8081/db/example.com/docs > ${CHECK_PATH}/write-out.txt
+                                     echo ' - show headers'
+                                     echo ' ---------------'
+                                     cat  ${CHECK_PATH}/headers.txt
+                                     echo '- content-type should be text/plain'
+        grep -oP 'content-type: text/plain' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
           echo ' - show write out'
           echo ' ----------------'
@@ -348,16 +312,16 @@ jobs:
           CHECK_PATH=checks/${CHECK}/example.com/docs
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header "Accept: application/json" \
-          --dump-header ${CHECK_PATH}/headers.txt \
-          --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-          --output ${CHECK_PATH}/output.txt \
-          http://localhost:8081/db/example.com/docs > ${CHECK_PATH}/write-out.txt
-          echo ' - show headers'
-          echo ' ---------------'
-          cat  ${CHECK_PATH}/headers.txt
-          echo '- content-type should be application/json'
-          grep -oP 'content-type: application/json' ${CHECK_PATH}/headers.txt
+        --header "Accept: application/json" \
+                                           --dump-header ${CHECK_PATH}/headers.txt \
+                                           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
+                                           --output ${CHECK_PATH}/output.txt \
+                                           http://localhost:8081/db/example.com/docs > ${CHECK_PATH}/write-out.txt
+                                           echo ' - show headers'
+                                           echo ' ---------------'
+                                           cat  ${CHECK_PATH}/headers.txt
+                                           echo '- content-type should be application/json'
+        grep -oP 'content-type: application/json' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
           echo ' - show write out'
           echo ' ----------------'
@@ -406,7 +370,7 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-          --head  -H 'Accept: text/plain' \
+        --head  -H 'Accept: text/plain' \
           http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
           printf %60s | tr ' ' '=' && echo
           echo ' - show headers'
@@ -429,7 +393,7 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]' \
-          --head  -H 'Accept: application/xml' \
+        --head  -H 'Accept: application/xml' \
           http://localhost:8081/db/${COLLECTION} > ${CHECK_PATH}/write-out.txt
           printf %60s | tr ' ' '=' && echo
           echo ' - show headers'
@@ -452,7 +416,7 @@ jobs:
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out '\nresponse code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-          --head  -H 'Accept: application/xml' \
+        --head  -H 'Accept: application/xml' \
           http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
           printf %60s | tr ' ' '=' && echo
           echo ' - show headers'
@@ -468,15 +432,15 @@ jobs:
           echo ' NOTE; head request can be used to get content size'
           echo ' - header should return content length'
           grep -oP 'content-length(.+)' ${CHECK_PATH}/headers.txt
-          if grep -oP 'content-length: 0' ${CHECK_PATH}/headers.txt >/dev/null
+        if grep -oP 'content-length: 0' ${CHECK_PATH}/headers.txt >/dev/null
           then
-          echo ' - header content length should be greater than zero: false'
+        echo ' - header content length should be greater than zero: false'
           false
           else
-          echo ' - header content length should be greater than zero: true'
+        echo ' - header content length should be greater than zero: true'
           fi
           printf %60s | tr ' ' '=' && echo
-      # NOTE: resource retrieval via Accept Header
+          # NOTE: resource retrieval via Accept Header
       - name: GET - accept XML - retrieve XDM document-node resource
         run: |
           CHECK=GET_ACCEPT_XML
@@ -485,7 +449,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: application/xml' \
+        --header 'Accept: application/xml' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -514,7 +478,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: application/json' \
+        --header 'Accept: application/json' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -543,7 +507,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: application/json' \
+        --header 'Accept: application/json' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -564,7 +528,6 @@ jobs:
           echo '- headers should return ok status'
           grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
       - name: GET - tabular data - ask for JSON, origin posted CSV data
         run: |
           CHECK=CHECK=GET_ACCEPT_JSON_TABULAR_DATA
@@ -573,7 +536,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: application/json' \
+        --header 'Accept: application/json' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -594,7 +557,6 @@ jobs:
           echo '- headers should return ok status'
           grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
       - name: GET - tabular data metadata - ask for JSON, origin posted CSV data
         run: |
           CHECK=GET_ACCEPT_JSON_TABULAR_METADATA
@@ -603,7 +565,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: application/json' \
+        --header 'Accept: application/json' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -624,7 +586,6 @@ jobs:
           echo '- headers should return ok status'
           grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
       - name: GET - tabular data - ask for HTML, origin posted CSV data
         run: |
           CHECK=CHECK=GET_ACCEPT_HTML_TABULAR_DATA
@@ -633,7 +594,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: text/html' \
+        --header 'Accept: text/html' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -654,7 +615,6 @@ jobs:
           echo '- headers should return ok status'
           grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
       - name: GET - tabular data - ask for CSV text, origin posted CSV data
         run: |
           CHECK=CHECK=GET_ACCEPT_CSV_TABULAR_DATA
@@ -663,7 +623,7 @@ jobs:
           CHECK_PATH=checks/${CHECK}/${COLLECTION}
           mkdir -p $CHECK_PATH
           curl --silent --show-error --connect-timeout 1 --max-time 2 \
-          --header 'Accept: text/csv' \
+        --header 'Accept: text/csv' \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
           --output ${CHECK_PATH}/${RESOURCE} \
@@ -684,7 +644,6 @@ jobs:
           echo '- headers should return ok status'
           grep -oP 'HTTP(.+)200(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
       - name: GET - unknown resource in collection
         run: |
           CHECK=GET_UKNOWN_RESOURCE
@@ -721,7 +680,7 @@ jobs:
           -X PUT \
           --dump-header ${CHECK_PATH}/headers.txt \
           --write-out 'response code [ %{http_code} ]\ncontent type [ %{content_type} ]\n' \
-          --header 'Content-Type: application/xml' \
+        --header 'Content-Type: application/xml' \
           --data '<check>data</check>' \
           http://localhost:8081/db/${COLLECTION}/${RESOURCE} > ${CHECK_PATH}/write-out.txt
           printf %60s | tr ' ' '=' && echo
@@ -806,40 +765,32 @@ jobs:
           echo '- response should return not found status'
           grep -oP 'HTTP(.+)404(.+)' ${CHECK_PATH}/headers.txt
           printf %60s | tr ' ' '=' && echo
-
-  xqerl_escript_checks:
-    if: ${{ github.ref_type == 'branch' }}
-    needs: build_with_erlang_alpine
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    container: erlang:alpine
-    steps:
-      - name: Alpine Deps
+        xqerl_escript_checks:
+          if: ${{ github.ref_type == 'branch' }}
+        needs: build_with_erlang_alpine
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        container: erlang:alpine
+        steps:
+          - name: Alpine Deps
         run: apk add --update grep curl jq
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
           name: xqerl-prod-tar
       - name: Unpack release tar and install xqerl application
-        run: |
-          mkdir /usr/local/xqerl
-          tar -zxf xqerl.tar.gz -C /usr/local/xqerl
-          cd /usr/local/bin
-          ln -s /usr/local/xqerl/bin/xqerl
-          cd ~/
-          xqerl daemon
-          sleep 5
-          xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." 
-          echo -n ' - set xqerl working directory: '
-          xqerl eval "file:set_cwd('$(pwd)')."
+        run: "mkdir /usr/local/xqerl\ntar -zxf xqerl.tar.gz -C /usr/local/xqerl\ncd
+          /usr/local/bin\nln -s /usr/local/xqerl/bin/xqerl\ncd ~/\nxqerl daemon\nsleep
+          5\nxqerl eval \"file:make_symlink(code:priv_dir(xqerl),\\\"./priv\\\").\"
+        \necho -n ' - set xqerl working directory: '\nxqerl eval \"file:set_cwd('$(pwd)').\"\n"
       - name: Set Up - add libs and docs
         run: |
           printf %60s | tr ' ' '-' && echo
           xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." | grep -q 'ok'
           xqerl eval "file:set_cwd('$(pwd)')." | grep -q 'ok'
-          echo ' -  compile library module: '
+        echo ' -  compile library module: '
           xqerl eval 'xqerl:compile("test/restxq/tests.xqm").' &>/dev/null
-          echo ' - db import some XML docs: '
+        echo ' - db import some XML docs: '
           xqerl eval 'xqldb_dml:import_from_directory("http://xqerl.org/tests/", "./test/QT3-test-suite/docs").' | grep -q 'ok'
           xqerl eval 'xqldb_dml:import_from_directory("http://example.com/examples/", "./test/QT3-test-suite/misc").' | grep -q 'ok'
       - name: Checks - xqerl escript on running instance
@@ -852,19 +803,19 @@ jobs:
           echo ' - list xqerl db contents'
           echo '> xqerl escript priv/bin/list-db-uri'
           xqerl escript priv/bin/list-db-uri
-      # - name: Checks - as shebang executable escript
-      #   run: |
-      #     echo ' - make escript executable'
-      #     pushd ~/.local/xqerl/priv/bin/
-      #     chmod +x ./list-db-uri
-      #     echo ' - now exectable is callable'
-      #     echo '> ./list-db-uri'
-      #     ./list-db-uri
-      #     popd
-      # - name: Checks - as callable executable on PATH
-      #   run: |
-      #     echo ' - create link to ~/.local/bin'
-      #     ln -sf ~/.local/xqerl/priv/bin/list-db-uri ~/.local/bin/xqerl-list-db-uri
-      #     echo ' - now exectable is callable from anywhere'
-      #     echo '> xqerl-list-db-uri'
-      #     xqerl-list-db-uri
+          # - name: Checks - as shebang executable escript
+          #   run: |
+          #     echo ' - make escript executable'
+          #     pushd ~/.local/xqerl/priv/bin/
+          #     chmod +x ./list-db-uri
+          #     echo ' - now exectable is callable'
+          #     echo '> ./list-db-uri'
+          #     ./list-db-uri
+          #     popd
+          # - name: Checks - as callable executable on PATH
+          #   run: |
+          #     echo ' - create link to ~/.local/bin'
+          #     ln -sf ~/.local/xqerl/priv/bin/list-db-uri ~/.local/bin/xqerl-list-db-uri
+          #     echo ' - now exectable is callable from anywhere'
+          #     echo '> xqerl-list-db-uri'
+          #     xqerl-list-db-uri
