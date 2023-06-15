@@ -1,0 +1,88 @@
+# Runs in official erlang:slim container
+# - builds production tar
+# if annotated tag then
+# - create release using gh cli
+name: debian ubuntu etc release
+on:
+  workflow_call:
+jobs:
+  xqerl_slim_build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container: erlang:slim
+    steps:
+      - uses: actions/checkout@v3
+      - name: Restore Cache
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: _build
+          key: rebar-${{ hashFiles('./rebar.lock') }}
+      - name: Create Cache
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          rebar3 deps
+          rebar3 compile
+      - name: Build Production Tar
+        run: |
+          OTP_VERSION=$(cat /usr/local/lib/erlang/releases/*/OTP_VERSION)
+          OS_VERSION=$(cat /etc/os-release | grep -oP 'VERSION_ID=\K.+')
+          SLIM_PRETTY=$(cat /etc/os-release | grep -oP 'PRETTY_NAME=\K.+')
+          XQERL_VERSION=v$(grep -oP 'vsn.+\K\d+\.\d+\.\d+' src/xqerl.app.src)
+          echo " - xqerl release version: ${XQERL_VERSION}"
+          echo " - uses erlang OTP version: ${OTP_VERSION}"
+          echo " - built on: ${SLIM_PRETTY}"
+          rebar3 as prod tar
+          mkdir -p _release
+          mv _build/prod/rel/xqerl/xqerl-${XQERL_VERSION}.tar.gz _release/xqerl-slim.tar.gz
+      - name: Untar Then Run XQerl
+        run: |
+          mkdir /usr/local/xqerl
+          tar -zxf _release/xqerl-slim.tar.gz -C /usr/local/xqerl
+          cd /usr/local/bin
+          ln -s /usr/local/xqerl/bin/xqerl
+          cd ~/
+          xqerl daemon
+          sleep 5
+          echo -n ' - xqerl application started: '
+          xqerl eval 'application:ensure_all_started(xqerl).' | grep -oP 'ok'
+          xqerl eval "file:make_symlink(code:priv_dir(xqerl),\"./priv\")." 
+          echo -n ' - network ping: '
+          xqerl ping | grep -oP 'pong'
+      - name: Upload built artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: xqerl-slim
+          path: _release/xqerl-slim.tar.gz
+      - id: run_info
+        run: |
+          echo 'gh run id ${{ github.run_id }}'
+          echo 'git commit sha ${{ github.sha }}'
+          echo 'git ref type ${{ github.ref_type }}'
+          echo 'git ref name ${{ github.ref_name }}'
+          echo 'gh workflow ${{ github.workflow }}'
+          echo "run_id=${{ github.run_id }}" >> $GITHUB_OUTPUT
+  release:
+    if: ${{ github.ref_type == 'tag' }}
+    needs: xqerl_slim_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - name: Release artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo " - release version: ${{github.ref_name}}"
+          # - derive NOTE from the annotated tag message
+          NOTE="$(git tag -l --format='%(contents:subject)' ${{github.ref_name}} )"
+          echo " - release note: ${NOTE}"
+          # in build we detirmined that rebar.config version is the same as pushed annotated tag
+          # so we can just use ${{github.ref_name}} for the release name
+          # use the gh client to create release
+          gh release create ${{github.ref_name}} "./xqerl-slim/xqerl-slim.tar.gz#xqerl ${{github.ref_name}}" \
+          --notes "${NOTE}"  \
+          --title "xqerl ubuntu release ${{github.ref_name}}" \
+          --target ${{github.sha}}
+
